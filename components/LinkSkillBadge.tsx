@@ -101,7 +101,7 @@ export default function LinkSkillBadge({ ocid, initialData, refreshKey }: { ocid
             </div>
 
             {isOpen && (
-                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-72 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4 z-[100] animate-in fade-in slide-in-from-top-2">
+                <div className="fixed sm:absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-full mt-2 w-full sm:w-72 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4 z-[100] animate-in fade-in slide-in-from-top-2">
                     <h4 className="text-xs font-bold text-slate-300 mb-2 border-b border-slate-800 pb-2 flex justify-between items-center">
                         <span>장착 중인 링크 스킬</span>
                         <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-slate-300">✕</button>
