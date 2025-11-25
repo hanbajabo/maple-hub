@@ -541,9 +541,9 @@ export default function Home() {
 
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-2 sm:p-8">
+    <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-0 sm:p-8">
       {/* Header */}
-      <header className="w-full max-w-5xl flex justify-start mb-4 sm:mb-12 px-2">
+      <header className="w-full max-w-5xl flex justify-start mb-4 sm:mb-12 px-4 sm:px-2 mt-4 sm:mt-0">
         <button
           onClick={() => {
             setNickname("");
@@ -563,7 +563,7 @@ export default function Home() {
       </header>
 
       {/* Search Section */}
-      <section className={`w-full max-w-2xl flex flex-col items-center mb-6 sm:mb-16 transition-all ${character ? 'gap-2 sm:gap-4' : 'gap-4 sm:gap-8'}`}>
+      <section className={`w-full max-w-2xl flex flex-col items-center mb-6 sm:mb-16 transition-all px-4 sm:px-0 ${character ? 'gap-2 sm:gap-4' : 'gap-4 sm:gap-8'}`}>
         {/* Title and Description - Hide when character is loaded */}
         {!character && (
           <div className="text-center space-y-2 sm:space-y-4 px-4">
@@ -634,9 +634,9 @@ export default function Home() {
             {/* Left Panel: Character Profile & Equipment */}
             <div className="w-full xl:w-[28%] flex flex-col gap-4 sm:gap-6">
               {/* Character Profile Card */}
-              <div className="relative z-50 group rounded-3xl shadow-2xl shadow-black/50 animate-in fade-in slide-in-from-bottom-4 mx-2 sm:mx-0">
+              <div className="relative z-50 group rounded-none sm:rounded-3xl shadow-2xl shadow-black/50 animate-in fade-in slide-in-from-bottom-4 mx-0 sm:mx-0">
                 {/* Background Container - Handles clipping for background effects */}
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-950 rounded-3xl border border-slate-800 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-950 rounded-none sm:rounded-3xl border-y sm:border border-slate-800 overflow-hidden">
                   <div className="absolute inset-0 bg-[url('https://maplestory.io/api/GMS/249/map/100000000/render/0')] bg-cover bg-center opacity-5 blur-sm grayscale"></div>
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/80 to-slate-950"></div>
                 </div>
