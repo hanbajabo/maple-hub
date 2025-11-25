@@ -632,7 +632,7 @@ function diagnoseEquipment(items: any[], mainStat: string, attType: string, targ
 }
 
 // === 메인 분석 함수 ===
-export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS'): any {
+export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS', bossStage?: number): any {
     const { basic, item, stat, union, link, ability, hexaMatrix, hexaStat } = characterData;
     const myClass = basic.character_class;
     const jobData = JOB_META_DATA[myClass] || { stat: "STR", att: "공격력" };
@@ -665,16 +665,47 @@ export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS'): any
 
     if (totalScore < 0) totalScore = 0;
 
-    // 티어 산정
+    // 티어 산정 (보스 진단의 stage를 고려)
     let tier = "B";
-    if (totalScore >= 100) tier = "SSS";
-    else if (totalScore >= 90) tier = "SS";
-    else if (totalScore >= 75) tier = "S";
-    else if (totalScore >= 60) tier = "A";
+
+    if (targetMode === 'BOSS' && bossStage !== undefined) {
+        // 보스 모드에서는 stage를 고려하여 등급 산정
+        // Stage 9 (모든 단계 완료) = SSS 보장
+        // Stage 8 = 최소 SS, 최대 SSS
+        // Stage 7 = 최소 S, 최대 SS
+        // Stage 6 = 최소 A, 최대 S
+        // Stage 5 이하 = 점수만으로 판정
+
+        if (bossStage >= 9) {
+            // 9단계 완료: 무조건 SSS
+            tier = "SSS";
+        } else if (bossStage === 8) {
+            // 8단계 진행중: SS ~ SSS
+            tier = totalScore >= 95 ? "SSS" : "SS";
+        } else if (bossStage === 7) {
+            // 7단계 진행중: S ~ SS
+            tier = totalScore >= 95 ? "SS" : totalScore >= 85 ? "S" : "A";
+        } else if (bossStage === 6) {
+            // 6단계 진행중: A ~ S
+            tier = totalScore >= 90 ? "S" : totalScore >= 75 ? "A" : "B";
+        } else {
+            // 5단계 이하: 점수만으로 판정 (최대 A)
+            if (totalScore >= 85) tier = "A";
+            else if (totalScore >= 70) tier = "B";
+            else tier = "C";
+        }
+    } else {
+        // 사냥 모드 또는 stage 정보가 없는 경우: 기존 점수 기반 판정
+        if (totalScore >= 100) tier = "SSS";
+        else if (totalScore >= 90) tier = "SS";
+        else if (totalScore >= 75) tier = "S";
+        else if (totalScore >= 60) tier = "A";
+    }
 
     return {
         tier,
         score: totalScore,
+        bossStage: bossStage, // 보스 진단 단계 정보 포함
         stats: {
             dropRate: currentDropRate
         },

@@ -4,7 +4,11 @@ import { analyzeEquipment } from './logic';
 import { StageCard } from './StageCard';
 import { DiagnosisHeader, IssueSection } from './IssueSection';
 
-const BossDiagnosis: React.FC<BossDiagnosisProps> = ({ equipment, stat, basic }) => {
+interface BossDiagnosisPropsWithCallback extends BossDiagnosisProps {
+    onStageChange?: (stage: number) => void;
+}
+
+const BossDiagnosis: React.FC<BossDiagnosisPropsWithCallback> = ({ equipment, stat, basic, onStageChange }) => {
     const [expandedStages, setExpandedStages] = useState<Set<number>>(new Set());
     const [showIssues, setShowIssues] = useState(false);
     const [manualPassedStages, setManualPassedStages] = useState<Set<number>>(new Set());
@@ -37,6 +41,13 @@ const BossDiagnosis: React.FC<BossDiagnosisProps> = ({ equipment, stat, basic })
             setShowIssues(false);
         }
     }, [stage]);
+
+    // Notify parent of stage changes
+    useEffect(() => {
+        if (onStageChange) {
+            onStageChange(stage);
+        }
+    }, [stage, onStageChange]);
 
     const toggleStage = (stageId: number) => {
         setExpandedStages(prev => {
