@@ -615,7 +615,7 @@ export default function Home() {
       )}
 
       {/* Result Section */}
-      <section ref={resultRef} className="w-full max-w-[1920px] px-0 sm:px-4 mb-16 flex flex-col xl:flex-row gap-4 sm:gap-6 items-start">
+      <section ref={resultRef} className="w-full max-w-[1920px] px-0 sm:px-4 mb-16 flex flex-col xl:flex-row gap-4 sm:gap-6 items-stretch">
         {loading && (
           <div className="w-full text-center text-gray-400 animate-pulse py-8">
             정보를 불러오는 중...
