@@ -141,7 +141,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
 
             {isOpen && mounted && createPortal(
                 <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4" onClick={() => setIsOpen(false)}>
-                    <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-7xl p-4 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar" onClick={e => e.stopPropagation()}>
+                    <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-4xl p-3 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar" onClick={e => e.stopPropagation()}>
 
                         {error ? (
                             <div className="text-center py-10 text-red-400 bg-red-950/20 rounded-xl border border-red-900/30">

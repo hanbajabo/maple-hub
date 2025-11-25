@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { getCharacterLinkSkill } from '../lib/nexon';
 
 interface LinkSkill {
@@ -48,6 +49,11 @@ export default function LinkSkillBadge({ ocid, initialData, refreshKey }: { ocid
     const [skills, setSkills] = useState<LinkSkill[]>([]);
     const [loading, setLoading] = useState(!initialData);
     const [isOpen, setIsOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         if (initialData) {
@@ -90,7 +96,7 @@ export default function LinkSkillBadge({ ocid, initialData, refreshKey }: { ocid
     if (loading) return <div className="w-full h-full flex items-center justify-center bg-slate-800/50 rounded-xl border border-slate-700 animate-pulse"></div>;
 
     return (
-        <div className={`relative w-full h-full ${isOpen ? 'z-[100]' : 'z-0'}`}>
+        <>
             <div
                 onClick={() => setIsOpen(!isOpen)}
                 className={`w-full h-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-slate-700 bg-slate-800/50 hover:bg-slate-800 text-slate-200 font-bold transition-all cursor-pointer shadow-sm hover:shadow-md hover:border-slate-500`}
@@ -100,27 +106,30 @@ export default function LinkSkillBadge({ ocid, initialData, refreshKey }: { ocid
                 <span className="text-xs bg-slate-950 px-1.5 py-0.5 rounded text-slate-400">{skills.length}</span>
             </div>
 
-            {isOpen && (
-                <div className="fixed sm:absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-full mt-2 w-full sm:w-72 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4 z-[100] animate-in fade-in slide-in-from-top-2">
-                    <h4 className="text-xs font-bold text-slate-300 mb-2 border-b border-slate-800 pb-2 flex justify-between items-center">
-                        <span>장착 중인 링크 스킬</span>
-                        <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-slate-300">✕</button>
-                    </h4>
-                    <div className="flex flex-col gap-1 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
-                        {skills.length > 0 ? skills.map((skill, idx) => (
-                            <div key={idx} className="flex justify-between items-center p-2 rounded bg-slate-950/50 border border-slate-800/50 hover:bg-slate-800 transition-colors">
-                                <div className="flex flex-col">
-                                    <span className="text-sm font-bold text-slate-200">{LINK_SKILL_JOBS[skill.skill_name] || '직업 정보 없음'}</span>
-                                    <span className="text-[11px] text-slate-400">{skill.skill_name}</span>
+            {isOpen && mounted && createPortal(
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-4" onClick={() => setIsOpen(false)}>
+                    <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4 w-full max-w-md animate-in fade-in slide-in-from-top-2" onClick={e => e.stopPropagation()}>
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-300 mb-2 border-b border-slate-800 pb-2 flex justify-between items-center">
+                            <span>장착 중인 링크 스킬</span>
+                            <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-slate-300">✕</button>
+                        </h4>
+                        <div className="flex flex-col gap-1 max-h-80 overflow-y-auto pr-1 custom-scrollbar">
+                            {skills.length > 0 ? skills.map((skill, idx) => (
+                                <div key={idx} className="flex justify-between items-center p-2 rounded bg-slate-950/50 border border-slate-800/50 hover:bg-slate-800 transition-colors">
+                                    <div className="flex flex-col">
+                                        <span className="text-xs sm:text-sm font-bold text-slate-200">{LINK_SKILL_JOBS[skill.skill_name] || '직업 정보 없음'}</span>
+                                        <span className="text-[10px] sm:text-[11px] text-slate-400">{skill.skill_name}</span>
+                                    </div>
+                                    <span className="text-[10px] font-bold bg-slate-900 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700">
+                                        Lv.{skill.skill_level}
+                                    </span>
                                 </div>
-                                <span className="text-[10px] font-bold bg-slate-900 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700">
-                                    Lv.{skill.skill_level}
-                                </span>
-                            </div>
-                        )) : <span className="text-xs text-slate-500 w-full text-center py-4">장착된 스킬이 없습니다.</span>}
+                            )) : <span className="text-xs text-slate-500 w-full text-center py-4">장착된 스킬이 없습니다.</span>}
+                        </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
-        </div>
+        </>
     );
 }
