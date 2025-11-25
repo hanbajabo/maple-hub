@@ -541,9 +541,9 @@ export default function Home() {
 
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-4 sm:p-8">
+    <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-2 sm:p-8">
       {/* Header */}
-      <header className="w-full max-w-5xl flex justify-start mb-6 sm:mb-12">
+      <header className="w-full max-w-5xl flex justify-start mb-4 sm:mb-12 px-2">
         <button
           onClick={() => {
             setNickname("");
@@ -556,23 +556,23 @@ export default function Home() {
             setLinkSkillData(null);
             setUnionRaiderData(null);
           }}
-          className="text-xl sm:text-2xl font-bold text-maple-orange hover:opacity-80 transition-opacity"
+          className="text-lg sm:text-2xl font-bold text-maple-orange hover:opacity-80 transition-opacity"
         >
           메이플 템진단
         </button>
       </header>
 
       {/* Search Section */}
-      <section className={`w-full max-w-2xl flex flex-col items-center mb-8 sm:mb-16 transition-all ${character ? 'gap-3 sm:gap-4' : 'gap-4 sm:gap-8'}`}>
+      <section className={`w-full max-w-2xl flex flex-col items-center mb-6 sm:mb-16 transition-all ${character ? 'gap-2 sm:gap-4' : 'gap-4 sm:gap-8'}`}>
         {/* Title and Description - Hide when character is loaded */}
         {!character && (
-          <div className="text-center space-y-2 sm:space-y-4">
-            <h2 className="text-3xl sm:text-5xl font-bold">캐릭터 검색</h2>
-            <p className="text-sm sm:text-lg text-gray-400">메이플스토리의 캐릭터 정보를 한 눈에 확인하고, 진단까지 받아보세요.</p>
+          <div className="text-center space-y-2 sm:space-y-4 px-4">
+            <h2 className="text-2xl sm:text-5xl font-bold">캐릭터 검색</h2>
+            <p className="text-xs sm:text-lg text-gray-400">메이플스토리의 캐릭터 정보를 한 눈에 확인하고, 진단까지 받아보세요.</p>
           </div>
         )}
 
-        <div className="w-full relative flex items-center gap-2">
+        <div className="w-full relative flex items-center gap-2 px-2">
           <div className="relative w-full">
             <input
               type="text"
@@ -580,50 +580,50 @@ export default function Home() {
               onChange={(e) => setNickname(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="캐릭터 닉네임을 입력하세요"
-              className="w-full h-12 sm:h-16 pl-4 sm:pl-6 pr-12 sm:pr-14 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 focus:border-maple-orange focus:ring-1 focus:ring-maple-orange outline-none text-base sm:text-xl placeholder:text-slate-600 transition-all"
+              className="w-full h-10 sm:h-16 pl-4 sm:pl-6 pr-10 sm:pr-14 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 focus:border-maple-orange focus:ring-1 focus:ring-maple-orange outline-none text-sm sm:text-xl placeholder:text-slate-600 transition-all"
             />
             <button
               onClick={handleSearch}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-maple-orange transition-colors"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 text-slate-400 hover:text-maple-orange transition-colors"
             >
-              <Search size={20} className="sm:w-6 sm:h-6" />
+              <Search size={18} className="sm:w-6 sm:h-6" />
             </button>
           </div>
           <button
             onClick={handleRefresh}
-            className="h-12 w-12 sm:h-16 sm:w-16 shrink-0 bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-400 hover:text-maple-orange hover:border-maple-orange transition-all group"
+            className="h-10 w-10 sm:h-16 sm:w-16 shrink-0 bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-400 hover:text-maple-orange hover:border-maple-orange transition-all group"
             title="실시간 갱신"
           >
-            <RefreshCw size={20} className={`sm:w-6 sm:h-6 transition-all ${loading ? 'animate-spin text-maple-orange' : 'group-hover:rotate-180'}`} />
+            <RefreshCw size={18} className={`sm:w-6 sm:h-6 transition-all ${loading ? 'animate-spin text-maple-orange' : 'group-hover:rotate-180'}`} />
           </button>
           {character && (
-            <div className="h-12 w-12 sm:h-16 sm:w-16 shrink-0" />
+            <div className="h-10 w-10 sm:h-16 sm:w-16 shrink-0" />
           )}
         </div>
 
         {/* Info text - Always show */}
-        <p className="text-xs sm:text-sm text-orange-400/80 mt-2 font-medium animate-pulse text-center px-2">
+        <p className="text-[10px] sm:text-sm text-orange-400/80 mt-1 sm:mt-2 font-medium animate-pulse text-center px-2">
           💡 인게임에서 [캐시샵 입장] 또는 [재접속] 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
         </p>
       </section>
 
       {/* Maple News Section - Only show when no character */}
       {!character && !loading && (
-        <section className="w-full max-w-4xl mb-16">
+        <section className="w-full max-w-4xl mb-16 px-2">
           <MapleNews />
         </section>
       )}
 
       {/* Result Section */}
-      <section ref={resultRef} className="w-full max-w-[1920px] px-4 mb-16 flex flex-col xl:flex-row gap-6 items-start">
+      <section ref={resultRef} className="w-full max-w-[1920px] px-0 sm:px-4 mb-16 flex flex-col xl:flex-row gap-4 sm:gap-6 items-start">
         {loading && (
-          <div className="w-full text-center text-gray-400 animate-pulse">
+          <div className="w-full text-center text-gray-400 animate-pulse py-8">
             정보를 불러오는 중...
           </div>
         )}
 
         {error && (
-          <div className="w-full text-center text-red-500 bg-red-500/10 p-4 rounded-lg">
+          <div className="w-full text-center text-red-500 bg-red-500/10 p-4 rounded-lg mx-2">
             {error}
           </div>
         )}
@@ -632,9 +632,9 @@ export default function Home() {
           // Key Remounting: refreshKey가 바뀌면 이 div 내부의 모든 컴포넌트가 재생성됨
           <div key={refreshKey} className="contents">
             {/* Left Panel: Character Profile & Equipment */}
-            <div className="w-full xl:w-[28%] flex flex-col gap-6">
+            <div className="w-full xl:w-[28%] flex flex-col gap-4 sm:gap-6">
               {/* Character Profile Card */}
-              <div className="relative z-50 group rounded-3xl shadow-2xl shadow-black/50 animate-in fade-in slide-in-from-bottom-4">
+              <div className="relative z-50 group rounded-3xl shadow-2xl shadow-black/50 animate-in fade-in slide-in-from-bottom-4 mx-2 sm:mx-0">
                 {/* Background Container - Handles clipping for background effects */}
                 <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-950 rounded-3xl border border-slate-800 overflow-hidden">
                   <div className="absolute inset-0 bg-[url('https://maplestory.io/api/GMS/249/map/100000000/render/0')] bg-cover bg-center opacity-5 blur-sm grayscale"></div>
@@ -642,23 +642,23 @@ export default function Home() {
                 </div>
 
                 {/* Content Container - No overflow hidden to allow popups/dropdowns to show */}
-                <div className="relative z-10 flex flex-col items-center p-2 sm:p-3 pb-3 sm:pb-4 gap-2 sm:gap-3">
+                <div className="relative z-10 flex flex-col items-center p-3 sm:p-3 pb-4 sm:pb-4 gap-2 sm:gap-3">
                   {/* Header Info - Compact Single Line Layout */}
                   <div className="flex flex-row items-center justify-center gap-2 sm:gap-3 w-full flex-wrap">
-                    <span className="bg-slate-800/80 backdrop-blur-sm text-xs font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg text-slate-400 border border-slate-700 shadow-sm">{character.world_name}</span>
-                    <h3 className="text-2xl sm:text-3xl font-black text-white drop-shadow-lg tracking-tight">{character.character_name}</h3>
-                    <div className="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-slate-400 bg-slate-950/50 px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg border border-slate-800/50 shadow-inner">
+                    <span className="bg-slate-800/80 backdrop-blur-sm text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg text-slate-400 border border-slate-700 shadow-sm">{character.world_name}</span>
+                    <h3 className="text-xl sm:text-3xl font-black text-white drop-shadow-lg tracking-tight">{character.character_name}</h3>
+                    <div className="flex items-center gap-1.5 text-[10px] sm:text-sm font-medium text-slate-400 bg-slate-950/50 px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg border border-slate-800/50 shadow-inner">
                       <span className="text-slate-500">Lv.</span>
                       <span className="text-slate-200 font-bold">{character.character_level}</span>
                       <span className="w-px h-3 bg-slate-700 mx-1"></span>
-                      <span className="text-maple-orange text-xs sm:text-sm">{character.character_class}</span>
+                      <span className="text-maple-orange text-[10px] sm:text-sm">{character.character_class}</span>
                     </div>
                   </div>
 
                   {/* Character Image Area - Fixed Size Container */}
-                  <div className="relative w-full flex justify-center items-center my-2">
+                  <div className="relative w-full flex justify-center items-center my-1 sm:my-2">
                     {/* Fixed size image container with overflow hidden to crop whitespace */}
-                    <div className="relative w-[180px] h-[180px] overflow-hidden rounded-2xl border border-slate-800/50 bg-slate-950/30 shadow-inner">
+                    <div className="relative w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] overflow-hidden rounded-2xl border border-slate-800/50 bg-slate-950/30 shadow-inner">
                       <div className="absolute inset-0 bg-maple-orange/5 rounded-full blur-[30px]"></div>
                       <div className="relative w-full h-full flex items-center justify-center">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -674,7 +674,7 @@ export default function Home() {
 
                   {/* Badges Grid */}
                   {ocid && (
-                    <div className="w-full grid grid-cols-2 gap-2 mt-2 relative z-20">
+                    <div className="w-full grid grid-cols-2 gap-1.5 sm:gap-2 mt-1 sm:mt-2 relative z-20">
                       <LinkSkillBadge ocid={ocid} initialData={linkSkillData} refreshKey={refreshKey} />
                       <UnionDiagnostic ocid={ocid} initialData={unionRaiderData} refreshKey={refreshKey} myClass={character.character_class} />
                       <ArtifactBadge ocid={ocid} refreshKey={refreshKey} />
@@ -705,7 +705,7 @@ export default function Home() {
 
             {/* Middle Panel: Core Spec Dashboard */}
             {stats && (
-              <div className="w-full xl:w-[42%] grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 animate-in fade-in slide-in-from-bottom-6 delay-200">
+              <div className="w-full xl:w-[42%] grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4 animate-in fade-in slide-in-from-bottom-6 delay-200">
                 {/* Card 1: Combat Power */}
                 {(() => {
                   // Calculate tier for dynamic coloring
@@ -716,7 +716,7 @@ export default function Home() {
                   const tierColorClass = currentTier.color.replace('text-', '');
 
                   return (
-                    <div className={`relative bg-slate-900 rounded-xl sm:rounded-2xl p-4 sm:p-8 border shadow-lg col-span-1 md:col-span-2 flex flex-col justify-center items-center gap-4 sm:gap-6 min-h-[200px] sm:min-h-[280px] overflow-hidden group transition-all duration-500 border-${tierColorClass}/30 hover:border-${tierColorClass}/50`} style={{ borderColor: `rgb(var(--tw-${tierColorClass}-rgb) / 0.3)` }}>
+                    <div className={`relative bg-slate-900 rounded-xl sm:rounded-2xl p-3 sm:p-6 border shadow-lg col-span-1 md:col-span-2 flex flex-col justify-center items-center gap-3 sm:gap-6 min-h-[160px] sm:min-h-[260px] overflow-hidden group transition-all duration-500 border-${tierColorClass}/30 hover:border-${tierColorClass}/50`} style={{ borderColor: `rgb(var(--tw-${tierColorClass}-rgb) / 0.3)` }}>
                       {/* Ambient Background */}
                       <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] pointer-events-none opacity-20`} style={{
                         background: `radial-gradient(circle at center, rgb(var(--tw-${tierColorClass}-rgb) / 0.15), transparent 70%)`
@@ -730,17 +730,17 @@ export default function Home() {
 
                       {/* Main Content */}
                       <div className="relative z-10 flex flex-col items-center">
-                        <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center">
-                          <Swords className={`w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 ${currentTier.color} drop-shadow-lg`} />
-                          <span className="text-xl sm:text-2xl md:text-3xl text-slate-400 font-bold drop-shadow-md">전투력 :</span>
-                          <span className={`text-2xl sm:text-3xl md:text-4xl font-black ${currentTier.color} tracking-tight drop-shadow-lg`}>
+                        <div className="flex items-center gap-1.5 sm:gap-3 flex-wrap justify-center">
+                          <Swords className={`w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 ${currentTier.color} drop-shadow-lg`} />
+                          <span className="text-lg sm:text-2xl md:text-3xl text-slate-400 font-bold drop-shadow-md">전투력 :</span>
+                          <span className={`text-xl sm:text-3xl md:text-4xl font-black ${currentTier.color} tracking-tight drop-shadow-lg`}>
                             {formatNumber(combatPower)}
                           </span>
                         </div>
                       </div>
 
                       {/* Rank Component */}
-                      <div className="w-full px-1 sm:px-2 relative z-10">
+                      <div className="w-full px-0 sm:px-2 relative z-10">
                         <CombatPowerRank combatPower={combatPower} />
                       </div>
                     </div>
@@ -748,29 +748,29 @@ export default function Home() {
                 })()}
 
                 {/* Card 2: Main Stat */}
-                <div className="relative bg-slate-800 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-2">
-                  <span className="text-sm sm:text-base text-gray-400 font-medium">총 {mainStat.name}</span>
+                <div className="relative bg-slate-800 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-1 sm:gap-2">
+                  <span className="text-xs sm:text-base text-gray-400 font-medium">총 {mainStat.name}</span>
                   <div className="flex flex-col items-center">
                     <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-2xl sm:text-3xl font-bold text-white group-hover:text-green-400 group-hover:drop-shadow-lg group-hover:drop-shadow-green-500/50 cursor-help transition-colors">
+                      <span className="text-xl sm:text-3xl font-bold text-white group-hover:text-green-400 group-hover:drop-shadow-lg group-hover:drop-shadow-green-500/50 cursor-help transition-colors">
                         {formatNumber(mainStat.value)}
                       </span>
 
                       {/* Tooltip */}
                       {mainStatResult.breakdown.length > 0 && (
-                        <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 sm:w-96 bg-slate-950 border border-green-500 rounded-lg p-3 sm:p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
-                          <div className="text-xs font-bold text-slate-300 mb-2 border-b border-slate-700 pb-2">
+                        <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-64 sm:w-96 bg-slate-950 border border-green-500 rounded-lg p-3 sm:p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
+                          <div className="text-[10px] sm:text-xs font-bold text-slate-300 mb-2 border-b border-slate-700 pb-2">
                             📊 {mainStat.name}% 장비 출처
                           </div>
-                          <div className="space-y-1 max-h-[400px] sm:max-h-[600px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
+                          <div className="space-y-1 max-h-[300px] sm:max-h-[600px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
                             {mainStatResult.breakdown.map((entry, idx) => (
-                              <div key={idx} className="flex justify-between items-center text-xs">
+                              <div key={idx} className="flex justify-between items-center text-[10px] sm:text-xs">
                                 <span className="text-slate-400 truncate flex-1">{entry.item}</span>
                                 <span className="text-green-400 font-mono ml-2">+{entry.value}%</span>
                               </div>
                             ))}
                           </div>
-                          <div className="mt-2 pt-2 border-t border-slate-700 flex justify-between text-xs font-bold">
+                          <div className="mt-2 pt-2 border-t border-slate-700 flex justify-between text-[10px] sm:text-xs font-bold">
                             <span className="text-slate-300">총합</span>
                             <span className="text-green-300">{mainStatPct}%</span>
                           </div>
@@ -778,18 +778,18 @@ export default function Home() {
                       )}
                     </div>
 
-                    <span className="text-xs sm:text-sm text-gray-500 mt-1">
+                    <span className="text-[10px] sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
                       {mainStat.name} %: {mainStatPct}%
                     </span>
                   </div>
                 </div>
 
                 {/* Card 3: Total Attack/Magic % */}
-                <div className="relative bg-slate-800 rounded-xl p-6 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-2">
-                  <span className="text-base text-gray-400 font-medium">총 {displayAttName} %</span>
+                <div className="relative bg-slate-800 rounded-xl p-3 sm:p-6 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-1 sm:gap-2">
+                  <span className="text-xs sm:text-base text-gray-400 font-medium">총 {displayAttName} %</span>
                   <div className="flex flex-col items-center">
                     <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-3xl font-bold text-white text-center break-all group-hover:text-orange-400 group-hover:drop-shadow-lg group-hover:drop-shadow-orange-500/50 cursor-help transition-colors">
+                      <span className="text-xl sm:text-3xl font-bold text-white text-center break-all group-hover:text-orange-400 group-hover:drop-shadow-lg group-hover:drop-shadow-orange-500/50 cursor-help transition-colors">
                         {displayAttPct}%
                       </span>
 
