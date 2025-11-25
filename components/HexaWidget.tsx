@@ -202,10 +202,10 @@ export default function HexaWidget({ ocid, refreshKey }: { ocid: string, refresh
                     const totalProgress = totalMaxLevel > 0 ? Math.round((totalCurrentLevel / totalMaxLevel) * 100) : 0;
 
                     return (
-                        <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex items-center justify-between shadow-lg relative overflow-hidden group">
+                        <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-3 sm:p-4 flex items-center justify-between shadow-lg relative overflow-hidden group">
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-cyan-900/20 opacity-50 group-hover:opacity-70 transition-opacity"></div>
-                            <div className="relative z-10 flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center shadow-inner relative">
+                            <div className="relative z-10 flex items-center gap-2 sm:gap-4 w-full">
+                                <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center shadow-inner relative">
                                     <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 36 36">
                                         <path
                                             className="text-slate-700"
@@ -223,25 +223,26 @@ export default function HexaWidget({ ocid, refreshKey }: { ocid: string, refresh
                                             strokeWidth="3"
                                         />
                                     </svg>
-                                    <span className="text-xs font-black text-cyan-300">
+                                    <span className="text-[10px] sm:text-xs font-black text-cyan-300">
                                         {totalProgress}%
                                     </span>
                                 </div>
-                                <div className="flex-1">
-                                    <div className="text-xs text-slate-400 font-bold tracking-wider mb-0.5">HEXA SKILL PROGRESS</div>
-                                    <div className="text-sm font-bold text-slate-200">
+                                <div className="flex-1 min-w-0">
+                                    <div className="text-[10px] sm:text-xs text-slate-400 font-bold tracking-wider mb-0.5">HEXA SKILL PROGRESS</div>
+                                    <div className="text-xs sm:text-sm font-bold text-slate-200">
                                         전체 진행도 <span className="text-cyan-400">{totalProgress}%</span>
                                     </div>
                                 </div>
                                 {characterClass && HEXA_SKILL_PRIORITIES[characterClass] && (
                                     <button
                                         onClick={() => setSortByRecommended(!sortByRecommended)}
-                                        className={`px-3 py-2 rounded-lg text-xs font-bold transition-all duration-200 border-2 ${sortByRecommended
+                                        className={`px-2 sm:px-3 py-1.5 sm:py-2 shrink-0 rounded-lg text-[10px] sm:text-xs font-bold transition-all duration-200 border-2 ${sortByRecommended
                                             ? 'bg-gradient-to-r from-rose-600 to-pink-600 text-white border-rose-400 shadow-lg shadow-rose-500/30'
                                             : 'bg-slate-800 text-slate-300 border-slate-600 hover:bg-slate-700 hover:border-slate-500'
                                             }`}
                                     >
-                                        {sortByRecommended ? '✓ 추천 우선강화 순서' : '추천 우선강화 순서'}
+                                        <span className="hidden sm:inline">{sortByRecommended ? '✓ 추천 우선강화 순서' : '추천 우선강화 순서'}</span>
+                                        <span className="sm:hidden">{sortByRecommended ? '✓ 추천강화' : '추천강화'}</span>
                                     </button>
                                 )}
                             </div>
