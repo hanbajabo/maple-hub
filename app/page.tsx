@@ -543,7 +543,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-0 sm:p-8">
       {/* Header */}
-      <header className="w-full max-w-5xl flex justify-start mb-4 sm:mb-12 px-4 sm:px-2 mt-4 sm:mt-0">
+      <header className="w-full sm:max-w-5xl flex justify-start mb-4 sm:mb-12 px-4 sm:px-2 mt-4 sm:mt-0">
         <button
           onClick={() => {
             setNickname("");
@@ -563,7 +563,7 @@ export default function Home() {
       </header>
 
       {/* Search Section */}
-      <section className={`w-full max-w-2xl flex flex-col items-center mb-6 sm:mb-16 transition-all px-4 sm:px-0 ${character ? 'gap-2 sm:gap-4' : 'gap-4 sm:gap-8'}`}>
+      <section className={`w-full sm:max-w-2xl flex flex-col items-center mb-6 sm:mb-16 transition-all px-4 sm:px-0 ${character ? 'gap-2 sm:gap-4' : 'gap-4 sm:gap-8'}`}>
         {/* Title and Description - Hide when character is loaded */}
         {!character && (
           <div className="text-center space-y-2 sm:space-y-4 px-4">
@@ -609,13 +609,13 @@ export default function Home() {
 
       {/* Maple News Section - Only show when no character */}
       {!character && !loading && (
-        <section className="w-full max-w-4xl mb-16 px-2">
+        <section className="w-full sm:max-w-4xl mb-16 px-2">
           <MapleNews />
         </section>
       )}
 
       {/* Result Section */}
-      <section ref={resultRef} className="w-full max-w-[1920px] px-0 sm:px-4 mb-16 flex flex-col xl:flex-row gap-4 sm:gap-6 items-stretch">
+      <section ref={resultRef} className="w-full xl:max-w-[1920px] px-0 sm:px-4 mb-16 flex flex-col xl:flex-row gap-4 sm:gap-6 items-stretch">
         {loading && (
           <div className="w-full text-center text-gray-400 animate-pulse py-8">
             정보를 불러오는 중...
