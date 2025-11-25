@@ -1,0 +1,620 @@
+import React from 'react';
+
+interface StageCardProps {
+    stageInfo: {
+        id: number;
+        title: string;
+        description: string;
+        color: string;
+    };
+    isCurrent: boolean;
+    isPassed: boolean;
+    isExpanded: boolean;
+    onToggle: (id: number) => void;
+    attTypeKor?: string;
+    setCounts?: any;
+    passedArmorOption?: string;
+    isGenesisWeapon?: boolean;
+    stage4Stats?: {
+        armor: {
+            starforce: { current: number; total: number; failedItems: string[] };
+            scroll: { current: number; total: number; failedItems: string[] };
+            flame: { current: number; total: number; failedItems: string[] };
+            potential: { current: number; total: number; failedItems: string[] };
+            additional: { current: number; total: number; failedItems: string[] };
+        };
+        accessory: {
+            starforce: { current: number; total: number; failedItems: string[] };
+            scroll: { current: number; total: number; failedItems: string[] };
+            flame: { current: number; total: number; failedItems: string[] };
+            potential: { current: number; total: number; failedItems: string[] };
+            additional: { current: number; total: number; failedItems: string[] };
+        };
+    };
+    stage5Stats?: {
+        armor: {
+            starforce: { current: number; total: number; failedItems: string[] };
+            scroll: { current: number; total: number; failedItems: string[] };
+            flame: { current: number; total: number; failedItems: string[] };
+            potential: { current: number; total: number; failedItems: string[] };
+            additional: { current: number; total: number; failedItems: string[] };
+        };
+        accessory: {
+            starforce: { current: number; total: number; failedItems: string[] };
+            scroll: { current: number; total: number; failedItems: string[] };
+            flame: { current: number; total: number; failedItems: string[] };
+            potential: { current: number; total: number; failedItems: string[] };
+            additional: { current: number; total: number; failedItems: string[] };
+        };
+    };
+    stage6Info?: {
+        currentCombination: string;
+        counts: {
+            cra: number;
+            absol: number;
+            arcane: number;
+            eternal: number;
+        };
+    };
+}
+
+export const StageCard: React.FC<StageCardProps> = ({
+    stageInfo, isCurrent, isPassed, isExpanded, onToggle, attTypeKor, setCounts, passedArmorOption, isGenesisWeapon, stage4Stats, stage5Stats, stage6Info
+}) => {
+    // 세트 효과 만족 여부 헬퍼
+    const isSetSatisfied = (count: number, target: number) => count >= target;
+
+    // 5단계 통계 렌더링 헬퍼
+    const renderStatItem = (label: string, stat: { current: number; total: number; failedItems: string[] } | undefined, description: React.ReactNode) => {
+        if (!stat || stat.total === 0) return null;
+        const isAllPassed = stat.current >= stat.total;
+        return (
+            <li className={`flex flex-col items-start gap-1 ${isAllPassed ? 'text-green-300 font-bold' : ''}`}>
+                <div className="flex items-center gap-2">
+                    <span>{isAllPassed ? '✅' : '•'}</span>
+                    <span>
+                        {label}: <strong className="text-white">{description}</strong>
+                        <span className={`ml-1 text-xs ${isAllPassed ? 'text-green-400' : 'text-red-400'}`}>
+                            ({stat.current}/{stat.total})
+                        </span>
+                    </span>
+                </div>
+                {!isAllPassed && stat.failedItems && stat.failedItems.length > 0 && (
+                    <div className="pl-6 text-[11px] text-red-300/80">
+                        └ 미달: {stat.failedItems.join(', ')}
+                    </div>
+                )}
+            </li>
+        );
+    };
+
+    return (
+        <div className={`rounded-lg border transition-all ${isCurrent ? 'bg-slate-900/70 border-orange-500/50 shadow-lg' :
+            isPassed ? 'bg-slate-900/30 border-slate-700/50' :
+                'bg-slate-900/50 border-slate-700'
+            }`}>
+            <button
+                onClick={() => onToggle(stageInfo.id)}
+                className="w-full p-3 flex items-center justify-between hover:bg-slate-800/50 transition-colors rounded-lg"
+            >
+                <div className="flex items-center gap-3">
+                    <span className={`text-sm font-bold ${stageInfo.color === 'blue' ? 'text-blue-400' :
+                        stageInfo.color === 'green' ? 'text-green-400' :
+                            stageInfo.color === 'orange' ? 'text-orange-400' :
+                                stageInfo.color === 'purple' ? 'text-purple-400' :
+                                    stageInfo.color === 'red' ? 'text-red-400' : 'text-slate-400'
+                        }`}>
+                        {stageInfo.title}
+                    </span>
+                    {isCurrent && (
+                        <span className="text-xs bg-orange-500/20 text-orange-300 px-2 py-0.5 rounded-full border border-orange-500/30">
+                            현재 단계
+                        </span>
+                    )}
+                    {isPassed && <span className="text-xs text-green-400">✓</span>}
+                </div>
+                <span className={`text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`}>▼</span>
+            </button>
+
+            {isExpanded && (
+                <div className="px-3 pb-3">
+                    {stageInfo.id === 0 && (
+                        <div className="space-y-2 text-xs">
+                            <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                <h4 className="text-yellow-400 font-bold mb-2 flex items-center gap-2">
+                                    <span>⭐</span> 스타포스 기준
+                                </h4>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-green-400">✓</span>
+                                        <span>모든 장비 (반지 제외): <strong className="text-white">12성 (눈/얼굴 8성) 이상</strong></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                <h4 className="text-purple-400 font-bold mb-2 flex items-center gap-2">
+                                    <span>🔮</span> 잠재능력 기준
+                                </h4>
+                                <div className="space-y-2">
+                                    <div className="bg-slate-900/50 p-2 rounded border border-slate-700/50">
+                                        <p className="text-slate-400 mb-1 font-bold">무기/보조/엠블렘</p>
+                                        <ul className="space-y-1 text-slate-300 pl-1">
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-green-400">✓</span>
+                                                <span>등급: <strong className="text-white">에픽 이상</strong></span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-green-400">✓</span>
+                                                <span>옵션: <strong className="text-white">{attTypeKor}% 1줄 이상</strong></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-slate-900/50 p-2 rounded border border-slate-700/50">
+                                        <p className="text-slate-400 mb-1 font-bold">방어구/장신구</p>
+                                        <ul className="space-y-1 text-slate-300 pl-1">
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-green-400">✓</span>
+                                                <span>등급: <strong className="text-white">에픽 이상</strong></span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-green-400">✓</span>
+                                                <span>옵션: <strong className="text-white">주스탯% 1줄 이상</strong></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                <h4 className="text-cyan-400 font-bold mb-2 flex items-center gap-2">
+                                    <span>💎</span> 에디셔널 기준
+                                </h4>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-green-400">✓</span>
+                                        <span>모든 장비 등급: <strong className="text-white">레어 이상</strong></span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-green-400">✓</span>
+                                        <span>모든 장비 옵션: <strong className="text-white">{attTypeKor} +10 이상</strong></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    )}
+
+                    {stageInfo.id === 1 && (
+                        <div className="space-y-2 text-xs">
+                            <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                <div className="mb-3">
+                                    <h4 className="text-green-400 font-bold mb-2 flex items-center gap-2">
+                                        <span>🧩</span> 기본 조건 (2개 이상 만족)
+                                    </h4>
+                                    <ul className="space-y-1 text-slate-300 pl-1">
+                                        <li className={`flex items-center gap-2 ${isSetSatisfied(setCounts?.bossSetCount, 5) ? 'text-green-300 font-bold' : ''}`}>
+                                            <span>{isSetSatisfied(setCounts?.bossSetCount, 5) ? '✅' : '•'}</span>
+                                            <span>보스 장신구 5세트 이상 <span className="text-slate-500">(현재: {setCounts?.bossSetCount || 0}개)</span></span>
+                                        </li>
+                                        <li className={`flex items-center gap-2 ${isSetSatisfied(setCounts?.dawnSetCount, 2) ? 'text-green-300 font-bold' : ''}`}>
+                                            <span>{isSetSatisfied(setCounts?.dawnSetCount, 2) ? '✅' : '•'}</span>
+                                            <span>여명의 보스 2세트 이상 <span className="text-slate-500">(현재: {setCounts?.dawnSetCount || 0}개)</span></span>
+                                        </li>
+                                        <li className={`flex items-center gap-2 ${isSetSatisfied(setCounts?.pitchedSetCount, 2) ? 'text-green-300 font-bold' : ''}`}>
+                                            <span>{isSetSatisfied(setCounts?.pitchedSetCount, 2) ? '✅' : '•'}</span>
+                                            <span>칠흑의 보스 2세트 이상 <span className="text-slate-500">(현재: {setCounts?.pitchedSetCount || 0}개)</span></span>
+                                        </li>
+                                        <li className={`flex items-center gap-2 ${isSetSatisfied(setCounts?.meisterSetCount, 3) ? 'text-green-300 font-bold' : ''}`}>
+                                            <span>{isSetSatisfied(setCounts?.meisterSetCount, 3) ? '✅' : '•'}</span>
+                                            <span>마이스터 3세트 이상 <span className="text-slate-500">(현재: {setCounts?.meisterSetCount || 0}개)</span></span>
+                                        </li>
+                                        <li className={`flex items-center gap-2 ${isSetSatisfied(setCounts?.brilliantSetCount, 1) ? 'text-green-300 font-bold' : ''}`}>
+                                            <span>{isSetSatisfied(setCounts?.brilliantSetCount, 1) ? '✅' : '•'}</span>
+                                            <span>광휘의 보스 1세트 이상 <span className="text-slate-500">(현재: {setCounts?.brilliantSetCount || 0}개)</span></span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div className="pt-2 border-t border-slate-800">
+                                    <h4 className="text-green-400 font-bold mb-2 flex items-center gap-2">
+                                        <span>🔓</span> 또는 예외 조건 (1개 이상 만족)
+                                    </h4>
+                                    <ul className="space-y-1 text-slate-300 pl-1">
+                                        <li className={`flex items-center gap-2 ${isSetSatisfied(setCounts?.bossSetCount, 9) ? 'text-green-300 font-bold' : ''}`}>
+                                            <span>{isSetSatisfied(setCounts?.bossSetCount, 9) ? '✅' : '•'}</span>
+                                            <span>보스 장신구 9세트 이상 <span className="text-slate-500">(현재: {setCounts?.bossSetCount || 0}개)</span></span>
+                                        </li>
+                                        <li className={`flex items-center gap-2 ${isSetSatisfied(setCounts?.dawnSetCount, 4) ? 'text-green-300 font-bold' : ''}`}>
+                                            <span>{isSetSatisfied(setCounts?.dawnSetCount, 4) ? '✅' : '•'}</span>
+                                            <span>여명의 보스 4세트 이상 <span className="text-slate-500">(현재: {setCounts?.dawnSetCount || 0}개)</span></span>
+                                        </li>
+                                        <li className={`flex items-center gap-2 ${isSetSatisfied(setCounts?.pitchedSetCount, 4) ? 'text-green-300 font-bold' : ''}`}>
+                                            <span>{isSetSatisfied(setCounts?.pitchedSetCount, 4) ? '✅' : '•'}</span>
+                                            <span>칠흑의 보스 4세트 이상 <span className="text-slate-500">(현재: {setCounts?.pitchedSetCount || 0}개)</span></span>
+                                        </li>
+                                        <li className={`flex items-center gap-2 ${isGenesisWeapon && isSetSatisfied(setCounts?.meisterSetCount, 3) ? 'text-green-300 font-bold' : ''}`}>
+                                            <span>{isGenesisWeapon && isSetSatisfied(setCounts?.meisterSetCount, 3) ? '✅' : '•'}</span>
+                                            <span>제네시스 무기 + 마이스터 3세트 이상 <span className="text-slate-500">(무기: {isGenesisWeapon ? '✅' : '❌'}, 마이스터: {setCounts?.meisterSetCount || 0}개)</span></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {stageInfo.id === 2 && (
+                        <div className="space-y-2 text-xs">
+                            <div className="bg-gradient-to-br from-pink-950/30 to-purple-950/30 p-3 rounded-lg border border-pink-800/30">
+                                <h4 className="text-pink-400 font-bold mb-2 flex items-center gap-2">
+                                    <span>🎯</span> 1순위: 엠블렘
+                                </h4>
+                                <p className="text-xs text-pink-300 mb-2 bg-pink-950/50 p-1.5 rounded">
+                                    💡 <strong>진단:</strong> 카르마 유니크 잠재능력 주문서를 최우선 순위로 사용하여 유니크 옵션을 확보 한 후 이벤트 큐브를 활용하여 옵션 뽑기
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 잠재능력 : <strong className="text-white">유니크 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 12% 이상</strong></li>
+                                    <li>• 에디셔널 : <strong className="text-white">에픽 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 1줄 이상</strong></li>
+                                </ul>
+                            </div>
+                            <div className="bg-gradient-to-br from-red-950/30 to-orange-950/30 p-3 rounded-lg border border-red-800/30">
+                                <h4 className="text-orange-400 font-bold mb-2 flex items-center gap-2">
+                                    <span>⚔️</span> 2순위: 무기
+                                </h4>
+                                <div className="text-xs text-orange-300 mb-2 bg-orange-950/50 p-1.5 rounded">
+                                    <p className="mb-1">💡 <strong>진단:</strong> 제네시스 무기 완전해방 전까지 사용 할 무기를 확보하기!</p>
+                                    <p>아이템버닝 도전자 무기가 없다면 아케인셰이드 17성 무기를 경매장에서 싸게 구매하는 것을 추천</p>
+                                </div>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• <strong className="text-white">도전자 무기</strong> OR <strong className="text-white">아케인셰이드 무기 17성 이상</strong></li>
+                                    <li>• 잠재능력 : <strong className="text-white">유니크 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 12% 이상 or 보스 공격력%</strong></li>
+                                    <li>• 에디셔널 : <strong className="text-white">에픽 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 1줄 이상</strong></li>
+                                    <li>• 잠재능력 목표 : <strong className="text-orange-300">보공%/방무%/{attTypeKor}% 유효 3줄</strong></li>
+                                </ul>
+                            </div>
+                            <div className="bg-gradient-to-br from-blue-950/30 to-cyan-950/30 p-3 rounded-lg border border-blue-800/30">
+                                <h4 className="text-cyan-400 font-bold mb-2 flex items-center gap-2">
+                                    <span>🛡️</span> 3순위: 보조무기
+                                </h4>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 경매장에서 <strong className="text-white">레전드리/에픽 이상</strong> 구매 권유 (무한교환)</li>
+                                    <li className="text-yellow-200">• 교환불가 보조무기에 카르마 유니크 잠재능력 주문서 사용하여 임시로 사용 가능</li>
+                                    <li>• 잠재능력 : <strong className="text-white">유니크 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 12% 이상</strong></li>
+                                    <li>• 에디셔널 : <strong className="text-white">레어 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor} +10 1줄 이상</strong></li>
+                                </ul>
+                            </div>
+                            <div className="bg-gradient-to-br from-purple-950/30 to-indigo-950/30 p-3 rounded-lg border border-purple-800/30">
+                                <h4 className="text-purple-400 font-bold mb-2 flex items-center gap-2">
+                                    <span>💍</span> 4순위: 이벤트 링 (3개 이상)
+                                </h4>
+                                <p className="text-xs text-purple-300 mb-2 bg-purple-950/50 p-1.5 rounded">
+                                    💡 <strong>진단:</strong> 이벤트 링 전용 레전드리 주문서 + 전용 명장의 큐브로 옵션 뽑기
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• <strong className="text-white">특수 반지</strong> (리스트레인트/웨폰퍼프/리스크테이커/컨티뉴어스)</li>
+                                    <li className="pl-2 text-slate-400">- 조건 없음 (장착 시 인정)</li>
+                                    <li className="mt-1">• <strong className="text-white">이벤트 링</strong> (테네브리스/어웨이크/글로리온/카오스/벤젼스/쥬얼링/플레임)</li>
+                                    <li className="pl-2 text-slate-400">- 잠재능력: 유니크 이상 (주스탯 15%↑)</li>
+                                    <li className="pl-2 text-slate-400">- 에디셔널: 레어 이상 (공/마 +10 or 주스탯 4%↑)</li>
+                                    <li className="mt-1">• <strong className="text-white">또는 고스펙 반지</strong> (종류 무관)</li>
+                                    <li className="pl-2 text-slate-400">- 잠재능력: 유니크 이상 (주스탯 21%↑)</li>
+                                    <li className="pl-2 text-slate-400">- 에디셔널: 에픽 이상 (공/마 +10 or 주스탯 4%↑)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    )}
+
+                    {stageInfo.id === 3 && (
+                        <div className="space-y-2 text-xs">
+                            <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                <p className="text-slate-400 mb-3">
+                                    아이템 버닝 <strong className="text-white">'도전자'</strong> 기간제 방어구가 사라지면 캐릭터가 급격히 약해집니다. 사라질 8부위를 대체할 아이템을 미리 준비해야 합니다.
+                                </p>
+                                <div className="mb-3 p-2 bg-slate-900/80 rounded border border-slate-700 text-xs text-slate-300">
+                                    <p>🛡️ <strong>방어구 방향 결정 하기:</strong></p>
+                                    <p className="mt-1 text-slate-400">
+                                        앞에 숫자 <strong>3</strong>은 (모자/상의/하의), <strong>4</strong>는 (장갑/신발/망토/어깨장식)을 의미합니다.
+                                    </p>
+                                </div>
+
+                                {passedArmorOption && (
+                                    <div className="mb-3 p-2 bg-green-950/30 border border-green-900/50 rounded text-xs text-green-300">
+                                        ✅ 현재 적용: <strong>{passedArmorOption}</strong>
+                                    </div>
+                                )}
+
+                                <div className="space-y-3">
+                                    <div className="bg-slate-900/50 p-2 rounded border border-slate-700/50">
+                                        <h5 className="text-yellow-400 font-bold mb-1">1안 (*추천)</h5>
+                                        <p className="text-slate-300 mb-1">3루타비스 + 4아케인 + 1무기</p>
+                                        <p className="text-slate-500 text-[11px]">- 현재 아케인 노작 값이 싸고 고점이 높음</p>
+                                    </div>
+                                    <div className="bg-slate-900/50 p-2 rounded border border-slate-700/50">
+                                        <h5 className="text-slate-300 font-bold mb-1">2안 (*대안)</h5>
+                                        <p className="text-slate-300 mb-1">3루타비스 + 4앱솔랩스 + 1무기</p>
+                                        <p className="text-slate-500 text-[11px]">- 가성비, 토드하기 쉬움, 17성 강화하기 쉬움</p>
+                                    </div>
+                                    <div className="bg-slate-900/50 p-2 rounded border border-slate-700/50">
+                                        <h5 className="text-slate-300 font-bold mb-1">3안</h5>
+                                        <p className="text-slate-300 mb-1">3에테르넬 + 4아케인 + 1무기</p>
+                                        <p className="text-slate-500 text-[11px]">- 3에테르넬 장비가 비싸지만 고점이 높음</p>
+                                    </div>
+                                    <div className="bg-slate-900/50 p-2 rounded border border-slate-700/50">
+                                        <h5 className="text-slate-300 font-bold mb-1">4안</h5>
+                                        <p className="text-slate-300 mb-1">3에테르넬 + 4에테르넬 + 1무기</p>
+                                        <p className="text-slate-500 text-[11px]">- 고자본용 최고점 템셋팅</p>
+                                    </div>
+                                    <div className="bg-green-950/30 p-2 rounded border border-green-900/30">
+                                        <h5 className="text-green-400 font-bold mb-1">✅ 예외 조건</h5>
+                                        <p className="text-green-200 text-[11px]">
+                                            '도전자'가 들어간 아이템을 4개 이상 착용하고 있다면 통과
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {stageInfo.id === 4 && stage4Stats && (
+                        <div className="space-y-2 text-xs">
+                            <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                <h4 className="text-red-400 font-bold mb-2 flex items-center gap-2">
+                                    <span>🛡️</span> 방어구 진단 기준 (모자, 상/하의, 장갑, 신발, 망토)
+                                </h4>
+                                <ul className="space-y-1 text-slate-300 pl-1">
+                                    <li className={`flex flex-col items-start gap-1 ${stage4Stats.armor.starforce.current >= stage4Stats.armor.starforce.total ? 'text-green-300 font-bold' : ''}`}>
+                                        {renderStatItem("스타포스", stage4Stats.armor.starforce, "17성 이상 (타일런트 10성)")}
+                                        <div className="pl-6 text-[10px] text-slate-400/80 mb-0.5">
+                                            * 에테르넬: 12성 ≈ 18성 카루타
+                                        </div>
+                                        {stage4Stats.armor.starforce.failedItems.length > 0 && (
+                                            <div className="pl-6 text-[11px] text-red-300/80">
+                                                └ 미달: {stage4Stats.armor.starforce.failedItems.join(', ')}
+                                            </div>
+                                        )}
+                                    </li>
+                                    <li className={`flex flex-col items-start gap-1 ${stage4Stats.armor.scroll.current >= stage4Stats.armor.scroll.total ? 'text-green-300 font-bold' : ''}`}>
+                                        <div className="flex items-center gap-2">
+                                            <span>{stage4Stats.armor.scroll.current >= stage4Stats.armor.scroll.total ? '✅' : '•'}</span>
+                                            <span>
+                                                주문서 작: <strong className="text-white">최소 30% 주문서 작 (주스탯 +56 이상, 모자 +84 이상) 혹은 놀긍혼(떡작) 50급 이상</strong>
+                                                <span className={`ml-1 text-xs ${stage4Stats.armor.scroll.current >= stage4Stats.armor.scroll.total ? 'text-green-400' : 'text-red-400'}`}>
+                                                    ({stage4Stats.armor.scroll.current}/{stage4Stats.armor.scroll.total})
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div className="pl-6 text-[10px] text-slate-400/80 mb-0.5">
+                                            * 급 계산식: 각 직업에 맞는 주스텟 + (공/마 × 4) + (올스텟% × 10)
+                                        </div>
+                                        {stage4Stats.armor.scroll.failedItems.length > 0 && (
+                                            <div className="pl-6 text-[11px] text-red-300/80">
+                                                └ 미달: {stage4Stats.armor.scroll.failedItems.join(', ')}
+                                            </div>
+                                        )}
+                                    </li>
+                                    <li className={`flex flex-col items-start gap-1 ${stage4Stats.armor.flame.current >= stage4Stats.armor.flame.total ? 'text-green-300 font-bold' : ''}`}>
+                                        <div className="flex items-center gap-2">
+                                            <span>{stage4Stats.armor.flame.current >= stage4Stats.armor.flame.total ? '✅' : '•'}</span>
+                                            <span>
+                                                추가 옵션: <strong className="text-white">100급 이상</strong>
+                                                <span className={`ml-1 text-xs ${stage4Stats.armor.flame.current >= stage4Stats.armor.flame.total ? 'text-green-400' : 'text-red-400'}`}>
+                                                    ({stage4Stats.armor.flame.current}/{stage4Stats.armor.flame.total})
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div className="pl-6 text-[10px] text-slate-400/80 mb-0.5">
+                                            * 급 계산식: 각 직업에 맞는 주스텟 + (공/마 × 4) + (올스텟% × 10)
+                                        </div>
+                                        {stage4Stats.armor.flame.failedItems.length > 0 && (
+                                            <div className="pl-6 text-[11px] text-red-300/80">
+                                                └ 미달: {stage4Stats.armor.flame.failedItems.join(', ')}
+                                            </div>
+                                        )}
+                                    </li>
+                                    <li className={`flex flex-col items-start gap-1 ${stage4Stats.armor.potential.current >= stage4Stats.armor.potential.total ? 'text-green-300 font-bold' : ''}`}>
+                                        <div className="flex items-center gap-2">
+                                            <span>{stage4Stats.armor.potential.current >= stage4Stats.armor.potential.total ? '✅' : '•'}</span>
+                                            <span>
+                                                잠재능력: <strong className="text-white">유니크 이상 & 주스탯 15% 이상</strong>
+                                                <span className={`ml-1 text-xs ${stage4Stats.armor.potential.current >= stage4Stats.armor.potential.total ? 'text-green-400' : 'text-red-400'}`}>
+                                                    ({stage4Stats.armor.potential.current}/{stage4Stats.armor.potential.total})
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div className="pl-6 text-[10px] text-slate-400/80 mb-0.5">
+                                            * 장갑은 크리티컬 데미지 %가 최고의 옵션
+                                        </div>
+                                        {stage4Stats.armor.potential.failedItems.length > 0 && (
+                                            <div className="pl-6 text-[11px] text-red-300/80">
+                                                └ 미달: {stage4Stats.armor.potential.failedItems.join(', ')}
+                                            </div>
+                                        )}
+                                    </li>
+                                    {renderStatItem("에디셔널", stage4Stats.armor.additional, "레어 공/마+10 (에픽 이상은 탯% or 공/마+10)")}
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                <h4 className="text-pink-400 font-bold mb-2 flex items-center gap-2">
+                                    <span>💍</span> 장신구 진단 기준 (반지, 펜던트, 얼장, 눈장, 귀고리, 벨트)
+                                </h4>
+                                <ul className="space-y-1 text-slate-300 pl-1">
+                                    {renderStatItem("스타포스", stage4Stats.accessory.starforce, "17성 이상 (타일런트 10성)")}
+                                    <li className={`flex flex-col items-start gap-1 ${stage4Stats.accessory.scroll.current >= stage4Stats.accessory.scroll.total ? 'text-green-300 font-bold' : ''}`}>
+                                        <div className="flex items-center gap-2">
+                                            <span>{stage4Stats.accessory.scroll.current >= stage4Stats.accessory.scroll.total ? '✅' : '•'}</span>
+                                            <span>
+                                                주문서 작: <strong className="text-white">32급 이상 (놀긍/프악공 기준)</strong>
+                                                <span className={`ml-1 text-xs ${stage4Stats.accessory.scroll.current >= stage4Stats.accessory.scroll.total ? 'text-green-400' : 'text-red-400'}`}>
+                                                    ({stage4Stats.accessory.scroll.current}/{stage4Stats.accessory.scroll.total})
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div className="pl-6 text-[10px] text-slate-400/80 mb-0.5">
+                                            * 급 계산식: 각 직업에 맞는 주스텟 + (공/마 × 4) + (올스텟% × 10)
+                                        </div>
+                                        {stage4Stats.accessory.scroll.failedItems.length > 0 && (
+                                            <div className="pl-6 text-[11px] text-red-300/80">
+                                                └ 미달: {stage4Stats.accessory.scroll.failedItems.join(', ')}
+                                            </div>
+                                        )}
+                                    </li>
+                                    <li className={`flex flex-col items-start gap-1 ${stage4Stats.accessory.flame.current >= stage4Stats.accessory.flame.total ? 'text-green-300 font-bold' : ''}`}>
+                                        <div className="flex items-center gap-2">
+                                            <span>{stage4Stats.accessory.flame.current >= stage4Stats.accessory.flame.total ? '✅' : '•'}</span>
+                                            <span>
+                                                추가 옵션: <strong className="text-white">100급 이상 (반지/숄더 제외)</strong>
+                                                <span className={`ml-1 text-xs ${stage4Stats.accessory.flame.current >= stage4Stats.accessory.flame.total ? 'text-green-400' : 'text-red-400'}`}>
+                                                    ({stage4Stats.accessory.flame.current}/{stage4Stats.accessory.flame.total})
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div className="pl-6 text-[10px] text-slate-400/80 mb-0.5">
+                                            * 급 계산식: 각 직업에 맞는 주스텟 + (공/마 × 4) + (올스텟% × 10)
+                                        </div>
+                                        {stage4Stats.accessory.flame.failedItems.length > 0 && (
+                                            <div className="pl-6 text-[11px] text-red-300/80">
+                                                └ 미달: {stage4Stats.accessory.flame.failedItems.join(', ')}
+                                            </div>
+                                        )}
+                                    </li>
+                                    {renderStatItem("잠재능력", stage4Stats.accessory.potential, "유니크 이상 & 주스탯 15%~21% 이상")}
+                                    {renderStatItem("에디셔널", stage4Stats.accessory.additional, "레어 공/마+10 (에픽 이상은 탯% or 공/마+10)")}
+                                </ul>
+                            </div>
+                        </div>
+                    )}
+                    {stageInfo.id === 5 && stage5Stats && (
+                        <div className="space-y-2 text-xs">
+                            <div className="bg-gradient-to-r from-yellow-950/30 to-orange-950/30 p-4 rounded-lg border border-yellow-900/50">
+                                <h4 className="text-yellow-400 font-bold mb-3 flex items-center gap-2 text-sm">
+                                    <span>💎</span> 6단계: 최종 완성 (18성 달성)
+                                </h4>
+                                <p className="text-slate-300 mb-3 leading-relaxed">
+                                    전체적인 방어구+장신구의 스타포스를 모두 18성으로 올려 스펙업을 진행하세요!
+                                </p>
+
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                        <h5 className="text-orange-400 font-bold mb-2 flex items-center gap-1">
+                                            <span>🛡️</span> 방어구 스타포스
+                                        </h5>
+                                        <div className="flex items-center gap-2">
+                                            <span className={stage5Stats.armor.starforce.current >= stage5Stats.armor.starforce.total ? 'text-green-400' : 'text-yellow-400'}>
+                                                {stage5Stats.armor.starforce.current >= stage5Stats.armor.starforce.total ? '✅' : '⭐'}
+                                            </span>
+                                            <span className="text-slate-300">
+                                                18성 달성: <strong className={stage5Stats.armor.starforce.current >= stage5Stats.armor.starforce.total ? 'text-green-300' : 'text-white'}>
+                                                    {stage5Stats.armor.starforce.current}/{stage5Stats.armor.starforce.total}
+                                                </strong>
+                                            </span>
+                                        </div>
+                                        {stage5Stats.armor.starforce.failedItems.length > 0 && (
+                                            <div className="mt-2 text-[11px] text-red-300/80">
+                                                └ 미달: {stage5Stats.armor.starforce.failedItems.join(', ')}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                        <h5 className="text-pink-400 font-bold mb-2 flex items-center gap-1">
+                                            <span>💍</span> 장신구 스타포스
+                                        </h5>
+                                        <div className="flex items-center gap-2">
+                                            <span className={stage5Stats.accessory.starforce.current >= stage5Stats.accessory.starforce.total ? 'text-green-400' : 'text-yellow-400'}>
+                                                {stage5Stats.accessory.starforce.current >= stage5Stats.accessory.starforce.total ? '✅' : '⭐'}
+                                            </span>
+                                            <span className="text-slate-300">
+                                                18성 달성: <strong className={stage5Stats.accessory.starforce.current >= stage5Stats.accessory.starforce.total ? 'text-green-300' : 'text-white'}>
+                                                    {stage5Stats.accessory.starforce.current}/{stage5Stats.accessory.starforce.total}
+                                                </strong>
+                                            </span>
+                                        </div>
+                                        {stage5Stats.accessory.starforce.failedItems.length > 0 && (
+                                            <div className="mt-2 text-[11px] text-red-300/80">
+                                                └ 미달: {stage5Stats.accessory.starforce.failedItems.join(', ')}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="mt-3 p-2 bg-slate-950/50 rounded border border-slate-800">
+                                    <p className="text-[10px] text-slate-400">
+                                        * 에테르넬: 12성 ≈ 18성 카루타 (자동으로 통과 처리됩니다)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {stageInfo.id === 6 && stage6Info && (
+                        <div className="space-y-3 text-xs">
+                            <div className="bg-gradient-to-r from-cyan-950/30 to-blue-950/30 p-4 rounded-lg border border-cyan-900/50">
+                                <h4 className="text-cyan-400 font-bold mb-3 flex items-center gap-2 text-sm">
+                                    <span>🌟</span> 7단계: 스타포스 22성 조합 선택하기
+                                </h4>
+                                <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800 mb-4">
+                                    <p className="text-slate-300 leading-relaxed mb-2">
+                                        진단 : 22성 방어구 방향을 결정한다.
+                                    </p>
+                                    <p className="text-slate-400 leading-relaxed">
+                                        22성 아이템을 구매해서 사용 할지, 아니면 기존 아이템을 강화해서 사용 할 지를 결정해야 합니다.
+                                        그 전에 먼저 어떤 조합으로 22성을 갈지 결정해봅시다!
+                                    </p>
+                                    <div className="mt-2 pt-2 border-t border-slate-800">
+                                        <p className="text-cyan-300 font-bold">
+                                            현재 조합 상태: {stage6Info.currentCombination}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                        <h5 className="text-white font-bold mb-2 border-b border-slate-800 pb-1">
+                                            22성 3루타 + 4아케인 or 앱솔 조합
+                                        </h5>
+                                        <p className="text-[10px] text-slate-500 mb-2">
+                                            (모자/상의/하의) + (장갑/신발/망토/어깨장식)
+                                        </p>
+                                        <ul className="space-y-1 text-slate-300 pl-1">
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-cyan-500 font-bold">1안</span>
+                                                <span>3루타비스 + 4아케인 + 제네시스 무기</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-cyan-500 font-bold">2안</span>
+                                                <span>3루타비스 + 4앱솔랩스 + 제네시스 무기</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
+                                        <h5 className="text-white font-bold mb-2 border-b border-slate-800 pb-1">
+                                            17~18성 에테르넬을 섞은 조합
+                                        </h5>
+                                        <p className="text-[10px] text-slate-500 mb-2">
+                                            (모자/상의/하의/장갑/신발/망토/어깨장식에 적절하게 17~18성 에테르넬 혼합)
+                                        </p>
+                                        <ul className="space-y-1 text-slate-300 pl-1">
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-purple-400 font-bold">3안</span>
+                                                <span>3에테르넬 + 4아케인 + 제네시스 무기</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-purple-400 font-bold">4안</span>
+                                                <span>3에테르넬 + 4앱솔랩스 + 제네시스 무기</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-purple-400 font-bold">5안</span>
+                                                <span>3루타비스 + 4에테르넬 + 제네시스 무기</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-purple-400 font-bold">6안</span>
+                                                <span>3에테르넬 + 4에테르넬 + 제네시스 무기</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+};

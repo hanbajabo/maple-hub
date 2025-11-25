@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+html {
+  font-size: 18px;
+}
+
+@theme {
+  --font-sans: var(--font-noto-sans-kr);
+  --color-maple-orange: #f97316;
+  --color-deep-dark: #020617;
+}
+
+
+/* Custom Utilities if needed */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

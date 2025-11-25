@@ -1,0 +1,57 @@
+
+export interface JobRecommendation {
+    hat: 'stat' | 'cool_2' | 'cool_3' | 'cool_4' | 'cool_5'; // Recommended setting
+    ring: 'restraint' | 'continuous' | 'switching';
+    hatNote?: string;
+    ringNote?: string;
+}
+
+export const JOB_RECOMMENDATIONS: Record<string, JobRecommendation> = {
+    '히어로': { hat: 'cool_2', ring: 'restraint', hatNote: '초고스펙 기준 쿨뚝 필수' },
+    '팔라딘': { hat: 'stat', ring: 'restraint', hatNote: '쿨뚝 사용률 58% (선택)' },
+    '다크나이트': { hat: 'cool_5', ring: 'continuous', hatNote: '비홀더 무한 유지를 위해 권장', ringNote: '지속딜 구조로 컨티뉴어스 링 효율 급상승' },
+    '아크메이지(불,독)': { hat: 'cool_5', ring: 'continuous', hatNote: '도트 데미지 가동률 핵심', ringNote: '도트 딜러 필수 아이템' },
+    '아크메이지(썬,콜)': { hat: 'stat', ring: 'restraint', hatNote: '인피니티 가동률 취향 차이' },
+    '비숍': { hat: 'stat', ring: 'switching', ringNote: '프레이 극딜엔 리레, 평딜엔 컨티 스위칭 권장' },
+    '보우마스터': { hat: 'stat', ring: 'continuous', ringNote: '잔영의 시 등 평딜 비중이 높아 컨티 선호' },
+    '신궁': { hat: 'stat', ring: 'restraint' },
+    '패스파인더': { hat: 'cool_2', ring: 'restraint', hatNote: '고스펙 기준 쿨뚝 선호' },
+    '나이트로드': { hat: 'stat', ring: 'restraint', hatNote: '스프레드 스로우 극딜 핵심' },
+    '섀도어': { hat: 'cool_2', ring: 'restraint', hatNote: '메익 원킬 및 연막탄 가동률' },
+    '듀얼블레이더': { hat: 'cool_5', ring: 'restraint', hatNote: '블토/카퓨 쿨감 핵심' },
+    '바이퍼': { hat: 'stat', ring: 'switching', ringNote: '서펜트 지속딜로 컨티 효율 좋음' },
+    '캡틴': { hat: 'stat', ring: 'switching', hatNote: '헤드샷 쿨감 취향 차이' },
+    '캐논마스터': { hat: 'cool_5', ring: 'restraint', hatNote: '코코볼 난사를 위해 고스펙은 쿨뚝 선호' },
+    '미하일': { hat: 'cool_2', ring: 'switching', hatNote: '로얄 가드 쿨타임 맞춤' },
+    '소울마스터': { hat: 'stat', ring: 'restraint' },
+    '플레임위자드': { hat: 'cool_5', ring: 'restraint', hatNote: '해방 퀘스트 및 무릉 필수급' },
+    '윈드브레이커': { hat: 'cool_5', ring: 'restraint', hatNote: '게일/아이들 윔 사출량 증대' },
+    '나이트워커': { hat: 'stat', ring: 'restraint' },
+    '스트라이커': { hat: 'cool_2', ring: 'continuous', hatNote: '연계 매끄러움을 위해 선호', ringNote: '연계 직업 특성상 컨티 효율 좋음' },
+    '아란': { hat: 'stat', ring: 'restraint' },
+    '에반': { hat: 'cool_2', ring: 'continuous', hatNote: '조디악 레이 발동용', ringNote: '조디악 레이 지속딜과 컨티 시너지 최상' },
+    '루미너스': { hat: 'cool_5', ring: 'restraint', hatNote: '이클립스 가동률 핵심' },
+    '메르세데스': { hat: 'cool_2', ring: 'restraint', hatNote: '이르칼라 쿨감 핵심' },
+    '팬텀': { hat: 'cool_5', ring: 'continuous', hatNote: '템페스트/조커 쿨감', ringNote: '짧은 쿨타임 극딜기로 컨티 효율 좋음' },
+    '은월': { hat: 'cool_2', ring: 'restraint', hatNote: '귀문진/소혼결계 가동률' },
+    '블래스터': { hat: 'stat', ring: 'continuous', ringNote: '캔슬 연계 평딜 비중 높음' },
+    '배틀메이지': { hat: 'stat', ring: 'switching' },
+    '와일드헌터': { hat: 'cool_5', ring: 'restraint', hatNote: '재규어 스킬 가동률' },
+    '메카닉': { hat: 'cool_5', ring: 'switching', hatNote: '호밍 미사일 발사량 핵심', ringNote: '설치기/호밍 지속딜로 컨티 선호' },
+    '제논': { hat: 'cool_5', ring: 'restraint', hatNote: '오버로드 모드 가동률 권장' },
+    '데몬슬레이어': { hat: 'stat', ring: 'restraint' },
+    '데몬어벤져': { hat: 'cool_2', ring: 'continuous', hatNote: '실드 체이싱 무한 사출 필수', ringNote: '프렌지/실체 지속딜로 컨티 효율 최상' },
+    '카이저': { hat: 'cool_5', ring: 'continuous', hatNote: '기가 슬래셔/윌 오브 소드 쿨감', ringNote: '변신 평딜 지속력으로 컨티 100% 사용' },
+    '카인': { hat: 'cool_2', ring: 'restraint', hatNote: '발현/처형 스킬 쿨감' },
+    '카데나': { hat: 'cool_5', ring: 'restraint', hatNote: '웨폰 버라이어티 쿨감' },
+    '엔젤릭버스터': { hat: 'cool_5', ring: 'restraint', hatNote: '트리니티 퓨전/스포트라이트 가동률' },
+    '아델': { hat: 'cool_5', ring: 'restraint', hatNote: '오더/테리토리 가동률' },
+    '일리움': { hat: 'cool_3', ring: 'continuous', hatNote: '고스펙 쿨뚝 선호도 높음', ringNote: '자벨린/오브 지속딜 비중 높음' },
+    '아크': { hat: 'cool_2', ring: 'restraint', hatNote: '멈출 수 없는 본능/충동 쿨감' },
+    '칼리': { hat: 'cool_4', ring: 'restraint', hatNote: '보이드 러쉬/아츠 쿨감' },
+    '호영': { hat: 'stat', ring: 'restraint' },
+    '라라': { hat: 'stat', ring: 'restraint', hatNote: '용맥 분출 쿨감 취향 차이' },
+    '렌': { hat: 'cool_5', ring: 'restraint', hatNote: '초고스펙 기준 쿨뚝 필수' },
+    '키네시스': { hat: 'stat', ring: 'restraint' },
+    '제로': { hat: 'cool_5', ring: 'continuous', hatNote: '태그/어시스트 쿨감', ringNote: '태그 시스템 특성상 컨티 효율 최상' },
+};

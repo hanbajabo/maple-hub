@@ -1,0 +1,237 @@
+[
+  {
+    "job": "아크메이지(썬,콜)",
+    "averageSkillLevel": 39.35,
+    "skillCount": 32
+  },
+  {
+    "job": "아크메이지(불,독)",
+    "averageSkillLevel": 37.9,
+    "skillCount": 27
+  },
+  {
+    "job": "메르세데스",
+    "averageSkillLevel": 37.33,
+    "skillCount": 27
+  },
+  {
+    "job": "팬텀",
+    "averageSkillLevel": 36.69,
+    "skillCount": 27
+  },
+  {
+    "job": "패스파인더",
+    "averageSkillLevel": 36.2,
+    "skillCount": 26
+  },
+  {
+    "job": "팔라딘",
+    "averageSkillLevel": 35.75,
+    "skillCount": 28
+  },
+  {
+    "job": "아델",
+    "averageSkillLevel": 35.21,
+    "skillCount": 26
+  },
+  {
+    "job": "보우마스터",
+    "averageSkillLevel": 35.15,
+    "skillCount": 27
+  },
+  {
+    "job": "나이트로드",
+    "averageSkillLevel": 34.96,
+    "skillCount": 26
+  },
+  {
+    "job": "제논",
+    "averageSkillLevel": 34.75,
+    "skillCount": 25
+  },
+  {
+    "job": "듀얼블레이더",
+    "averageSkillLevel": 34.64,
+    "skillCount": 26
+  },
+  {
+    "job": "캡틴",
+    "averageSkillLevel": 34.59,
+    "skillCount": 27
+  },
+  {
+    "job": "은월",
+    "averageSkillLevel": 34.55,
+    "skillCount": 27
+  },
+  {
+    "job": "히어로",
+    "averageSkillLevel": 34.36,
+    "skillCount": 27
+  },
+  {
+    "job": "비숍",
+    "averageSkillLevel": 34.29,
+    "skillCount": 27
+  },
+  {
+    "job": "아란",
+    "averageSkillLevel": 33.75,
+    "skillCount": 28
+  },
+  {
+    "job": "바이퍼",
+    "averageSkillLevel": 33.47,
+    "skillCount": 26
+  },
+  {
+    "job": "섀도어",
+    "averageSkillLevel": 33.43,
+    "skillCount": 27
+  },
+  {
+    "job": "다크나이트",
+    "averageSkillLevel": 33.37,
+    "skillCount": 27
+  },
+  {
+    "job": "데몬어벤져",
+    "averageSkillLevel": 33.21,
+    "skillCount": 27
+  },
+  {
+    "job": "캐논마스터",
+    "averageSkillLevel": 33.19,
+    "skillCount": 27
+  },
+  {
+    "job": "윈드브레이커",
+    "averageSkillLevel": 33.14,
+    "skillCount": 26
+  },
+  {
+    "job": "카이저",
+    "averageSkillLevel": 33.1,
+    "skillCount": 28
+  },
+  {
+    "job": "아크",
+    "averageSkillLevel": 32.98,
+    "skillCount": 26
+  },
+  {
+    "job": "엔젤릭버스터",
+    "averageSkillLevel": 32.96,
+    "skillCount": 28
+  },
+  {
+    "job": "소울마스터",
+    "averageSkillLevel": 32.8,
+    "skillCount": 27
+  },
+  {
+    "job": "배틀메이지",
+    "averageSkillLevel": 32.7,
+    "skillCount": 28
+  },
+  {
+    "job": "미하일",
+    "averageSkillLevel": 32.21,
+    "skillCount": 27
+  },
+  {
+    "job": "나이트워커",
+    "averageSkillLevel": 32.01,
+    "skillCount": 27
+  },
+  {
+    "job": "스트라이커",
+    "averageSkillLevel": 31.97,
+    "skillCount": 27
+  },
+  {
+    "job": "렌",
+    "averageSkillLevel": 31.91,
+    "skillCount": 25
+  },
+  {
+    "job": "라라",
+    "averageSkillLevel": 31.64,
+    "skillCount": 27
+  },
+  {
+    "job": "메카닉",
+    "averageSkillLevel": 31.59,
+    "skillCount": 26
+  },
+  {
+    "job": "일리움",
+    "averageSkillLevel": 31.52,
+    "skillCount": 26
+  },
+  {
+    "job": "데몬슬레이어",
+    "averageSkillLevel": 31.49,
+    "skillCount": 27
+  },
+  {
+    "job": "키네시스",
+    "averageSkillLevel": 31.4,
+    "skillCount": 27
+  },
+  {
+    "job": "블래스터",
+    "averageSkillLevel": 31.3,
+    "skillCount": 26
+  },
+  {
+    "job": "호영",
+    "averageSkillLevel": 31.29,
+    "skillCount": 27
+  },
+  {
+    "job": "에반",
+    "averageSkillLevel": 31.02,
+    "skillCount": 27
+  },
+  {
+    "job": "루미너스",
+    "averageSkillLevel": 31,
+    "skillCount": 29
+  },
+  {
+    "job": "플레임위자드",
+    "averageSkillLevel": 30.69,
+    "skillCount": 27
+  },
+  {
+    "job": "카데나",
+    "averageSkillLevel": 30.6,
+    "skillCount": 28
+  },
+  {
+    "job": "칼리",
+    "averageSkillLevel": 30.1,
+    "skillCount": 26
+  },
+  {
+    "job": "신궁",
+    "averageSkillLevel": 30.03,
+    "skillCount": 26
+  },
+  {
+    "job": "와일드헌터",
+    "averageSkillLevel": 27.22,
+    "skillCount": 30
+  },
+  {
+    "job": "제로",
+    "averageSkillLevel": 26.22,
+    "skillCount": 26
+  },
+  {
+    "job": "카인",
+    "averageSkillLevel": 22.98,
+    "skillCount": 25
+  }
+]
