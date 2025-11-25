@@ -235,30 +235,30 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ab
     };
 
     return (
-        <div className="w-full h-full flex flex-col gap-4">
+        <div className="w-full h-full flex flex-col gap-3 sm:gap-4">
             {/* Header Stats */}
-            <div className="grid grid-cols-2 gap-4">
-                <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 flex flex-col items-center justify-center">
-                    <span className="text-xs text-slate-400 mb-1">아이템 드롭률 합계</span>
-                    <span className={`text-xl font-bold ${itemDrop >= 200 ? 'text-emerald-400' : 'text-white'}`}>
-                        {itemDrop}% <span className="text-xs text-slate-500 font-normal">/ 200% (Max)</span>
+            <div className="grid grid-cols-2 gap-2 sm:gap-4">
+                <div className="bg-slate-950 p-2 sm:p-3 rounded-lg border border-slate-800 flex flex-col items-center justify-center">
+                    <span className="text-[10px] sm:text-xs text-slate-400 mb-0.5 sm:mb-1">아이템 드롭률 합계</span>
+                    <span className={`text-base sm:text-xl font-bold ${itemDrop >= 200 ? 'text-emerald-400' : 'text-white'}`}>
+                        {itemDrop}% <span className="text-[10px] sm:text-xs text-slate-500 font-normal">/ 200% (Max)</span>
                     </span>
                 </div>
-                <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 flex flex-col items-center justify-center">
-                    <span className="text-xs text-slate-400 mb-1">아이템 메획 합계</span>
-                    <span className={`text-xl font-bold ${itemMeso >= 100 ? 'text-yellow-400' : 'text-white'}`}>
-                        {itemMeso}% <span className="text-xs text-slate-500 font-normal">/ 100% (Max)</span>
+                <div className="bg-slate-950 p-2 sm:p-3 rounded-lg border border-slate-800 flex flex-col items-center justify-center">
+                    <span className="text-[10px] sm:text-xs text-slate-400 mb-0.5 sm:mb-1">아이템 메획 합계</span>
+                    <span className={`text-base sm:text-xl font-bold ${itemMeso >= 100 ? 'text-yellow-400' : 'text-white'}`}>
+                        {itemMeso}% <span className="text-[10px] sm:text-xs text-slate-500 font-normal">/ 100% (Max)</span>
                     </span>
                 </div>
             </div>
 
             {/* Missing Option Guide */}
             {currentStage < 6 && (
-                <div className="bg-slate-900/50 p-3 rounded-lg border border-slate-700/50">
-                    <h4 className="text-sm font-bold text-slate-300 mb-2 flex items-center gap-2">
+                <div className="bg-slate-900/50 p-2 sm:p-3 rounded-lg border border-slate-700/50">
+                    <h4 className="text-xs sm:text-sm font-bold text-slate-300 mb-1 sm:mb-2 flex items-center gap-2">
                         <span>🔍</span> 드롭/메획 챙길 수 있는 부위 점검
                     </h4>
-                    <div className="text-xs text-slate-400">
+                    <div className="text-[10px] sm:text-xs text-slate-400">
                         {(() => {
                             const targetSlots = ["반지1", "반지2", "반지3", "반지4", "펜던트", "펜던트2", "얼굴장식", "눈장식", "귀고리"];
                             const missingSlots: string[] = [];
@@ -296,7 +296,7 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ab
                             if (noOptionItems.length === 0) return <span className="text-green-400">모든 장신구 부위에 드롭/메획 옵션이 있습니다! (또는 장착된 장신구가 없음)</span>;
 
                             return (
-                                <div className="space-y-1">
+                                <div className="space-y-0.5 sm:space-y-1">
                                     <p>다음 아이템에 드롭/메획 옵션이 없습니다:</p>
                                     <ul className="list-disc list-inside text-slate-300">
                                         {noOptionItems.map((item, idx) => (
@@ -313,17 +313,17 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ab
             )}
 
             {/* Current Stage Indicator */}
-            <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <div className="bg-slate-800 rounded-lg p-3 sm:p-4 border border-slate-700">
+                <div className="flex justify-between items-center mb-2 sm:mb-4">
+                    <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                         <span>📊</span>
                         <span>현재 단계: <span className="text-emerald-400">{currentStage}단계</span></span>
                     </h3>
-                    {hasSpiritPendant && <span className="text-xs bg-slate-900 text-emerald-400 px-2 py-1 rounded border border-emerald-900">정펜 착용 중</span>}
+                    {hasSpiritPendant && <span className="text-[10px] sm:text-xs bg-slate-900 text-emerald-400 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded border border-emerald-900">정펜 착용 중</span>}
                 </div>
 
                 {/* Progress Bar */}
-                <div className="w-full bg-slate-950 h-3 rounded-full overflow-hidden mb-2 relative">
+                <div className="w-full bg-slate-950 h-2 sm:h-3 rounded-full overflow-hidden mb-1 sm:mb-2 relative">
                     <div
                         className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500"
                         style={{ width: `${(currentStage / 6) * 100}%` }}
@@ -335,7 +335,7 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ab
                         ))}
                     </div>
                 </div>
-                <div className="flex justify-between text-[10px] text-slate-500 px-1">
+                <div className="flex justify-between text-[8px] sm:text-[10px] text-slate-500 px-1">
                     <span>기초</span>
                     <span>메획100</span>
                     <span>드메100</span>
@@ -352,7 +352,7 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ab
             </div>
 
             {/* Detailed Checklist */}
-            <div className="mt-2 text-[10px] text-slate-500 text-center">
+            <div className="mt-1 sm:mt-2 text-[8px] sm:text-[10px] text-slate-500 text-center">
                 * 아이템 잠재능력 합계 기준 (최대치 제한 미적용 수치)
             </div>
         </div>

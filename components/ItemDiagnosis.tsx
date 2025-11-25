@@ -140,8 +140,8 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
             </div>
 
             {isOpen && mounted && createPortal(
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setIsOpen(false)}>
-                    <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-7xl p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar" onClick={e => e.stopPropagation()}>
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4" onClick={() => setIsOpen(false)}>
+                    <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-7xl p-4 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar" onClick={e => e.stopPropagation()}>
 
                         {error ? (
                             <div className="text-center py-10 text-red-400 bg-red-950/20 rounded-xl border border-red-900/30">
@@ -164,26 +164,26 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                             </div>
                         ) : (
                             <>
-                                <div className="flex flex-col md:flex-row items-center justify-between mb-8 border-b border-slate-800 pb-6 gap-6">
-                                    <div className="flex flex-col gap-4 w-full md:w-auto">
+                                <div className="flex flex-col md:flex-row items-center justify-between mb-4 sm:mb-8 border-b border-slate-800 pb-4 sm:pb-6 gap-4 sm:gap-6">
+                                    <div className="flex flex-col gap-2 sm:gap-4 w-full md:w-auto">
                                         <div className="text-center md:text-left">
-                                            <h2 className="text-3xl font-bold text-white mb-2 flex items-center gap-3 justify-center md:justify-start">
+                                            <h2 className="text-xl sm:text-3xl font-bold text-white mb-1 sm:mb-2 flex items-center gap-2 sm:gap-3 justify-center md:justify-start">
                                                 {mode === 'HUNTING' ? '🏹 사냥 세팅 진단' : '⚔️ 보스 세팅 진단'}
                                             </h2>
-                                            <p className="text-slate-400">{worldName} 월드 / <span className="text-indigo-400 font-bold">{report.score}점</span></p>
+                                            <p className="text-xs sm:text-base text-slate-400">{worldName} 월드 / <span className="text-indigo-400 font-bold">{report.score}점</span></p>
                                         </div>
 
                                         {/* 모드 전환 토글 */}
                                         <div className="flex gap-1 bg-slate-950/50 p-1 rounded-lg border border-slate-800 self-center md:self-start">
                                             <button
                                                 onClick={() => switchMode('HUNTING')}
-                                                className={`py-1.5 px-4 rounded-md text-sm font-bold transition-all flex items-center gap-2 ${mode === 'HUNTING' ? 'bg-green-700 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+                                                className={`py-1 sm:py-1.5 px-3 sm:px-4 rounded-md text-xs sm:text-sm font-bold transition-all flex items-center gap-1 sm:gap-2 ${mode === 'HUNTING' ? 'bg-green-700 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
                                             >
                                                 🏹 사냥용
                                             </button>
                                             <button
                                                 onClick={() => switchMode('BOSS')}
-                                                className={`py-1.5 px-4 rounded-md text-sm font-bold transition-all flex items-center gap-2 ${mode === 'BOSS' ? 'bg-red-700 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+                                                className={`py-1 sm:py-1.5 px-3 sm:px-4 rounded-md text-xs sm:text-sm font-bold transition-all flex items-center gap-1 sm:gap-2 ${mode === 'BOSS' ? 'bg-red-700 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
                                             >
                                                 ⚔️ 보스용
                                             </button>
@@ -191,39 +191,39 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                                     </div>
 
                                     <div className="relative group">
-                                        <div className={`text-7xl font-black italic tracking-tighter 
+                                        <div className={`text-5xl sm:text-7xl font-black italic tracking-tighter 
                       ${report.tier === 'SSS' ? 'text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]' :
                                                 report.tier === 'SS' ? 'text-purple-500 drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]' :
                                                     report.tier === 'S' ? 'text-yellow-400' :
                                                         report.tier === 'A' ? 'text-blue-400' : 'text-slate-400'}`}>
                                             {report.tier}
                                         </div>
-                                        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 text-center text-xs font-bold bg-slate-800 rounded-full px-3 py-0.5 text-slate-300 border border-slate-600 shadow-lg">RANK</div>
+                                        <div className="absolute -bottom-2 sm:-bottom-3 left-1/2 -translate-x-1/2 text-center text-[10px] sm:text-xs font-bold bg-slate-800 rounded-full px-2 sm:px-3 py-0.5 text-slate-300 border border-slate-600 shadow-lg">RANK</div>
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                                     {/* Left Column: Link, Union, Ability */}
-                                    <div className="space-y-4 md:col-span-1">
+                                    <div className="space-y-3 sm:space-y-4 md:col-span-1">
                                         {/* 링크 스킬 섹션 */}
-                                        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-5 hover:bg-slate-800/80 transition-colors">
-                                            <h3 className="text-amber-400 font-bold mb-3 flex items-center gap-2 text-xl">
+                                        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors">
+                                            <h3 className="text-amber-400 font-bold mb-2 sm:mb-3 flex items-center gap-2 text-base sm:text-xl">
                                                 <span>🔗</span> 링크 스킬
                                             </h3>
                                             {report.sections.link.bad.length > 0 && (
-                                                <ul className="space-y-2 mb-3">
+                                                <ul className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
                                                     {report.sections.link.bad.map((txt: string, i: number) => (
-                                                        <li key={i} className="text-base text-red-300 leading-relaxed pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-1 pr-2 rounded-r">
+                                                        <li key={i} className="text-xs sm:text-base text-red-300 leading-relaxed pl-2 sm:pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-0.5 sm:py-1 pr-2 rounded-r">
                                                             ⚠️ {txt}
                                                         </li>
                                                     ))}
                                                 </ul>
                                             )}
                                             {report.sections.link.good.length > 0 && (
-                                                <ul className="space-y-1">
+                                                <ul className="space-y-0.5 sm:space-y-1">
                                                     {report.sections.link.good.map((txt: string, i: number) => (
-                                                        <li key={i} className="text-base text-green-400 flex items-start gap-2">
-                                                            <span className="mt-1">✅</span> <span>{txt}</span>
+                                                        <li key={i} className="text-xs sm:text-base text-green-400 flex items-start gap-1 sm:gap-2">
+                                                            <span className="mt-0.5 sm:mt-1">✅</span> <span>{txt}</span>
                                                         </li>
                                                     ))}
                                                 </ul>
@@ -231,24 +231,24 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                                         </div>
 
                                         {/* 유니온 섹션 */}
-                                        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-5 hover:bg-slate-800/80 transition-colors">
-                                            <h3 className="text-purple-400 font-bold mb-3 flex items-center gap-2 text-xl">
+                                        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors">
+                                            <h3 className="text-purple-400 font-bold mb-2 sm:mb-3 flex items-center gap-2 text-base sm:text-xl">
                                                 <span>🏆</span> 유니온
                                             </h3>
                                             {report.sections.union.bad.length > 0 && (
-                                                <ul className="space-y-2 mb-3">
+                                                <ul className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
                                                     {report.sections.union.bad.map((txt: string, i: number) => (
-                                                        <li key={i} className="text-base text-red-300 leading-relaxed pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-1 pr-2 rounded-r">
+                                                        <li key={i} className="text-xs sm:text-base text-red-300 leading-relaxed pl-2 sm:pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-0.5 sm:py-1 pr-2 rounded-r">
                                                             ⚠️ {txt}
                                                         </li>
                                                     ))}
                                                 </ul>
                                             )}
                                             {report.sections.union.good.length > 0 && (
-                                                <ul className="space-y-1">
+                                                <ul className="space-y-0.5 sm:space-y-1">
                                                     {report.sections.union.good.map((txt: string, i: number) => (
-                                                        <li key={i} className="text-base text-green-400 flex items-start gap-2">
-                                                            <span className="mt-1">✅</span> <span>{txt}</span>
+                                                        <li key={i} className="text-xs sm:text-base text-green-400 flex items-start gap-1 sm:gap-2">
+                                                            <span className="mt-0.5 sm:mt-1">✅</span> <span>{txt}</span>
                                                         </li>
                                                     ))}
                                                 </ul>
@@ -256,24 +256,24 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                                         </div>
 
                                         {/* 어빌리티 섹션 */}
-                                        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-5 hover:bg-slate-800/80 transition-colors">
-                                            <h3 className="text-cyan-400 font-bold mb-3 flex items-center gap-2 text-xl">
+                                        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors">
+                                            <h3 className="text-cyan-400 font-bold mb-2 sm:mb-3 flex items-center gap-2 text-base sm:text-xl">
                                                 <span>🔮</span> 어빌리티
                                             </h3>
                                             {report.sections.ability.bad.length > 0 && (
-                                                <ul className="space-y-2 mb-3">
+                                                <ul className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
                                                     {report.sections.ability.bad.map((txt: string, i: number) => (
-                                                        <li key={i} className="text-base text-red-300 leading-relaxed pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-1 pr-2 rounded-r">
+                                                        <li key={i} className="text-xs sm:text-base text-red-300 leading-relaxed pl-2 sm:pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-0.5 sm:py-1 pr-2 rounded-r">
                                                             ⚠️ {txt}
                                                         </li>
                                                     ))}
                                                 </ul>
                                             )}
                                             {report.sections.ability.good.length > 0 && (
-                                                <ul className="space-y-1">
+                                                <ul className="space-y-0.5 sm:space-y-1">
                                                     {report.sections.ability.good.map((txt: string, i: number) => (
-                                                        <li key={i} className="text-base text-green-400 flex items-start gap-2">
-                                                            <span className="mt-1">✅</span> <span>{txt}</span>
+                                                        <li key={i} className="text-xs sm:text-base text-green-400 flex items-start gap-1 sm:gap-2">
+                                                            <span className="mt-0.5 sm:mt-1">✅</span> <span>{txt}</span>
                                                         </li>
                                                     ))}
                                                 </ul>
@@ -282,8 +282,8 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                                     </div>
 
                                     {/* Right Column: Equipment or Hunting/Boss Diagnosis */}
-                                    <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-5 hover:bg-slate-800/80 transition-colors h-full md:col-span-2">
-                                        <h3 className="text-orange-400 font-bold mb-4 flex items-center gap-2 text-2xl border-b border-slate-700 pb-2">
+                                    <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors h-full md:col-span-2">
+                                        <h3 className="text-orange-400 font-bold mb-2 sm:mb-4 flex items-center gap-2 text-lg sm:text-2xl border-b border-slate-700 pb-2">
                                             <span>⚔️</span> {mode === 'HUNTING' ? '사냥 단계별 가이드' : '보스 단계별 가이드'}
                                         </h3>
 
@@ -299,7 +299,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
 
                         <button
                             onClick={() => setIsOpen(false)}
-                            className="mt-8 w-full bg-slate-800 hover:bg-slate-700 text-slate-300 py-4 rounded-xl font-bold transition-colors border border-slate-700 text-lg shadow-lg"
+                            className="mt-4 sm:mt-8 w-full bg-slate-800 hover:bg-slate-700 text-slate-300 py-3 sm:py-4 rounded-xl font-bold transition-colors border border-slate-700 text-base sm:text-lg shadow-lg"
                         >
                             닫기
                         </button>

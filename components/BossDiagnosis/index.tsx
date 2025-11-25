@@ -76,18 +76,18 @@ const BossDiagnosis: React.FC<BossDiagnosisProps> = ({ equipment, stat, basic })
     };
 
     return (
-        <div className="w-full h-full flex flex-col gap-4">
+        <div className="w-full h-full flex flex-col gap-3 sm:gap-4">
             <DiagnosisHeader />
 
-            <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-2xl font-bold text-white flex items-center gap-2">
+            <div className="bg-slate-800 rounded-lg p-3 sm:p-4 border border-slate-700">
+                <div className="flex justify-between items-center mb-2 sm:mb-4">
+                    <h3 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
                         <span>📊</span>
                         <span>현재 단계: <span className="text-orange-400">{getStageLabel(stage)}</span></span>
                     </h3>
                 </div>
 
-                <div className="w-full bg-slate-950 h-3 rounded-full overflow-hidden mb-2 relative">
+                <div className="w-full bg-slate-950 h-2 sm:h-3 rounded-full overflow-hidden mb-1 sm:mb-2 relative">
                     <div
                         className="h-full bg-gradient-to-r from-red-600 to-orange-400 transition-all duration-500"
                         style={{ width: `${(stage / 9) * 100}%` }}
@@ -98,7 +98,7 @@ const BossDiagnosis: React.FC<BossDiagnosisProps> = ({ equipment, stat, basic })
                         ))}
                     </div>
                 </div>
-                <div className="flex justify-between text-xs text-slate-500 px-1">
+                <div className="flex justify-between text-[8px] sm:text-xs text-slate-500 px-1">
                     <span>시작</span>
                     <span>기초</span>
                     <span>세트</span>
