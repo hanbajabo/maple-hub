@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { getUserUnionRaider } from '../lib/nexon';
 
 interface UnionBlock {
@@ -75,6 +76,11 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
     const [raiders, setRaiders] = useState<UnionBlock[]>([]);
     const [loading, setLoading] = useState(!initialData);
     const [isOpen, setIsOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         if (initialData) {
@@ -124,7 +130,7 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
     const hasMissing = missingEssential.length > 0 || missingStatMembers.length > 0;
 
     return (
-        <div className={`relative w-full h-full ${isOpen ? 'z-[100]' : 'z-0'}`}>
+        <>
             <div
                 onClick={() => setIsOpen(!isOpen)}
                 className={`w-full h-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl border ${hasMissing ? 'border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.2)]' : 'border-slate-700'} bg-slate-800/50 hover:bg-slate-800 text-slate-200 font-bold transition-all cursor-pointer shadow-sm hover:shadow-md hover:border-slate-500`}
@@ -137,76 +143,79 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
                 )}
             </div>
 
-            {isOpen && (
-                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-80 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4 z-[100] max-h-96 overflow-y-auto animate-in fade-in slide-in-from-top-2">
-                    <div className="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
-                        <h4 className="text-xs font-bold text-slate-300">배치된 공격대원 목록</h4>
-                        <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-slate-300">✕</button>
+            {isOpen && mounted && createPortal(
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-2" onClick={() => setIsOpen(false)}>
+                    <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-2 sm:p-4 w-full max-w-md max-h-[80vh] overflow-y-auto animate-in fade-in slide-in-from-top-2" onClick={e => e.stopPropagation()}>
+                        <div className="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
+                            <h4 className="text-xs sm:text-sm font-bold text-slate-300">배치된 공격대원 목록</h4>
+                            <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-slate-300">✕</button>
+                        </div>
+
+                        {hasRaiders && (
+                            <div className="grid grid-cols-2 gap-1 mb-4">
+                                {raiders.map((block, idx) => {
+                                    const level = parseInt(block.block_level);
+                                    const high = level >= 200;
+                                    return (
+                                        <div key={idx} className={`text-[11px] px-2 py-1 rounded border ${high ? 'bg-slate-800 border-slate-600 text-slate-200' : 'bg-slate-900 border-slate-800 text-slate-500'} flex justify-between`}>
+                                            <span>{block.block_class}</span>
+                                            <span className={high ? 'text-yellow-500' : ''}>Lv.{level}</span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        {/* 필수 대원 추천 */}
+                        {missingEssential.length > 0 && (
+                            <>
+                                <h4 className="text-xs font-bold text-red-400 mb-2 border-b border-slate-800 pb-1 mt-3">
+                                    🔥 필수 유니온 대원
+                                </h4>
+                                <div className="space-y-1 mb-3">
+                                    {missingEssential.map((rec, idx) => (
+                                        <div key={idx} className="text-[11px] px-3 py-1.5 rounded border border-red-800/30 bg-red-900/10 text-red-200">
+                                            • {rec}
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                        )}
+
+                        {/* 주스텟 대원 추천 */}
+                        {missingStatMembers.length > 0 && (
+                            <>
+                                <h4 className="text-xs font-bold text-orange-400 mb-2 border-b border-slate-800 pb-1 mt-3">
+                                    💡 추천 주스텟 대원 ({mainStat})
+                                </h4>
+                                <div className="space-y-1">
+                                    {missingStatMembers.map((rec, idx) => (
+                                        <div key={idx} className="text-[11px] px-3 py-1.5 rounded border border-orange-800/30 bg-orange-900/10 text-orange-200">
+                                            • {rec}
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                        )}
+
+                        {/* 모두 보유 시 */}
+                        {missingEssential.length === 0 && missingStatMembers.length === 0 && hasRaiders && (
+                            <div className="text-center py-4">
+                                <div className="text-green-400 font-bold mb-1">✅ 완벽합니다!</div>
+                                <div className="text-xs text-slate-400">필수 및 주스텟 유니온을 모두 보유하고 있습니다.</div>
+                            </div>
+                        )}
+
+                        {/* 유니온이 없을 때 */}
+                        {!hasRaiders && (
+                            <div className="text-xs text-slate-400 mt-2 text-center">
+                                💡 Tip: 위 대원들을 키워서 공격대에 배치하세요!
+                            </div>
+                        )}
                     </div>
-
-                    {hasRaiders && (
-                        <div className="grid grid-cols-2 gap-1 mb-4">
-                            {raiders.map((block, idx) => {
-                                const level = parseInt(block.block_level);
-                                const high = level >= 200;
-                                return (
-                                    <div key={idx} className={`text-[11px] px-2 py-1 rounded border ${high ? 'bg-slate-800 border-slate-600 text-slate-200' : 'bg-slate-900 border-slate-800 text-slate-500'} flex justify-between`}>
-                                        <span>{block.block_class}</span>
-                                        <span className={high ? 'text-yellow-500' : ''}>Lv.{level}</span>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    )}
-
-                    {/* 필수 대원 추천 */}
-                    {missingEssential.length > 0 && (
-                        <>
-                            <h4 className="text-xs font-bold text-red-400 mb-2 border-b border-slate-800 pb-1 mt-3">
-                                🔥 필수 유니온 대원
-                            </h4>
-                            <div className="space-y-1 mb-3">
-                                {missingEssential.map((rec, idx) => (
-                                    <div key={idx} className="text-[11px] px-3 py-1.5 rounded border border-red-800/30 bg-red-900/10 text-red-200">
-                                        • {rec}
-                                    </div>
-                                ))}
-                            </div>
-                        </>
-                    )}
-
-                    {/* 주스텟 대원 추천 */}
-                    {missingStatMembers.length > 0 && (
-                        <>
-                            <h4 className="text-xs font-bold text-orange-400 mb-2 border-b border-slate-800 pb-1 mt-3">
-                                💡 추천 주스텟 대원 ({mainStat})
-                            </h4>
-                            <div className="space-y-1">
-                                {missingStatMembers.map((rec, idx) => (
-                                    <div key={idx} className="text-[11px] px-3 py-1.5 rounded border border-orange-800/30 bg-orange-900/10 text-orange-200">
-                                        • {rec}
-                                    </div>
-                                ))}
-                            </div>
-                        </>
-                    )}
-
-                    {/* 모두 보유 시 */}
-                    {missingEssential.length === 0 && missingStatMembers.length === 0 && hasRaiders && (
-                        <div className="text-center py-4">
-                            <div className="text-green-400 font-bold mb-1">✅ 완벽합니다!</div>
-                            <div className="text-xs text-slate-400">필수 및 주스텟 유니온을 모두 보유하고 있습니다.</div>
-                        </div>
-                    )}
-
-                    {/* 유니온이 없을 때 */}
-                    {!hasRaiders && (
-                        <div className="text-xs text-slate-400 mt-2 text-center">
-                            💡 Tip: 위 대원들을 키워서 공격대에 배치하세요!
-                        </div>
-                    )}
-                </div>
+                </div>,
+                document.body
             )}
-        </div>
+        </>
     );
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { getUserUnionChampion } from '../lib/nexon';
 
 interface Champion {
@@ -12,6 +13,11 @@ export default function ChampionBadge({ ocid, refreshKey }: { ocid: string, refr
     const [champions, setChampions] = useState<Champion[]>([]);
     const [loading, setLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         if (!ocid) return;
@@ -48,7 +54,7 @@ export default function ChampionBadge({ ocid, refreshKey }: { ocid: string, refr
     };
 
     return (
-        <div className={`relative w-full h-full ${isOpen ? 'z-[100]' : 'z-0'}`}>
+        <>
             <div
                 onClick={() => setIsOpen(!isOpen)}
                 className={`w-full h-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-slate-700 bg-slate-800/50 hover:bg-slate-800 text-slate-200 font-bold transition-all cursor-pointer shadow-sm hover:shadow-md hover:border-slate-500`}
@@ -64,38 +70,41 @@ export default function ChampionBadge({ ocid, refreshKey }: { ocid: string, refr
                 </span>
             </div>
 
-            {isOpen && (
-                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-80 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4 z-[100] max-h-96 overflow-y-auto animate-in fade-in slide-in-from-top-2">
-                    <h4 className="text-xs font-bold text-amber-400 mb-2 border-b border-slate-800 pb-2 flex justify-between items-center">
-                        <span>참전 중인 유니온 챔피언</span>
-                        <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-slate-300">✕</button>
-                    </h4>
+            {isOpen && mounted && createPortal(
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-2" onClick={() => setIsOpen(false)}>
+                    <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-2 sm:p-4 w-full max-w-md max-h-[80vh] overflow-y-auto animate-in fade-in slide-in-from-top-2" onClick={e => e.stopPropagation()}>
+                        <h4 className="text-xs sm:text-sm font-bold text-amber-400 mb-2 border-b border-slate-800 pb-2 flex justify-between items-center">
+                            <span>참전 중인 유니온 챔피언</span>
+                            <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-slate-300">✕</button>
+                        </h4>
 
-                    {hasChampion ? (
-                        <div className="space-y-2">
-                            {champions.map((champ, idx) => (
-                                <div key={idx} className={`text-[11px] px-3 py-2 rounded border ${getGradeColor(champ.champion_grade)} transition-all hover:scale-[1.02]`}>
-                                    <div className="flex items-center justify-between mb-1">
-                                        <span className="font-bold">{champ.champion_name}</span>
-                                        {champ.champion_grade && (
-                                            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-black/30">
-                                                {champ.champion_grade.toUpperCase()}
-                                            </span>
+                        {hasChampion ? (
+                            <div className="space-y-2">
+                                {champions.map((champ, idx) => (
+                                    <div key={idx} className={`text-[11px] px-3 py-2 rounded border ${getGradeColor(champ.champion_grade)} transition-all hover:scale-[1.02]`}>
+                                        <div className="flex items-center justify-between mb-1">
+                                            <span className="font-bold">{champ.champion_name}</span>
+                                            {champ.champion_grade && (
+                                                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-black/30">
+                                                    {champ.champion_grade.toUpperCase()}
+                                                </span>
+                                            )}
+                                        </div>
+                                        {champ.champion_stat && (
+                                            <div className="text-[10px] opacity-80 mt-1">
+                                                📊 {champ.champion_stat}
+                                            </div>
                                         )}
                                     </div>
-                                    {champ.champion_stat && (
-                                        <div className="text-[10px] opacity-80 mt-1">
-                                            📊 {champ.champion_stat}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-xs text-slate-500 text-center py-4">배치된 챔피언이 없습니다.</div>
-                    )}
-                </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-xs text-slate-500 text-center py-4">배치된 챔피언이 없습니다.</div>
+                        )}
+                    </div>
+                </div>,
+                document.body
             )}
-        </div>
+        </>
     );
 }
