@@ -19,6 +19,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
     const [error, setError] = useState<string | null>(null);
     const [mounted, setMounted] = useState(false);
     const [rawData, setRawData] = useState<any>(null);
+    const [bossStage, setBossStage] = useState<number | undefined>(undefined);
 
     useEffect(() => {
         setMounted(true);
@@ -43,7 +44,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                 union: rawData.union,
                 link: rawData.link,
                 ability: rawData.ability
-            }, targetMode);
+            }, targetMode, targetMode === 'BOSS' ? bossStage : undefined);
             setReport(result);
             return;
         }
@@ -99,7 +100,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                 union: unionData,
                 link: linkData,
                 ability: abilityData
-            }, targetMode);
+            }, targetMode, targetMode === 'BOSS' ? bossStage : undefined);
             setReport(result);
 
         } catch (err: any) {
@@ -121,7 +122,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                 union: rawData.union,
                 link: rawData.link,
                 ability: rawData.ability
-            }, newMode);
+            }, newMode, newMode === 'BOSS' ? bossStage : undefined);
             setReport(result);
         } else {
             runDiagnosis(newMode);
@@ -290,7 +291,12 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                                         {mode === 'HUNTING' ? (
                                             <HuntingDiagnosis equipment={equipment} stat={rawData?.stat} ability={rawData?.ability} />
                                         ) : (
-                                            <BossDiagnosis equipment={equipment} stat={rawData?.stat} basic={rawData?.basic} />
+                                            <BossDiagnosis
+                                                equipment={equipment}
+                                                stat={rawData?.stat}
+                                                basic={rawData?.basic}
+                                                onStageChange={(stage) => setBossStage(stage)}
+                                            />
                                         )}
                                     </div>
                                 </div>
