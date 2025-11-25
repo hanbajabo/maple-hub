@@ -671,17 +671,17 @@ export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS', boss
     if (targetMode === 'BOSS' && bossStage !== undefined) {
         // 보스 모드에서는 stage를 고려하여 등급 산정
         // Stage 9 (모든 단계 완료) = SSS 보장
-        // Stage 8 = 최소 SS, 최대 SSS
-        // Stage 7 = 최소 S, 최대 SS
-        // Stage 6 = 최소 A, 최대 S
+        // Stage 8 = 최소 S, 최대 SS
+        // Stage 7 = 최소 A, 최대 S
+        // Stage 6 = 최소 B, 최대 A
         // Stage 5 이하 = 점수만으로 판정
 
         if (bossStage >= 9) {
             // 9단계 완료: 무조건 SSS
             tier = "SSS";
         } else if (bossStage === 8) {
-            // 8단계 진행중: SS ~ SSS
-            tier = totalScore >= 95 ? "SSS" : "SS";
+            // 8단계 진행중: S ~ SS (SSS는 9단계 완료자만!)
+            tier = totalScore >= 90 ? "SS" : totalScore >= 80 ? "S" : "A";
         } else if (bossStage === 7) {
             // 7단계 진행중: S ~ SS
             tier = totalScore >= 95 ? "SS" : totalScore >= 85 ? "S" : "A";
