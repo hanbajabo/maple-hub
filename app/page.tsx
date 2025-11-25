@@ -541,7 +541,7 @@ export default function Home() {
 
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-0 sm:p-8">
+    <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-0 sm:p-8 overflow-x-hidden w-full">
       {/* Header */}
       <header className="w-full sm:max-w-5xl flex justify-start mb-4 sm:mb-12 px-4 sm:px-2 mt-4 sm:mt-0">
         <button
