@@ -357,6 +357,40 @@ export const StageCard: React.FC<StageCardProps> = ({
 
     const renderPassedItemsSection = (stageId: number) => {
         const items = getPassedItems(stageId);
+
+        // Sort items by slot priority
+        const slotPriority: { [key: string]: number } = {
+            "모자": 1,
+            "상의": 2,
+            "하의": 3,
+            "상의(한벌옷)": 3,
+            "장갑": 4,
+            "신발": 5,
+            "망토": 6,
+            "어깨장식": 7,
+            "얼굴장식": 8,
+            "눈장식": 9,
+            "귀고리": 10,
+            "펜던트": 11,
+            "펜던트2": 12,
+            "벨트": 13,
+            "반지1": 14,
+            "반지2": 15,
+            "반지3": 16,
+            "반지4": 17
+        };
+
+        items.sort((a, b) => {
+            const slotA = a.item_equipment_slot || "";
+            const slotB = b.item_equipment_slot || "";
+
+            // 반지는 모두 같은 우선순위로 처리하거나 이름순 정렬
+            const pA = slotPriority[slotA] || (slotA.includes("반지") ? 14 : 99);
+            const pB = slotPriority[slotB] || (slotB.includes("반지") ? 14 : 99);
+
+            return pA - pB;
+        });
+
         // if (items.length === 0) return null;
 
         return (
