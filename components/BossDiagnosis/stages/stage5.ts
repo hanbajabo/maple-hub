@@ -51,6 +51,11 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
 
         const targetStats = isArmor ? stage5Stats.armor : stage5Stats.accessory;
 
+        // 도전자 아이템은 7단계(18성 체크)에서 제외 (5단계까지만 올패스)
+        if (name.includes("도전자")) {
+            return; // 도전자 아이템은 카운트하지 않음
+        }
+
         const star = parseInt(item.starforce || "0");
         const potGrade = item.potential_option_grade;
         const adiGrade = item.additional_potential_option_grade;
