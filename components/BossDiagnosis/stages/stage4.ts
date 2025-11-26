@@ -51,6 +51,31 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
 
         const targetStats = isArmor ? stage4Stats.armor : stage4Stats.accessory;
 
+        // 도전자 아이템은 5단계 모든 체크 스킵 (올패스)
+        if (name.includes("도전자")) {
+            // 모든 스탯 카운트만 증가시키고 통과 처리
+            const isNoFlame = slot.includes("반지") || name.includes("숄더") || name.includes("견장");
+            const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];
+            const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
+            const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
+
+            if (!isNoStarforce && !isEventRing) {
+                targetStats.starforce.total++;
+                targetStats.starforce.current++;
+            }
+            targetStats.scroll.total++;
+            targetStats.scroll.current++;
+            if (!isNoFlame) {
+                targetStats.flame.total++;
+                targetStats.flame.current++;
+            }
+            targetStats.potential.total++;
+            targetStats.potential.current++;
+            targetStats.additional.total++;
+            targetStats.additional.current++;
+            return; // 도전자 아이템은 여기서 종료
+        }
+
         const star = parseInt(item.starforce || "0");
         const potGrade = item.potential_option_grade;
         const adiGrade = item.additional_potential_option_grade;
@@ -99,7 +124,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         const scrollScore = calcStatScore(item.item_etc_option, jobName);
         let scrollPass = false;
 
-        if (isSpecialRing) {
+        if (isSpecialRing || name.includes("글로리온")) {
             scrollPass = true;
         } else if (isArmor) {
             const isHat = slot === "모자";
