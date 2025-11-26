@@ -288,9 +288,6 @@ export const StageCard: React.FC<StageCardProps> = ({
 
             // Stage 7: 18-star (방어구 + 장신구만, 도전자 제외)
             if (stageId === 6) {
-                // 도전자 아이템 제외
-                if (name.includes("도전자")) return false;
-
                 // 방어구/장신구만 포함
                 const armorSlots = ["모자", "상의", "하의", "상의(한벌옷)", "신발", "장갑", "망토"];
                 const accessorySlots = ["반지1", "반지2", "반지3", "반지4", "펜던트", "펜던트2", "얼굴장식", "눈장식", "귀고리", "벨트", "어깨장식"];
@@ -304,6 +301,9 @@ export const StageCard: React.FC<StageCardProps> = ({
                 }
 
                 if (!isArmor && !isAccessory) return false;
+
+                // 도전자 아이템은 통과 (사용자 요청)
+                if (name.includes("도전자")) return true;
 
                 // 이벤트링 제외
                 const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];

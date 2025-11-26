@@ -75,18 +75,20 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
         if (isEternal) starforceThreshold = 12;
 
         const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
-
         const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
 
-        // 도전자 아이템도 진단 대상에 포함하여 '미달'로 표시 (제외하면 만점으로 착각할 수 있음)
+        // 도전자 아이템도 진단 대상에 포함
         if (!isNoStarforce && !isEventRing) {
             targetStats.starforce.total++;
 
-            // 도전자 아이템은 무조건 실패 처리 (또는 스타포스 체크로 넘김)
-            // Amazing Scroll 체크에서 도전자 제외
-            if (isSpecialRing || (hasAmazingScroll && !isChallenger)) {
+            // 도전자 아이템은 통과 처리 (사용자 요청: 도전자는 먼저 체크해서 통과)
+            if (isChallenger) {
                 targetStats.starforce.current++;
-            } else if (isChallenger || star < starforceThreshold) {
+            }
+            // Amazing Scroll 체크
+            else if (isSpecialRing || hasAmazingScroll) {
+                targetStats.starforce.current++;
+            } else if (star < starforceThreshold) {
                 stage5Issues++;
                 targetStats.starforce.failedItems.push(`${name} (${star}성)`);
                 issues.push({ type: 'growth_starforce', message: `[성장/스타포스] ${name}: ${starforceThreshold}성 미만 (${star}성)` });
