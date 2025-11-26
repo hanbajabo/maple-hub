@@ -280,9 +280,40 @@ export const StageCard: React.FC<StageCardProps> = ({
                 return true;
             }
 
-            // Stage 7: 18-star
+            // Stage 7: 18-star (방어구 + 장신구만, 도전자 제외)
             if (stageId === 6) {
-                return star >= 18;
+                // 도전자 아이템 제외
+                if (name.includes("도전자")) return false;
+
+                // 방어구/장신구만 포함
+                const armorSlots = ["모자", "상의", "하의", "상의(한벌옷)", "신발", "장갑", "망토"];
+                const accessorySlots = ["반지1", "반지2", "반지3", "반지4", "펜던트", "펜던트2", "얼굴장식", "눈장식", "귀고리", "벨트", "어깨장식"];
+                let isArmor = armorSlots.includes(slot);
+                let isAccessory = accessorySlots.includes(slot) || slot.includes("반지");
+
+                // 숄더는 장신구
+                if (name.includes("숄더") || name.includes("견장")) {
+                    isArmor = false;
+                    isAccessory = true;
+                }
+
+                if (!isArmor && !isAccessory) return false;
+
+                // 이벤트링 제외
+                const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];
+                const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
+                if (isEventRing) return false;
+
+                // 특수반지는 통과
+                const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스"];
+                const isSpecialRing = slot.includes("반지") && specialRingKeywords.some(k => name.includes(k));
+                if (isSpecialRing) return true;
+
+                // 에테르넬은 12성, 그 외는 18성
+                const isEternal = name.includes("에테르넬");
+                const threshold = isEternal ? 12 : 18;
+
+                return star >= threshold;
             }
 
             // Stage 9: 22-star
