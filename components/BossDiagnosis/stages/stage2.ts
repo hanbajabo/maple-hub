@@ -142,39 +142,40 @@ export const evaluateStage2 = (equipment: EquipmentItem[], jobName: string, isGe
         const isHighTierWeapon = weapon.item_name.includes("제네시스") || weapon.item_name.includes("데스티니");
 
         if (!isHighTierWeapon) {
-            // Starforce Check
-            const isArcane = weapon.item_name.includes("아케인셰이드");
+            // 도전자 무기는 모든 체크 스킵 (무조건 통과)
             const isChallenger = weapon.item_name.includes("도전자");
-            const isZeroType8 = (jobName === "제로") && (weapon.item_name.includes("8형") || weapon.item_name.includes("9형"));
-            const star = parseInt(weapon.starforce || "0");
 
-            // 도전자 무기는 스타포스 체크 스킵
-            if (isChallenger) {
-                // Pass - 도전자 무기는 무조건 통과
-            } else if (!isArcane && !isZeroType8) {
-                // 아케인셰이드도 아니고, 제로 8/9형도 아닌 경우
-                stage2Issues++;
-                issues.push({ type: 'wse_weapon', message: "[무기] 아케인셰이드 17성 이상 또는 도전자 무기 필요" });
-            } else if ((isArcane || isZeroType8) && star < 17) {
-                // 아케인셰이드 또는 제로 8/9형이지만 17성 미만
-                stage2Issues++;
-                issues.push({ type: 'wse_weapon', message: "[무기] 스타포스 17성 미만" });
-            }
+            if (!isChallenger) {
+                // Starforce Check
+                const isArcane = weapon.item_name.includes("아케인셰이드");
+                const isZeroType8 = (jobName === "제로") && (weapon.item_name.includes("8형") || weapon.item_name.includes("9형"));
+                const star = parseInt(weapon.starforce || "0");
 
-            // Potential Grade: Legendary+
-            const gradeScore = GRADE_SCORE[weapon.potential_option_grade] || 0;
-            if (gradeScore < 4) {
-                stage2Issues++;
-                issues.push({ type: 'wse_weapon', message: "[무기] 잠재능력 레전드리 등급 필요" });
-            } else {
-                // Potential Option: Att% + Boss% + IED% >= 2 lines (Pass Condition)
-                // 방무도 유효 옵션으로 인정하여 통과 처리 (단, 위에서 경고 메시지는 띄움)
-                const { validCount, iedCount } = getOptionCount(weapon, attTypeKor, jobName);
-                const totalEffective = validCount + iedCount;
-
-                if (totalEffective < 2) {
+                if (!isArcane && !isZeroType8) {
+                    // 아케인셰이드도 아니고, 제로 8/9형도 아닌 경우
                     stage2Issues++;
-                    issues.push({ type: 'wse_weapon', message: `[무기] 유효 옵션(${attTypeKor}/보공/방무) 2줄 이상 필요 (현재 ${totalEffective}줄)` });
+                    issues.push({ type: 'wse_weapon', message: "[무기] 아케인셰이드 17성 이상 또는 도전자 무기 필요" });
+                } else if ((isArcane || isZeroType8) && star < 17) {
+                    // 아케인셰이드 또는 제로 8/9형이지만 17성 미만
+                    stage2Issues++;
+                    issues.push({ type: 'wse_weapon', message: "[무기] 스타포스 17성 미만" });
+                }
+
+                // Potential Grade: Legendary+
+                const gradeScore = GRADE_SCORE[weapon.potential_option_grade] || 0;
+                if (gradeScore < 4) {
+                    stage2Issues++;
+                    issues.push({ type: 'wse_weapon', message: "[무기] 잠재능력 레전드리 등급 필요" });
+                } else {
+                    // Potential Option: Att% + Boss% + IED% >= 2 lines (Pass Condition)
+                    // 방무도 유효 옵션으로 인정하여 통과 처리 (단, 위에서 경고 메시지는 띄움)
+                    const { validCount, iedCount } = getOptionCount(weapon, attTypeKor, jobName);
+                    const totalEffective = validCount + iedCount;
+
+                    if (totalEffective < 2) {
+                        stage2Issues++;
+                        issues.push({ type: 'wse_weapon', message: `[무기] 유효 옵션(${attTypeKor}/보공/방무) 2줄 이상 필요 (현재 ${totalEffective}줄)` });
+                    }
                 }
             }
         }

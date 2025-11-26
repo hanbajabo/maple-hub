@@ -595,6 +595,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                     <li>• <strong className="text-white">도전자 무기</strong> OR <strong className="text-white">아케인셰이드 무기 17성 이상</strong></li>
                                     <li>• 잠재능력 : <strong className="text-white">레전드리 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}%/보공% 유효 2줄 이상</strong></li>
                                     <li className="text-xs text-slate-400 pl-2">- 방어율 무시%는 1줄까지만 유효 옵션으로 인정</li>
+                                    <li>• 에디셔널 : <strong className="text-white">에픽 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 1줄 이상</strong></li>
                                 </ul>
                             </div>
                             <div className="bg-gradient-to-br from-blue-950/30 to-cyan-950/30 p-3 rounded-lg border border-blue-800/30">
