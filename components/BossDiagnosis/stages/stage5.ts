@@ -78,12 +78,15 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
         let starforceThreshold = isTyrant ? 10 : 18;
         if (isEternal) starforceThreshold = 12;
 
+        const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
         const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
 
         if (!isNoStarforce && !isEventRing) {
             targetStats.starforce.total++;
-            // Amazing Scroll 체크 제거 (엄격한 18성 체크)
-            if (isSpecialRing) {
+
+            // 1. 특수 반지 통과
+            // 2. 놀장강 5성 이상 통과 (사용자 요청)
+            if (isSpecialRing || (hasAmazingScroll && star >= 5)) {
                 targetStats.starforce.current++;
             } else if (star < starforceThreshold) {
                 stage5Issues++;

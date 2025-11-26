@@ -322,6 +322,10 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (isEternal) threshold = 12;
                 if (isTyrant) threshold = 10;
 
+                // 놀장강 5성 이상 통과
+                const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
+                if (hasAmazingScroll && star >= 5) return true;
+
                 return star >= threshold;
             }
 
