@@ -558,7 +558,7 @@ export default function Home() {
           }}
           className="text-lg sm:text-2xl font-bold text-maple-orange hover:opacity-80 transition-opacity"
         >
-          메이플 템진단
+          메이플 AI
         </button>
       </header>
 
@@ -640,7 +640,7 @@ export default function Home() {
             {/* Main Title */}
             <div className="text-center mb-8">
               <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 bg-gradient-to-r from-maple-orange via-yellow-400 to-maple-orange bg-clip-text text-transparent">
-                메이플 템진단
+                메이플 AI
               </h1>
               <p className="text-lg sm:text-xl text-slate-300 font-medium">
                 메이플스토리 캐릭터 종합 분석 및 성장 가이드 플랫폼
@@ -651,10 +651,10 @@ export default function Home() {
             <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
               <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-4 flex items-center gap-2">
                 <span className="text-3xl">🎮</span>
-                메이플 템진단이란?
+                메이플 AI란?
               </h2>
               <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
-                메이플 템진단은 <strong className="text-white">넥슨 오픈 API</strong>를 활용하여 메이플스토리 캐릭터의 장비, 스탯, 심볼, 유니온, 링크스킬 등 모든 정보를 실시간으로 분석하고 진단하는 <strong className="text-white">종합 캐릭터 분석 서비스</strong>입니다.
+                메이플 AI는 <strong className="text-white">넥슨 오픈 API</strong>와 <strong className="text-white">AI 기술</strong>을 활용하여 메이플스토리 캐릭터의 장비, 스탯, 심볼, 유니온, 링크스킬 등 모든 정보를 실시간으로 분석하고 진단하는 <strong className="text-white">AI 기반 캐릭터 분석 플랫폼</strong>입니다.
               </p>
               <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
                 초보자부터 고스펙 유저까지, 모든 메이플 유저가 자신의 캐릭터를 객관적으로 평가하고 효율적인 성장 방향을 찾을 수 있도록 돕는 것이 저희의 목표입니다.
@@ -791,11 +791,11 @@ export default function Home() {
                 메이플스토리는 방대한 콘텐츠와 복잡한 성장 시스템으로 인해 <strong className="text-white">초보자가 진입하기 어렵고, 중급 유저도 다음 성장 방향을 결정하기 힘든</strong> 게임입니다.
               </p>
               <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
-                메이플 템진단은 이러한 문제를 해결하기 위해 <strong className="text-white">객관적이고 구체적인 데이터 분석</strong>을 제공하며, 모든 유저가 자신의 캐릭터 상태를 정확히 파악하고 <strong className="text-white">효율적인 투자 우선순위</strong>를 결정할 수 있도록 돕습니다.
+                메이플 AI는 이러한 문제를 해결하기 위해 <strong className="text-white">AI 기반의 객관적이고 구체적인 데이터 분석</strong>을 제공하며, 모든 유저가 자신의 캐릭터 상태를 정확히 파악하고 <strong className="text-white">효율적인 투자 우선순위</strong>를 결정할 수 있도록 돕습니다.
               </p>
               <div className="bg-maple-orange/10 border border-maple-orange/30 rounded-lg p-4 mt-4">
                 <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
-                  💡 <strong className="text-maple-orange">커뮤니티 기여</strong>: 메이플 템진단은 비영리 프로젝트로, 메이플스토리 커뮤니티의 성장과 신규 유저 유입에 기여하는 것을 최우선 목표로 합니다. 모든 기능은 무료로 제공되며, 광고 수익은 서버 유지비와 개선 작업에만 사용됩니다.
+                  💡 <strong className="text-maple-orange">커뮤니티 기여</strong>: 메이플 AI는 비영리 프로젝트로, 메이플스토리 커뮤니티의 성장과 신규 유저 유입에 기여하는 것을 최우선 목표로 합니다. 모든 기능은 무료로 제공되며, 광고 수익은 서버 유지비와 개선 작업에만 사용됩니다.
                 </p>
               </div>
             </div>
