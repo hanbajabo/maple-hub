@@ -271,8 +271,9 @@ export const StageCard: React.FC<StageCardProps> = ({
                                     💡 <strong>진단:</strong> 카르마 유니크 잠재능력 주문서를 최우선 순위로 사용하여 유니크 옵션을 확보 한 후 이벤트 큐브를 활용하여 옵션 뽑기
                                 </p>
                                 <ul className="space-y-1 text-slate-300">
-                                    <li>• 잠재능력 : <strong className="text-white">유니크 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 12% 이상</strong></li>
+                                    <li>• 잠재능력 : <strong className="text-white">유니크 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 9% 이상</strong></li>
                                     <li>• 에디셔널 : <strong className="text-white">에픽 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 1줄 이상</strong></li>
+                                    <li className="text-xs text-slate-400 mt-1">* 무기/보조/엠블렘 합쳐서 방어율 무시%는 1줄 권장 (2줄 이상 시 변경 권장)</li>
                                 </ul>
                             </div>
                             <div className="bg-gradient-to-br from-red-950/30 to-orange-950/30 p-3 rounded-lg border border-red-800/30">
@@ -285,9 +286,8 @@ export const StageCard: React.FC<StageCardProps> = ({
                                 </div>
                                 <ul className="space-y-1 text-slate-300">
                                     <li>• <strong className="text-white">도전자 무기</strong> OR <strong className="text-white">아케인셰이드 무기 17성 이상</strong></li>
-                                    <li>• 잠재능력 : <strong className="text-white">유니크 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 12% 이상 or 보스 공격력%</strong></li>
-                                    <li>• 에디셔널 : <strong className="text-white">에픽 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 1줄 이상</strong></li>
-                                    <li>• 잠재능력 목표 : <strong className="text-orange-300">보공%/방무%/{attTypeKor}% 유효 3줄</strong></li>
+                                    <li>• 잠재능력 : <strong className="text-white">레전드리 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}%/보공% 유효 2줄 이상</strong></li>
+                                    <li className="text-xs text-slate-400 pl-2">- 방어율 무시%는 1줄까지만 유효 옵션으로 인정</li>
                                 </ul>
                             </div>
                             <div className="bg-gradient-to-br from-blue-950/30 to-cyan-950/30 p-3 rounded-lg border border-blue-800/30">
@@ -297,7 +297,8 @@ export const StageCard: React.FC<StageCardProps> = ({
                                 <ul className="space-y-1 text-slate-300">
                                     <li>• 경매장에서 <strong className="text-white">레전드리/에픽 이상</strong> 구매 권유 (무한교환)</li>
                                     <li className="text-yellow-200">• 교환불가 보조무기에 카르마 유니크 잠재능력 주문서 사용하여 임시로 사용 가능</li>
-                                    <li>• 잠재능력 : <strong className="text-white">유니크 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 12% 이상</strong></li>
+                                    <li>• 잠재능력 : <strong className="text-white">유니크 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}%/보공% 유효 2줄 이상</strong></li>
+                                    <li className="text-xs text-slate-400 pl-2">- 방어율 무시%는 1줄까지만 유효 옵션으로 인정</li>
                                     <li>• 에디셔널 : <strong className="text-white">레어 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor} +10 1줄 이상</strong></li>
                                 </ul>
                             </div>
