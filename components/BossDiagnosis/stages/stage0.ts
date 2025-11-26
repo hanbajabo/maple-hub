@@ -108,7 +108,7 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                         if (!l) return false;
                         const basicValid = (targetKeywords.some(k => l.includes(k)) || l.includes(attTypeKor)) && l.includes("%");
                         if (isWSE && isUniqueOrAbove) {
-                            return basicValid || l.includes("보스 몬스터 공격") || l.includes("방어율 무시");
+                            return basicValid || l.includes("보스 몬스터") || l.includes("방어율 무시");
                         }
                         return basicValid;
                     });
