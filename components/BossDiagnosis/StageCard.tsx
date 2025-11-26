@@ -180,6 +180,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (slot.includes("반지")) return false;
                 if (star < targetStar) return false;
                 if (potScore(potGrade) < 2) return false;
+                if (potScore(adiGrade) < 1) return false;
                 return true;
             }
 
