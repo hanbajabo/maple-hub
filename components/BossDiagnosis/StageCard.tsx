@@ -156,6 +156,9 @@ export const StageCard: React.FC<StageCardProps> = ({
         });
     }, [equipment]);
 
+    // State for expanded passed item detail view
+    const [expandedPassedItem, setExpandedPassedItem] = React.useState<any | null>(null);
+
     // Helper to get passed items for each stage
     const getPassedItems = (stageId: number) => {
         if (!equipment) return [];
@@ -213,8 +216,6 @@ export const StageCard: React.FC<StageCardProps> = ({
             return false;
         });
     };
-
-    const [expandedPassedItem, setExpandedPassedItem] = React.useState<any | null>(null);
 
     const renderPassedItemsSection = (stageId: number) => {
         const items = getPassedItems(stageId);
@@ -685,6 +686,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                     <li className="pl-2 text-slate-400">- 에디셔널: 에픽 이상 (공/마 +10 or 주스탯 4%↑)</li>
                                 </ul>
                             </div>
+                            {renderPassedItemsSection(4)}
                         </div>
                     )}
 
