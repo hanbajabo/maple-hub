@@ -166,10 +166,11 @@ export const StageCard: React.FC<StageCardProps> = ({
             const potGrade = item.potential_option_grade;
             const adiGrade = item.additional_potential_option_grade;
             const potScore = (grade: string) => {
-                if (grade === "레전드리") return 4;
-                if (grade === "유니크") return 3;
-                if (grade === "에픽") return 2;
-                if (grade === "레어") return 1;
+                if (!grade) return 0;
+                if (grade === "레전드리" || grade === "Legendary") return 4;
+                if (grade === "유니크" || grade === "Unique") return 3;
+                if (grade === "에픽" || grade === "Epic") return 2;
+                if (grade === "레어" || grade === "Rare") return 1;
                 return 0;
             };
 
@@ -177,7 +178,9 @@ export const StageCard: React.FC<StageCardProps> = ({
             if (stageId === 0) {
                 if (["뱃지", "포켓 아이템", "훈장", "엠블렘", "보조무기"].includes(slot)) return false;
                 const isEyeFace = slot === "눈장식" || slot === "얼굴장식";
-                const targetStar = isEyeFace ? 8 : 12;
+                const isFairyHeart = name.includes("페어리 하트");
+                const targetStar = (isEyeFace || isFairyHeart) ? 8 : 12;
+
                 if (slot.includes("반지")) return false;
                 if (star < targetStar) return false;
                 if (potScore(potGrade) < 2) return false;
@@ -215,13 +218,18 @@ export const StageCard: React.FC<StageCardProps> = ({
 
     const renderPassedItemsSection = (stageId: number) => {
         const items = getPassedItems(stageId);
-        if (items.length === 0) return null;
+        // if (items.length === 0) return null;
 
         return (
             <div className="mt-4 pt-4 border-t border-slate-800">
                 <h4 className="text-green-400 font-bold mb-3 flex items-center gap-2 text-sm">
                     <span>✅</span> {stageId === 0 ? "1단계 통과 아이템" : "통과 아이템"} ({items.length}개)
                 </h4>
+                {items.length === 0 && (
+                    <p className="text-xs text-slate-500">
+                        표시할 아이템이 없습니다. (Debug: Stage {stageId})
+                    </p>
+                )}
                 <div className="flex flex-wrap gap-2">
                     {items.map((item, idx) => (
                         <div key={idx} className="relative group">
