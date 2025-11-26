@@ -316,13 +316,27 @@ export const StageCard: React.FC<StageCardProps> = ({
                 return star >= threshold;
             }
 
-            // Stage 9: 22-star
-            if (stageId === 8) {
+            // Stage 8: 22-star Combination (방어구만, 도전자 제외)
+            if (stageId === 7) {
+                if (name.includes("도전자")) return false;
+
+                const armorSlots = ["모자", "상의", "하의", "상의(한벌옷)", "신발", "장갑", "망토", "어깨장식"];
+                const isArmor = armorSlots.includes(slot);
+                if (!isArmor) return false;
+
+                const isEternal = name.includes("에테르넬");
+                if (isEternal) return star >= 17;
                 return star >= 22;
             }
 
-            // Stage 8: 22-star Combination
-            if (stageId === 7) {
+            // Stage 9: 22-star Armor Setting (방어구만, 도전자 제외)
+            if (stageId === 8) {
+                if (name.includes("도전자")) return false;
+
+                const armorSlots = ["모자", "상의", "하의", "상의(한벌옷)", "신발", "장갑", "망토", "어깨장식"];
+                const isArmor = armorSlots.includes(slot);
+                if (!isArmor) return false;
+
                 const isEternal = name.includes("에테르넬");
                 if (isEternal) return star >= 17;
                 return star >= 22;

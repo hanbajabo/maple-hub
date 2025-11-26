@@ -6,6 +6,7 @@ export const evaluateStage8 = (equipment: EquipmentItem[]) => {
     const countValidItems = (keywords: string[], minStar: number) => {
         return equipment.filter(item => {
             const name = item.item_name || "";
+            if (name.includes("도전자")) return false; // 도전자 아이템 제외
             const star = getStarforce(item);
             return keywords.some(k => name.includes(k)) && star >= minStar;
         }).length;
