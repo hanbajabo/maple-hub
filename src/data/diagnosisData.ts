@@ -76,7 +76,7 @@ export const JOB_META_DATA: Record<string, { stat: string, att: string }> = {
     "윈드브레이커": { stat: "DEX", att: "공격력" }, "와일드헌터": { stat: "DEX", att: "공격력" }, "메르세데스": { stat: "DEX", att: "공격력" },
     "카인": { stat: "DEX", att: "공격력" },
     // 도적 (LUK, 공격력)
-    "나이트로드": { stat: "LUK", att: "공격력" }, "섀도어": { stat: "LUK", att: "공격력" }, "듀얼블레이드": { stat: "LUK", att: "공격력" },
+    "나이트로드": { stat: "LUK", att: "공격력" }, "섀도어": { stat: "LUK", att: "공격력" }, "듀얼블레이드": { stat: "LUK", att: "공격력" }, "듀얼블레이더": { stat: "LUK", att: "공격력" },
     "나이트워커": { stat: "LUK", att: "공격력" }, "팬텀": { stat: "LUK", att: "공격력" }, "카데나": { stat: "LUK", att: "공격력" },
     "호영": { stat: "LUK", att: "공격력" }, "칼리": { stat: "LUK", att: "공격력" },
     // 해적 (STR/DEX, 공격력)

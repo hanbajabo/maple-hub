@@ -11,6 +11,7 @@ export const JOB_INFO: { [key: string]: { mainStat: string; attType: string } } 
     "나이트로드": { mainStat: "LUK", attType: "attack_power" },
     "섀도어": { mainStat: "LUK", attType: "attack_power" },
     "듀얼블레이드": { mainStat: "LUK", attType: "attack_power" },
+    "듀얼블레이더": { mainStat: "LUK", attType: "attack_power" },
     "바이퍼": { mainStat: "STR", attType: "attack_power" },
     "캡틴": { mainStat: "DEX", attType: "attack_power" },
     "캐논슈터": { mainStat: "STR", attType: "attack_power" },
