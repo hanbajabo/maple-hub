@@ -225,10 +225,12 @@ export const StageCard: React.FC<StageCardProps> = ({
                     const dex = parseInt(item.item_etc_option?.dex || "0");
                     const int_val = parseInt(item.item_etc_option?.int || "0");
                     const luk = parseInt(item.item_etc_option?.luk || "0");
+                    const att = parseInt(item.item_etc_option?.attack_power || "0");
+                    const mag = parseInt(item.item_etc_option?.magic_power || "0");
                     const scrollMainStat = Math.max(str, dex, int_val, luk);
 
-                    // 총급수 계산 (간단 버전)
-                    const scrollScore = str + dex + int_val + luk;
+                    // 총급수 계산 (공/마 포함)
+                    const scrollScore = str + dex + int_val + luk + att * 4 + mag * 4;
 
                     if (isArmor) {
                         const isHat = slot === "모자";
