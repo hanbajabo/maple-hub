@@ -563,7 +563,7 @@ export default function Home() {
       </header>
 
       {/* Search Section */}
-      <section className={`w-full sm:max-w-3xl flex flex-col items-center mb-6 sm:mb-16 transition-all px-4 sm:px-0 ${character ? 'gap-2 sm:gap-4' : 'gap-6 sm:gap-10'}`}>
+      <section className={`w-full sm:max-w-4xl flex flex-col items-center mb-6 sm:mb-16 transition-all px-4 sm:px-0 ${character ? 'gap-2 sm:gap-4' : 'gap-6 sm:gap-10'}`}>
         {/* Title and Description - Hide when character is loaded */}
         {!character && (
           <div className="text-center space-y-4 sm:space-y-6 px-4">
@@ -585,7 +585,7 @@ export default function Home() {
         )}
 
         {/* Search Input Area with enhanced design */}
-        <div className="w-full relative">
+        <div className="w-full max-w-4xl relative">
           {/* Glow effect behind search bar */}
           {!character && (
             <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
@@ -629,7 +629,7 @@ export default function Home() {
         </div>
 
         {/* Info text - Enhanced styling */}
-        <div className="flex items-center gap-2 bg-orange-950/30 border border-orange-500/30 rounded-xl px-4 py-2.5 sm:py-3">
+        <div className="w-full max-w-4xl flex items-center gap-2 bg-orange-950/30 border border-orange-500/30 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3">
           <span className="text-xl sm:text-2xl">💡</span>
           <p className="text-xs sm:text-base text-orange-300 font-medium text-center">
             인게임에서 <strong className="text-orange-400">[캐시샵 입장]</strong> 또는 <strong className="text-orange-400">[재접속]</strong> 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
