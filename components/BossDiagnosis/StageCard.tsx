@@ -85,6 +85,77 @@ export const StageCard: React.FC<StageCardProps> = ({
 }) => {
     const [expandedItemSlot, setExpandedItemSlot] = React.useState<string | null>(null);
 
+    // Ring Logic
+    const passedRings = React.useMemo(() => {
+        if (!equipment) return [];
+        const rings = equipment.filter(i => i.item_equipment_slot && i.item_equipment_slot.includes("반지"));
+
+        const getGradeScore = (grade: string) => {
+            if (grade === "레전드리") return 4;
+            if (grade === "유니크") return 3;
+            if (grade === "에픽") return 2;
+            if (grade === "레어") return 1;
+            return 0;
+        };
+
+        const getStatPercent = (lines: string[]) => {
+            const stats = { STR: 0, DEX: 0, INT: 0, LUK: 0, HP: 0, ALL: 0 };
+            lines.forEach(l => {
+                if (!l) return;
+                const match = l.match(/(\d+)%/);
+                if (!match) return;
+                const val = parseInt(match[1]);
+                if (l.includes("올스탯")) stats.ALL += val;
+                else if (l.includes("STR")) stats.STR += val;
+                else if (l.includes("DEX")) stats.DEX += val;
+                else if (l.includes("INT")) stats.INT += val;
+                else if (l.includes("LUK")) stats.LUK += val;
+                else if (l.includes("HP")) stats.HP += val;
+            });
+            return Math.max(stats.STR, stats.DEX, stats.INT, stats.LUK, stats.HP) + stats.ALL;
+        };
+
+        const hasAttOrStatAdd = (lines: string[], minStatPct: number) => {
+            return lines.some(l => {
+                if (!l) return false;
+                if (l.includes("공격력") || l.includes("마력")) {
+                    const m = l.match(/\+(\d+)/);
+                    if (m && parseInt(m[1]) >= 10) return true;
+                }
+                if (l.includes("%")) {
+                    if (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")) {
+                        const m = l.match(/(\d+)%/);
+                        if (m && parseInt(m[1]) >= minStatPct) return true;
+                    }
+                }
+                return false;
+            });
+        };
+
+        return rings.filter(ring => {
+            const name = ring.item_name || "";
+            const potGrade = getGradeScore(ring.potential_option_grade);
+            const adiGrade = getGradeScore(ring.additional_potential_option_grade);
+            const potLines = [ring.potential_option_1, ring.potential_option_2, ring.potential_option_3];
+            const adiLines = [ring.additional_potential_option_1, ring.additional_potential_option_2, ring.additional_potential_option_3];
+
+            // 1. Special Ring
+            if (["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스"].some(k => name.includes(k))) return true;
+
+            // 2. Event Ring
+            if (["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"].some(k => name.includes(k))) {
+                const potPass = potGrade >= 3 && getStatPercent(potLines) >= 15;
+                const adiPass = adiGrade >= 1 && hasAttOrStatAdd(adiLines, 4);
+                return potPass && adiPass;
+            }
+
+            // 3. High Spec Ring (Others)
+            const potPass = potGrade >= 3 && getStatPercent(potLines) >= 21;
+            const adiPass = adiGrade >= 2 && hasAttOrStatAdd(adiLines, 4);
+            return potPass && adiPass;
+        });
+    }, [equipment]);
+
     // 세트 효과 만족 여부 헬퍼
     const isSetSatisfied = (count: number, target: number) => count >= target;
 
@@ -392,7 +463,38 @@ export const StageCard: React.FC<StageCardProps> = ({
                             <div className="bg-gradient-to-br from-purple-950/30 to-indigo-950/30 p-3 rounded-lg border border-purple-800/30">
                                 <h4 className="text-purple-400 font-bold mb-2 flex items-center gap-2 text-lg">
                                     <span>💍</span> 4순위: 이벤트 링 (3개 이상)
+                                    {passedRings.map((ring: any, idx: number) => (
+                                        <img
+                                            key={idx}
+                                            src={ring.item_icon}
+                                            alt={ring.item_name}
+                                            className="w-8 h-8 ml-2 cursor-pointer border border-purple-500/50 rounded bg-slate-900 hover:scale-110 transition-transform"
+                                            onClick={(e) => { e.stopPropagation(); setExpandedItemSlot(expandedItemSlot === ring.item_equipment_slot ? null : ring.item_equipment_slot); }}
+                                            title={`${ring.item_name}\n클릭하여 옵션 확인`}
+                                        />
+                                    ))}
                                 </h4>
+                                {passedRings.map((ring: any, idx: number) => (
+                                    expandedItemSlot === ring.item_equipment_slot && (
+                                        <div key={idx} className="bg-slate-900/90 p-3 rounded border border-purple-500/50 mb-3 text-xs shadow-lg relative z-10">
+                                            <p className="text-yellow-400 font-bold text-sm mb-2 border-b border-slate-700 pb-1">{ring.item_name}</p>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                <div>
+                                                    <p className="text-slate-400 font-bold mb-1">잠재능력 ({ring.potential_option_grade})</p>
+                                                    <p className="text-white pl-1">- {ring.potential_option_1}</p>
+                                                    <p className="text-white pl-1">- {ring.potential_option_2}</p>
+                                                    <p className="text-white pl-1">- {ring.potential_option_3}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-slate-400 font-bold mb-1">에디셔널 ({ring.additional_potential_option_grade})</p>
+                                                    <p className="text-white pl-1">- {ring.additional_potential_option_1}</p>
+                                                    <p className="text-white pl-1">- {ring.additional_potential_option_2}</p>
+                                                    <p className="text-white pl-1">- {ring.additional_potential_option_3}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                ))}
                                 <p className="text-xs text-purple-300 mb-2 bg-purple-950/50 p-1.5 rounded">
                                     💡 <strong>진단:</strong> 이벤트 링 전용 레전드리 주문서 + 전용 명장의 큐브로 옵션 뽑기
                                 </p>
