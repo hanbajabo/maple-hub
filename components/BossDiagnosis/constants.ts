@@ -45,6 +45,8 @@ export const JOB_INFO: { [key: string]: { mainStat: string; attType: string } } 
     "키네시스": { mainStat: "INT", attType: "magic_power" },
     "제로": { mainStat: "STR", attType: "attack_power" },
     "칼리": { mainStat: "LUK", attType: "attack_power" },
+    "비스트테이머": { mainStat: "INT", attType: "magic_power" },
+    "린": { mainStat: "INT", attType: "magic_power" },
 };
 
 export const getJobInfo = (jobName: string) => {

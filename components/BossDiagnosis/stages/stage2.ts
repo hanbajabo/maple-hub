@@ -1,7 +1,7 @@
 import { EquipmentItem, Issue, GRADE_SCORE } from '../types';
 import { getJobInfo } from '../constants';
 
-const getOptionCount = (item: EquipmentItem, attTypeKor: string): { validCount: number, iedCount: number } => {
+const getOptionCount = (item: EquipmentItem, attTypeKor: string, jobName: string): { validCount: number, iedCount: number } => {
     const options = [
         item.potential_option_1,
         item.potential_option_2,
@@ -24,6 +24,10 @@ const getOptionCount = (item: EquipmentItem, attTypeKor: string): { validCount: 
         }
         // 공격력/마력 (Attack/Magic Power)
         else if (opt.includes(attTypeKor) && opt.includes("%")) {
+            validCount++;
+        }
+        // 데몬어벤져 HP (Demon Avenger HP)
+        else if (jobName === "데몬어벤져" && opt.includes("최대 HP") && opt.includes("%")) {
             validCount++;
         }
     });
@@ -92,9 +96,9 @@ export const evaluateStage2 = (equipment: EquipmentItem[], jobName: string, isGe
 
     // 1. Global IED Check (Warning only)
     let totalIedLines = 0;
-    if (weapon) totalIedLines += getOptionCount(weapon, attTypeKor).iedCount;
-    if (emblem) totalIedLines += getOptionCount(emblem, attTypeKor).iedCount;
-    if (subWeapon) totalIedLines += getOptionCount(subWeapon, attTypeKor).iedCount;
+    if (weapon) totalIedLines += getOptionCount(weapon, attTypeKor, jobName).iedCount;
+    if (emblem) totalIedLines += getOptionCount(emblem, attTypeKor, jobName).iedCount;
+    if (subWeapon) totalIedLines += getOptionCount(subWeapon, attTypeKor, jobName).iedCount;
 
     if (totalIedLines >= 2) {
         // Optimization Issue (Warning)
@@ -160,12 +164,12 @@ export const evaluateStage2 = (equipment: EquipmentItem[], jobName: string, isGe
             } else {
                 // Potential Option: Att% + Boss% + IED% >= 2 lines (Pass Condition)
                 // 방무도 유효 옵션으로 인정하여 통과 처리 (단, 위에서 경고 메시지는 띄움)
-                const { validCount, iedCount } = getOptionCount(weapon, attTypeKor);
+                const { validCount, iedCount } = getOptionCount(weapon, attTypeKor, jobName);
                 const totalEffective = validCount + iedCount;
 
                 if (totalEffective < 2) {
                     stage2Issues++;
-                    issues.push({ type: 'wse_weapon', message: `[무기] 유효 옵션(${attTypeKor}/보공/방무) 2줄 이상 필요` });
+                    issues.push({ type: 'wse_weapon', message: `[무기] 유효 옵션(${attTypeKor}/보공/방무) 2줄 이상 필요 (현재 ${totalEffective}줄)` });
                 }
             }
         }
@@ -180,12 +184,12 @@ export const evaluateStage2 = (equipment: EquipmentItem[], jobName: string, isGe
             issues.push({ type: 'wse_sub', message: "[보조] 잠재능력 유니크 등급 이상 필요" });
         } else {
             // Potential Option: Att% + Boss% + IED% >= 2 lines (Pass Condition)
-            const { validCount, iedCount } = getOptionCount(subWeapon, attTypeKor);
+            const { validCount, iedCount } = getOptionCount(subWeapon, attTypeKor, jobName);
             const totalEffective = validCount + iedCount;
 
             if (totalEffective < 2) {
                 stage2Issues++;
-                issues.push({ type: 'wse_sub', message: `[보조] 유효 옵션(${attTypeKor}/보공/방무) 2줄 이상 필요` });
+                issues.push({ type: 'wse_sub', message: `[보조] 유효 옵션(${attTypeKor}/보공/방무) 2줄 이상 필요 (현재 ${totalEffective}줄)` });
             }
         }
 
