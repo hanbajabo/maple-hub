@@ -591,7 +591,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
           )}
 
-          <div className="w-full relative flex items-center gap-2 sm:gap-3 px-2">
+          <div className="w-full relative flex items-center gap-2 sm:gap-3">
             <div className="relative w-full group">
               {/* Animated border gradient */}
               <div className="absolute -inset-0.5 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-75 group-focus-within:opacity-100 blur transition duration-500"></div>
