@@ -563,48 +563,78 @@ export default function Home() {
       </header>
 
       {/* Search Section */}
-      <section className={`w-full sm:max-w-2xl flex flex-col items-center mb-6 sm:mb-16 transition-all px-4 sm:px-0 ${character ? 'gap-2 sm:gap-4' : 'gap-4 sm:gap-8'}`}>
+      <section className={`w-full sm:max-w-3xl flex flex-col items-center mb-6 sm:mb-16 transition-all px-4 sm:px-0 ${character ? 'gap-2 sm:gap-4' : 'gap-6 sm:gap-10'}`}>
         {/* Title and Description - Hide when character is loaded */}
         {!character && (
-          <div className="text-center space-y-2 sm:space-y-4 px-4">
-            <h2 className="text-2xl sm:text-5xl font-bold">캐릭터 검색</h2>
-            <p className="text-xs sm:text-lg text-gray-400">메이플스토리의 캐릭터 정보를 한 눈에 확인하고, 진단까지 받아보세요.</p>
+          <div className="text-center space-y-4 sm:space-y-6 px-4">
+            {/* Main Title with Gradient */}
+            <div className="relative">
+              <h2 className="text-4xl sm:text-7xl font-black bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 bg-clip-text text-transparent drop-shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
+                캐릭터 검색
+              </h2>
+              {/* Glowing effect */}
+              <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 -z-10"></div>
+            </div>
+
+            {/* Subtitle with better styling */}
+            <p className="text-sm sm:text-2xl text-slate-300 font-medium leading-relaxed animate-in fade-in slide-in-from-top-6 duration-700 delay-150">
+              메이플스토리의 캐릭터 정보를 <span className="text-maple-orange font-bold">한 눈에 확인</span>하고,<br className="hidden sm:block" />
+              <span className="text-yellow-400 font-bold">AI 기반 진단</span>까지 받아보세요
+            </p>
           </div>
         )}
 
-        <div className="w-full relative flex items-center gap-2 px-2">
-          <div className="relative w-full">
-            <input
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="캐릭터 닉네임을 입력하세요"
-              className="w-full h-10 sm:h-16 pl-4 sm:pl-6 pr-10 sm:pr-14 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 focus:border-maple-orange focus:ring-1 focus:ring-maple-orange outline-none text-sm sm:text-xl placeholder:text-slate-600 transition-all"
-            />
-            <button
-              onClick={handleSearch}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 text-slate-400 hover:text-maple-orange transition-colors"
-            >
-              <Search size={18} className="sm:w-6 sm:h-6" />
-            </button>
-          </div>
-          <button
-            onClick={handleRefresh}
-            className="h-10 w-10 sm:h-16 sm:w-16 shrink-0 bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-400 hover:text-maple-orange hover:border-maple-orange transition-all group"
-            title="실시간 갱신"
-          >
-            <RefreshCw size={18} className={`sm:w-6 sm:h-6 transition-all ${loading ? 'animate-spin text-maple-orange' : 'group-hover:rotate-180'}`} />
-          </button>
-          {character && (
-            <div className="h-10 w-10 sm:h-16 sm:w-16 shrink-0" />
+        {/* Search Input Area with enhanced design */}
+        <div className="w-full relative">
+          {/* Glow effect behind search bar */}
+          {!character && (
+            <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
           )}
+
+          <div className="w-full relative flex items-center gap-2 sm:gap-3 px-2">
+            <div className="relative w-full group">
+              {/* Animated border gradient */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-75 group-focus-within:opacity-100 blur transition duration-500"></div>
+
+              <input
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="캐릭터 닉네임을 입력하세요"
+                className="relative w-full h-12 sm:h-20 pl-5 sm:pl-8 pr-12 sm:pr-16 rounded-xl sm:rounded-2xl bg-slate-900 border-2 border-slate-800 focus:border-maple-orange focus:ring-2 focus:ring-maple-orange/50 outline-none text-base sm:text-2xl placeholder:text-slate-600 transition-all font-medium"
+              />
+              <button
+                onClick={handleSearch}
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 text-slate-400 hover:text-maple-orange hover:scale-110 transition-all bg-slate-800 hover:bg-maple-orange/10 rounded-lg"
+              >
+                <Search size={20} className="sm:w-8 sm:h-8" />
+              </button>
+            </div>
+
+            <button
+              onClick={handleRefresh}
+              className="relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 bg-slate-900 border-2 border-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-400 hover:text-maple-orange hover:border-maple-orange transition-all group overflow-hidden"
+              title="실시간 갱신"
+            >
+              {/* Hover effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-maple-orange/0 to-maple-orange/0 group-hover:from-maple-orange/10 group-hover:to-yellow-400/10 transition-all"></div>
+              <RefreshCw size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${loading ? 'animate-spin text-maple-orange' : 'group-hover:rotate-180'}`} />
+            </button>
+
+            {character && (
+              <div className="h-12 w-12 sm:h-20 sm:w-20 shrink-0" />
+            )}
+          </div>
         </div>
 
-        {/* Info text - Always show */}
-        <p className="text-[10px] sm:text-sm text-orange-400/80 mt-1 sm:mt-2 font-medium animate-pulse text-center px-2">
-          💡 인게임에서 [캐시샵 입장] 또는 [재접속] 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
-        </p>
+        {/* Info text - Enhanced styling */}
+        <div className="flex items-center gap-2 bg-orange-950/30 border border-orange-500/30 rounded-xl px-4 py-2.5 sm:py-3">
+          <span className="text-xl sm:text-2xl">💡</span>
+          <p className="text-xs sm:text-base text-orange-300 font-medium text-center">
+            인게임에서 <strong className="text-orange-400">[캐시샵 입장]</strong> 또는 <strong className="text-orange-400">[재접속]</strong> 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
+          </p>
+        </div>
       </section>
 
       {/* Site Introduction Section - Only show when no character */}
