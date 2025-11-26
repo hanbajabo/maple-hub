@@ -2,6 +2,7 @@ import { EquipmentItem, Issue, GRADE_SCORE } from '../types';
 import { getJobInfo } from '../constants';
 import { calcStatScore, getScrollStat } from '../utils';
 
+// UI Stage 5: 17-star Growth Diagnosis
 export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attTypeKor: string) => {
     const { mainStat } = getJobInfo(jobName);
     let targetKeywords = [mainStat, "올스탯"];
