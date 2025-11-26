@@ -156,6 +156,164 @@ export const StageCard: React.FC<StageCardProps> = ({
         });
     }, [equipment]);
 
+    // Helper to get passed items for each stage
+    const getPassedItems = (stageId: number) => {
+        if (!equipment) return [];
+        return equipment.filter(item => {
+            const slot = item.item_equipment_slot;
+            const star = parseInt(item.starforce || "0");
+            const potGrade = item.potential_option_grade;
+            const adiGrade = item.additional_potential_option_grade;
+            const potScore = (grade: string) => {
+                if (grade === "레전드리") return 4;
+                if (grade === "유니크") return 3;
+                if (grade === "에픽") return 2;
+                if (grade === "레어") return 1;
+                return 0;
+            };
+
+            // Stage 1: Basic Setting
+            if (stageId === 0) {
+                if (["뱃지", "포켓 아이템", "훈장", "엠블렘", "보조무기"].includes(slot)) return false;
+                const isEyeFace = slot === "눈장식" || slot === "얼굴장식";
+                const targetStar = isEyeFace ? 8 : 12;
+                if (slot.includes("반지")) return false;
+                if (star < targetStar) return false;
+                if (potScore(potGrade) < 2) return false;
+                if (potScore(adiGrade) < 1) return false;
+                return true;
+            }
+
+            // Stage 5: 17-star
+            if (stageId === 4) {
+                return star >= 17;
+            }
+
+            // Stage 7: 18-star
+            if (stageId === 6) {
+                return star >= 18;
+            }
+
+            // Stage 9: 22-star
+            if (stageId === 8) {
+                return star >= 22;
+            }
+
+            return false;
+        });
+    };
+
+    const [expandedPassedItem, setExpandedPassedItem] = React.useState<any | null>(null);
+
+    const renderPassedItemsSection = (stageId: number) => {
+        const items = getPassedItems(stageId);
+        if (items.length === 0) return null;
+
+        return (
+            <div className="mt-4 pt-4 border-t border-slate-800">
+                <h4 className="text-green-400 font-bold mb-3 flex items-center gap-2 text-sm">
+                    <span>✅</span> {stageId === 0 ? "1단계 통과 아이템" : "통과 아이템"} ({items.length}개)
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                    {items.map((item, idx) => (
+                        <div key={idx} className="relative group">
+                            <img
+                                src={item.item_icon}
+                                alt={item.item_name}
+                                className="w-10 h-10 rounded bg-slate-800 border border-slate-700 cursor-pointer hover:border-green-500 transition-colors"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setExpandedPassedItem(expandedPassedItem === item ? null : item);
+                                }}
+                            />
+                            {item.starforce > 0 && (
+                                <span className="absolute -top-1 -right-1 bg-yellow-500 text-black text-[10px] font-bold px-1 rounded-full">
+                                    ★{item.starforce}
+                                </span>
+                            )}
+                        </div>
+                    ))}
+                </div>
+
+                {expandedPassedItem && items.includes(expandedPassedItem) && (
+                    <div className="mt-3 bg-slate-900 border border-slate-700 rounded p-4 text-sm shadow-xl relative z-20">
+                        <div className="flex gap-4 mb-4 border-b border-slate-800 pb-4">
+                            <div className="relative">
+                                <img src={expandedPassedItem.item_icon} className="w-16 h-16 rounded bg-slate-800" />
+                                {expandedPassedItem.starforce > 0 && (
+                                    <span className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs font-bold px-1.5 py-0.5 rounded-full">
+                                        ★{expandedPassedItem.starforce}
+                                    </span>
+                                )}
+                            </div>
+                            <div>
+                                <h4 className="text-green-400 font-bold text-lg">{expandedPassedItem.item_name}</h4>
+                                <p className="text-slate-400">{expandedPassedItem.item_equipment_slot}</p>
+                                <div className="flex gap-2 mt-1">
+                                    {expandedPassedItem.potential_option_grade && (
+                                        <span className="text-xs border border-green-500 text-green-500 px-1 rounded">{expandedPassedItem.potential_option_grade}</span>
+                                    )}
+                                    {expandedPassedItem.additional_potential_option_grade && (
+                                        <span className="text-xs border border-blue-500 text-blue-500 px-1 rounded">에디 {expandedPassedItem.additional_potential_option_grade}</span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mb-3 bg-slate-950 p-3 rounded border border-slate-800">
+                            <p className="text-purple-400 font-bold mb-2 flex items-center gap-1">● 추가옵션</p>
+                            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-slate-300 text-xs">
+                                {Object.entries(expandedPassedItem.item_add_option || {}).map(([key, val]) => {
+                                    if (val === "0" || val === 0) return null;
+                                    let label = key;
+                                    if (key === "str") label = "STR";
+                                    if (key === "dex") label = "DEX";
+                                    if (key === "int") label = "INT";
+                                    if (key === "luk") label = "LUK";
+                                    if (key === "attack_power") label = "공격력";
+                                    if (key === "magic_power") label = "마력";
+                                    if (key === "boss_damage") label = "보공";
+                                    if (key === "damage") label = "데미지";
+                                    if (key === "all_stat") label = "올스탯";
+                                    if (key === "max_hp") label = "HP";
+                                    if (key === "max_mp") label = "MP";
+                                    return (
+                                        <div key={key} className="flex justify-between">
+                                            <span className="text-slate-400">{label}</span>
+                                            <span className="text-white">+{val}{key === "all_stat" || key === "boss_damage" || key === "damage" ? "%" : ""}</span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {expandedPassedItem.potential_option_grade && (
+                            <div className="mb-3 bg-slate-950 p-3 rounded border border-slate-800">
+                                <p className="text-green-400 font-bold mb-2">● 잠재옵션</p>
+                                <div className="space-y-1 text-slate-300 text-xs">
+                                    <p>{expandedPassedItem.potential_option_1}</p>
+                                    <p>{expandedPassedItem.potential_option_2}</p>
+                                    <p>{expandedPassedItem.potential_option_3}</p>
+                                </div>
+                            </div>
+                        )}
+
+                        {expandedPassedItem.additional_potential_option_grade && (
+                            <div className="bg-slate-950 p-3 rounded border border-slate-800">
+                                <p className="text-blue-400 font-bold mb-2">● 에디셔널</p>
+                                <div className="space-y-1 text-slate-300 text-xs">
+                                    <p>{expandedPassedItem.additional_potential_option_1}</p>
+                                    <p>{expandedPassedItem.additional_potential_option_2}</p>
+                                    <p>{expandedPassedItem.additional_potential_option_3}</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
     // 세트 효과 만족 여부 헬퍼
     const isSetSatisfied = (count: number, target: number) => count >= target;
 
