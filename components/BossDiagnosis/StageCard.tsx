@@ -77,11 +77,14 @@ interface StageCardProps {
         isEternal4SetSatisfied: boolean;
     };
     onPass?: () => void;
+    equipment?: any[];
 }
 
 export const StageCard: React.FC<StageCardProps> = ({
-    stageInfo, isCurrent, isPassed, isExpanded, onToggle, attTypeKor, setCounts, passedArmorOption, isGenesisWeapon, stage4Stats, stage5Stats, stage6Stats, stage7Info, stage8Stats, onPass
+    stageInfo, isCurrent, isPassed, isExpanded, onToggle, attTypeKor, setCounts, passedArmorOption, isGenesisWeapon, stage4Stats, stage5Stats, stage6Stats, stage7Info, stage8Stats, onPass, equipment
 }) => {
+    const [expandedItemSlot, setExpandedItemSlot] = React.useState<string | null>(null);
+
     // 세트 효과 만족 여부 헬퍼
     const isSetSatisfied = (count: number, target: number) => count >= target;
 
@@ -266,7 +269,35 @@ export const StageCard: React.FC<StageCardProps> = ({
                             <div className="bg-gradient-to-br from-pink-950/30 to-purple-950/30 p-3 rounded-lg border border-pink-800/30">
                                 <h4 className="text-pink-400 font-bold mb-2 flex items-center gap-2 text-lg">
                                     <span>🎯</span> 1순위: 엠블렘
+                                    {equipment?.find(i => i.item_equipment_slot === "엠블렘") && (
+                                        <img
+                                            src={equipment.find(i => i.item_equipment_slot === "엠블렘").item_icon}
+                                            alt="Emblem"
+                                            className="w-8 h-8 ml-2 cursor-pointer border border-pink-500/50 rounded bg-slate-900 hover:scale-110 transition-transform"
+                                            onClick={(e) => { e.stopPropagation(); setExpandedItemSlot(expandedItemSlot === '엠블렘' ? null : '엠블렘'); }}
+                                            title="클릭하여 옵션 확인"
+                                        />
+                                    )}
                                 </h4>
+                                {expandedItemSlot === '엠블렘' && equipment?.find(i => i.item_equipment_slot === "엠블렘") && (
+                                    <div className="bg-slate-900/90 p-3 rounded border border-pink-500/50 mb-3 text-xs shadow-lg relative z-10">
+                                        <p className="text-yellow-400 font-bold text-sm mb-2 border-b border-slate-700 pb-1">{equipment.find(i => i.item_equipment_slot === "엠블렘").item_name}</p>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <div>
+                                                <p className="text-slate-400 font-bold mb-1">잠재능력 ({equipment.find(i => i.item_equipment_slot === "엠블렘").potential_option_grade})</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "엠블렘").potential_option_1}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "엠블렘").potential_option_2}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "엠블렘").potential_option_3}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-400 font-bold mb-1">에디셔널 ({equipment.find(i => i.item_equipment_slot === "엠블렘").additional_potential_option_grade})</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "엠블렘").additional_potential_option_1}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "엠블렘").additional_potential_option_2}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "엠블렘").additional_potential_option_3}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                                 <p className="text-xs text-pink-300 mb-2 bg-pink-950/50 p-1.5 rounded">
                                     💡 <strong>진단:</strong> 카르마 유니크 잠재능력 주문서를 최우선 순위로 사용하여 유니크 옵션을 확보 한 후 이벤트 큐브를 활용하여 옵션 뽑기
                                 </p>
@@ -279,7 +310,35 @@ export const StageCard: React.FC<StageCardProps> = ({
                             <div className="bg-gradient-to-br from-red-950/30 to-orange-950/30 p-3 rounded-lg border border-red-800/30">
                                 <h4 className="text-orange-400 font-bold mb-2 flex items-center gap-2 text-lg">
                                     <span>⚔️</span> 2순위: 무기
+                                    {equipment?.find(i => i.item_equipment_slot === "무기") && (
+                                        <img
+                                            src={equipment.find(i => i.item_equipment_slot === "무기").item_icon}
+                                            alt="Weapon"
+                                            className="w-8 h-8 ml-2 cursor-pointer border border-orange-500/50 rounded bg-slate-900 hover:scale-110 transition-transform"
+                                            onClick={(e) => { e.stopPropagation(); setExpandedItemSlot(expandedItemSlot === '무기' ? null : '무기'); }}
+                                            title="클릭하여 옵션 확인"
+                                        />
+                                    )}
                                 </h4>
+                                {expandedItemSlot === '무기' && equipment?.find(i => i.item_equipment_slot === "무기") && (
+                                    <div className="bg-slate-900/90 p-3 rounded border border-orange-500/50 mb-3 text-xs shadow-lg relative z-10">
+                                        <p className="text-yellow-400 font-bold text-sm mb-2 border-b border-slate-700 pb-1">{equipment.find(i => i.item_equipment_slot === "무기").item_name}</p>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <div>
+                                                <p className="text-slate-400 font-bold mb-1">잠재능력 ({equipment.find(i => i.item_equipment_slot === "무기").potential_option_grade})</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "무기").potential_option_1}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "무기").potential_option_2}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "무기").potential_option_3}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-400 font-bold mb-1">에디셔널 ({equipment.find(i => i.item_equipment_slot === "무기").additional_potential_option_grade})</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "무기").additional_potential_option_1}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "무기").additional_potential_option_2}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "무기").additional_potential_option_3}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                                 <div className="text-xs text-orange-300 mb-2 bg-orange-950/50 p-1.5 rounded">
                                     <p className="mb-1">💡 <strong>진단:</strong> 제네시스 무기 완전해방 전까지 사용 할 무기를 확보하기!</p>
                                     <p>아이템버닝 도전자 무기가 없다면 아케인셰이드 17성 무기를 경매장에서 싸게 구매하는 것을 추천</p>
@@ -293,7 +352,35 @@ export const StageCard: React.FC<StageCardProps> = ({
                             <div className="bg-gradient-to-br from-blue-950/30 to-cyan-950/30 p-3 rounded-lg border border-blue-800/30">
                                 <h4 className="text-cyan-400 font-bold mb-2 flex items-center gap-2 text-lg">
                                     <span>🛡️</span> 3순위: 보조무기
+                                    {equipment?.find(i => i.item_equipment_slot === "보조무기") && (
+                                        <img
+                                            src={equipment.find(i => i.item_equipment_slot === "보조무기").item_icon}
+                                            alt="Secondary"
+                                            className="w-8 h-8 ml-2 cursor-pointer border border-cyan-500/50 rounded bg-slate-900 hover:scale-110 transition-transform"
+                                            onClick={(e) => { e.stopPropagation(); setExpandedItemSlot(expandedItemSlot === '보조무기' ? null : '보조무기'); }}
+                                            title="클릭하여 옵션 확인"
+                                        />
+                                    )}
                                 </h4>
+                                {expandedItemSlot === '보조무기' && equipment?.find(i => i.item_equipment_slot === "보조무기") && (
+                                    <div className="bg-slate-900/90 p-3 rounded border border-cyan-500/50 mb-3 text-xs shadow-lg relative z-10">
+                                        <p className="text-yellow-400 font-bold text-sm mb-2 border-b border-slate-700 pb-1">{equipment.find(i => i.item_equipment_slot === "보조무기").item_name}</p>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <div>
+                                                <p className="text-slate-400 font-bold mb-1">잠재능력 ({equipment.find(i => i.item_equipment_slot === "보조무기").potential_option_grade})</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "보조무기").potential_option_1}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "보조무기").potential_option_2}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "보조무기").potential_option_3}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-400 font-bold mb-1">에디셔널 ({equipment.find(i => i.item_equipment_slot === "보조무기").additional_potential_option_grade})</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "보조무기").additional_potential_option_1}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "보조무기").additional_potential_option_2}</p>
+                                                <p className="text-white pl-1">- {equipment.find(i => i.item_equipment_slot === "보조무기").additional_potential_option_3}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                                 <ul className="space-y-1 text-slate-300">
                                     <li>• 경매장에서 <strong className="text-white">레전드리/에픽 이상</strong> 구매 권유 (무한교환)</li>
                                     <li className="text-yellow-200">• 교환불가 보조무기에 카르마 유니크 잠재능력 주문서 사용하여 임시로 사용 가능</li>

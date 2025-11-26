@@ -152,6 +152,7 @@ const BossDiagnosis: React.FC<BossDiagnosisPropsWithCallback> = ({ equipment, st
                             stage7Info={stage7Info}
                             stage8Stats={stage8Stats}
                             onPass={() => handleManualPass(stageInfo.id)}
+                            equipment={equipment}
                         />
                     );
                 })}

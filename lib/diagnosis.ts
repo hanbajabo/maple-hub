@@ -672,6 +672,12 @@ export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS', boss
         // 기본 점수: 단계 * 10점 (0단계=0점 ~ 9단계=90점)
         const baseScore = bossStage * 10;
 
+        // 데스티니 무기 착용 시 보너스 점수 만점 처리 (최상위권 유저)
+        const hasDestinyWeapon = equipment.some((item: any) => item.item_name && item.item_name.includes("데스티니"));
+        if (hasDestinyWeapon) {
+            deductionScore = 100;
+        }
+
         // 보너스 점수: 기초 점수(링크/유니온/어빌/기초장비)의 10% (최대 10점)
         const bonusScore = deductionScore * 0.1;
 
