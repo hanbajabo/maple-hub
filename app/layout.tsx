@@ -11,6 +11,9 @@ const notoSansKR = Noto_Sans_KR({
 export const metadata: Metadata = {
   title: "메이플 AI - 메이플스토리 AI 분석 플랫폼",
   description: "메이플스토리 캐릭터 종합 분석 및 성장 가이드 플랫폼. AI 기반 장비 진단, 보스 템 분석, 헥사 스탯 가이드를 제공합니다.",
+  icons: {
+    icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
