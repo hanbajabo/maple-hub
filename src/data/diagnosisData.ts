@@ -41,7 +41,8 @@ export const LINK_SKILL_JOBS: Record<string, string> = {
     "노블레스": "아델",
     "전투의 흐름": "일리움",
     "이네이트 기프트": "칼리",
-    "륀느의 축복": "제로"
+    "륀느의 축복": "제로",
+    "강체": "렌"
 };
 
 export const UNION_DB_CHECK = {
