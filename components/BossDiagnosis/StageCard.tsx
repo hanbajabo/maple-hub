@@ -160,7 +160,8 @@ export const StageCard: React.FC<StageCardProps> = ({
     const getPassedItems = (stageId: number) => {
         if (!equipment) return [];
         return equipment.filter(item => {
-            const slot = item.item_equipment_slot;
+            const slot = item.item_equipment_slot || "";
+            const name = item.item_name || "";
             const star = parseInt(item.starforce || "0");
             const potGrade = item.potential_option_grade;
             const adiGrade = item.additional_potential_option_grade;
@@ -201,7 +202,7 @@ export const StageCard: React.FC<StageCardProps> = ({
 
             // Stage 8: 22-star Combination
             if (stageId === 7) {
-                const isEternal = item.item_name.includes("에테르넬");
+                const isEternal = name.includes("에테르넬");
                 if (isEternal) return star >= 17;
                 return star >= 22;
             }
