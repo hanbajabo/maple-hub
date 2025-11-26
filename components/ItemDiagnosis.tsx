@@ -29,7 +29,23 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
     useEffect(() => {
         setRawData(null);
         setReport(null);
+        setBossStage(undefined);
     }, [refreshKey, ocid, equipment]);
+
+    // bossStage가 변경되면 리포트 갱신 (보스 모드일 때만)
+    useEffect(() => {
+        if (mode === 'BOSS' && rawData && bossStage !== undefined) {
+            const result = analyze({
+                basic: rawData.basic,
+                item: { item_equipment: equipment },
+                stat: rawData.stat,
+                union: rawData.union,
+                link: rawData.link,
+                ability: rawData.ability
+            }, 'BOSS', bossStage);
+            setReport(result);
+        }
+    }, [bossStage, mode, rawData, equipment]);
 
     const runDiagnosis = async (targetMode: 'HUNTING' | 'BOSS') => {
         setMode(targetMode);
