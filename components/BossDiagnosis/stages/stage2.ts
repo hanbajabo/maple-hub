@@ -177,6 +177,19 @@ export const evaluateStage2 = (equipment: EquipmentItem[], jobName: string, isGe
                         issues.push({ type: 'wse_weapon', message: `[무기] 유효 옵션(${attTypeKor}/보공/방무) 2줄 이상 필요 (현재 ${totalEffective}줄)` });
                     }
                 }
+
+                // Additional Potential Grade: Epic+
+                const addGradeScore = GRADE_SCORE[weapon.additional_potential_option_grade] || 0;
+                if (addGradeScore < 2) {
+                    stage2Issues++;
+                    issues.push({ type: 'wse_weapon', message: "[무기] 에디셔널 잠재능력 에픽 등급 이상 필요" });
+                } else {
+                    // Additional Potential Option: Att% >= 1 line
+                    if (!hasAdditionalOption(weapon, attTypeKor, true)) {
+                        stage2Issues++;
+                        issues.push({ type: 'wse_weapon', message: `[무기] 에디셔널 ${attTypeKor}% 1줄 이상 필요` });
+                    }
+                }
             }
         }
     }
