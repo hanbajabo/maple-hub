@@ -68,20 +68,25 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
         let starforceThreshold = isTyrant ? 10 : 18;
         if (isEternal) starforceThreshold = 12;
 
-        const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
         const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
 
         if (!isNoStarforce && !isEventRing) {
             targetStats.starforce.total++;
 
             // 1. 특수 반지 통과
-            // 2. 놀장강 5성 이상 통과 (사용자 요청)
-            if (isSpecialRing || (hasAmazingScroll && star >= 5)) {
+            if (isSpecialRing) {
                 targetStats.starforce.current++;
             } else if (star < starforceThreshold) {
                 stage5Issues++;
                 targetStats.starforce.failedItems.push(`${name} (${star}성)`);
-                issues.push({ type: 'growth_starforce', message: `[성장/스타포스] ${name}: ${starforceThreshold}성 미만 (${star}성)` });
+
+                let msg = `[성장/스타포스] ${name}: ${starforceThreshold}성 미만 (${star}성)`;
+                // 18성 달성이 불가능한 아이템에 대한 안내 추가
+                const lowMaxStarItems = ["응축된 힘의 결정석", "아쿠아틱 레터 눈장식", "로얄 블랙메탈 숄더", "실버블라썸 링", "고귀한 이피아의 반지"];
+                if (lowMaxStarItems.some(k => name.includes(k))) {
+                    msg += " (상위 아이템으로 교체 권장)";
+                }
+                issues.push({ type: 'growth_starforce', message: msg });
             } else {
                 targetStats.starforce.current++;
             }

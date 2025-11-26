@@ -87,22 +87,23 @@ export const analyzeEquipment = (equipment: EquipmentItem[], basic: any, manualP
         }
     }
 
-    // 이슈 통합
-    const allIssues = [
-        ...result0.issues,
-        ...result1.issues,
-        ...result2.issues,
-        ...result3.issues,
-        ...result4.issues,
-        ...result6.issues, // 6단계 (특수 스펙)
-        ...result5.issues, // 7단계 (18성)
-        ...result7.issues, // 8단계 (조합)
-        ...result8.issues  // 9단계 (방어구)
-    ];
+    // 이슈 통합: 현재 단계의 이슈만 표시
+    let currentStageIssues: any[] = [];
+
+    if (stage === 0) currentStageIssues = result0.issues;
+    else if (stage === 1) currentStageIssues = result1.issues;
+    else if (stage === 2) currentStageIssues = result2.issues;
+    else if (stage === 3) currentStageIssues = result3.issues;
+    else if (stage === 4) currentStageIssues = result4.issues;
+    else if (stage === 5) currentStageIssues = result6.issues; // 6단계 (특수 스펙)
+    else if (stage === 6) currentStageIssues = result5.issues; // 7단계 (18성)
+    else if (stage === 7) currentStageIssues = result7.issues; // 8단계 (조합)
+    else if (stage === 8) currentStageIssues = result8.issues; // 9단계 (방어구)
+
 
     return {
         stage: stage,
-        issues: allIssues,
+        issues: currentStageIssues,
         attTypeKor: attTypeKor,
         setCounts: {
             bossSetCount: result1.setCounts.bossSetCount,

@@ -263,7 +263,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                     if (flameScore < 100) return false;
                 }
 
-                // 4. 잠재능력 체크
+                // 4. 잠재능력 체크 (유니크 이상 & 주스탯 15% 이상)
                 if (!isSpecialRing) {
                     const potLines = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
                     const hasCritDmg = potLines.some(l => l && l.includes("크리티컬 데미지"));
@@ -275,13 +275,52 @@ export const StageCard: React.FC<StageCardProps> = ({
                         // Pass
                     } else {
                         if (potScore(potGrade) < 3) return false; // 유니크 미만
+
+                        // 주스탯% 체크
+                        const statKeywords = ["STR", "DEX", "INT", "LUK", "HP", "올스탯"];
+                        let totalStatPct = 0;
+                        potLines.forEach(line => {
+                            if (!line) return;
+                            if (statKeywords.some(k => line.includes(k)) && line.includes("%")) {
+                                const match = line.match(/(\d+)%/);
+                                if (match) totalStatPct += parseInt(match[1]);
+                            }
+                        });
+                        if (totalStatPct < 15) return false; // 주스탯 15% 미만
                     }
                 }
 
-                // 5. 에디셔널 체크
+                // 5. 에디셔널 체크 (레어+ & 공/마+10 또는 주스탯%)
                 if (!isSpecialRing) {
-                    if (potScore(adiGrade) < 1) return false; // 레어 미만
+                    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+                    const adiGradeScore = potScore(adiGrade);
+
+                    if (slot.includes("반지")) {
+                        const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];
+                        const isEventRing = eventRingKeywords.some(k => name.includes(k));
+
+                        if (isEventRing) {
+                            // 이벤트링: 레어+ & (공/마+10 or 주스탯4%)
+                            if (adiGradeScore < 1) return false;
+                            const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                            const hasStat4 = adiLines.some(l => l && l.includes("%") && l.match(/(\d+)%/) && parseInt(l.match(/(\d+)%/)?.[1] || "0") >= 4);
+                            if (!hasAtt10 && !hasStat4) return false;
+                        } else {
+                            // 일반링: 에픽+ & (공/마+10 or 주스탯%)
+                            if (adiGradeScore < 2) return false;
+                            const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                            const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
+                            if (!hasAtt10 && !hasStatPct) return false;
+                        }
+                    } else {
+                        // 일반 방어구/장신구: 에픽+ & (공/마+10 or 주스탯%)
+                        if (adiGradeScore < 2) return false;
+                        const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                        const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
+                        if (!hasAtt10 && !hasStatPct) return false;
+                    }
                 }
+
 
                 return true;
             }
@@ -320,10 +359,6 @@ export const StageCard: React.FC<StageCardProps> = ({
                 let threshold = 18;
                 if (isEternal) threshold = 12;
                 if (isTyrant) threshold = 10;
-
-                // 놀장강 5성 이상 통과
-                const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
-                if (hasAmazingScroll && star >= 5) return true;
 
                 return star >= threshold;
             }
