@@ -191,15 +191,19 @@ export const StageCard: React.FC<StageCardProps> = ({
                 return true;
             }
 
-
             // Stage 5: 17-star (모든 기준 통과 필요)
             if (stageId === 4) {
+                // 방어구/장신구만 포함
+                const armorSlots = ["모자", "상의", "하의", "상의(한벌옷)", "신발", "장갑", "망토"];
+                const accessorySlots = ["반지1", "반지2", "반지3", "반지4", "펜던트", "펜던트2", "얼굴장식", "눈장식", "귀고리", "벨트", "어깨장식"];
+                let isArmor = armorSlots.includes(slot);
+                let isAccessory = accessorySlots.includes(slot) || slot.includes("반지");
+                if (name.includes("숄더") || name.includes("견장")) { isArmor = false; isAccessory = true; }
+
+                if (!isArmor && !isAccessory) return false;
+
                 // 도전자 아이템은 무조건 통과
                 if (name.includes("도전자")) return true;
-
-                // 스타포스, 주문서, 추가옵션, 잠재능력, 에디셔널 모두 체크
-                const armorSlots = ["모자", "상의", "하의", "상의(한벌옷)", "신발", "장갑", "망토"];
-                const isArmor = armorSlots.includes(slot);
 
                 // 1. 스타포스 체크
                 const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스"];
@@ -311,9 +315,12 @@ export const StageCard: React.FC<StageCardProps> = ({
                 const isSpecialRing = slot.includes("반지") && specialRingKeywords.some(k => name.includes(k));
                 if (isSpecialRing) return true;
 
-                // 에테르넬은 12성, 그 외는 18성
+                // 에테르넬은 12성, 타일런트는 10성, 그 외는 18성
                 const isEternal = name.includes("에테르넬");
-                const threshold = isEternal ? 12 : 18;
+                const isTyrant = name.includes("타일런트");
+                let threshold = 18;
+                if (isEternal) threshold = 12;
+                if (isTyrant) threshold = 10;
 
                 return star >= threshold;
             }
