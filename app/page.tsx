@@ -607,7 +607,177 @@ export default function Home() {
         </p>
       </section>
 
-      {/* Maple News Section - Only show when no character */}
+      {/* Site Introduction Section - Only show when no character */}
+      {!character && !loading && (
+        <section className="w-full sm:max-w-5xl mb-16 px-4 sm:px-6">
+          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-6 sm:p-10 border border-slate-700 shadow-2xl">
+            {/* Main Title */}
+            <div className="text-center mb-8">
+              <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 bg-gradient-to-r from-maple-orange via-yellow-400 to-maple-orange bg-clip-text text-transparent">
+                메이플 템진단
+              </h1>
+              <p className="text-lg sm:text-xl text-slate-300 font-medium">
+                메이플스토리 캐릭터 종합 분석 및 성장 가이드 플랫폼
+              </p>
+            </div>
+
+            {/* What is this site */}
+            <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
+              <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-4 flex items-center gap-2">
+                <span className="text-3xl">🎮</span>
+                메이플 템진단이란?
+              </h2>
+              <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
+                메이플 템진단은 <strong className="text-white">넥슨 오픈 API</strong>를 활용하여 메이플스토리 캐릭터의 장비, 스탯, 심볼, 유니온, 링크스킬 등 모든 정보를 실시간으로 분석하고 진단하는 <strong className="text-white">종합 캐릭터 분석 서비스</strong>입니다.
+              </p>
+              <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+                초보자부터 고스펙 유저까지, 모든 메이플 유저가 자신의 캐릭터를 객관적으로 평가하고 효율적인 성장 방향을 찾을 수 있도록 돕는 것이 저희의 목표입니다.
+              </p>
+            </div>
+
+            {/* Main Features */}
+            <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
+              <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-6 flex items-center gap-2">
+                <span className="text-3xl">⚡</span>
+                주요 기능
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                    <span>📊</span> 실시간 캐릭터 정보 조회
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    닉네임 검색만으로 장비, 스탯, 어빌리티, 유니온, 링크스킬 등 모든 캐릭터 정보를 한눈에 확인할 수 있습니다.
+                  </p>
+                </div>
+
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                    <span>🎯</span> 보스 장비 단계별 진단
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    9단계 세분화된 진단 시스템으로 현재 캐릭터의 보스 장비 수준을 정확히 평가하고, 다음 성장 목표를 제시합니다.
+                  </p>
+                </div>
+
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                    <span>🔍</span> 장비 상세 분석
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    스타포스, 잠재능력, 에디셔널, 추가옵션, 주문서 작업 상태를 종합적으로 분석하여 개선이 필요한 부분을 정확히 알려드립니다.
+                  </p>
+                </div>
+
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                    <span>💎</span> 전투력 티어 시스템
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    전투력을 기반으로 아이언부터 챌린저까지 세분화된 티어로 분류하여 현재 위치와 성장 목표를 명확하게 파악할 수 있습니다.
+                  </p>
+                </div>
+
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                    <span>🌟</span> 헥사 스탯 가이드
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    6차 전직 헥사 스탯의 강화 수준과 직업별 최적화 우선순위를 분석하여 스탯 포인트 투자 방향을 안내합니다.
+                  </p>
+                </div>
+
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                    <span>🔗</span> 유니온/링크스킬 진단
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    유니온 배치와 링크스킬 구성을 분석하여 직업에 맞는 최적의 세팅을 추천하고, 부족한 부분을 개선할 수 있도록 돕습니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* How to Use */}
+            <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
+              <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-6 flex items-center gap-2">
+                <span className="text-3xl">📖</span>
+                이용 방법
+              </h2>
+              <div className="space-y-4">
+                <div className="flex gap-4 items-start">
+                  <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
+                    1
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-1">캐릭터 검색</h3>
+                    <p className="text-sm text-slate-400">
+                      상단 검색창에 분석하고 싶은 <strong className="text-slate-300">메이플스토리 캐릭터 닉네임</strong>을 입력하고 검색합니다. 모든 월드의 캐릭터를 검색할 수 있습니다.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 items-start">
+                  <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
+                    2
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-1">정보 조회 및 진단</h3>
+                    <p className="text-sm text-slate-400">
+                      검색 결과로 캐릭터의 <strong className="text-slate-300">장비, 스탯, 전투력, 유니온, 링크스킬, 심볼, 헥사 스탯</strong> 등 모든 정보가 자동으로 표시됩니다. 각 항목을 클릭하면 상세 정보를 확인할 수 있습니다.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 items-start">
+                  <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
+                    3
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-1">보스 템 진단 확인</h3>
+                    <p className="text-sm text-slate-400">
+                      우측 하단의 <strong className="text-slate-300">"보스용 진단" 또는 "사냥용 진단"</strong> 탭에서 캐릭터의 현재 장비 수준을 9단계로 세분화하여 진단받을 수 있습니다. 각 단계별 목표와 개선 사항이 상세히 안내됩니다.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 items-start">
+                  <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
+                    4
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-1">실시간 갱신</h3>
+                    <p className="text-sm text-slate-400">
+                      <strong className="text-slate-300">게임 내에서 캐시샵에 입장하거나 재접속</strong>한 후, 검색창 옆의 새로고침 버튼을 누르면 최신 정보로 업데이트됩니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Purpose */}
+            <div className="bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
+              <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-4 flex items-center gap-2">
+                <span className="text-3xl">🎯</span>
+                서비스 목적
+              </h2>
+              <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
+                메이플스토리는 방대한 콘텐츠와 복잡한 성장 시스템으로 인해 <strong className="text-white">초보자가 진입하기 어렵고, 중급 유저도 다음 성장 방향을 결정하기 힘든</strong> 게임입니다.
+              </p>
+              <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
+                메이플 템진단은 이러한 문제를 해결하기 위해 <strong className="text-white">객관적이고 구체적인 데이터 분석</strong>을 제공하며, 모든 유저가 자신의 캐릭터 상태를 정확히 파악하고 <strong className="text-white">효율적인 투자 우선순위</strong>를 결정할 수 있도록 돕습니다.
+              </p>
+              <div className="bg-maple-orange/10 border border-maple-orange/30 rounded-lg p-4 mt-4">
+                <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
+                  💡 <strong className="text-maple-orange">커뮤니티 기여</strong>: 메이플 템진단은 비영리 프로젝트로, 메이플스토리 커뮤니티의 성장과 신규 유저 유입에 기여하는 것을 최우선 목표로 합니다. 모든 기능은 무료로 제공되며, 광고 수익은 서버 유지비와 개선 작업에만 사용됩니다.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Maple News Section - Moved to bottom, only show when no character */}
       {!character && !loading && (
         <section className="w-full sm:max-w-4xl mb-16 px-2">
           <MapleNews />
