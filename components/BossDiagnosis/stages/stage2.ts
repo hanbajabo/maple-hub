@@ -142,16 +142,21 @@ export const evaluateStage2 = (equipment: EquipmentItem[], jobName: string, isGe
         const isHighTierWeapon = weapon.item_name.includes("제네시스") || weapon.item_name.includes("데스티니");
 
         if (!isHighTierWeapon) {
-            // Starforce Check (Existing logic)
+            // Starforce Check
             const isArcane = weapon.item_name.includes("아케인셰이드");
             const isChallenger = weapon.item_name.includes("도전자");
             const isZeroType8 = (jobName === "제로") && (weapon.item_name.includes("8형") || weapon.item_name.includes("9형"));
             const star = parseInt(weapon.starforce || "0");
 
-            if (!isChallenger && (!isArcane && !isZeroType8)) {
+            // 도전자 무기는 스타포스 체크 스킵
+            if (isChallenger) {
+                // Pass - 도전자 무기는 무조건 통과
+            } else if (!isArcane && !isZeroType8) {
+                // 아케인셰이드도 아니고, 제로 8/9형도 아닌 경우
                 stage2Issues++;
                 issues.push({ type: 'wse_weapon', message: "[무기] 아케인셰이드 17성 이상 또는 도전자 무기 필요" });
-            } else if ((isArcane || isZeroType8) && star < 17 && !isChallenger) {
+            } else if ((isArcane || isZeroType8) && star < 17) {
+                // 아케인셰이드 또는 제로 8/9형이지만 17성 미만
                 stage2Issues++;
                 issues.push({ type: 'wse_weapon', message: "[무기] 스타포스 17성 미만" });
             }
