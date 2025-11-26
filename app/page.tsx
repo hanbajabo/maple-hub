@@ -1,10 +1,10 @@
-
 "use client";
 
 import { useState, useRef } from "react";
 import Link from "next/link";
+import { JOB_META_DATA } from "@/src/data/diagnosisData";
 import { toPng } from "html-to-image";
-import { Search, RefreshCw, Swords, Camera } from "lucide-react";
+import { Search, RefreshCw, Swords, Camera, X } from "lucide-react";
 import { getOcid, getCharacterBasic, getCharacterItemEquipment, getCharacterStat, getCharacterUnion, getCharacterLinkSkill, getUserUnionRaider } from "../lib/nexon";
 import { calculateCumulativeExpectedCost } from "../lib/starforce_db";
 
@@ -17,6 +17,7 @@ import SymbolBadge from "../components/SymbolBadge";
 import ItemDiagnosis from "../components/ItemDiagnosis";
 import AbilityWidget from "../components/AbilityWidget";
 import MapleNews from "../components/MapleNews";
+import MapleStoryTrivia from "../components/MapleStoryTrivia";
 
 import CombatPowerRank, { TIERS } from "../components/CombatPowerRank";
 import WeaponDiagnosisModal from "../components/WeaponDiagnosisModal";
@@ -97,6 +98,8 @@ export interface ItemData {
   cuttable_count: string;
 }
 
+
+
 interface FinalStat {
   stat_name: string;
   stat_value: string;
@@ -130,6 +133,8 @@ export default function Home() {
   const [selectedWeapon, setSelectedWeapon] = useState<ItemData | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
+
+
   const handleSearch = async () => {
     if (!nickname.trim()) return;
 
@@ -151,6 +156,8 @@ export default function Home() {
       if (equipmentInfo && equipmentInfo.item_equipment) {
         setEquipment(equipmentInfo.item_equipment);
       }
+
+
 
       const statInfo = await getCharacterStat(ocid);
       setStats(statInfo);
@@ -286,32 +293,29 @@ export default function Home() {
       potentials.forEach(opt => {
         if (!opt) return;
 
-        // Check for Specific Stat % (e.g., STR : +12%)
-        // Note: API usually returns format like "STR : +12%" or just "STR +12%" depending on parsing, 
-        // but usually it's "STR : +X%". We check for StatName and %.
+        // 1. Check for Specific Stat % (e.g., STR : +12%)
+        // We check if the option contains the statName (e.g. "STR") AND "%"
+        // Also exclude "모든" to avoid "모든 스킬" etc. unless it is "올스탯" which is handled below.
         if (opt.includes(statName) && opt.includes("%") && !opt.includes("모든")) {
-          // Exclude "모든 스킬" etc if any, but "올스탯" is different.
-          // Actually, "올스탯" is "All Stat".
           const match = opt.match(/(\d+)%/);
           if (match) {
             const val = Number(match[1]);
-            totalPct += val;
             itemTotal += val;
           }
         }
 
-        // Check for All Stat %
+        // 2. Check for All Stat % (올스탯)
         if (opt.includes("올스탯") && opt.includes("%")) {
           const match = opt.match(/(\d+)%/);
           if (match) {
             const val = Number(match[1]);
-            totalPct += val;
             itemTotal += val;
           }
         }
       });
 
       if (itemTotal > 0) {
+        totalPct += itemTotal;
         breakdown.push({ item: item.item_name, value: itemTotal });
       }
     });
@@ -833,7 +837,7 @@ export default function Home() {
             {/* Left Panel: Character Profile & Equipment */}
             <div className="w-full xl:w-[28%] flex flex-col gap-4 sm:gap-6">
               {/* Character Profile Card */}
-              <div className="relative z-50 group rounded-none sm:rounded-3xl shadow-2xl shadow-black/50 animate-in fade-in slide-in-from-bottom-4 mx-0 sm:mx-0">
+              <div className="relative z-50 rounded-none sm:rounded-3xl shadow-2xl shadow-black/50 mx-0 sm:mx-0">
                 {/* Background Container - Handles clipping for background effects */}
                 <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-950 rounded-none sm:rounded-3xl border-y sm:border border-slate-800 overflow-hidden">
                   <div className="absolute inset-0 bg-[url('https://maplestory.io/api/GMS/249/map/100000000/render/0')] bg-cover bg-center opacity-5 blur-sm grayscale"></div>
@@ -857,7 +861,9 @@ export default function Home() {
                   {/* Character Image Area - Fixed Size Container */}
                   <div className="relative w-full flex justify-center items-center my-1 sm:my-2">
                     {/* Fixed size image container with overflow hidden to crop whitespace */}
-                    <div className="relative w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] overflow-hidden rounded-2xl border border-slate-800/50 bg-slate-950/30 shadow-inner">
+                    <div
+                      className="relative w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] overflow-hidden rounded-2xl border border-slate-800/50 bg-slate-950/30 shadow-inner"
+                    >
                       <div className="absolute inset-0 bg-maple-orange/5 rounded-full blur-[30px]"></div>
                       <div className="relative w-full h-full flex items-center justify-center">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1541,6 +1547,9 @@ export default function Home() {
         equipmentGrid={equipmentGrid}
         setSelectedWeapon={setSelectedWeapon}
       />
+
+      {/* Trivia Section */}
+      <MapleStoryTrivia />
 
       {/* Footer */}
       <footer className="w-full py-10 mt-20 border-t border-slate-800/50 flex flex-col items-center justify-center gap-2 text-slate-500 text-sm">

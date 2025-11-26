@@ -8,6 +8,8 @@ import {
     evaluateArmorFlame,
     ItemEvaluationResult
 } from '../lib/item_evaluator';
+import { generateItemCommentary } from '../lib/ai-commentary';
+import AICommentary from './AICommentary';
 import ItemCard from './ItemCard';
 
 interface WeaponDiagnosisModalProps {
@@ -17,6 +19,7 @@ interface WeaponDiagnosisModalProps {
 
 export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisModalProps) {
     const [result, setResult] = useState<ItemEvaluationResult | null>(null);
+    const [commentary, setCommentary] = useState("");
 
     // 아이템 타입 판별
     const getEquipmentType = (item: any): '무기' | '방어구' | '장신구' | '보조무기' | '엠블렘' => {
@@ -43,6 +46,9 @@ export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisM
 
     useEffect(() => {
         if (!item) return;
+
+        // AI 분석 멘트 생성
+        setCommentary(generateItemCommentary(item));
 
         // 1. 스타포스 진단
         let sfResult = null;
@@ -132,17 +138,29 @@ export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisM
         // 4. 추옵 진단
         let flameResult = null;
 
+        // 추가옵션이 붙지 않는 부위 목록 (반지, 엠블렘, 보조무기, 뱃지, 훈장, 심장, 어깨장식)
+        const noFlameSlots = ['반지', '엠블렘', '보조무기', '뱃지', '훈장', '기계 심장', '기계심장', '어깨장식'];
+        const isNoFlameSlot = noFlameSlots.some(slot => item.item_equipment_slot.includes(slot) || item.item_equipment_slot === slot);
+
         // 추가옵션 존재 여부 확인
         const hasAddOption = item.item_add_option && Object.values(item.item_add_option).some((val: any) => val !== "0" && val !== 0);
 
-        if (!hasAddOption) {
+        if (isNoFlameSlot) {
+            flameResult = {
+                tier: 0,
+                is_weapon: false,
+                score: 0,
+                evaluation: '해당 없음',
+                recommendation: '이 부위는 추가옵션이 부여되지 않습니다.'
+            };
+        } else if (!hasAddOption) {
             // 추가옵션이 아예 없는 경우
             flameResult = {
                 tier: 0,
                 is_weapon: false,
                 score: 0,
-                evaluation: '준수',
-                recommendation: '이 아이템에는 추가옵션이 존재하지 않습니다.'
+                evaluation: '미설정',
+                recommendation: '이 아이템에는 추가옵션이 존재하지 않습니다. 환생의 불꽃을 사용하여 추가옵션을 부여해보세요.'
             };
         } else if (type === '무기' || (type === '보조무기' && item.item_name.includes('라피스'))) {
             const level = item.item_base_option.base_equipment_level;
@@ -264,6 +282,11 @@ export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisM
 
                     {/* Right Column: Diagnosis Results */}
                     <div className="flex-1 space-y-6">
+                        {/* AI Commentary Section */}
+                        <div className="mb-2">
+                            <AICommentary text={commentary} />
+                        </div>
+
                         <div className="mb-4">
                             <h2 className="text-2xl font-bold text-white flex items-center gap-2">
                                 ⚔️ 정밀 진단 리포트
@@ -285,9 +308,9 @@ export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisM
                                     <div className="flex justify-between items-center">
                                         <span className="text-slate-400">{type === '무기' ? '위험도 평가' : '품질 평가'}</span>
                                         <span className={`font-bold px-2 py-0.5 rounded ${['종결', '최고', '훌륭', '안전'].includes(result.starforce.evaluation) ? 'bg-green-500/20 text-green-400' :
-                                                ['좋음', '준수'].includes(result.starforce.evaluation) ? 'bg-blue-500/20 text-blue-400' :
-                                                    ['보통'].includes(result.starforce.evaluation) ? 'bg-yellow-500/20 text-yellow-400' :
-                                                        'bg-red-500/20 text-red-400'
+                                            ['좋음', '준수'].includes(result.starforce.evaluation) ? 'bg-blue-500/20 text-blue-400' :
+                                                ['보통'].includes(result.starforce.evaluation) ? 'bg-yellow-500/20 text-yellow-400' :
+                                                    'bg-red-500/20 text-red-400'
                                             }`}>
                                             {result.starforce.evaluation}
                                         </span>

@@ -227,6 +227,23 @@ function diagnoseAbility(targetMode: 'HUNTING' | 'BOSS', abilityData: any, myCla
 // === 공통: 스타포스 체크 ===
 function checkStarforce(item: any, slot: string, itemName: string, targetStar: number, result: EquipmentReport) {
     const star = parseInt(item.starforce || "0");
+
+    // 놀장강/슈페리얼 체크 (22성급 인정)
+    // 조건: 5성 이상 12성 이하
+    // 일반 스타포스는 15성까지 방어구/장신구(장갑 제외)에 공/마가 붙지 않음.
+    // 주의: API에서 놀장강 스탯을 제대로 반환하지 않는 경우 구분 불가 (사용자 요청에 따라 무리한 추측 지양)
+    if (star >= 5 && star <= 12 && !slot.includes("무기") && !slot.includes("장갑")) {
+        const sfOpts = item.item_starforce_option || {};
+        const sfAtt = parseInt(sfOpts.attack_power || "0");
+        const sfMagic = parseInt(sfOpts.magic_power || "0");
+
+        // 오직 스타포스 옵션에 공/마가 있는 경우에만 놀장/슈페리얼로 인정
+        if (sfAtt > 0 || sfMagic > 0) {
+            result.good.push(`[${slot}] ${itemName}: 놀장강/슈페리얼 ${star}성 (고성능 장비 인정)`);
+            return; // 진단 통과
+        }
+    }
+
     if (star < targetStar) {
         result.starforce.push(`[${slot}] ${itemName}: 스타포스 ${targetStar}성 미만입니다 (${star}성).`);
         result.scoreDeduction += 2;

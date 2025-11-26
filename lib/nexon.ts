@@ -83,6 +83,8 @@ export const getCharacterItemEquipment = async (ocid: string) => {
     return res.data;
 };
 
+
+
 export const getCharacterLinkSkill = async (ocid: string) => {
     const res = await nexonFetch('/maplestory/v1/character/link-skill', { ocid });
     return res.data;
