@@ -14,12 +14,12 @@ const getOptionCount = (item: EquipmentItem, attTypeKor: string, jobName: string
     options.forEach(opt => {
         if (!opt) return;
 
-        // 보스 공격력 (Boss Damage)
-        if (opt.includes("보스 몬스터 공격 시 데미지")) {
+        // 보스 공격력 (Boss Damage) - "보스 몬스터 공격 시 데미지" or "보스 몬스터 데미지"
+        if (opt.includes("보스 몬스터") && opt.includes("데미지")) {
             validCount++;
         }
-        // 방어율 무시 (IED)
-        else if (opt.includes("몬스터 방어율 무시")) {
+        // 방어율 무시 (IED) - "몬스터 방어율 무시" or "방어율 무시"
+        else if (opt.includes("방어율 무시")) {
             iedCount++;
         }
         // 공격력/마력 (Attack/Magic Power)
