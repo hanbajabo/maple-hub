@@ -558,7 +558,7 @@ export default function Home() {
           }}
           className="flex items-center gap-2 hover:opacity-80 transition-opacity"
         >
-          <img src="/images/maple-ai-logo.png" alt="메이플 AI 로고" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
+          <img src="/images/maple-ai-logo.jpg" alt="메이플 AI 로고" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
           <span className="text-lg sm:text-2xl font-bold text-maple-orange">메이플 AI</span>
         </button>
       </header>
@@ -640,7 +640,7 @@ export default function Home() {
           <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-6 sm:p-10 border border-slate-700 shadow-2xl">
             {/* Main Title */}
             <div className="text-center mb-8 flex flex-col items-center">
-              <img src="/images/maple-ai-logo.png" alt="메이플 AI" className="w-24 h-24 sm:w-32 sm:h-32 mb-6 object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.5)]" />
+              <img src="/images/maple-ai-logo.jpg" alt="메이플 AI" className="w-24 h-24 sm:w-32 sm:h-32 mb-6 object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.5)]" />
               <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 bg-gradient-to-r from-maple-orange via-yellow-400 to-maple-orange bg-clip-text text-transparent">
                 메이플 AI
               </h1>
