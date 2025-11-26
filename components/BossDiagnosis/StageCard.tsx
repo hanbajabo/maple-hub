@@ -180,7 +180,6 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (slot.includes("반지")) return false;
                 if (star < targetStar) return false;
                 if (potScore(potGrade) < 2) return false;
-                if (potScore(adiGrade) < 1) return false;
                 return true;
             }
 
@@ -280,7 +279,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                     return (
                                         <div key={key} className="flex justify-between">
                                             <span className="text-slate-400">{label}</span>
-                                            <span className="text-white">+{val}{key === "all_stat" || key === "boss_damage" || key === "damage" ? "%" : ""}</span>
+                                            <span className="text-white">+{String(val)}{key === "all_stat" || key === "boss_damage" || key === "damage" ? "%" : ""}</span>
                                         </div>
                                     );
                                 })}
@@ -309,8 +308,9 @@ export const StageCard: React.FC<StageCardProps> = ({
                             </div>
                         )}
                     </div>
-                )}
-            </div>
+                )
+                }
+            </div >
         );
     };
 
