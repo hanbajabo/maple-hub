@@ -101,10 +101,22 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                 if (hasCooldown || hasCritDmg) {
                     // Pass
                 } else {
-                    const hasValidPot = potLines.some(l => l && (targetKeywords.some(k => l.includes(k)) || l.includes(attTypeKor)) && l.includes("%"));
+                    const isWSE = slot === "무기" || slot === "보조무기" || slot === "엠블렘";
+                    const isUniqueOrAbove = potScore >= 3;
+
+                    const hasValidPot = potLines.some(l => {
+                        if (!l) return false;
+                        const basicValid = (targetKeywords.some(k => l.includes(k)) || l.includes(attTypeKor)) && l.includes("%");
+                        if (isWSE && isUniqueOrAbove) {
+                            return basicValid || l.includes("보스 몬스터 공격") || l.includes("방어율 무시");
+                        }
+                        return basicValid;
+                    });
+
                     if (!hasValidPot) {
                         isPassed = false;
-                        issues.push({ type: 'potential', message: `[잠재능력] ${item.item_name}: 유효 옵션(주스탯% or 공/마%) 없음` });
+                        const extraMsg = isWSE && isUniqueOrAbove ? " or 보공% or 방무%" : "";
+                        issues.push({ type: 'potential', message: `[잠재능력] ${item.item_name}: 유효 옵션(주스탯% or 공/마%${extraMsg}) 없음` });
                     }
                 }
             }

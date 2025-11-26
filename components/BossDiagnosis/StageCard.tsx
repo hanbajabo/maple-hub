@@ -169,7 +169,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                             </li>
                                             <li className="flex items-start gap-2">
                                                 <span className="text-green-400">✓</span>
-                                                <span>옵션: <strong className="text-white">{attTypeKor}% 1줄 이상</strong></span>
+                                                <span>옵션: <strong className="text-white">{attTypeKor}% 1줄 이상 (유니크 이상: 보공/방무% 포함)</strong></span>
                                             </li>
                                         </ul>
                                     </div>
