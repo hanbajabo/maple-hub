@@ -621,10 +621,6 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-br from-maple-orange/0 to-maple-orange/0 group-hover:from-maple-orange/10 group-hover:to-yellow-400/10 transition-all"></div>
               <RefreshCw size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${loading ? 'animate-spin text-maple-orange' : 'group-hover:rotate-180'}`} />
             </button>
-
-            {character && (
-              <div className="h-12 w-12 sm:h-20 sm:w-20 shrink-0" />
-            )}
           </div>
         </div>
 
