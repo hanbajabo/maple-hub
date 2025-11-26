@@ -656,55 +656,42 @@ export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS', boss
 
     const equipmentResult = diagnoseEquipment(equipment, mainStat, attType, targetMode, currentDropRate);
 
-    // 종합 점수 계산 (100점 만점)
-    let totalScore = 100;
-    totalScore -= linkResult.scoreDeduction;
-    totalScore -= unionResult.scoreDeduction;
-    totalScore -= abilityResult.scoreDeduction;
-    totalScore -= equipmentResult.scoreDeduction;
+    // 종합 점수 계산 (기초 점수)
+    let deductionScore = 100;
+    deductionScore -= linkResult.scoreDeduction;
+    deductionScore -= unionResult.scoreDeduction;
+    deductionScore -= abilityResult.scoreDeduction;
+    deductionScore -= equipmentResult.scoreDeduction;
+    if (deductionScore < 0) deductionScore = 0;
 
-    if (totalScore < 0) totalScore = 0;
-
-    // 티어 산정 (보스 진단의 stage를 고려)
+    let totalScore = deductionScore;
     let tier = "B";
 
     if (targetMode === 'BOSS' && bossStage !== undefined) {
-        // 보스 모드에서는 stage를 고려하여 등급 산정
-        // Stage 9 (모든 단계 완료) = SSS 보장
-        // Stage 8 = 최소 S, 최대 SS
-        // Stage 7 = 최소 A, 최대 S
-        // Stage 6 = 최소 B, 최대 A
-        // Stage 5 이하 = 점수만으로 판정
+        // 보스 모드: 단계별 점수제 적용
+        // 기본 점수: 단계 * 10점 (0단계=0점 ~ 9단계=90점)
+        const baseScore = bossStage * 10;
 
-        if (bossStage >= 9) {
-            // 9단계 완료: 무조건 SSS
-            tier = "SSS";
-        } else if (bossStage === 8) {
-            // 8단계 진행중: S ~ SS (SSS는 9단계 완료자만!)
-            tier = totalScore >= 90 ? "SS" : totalScore >= 80 ? "S" : "A";
-        } else if (bossStage === 7) {
-            // 7단계 진행중: S ~ SS
-            tier = totalScore >= 95 ? "SS" : totalScore >= 85 ? "S" : "A";
-        } else if (bossStage === 6) {
-            // 6단계 진행중: A ~ S
-            tier = totalScore >= 90 ? "S" : totalScore >= 75 ? "A" : "B";
-        } else {
-            // 5단계 이하: 점수만으로 판정 (최대 A)
-            if (totalScore >= 85) tier = "A";
-            else if (totalScore >= 70) tier = "B";
-            else tier = "C";
-        }
-    } else if (targetMode === 'BOSS') {
-        // 보스 모드지만 stage 정보가 없는 경우 (로딩 중 등): SSS 불가, 최대 SS
-        if (totalScore >= 90) tier = "SS";
-        else if (totalScore >= 75) tier = "S";
-        else if (totalScore >= 60) tier = "A";
+        // 보너스 점수: 기초 점수(링크/유니온/어빌/기초장비)의 10% (최대 10점)
+        const bonusScore = deductionScore * 0.1;
+
+        totalScore = Math.min(100, Math.floor(baseScore + bonusScore));
+
+        // 티어 산정
+        if (totalScore >= 100) tier = "SSS";
+        else if (totalScore >= 90) tier = "SS";
+        else if (totalScore >= 80) tier = "S";
+        else if (totalScore >= 70) tier = "A";
+        else if (totalScore >= 60) tier = "B";
+        else tier = "C";
+
     } else {
-        // 사냥 모드: 기존 점수 기반 판정 (SSS 가능)
+        // 사냥 모드 또는 stage 정보 없음: 기존 감점제 방식 유지
         if (totalScore >= 100) tier = "SSS";
         else if (totalScore >= 90) tier = "SS";
         else if (totalScore >= 75) tier = "S";
         else if (totalScore >= 60) tier = "A";
+        else tier = "B";
     }
 
     return {
