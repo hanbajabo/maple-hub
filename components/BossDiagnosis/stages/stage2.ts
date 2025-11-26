@@ -90,19 +90,17 @@ export const evaluateStage2 = (equipment: EquipmentItem[], jobName: string, isGe
     // 제로는 보조무기가 없으므로(무기가 역할 겸함) 체크 제외
     const subWeapon = jobName !== "제로" ? equipment.find(item => item.item_equipment_slot === "보조무기") : null;
 
-    // 1. Global IED Check
+    // 1. Global IED Check (Warning only)
     let totalIedLines = 0;
     if (weapon) totalIedLines += getOptionCount(weapon, attTypeKor).iedCount;
     if (emblem) totalIedLines += getOptionCount(emblem, attTypeKor).iedCount;
     if (subWeapon) totalIedLines += getOptionCount(subWeapon, attTypeKor).iedCount;
 
     if (totalIedLines >= 2) {
-        // This is a recommendation/warning, not necessarily a stage failure, but user said "recommend changing"
-        // We will add it as an issue but maybe not block the stage if other criteria are met? 
-        // The prompt implies strict checks for the stage. Let's treat it as a warning issue.
+        // Optimization Issue (Warning)
         issues.push({
             type: 'optimization',
-            message: `[WSE 통합] 방어율 무시가 총 ${totalIedLines}줄입니다. (1줄 권장, 2줄 이상은 변경 추천)`
+            message: `[WSE 통합] 방어율 무시가 총 ${totalIedLines}줄입니다. (통과는 되지만, 2줄 이상은 변경 권장)`
         });
     }
 
@@ -160,13 +158,14 @@ export const evaluateStage2 = (equipment: EquipmentItem[], jobName: string, isGe
                 stage2Issues++;
                 issues.push({ type: 'wse_weapon', message: "[무기] 잠재능력 레전드리 등급 필요" });
             } else {
-                // Potential Option: Att%/Boss% >= 2 lines (IED max 1)
+                // Potential Option: Att% + Boss% + IED% >= 2 lines (Pass Condition)
+                // 방무도 유효 옵션으로 인정하여 통과 처리 (단, 위에서 경고 메시지는 띄움)
                 const { validCount, iedCount } = getOptionCount(weapon, attTypeKor);
-                const effectiveCount = validCount + Math.min(iedCount, 1);
+                const totalEffective = validCount + iedCount;
 
-                if (effectiveCount < 2) {
+                if (totalEffective < 2) {
                     stage2Issues++;
-                    issues.push({ type: 'wse_weapon', message: `[무기] 유효 옵션(${attTypeKor}/보공) 2줄 이상 필요 (방무는 최대 1줄 인정)` });
+                    issues.push({ type: 'wse_weapon', message: `[무기] 유효 옵션(${attTypeKor}/보공/방무) 2줄 이상 필요` });
                 }
             }
         }
@@ -180,13 +179,13 @@ export const evaluateStage2 = (equipment: EquipmentItem[], jobName: string, isGe
             stage2Issues++;
             issues.push({ type: 'wse_sub', message: "[보조] 잠재능력 유니크 등급 이상 필요" });
         } else {
-            // Potential Option: Att%/Boss% >= 2 lines (IED max 1)
+            // Potential Option: Att% + Boss% + IED% >= 2 lines (Pass Condition)
             const { validCount, iedCount } = getOptionCount(subWeapon, attTypeKor);
-            const effectiveCount = validCount + Math.min(iedCount, 1);
+            const totalEffective = validCount + iedCount;
 
-            if (effectiveCount < 2) {
+            if (totalEffective < 2) {
                 stage2Issues++;
-                issues.push({ type: 'wse_sub', message: `[보조] 유효 옵션(${attTypeKor}/보공) 2줄 이상 필요 (방무는 최대 1줄 인정)` });
+                issues.push({ type: 'wse_sub', message: `[보조] 유효 옵션(${attTypeKor}/보공/방무) 2줄 이상 필요` });
             }
         }
 
