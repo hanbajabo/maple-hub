@@ -161,7 +161,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
 
         // 4. 잠재능력 (유니크 이상, 주스탯 15% 이상)
         // * 장갑: 크리티컬 데미지 있으면 무조건 통과
-        // * 반지: 이벤트링(15%), 일반링(21%) 구분
+        // * 반지: 모든 링 15% 이상 통일
         targetStats.potential.total++;
         let potPass = false;
 
@@ -191,20 +191,12 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
             if (isSpecialRing) {
                 potPass = true;
             } else if (potScore >= 3) { // 유니크 이상
-                if (isEventRing) {
-                    if (totalStatPct >= 15) potPass = true;
-                    else {
-                        stage4Issues++;
-                        targetStats.potential.failedItems.push(`${name} (${totalStatPct}%)`);
-                        issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 주스탯 15% 미만 (현재 ${totalStatPct}%)` });
-                    }
-                } else {
-                    if (totalStatPct >= 21) potPass = true;
-                    else {
-                        stage4Issues++;
-                        targetStats.potential.failedItems.push(`${name} (${totalStatPct}%)`);
-                        issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 주스탯 21% 미만 (현재 ${totalStatPct}%)` });
-                    }
+                // 모든 링 통일: 15% 이상
+                if (totalStatPct >= 15) potPass = true;
+                else {
+                    stage4Issues++;
+                    targetStats.potential.failedItems.push(`${name} (${totalStatPct}%)`);
+                    issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 주스탯 15% 미만 (현재 ${totalStatPct}%)` });
                 }
             } else {
                 stage4Issues++;
@@ -267,18 +259,25 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
                     issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 레어 등급 미만` });
                 }
             } else {
-                // 일반링: 에픽 이상 & (공10 or 탯4%)
-                if (adiScore >= 2) {
-                    if (hasAtt10 || hasStat4) adiPass = true;
+                // 일반링: 레어 이상 & (공10 or 탯%) - 이벤트링과 동일
+                if (adiScore >= 2) { // 에픽 이상
+                    if (hasAtt10 || hasStatPct) adiPass = true;
                     else {
                         stage4Issues++;
                         targetStats.additional.failedItems.push(name);
-                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯 4% 미만` });
+                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 미만` });
+                    }
+                } else if (adiScore >= 1) { // 레어
+                    if (hasAtt10) adiPass = true;
+                    else {
+                        stage4Issues++;
+                        targetStats.additional.failedItems.push(name);
+                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 옵션 없음` });
                     }
                 } else {
                     stage4Issues++;
                     targetStats.additional.failedItems.push(name);
-                    issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 에픽 등급 미만` });
+                    issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 레어 등급 미만` });
                 }
             }
         } else {

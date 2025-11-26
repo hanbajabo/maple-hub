@@ -191,9 +191,75 @@ export const StageCard: React.FC<StageCardProps> = ({
                 return true;
             }
 
-            // Stage 5: 17-star
+
+            // Stage 5: 17-star (모든 기준 통과 필요)
             if (stageId === 4) {
-                return star >= 17;
+                // 도전자 아이템은 무조건 통과
+                if (name.includes("도전자")) return true;
+
+                // 스타포스, 주문서, 추가옵션, 잠재능력, 에디셔널 모두 체크
+                const armorSlots = ["모자", "상의", "하의", "상의(한벌옷)", "신발", "장갑", "망토"];
+                const isArmor = armorSlots.includes(slot);
+
+                // 1. 스타포스 체크
+                const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스"];
+                const isSpecialRing = slot.includes("반지") && specialRingKeywords.some(k => name.includes(k));
+                const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];
+                const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
+                const isTyrant = name.includes("타일런트");
+                const isEternal = name.includes("에테르넬");
+                const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
+
+                let starforceThreshold = isTyrant ? 10 : 17;
+                if (isEternal) starforceThreshold = 12;
+
+                const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
+                if (!isNoStarforce && !isEventRing) {
+                    if (!isSpecialRing && !hasAmazingScroll && star < starforceThreshold) return false;
+                }
+
+                // 2. 주문서 작 체크 (글로리온 링 예외)
+                if (!isSpecialRing && !name.includes("글로리온")) {
+                    const scrollStat = parseInt((item.item_etc_option?.str || "0")) + parseInt((item.item_etc_option?.dex || "0")) +
+                        parseInt((item.item_etc_option?.int || "0")) + parseInt((item.item_etc_option?.luk || "0"));
+                    if (isArmor) {
+                        const isHat = slot === "모자";
+                        const threshold = isHat ? 84 : 56;
+                        if (scrollStat < threshold) return false;
+                    } else {
+                        if (scrollStat < 32) return false;
+                    }
+                }
+
+                // 3. 추가옵션 체크 (반지, 숄더 제외)
+                const isNoFlame = slot.includes("반지") || name.includes("숄더") || name.includes("견장");
+                if (!isNoFlame) {
+                    // 간단한 추옵 체크 (자세한 체크는 생략)
+                    const hasFlame = item.item_add_option && Object.keys(item.item_add_option).length > 0;
+                    if (!hasFlame) return false;
+                }
+
+                // 4. 잠재능력 체크
+                if (!isSpecialRing) {
+                    const potLines = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
+                    const hasCritDmg = potLines.some(l => l && l.includes("크리티컬 데미지"));
+                    const hasCooldown = potLines.some(l => l && l.includes("재사용 대기시간"));
+
+                    if (slot === "장갑" && hasCritDmg) {
+                        // Pass
+                    } else if (slot === "모자" && hasCooldown) {
+                        // Pass
+                    } else {
+                        if (potScore(potGrade) < 3) return false; // 유니크 미만
+                    }
+                }
+
+                // 5. 에디셔널 체크
+                if (!isSpecialRing) {
+                    if (potScore(adiGrade) < 1) return false; // 레어 미만
+                }
+
+                return true;
             }
 
             // Stage 7: 18-star
