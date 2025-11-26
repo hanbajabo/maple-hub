@@ -360,6 +360,7 @@ export const StageCard: React.FC<StageCardProps> = ({
 
         // Sort items by slot priority
         const slotPriority: { [key: string]: number } = {
+            "무기": 0,
             "모자": 1,
             "상의": 2,
             "하의": 3,
