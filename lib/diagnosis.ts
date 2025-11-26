@@ -694,8 +694,13 @@ export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS', boss
             else if (totalScore >= 70) tier = "B";
             else tier = "C";
         }
+    } else if (targetMode === 'BOSS') {
+        // 보스 모드지만 stage 정보가 없는 경우 (로딩 중 등): SSS 불가, 최대 SS
+        if (totalScore >= 90) tier = "SS";
+        else if (totalScore >= 75) tier = "S";
+        else if (totalScore >= 60) tier = "A";
     } else {
-        // 사냥 모드 또는 stage 정보가 없는 경우: 기존 점수 기반 판정
+        // 사냥 모드: 기존 점수 기반 판정 (SSS 가능)
         if (totalScore >= 100) tier = "SSS";
         else if (totalScore >= 90) tier = "SS";
         else if (totalScore >= 75) tier = "S";
