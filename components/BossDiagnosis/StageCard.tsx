@@ -220,23 +220,41 @@ export const StageCard: React.FC<StageCardProps> = ({
 
                 // 2. 주문서 작 체크 (글로리온 링 예외)
                 if (!isSpecialRing && !name.includes("글로리온")) {
-                    const scrollStat = parseInt((item.item_etc_option?.str || "0")) + parseInt((item.item_etc_option?.dex || "0")) +
-                        parseInt((item.item_etc_option?.int || "0")) + parseInt((item.item_etc_option?.luk || "0"));
+                    // 주스탯 계산
+                    const str = parseInt(item.item_etc_option?.str || "0");
+                    const dex = parseInt(item.item_etc_option?.dex || "0");
+                    const int_val = parseInt(item.item_etc_option?.int || "0");
+                    const luk = parseInt(item.item_etc_option?.luk || "0");
+                    const scrollMainStat = Math.max(str, dex, int_val, luk);
+
+                    // 총급수 계산 (간단 버전)
+                    const scrollScore = str + dex + int_val + luk;
+
                     if (isArmor) {
                         const isHat = slot === "모자";
                         const threshold = isHat ? 84 : 56;
-                        if (scrollStat < threshold) return false;
+                        if (scrollMainStat < threshold && scrollScore < 50) return false;
                     } else {
-                        if (scrollStat < 32) return false;
+                        if (scrollScore < 32) return false;
                     }
                 }
 
-                // 3. 추가옵션 체크 (반지, 숄더 제외)
+                // 3. 추가옵션 체크 (반지, 숄더 제외) - 100급 이상
                 const isNoFlame = slot.includes("반지") || name.includes("숄더") || name.includes("견장");
                 if (!isNoFlame) {
-                    // 간단한 추옵 체크 (자세한 체크는 생략)
-                    const hasFlame = item.item_add_option && Object.keys(item.item_add_option).length > 0;
-                    if (!hasFlame) return false;
+                    if (!item.item_add_option) return false;
+                    // 추옵 점수 계산 (간단 버전)
+                    const str = parseInt(item.item_add_option?.str || "0");
+                    const dex = parseInt(item.item_add_option?.dex || "0");
+                    const int_val = parseInt(item.item_add_option?.int || "0");
+                    const luk = parseInt(item.item_add_option?.luk || "0");
+                    const att = parseInt(item.item_add_option?.attack_power || "0");
+                    const mag = parseInt(item.item_add_option?.magic_power || "0");
+                    const allStat = parseInt(item.item_add_option?.all_stat || "0");
+                    const hp = parseInt(item.item_add_option?.max_hp || "0");
+
+                    const flameScore = str + dex + int_val + luk + att * 4 + mag * 4 + allStat * 10 + Math.floor(hp / 50);
+                    if (flameScore < 100) return false;
                 }
 
                 // 4. 잠재능력 체크
