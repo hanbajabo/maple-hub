@@ -198,6 +198,13 @@ export const StageCard: React.FC<StageCardProps> = ({
                 return star >= 22;
             }
 
+            // Stage 8: 22-star Combination
+            if (stageId === 7) {
+                const isEternal = item.item_name.includes("에테르넬");
+                if (isEternal) return star >= 17;
+                return star >= 22;
+            }
+
             return false;
         });
     };
@@ -1108,6 +1115,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                     </div>
                                 </div>
                             </div>
+                            {renderPassedItemsSection(7)}
                         </div>
                     )}
                     {stageInfo.id === 8 && stage8Stats && (
