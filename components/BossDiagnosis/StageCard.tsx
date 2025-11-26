@@ -432,6 +432,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                     </li>
                                 </ul>
                             </div>
+                            {renderPassedItemsSection(0)}
                         </div>
                     )}
 
@@ -849,6 +850,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                     {renderStatItem("에디셔널", stage4Stats.accessory.additional, "레어 공/마+10 (에픽 이상은 탯% or 공/마+10)")}
                                 </ul>
                             </div>
+                            {renderPassedItemsSection(4)}
                         </div>
                     )}
                     {stageInfo.id === 5 && stage5Stats && (
@@ -1034,6 +1036,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                     </p>
                                 </div>
                             </div>
+                            {renderPassedItemsSection(6)}
                         </div>
                     )}
                     {stageInfo.id === 7 && stage7Info && (
@@ -1153,6 +1156,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                     </ul>
                                 </div>
                             </div>
+                            {renderPassedItemsSection(8)}
                         </div>
                     )}
                 </div>
