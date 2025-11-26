@@ -63,7 +63,7 @@ export default function PrivacyPolicy() {
                     <section>
                         <h2 className="text-xl font-bold text-white mb-3">5. 개인정보 보호책임자</h2>
                         <p>서비스 이용과 관련된 개인정보 침해 신고나 상담이 필요한 경우에는 아래의 연락처로 문의하시기 바랍니다.</p>
-                        <p className="mt-2">이메일: (이메일 주소를 입력해주세요)</p>
+                        <p className="mt-2">이메일: p6092@naver.com</p>
                     </section>
 
                     <div className="pt-8 border-t border-slate-800 text-sm text-slate-500">
