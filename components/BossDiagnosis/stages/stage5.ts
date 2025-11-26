@@ -51,12 +51,20 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
 
         const targetStats = isArmor ? stage5Stats.armor : stage5Stats.accessory;
 
-        const star = parseInt(item.starforce || "0");
-        const potGrade = item.potential_option_grade;
-        const adiGrade = item.additional_potential_option_grade;
-        const potScore = GRADE_SCORE[potGrade] || 0;
-        const adiScore = GRADE_SCORE[adiGrade] || 0;
+        // 도전자 아이템은 7단계 체크 스킵 (올패스)
+        if (name.includes("도전자")) {
+            const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
+            const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];
+            const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
 
+            if (!isNoStarforce && !isEventRing) {
+                targetStats.starforce.total++;
+                targetStats.starforce.current++;
+            }
+            return;
+        }
+
+        const star = parseInt(item.starforce || "0");
         const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스"];
         const isSpecialRing = slot.includes("반지") && specialRingKeywords.some(k => name.includes(k));
 
@@ -65,28 +73,17 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
         const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
 
         // 1. 스타포스 (18성 이상, 타일런트 10성 이상)
-        // * 에테르넬 장비는 12성만 되어도 통과 (12성 에테르넬 ≈ 18성 카루타)
-        // * 이벤트 링은 스타포스 불가하므로 체크 제외
-        // * 도전자 아이템은 7단계에서 제외 (5단계까지만 올패스)
         const isTyrant = name.includes("타일런트");
         const isEternal = name.includes("에테르넬");
-        const isChallenger = name.includes("도전자");
         let starforceThreshold = isTyrant ? 10 : 18;
         if (isEternal) starforceThreshold = 12;
 
-        const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
         const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
 
-        // 도전자 아이템도 진단 대상에 포함
         if (!isNoStarforce && !isEventRing) {
             targetStats.starforce.total++;
-
-            // 도전자 아이템은 통과 처리 (사용자 요청: 도전자는 먼저 체크해서 통과)
-            if (isChallenger) {
-                targetStats.starforce.current++;
-            }
-            // Amazing Scroll 체크
-            else if (isSpecialRing || hasAmazingScroll) {
+            // Amazing Scroll 체크 제거 (엄격한 18성 체크)
+            if (isSpecialRing) {
                 targetStats.starforce.current++;
             } else if (star < starforceThreshold) {
                 stage5Issues++;
@@ -96,9 +93,6 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
                 targetStats.starforce.current++;
             }
         }
-
-        // 2-5. 나머지 조건은 5단계와 동일 (주문서, 추옵, 잠재, 에디)
-        // 이하 생략하여 스타포스만 체크
     });
 
     return { issues, issueCount: stage5Issues, stats: stage5Stats };
