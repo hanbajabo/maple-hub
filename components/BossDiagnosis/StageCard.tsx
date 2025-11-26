@@ -302,8 +302,7 @@ export const StageCard: React.FC<StageCardProps> = ({
 
                 if (!isArmor && !isAccessory) return false;
 
-                // 도전자 아이템은 통과 (사용자 요청)
-                if (name.includes("도전자")) return true;
+
 
                 // 이벤트링 제외
                 const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];

@@ -52,18 +52,7 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
 
         const targetStats = isArmor ? stage5Stats.armor : stage5Stats.accessory;
 
-        // 도전자 아이템은 7단계 체크 스킵 (올패스)
-        if (name.includes("도전자")) {
-            const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
-            const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];
-            const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
 
-            if (!isNoStarforce && !isEventRing) {
-                targetStats.starforce.total++;
-                targetStats.starforce.current++;
-            }
-            return;
-        }
 
         const star = parseInt(item.starforce || "0");
         const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스"];
