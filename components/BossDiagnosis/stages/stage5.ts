@@ -51,11 +51,6 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
 
         const targetStats = isArmor ? stage5Stats.armor : stage5Stats.accessory;
 
-        // 도전자 아이템은 7단계(18성 체크)에서 제외 (5단계까지만 올패스)
-        if (name.includes("도전자")) {
-            return; // 도전자 아이템은 카운트하지 않음
-        }
-
         const star = parseInt(item.starforce || "0");
         const potGrade = item.potential_option_grade;
         const adiGrade = item.additional_potential_option_grade;
@@ -72,15 +67,17 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
         // 1. 스타포스 (18성 이상, 타일런트 10성 이상)
         // * 에테르넬 장비는 12성만 되어도 통과 (12성 에테르넬 ≈ 18성 카루타)
         // * 이벤트 링은 스타포스 불가하므로 체크 제외
+        // * 도전자 아이템은 7단계에서 제외 (5단계까지만 올패스)
         const isTyrant = name.includes("타일런트");
         const isEternal = name.includes("에테르넬");
+        const isChallenger = name.includes("도전자");
         let starforceThreshold = isTyrant ? 10 : 18;
         if (isEternal) starforceThreshold = 12;
 
         const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
 
         const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
-        if (!isNoStarforce && !isEventRing) {
+        if (!isNoStarforce && !isEventRing && !isChallenger) {
             targetStats.starforce.total++;
             if (isSpecialRing || hasAmazingScroll) {
                 targetStats.starforce.current++;
