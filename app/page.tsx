@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Link from "next/link";
 import { toPng } from "html-to-image";
 import { Search, RefreshCw, Swords, Camera } from "lucide-react";
 import { getOcid, getCharacterBasic, getCharacterItemEquipment, getCharacterStat, getCharacterUnion, getCharacterLinkSkill, getUserUnionRaider } from "../lib/nexon";
@@ -1543,6 +1544,11 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="w-full py-10 mt-20 border-t border-slate-800/50 flex flex-col items-center justify-center gap-2 text-slate-500 text-sm">
+        <div className="flex gap-4 mb-2">
+          <Link href="/privacy" className="text-slate-400 hover:text-maple-orange transition-colors font-medium">
+            개인정보처리방침
+          </Link>
+        </div>
         <p className="font-medium">Data by NEXON Open API</p>
         <p>Contact: p6092@naver.com</p>
         <p className="mt-2 text-xs text-slate-600">Copyright © 2025. 한자유튜브 - All right reserved</p>
