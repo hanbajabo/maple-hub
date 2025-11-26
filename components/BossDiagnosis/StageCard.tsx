@@ -449,9 +449,6 @@ export const StageCard: React.FC<StageCardProps> = ({
                                     </li>
                                 </ul>
                             </div>
-                            <div className="bg-red-500 text-white font-bold p-2 my-2 rounded">
-                                DEBUG: RENDER CHECK - Equipment Count: {equipment?.length}
-                            </div>
                             {renderPassedItemsSection(0)}
                         </div>
                     )}
