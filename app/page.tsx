@@ -1032,7 +1032,7 @@ export default function Home() {
                   <div className="relative flex flex-col gap-2 items-center">
                     <span className="text-sm text-gray-400">보스 데미지</span>
                     <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-2xl font-bold text-white group-hover:text-red-400 group-hover:drop-shadow-lg cursor-help transition-colors">
+                      <span className="text-lg sm:text-xl font-bold text-white group-hover:text-red-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
                         {getStatValue("보스 몬스터 데미지")}%
                       </span>
 
@@ -1073,7 +1073,7 @@ export default function Home() {
                   <div className="relative flex flex-col gap-2 items-center">
                     <span className="text-sm text-gray-400">방어율 무시</span>
                     <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-2xl font-bold text-white group-hover:text-purple-400 group-hover:drop-shadow-lg cursor-help transition-colors">
+                      <span className="text-lg sm:text-xl font-bold text-white group-hover:text-purple-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
                         {ignoreDefense}%
                       </span>
 
@@ -1114,7 +1114,7 @@ export default function Home() {
                   <div className="relative flex flex-col gap-2 items-center">
                     <span className="text-xs text-gray-400">크리티컬 데미지</span>
                     <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-xl font-bold text-white group-hover:text-yellow-400 group-hover:drop-shadow-lg cursor-help transition-colors">
+                      <span className="text-lg sm:text-xl font-bold text-white group-hover:text-yellow-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
                         {getStatValue("크리티컬 데미지")}%
                       </span>
 

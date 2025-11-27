@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { getCharacterAbility, getCharacterBasic } from '../lib/nexon';
 
 interface AbilityInfo {
@@ -92,6 +93,11 @@ export default function AbilityWidget({ ocid, refreshKey }: { ocid: string, refr
     const [jobName, setJobName] = useState<string>("");
     const [loading, setLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         if (!ocid) return;
@@ -121,6 +127,29 @@ export default function AbilityWidget({ ocid, refreshKey }: { ocid: string, refr
 
         fetchData();
     }, [ocid, refreshKey]);
+
+    // 모달 뒤로가기 핸들링
+    useEffect(() => {
+        if (isOpen) {
+            window.history.pushState({ modal: 'ability' }, '', window.location.href);
+            document.body.style.overflow = 'hidden';
+
+            const handlePopState = () => {
+                setIsOpen(false);
+            };
+
+            window.addEventListener('popstate', handlePopState);
+
+            return () => {
+                document.body.style.overflow = 'unset';
+                window.removeEventListener('popstate', handlePopState);
+            };
+        }
+    }, [isOpen]);
+
+    const handleClose = () => {
+        window.history.back();
+    };
 
     if (loading) return <div className="w-full h-full flex items-center justify-center bg-slate-800/50 rounded-xl border border-slate-700 animate-pulse"></div>;
 
@@ -222,95 +251,98 @@ export default function AbilityWidget({ ocid, refreshKey }: { ocid: string, refr
                 )}
             </div>
 
-            {/* 상세 팝업 */}
-            {isOpen && (
-                <div className="absolute left-0 bottom-full mb-2 w-full bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4 z-[100] animate-in fade-in slide-in-from-bottom-2 min-w-[300px]">
-                    <h4 className="text-xs font-bold text-slate-300 mb-3 border-b border-slate-800 pb-2 flex justify-between items-center">
-                        <span>어빌리티 상세 정보</span>
-                        <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-slate-300">✕</button>
-                    </h4>
+            {/* 상세 팝업 (Portal 사용) */}
+            {isOpen && mounted && createPortal(
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-4" onClick={handleClose}>
+                    <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-4 w-full max-w-md animate-in fade-in slide-in-from-top-2 max-h-[90vh] overflow-y-auto custom-scrollbar" onClick={e => e.stopPropagation()}>
+                        <h4 className="text-xs font-bold text-slate-300 mb-3 border-b border-slate-800 pb-2 flex justify-between items-center">
+                            <span>어빌리티 상세 정보</span>
+                            <button onClick={handleClose} className="text-slate-500 hover:text-slate-300">✕</button>
+                        </h4>
 
-                    {/* 내 어빌리티 리스트 */}
-                    {abilities.length > 0 ? (
-                        <div className="space-y-2 mb-4">
-                            {abilities.map((ab, idx) => {
-                                // 등급별 텍스트 색상 (배경/테두리는 제외하고 텍스트만)
-                                const gradeTextColor = (g: string) => {
-                                    switch (g) {
-                                        case "레전드리": return "text-green-400";
-                                        case "유니크": return "text-yellow-400";
-                                        case "에픽": return "text-purple-400";
-                                        case "레어": return "text-blue-400";
-                                        default: return "text-slate-300";
-                                    }
-                                };
+                        {/* 내 어빌리티 리스트 */}
+                        {abilities.length > 0 ? (
+                            <div className="space-y-2 mb-4">
+                                {abilities.map((ab, idx) => {
+                                    // 등급별 텍스트 색상 (배경/테두리는 제외하고 텍스트만)
+                                    const gradeTextColor = (g: string) => {
+                                        switch (g) {
+                                            case "레전드리": return "text-green-400";
+                                            case "유니크": return "text-yellow-400";
+                                            case "에픽": return "text-purple-400";
+                                            case "레어": return "text-blue-400";
+                                            default: return "text-slate-300";
+                                        }
+                                    };
 
-                                return (
-                                    <div key={idx} className={`
-                                        p-2 rounded border text-xs flex items-center justify-between
-                                        ${idx === 0 ? "bg-slate-800/80 border-slate-600 font-bold" : "bg-slate-950/30 border-slate-800"}
-                                    `}>
-                                        <span className={`truncate ${gradeTextColor(ab.ability_grade)}`}>{ab.ability_value}</span>
-                                        <div className="flex items-center gap-1">
-                                            <span className={`text-[9px] px-1 rounded border opacity-70 ${gradeTextColor(ab.ability_grade)} border-current`}>
-                                                {ab.ability_grade}
-                                            </span>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    ) : (
-                        <div className="text-center text-slate-500 py-4 text-sm">
-                            설정된 어빌리티가 없습니다.
-                        </div>
-                    )}
-
-                    {/* 추천 어빌리티 섹션 */}
-                    {presets && (
-                        <div className="mt-4 pt-3 border-t border-slate-700">
-                            <div className="flex justify-between items-center mb-2">
-                                <h4 className="text-xs font-bold text-slate-400 flex items-center gap-1">
-                                    💡 추천 어빌리티 <span className="text-[9px] font-normal opacity-70">(2025.07 기준)</span>
-                                </h4>
-                                {!isFirstLineMatch ? (
-                                    <span className="text-[9px] bg-red-950/50 text-red-400 px-1.5 py-0.5 rounded border border-red-900 animate-pulse">
-                                        ⚠️ 첫 줄 불일치
-                                    </span>
-                                ) : matchType && matchType !== "추천 세팅" ? (
-                                    <span className="text-[9px] bg-blue-950/50 text-blue-400 px-1.5 py-0.5 rounded border border-blue-900">
-                                        ✅ {matchType} 일치
-                                    </span>
-                                ) : null}
-                            </div>
-
-                            {/* 추천 프리셋 렌더링 */}
-                            <div className="space-y-3 max-h-[200px] overflow-y-auto custom-scrollbar pr-1">
-                                {presets.map((preset, pIdx) => (
-                                    <div key={pIdx} className={`bg-indigo-950/20 border rounded p-2 ${matchType === preset.type ? 'border-blue-500/40 bg-blue-950/20' : 'border-indigo-500/20'}`}>
-                                        {preset.type !== "추천 세팅" && (
-                                            <div className={`text-[10px] font-bold mb-1.5 border-b pb-1 ${matchType === preset.type ? 'text-blue-300 border-blue-500/20' : 'text-indigo-300 border-indigo-500/10'}`}>
-                                                {preset.type}
+                                    return (
+                                        <div key={idx} className={`
+                                            p-2 rounded border text-xs flex items-center justify-between
+                                            ${idx === 0 ? "bg-slate-800/80 border-slate-600 font-bold" : "bg-slate-950/30 border-slate-800"}
+                                        `}>
+                                            <span className={`truncate ${gradeTextColor(ab.ability_grade)}`}>{ab.ability_value}</span>
+                                            <div className="flex items-center gap-1">
+                                                <span className={`text-[9px] px-1 rounded border opacity-70 ${gradeTextColor(ab.ability_grade)} border-current`}>
+                                                    {ab.ability_grade}
+                                                </span>
                                             </div>
-                                        )}
-                                        <div className="flex flex-col gap-1">
-                                            {preset.options.map((rec, i) => (
-                                                <div key={i} className="flex items-center gap-2 text-xs">
-                                                    <span className={`w-4 h-4 flex items-center justify-center rounded-full text-[9px] font-bold ${i === 0 ? 'bg-yellow-500/20 text-yellow-200' : 'bg-slate-700 text-slate-400'}`}>
-                                                        {i + 1}
-                                                    </span>
-                                                    <span className={i === 0 ? "text-indigo-200 font-medium" : "text-slate-500"}>
-                                                        {rec}
-                                                    </span>
-                                                </div>
-                                            ))}
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
-                        </div>
-                    )}
-                </div>
+                        ) : (
+                            <div className="text-center text-slate-500 py-4 text-sm">
+                                설정된 어빌리티가 없습니다.
+                            </div>
+                        )}
+
+                        {/* 추천 어빌리티 섹션 */}
+                        {presets && (
+                            <div className="mt-4 pt-3 border-t border-slate-700">
+                                <div className="flex justify-between items-center mb-2">
+                                    <h4 className="text-xs font-bold text-slate-400 flex items-center gap-1">
+                                        💡 추천 어빌리티 <span className="text-[9px] font-normal opacity-70">(2025.07 기준)</span>
+                                    </h4>
+                                    {!isFirstLineMatch ? (
+                                        <span className="text-[9px] bg-red-950/50 text-red-400 px-1.5 py-0.5 rounded border border-red-900 animate-pulse">
+                                            ⚠️ 첫 줄 불일치
+                                        </span>
+                                    ) : matchType && matchType !== "추천 세팅" ? (
+                                        <span className="text-[9px] bg-blue-950/50 text-blue-400 px-1.5 py-0.5 rounded border border-blue-900">
+                                            ✅ {matchType} 일치
+                                        </span>
+                                    ) : null}
+                                </div>
+
+                                {/* 추천 프리셋 렌더링 */}
+                                <div className="space-y-3 max-h-[200px] overflow-y-auto custom-scrollbar pr-1">
+                                    {presets.map((preset, pIdx) => (
+                                        <div key={pIdx} className={`bg-indigo-950/20 border rounded p-2 ${matchType === preset.type ? 'border-blue-500/40 bg-blue-950/20' : 'border-indigo-500/20'}`}>
+                                            {preset.type !== "추천 세팅" && (
+                                                <div className={`text-[10px] font-bold mb-1.5 border-b pb-1 ${matchType === preset.type ? 'text-blue-300 border-blue-500/20' : 'text-indigo-300 border-indigo-500/10'}`}>
+                                                    {preset.type}
+                                                </div>
+                                            )}
+                                            <div className="flex flex-col gap-1">
+                                                {preset.options.map((rec, i) => (
+                                                    <div key={i} className="flex items-center gap-2 text-xs">
+                                                        <span className={`w-4 h-4 flex items-center justify-center rounded-full text-[9px] font-bold ${i === 0 ? 'bg-yellow-500/20 text-yellow-200' : 'bg-slate-700 text-slate-400'}`}>
+                                                            {i + 1}
+                                                        </span>
+                                                        <span className={i === 0 ? "text-indigo-200 font-medium" : "text-slate-500"}>
+                                                            {rec}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>,
+                document.body
             )}
         </div>
     );

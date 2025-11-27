@@ -89,10 +89,10 @@ export const Stage0Guide: React.FC<Stage0GuideProps> = ({ abilityDrop, isCurrent
                     <div className="flex gap-3 justify-center">
                         <button
                             onClick={onComplete}
-                            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all hover:scale-105 flex items-center gap-2"
+                            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 sm:px-8 rounded-lg shadow-lg transition-all hover:scale-105 flex flex-col sm:flex-row items-center gap-1 sm:gap-2"
                         >
                             <span>⭕ YES</span>
-                            <span className="text-xs font-normal opacity-80">(다음 단계로)</span>
+                            <span className="text-[10px] sm:text-xs font-normal opacity-80">(다음 단계)</span>
                         </button>
                         <button
                             onClick={() => setShowTip(true)}

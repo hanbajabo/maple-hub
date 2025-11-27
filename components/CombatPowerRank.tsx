@@ -435,14 +435,14 @@ export default function CombatPowerRank({ combatPower }: { combatPower: string |
                     <div>
                         <h3 className="text-xs text-slate-400 font-bold mb-1 tracking-widest uppercase">Combat Power Tier</h3>
                         <div className="flex items-baseline gap-2">
-                            <div className={`text-4xl font-black italic tracking-tighter ${tier.color} drop-shadow-sm`}>
-                                {tier.name} {tier.hasDivisions && <span className="text-3xl not-italic">{division}</span>}
+                            <div className={`text-2xl sm:text-4xl font-black italic tracking-tighter ${tier.color} drop-shadow-sm`}>
+                                {tier.name} {tier.hasDivisions && <span className="text-xl sm:text-3xl not-italic">{division}</span>}
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 mt-3">
-                            <span className="bg-slate-950/50 px-2.5 py-1 rounded text-xs font-bold text-slate-400 border border-slate-700/50">상위 {tier.percent}</span>
+                        <div className="flex items-center gap-2 mt-2 sm:mt-3">
+                            <span className="bg-slate-950/50 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-bold text-slate-400 border border-slate-700/50">상위 {tier.percent}</span>
                             {challengeBoss && (
-                                <span className="flex items-center gap-1 text-sm text-slate-200 font-bold tracking-tight animate-pulse">
+                                <span className="hidden sm:flex items-center gap-1 text-sm text-slate-200 font-bold tracking-tight animate-pulse">
                                     <Target className="w-3 h-3 text-red-500" />
                                     {challengeBoss.name} 도전!
                                 </span>
@@ -451,16 +451,16 @@ export default function CombatPowerRank({ combatPower }: { combatPower: string |
                     </div>
 
                     <div className="text-right">
-                        <div className="text-xs text-slate-500 font-bold uppercase mb-1">Next Goal</div>
+                        <div className="text-[10px] sm:text-xs text-slate-500 font-bold uppercase mb-1 whitespace-nowrap">Next Goal</div>
                         {nextGoal > 0 ? (
                             <>
-                                <div className="text-base font-bold text-slate-200">{nextLabel}</div>
-                                <div className="text-xs text-slate-400">
+                                <div className="text-xs sm:text-base font-bold text-slate-200 whitespace-nowrap">{nextLabel}</div>
+                                <div className="text-[10px] sm:text-xs text-slate-400 whitespace-nowrap">
                                     +{formatNum(nextGoal - cp)} 필요
                                 </div>
                             </>
                         ) : (
-                            <div className="text-base font-bold text-yellow-500 animate-pulse">TOP RANKER</div>
+                            <div className="text-xs sm:text-base font-bold text-yellow-500 animate-pulse">TOP</div>
                         )}
                     </div>
                 </div>

@@ -21,6 +21,29 @@ export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisM
     const [result, setResult] = useState<ItemEvaluationResult | null>(null);
     const [commentary, setCommentary] = useState("");
 
+    // 히스토리 관리 및 스크롤 방지
+    useEffect(() => {
+        if (item) {
+            window.history.pushState({ modal: 'weaponDiagnosis' }, '', window.location.href);
+            document.body.style.overflow = 'hidden';
+
+            const handlePopState = () => {
+                onClose();
+            };
+
+            window.addEventListener('popstate', handlePopState);
+
+            return () => {
+                document.body.style.overflow = 'unset';
+                window.removeEventListener('popstate', handlePopState);
+            };
+        }
+    }, [item, onClose]);
+
+    const handleClose = () => {
+        window.history.back();
+    };
+
     // 아이템 타입 판별
     const getEquipmentType = (item: any): '무기' | '방어구' | '장신구' | '보조무기' | '엠블렘' => {
         const slot = item.item_equipment_slot;
@@ -233,10 +256,10 @@ export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisM
     // 데스티니 무기 전용 UI (유지)
     if (item && item.item_name.includes('데스티니')) {
         return createPortal(
-            <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4" onClick={onClose}>
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4" onClick={handleClose}>
                 {/* ... (기존 데스티니 무기 UI 코드 유지) ... */}
                 <div
-                    className="relative w-full max-w-2xl p-12 rounded-3xl overflow-hidden shadow-2xl text-center border border-purple-500/30"
+                    className="relative w-full max-w-2xl p-5 sm:p-12 rounded-3xl overflow-hidden shadow-2xl text-center border border-purple-500/30 mx-4"
                     style={{
                         background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
                         boxShadow: '0 0 50px rgba(139, 92, 246, 0.3)'
@@ -244,17 +267,17 @@ export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisM
                     onClick={e => e.stopPropagation()}
                 >
                     <div className="absolute inset-0 bg-[url('https://maplestory.io/api/wzimg/Effect/BasicEff.img/LevelUp/0')] opacity-10 bg-cover bg-center animate-pulse pointer-events-none"></div>
-                    <div className="relative z-10 mb-8 inline-block">
+                    <div className="relative z-10 mb-4 sm:mb-8 inline-block">
                         <div className="absolute inset-0 bg-purple-500 blur-2xl opacity-50 rounded-full animate-pulse"></div>
-                        <img src={item.item_icon} alt={item.item_name} className="w-32 h-32 object-contain relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]" />
+                        <img src={item.item_icon} alt={item.item_name} className="w-20 h-20 sm:w-32 sm:h-32 object-contain relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]" />
                     </div>
-                    <h2 className="relative z-10 text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-white to-purple-200 mb-2 drop-shadow-lg">{item.item_name}</h2>
-                    <div className="relative z-10 text-purple-300 font-bold text-xl mb-10 tracking-widest">DESTINY WEAPON</div>
-                    <div className="relative z-10 bg-black/40 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 mb-8">
-                        <p className="text-3xl font-bold text-white mb-2 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]">평가 불가의 초월적 아이템입니다.</p>
-                        <p className="text-purple-200 text-lg mt-4">이 아이템은 기존의 상식을 뛰어넘는 힘을 가지고 있습니다.<br />더 이상의 진단은 무의미합니다.</p>
+                    <h2 className="relative z-10 text-xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-white to-purple-200 mb-1 sm:mb-2 drop-shadow-lg whitespace-nowrap">{item.item_name}</h2>
+                    <div className="relative z-10 text-purple-300 font-bold text-xs sm:text-xl mb-6 sm:mb-10 tracking-widest">DESTINY WEAPON</div>
+                    <div className="relative z-10 bg-black/40 backdrop-blur-sm p-4 sm:p-8 rounded-2xl border border-purple-500/20 mb-6 sm:mb-8">
+                        <p className="text-base sm:text-3xl font-bold text-white mb-2 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)] break-keep">평가 불가의 초월적 아이템입니다.</p>
+                        <p className="text-purple-200 text-xs sm:text-lg mt-2 sm:mt-4 break-keep">이 아이템은 기존의 상식을 뛰어넘는 힘을 가지고 있습니다.<br className="hidden sm:block" /> 더 이상의 진단은 무의미합니다.</p>
                     </div>
-                    <button onClick={onClose} className="relative z-10 px-10 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-full transition-all shadow-[0_0_20px_rgba(147,51,234,0.5)] hover:shadow-[0_0_30px_rgba(147,51,234,0.8)]">전설을 확인했습니다</button>
+                    <button onClick={handleClose} className="relative z-10 px-6 py-2 sm:px-10 sm:py-3 bg-purple-600 hover:bg-purple-500 text-white text-sm sm:text-base font-bold rounded-full transition-all shadow-[0_0_20px_rgba(147,51,234,0.5)] hover:shadow-[0_0_30px_rgba(147,51,234,0.8)]">전설을 확인했습니다</button>
                 </div>
             </div>,
             document.body
@@ -264,11 +287,11 @@ export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisM
     if (!item || !result) return null;
 
     return createPortal(
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={onClose}>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={handleClose}>
             <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-7xl p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar" onClick={e => e.stopPropagation()}>
 
                 {/* Close Button */}
-                <button onClick={onClose} className="absolute top-6 right-6 text-slate-500 hover:text-white transition-colors z-10">
+                <button onClick={handleClose} className="absolute top-6 right-6 text-slate-500 hover:text-white transition-colors z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>

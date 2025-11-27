@@ -36,6 +36,29 @@ export default function ChampionBadge({ ocid, refreshKey }: { ocid: string, refr
         fetchData();
     }, [ocid, refreshKey]);
 
+    // 모달 뒤로가기 핸들링
+    useEffect(() => {
+        if (isOpen) {
+            window.history.pushState({ modal: 'champion' }, '', window.location.href);
+            document.body.style.overflow = 'hidden';
+
+            const handlePopState = () => {
+                setIsOpen(false);
+            };
+
+            window.addEventListener('popstate', handlePopState);
+
+            return () => {
+                document.body.style.overflow = 'unset';
+                window.removeEventListener('popstate', handlePopState);
+            };
+        }
+    }, [isOpen]);
+
+    const handleClose = () => {
+        window.history.back();
+    };
+
     if (loading) return <div className="w-full h-full flex items-center justify-center bg-slate-800/50 rounded-xl border border-slate-700 animate-pulse"></div>;
 
     const hasChampion = champions.length > 0;
@@ -71,11 +94,11 @@ export default function ChampionBadge({ ocid, refreshKey }: { ocid: string, refr
             </div>
 
             {isOpen && mounted && createPortal(
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-2" onClick={() => setIsOpen(false)}>
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-2" onClick={handleClose}>
                     <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-2 sm:p-4 w-full max-w-md max-h-[80vh] overflow-y-auto animate-in fade-in slide-in-from-top-2" onClick={e => e.stopPropagation()}>
                         <h4 className="text-xs sm:text-sm font-bold text-amber-400 mb-2 border-b border-slate-800 pb-2 flex justify-between items-center">
                             <span>참전 중인 유니온 챔피언</span>
-                            <button onClick={() => setIsOpen(false)} className="text-slate-500 hover:text-slate-300">✕</button>
+                            <button onClick={handleClose} className="text-slate-500 hover:text-slate-300">✕</button>
                         </h4>
 
                         {hasChampion ? (

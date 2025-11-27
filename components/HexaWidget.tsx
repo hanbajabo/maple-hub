@@ -21,9 +21,9 @@ interface HexaSkill {
 }
 
 const HexLevelIcon = ({ level, type }: { level: number, type: 'main' | 'sub' }) => {
-    const bgColor = type === 'main' ? 'bg-purple-900' : 'bg-sky-900';
-    const borderColor = type === 'main' ? 'border-purple-500' : 'border-sky-500';
-    const textColor = type === 'main' ? 'text-purple-100' : 'text-sky-100';
+    const bgColor = type === 'main' ? 'bg-cyan-950' : 'bg-slate-900';
+    const borderColor = type === 'main' ? 'border-cyan-500' : 'border-slate-600';
+    const textColor = type === 'main' ? 'text-cyan-100' : 'text-slate-300';
     return (
         <div className={`relative w-8 h-8 flex items-center justify-center font-bold text-base ${textColor}`}>
             <div className={`absolute inset-0 ${bgColor} border ${borderColor} opacity-80`} style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}></div>
@@ -37,10 +37,10 @@ const HexLevelIcon = ({ level, type }: { level: number, type: 'main' | 'sub' }) 
 const StatItem = ({ name, level, type }: { name: string, level: number, type: 'main' | 'sub' }) => {
     const maxLevel = 10;
     const progress = Math.min((level / maxLevel) * 100, 100);
-    const labelColor = type === 'main' ? 'text-purple-300' : 'text-sky-300';
+    const labelColor = type === 'main' ? 'text-cyan-300' : 'text-slate-400';
     const title = type === 'main' ? 'MAIN STAT' : 'ADDITIONAL STAT';
-    const barGradient = type === 'main' ? 'from-purple-600 via-fuchsia-500 to-purple-400' : 'from-sky-600 via-cyan-500 to-sky-400';
-    const highlightColor = type === 'main' ? 'bg-fuchsia-300' : 'bg-cyan-300';
+    const barGradient = type === 'main' ? 'from-cyan-600 via-sky-500 to-cyan-400' : 'from-slate-600 via-slate-500 to-slate-400';
+    const highlightColor = type === 'main' ? 'bg-cyan-300' : 'bg-slate-300';
     return (
         <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-2 relative overflow-hidden mb-1">
             <div className="flex items-center justify-between gap-3 relative z-10">
@@ -297,27 +297,27 @@ export default function HexaWidget({ ocid, refreshKey }: { ocid: string, refresh
                         badgeColor = 'bg-slate-900 text-slate-400 border-slate-700';
                         bgGlow = 'bg-slate-600/5';
                     } else if (isOrigin) {
-                        barColor = 'from-purple-600 via-fuchsia-500 to-pink-400';
-                        badgeColor = 'bg-purple-950 text-purple-300 border-purple-800/80 shadow-[0_0_5px_rgba(168,85,247,0.3)]';
+                        barColor = 'from-cyan-600 via-sky-500 to-blue-400';
+                        badgeColor = 'bg-cyan-950 text-cyan-300 border-cyan-800/80 shadow-[0_0_5px_rgba(6,182,212,0.3)]';
                         label = 'ORIGIN';
                     } else if (skill.hexa_core_type === '강화 코어') {
                         barColor = 'from-slate-600 to-slate-400';
                         badgeColor = 'bg-slate-900 text-slate-400 border-slate-700';
                         label = '강화';
                     } else if (skill.hexa_core_type === '공용 코어') {
-                        barColor = 'from-indigo-600 to-violet-4';
+                        barColor = 'from-indigo-600 to-violet-400';
                         badgeColor = 'bg-indigo-950 text-indigo-300 border-indigo-800/80';
                         label = '공용';
                     }
 
                     return (
                         <div key={idx} className="bg-slate-900/60 border border-slate-800 rounded-lg p-3 hover:bg-slate-900/80 transition-colors group relative overflow-hidden">
-                            {isOrigin && <div className="absolute inset-0 bg-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>}
+                            {isOrigin && <div className="absolute inset-0 bg-cyan-600/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>}
                             {bgGlow && <div className={`absolute inset-0 ${bgGlow} opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none`}></div>}
                             <div className="flex justify-between items-center mb-2 relative z-10">
                                 <div className="flex items-center gap-2">
                                     <span className={`text-[10px] px-2 py-0.5 rounded-full border ${badgeColor} font-bold tracking-wider`}>{label}</span>
-                                    <span title={skill.hexa_core_name} className={`text-sm font-medium truncate max-w-[340px] ${isOrigin ? 'text-purple-100 drop-shadow-sm' : 'text-slate-200'}`}>{skill.hexa_core_name}</span>
+                                    <span title={skill.hexa_core_name} className={`text-sm font-medium truncate max-w-[340px] ${isOrigin ? 'text-cyan-100 drop-shadow-sm' : 'text-slate-200'}`}>{skill.hexa_core_name}</span>
                                 </div>
                                 <span className="text-xs font-bold"><span className="text-slate-500 mr-0.5">Lv.</span>{skill.hexa_core_level}</span>
                             </div>
@@ -342,7 +342,7 @@ export default function HexaWidget({ ocid, refreshKey }: { ocid: string, refresh
                                 key={idx}
                                 onClick={() => { setActiveStatGroup(idx); setActivePreset(0); }}
                                 className={`px-3 py-1 rounded-md text-xs font-bold transition-all duration-200 shadow-md ${isActive
-                                    ? 'bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-purple-500/30 ring-1 ring-purple-400'
+                                    ? 'bg-gradient-to-r from-cyan-600 to-sky-600 text-white shadow-cyan-500/30 ring-1 ring-cyan-400'
                                     : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200'
                                     }`}
                             >
@@ -376,7 +376,7 @@ export default function HexaWidget({ ocid, refreshKey }: { ocid: string, refresh
                     <>
                         <div className="flex justify-between items-center mb-2 px-1">
                             <span className="text-sm font-bold text-slate-200 flex items-center gap-2">
-                                <span className="inline-block w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+                                <span className="inline-block w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
                                 스탯 정보
                             </span>
                             <span className="text-xs text-slate-500 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">

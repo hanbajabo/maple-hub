@@ -10,6 +10,8 @@ import {
 import { analyze } from '../lib/diagnosis';
 import HuntingDiagnosis from './HuntingDiagnosis';
 import BossDiagnosis from './BossDiagnosis';
+import { diagnoseTotalCheckup, TotalCheckupResult } from '../lib/diagnosis/total-checkup';
+import TotalDiagnosisModal from './TotalDiagnosisModal';
 
 export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }: { equipment: any[], ocid: string, worldName: string, refreshKey?: number }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +23,10 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
     const [rawData, setRawData] = useState<any>(null);
     const [bossStage, setBossStage] = useState<number | undefined>(undefined);
 
+    // Total Diagnosis State
+    const [isTotalDiagnosisOpen, setIsTotalDiagnosisOpen] = useState(false);
+    const [totalCheckupData, setTotalCheckupData] = useState<TotalCheckupResult | null>(null);
+
     useEffect(() => {
         setMounted(true);
     }, []);
@@ -30,6 +36,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
         setRawData(null);
         setReport(null);
         setBossStage(undefined);
+        setTotalCheckupData(null);
     }, [refreshKey, ocid, equipment]);
 
     // bossStage가 변경되면 리포트 갱신 (보스 모드일 때만)
@@ -46,6 +53,29 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
             setReport(result);
         }
     }, [bossStage, mode, rawData, equipment]);
+
+    // 모달 뒤로가기 핸들링 (사냥/보스 진단)
+    useEffect(() => {
+        if (isOpen) {
+            window.history.pushState({ modal: 'diagnosis' }, '', window.location.href);
+            document.body.style.overflow = 'hidden';
+
+            const handlePopState = () => {
+                setIsOpen(false);
+            };
+
+            window.addEventListener('popstate', handlePopState);
+
+            return () => {
+                document.body.style.overflow = 'unset';
+                window.removeEventListener('popstate', handlePopState);
+            };
+        }
+    }, [isOpen]);
+
+    const handleClose = () => {
+        window.history.back();
+    };
 
     const runDiagnosis = async (targetMode: 'HUNTING' | 'BOSS') => {
         setMode(targetMode);
@@ -145,19 +175,39 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
         }
     };
 
+    const handleTotalDiagnosis = () => {
+        const result = diagnoseTotalCheckup(equipment);
+        setTotalCheckupData(result);
+        setIsTotalDiagnosisOpen(true);
+    };
+
     return (
         <>
-            <div className="grid grid-cols-2 gap-2 mt-4">
-                <button onClick={() => runDiagnosis('HUNTING')} className="bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-2 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm border border-green-600">
+            <div className="grid grid-cols-3 gap-2 mt-4">
+                <button onClick={() => runDiagnosis('HUNTING')} className="bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-2 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-xs sm:text-sm border border-green-600 whitespace-nowrap">
                     🏹 사냥용 진단
                 </button>
-                <button onClick={() => runDiagnosis('BOSS')} className="bg-red-900 hover:bg-red-800 text-white font-bold py-3 px-2 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-sm border border-red-700">
+                <button onClick={() => runDiagnosis('BOSS')} className="bg-red-900 hover:bg-red-800 text-white font-bold py-3 px-2 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-xs sm:text-sm border border-red-700 whitespace-nowrap">
                     ⚔️ 보스용 진단
+                </button>
+                <button onClick={handleTotalDiagnosis} className="bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-3 px-2 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-xs sm:text-sm border border-indigo-700 whitespace-nowrap">
+                    🛡️ 종합 스펙 진단
                 </button>
             </div>
 
+            {/* Total Diagnosis Modal */}
+            {mounted && isTotalDiagnosisOpen && totalCheckupData && createPortal(
+                <TotalDiagnosisModal
+                    isOpen={isTotalDiagnosisOpen}
+                    onClose={() => setIsTotalDiagnosisOpen(false)}
+                    data={totalCheckupData}
+                    userName={rawData?.basic?.character_name || "용사"}
+                />,
+                document.body
+            )}
+
             {isOpen && mounted && createPortal(
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4" onClick={() => setIsOpen(false)}>
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4" onClick={handleClose}>
                     <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-4xl p-3 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar" onClick={e => e.stopPropagation()}>
 
                         {error ? (
@@ -166,7 +216,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                                 <p className="font-bold mb-2">오류 발생</p>
                                 <p className="text-sm text-red-300/80 mb-4 whitespace-pre-wrap">{error}</p>
                                 <button
-                                    onClick={() => setIsOpen(false)}
+                                    onClick={handleClose}
                                     className="px-4 py-2 bg-red-900/50 hover:bg-red-800/50 text-red-200 rounded-lg text-sm transition-colors"
                                 >
                                     닫기
@@ -320,7 +370,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                         )}
 
                         <button
-                            onClick={() => setIsOpen(false)}
+                            onClick={handleClose}
                             className="mt-4 sm:mt-8 w-full bg-slate-800 hover:bg-slate-700 text-slate-300 py-3 sm:py-4 rounded-xl font-bold transition-colors border border-slate-700 text-base sm:text-lg shadow-lg"
                         >
                             닫기

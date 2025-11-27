@@ -84,6 +84,18 @@ export const StageCard: React.FC<StageCardProps> = ({
     stageInfo, isCurrent, isPassed, isExpanded, onToggle, attTypeKor, setCounts, passedArmorOption, isGenesisWeapon, stage4Stats, stage5Stats, stage6Stats, stage7Info, stage8Stats, onPass, equipment
 }) => {
     const [expandedItemSlot, setExpandedItemSlot] = React.useState<string | null>(null);
+    const [expandedPassedItem, setExpandedPassedItem] = React.useState<any | null>(null);
+
+    React.useEffect(() => {
+        if (expandedItemSlot || expandedPassedItem) {
+            const handlePopState = () => {
+                setExpandedItemSlot(null);
+                setExpandedPassedItem(null);
+            };
+            window.addEventListener('popstate', handlePopState);
+            return () => window.removeEventListener('popstate', handlePopState);
+        }
+    }, [expandedItemSlot, expandedPassedItem]);
 
     // Ring Logic
     const passedRings = React.useMemo(() => {
@@ -156,8 +168,7 @@ export const StageCard: React.FC<StageCardProps> = ({
         });
     }, [equipment]);
 
-    // State for expanded passed item detail view
-    const [expandedPassedItem, setExpandedPassedItem] = React.useState<any | null>(null);
+    // State for expanded passed item detail view (Moved to top)
 
     // Helper to get passed items for each stage
     const getPassedItems = (stageId: number) => {
@@ -451,7 +462,11 @@ export const StageCard: React.FC<StageCardProps> = ({
                                 className="w-10 h-10 rounded bg-slate-800 border border-slate-700 cursor-pointer hover:border-green-500 transition-colors"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    setExpandedPassedItem(expandedPassedItem === item ? null : item);
+                                    if (expandedPassedItem === item) window.history.back();
+                                    else {
+                                        window.history.pushState({ modal: 'itemDetail' }, '', window.location.href);
+                                        setExpandedPassedItem(item);
+                                    }
                                 }}
                             />
                             {item.starforce > 0 && (
@@ -733,7 +748,14 @@ export const StageCard: React.FC<StageCardProps> = ({
                                             src={equipment.find(i => i.item_equipment_slot === "엠블렘").item_icon}
                                             alt="Emblem"
                                             className="w-8 h-8 ml-2 cursor-pointer border border-pink-500/50 rounded bg-slate-900 hover:scale-110 transition-transform"
-                                            onClick={(e) => { e.stopPropagation(); setExpandedItemSlot(expandedItemSlot === '엠블렘' ? null : '엠블렘'); }}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (expandedItemSlot === '엠블렘') window.history.back();
+                                                else {
+                                                    window.history.pushState({ modal: 'itemDetail' }, '', window.location.href);
+                                                    setExpandedItemSlot('엠블렘');
+                                                }
+                                            }}
                                             title="클릭하여 옵션 확인"
                                         />
                                     )}
@@ -774,7 +796,14 @@ export const StageCard: React.FC<StageCardProps> = ({
                                             src={equipment.find(i => i.item_equipment_slot === "무기").item_icon}
                                             alt="Weapon"
                                             className="w-8 h-8 ml-2 cursor-pointer border border-orange-500/50 rounded bg-slate-900 hover:scale-110 transition-transform"
-                                            onClick={(e) => { e.stopPropagation(); setExpandedItemSlot(expandedItemSlot === '무기' ? null : '무기'); }}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (expandedItemSlot === '무기') window.history.back();
+                                                else {
+                                                    window.history.pushState({ modal: 'itemDetail' }, '', window.location.href);
+                                                    setExpandedItemSlot('무기');
+                                                }
+                                            }}
                                             title="클릭하여 옵션 확인"
                                         />
                                     )}
