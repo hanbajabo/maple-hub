@@ -155,28 +155,42 @@ export default function SeedRingGuideClient() {
                                     isContinuous ? 'bg-blue-500/10 border-blue-500/30' :
                                         'bg-red-500/10 border-red-500/30'
                                     }`}>
-                                    <div className="flex items-start justify-between mb-3">
-                                        <h3 className="text-lg font-bold text-white">{data.job}</h3>
-                                        <div className={`px-3 py-1 rounded-full text-sm font-bold ${isSwitching ? 'bg-purple-500/20 text-purple-300' :
-                                            isContinuous ? 'bg-blue-500/20 text-blue-300' :
-                                                'bg-red-500/20 text-red-300'
-                                            }`}>
-                                            {data.recommend}
+                                    <div className="flex gap-4">
+                                        <div className="flex-shrink-0">
+                                            <img
+                                                src={`/images/jobs/${data.job}.png`}
+                                                alt={data.job}
+                                                className="w-16 h-16 rounded-lg object-cover bg-slate-800/50"
+                                                onError={(e) => {
+                                                    e.currentTarget.style.display = 'none';
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="flex items-start justify-between mb-3">
+                                                <h3 className="text-lg font-bold text-white">{data.job}</h3>
+                                                <div className={`px-3 py-1 rounded-full text-sm font-bold ${isSwitching ? 'bg-purple-500/20 text-purple-300' :
+                                                    isContinuous ? 'bg-blue-500/20 text-blue-300' :
+                                                        'bg-red-500/20 text-red-300'
+                                                    }`}>
+                                                    {data.recommend}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-3 mb-3">
+                                                <div className="flex-1 bg-slate-900/50 rounded-lg p-2">
+                                                    <div className="text-xs text-slate-500 mb-1">리레</div>
+                                                    <div className="text-lg font-bold text-red-400">{data.restraintRate}%</div>
+                                                </div>
+                                                <div className="flex-1 bg-slate-900/50 rounded-lg p-2">
+                                                    <div className="text-xs text-slate-500 mb-1">컨티</div>
+                                                    <div className="text-lg font-bold text-blue-400">{data.continuousRate}%</div>
+                                                </div>
+                                            </div>
+
+                                            <p className="text-sm text-slate-300">{data.note}</p>
                                         </div>
                                     </div>
-
-                                    <div className="flex gap-3 mb-3">
-                                        <div className="flex-1 bg-slate-900/50 rounded-lg p-2">
-                                            <div className="text-xs text-slate-500 mb-1">리레</div>
-                                            <div className="text-lg font-bold text-red-400">{data.restraintRate}%</div>
-                                        </div>
-                                        <div className="flex-1 bg-slate-900/50 rounded-lg p-2">
-                                            <div className="text-xs text-slate-500 mb-1">컨티</div>
-                                            <div className="text-lg font-bold text-blue-400">{data.continuousRate}%</div>
-                                        </div>
-                                    </div>
-
-                                    <p className="text-sm text-slate-300">{data.note}</p>
                                 </div>
                             );
                         })}

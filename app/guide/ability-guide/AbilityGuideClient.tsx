@@ -143,9 +143,26 @@ export default function AbilityGuideClient() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         {filteredData.map((data, idx) => (
                             <div key={idx} className="bg-slate-800/40 border border-slate-700 rounded-xl p-6 hover:border-purple-500/50 transition-colors">
-                                <div className="flex items-center gap-2 mb-4">
-                                    <h3 className="text-xl font-bold text-white">{data.job}</h3>
-                                    <Sparkles className="w-5 h-5 text-yellow-400" />
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="w-14 h-14 rounded-lg overflow-hidden border border-slate-600 bg-slate-800 flex-shrink-0 relative group">
+                                        <img
+                                            src={`/images/jobs/${data.job}.png`}
+                                            alt={data.job}
+                                            className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                                            onError={(e) => {
+                                                const parent = e.currentTarget.parentElement;
+                                                if (parent) {
+                                                    e.currentTarget.style.display = 'none';
+                                                    parent.className = "w-14 h-14 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center border border-purple-400/30";
+                                                    parent.innerHTML = `<span class="text-white font-bold text-xl">${data.job[0]}</span>`;
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <h3 className="text-xl font-bold text-white">{data.job}</h3>
+                                        <Sparkles className="w-5 h-5 text-yellow-400" />
+                                    </div>
                                 </div>
 
                                 <div className="space-y-2 mb-3">
