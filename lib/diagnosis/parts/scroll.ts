@@ -41,7 +41,11 @@ export function diagnoseScroll(item: any): string[] {
         const perfectAtt = level >= 200 ? 4 : 3; // 15%작 기준
 
         if (mainAtt > 0) {
-            if (avgAtt >= perfectAtt) {
+            if (avgAtt >= 6) {
+                comments.push(`[놀긍 완작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. 이건 주흔작이 아닙니다. <b>놀라운 긍정의 혼돈 주문서</b>로 공격력을 극한까지 끌어올린 지작입니다.`);
+            } else if (avgAtt >= 5) {
+                comments.push(`[놀긍작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. 주흔작의 한계를 넘었습니다. 놀긍혼으로 공격력을 잘 챙기셨네요.`);
+            } else if (avgAtt >= perfectAtt) {
                 comments.push(`[장갑 주흔 15% 완작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. 완벽한 ${attType} 작입니다.`);
             } else if (avgAtt >= 3) {
                 comments.push(`[장갑 주흔 30% 완작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. 훌륭한 ${attType} 작입니다.`);

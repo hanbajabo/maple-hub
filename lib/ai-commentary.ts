@@ -291,13 +291,38 @@ export function generateItemCommentary(item: any, job?: string): string {
                 comments.push(`이 좋은 무기에 추가옵션이 없습니다. <b>환생의 불꽃</b> 작업이 필수입니다.`);
             }
         } else {
-            if (addAllStat >= 6) {
+            // 방어구/장신구 추옵 계산 (점수제)
+            const str = parseInt(addOpts.str || "0");
+            const dex = parseInt(addOpts.dex || "0");
+            const int = parseInt(addOpts.int || "0");
+            const luk = parseInt(addOpts.luk || "0");
+            const att = parseInt(addOpts.attack_power || "0");
+            const magic = parseInt(addOpts.magic_power || "0");
+            const allStat = parseInt(addOpts.all_stat || "0");
+
+            // 깡추옵 + 공마*4 + 올스탯*10
+            const scoreSTR = str + (att * 4) + (allStat * 10);
+            const scoreDEX = dex + (att * 4) + (allStat * 10);
+            const scoreINT = int + (magic * 4) + (allStat * 10);
+            const scoreLUK = luk + (att * 4) + (allStat * 10);
+
+            const maxScore = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK);
+
+            if (maxScore >= 130) {
                 comments.push(pick([
-                    `<b>올스탯 +${addAllStat}%</b> 고추옵이 든든하게 받쳐주고 있네요.`,
-                    `<b>올스탯 ${addAllStat}%</b>! 방어구 추옵의 핵심을 잘 챙기셨습니다.`,
-                    `추옵이 아주 예쁘게 붙었네요. <b>올스탯 ${addAllStat}%</b> 굿!`
+                    `<b>${maxScore}급</b> 극추옵! 전 서버급 매물입니다. 평생 쓰셔도 됩니다.`,
+                    `와... <b>${maxScore}급</b>이라니! 환생의 불꽃 대성공입니다.`,
+                    `이건 추옵이 아니라 예술입니다. <b>${maxScore}급</b> 종결 추옵!`
                 ]));
-            } else if (addAllStat === 0 && addAtt === 0 && isEndGameItem) {
+            } else if (maxScore >= 100) {
+                comments.push(pick([
+                    `<b>${maxScore}급</b> 고추옵이 든든하게 받쳐주고 있네요.`,
+                    `<b>${maxScore}급</b>! 방어구 추옵의 핵심을 잘 챙기셨습니다.`,
+                    `추옵이 아주 예쁘게 붙었네요. <b>${maxScore}급</b> 굿!`
+                ]));
+            } else if (maxScore >= 80) {
+                comments.push(`<b>${maxScore}급</b>으로 준수한 추옵을 챙기셨습니다. 가성비 좋습니다.`);
+            } else if (maxScore === 0 && isEndGameItem) {
                 comments.push(`이 좋은 장비에 추가옵션이 거의 없습니다. <b>환생의 불꽃</b> 작업이 필수입니다.`);
             }
         }
@@ -411,7 +436,8 @@ export function generateItemCommentary(item: any, job?: string): string {
             }
 
             if (coolTime >= 4) comments.push(`<b>쿨타임 감소 ${coolTime}초</b>는 종결급 옵션입니다.`);
-            if (critDmg >= 16) comments.push(`<b>쌍크뎀</b> 장갑... 전 서버급 매물입니다.`);
+            if (critDmg >= 24) comments.push(`<b>3크뎀</b>...?! 이건 전설이 아니라 <b>신화</b>입니다. 메이플 역사에 남을 아이템입니다.`);
+            else if (critDmg >= 16) comments.push(`<b>쌍크뎀</b> 장갑... 전 서버급 매물입니다.`);
 
         } else if (potentialGrade === '유니크') {
             if (isEndGameItem) {
@@ -487,6 +513,7 @@ export function generateItemCommentary(item: any, job?: string): string {
                 let validStatLines = 0;
                 let validAttFlat = 0;
                 let hasAdiCoolReduce = false; // 에디 쿨감 체크
+                let adiCritDmgLines = 0; // 에디 크뎀 체크 (장갑)
 
                 addPotentials.forEach(line => {
                     if (!line) return;
@@ -513,11 +540,20 @@ export function generateItemCommentary(item: any, job?: string): string {
                     if (item.item_equipment_slot === '모자' && line.includes('재사용 대기시간')) {
                         hasAdiCoolReduce = true;
                     }
+
+                    // 4. 크리티컬 데미지 체크 (장갑)
+                    if (item.item_equipment_slot === '장갑' && line.includes('크리티컬 데미지')) {
+                        adiCritDmgLines++;
+                    }
                 });
 
                 const attType = isMagic ? '마력' : '공격력';
 
-                if (hasAdiCoolReduce) {
+                if (adiCritDmgLines >= 2) {
+                    comments.push(`${adiPrefix} <b>쌍크뎀</b>...?! 이건 말이 안 됩니다. 전 서버급 에디셔널입니다. 부르는 게 값입니다.`);
+                } else if (adiCritDmgLines === 1) {
+                    comments.push(`${adiPrefix} <b>크리티컬 데미지</b>! 장갑 에디셔널의 종결 옵션입니다. 공/마보다 훨씬 좋습니다.`);
+                } else if (hasAdiCoolReduce) {
                     comments.push(`${adiPrefix} <b>쿨타임 감소</b> 옵션이 붙어있습니다! 에디셔널에서 챙길 수 있는 최고의 유효 옵션 중 하나입니다. 대박!`);
                 } else if (validStatLines >= 3) {
                     comments.push(pick([
