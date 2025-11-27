@@ -1,0 +1,142 @@
+[
+  {
+    "name": "자쿰",
+    "imageUrl": "https://dszw1qtcnsa5e.cloudfront.net/quickboard/20250618/d15c7549236043a09b409d974f556d06/%EB%B3%B4%EC%8A%A4%EB%B3%B4%EC%83%811.png",
+    "rewards": "자쿰의 투구, 분노한 자쿰의 투구, 분노한 자쿰의 벨트, 자쿰의 나뭇가지, 자쿰의 포이즈닉 무기, 응축된 힘의 결정석, 아쿠아틱 레터 눈장식"
+  },
+  {
+    "name": "혼테일",
+    "imageUrl": "https://dszw1qtcnsa5e.cloudfront.net/quickboard/20250618/f9fae2f6c42043b1aa97bcbe883b62f3/%EB%B3%B4%EC%8A%A4%EB%B3%B4%EC%83%812.png",
+    "rewards": "실버블라썸 링, 데아 시두스 이어링, 혼테일의 목걸이"
+  },
+  {
+    "name": "파풀라투스",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5125188764989130982",
+    "rewards": "파풀라투스 마크, 파풀라투스의 시계 의자"
+  },
+  {
+    "name": "힐라",
+    "imageUrl": "https://dszw1qtcnsa5e.cloudfront.net/quickboard/20250618/5e77c96ed5c1417ca20f9cff33edda5b/%EB%B3%B4%EC%8A%A4%EB%B3%B4%EC%83%813.png",
+    "rewards": "네크로 세트, [펫 상자] 다크 소울, 지옥의 불꽃"
+  },
+  {
+    "name": "피에르",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5701649521587522073",
+    "rewards": "피에르 모자, 조롱의 조각(150제 트릭스터 하의), 즐거운 피에르, [칭호] 카오스 피에르 킬러"
+  },
+  {
+    "name": "반반",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5413419145435810007",
+    "rewards": "반반 모자, 시간의 조각(150제 이글아이 상의), 반반과 함께, [칭호] 카오스 반반 킬러"
+  },
+  {
+    "name": "블러디퀸",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=4981073581208242304",
+    "rewards": "퀸의 티아라, 절규의 조각(150제 하이네스 모자), 무서워요 퀸, [칭호] 카오스 블러디퀸 킬러"
+  },
+  {
+    "name": "벨룸",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=4692843346790450384",
+    "rewards": "벨룸의 헬름, 파멸의 조각(150제 파프니르 무기), 기암괴석 의자, [칭호] 카오스 벨룸 킬러"
+  },
+  {
+    "name": "반레온",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5053131510253617606",
+    "rewards": "로얄 반 레온 세트, 이피아의 반지, 이피아의 귀걸이, 이피아의 목걸이"
+  },
+  {
+    "name": "아카이럼",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5701649534472423413",
+    "rewards": "도미네이터 펜던트, 메커네이터 펜던트, 태초의 정수"
+  },
+  {
+    "name": "매그너스",
+    "imageUrl": "https://dszw1qtcnsa5e.cloudfront.net/quickboard/20250618/75c0369a5859450c8ac0f738778af030/%EB%B3%B4%EC%8A%A4%EB%B3%B4%EC%83%814.png",
+    "rewards": "노바 세트, 로얄 블랙메탈 숄더, 크리스탈 웬투스 뱃지, 저주받은 카이세리움, 매그너스 코인"
+  },
+  {
+    "name": "핑크빈",
+    "imageUrl": "https://dszw1qtcnsa5e.cloudfront.net/quickboard/20250618/ef45f3a2f8c2409fb0f5c56b785503b4/%EB%B3%B4%EC%8A%A4%EB%B3%B4%EC%83%815.png",
+    "rewards": "핑크빛 성배, 골든 클로버 벨트, 블랙빈 마크, 핑크빈 모자, 핑크빈 슈트"
+  },
+  {
+    "name": "시그너스",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5701649525882488779",
+    "rewards": "드래곤테일 메이지숄더, 검은 파괴의 조각(140제 여제 무기), 검은 수호의 조각(140제 여제 방어구)"
+  },
+  {
+    "name": "스우",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5557534595504669249",
+    "rewards": ""
+  },
+  {
+    "name": "데미안",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5701649616076801262",
+    "rewards": "앱솔랩스 무기 상자, 앱솔랩스 방어구 상자, 마력이 깃든 안대, 루인 포스실드, 뒤틀린 낙인의 영혼석,\n데미안로이드, 검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 녹옥의 보스 상자, 홍옥의 보스 반지 상자,\n솔 에르다의 기운"
+  },
+  {
+    "name": "가디언 엔젤 슬라임",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5485476786718377764",
+    "rewards": "가디언 엔젤 링, 검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 녹옥의 보스 반지 상자, 흑옥의 보스 반지 상자,\n솔 에르다의 기운"
+  },
+  {
+    "name": "루시드",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5485476868322755984",
+    "rewards": "아케인셰이드 무기 상자, 아케인셰이드 방어구 상자, 몽환의 벨트, 트와일라이트 마크, 나비날개 물방울석,\n루시드로이드, 검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 녹옥의 보스 반지 상자, 홍옥의 보스 반지 상자,\n솔 에르다의 기운"
+  },
+  {
+    "name": "윌",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5701649659026474733",
+    "rewards": "아케인셰이드 무기 상자, 아케인셰이드 방어구 상자, 트와일라이트 마크, 코브웹 물방울석, 저주받은 마도서 선택 상자, 거울세계의 코어 젬스톤,\n검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 녹옥의 보스 반지 상자, 홍옥의 보스 반지 상자,\n솔 에르다의 기운"
+  },
+  {
+    "name": "더스크",
+    "imageUrl": "https://dszw1qtcnsa5e.cloudfront.net/quickboard/20250618/e49bc2a44a464f8f9656d6e5868f85ff/%EB%B3%B4%EC%8A%A4%EB%B3%B4%EC%83%816.png",
+    "rewards": "아케인셰이드 무기 상자, 아케인셰이드 방어구 상자, 거대한 공포, 에스텔라 이어링,\n검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 녹옥의 보스 반지 상자, 흑옥의 보스 반지 상자,\n솔 에르다의 기운"
+  },
+  {
+    "name": "진 힐라",
+    "imageUrl": "https://dszw1qtcnsa5e.cloudfront.net/quickboard/20250618/2009411834e24eceaf6b2b0ae52e4661/%EB%B3%B4%EC%8A%A4%EB%B3%B4%EC%83%817.png",
+    "rewards": "아케인셰이드 무기 상자, 아케인셰이드 방어구 상자, 데이브레이크 펜던트, 고통의 근원,\n검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 홍옥의 보스 반지 상자, 흑옥의 보스 반지 상자,\n솔 에르다의 기운"
+  },
+  {
+    "name": "친위대장 듄켈",
+    "imageUrl": "https://dszw1qtcnsa5e.cloudfront.net/quickboard/20250618/1c8bc8d467a14623bdc08dc3e3750d4b/%EB%B3%B4%EC%8A%A4%EB%B3%B4%EC%83%818.png",
+    "rewards": "아케인셰이드 무기 상자, 아케인셰이드 방어구 상자, 커맨더 포스 이어링, 에스텔라 이어링,\n검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 녹옥의 보스 반지 상자, 흑옥의 보스 반지 상자,\n솔 에르다의 기운"
+  },
+  {
+    "name": "검은 마법사",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5557534805958066663",
+    "rewards": "아케인셰이드 무기 상자, 아케인셰이드 방어구 상자, 봉인된 제네시스 무기 상자, 창세의 뱃지,\n검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%,\n익셉셔널 해머 (벨트), 백옥의 보스 반지 상자,솔 에르다의 기운"
+  },
+  {
+    "name": "선택받은 세렌",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5341362182758072733",
+    "rewards": "미트라의 분노 선택 상자, 데이브레이크 펜던트, 미트라의 코어 젬스톤, 검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%,\n익셉셔널 해머 (얼굴장식), 흑옥의 보스 반지 상자, 백옥의 보스 반지 상자, 솔 에르다의 기운"
+  },
+  {
+    "name": "감시자 칼로스",
+    "imageUrl": "http://storage.nexon.com/dsk03/15/NX_FILE/Board/65536/05/1/000/00/00/5701649727745950349.PNG",
+    "rewards": "남겨진 칼로스의 의지, 검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 생명의 보스 반지 상자,\n솔 에르다의 기운, 니키로이드, 익셉셔널 해머 (눈장식), 남겨진 칼로스의 의지 조각, 생명의 연마석, 의지의 에테르넬 방어구 상자"
+  },
+  {
+    "name": "최초의 대적자",
+    "imageUrl": "https://dszw1qtcnsa5e.cloudfront.net/quickboard/20250821/98c248c92caf4801ab782ce47342556b/%EB%B3%B4%EC%8A%A4%EB%B3%B4%EC%83%81_%EC%B5%9C%EC%B4%88%EC%9D%98%EB%8C%80%EC%A0%81%EC%9E%90.png",
+    "rewards": "익셉셔널 해머 (훈장), 불멸의 유산, 고대의 에테르넬 방어구 상자, 이어진 고대의 결의, 대적자로이드, 검은 환생의 불꽃, 영원한 환생의 불꽃, 생명의 보스 반지 상자, 생명의 연마석"
+  },
+  {
+    "name": "카링",
+    "imageUrl": "http://storage.nexon.com/dsk03/15/NX_FILE/Board/65536/05/1/000/00/01/5701649744925820236.png",
+    "rewards": "검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 백옥의 보스 반지 상자, 솔 에르다의 기운, 익셉셔널 해머 (귀고리),\n흉수의 에테르넬 방어구 상자, 뒤엉킨 흉수의 고리, 카링로이드, 생명의 보스 반지 상자, 생명의 연마석, 혼돈의 칠흑 장신구 상자"
+  },
+  {
+    "name": "림보",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=4909016167558939660",
+    "rewards": "왜곡된 욕망의 결정, 림보로이드, 검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 생명의 보스 반지 상자, 신념의 연마석, 솔 에르다의 기운, 근원의 속삭임, 욕망의 에테르넬 방어구 상자, 혼돈의 칠흑 장신구 상자"
+  },
+  {
+    "name": "발드릭스",
+    "imageUrl": "https://file.nexon.com/NxFile/download/FileDownloader.aspx?oidFile=5125188949672723502",
+    "rewards": "검은 환생의 불꽃, 영원한 환생의 불꽃, 놀라운 긍정의 혼돈 주문서 60%, 생명의 보스 반지 상자, 신념의 연마석, 솔 에르다의 기운, 죽음의 맹세, 맹세의 에테르넬 방어구 상자, 영원한 충성의 흔적, 발드릭스로이드, 혼돈의 칠흑 장신구 상자"
+  }
+]

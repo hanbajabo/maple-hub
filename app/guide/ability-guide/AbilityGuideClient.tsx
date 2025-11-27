@@ -120,7 +120,7 @@ export default function AbilityGuideClient() {
                         </div>
                     </div>
 
-                    <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-4 mb-6 sticky top-24 z-10 backdrop-blur-md shadow-xl">
+                    <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-4 mb-6">
                         <div className="flex items-center gap-4">
                             <Search className="w-5 h-5 text-slate-400" />
                             <select
@@ -136,55 +136,16 @@ export default function AbilityGuideClient() {
                         </div>
                     </div>
 
-                    {selectedJob && (
-                        <div className="mb-8 relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-700 p-6 sm:p-10 flex flex-col sm:flex-row items-center gap-6 shadow-2xl">
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2"></div>
-
-                            <img
-                                src={`/images/jobs/${selectedJob.replace(/[\/\?<>\\:\*\|":]/g, '_')}.png`}
-                                alt={selectedJob}
-                                className="w-32 h-32 sm:w-48 sm:h-48 object-contain relative z-10 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]"
-                                onError={(e) => e.currentTarget.style.display = 'none'}
-                            />
-
-                            <div className="relative z-10 text-center sm:text-left">
-                                <h2 className="text-3xl sm:text-5xl font-black text-white mb-2">{selectedJob}</h2>
-                                <p className="text-purple-300 font-medium text-lg">추천 어빌리티 요약</p>
-                                <div className="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
-                                    {ABILITY_DATA.find(d => d.job === selectedJob)?.abilities.map((ability, idx) => (
-                                        <span key={idx} className="px-3 py-1 bg-slate-950/50 border border-slate-600 rounded-full text-sm text-slate-200">
-                                            {ability.split(' ')[0]}...
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
-                        <span className="text-purple-400">⚡</span>
+                    <h2 className="text-2xl font-bold text-white mb-6 mt-12">
                         전직업 추천 어빌리티 {selectedJob && `- ${selectedJob}`}
                     </h2>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         {filteredData.map((data, idx) => (
-                            <div key={idx} className="bg-slate-800/40 border border-slate-700 rounded-xl p-6 hover:border-purple-500/50 transition-all hover:bg-slate-800/60 group">
-                                <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-16 h-16 bg-slate-900 rounded-lg flex items-center justify-center overflow-hidden border border-slate-700 group-hover:border-purple-500/30 transition-colors">
-                                        <img
-                                            src={`/images/jobs/${data.job.replace(/[\/\?<>\\:\*\|":]/g, '_')}.png`}
-                                            alt={data.job}
-                                            className="w-full h-full object-contain p-1"
-                                            onError={(e) => e.currentTarget.style.display = 'none'}
-                                        />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">{data.job}</h3>
-                                        <div className="flex items-center gap-1 text-xs text-slate-400">
-                                            <Sparkles className="w-3 h-3 text-yellow-400" />
-                                            <span>추천 어빌리티 3종</span>
-                                        </div>
-                                    </div>
+                            <div key={idx} className="bg-slate-800/40 border border-slate-700 rounded-xl p-6 hover:border-purple-500/50 transition-colors">
+                                <div className="flex items-center gap-2 mb-4">
+                                    <h3 className="text-xl font-bold text-white">{data.job}</h3>
+                                    <Sparkles className="w-5 h-5 text-yellow-400" />
                                 </div>
 
                                 <div className="space-y-2 mb-3">
@@ -203,9 +164,7 @@ export default function AbilityGuideClient() {
 
                                 {data.note && (
                                     <div className="mt-3 pt-3 border-t border-slate-700">
-                                        <p className="text-xs text-yellow-400 font-medium flex items-center gap-1">
-                                            <span>💡</span> {data.note}
-                                        </p>
+                                        <p className="text-xs text-yellow-400">💡 {data.note}</p>
                                     </div>
                                 )}
                             </div>

@@ -90,6 +90,15 @@ const guides = [
         difficulty: '초급',
         icon: '🛡️',
     },
+    {
+        id: 'boss-rewards',
+        title: '보스별 주요 보상 가이드',
+        description: '메이플스토리 모든 보스의 주요 보상과 드롭 아이템을 한눈에 확인하세요.',
+        category: '보스',
+        readTime: '5분',
+        difficulty: '초급',
+        icon: '🎁',
+    },
 ];
 
 export default function GuidePage() {
