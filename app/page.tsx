@@ -548,7 +548,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-0 sm:p-8 overflow-x-hidden w-full">
       {/* Header */}
-      <header className="w-full sm:max-w-5xl flex justify-start mb-4 sm:mb-12 px-4 sm:px-2 mt-4 sm:mt-0">
+      <header className="w-full sm:max-w-5xl flex justify-between items-center mb-4 sm:mb-12 px-4 sm:px-2 mt-4 sm:mt-0">
         <button
           onClick={() => {
             setNickname("");
@@ -566,6 +566,15 @@ export default function Home() {
           <img src="/images/maple-ai-logo.jpg" alt="메이플 AI 로고" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
           <span className="text-lg sm:text-2xl font-bold text-maple-orange">메이플 AI</span>
         </button>
+
+        {/* Guide Link */}
+        <a
+          href="/guide"
+          className="px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg"
+        >
+          <span>📚</span>
+          <span className="hidden sm:inline">가이드</span>
+        </a>
       </header>
 
       {/* Search Section */}
