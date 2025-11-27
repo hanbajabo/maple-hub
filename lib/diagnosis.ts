@@ -27,7 +27,7 @@ export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS', boss
     const dropStat = stat.final_stat?.find((s: any) => s.stat_name === "아이템 드롭률");
     const currentDropRate = dropStat ? parseInt(dropStat.stat_value || "0") : 0;
 
-    const equipmentResult = diagnoseEquipment(equipment, mainStat, attType, targetMode, currentDropRate);
+    const equipmentResult = diagnoseEquipment(equipment, mainStat, attType, targetMode, currentDropRate, myClass);
 
     // 종합 점수 계산 (기초 점수)
     let deductionScore = 100;

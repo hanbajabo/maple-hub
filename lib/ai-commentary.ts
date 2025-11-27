@@ -1,8 +1,11 @@
 import { diagnoseItemDeeply } from './diagnosis/equipment';
+import { isMagicJob, getJobMainStat } from './job_utils';
 
 // 아이템 데이터를 기반으로 AI 분석 멘트를 생성하는 함수
-export function generateItemCommentary(item: any): string {
+export function generateItemCommentary(item: any, job?: string): string {
     if (!item) return "아이템 정보를 분석할 수 없습니다.";
+
+    const isMagic = job ? isMagicJob(job) : false;
 
     // Helper for random comments
     const pick = (opts: string[]) => opts[Math.floor(Math.random() * opts.length)];
@@ -48,54 +51,46 @@ export function generateItemCommentary(item: any): string {
         comments.push(pick([
             `[도전자 세트] 메이플 월드에 오신 것을 환영합니다! (혹은 복귀를 축하드려요!) 이 장비는 성장의 든든한 발판이 되어줄 겁니다.`,
             `[도전자 세트] 시작이 반입니다! 이 장비와 함께라면 어떤 모험도 두렵지 않아요.`,
-            `[도전자 세트] 훌륭한 시작 아이템입니다. 차근차근 스펙업의 재미를 느껴보세요!`,
-            `[도전자 세트] 모험의 시작을 알리는 장비군요. 앞으로 더 멋진 장비들을 만나게 될 거예요!`
+            `[도전자 세트] 아주 좋은 시작입니다. 이 장비로 레벨업 쭉쭉 하세요!`
         ]));
         isStarter = true;
-    } else if (brilliantBossSet.some(name => itemName.includes(name))) {
+    } else if (genesisWeapon.some(name => itemName.includes(name))) {
         comments.push(pick([
-            `[광휘의 보스 세트] 맙소사... <b>"${itemName}"</b>이라니! 칠흑을 뛰어넘는 메이플스토리 최강의 아이템입니다.`,
-            `[광휘의 보스 세트] 전 서버에 몇 개 없는 전설의 아이템을 영접합니다. 눈이 부시네요.`,
-            `[광휘의 보스 세트] 이 아이템을 본 것만으로도 영광입니다. 진정한 지존의 장비군요.`,
-            `[광휘의 보스 세트] 와... 말이 안 나옵니다. 메이플의 역사를 쓰는 아이템입니다.`
-        ]));
-        isLuxury = true;
-        isEndGameItem = true;
-    } else if (pitchBossSet.some(name => itemName.includes(name))) {
-        comments.push(pick([
-            `[칠흑의 보스 세트] 메이플 월드에서 가장 희귀하고 강력한 <b>칠흑</b> 아이템이군요.`,
-            `[칠흑의 보스 세트] 검은 마법사의 힘이 깃든 <b>칠흑</b>! 보기만 해도 압도됩니다.`,
-            `[칠흑의 보스 세트] 선택받은 자만이 가질 수 있다는 <b>칠흑</b>... 정말 부럽습니다.`,
-            `[칠흑의 보스 세트] 이게 바로 그 전설의 <b>칠흑</b> 풀세트 파츠 중 하나군요!`,
-            `[칠흑의 보스 세트] 칠흑의 기운이 느껴집니다. 고스펙의 상징 그 자체네요.`
+            `[제네시스 무기] 해방의 기쁨이 느껴지는군요! 검은 마법사를 쓰러뜨린 영웅의 무기입니다.`,
+            `[제네시스 무기] 진정한 해방 퀘스트의 증표! 그동안의 노력이 헛되지 않았습니다.`,
+            `[제네시스 무기] 이 무기를 들고 계신다는 건, 메이플스토리의 정점에 서 계신다는 뜻이죠.`
         ]));
         isLuxury = true;
         isEndGameItem = true;
     } else if (eternalSet.some(name => itemName.includes(name))) {
         comments.push(pick([
-            `[에테르넬 세트] 방어구의 끝판왕, <b>에테르넬</b> 장비입니다.`,
-            `[에테르넬 세트] 메이플스토리 최상위 방어구, <b>에테르넬</b>을 착용하셨군요. 위엄이 느껴집니다.`,
-            `[에테르넬 세트] 진정한 지배자의 갑옷, <b>에테르넬</b>입니다.`,
-            `[에테르넬 세트] 이름만 들어도 가슴이 웅장해지는 그 장비! <b>에테르넬</b>입니다.`,
-            `[에테르넬 세트] 카루타의 시대를 끝낸 유일한 장비, 에테르넬을 영접합니다.`
+            `[에테르넬 세트] 현존 최강의 방어구, 에테르넬을 착용하셨군요. 압도적인 성능이 기대됩니다.`,
+            `[에테르넬 세트] 그란디스의 힘이 깃든 장비입니다. 진정한 고스펙의 상징이죠.`,
+            `[에테르넬 세트] 보기만 해도 든든합니다. 이 장비와 함께라면 어떤 보스도 두렵지 않겠어요.`
         ]));
         isLuxury = true;
         isEndGameItem = true;
-    } else if (genesisWeapon.some(name => itemName.includes(name))) {
+    } else if (pitchBossSet.some(name => itemName.includes(name))) {
         comments.push(pick([
-            `[제네시스 무기] 해방 퀘스트의 증표, <b>해방 무기</b>군요. 경의를 표합니다.`,
-            `[제네시스 무기] 검은 마법사를 쓰러뜨린 영웅의 증명! <b>해방 무기</b>의 포스가 느껴집니다.`,
-            `[제네시스 무기] 진정한 해방을 이루셨군요. 축하드립니다!`,
-            `[제네시스 무기] 노력의 결실이 담긴 최고의 무기입니다.`
+            `[칠흑의 보스 세트] 검은 마법사의 군단장들이 남긴 저주받은(하지만 강력한) 장비입니다.`,
+            `[칠흑의 보스 세트] 칠흑 세트라니... 운이 정말 좋으시거나, 엄청난 노력을 하셨군요.`,
+            `[칠흑의 보스 세트] 최상위 보스 전리품! 스펙업의 끝판왕입니다.`
+        ]));
+        isLuxury = true;
+        isEndGameItem = true;
+    } else if (brilliantBossSet.some(name => itemName.includes(name))) {
+        comments.push(pick([
+            `[광휘의 보스 세트] 익스트림 보스들이 드롭하는 최상위 장신구입니다. 영롱하네요.`,
+            `[광휘의 보스 세트] 선택받은 자만이 가질 수 있는 아이템입니다. 대단합니다!`,
+            `[광휘의 보스 세트] 서버에 몇 없는 귀한 아이템을 가지고 계시는군요.`
         ]));
         isLuxury = true;
         isEndGameItem = true;
     } else if (dawnSet.some(name => itemName.includes(name))) {
         comments.push(pick([
-            `[여명의 보스 세트] 가성비와 고점을 모두 잡은 훌륭한 선택입니다.`,
-            `[여명의 보스 세트] 칠흑으로 가기 전 최고의 징검다리이자 종결급 아이템이죠.`,
-            `[여명의 보스 세트] 든든한 국밥 같은 장비 세팅입니다. 아주 좋아요!`,
-            `[여명의 보스 세트] 성능과 가격, 두 마리 토끼를 모두 잡은 현명한 선택입니다.`
+            `[여명의 보스 세트] 가성비와 성능을 모두 잡은 훌륭한 세트입니다.`,
+            `[여명의 보스 세트] 칠흑으로 넘어가기 전 최고의 선택이죠. 아주 좋습니다.`,
+            `[여명의 보스 세트] 든든한 허리 라인업! 스펙업의 정석을 밟고 계시네요.`
         ]));
     } else {
         const openings = [
@@ -248,33 +243,31 @@ export function generateItemCommentary(item: any): string {
         } else {
             if (isEndGameItem) {
                 comments.push(`하지만 <b>${starforce}성</b>이라니요... 이런 귀한 장비에 스타포스가 너무 부족합니다. 최소 <b>17성</b>, 목표는 <b>22성</b>입니다.`);
-            } else if (starforce < 10) {
-                comments.push(`스타포스 강화가 시급합니다. <b>10성</b> 이상만 달아도 공격력이 확 달라질 거예요.`);
             } else {
-                comments.push(`여유가 되신다면 <b>17성</b> 강화를 목표로 해보세요. 스펙업 체감이 가장 큰 구간입니다.`);
+                comments.push(`스타포스가 <b>${starforce}성</b>으로 다소 낮습니다. <b>17성</b>까지는 강화해주시는 게 좋습니다.`);
             }
         }
     }
 
-    // 2. 추가옵션(추옵) 분석
-    // 환생의 불꽃 사용 가능 부위: 무기, 모자, 상의, 하의, 신발, 망토, 장갑, 눈장식, 얼굴장식, 펜던트, 벨트, 귀고리
-    // 사용 불가: 반지, 어깨장식, 뱃지, 훈장, 포켓, 엠블렘, 보조무기, 기계심장
-    const canUseFlame = ['무기', '모자', '상의', '하의', '신발', '망토', '장갑', '눈장식', '얼굴장식', '펜던트', '벨트', '귀고리'].includes(slot);
+    // 2. 추가옵션 분석 (무기/방어구 구분)
+    // 추가옵션이 붙지 않는 부위 목록 (반지, 엠블렘, 보조무기, 뱃지, 훈장, 심장, 어깨장식)
+    const noFlameSlots = ['반지', '엠블렘', '보조무기', '뱃지', '훈장', '기계 심장', '기계심장', '어깨장식'];
+    const isNoFlameSlot = noFlameSlots.some(s => slot.includes(s) || slot === s);
 
-    if (canUseFlame) {
-        const addOptions = item.item_add_option || {};
-        const addAtt = parseInt(addOptions.attack_power) || 0;
-        const addMagic = parseInt(addOptions.magic_power) || 0;
-        const addAllStat = parseInt(addOptions.all_stat) || 0;
+    if (!isNoFlameSlot) {
+        const addOpts = item.item_add_option || {};
+        const addAtt = parseInt(addOpts.attack_power || "0");
+        const addMagic = parseInt(addOpts.magic_power || "0");
+        const addAllStat = parseInt(addOpts.all_stat || "0");
+        const level = item.item_base_option.base_equipment_level;
 
-        const isWeapon = slot === '무기';
-
-        if (isWeapon) {
-            const level = item.item_base_option?.base_equipment_level || 0;
+        if (slot === '무기') {
+            // 무기 추옵 계산 (간이) - 1티어/2티어 판별
             let tier1 = 0;
             let tier2 = 0;
 
-            if (level >= 200) { tier1 = 125; tier2 = 98; } // 아케인 기준
+            // 아케인/제네시스 (200제)
+            if (level >= 200) { tier1 = 120; tier2 = 90; } // 대략적인 수치
             else if (level >= 160) { tier1 = 95; tier2 = 74; } // 앱솔 기준
             else if (level >= 150) { tier1 = 75; tier2 = 58; } // 파프 기준
 
@@ -454,139 +447,106 @@ export function generateItemCommentary(item: any): string {
             }
         }
 
-        // 4. 에디셔널 조언
-        let addAttVal = 0;
-        let addMagicVal = 0;
-        addPotentials.forEach(line => {
-            if (line.includes('공격력') && !line.includes('%')) {
-                addAttVal += parseInt(line.replace(/[^0-9]/g, '')) || 0;
-            }
-            if (line.includes('마력') && !line.includes('%')) {
-                addMagicVal += parseInt(line.replace(/[^0-9]/g, '')) || 0;
-            }
-        });
+        // 4. 에디셔널 옵션 평가
+        if (addPotentialGrade !== '없음') {
+            const adiPrefix = "에디셔널은";
 
-        if (addPotentialGrade === '레어' || addPotentialGrade === '없음') {
-            if (addAttVal > 0 || addMagicVal > 0) {
-                const stats = [];
-                if (addAttVal > 0) stats.push(`공격력 +${addAttVal}`);
-                if (addMagicVal > 0) stats.push(`마력 +${addMagicVal}`);
-                comments.push(pick([
-                    `에디셔널에서 <b>${stats.join(", ")}</b>을 챙기셨네요. 레어 등급에서는 최선의 선택입니다. 아주 알뜰하시군요!`,
-                    `<b>${stats.join(", ")}</b>! 소소하지만 확실한 스펙업입니다.`,
-                    `가성비 좋게 <b>공/마 10</b>을 챙기셨네요. 현명합니다.`
-                ]));
-            } else if (isEndGameItem || starforce >= 17) {
-                comments.push(`윗잠재와 스타포스는 훌륭한데, <b>에디셔널 잠재능력</b>이 비어있네요. 에디셔널 공/마 한 줄만 챙겨도 스펙이 확 오를 겁니다.`);
-            } else if (addPotentialGrade === '없음') {
-                comments.push(`<b>에디셔널 잠재능력</b>이 없습니다. 수큐로 공/마 10이라도 챙기면 큰 도움이 됩니다.`);
-            }
-        } else {
-            // 에픽, 유니크, 레전드리 에디셔널
-            const adiPrefixes = ["에디셔널은", "에디는", "밑잠은", "에디 옵션은"];
-            const adiPrefix = pick(adiPrefixes);
-
-            if (slot === '무기' || slot === '보조무기' || slot === '엠블렘' || item.item_equipment_part === '보조무기') {
-                const addAttLines = addPotentials.filter(l => (l.includes('공격력') || l.includes('마력')) && l.includes('%')).length;
-                const addBossLines = addPotentials.filter(l => l.includes('보스')).length;
-
-                if (addAttLines >= 3) {
-                    comments.push(`${adiPrefix} <b>공/마 3줄</b>...?! 이건 기적입니다. 전 서버급 매물을 보유하고 계시네요.`);
-                } else if (addAttLines >= 2) {
-                    comments.push(`${adiPrefix} <b>공/마 2줄</b>! 윗잠재와 합쳐져서 엄청난 시너지를 냅니다. 종결급 에디셔널입니다.`);
-                } else if (addAttLines >= 1 && addBossLines >= 1) {
-                    comments.push(`${adiPrefix} <b>공/마</b>와 <b>보공</b>을 모두 챙기셨군요. 밸런스가 아주 좋은 준종결 세팅입니다.`);
-                } else if (addAttLines >= 1) {
-                    comments.push(`${adiPrefix} <b>공/마 1줄</b>은 국룰이죠. 든든하게 스펙을 받쳐주고 있습니다.`);
-                } else if (addBossLines >= 2) {
-                    comments.push(`${adiPrefix} <b>보공 2줄</b>! 공/마보다는 티어가 낮지만, 실전 딜 상승량은 무시할 수 없습니다. 가성비 최고의 선택입니다.`);
-                } else if (addBossLines >= 1) {
-                    comments.push(`${adiPrefix} <b>보공</b>을 챙기셨네요. 나쁘지 않지만, 추후 <b>공/마 %</b> 옵션으로 교체를 고려해보세요.`);
-                }
-            } else {
-                // 방어구 에디셔널 (주스탯/공마)
-                // 에디셔널도 주스탯만 계산 (부스탯 제외)
-                let addStrTotal = 0;
-                let addDexTotal = 0;
-                let addIntTotal = 0;
-                let addLukTotal = 0;
-                let addAllStatTotal = 0;
+            if (item.item_equipment_slot === '무기' || item.item_equipment_slot === '보조무기' || item.item_equipment_slot === '엠블렘') {
+                // 무보엠 에디셔널 (공/마 %)
+                let addAttLines = 0;
+                let addBossLines = 0;
 
                 addPotentials.forEach(line => {
                     if (line) {
-                        const match = line.match(/(\d+)%/);
-                        if (match) {
-                            if (line.includes('STR') && line.includes('%')) addStrTotal += parseInt(match[1]);
-                            else if (line.includes('DEX') && line.includes('%')) addDexTotal += parseInt(match[1]);
-                            else if (line.includes('INT') && line.includes('%')) addIntTotal += parseInt(match[1]);
-                            else if (line.includes('LUK') && line.includes('%')) addLukTotal += parseInt(match[1]);
-                            else if (line.includes('올스탯') && line.includes('%')) addAllStatTotal += parseInt(match[1]);
-                        }
+                        if ((isMagic ? line.includes('마력') : line.includes('공격력')) && line.includes('%')) addAttLines++;
+                        if (line.includes('보스 몬스터')) addBossLines++;
                     }
                 });
 
-                // 유효 줄 수 계산 (각 스탯별로 올스탯 포함하여 최대 줄 수 계산)
-                let strLines = 0;
-                let dexLines = 0;
-                let intLines = 0;
-                let lukLines = 0;
-                let hpLines = 0;
-                let allStatLines = 0;
+                if (addAttLines >= 2) {
+                    comments.push(pick([
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 2줄</b> 이상! 아주 훌륭합니다.`,
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} %</b>가 든든하게 붙어있군요.`,
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 2줄</b>, 스펙업의 정석입니다.`
+                    ]));
+                } else if (addAttLines === 1 && addBossLines >= 1) {
+                    comments.push(`${adiPrefix} <b>${isMagic ? '마력' : '공격력'}</b>과 <b>보공</b>의 조화! 밸런스가 좋습니다.`);
+                } else if (addAttLines === 1) {
+                    comments.push(`${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 1줄</b>은 국룰이죠. 든든하게 스펙을 받쳐주고 있습니다.`);
+                } else if (addBossLines >= 2) {
+                    comments.push(`${adiPrefix} <b>보공 2줄</b>! ${isMagic ? '마력' : '공격력'}보다는 티어가 낮지만, 실전 딜 상승량은 무시할 수 없습니다. 가성비 최고의 선택입니다.`);
+                } else if (addBossLines >= 1) {
+                    comments.push(`${adiPrefix} <b>보공</b>을 챙기셨네요. 나쁘지 않지만, 추후 <b>${isMagic ? '마력' : '공격력'} %</b> 옵션으로 교체를 고려해보세요.`);
+                }
+            } else {
+                // 방어구 에디셔널 (주스탯/공마)
+                // 직업별 주스탯 정보 가져오기
+                const mainStats = getJobMainStat(job || "");
+
+                // 유효 줄 수 계산 (직업 주스탯 및 올스탯만 포함)
+                let validStatLines = 0;
+                let validAttFlat = 0;
+                let hasAdiCoolReduce = false; // 에디 쿨감 체크
 
                 addPotentials.forEach(line => {
                     if (!line) return;
-                    if (line.includes('올스탯') && line.includes('%')) allStatLines++;
-                    else if (line.includes('STR') && line.includes('%')) strLines++;
-                    else if (line.includes('DEX') && line.includes('%')) dexLines++;
-                    else if (line.includes('INT') && line.includes('%')) intLines++;
-                    else if (line.includes('LUK') && line.includes('%')) lukLines++;
-                    else if (line.includes('HP') && line.includes('%')) hpLines++;
+
+                    // 1. 주스탯 % 체크
+                    if (line.includes('%')) {
+                        if (line.includes('올스탯')) {
+                            validStatLines++;
+                        } else {
+                            // 직업 주스탯과 일치하는 경우만 카운트
+                            const isMainStat = mainStats.some((stat: string) => line.includes(stat));
+                            if (isMainStat) validStatLines++;
+                        }
+                    }
+
+                    // 2. 공/마 상수 체크
+                    const isAttLine = isMagic ? line.includes('마력') : line.includes('공격력');
+                    if (isAttLine && !line.includes('%')) {
+                        const val = parseInt(line.replace(/[^0-9]/g, '')) || 0;
+                        validAttFlat += val;
+                    }
+
+                    // 3. 쿨타임 감소 체크 (모자)
+                    if (item.item_equipment_slot === '모자' && line.includes('재사용 대기시간')) {
+                        hasAdiCoolReduce = true;
+                    }
                 });
 
-                // 가장 높은 줄 수를 가진 스탯을 기준으로 함 (HP 제외 - 데벤져 외 직업 오인 방지)
-                const addStatLines = Math.max(
-                    strLines + allStatLines,
-                    dexLines + allStatLines,
-                    intLines + allStatLines,
-                    lukLines + allStatLines
-                );
+                const attType = isMagic ? '마력' : '공격력';
 
-                const addAttFlat = addPotentials.some(l => (l.includes('공격력') || l.includes('마력')) && !l.includes('%')); // 공/마 상수
-                const addAttVal = addPotentials.reduce((acc, l) => {
-                    if ((l.includes('공격력') || l.includes('마력')) && !l.includes('%')) {
-                        return acc + (parseInt(l.replace(/[^0-9]/g, '')) || 0);
-                    }
-                    return acc;
-                }, 0);
-
-                if (addStatLines >= 3) {
+                if (hasAdiCoolReduce) {
+                    comments.push(`${adiPrefix} <b>쿨타임 감소</b> 옵션이 붙어있습니다! 에디셔널에서 챙길 수 있는 최고의 유효 옵션 중 하나입니다. 대박!`);
+                } else if (validStatLines >= 3) {
                     comments.push(pick([
                         `${adiPrefix} <b>주스탯 3줄</b>...?! 이건 <b>진짜 종결급</b>입니다. 더 이상 손댈 곳이 없습니다.`,
                         `${adiPrefix} 와... <b>3줄</b>이라니! 메이플 인생에 몇 번 보기 힘든 옵션입니다.`,
                         `${adiPrefix} <b>주스탯 3줄</b>! 완벽 그 자체입니다. 졸업을 축하드립니다.`
                     ]));
-                } else if (addStatLines === 2) {
-                    if (addAttFlat) {
-                        comments.push(`${adiPrefix} <b>주스탯 2줄</b>에 <b>공/마 +${addAttVal}</b>까지! 완벽에 가까운 에디셔널입니다.`);
+                } else if (validStatLines === 2) {
+                    if (validAttFlat > 0) {
+                        comments.push(`${adiPrefix} <b>주스탯 2줄</b>에 <b>${attType} +${validAttFlat}</b>까지! 완벽에 가까운 에디셔널입니다.`);
                     } else {
                         comments.push(pick([
                             `${adiPrefix} <b>주스탯 2줄</b>! 방어구 에디셔널 종결급입니다.`,
                             `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 이 정도면 평생 쓰셔도 됩니다.`
                         ]));
                     }
-                } else if (addStatLines === 1) {
-                    if (addAttFlat) {
-                        comments.push(`${adiPrefix} <b>주스탯 %</b>와 <b>공/마 +${addAttVal}</b>을 모두 챙기셨군요. 가성비 최고의 알짜배기 옵션입니다.`);
+                } else if (validStatLines === 1) {
+                    if (validAttFlat > 0) {
+                        comments.push(`${adiPrefix} <b>주스탯 %</b>와 <b>${attType} +${validAttFlat}</b>을 모두 챙기셨군요. 가성비 최고의 알짜배기 옵션입니다.`);
                     } else {
                         comments.push(pick([
                             `${adiPrefix} <b>주스탯 %</b> 한 줄도 훌륭한 유효 옵션입니다. 가성비 최고!`,
-                            `${adiPrefix} <b>주스탯 %</b>를 챙기셨군요. 공/마 10만큼이나 든든한 옵션입니다.`
+                            `${adiPrefix} <b>주스탯 %</b>를 챙기셨군요. ${attType} 10만큼이나 든든한 옵션입니다.`
                         ]));
                     }
-                } else if (addAttVal >= 10) {
+                } else if (validAttFlat >= 10) {
                     comments.push(pick([
-                        `${adiPrefix} <b>공/마 +${addAttVal}</b>! 스펙업의 정석입니다.`,
-                        `${adiPrefix} 소소하지만 확실한 <b>공/마</b> 챙기기! 아주 좋습니다.`
+                        `${adiPrefix} <b>${attType} +${validAttFlat}</b>! 스펙업의 정석입니다.`,
+                        `${adiPrefix} 소소하지만 확실한 <b>${attType}</b> 챙기기! 아주 좋습니다.`
                     ]));
                 }
             }
@@ -603,7 +563,7 @@ export function generateItemCommentary(item: any): string {
     }
 
     // === 🚀 진화형 AI (Antigravity) 추가 진단 ===
-    const deepComments = diagnoseItemDeeply(item);
+    const deepComments = diagnoseItemDeeply(item, job);
     if (deepComments.length > 0) {
         // 줄바꿈을 명확히 하여 UI에서 구분되도록 함
         return comments.join(" ") + "\n---\n### 🚀 [진화형 AI] 정밀 진단 리포트\n" + deepComments.join("\n\n");

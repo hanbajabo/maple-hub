@@ -8,7 +8,7 @@ import { diagnoseScroll } from './scroll';
  * - 앱솔랩스 vs 아케인셰이드 스타포스 효율 비교
  * - 잠재능력 정밀 진단 (쌍크뎀 권장)
  */
-export function diagnoseGlove(item: any): string[] {
+export function diagnoseGlove(item: any, job?: string): string[] {
     const comments: string[] = [];
     const itemName = item.item_name || "";
     const starforce = parseInt(item.starforce || "0");

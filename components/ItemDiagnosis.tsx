@@ -13,7 +13,7 @@ import BossDiagnosis from './BossDiagnosis';
 import { diagnoseTotalCheckup, TotalCheckupResult } from '../lib/diagnosis/total-checkup';
 import TotalDiagnosisModal from './TotalDiagnosisModal';
 
-export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }: { equipment: any[], ocid: string, worldName: string, refreshKey?: number }) {
+export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey, characterClass }: { equipment: any[], ocid: string, worldName: string, refreshKey?: number, characterClass: string }) {
     const [isOpen, setIsOpen] = useState(false);
     const [mode, setMode] = useState<'HUNTING' | 'BOSS' | null>(null);
     const [report, setReport] = useState<any>(null);
@@ -176,7 +176,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
     };
 
     const handleTotalDiagnosis = () => {
-        const result = diagnoseTotalCheckup(equipment);
+        const result = diagnoseTotalCheckup(equipment, characterClass);
         setTotalCheckupData(result);
         setIsTotalDiagnosisOpen(true);
     };

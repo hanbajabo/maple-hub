@@ -1,6 +1,6 @@
-
 import { diagnoseEpicPotential } from './common';
 import { diagnoseScroll } from './scroll';
+import { getJobMainStat } from '../../job_utils';
 
 /**
  * 🛡️ 방어구(Armor) 전용 진단 로직
@@ -8,12 +8,17 @@ import { diagnoseScroll } from './scroll';
  * - 한벌옷: 잠재능력 손해 경고
  * - 신발/망토/견장: 앱솔랩스 vs 아케인셰이드 vs 에테르넬 효율 비교
  */
-export function diagnoseArmor(item: any): string[] {
+export function diagnoseArmor(item: any, job?: string): string[] {
     const comments: string[] = [];
     const itemName = item.item_name || "";
     const slot = item.item_equipment_slot || "";
     const starforce = parseInt(item.starforce || "0");
     const potentialGrade = item.potential_option_grade;
+
+    // 직업별 주스탯 및 공/마 타입 결정
+    const mainStats = getJobMainStat(job || "");
+    const isMagic = mainStats.includes('INT') && !mainStats.includes('STR'); // 대략적인 마법사 판별 (제논, 데벤져 고려)
+    const attType = isMagic ? "마력" : "공격력";
 
     // 0. 주문서 작 진단 (Scroll)
     const scrollComments = diagnoseScroll(item);
@@ -71,27 +76,27 @@ export function diagnoseArmor(item: any): string[] {
     const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3].filter(Boolean);
 
     if (potentialGrade === '레전드리' || potentialGrade === '유니크') {
-        // 주스탯 % 계산
-        let strTotal = 0;
-        let dexTotal = 0;
-        let intTotal = 0;
-        let lukTotal = 0;
-        let allStatTotal = 0;
+        // 주스탯 % 계산 - 직업 주스탯만 계산
+        let statPct = 0;
 
-        potentials.forEach(line => {
-            if (line) {
-                const match = line.match(/(\d+)%/);
+        potentials.forEach(l => {
+            if (l) {
+                const match = l.match(/(\d+)%/);
                 if (match) {
-                    if (line.includes('STR')) strTotal += parseInt(match[1]);
-                    else if (line.includes('DEX')) dexTotal += parseInt(match[1]);
-                    else if (line.includes('INT')) intTotal += parseInt(match[1]);
-                    else if (line.includes('LUK')) lukTotal += parseInt(match[1]);
-                    else if (line.includes('올스탯')) allStatTotal += parseInt(match[1]);
+                    // 올스탯은 항상 포함
+                    if (l.includes('올스탯')) {
+                        statPct += parseInt(match[1]);
+                    } else {
+                        // 직업 주스탯과 일치하는 경우만 합산
+                        mainStats.forEach(stat => {
+                            if (l.includes(stat)) {
+                                statPct += parseInt(match[1]);
+                            }
+                        });
+                    }
                 }
             }
         });
-
-        const statPct = Math.max(strTotal, dexTotal, intTotal, lukTotal) + allStatTotal;
 
         if (potentialGrade === '레전드리') {
             if (statPct >= 30) {
@@ -136,37 +141,46 @@ export function diagnoseArmor(item: any): string[] {
                 const match = l.match(/\+(\d+)/);
                 if (match) adiMagic += parseInt(match[1]);
             }
-            // 주스탯 % 체크 (올스탯 포함)
+            // 주스탯 % 체크 (직업 주스탯 및 올스탯만)
             const matchPct = l.match(/(\d+)%/);
-            if (matchPct && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("올스탯"))) {
-                adiStatPct += parseInt(matchPct[1]);
+            if (matchPct) {
+                if (l.includes("올스탯")) {
+                    adiStatPct += parseInt(matchPct[1]);
+                } else {
+                    mainStats.forEach(stat => {
+                        if (l.includes(stat)) {
+                            adiStatPct += parseInt(matchPct[1]);
+                        }
+                    });
+                }
             }
         }
     });
 
-    const mainAdiAtt = Math.max(adiAtt, adiMagic);
+    // 직업에 맞는 공/마만 유효로 인정
+    const validAdiAtt = isMagic ? adiMagic : adiAtt;
 
     if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
         if (adiStatPct > 0) {
             comments.push(`[가성비 굿] 에디셔널에서 <b>주스탯 %</b>를 챙기셨네요. 공/마 10만큼이나 훌륭한 가성비 옵션입니다.`);
-        } else if (mainAdiAtt >= 10) {
-            comments.push(`[가성비 굿] 에디셔널에서 공/마 <b>+${mainAdiAtt}</b>을 챙기셨네요. 레어 등급에서는 최선의 선택입니다. 아주 알뜰하시군요!`);
+        } else if (validAdiAtt >= 10) {
+            comments.push(`[가성비 굿] 에디셔널에서 ${attType} <b>+${validAdiAtt}</b>을 챙기셨네요. 레어 등급에서는 최선의 선택입니다. 아주 알뜰하시군요!`);
         } else {
-            comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 공/마나 주스탯 %를 챙겨주세요.`);
+            comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 ${attType}이나 주스탯 %를 챙겨주세요.`);
         }
     } else if (adiGrade === "유니크") {
-        if (adiStatPct > 0 && mainAdiAtt > 0) {
-            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>와 <b>공/마 +${mainAdiAtt}</b>! 유효 옵션을 알차게 챙기셨습니다.`);
+        if (adiStatPct > 0 && validAdiAtt > 0) {
+            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>와 <b>${attType} +${validAdiAtt}</b>! 유효 옵션을 알차게 챙기셨습니다.`);
         } else if (adiStatPct > 0) {
             comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 유니크 등급다운 훌륭한 옵션입니다.`);
-        } else if (mainAdiAtt >= 10) {
-            comments.push(`[에디 유니크] 에디셔널 공/마 <b>+${mainAdiAtt}</b>! 든든한 옵션입니다.`);
+        } else if (validAdiAtt >= 10) {
+            comments.push(`[에디 유니크] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 든든한 옵션입니다.`);
         } else {
             comments.push(`[옵션 아쉬움] 에디셔널 유니크 등급이지만 유효 옵션이 부족합니다. 큐브로 스펙업을 노려보세요.`);
         }
     } else if (adiGrade === "에픽") {
         if (adiStatPct > 0) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 아주 든든한 옵션입니다.`);
-        else if (mainAdiAtt >= 10) comments.push(`[에디 에픽] 에디셔널 공/마를 잘 챙기셨습니다. 든든합니다.`);
+        else if (validAdiAtt >= 10) comments.push(`[에디 에픽] 에디셔널 ${attType}를 잘 챙기셨습니다. 든든합니다.`);
     }
 
     // 6. 공통: 추옵 진단 (Flame)
@@ -174,15 +188,25 @@ export function diagnoseArmor(item: any): string[] {
     // 어깨장식(견장)은 환생의 불꽃 사용 불가
     if (slot !== "어깨장식") {
         const addOpts = item.item_add_option || {};
-        const addStat = Math.max(
-            parseInt(addOpts.str || "0"),
-            parseInt(addOpts.dex || "0"),
-            parseInt(addOpts.int || "0"),
-            parseInt(addOpts.luk || "0")
-        );
+
+        // 추옵 점수 계산 시 주스탯 반영
+        let addStat = 0;
+        mainStats.forEach(stat => {
+            if (stat === 'STR') addStat = Math.max(addStat, parseInt(addOpts.str || 0));
+            if (stat === 'DEX') addStat = Math.max(addStat, parseInt(addOpts.dex || 0));
+            if (stat === 'INT') addStat = Math.max(addStat, parseInt(addOpts.int || 0));
+            if (stat === 'LUK') addStat = Math.max(addStat, parseInt(addOpts.luk || 0));
+            if (stat === 'HP') addStat = Math.max(addStat, parseInt(addOpts.max_hp || 0) / 100); // HP는 대략적인 환산
+        });
+
         const addAllStat = parseInt(addOpts.all_stat || "0");
         const addAtt = parseInt(addOpts.attack_power || "0");
-        const score = addStat + (addAtt * 4) + (addAllStat * 10);
+        const addMagic = parseInt(addOpts.magic_power || "0");
+
+        // 공격력/마력 중 높은 것 사용 (추옵은 보통 자기 직업꺼 씀)
+        const usefulAtt = isMagic ? addMagic : addAtt;
+
+        const score = addStat + (usefulAtt * 4) + (addAllStat * 10);
 
         if (score >= 160) comments.push(`[극추옵] <b>160급</b> 이상! 초고스펙용 종결 추옵입니다.`);
         else if (score >= 130) comments.push(`[고추옵] <b>130급</b> 이상! 고스펙용으로 훌륭합니다.`);

@@ -41,7 +41,9 @@ export interface TotalCheckupResult {
     };
 }
 
-export function diagnoseTotalCheckup(items: any[]): TotalCheckupResult {
+import { isMagicJob, getJobMainStat } from '../job_utils';
+
+export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupResult {
     const result: TotalCheckupResult = {
         starforce: { average: 0, count22: 0, count17: 0, totalSlots: 0, targetSlots: 17 },
         wse: {
@@ -57,6 +59,9 @@ export function diagnoseTotalCheckup(items: any[]): TotalCheckupResult {
     };
 
     if (!items || items.length === 0) return result;
+
+    const isMagic = isMagicJob(job);
+    const mainStats = getJobMainStat(job);
 
     // 1. 스타포스 진단 (17부위)
     let sfSum = 0;
@@ -103,7 +108,7 @@ export function diagnoseTotalCheckup(items: any[]): TotalCheckupResult {
                 if (!line) return;
                 const isBoss = line.includes('보스 몬스터');
                 const isIED = line.includes('방어율 무시');
-                const isAttPct = (line.includes('공격력') || line.includes('마력')) && line.includes('%');
+                const isAttPct = (isMagic ? line.includes('마력') : line.includes('공격력')) && line.includes('%');
                 // 렙당공 제외, 데미지% 제외
 
                 if (isBoss || isIED || isAttPct) {
@@ -119,7 +124,7 @@ export function diagnoseTotalCheckup(items: any[]): TotalCheckupResult {
             result.wse.additional.gradeCount[addPotGrade] = (result.wse.additional.gradeCount[addPotGrade] || 0) + 1;
             addPotentials.forEach(line => {
                 if (!line) return;
-                if ((line.includes('공격력') || line.includes('마력')) && line.includes('%')) {
+                if ((isMagic ? line.includes('마력') : line.includes('공격력')) && line.includes('%')) {
                     result.wse.additional.validLines++;
                 }
                 if (line.includes('보스 몬스터')) {
@@ -134,9 +139,15 @@ export function diagnoseTotalCheckup(items: any[]): TotalCheckupResult {
                 potentials.forEach(line => {
                     if (!line) return;
                     // 유효 옵션: 주스탯%, 올스탯%, 쿨감, 크뎀, 렙당 주스탯
-                    const isStat = line.includes('STR') || line.includes('DEX') || line.includes('INT') || line.includes('LUK') || line.includes('올스탯');
+                    let isStat = false;
+                    if (line.includes('올스탯')) {
+                        isStat = true;
+                    } else {
+                        isStat = mainStats.some(stat => line.includes(stat));
+                    }
+
                     const isPct = line.includes('%');
-                    const isPerLevelStat = (line.includes('STR') || line.includes('DEX') || line.includes('INT') || line.includes('LUK')) && line.includes('10레벨 당');
+                    const isPerLevelStat = mainStats.some(stat => line.includes(stat)) && line.includes('10레벨 당');
                     const isCool = line.includes('재사용 대기시간');
                     const isCrit = line.includes('크리티컬 데미지');
 
@@ -158,8 +169,17 @@ export function diagnoseTotalCheckup(items: any[]): TotalCheckupResult {
                 addPotentials.forEach(line => {
                     if (!line) return;
                     // 유효 옵션: 공/마 상수, 주스탯%, 크뎀(장갑), 쿨감(모자)
-                    const isAttFlat = (line.includes('공격력') || line.includes('마력')) && !line.includes('%');
-                    const isStatPct = (line.includes('STR') || line.includes('DEX') || line.includes('INT') || line.includes('LUK') || line.includes('올스탯')) && line.includes('%');
+                    const isAttFlat = (isMagic ? line.includes('마력') : line.includes('공격력')) && !line.includes('%');
+
+                    let isStatPct = false;
+                    if (line.includes('%')) {
+                        if (line.includes('올스탯')) {
+                            isStatPct = true;
+                        } else {
+                            isStatPct = mainStats.some(stat => line.includes(stat));
+                        }
+                    }
+
                     const isCrit = line.includes('크리티컬 데미지');
                     const isCool = line.includes('재사용 대기시간');
 

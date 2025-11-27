@@ -900,7 +900,13 @@ export default function Home() {
                         <SymbolBadge ocid={ocid} refreshKey={refreshKey} />
                       </div>
                       <div className="col-span-2">
-                        <ItemDiagnosis ocid={ocid} worldName={character.world_name} equipment={equipment} refreshKey={refreshKey} />
+                        <ItemDiagnosis
+                          ocid={ocid}
+                          worldName={character.world_name}
+                          equipment={equipment}
+                          refreshKey={refreshKey}
+                          characterClass={character.character_class}
+                        />
                       </div>
                     </div>
                   )}
@@ -1576,6 +1582,7 @@ export default function Home() {
         <WeaponDiagnosisModal
           item={selectedWeapon}
           onClose={() => setSelectedWeapon(null)}
+          characterClass={character?.character_class || ""}
         />
       )}
     </main>

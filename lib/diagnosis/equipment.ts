@@ -8,33 +8,35 @@ import { diagnoseAccessory } from './parts/accessory';
 
 // === 🚀 진화형 AI: 정밀 진단 로직 (Deep Diagnosis) ===
 // 기준표 Section 11. 진단 파이프라인 설계 적용
-export function diagnoseItemDeeply(item: any): string[] {
+// === 🚀 진화형 AI: 정밀 진단 로직 (Deep Diagnosis) ===
+// 기준표 Section 11. 진단 파이프라인 설계 적용
+export function diagnoseItemDeeply(item: any, job?: string): string[] {
     const slot = item.item_equipment_slot || "";
 
     // 1. 모자 (Hat)
     if (slot.includes("모자")) {
-        return diagnoseHat(item);
+        return diagnoseHat(item, job);
     }
 
     // 2. 장갑 (Glove)
     if (slot.includes("장갑")) {
-        return diagnoseGlove(item);
+        return diagnoseGlove(item, job);
     }
 
     // 3. 무기 / 보조무기 / 엠블렘 (WSE)
     // 방패는 보조무기 취급이지만 스타포스가 가능함. diagnoseWeapon에서 처리 (스타포스 체크는 제외됨)
     if (slot.includes("무기") || slot.includes("블레이드") || slot.includes("엠블렘")) {
-        return diagnoseWeapon(item);
+        return diagnoseWeapon(item, job);
     }
 
     // 4. 방어구 (Armor) - 상의, 하의, 한벌옷, 신발, 망토, 어깨장식
     if (["상의", "하의", "한벌옷", "신발", "망토", "어깨장식"].some(s => slot.includes(s))) {
-        return diagnoseArmor(item);
+        return diagnoseArmor(item, job);
     }
 
     // 5. 장신구 (Accessory) - 반지, 펜던트, 얼장, 눈장, 귀고리, 벨트, 하트, 뱃지, 훈장, 포켓
     if (["반지", "펜던트", "얼굴장식", "눈장식", "귀고리", "벨트", "기계 심장", "뱃지", "훈장", "포켓"].some(s => slot.includes(s))) {
-        return diagnoseAccessory(item);
+        return diagnoseAccessory(item, job);
     }
 
     // 6. 펫 장비 (Pet Equipment)
@@ -60,7 +62,7 @@ export function diagnoseItemDeeply(item: any): string[] {
 }
 
 // === 🚀 통합 진단 함수 (UI 연동용) ===
-export function diagnoseEquipment(items: any[], mainStat: string, attType: string, targetMode: 'HUNTING' | 'BOSS', currentDropRate: number): EquipmentReport {
+export function diagnoseEquipment(items: any[], mainStat: string, attType: string, targetMode: 'HUNTING' | 'BOSS', currentDropRate: number, job?: string): EquipmentReport {
     const result: EquipmentReport = {
         starforce: [],
         potential: [],
@@ -76,7 +78,7 @@ export function diagnoseEquipment(items: any[], mainStat: string, attType: strin
     }
 
     items.forEach((item: any) => {
-        const comments = diagnoseItemDeeply(item);
+        const comments = diagnoseItemDeeply(item, job);
         const itemName = item.item_name || "";
         const slot = item.item_equipment_slot || "";
 

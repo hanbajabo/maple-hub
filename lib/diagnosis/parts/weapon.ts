@@ -1,6 +1,6 @@
-
 import { GENESIS_WEAPON } from '../../../src/data/set_item_data';
 import { diagnoseEpicPotential } from './common';
+import { isMagicJob } from '../../job_utils';
 
 // 소울 웨폰 티어 데이터
 const TIER_1_SOULS = ["진 힐라", "감시자 칼로스", "카링", "선택받은 세렌", "검은 마법사", "최초의 대적자", "발드릭스", "림보", "섬멸병기 스우", "매그너스", "시그너스", "블러디 퀸", "벨룸", "무르무르"];
@@ -13,7 +13,7 @@ const TIER_2_SOULS = ["듄켈", "더스크", "윌", "루시드", "데미안", "�
  * - 잠재능력 (보보공, 공공보 등) 평가
  * - 제네시스/제로 무기 특수 로직
  */
-export function diagnoseWeapon(item: any): string[] {
+export function diagnoseWeapon(item: any, job?: string): string[] {
     const comments: string[] = [];
     const itemName = item.item_name || "";
     const slot = item.item_equipment_slot || "";
@@ -24,7 +24,10 @@ export function diagnoseWeapon(item: any): string[] {
 
     const isGenesis = GENESIS_WEAPON.some(g => itemName.includes(g));
     const isZeroWeapon = itemName.includes("라피스") || itemName.includes("라즐리");
-    const isMage = itemName.includes("스태프") || itemName.includes("완드") || itemName.includes("샤이닝 로드") || itemName.includes("ESP") || itemName.includes("매직 건틀렛");
+
+    // 직업 정보가 있으면 그것을 우선하고, 없으면 무기 이름으로 추정
+    const isMage = job ? isMagicJob(job) : (itemName.includes("스태프") || itemName.includes("완드") || itemName.includes("샤이닝 로드") || itemName.includes("ESP") || itemName.includes("매직 건틀렛"));
+
     const isSecondary = slot.includes("보조무기") || slot.includes("방패");
     const isEmblem = slot.includes("엠블렘");
 
@@ -61,7 +64,10 @@ export function diagnoseWeapon(item: any): string[] {
         const iedLines = potentials.filter(l => l && l.includes("방어율 무시"));
 
         const boss40Count = bossLines.filter(l => l.includes("40%")).length;
-        const attCount = attLines.length;
+
+        // 직업에 맞는 공/마만 유효로 인정
+        const validAttLines = attLines.filter(l => isMage ? l.includes("마력") : l.includes("공격력"));
+        const attCount = validAttLines.length;
         const bossCount = bossLines.length;
 
         if (boss40Count >= 3) comments.push(`[기적] 보공 <b>120% (40/40/40)</b>... 전 서버 유일급 매물일 수 있습니다.`);
@@ -80,8 +86,11 @@ export function diagnoseWeapon(item: any): string[] {
         const bossLines = potentials.filter(l => l && l.includes("보스"));
         const attLines = potentials.filter(l => l && (l.includes("공격력") || l.includes("마력")));
 
-        if (bossLines.length + attLines.length >= 2) comments.push(`[유니크 종결] 유니크 등급에서 뽑을 수 있는 최상의 옵션입니다.`);
-        else if (bossLines.length + attLines.length === 1) comments.push(`[유니크 현역] 쓸만한 유효 옵션입니다.`);
+        // 직업에 맞는 공/마만 유효로 인정
+        const validAttLines = attLines.filter(l => isMage ? l.includes("마력") : l.includes("공격력"));
+
+        if (bossLines.length + validAttLines.length >= 2) comments.push(`[유니크 종결] 유니크 등급에서 뽑을 수 있는 최상의 옵션입니다.`);
+        else if (bossLines.length + validAttLines.length === 1) comments.push(`[유니크 현역] 쓸만한 유효 옵션입니다.`);
     } else if (potentialGrade === '에픽') {
         const epicComments = diagnoseEpicPotential(potentialGrade, potentials);
         comments.push(...epicComments);
@@ -90,10 +99,10 @@ export function diagnoseWeapon(item: any): string[] {
     // 5. 에디셔널 (Additional)
     const adiGrade = item.additional_potential_option_grade;
     if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
-        const hasAtt = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")));
+        const hasAtt = adiLines.some(l => l && (isMage ? l.includes("마력") : l.includes("공격력")));
         if (!hasAtt) comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 공/마를 챙겨주세요.`);
     } else if (adiGrade === "에픽" || adiGrade === "유니크" || adiGrade === "레전드리") {
-        const attLines = adiLines.filter(l => l && (l.includes("공격력") || l.includes("마력"))).length;
+        const attLines = adiLines.filter(l => l && (isMage ? l.includes("마력") : l.includes("공격력"))).length;
         const bossLines = adiLines.filter(l => l && l.includes("보스")).length;
 
         if (attLines >= 3) comments.push(`[에디 신화] 에디셔널 공/마 3줄! 부르는 게 값인 전설적인 아이템입니다.`);

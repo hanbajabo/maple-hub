@@ -7,7 +7,7 @@ import { diagnoseEpicPotential } from './common';
  * - 에테르넬 vs 파프니르 vs 아케인 비교 (메타 분석)
  * - 스타포스 및 잠재능력 정밀 진단
  */
-export function diagnoseHat(item: any): string[] {
+export function diagnoseHat(item: any, job?: string): string[] {
     const comments: string[] = [];
     const itemName = item.item_name || "";
     const starforce = parseInt(item.starforce || "0");
@@ -17,6 +17,9 @@ export function diagnoseHat(item: any): string[] {
 
     // 1. 쿨타임 감소 (Cooldown Reduction) - 모자의 핵심
     let coolReduce = 0;
+    let hasAdiCoolReduce = false;
+
+    // 윗잠 쿨감 계산
     potentials.forEach(l => {
         if (l && l.includes("재사용 대기시간")) {
             const match = l.match(/(\d+)초/);
@@ -24,7 +27,20 @@ export function diagnoseHat(item: any): string[] {
         }
     });
 
-    if (coolReduce >= 4) {
+    // 에디 쿨감 계산
+    adiLines.forEach(l => {
+        if (l && l.includes("재사용 대기시간")) {
+            const match = l.match(/(\d+)초/);
+            if (match) {
+                coolReduce += parseInt(match[1]);
+                hasAdiCoolReduce = true;
+            }
+        }
+    });
+
+    if (coolReduce >= 6) {
+        comments.push(`[신화급: 3쿨감] 쿨타임 감소 <b>-${coolReduce}초</b>! 이건 종결을 넘어선 <b>신화급</b> 아이템입니다. 전 서버를 통틀어도 보기 힘든 기적의 옵션입니다.`);
+    } else if (coolReduce >= 4) {
         comments.push(`[종결: 쌍쿨감] 쿨타임 감소 <b>-${coolReduce}초</b>! 직업에 따라서는 주스탯 수만급 효율을 내는 최상급 모자입니다.`);
     } else if (coolReduce >= 2) {
         // 쿨감 + 주스탯 체크
@@ -40,6 +56,11 @@ export function diagnoseHat(item: any): string[] {
     } else if (potentialGrade === '에픽') {
         const epicComments = diagnoseEpicPotential(potentialGrade, potentials);
         comments.push(...epicComments);
+    }
+
+    // 에디셔널 쿨감 별도 언급
+    if (hasAdiCoolReduce) {
+        comments.push(`[에디셔널 유효] 에디셔널 잠재능력에서 <b>쿨타임 감소</b>를 챙기셨군요! 굉장히 희귀하고 좋은 유효 옵션입니다.`);
     }
 
     // 2. 아이템 종류별 메타 분석 (Meta Analysis)

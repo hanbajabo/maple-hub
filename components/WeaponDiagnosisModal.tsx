@@ -15,9 +15,10 @@ import ItemCard from './ItemCard';
 interface WeaponDiagnosisModalProps {
     item: any; // ItemData type
     onClose: () => void;
+    characterClass: string;
 }
 
-export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisModalProps) {
+export default function WeaponDiagnosisModal({ item, onClose, characterClass }: WeaponDiagnosisModalProps) {
     const [result, setResult] = useState<ItemEvaluationResult | null>(null);
     const [commentary, setCommentary] = useState("");
 
@@ -71,7 +72,7 @@ export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisM
         if (!item) return;
 
         // AI 분석 멘트 생성
-        setCommentary(generateItemCommentary(item));
+        setCommentary(generateItemCommentary(item, characterClass));
 
         // 1. 스타포스 진단
         let sfResult = null;
@@ -253,31 +254,84 @@ export default function WeaponDiagnosisModal({ item, onClose }: WeaponDiagnosisM
 
     }, [item]);
 
-    // 데스티니 무기 전용 UI (유지)
+    // 데스티니 무기 전용 UI (웅장한 리디자인)
     if (item && item.item_name.includes('데스티니')) {
         return createPortal(
-            <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4" onClick={handleClose}>
-                {/* ... (기존 데스티니 무기 UI 코드 유지) ... */}
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 overflow-hidden" onClick={handleClose}>
+                {/* 배경 애니메이션 효과 */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vw] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black animate-spin opacity-50" style={{ animationDuration: '60s' }}></div>
+                    <div className="absolute top-0 left-0 w-full h-full bg-[url('https://maplestory.io/api/wzimg/Effect/BasicEff.img/LevelUp/0')] opacity-5 bg-cover bg-center mix-blend-screen"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/10 to-black/80"></div>
+                </div>
+
                 <div
-                    className="relative w-full max-w-2xl p-5 sm:p-12 rounded-3xl overflow-hidden shadow-2xl text-center border border-purple-500/30 mx-4"
+                    className="relative w-full max-w-3xl p-8 sm:p-16 rounded-[3rem] overflow-hidden text-center border border-purple-400/30 mx-4 transform transition-all hover:scale-[1.02] duration-500"
                     style={{
-                        background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
-                        boxShadow: '0 0 50px rgba(139, 92, 246, 0.3)'
+                        background: 'linear-gradient(180deg, rgba(15, 12, 41, 0.9) 0%, rgba(48, 43, 99, 0.9) 50%, rgba(36, 36, 62, 0.9) 100%)',
+                        boxShadow: '0 0 80px rgba(147, 51, 234, 0.4), inset 0 0 30px rgba(147, 51, 234, 0.2)'
                     }}
                     onClick={e => e.stopPropagation()}
                 >
-                    <div className="absolute inset-0 bg-[url('https://maplestory.io/api/wzimg/Effect/BasicEff.img/LevelUp/0')] opacity-10 bg-cover bg-center animate-pulse pointer-events-none"></div>
-                    <div className="relative z-10 mb-4 sm:mb-8 inline-block">
-                        <div className="absolute inset-0 bg-purple-500 blur-2xl opacity-50 rounded-full animate-pulse"></div>
-                        <img src={item.item_icon} alt={item.item_name} className="w-20 h-20 sm:w-32 sm:h-32 object-contain relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]" />
+                    {/* 장식용 테두리 */}
+                    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-70"></div>
+                    <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-70"></div>
+
+                    {/* 아이콘 섹션 */}
+                    <div className="relative z-10 mb-8 sm:mb-12 inline-block group">
+                        <div className="absolute inset-0 bg-purple-600 blur-[60px] opacity-40 rounded-full animate-pulse group-hover:opacity-60 transition-opacity duration-700"></div>
+                        <div className="absolute inset-0 bg-gradient-to-tr from-purple-400 to-fuchsia-400 blur-[40px] opacity-30 rounded-full animate-ping" style={{ animationDuration: '3s' }}></div>
+                        <div className="relative">
+                            <img
+                                src={item.item_icon}
+                                alt={item.item_name}
+                                className="w-24 h-24 sm:w-40 sm:h-40 object-contain relative z-10 drop-shadow-[0_0_25px_rgba(255,255,255,0.6)] transform group-hover:scale-110 transition-transform duration-500"
+                            />
+                            {/* 후광 효과 */}
+                            <div className="absolute -inset-4 border-2 border-purple-300/30 rounded-full animate-spin opacity-50" style={{ animationDuration: '10s', animationDirection: 'reverse' }}></div>
+                            <div className="absolute -inset-8 border border-purple-300/10 rounded-full animate-spin opacity-30" style={{ animationDuration: '15s' }}></div>
+                        </div>
                     </div>
-                    <h2 className="relative z-10 text-xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-white to-purple-200 mb-1 sm:mb-2 drop-shadow-lg whitespace-nowrap">{item.item_name}</h2>
-                    <div className="relative z-10 text-purple-300 font-bold text-xs sm:text-xl mb-6 sm:mb-10 tracking-widest">DESTINY WEAPON</div>
-                    <div className="relative z-10 bg-black/40 backdrop-blur-sm p-4 sm:p-8 rounded-2xl border border-purple-500/20 mb-6 sm:mb-8">
-                        <p className="text-base sm:text-3xl font-bold text-white mb-2 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)] break-keep">평가 불가의 초월적 아이템입니다.</p>
-                        <p className="text-purple-200 text-xs sm:text-lg mt-2 sm:mt-4 break-keep">이 아이템은 기존의 상식을 뛰어넘는 힘을 가지고 있습니다.<br className="hidden sm:block" /> 더 이상의 진단은 무의미합니다.</p>
+
+                    {/* 텍스트 섹션 */}
+                    <div className="relative z-10 space-y-6">
+                        <div className="space-y-2">
+                            <h2 className="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-purple-100 to-purple-300 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)] tracking-tight">
+                                {item.item_name}
+                            </h2>
+                            <div className="flex items-center justify-center gap-3 opacity-80">
+                                <span className="h-[1px] w-12 bg-gradient-to-r from-transparent to-purple-400"></span>
+                                <span className="text-purple-300 font-bold text-sm sm:text-lg tracking-[0.3em] uppercase">Destiny Weapon</span>
+                                <span className="h-[1px] w-12 bg-gradient-to-l from-transparent to-purple-400"></span>
+                            </div>
+                        </div>
+
+                        <div className="py-8 px-4 relative">
+                            <div className="absolute inset-0 bg-purple-500/5 blur-xl rounded-full transform scale-x-150"></div>
+                            <p className="relative text-xl sm:text-4xl font-bold text-white mb-4 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)] leading-relaxed break-keep">
+                                "데이터의 범주를 넘어선<br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 to-purple-300">초월적 존재</span>입니다."
+                            </p>
+                            <p className="relative text-purple-200 text-sm sm:text-xl font-medium leading-relaxed opacity-90 break-keep">
+                                단풍이 AI조차 감히 평가할 수 없는<br />
+                                절대적인 힘이 느껴집니다.
+                            </p>
+                        </div>
                     </div>
-                    <button onClick={handleClose} className="relative z-10 px-6 py-2 sm:px-10 sm:py-3 bg-purple-600 hover:bg-purple-500 text-white text-sm sm:text-base font-bold rounded-full transition-all shadow-[0_0_20px_rgba(147,51,234,0.5)] hover:shadow-[0_0_30px_rgba(147,51,234,0.8)]">전설을 확인했습니다</button>
+
+                    {/* 버튼 섹션 */}
+                    <div className="mt-8 sm:mt-12 relative z-10">
+                        <button
+                            onClick={handleClose}
+                            className="group relative px-8 py-3 sm:px-12 sm:py-4 bg-transparent overflow-hidden rounded-full transition-all hover:scale-105"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-700 via-fuchsia-600 to-purple-700 opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
+                            <span className="relative text-white text-base sm:text-lg font-bold tracking-wider flex items-center justify-center gap-2">
+                                <span>✨</span> 전설을 경배합니다 <span>✨</span>
+                            </span>
+                            <div className="absolute inset-0 rounded-full ring-2 ring-white/20 group-hover:ring-white/50 transition-all duration-500"></div>
+                        </button>
+                    </div>
                 </div>
             </div>,
             document.body
