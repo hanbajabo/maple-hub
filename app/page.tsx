@@ -953,11 +953,11 @@ export default function Home() {
                 })()}
 
                 {/* Card 2: Main Stat */}
-                <div className="relative bg-slate-800 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-1 sm:gap-2">
-                  <span className="text-xs sm:text-base text-gray-400 font-medium">총 {mainStat.name}</span>
+                <div className="relative bg-slate-800 rounded-lg sm:rounded-xl p-2 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-0.5 sm:gap-1">
+                  <span className="text-xs sm:text-sm text-gray-400 font-medium">총 {mainStat.name}</span>
                   <div className="flex flex-col items-center">
                     <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-xl sm:text-3xl font-bold text-white group-hover:text-green-400 group-hover:drop-shadow-lg group-hover:drop-shadow-green-500/50 cursor-help transition-colors">
+                      <span className="text-lg sm:text-2xl font-bold text-white group-hover:text-green-400 group-hover:drop-shadow-lg group-hover:drop-shadow-green-500/50 cursor-help transition-colors">
                         {formatNumber(mainStat.value)}
                       </span>
 
@@ -983,18 +983,18 @@ export default function Home() {
                       )}
                     </div>
 
-                    <span className="text-[10px] sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
+                    <span className="text-[10px] sm:text-xs text-gray-500 mt-0.5">
                       {mainStat.name} %: {mainStatPct}%
                     </span>
                   </div>
                 </div>
 
                 {/* Card 3: Total Attack/Magic % */}
-                <div className="relative bg-slate-800 rounded-xl p-3 sm:p-6 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-1 sm:gap-2">
-                  <span className="text-xs sm:text-base text-gray-400 font-medium">총 {displayAttName} %</span>
+                <div className="relative bg-slate-800 rounded-xl p-2 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-0.5 sm:gap-1">
+                  <span className="text-xs sm:text-sm text-gray-400 font-medium">총 {displayAttName} %</span>
                   <div className="flex flex-col items-center">
                     <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-xl sm:text-3xl font-bold text-white text-center break-all group-hover:text-orange-400 group-hover:drop-shadow-lg group-hover:drop-shadow-orange-500/50 cursor-help transition-colors">
+                      <span className="text-lg sm:text-2xl font-bold text-white text-center break-all group-hover:text-orange-400 group-hover:drop-shadow-lg group-hover:drop-shadow-orange-500/50 cursor-help transition-colors">
                         {displayAttPct}%
                       </span>
 
@@ -1027,12 +1027,12 @@ export default function Home() {
                 </div>
 
                 {/* Card 4: Core 3 Elements */}
-                <div className="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:bg-slate-750 transition-colors col-span-1 md:col-span-2 grid grid-cols-3 gap-4 text-center divide-x divide-slate-700">
+                <div className="bg-slate-800 rounded-xl p-3 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors col-span-1 md:col-span-2 grid grid-cols-3 gap-2 sm:gap-3 text-center divide-x divide-slate-700">
                   {/* Boss Damage */}
-                  <div className="relative flex flex-col gap-2 items-center">
-                    <span className="text-sm text-gray-400">보스 데미지</span>
+                  <div className="relative flex flex-col gap-1 items-center">
+                    <span className="text-xs sm:text-sm text-gray-400">보스 데미지</span>
                     <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-lg sm:text-xl font-bold text-white group-hover:text-red-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
+                      <span className="text-base sm:text-lg font-bold text-white group-hover:text-red-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
                         {getStatValue("보스 몬스터 데미지")}%
                       </span>
 
@@ -1070,10 +1070,10 @@ export default function Home() {
                   </div>
 
                   {/* Ignore Defense */}
-                  <div className="relative flex flex-col gap-2 items-center">
-                    <span className="text-sm text-gray-400">방어율 무시</span>
+                  <div className="relative flex flex-col gap-1 items-center">
+                    <span className="text-xs sm:text-sm text-gray-400">방어율 무시</span>
                     <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-lg sm:text-xl font-bold text-white group-hover:text-purple-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
+                      <span className="text-base sm:text-lg font-bold text-white group-hover:text-purple-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
                         {ignoreDefense}%
                       </span>
 
@@ -1111,10 +1111,10 @@ export default function Home() {
                   </div>
 
                   {/* Critical Damage */}
-                  <div className="relative flex flex-col gap-2 items-center">
-                    <span className="text-xs text-gray-400">크리티컬 데미지</span>
+                  <div className="relative flex flex-col gap-1 items-center">
+                    <span className="text-xs sm:text-sm text-gray-400">크리티컬 데미지</span>
                     <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-lg sm:text-xl font-bold text-white group-hover:text-yellow-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
+                      <span className="text-base sm:text-lg font-bold text-white group-hover:text-yellow-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
                         {getStatValue("크리티컬 데미지")}%
                       </span>
 
@@ -1153,11 +1153,11 @@ export default function Home() {
                 </div>
 
                 {/* Card 5: Advanced Stats (Union, Drop, etc) */}
-                <div className="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:bg-slate-750 transition-colors col-span-1 md:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-4 text-center min-h-[240px]">
+                <div className="bg-slate-800 rounded-xl p-3 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors col-span-1 md:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 text-center">
                   {/* 1. Union Level */}
-                  <div className="flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg">
-                    <span className="text-xs text-gray-400">유니온 레벨</span>
-                    <span className="text-lg font-bold text-yellow-400">{union ? union.union_level : "-"}</span>
+                  <div className="flex flex-col gap-0.5 p-2 bg-slate-900/50 rounded-lg">
+                    <span className="text-[10px] sm:text-xs text-gray-400">유니온 레벨</span>
+                    <span className="text-base sm:text-lg font-bold text-yellow-400">{union ? union.union_level : "-"}</span>
                   </div>
 
                   {/* 2. Buff Duration */}
