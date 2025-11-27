@@ -28,14 +28,15 @@ const useTypewriter = (text: string, speed: number = 30) => {
             if (text[i] === '<') {
                 const tagEnd = text.indexOf('>', i);
                 if (tagEnd !== -1) {
-                    setDisplayedText((prev) => prev + text.slice(i, tagEnd + 1));
                     i = tagEnd + 1;
-                    return;
+                } else {
+                    i++;
                 }
+            } else {
+                i++;
             }
 
-            setDisplayedText((prev) => prev + text[i]);
-            i++;
+            setDisplayedText(text.slice(0, i));
         }, speed);
 
         return () => clearInterval(timer);
