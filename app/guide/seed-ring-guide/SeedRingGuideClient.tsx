@@ -124,7 +124,7 @@ export default function SeedRingGuideClient() {
                         </ul>
                     </div>
 
-                    <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-4 mb-6">
+                    <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-4 mb-6 sticky top-24 z-10 backdrop-blur-md shadow-xl">
                         <div className="flex items-center gap-4">
                             <Search className="w-5 h-5 text-slate-400" />
                             <select
@@ -140,7 +140,45 @@ export default function SeedRingGuideClient() {
                         </div>
                     </div>
 
-                    <h2 className="text-2xl font-bold text-white mb-6 mt-12">
+                    {selectedJob && (
+                        <div className="mb-8 relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-700 p-6 sm:p-10 flex flex-col sm:flex-row items-center gap-6 shadow-2xl">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2"></div>
+
+                            <img
+                                src={`/images/jobs/${selectedJob.replace(/[\/\?<>\\:\*\|":]/g, '_')}.png`}
+                                alt={selectedJob}
+                                className="w-32 h-32 sm:w-48 sm:h-48 object-contain relative z-10 drop-shadow-[0_0_15px_rgba(248,113,113,0.5)]"
+                                onError={(e) => e.currentTarget.style.display = 'none'}
+                            />
+
+                            <div className="relative z-10 text-center sm:text-left">
+                                <h2 className="text-3xl sm:text-5xl font-black text-white mb-2">{selectedJob}</h2>
+                                <p className="text-red-300 font-medium text-lg">추천 시드링: {SEED_RING_DATA.find(d => d.job === selectedJob)?.recommend}</p>
+                                <div className="mt-4 flex flex-wrap gap-4 justify-center sm:justify-start">
+                                    {(() => {
+                                        const data = SEED_RING_DATA.find(d => d.job === selectedJob);
+                                        if (!data) return null;
+                                        return (
+                                            <>
+                                                <div className="flex flex-col items-center sm:items-start">
+                                                    <span className="text-xs text-slate-400">리레 채택률</span>
+                                                    <span className="text-2xl font-bold text-red-400">{data.restraintRate}%</span>
+                                                </div>
+                                                <div className="w-px h-10 bg-slate-700"></div>
+                                                <div className="flex flex-col items-center sm:items-start">
+                                                    <span className="text-xs text-slate-400">컨티 채택률</span>
+                                                    <span className="text-2xl font-bold text-blue-400">{data.continuousRate}%</span>
+                                                </div>
+                                            </>
+                                        );
+                                    })()}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
+                        <Target className="w-6 h-6 text-red-400" />
                         전직업 시드링 추천 {selectedJob && `- ${selectedJob}`}
                     </h2>
 
@@ -151,12 +189,22 @@ export default function SeedRingGuideClient() {
                             const isSwitching = data.recommend.includes('스위칭');
 
                             return (
-                                <div key={data.job} className={`border rounded-xl p-5 hover:border-opacity-80 transition-all ${isSwitching ? 'bg-purple-500/10 border-purple-500/30' :
+                                <div key={data.job} className={`border rounded-xl p-5 hover:border-opacity-80 transition-all group ${isSwitching ? 'bg-purple-500/10 border-purple-500/30' :
                                     isContinuous ? 'bg-blue-500/10 border-blue-500/30' :
                                         'bg-red-500/10 border-red-500/30'
                                     }`}>
                                     <div className="flex items-start justify-between mb-3">
-                                        <h3 className="text-lg font-bold text-white">{data.job}</h3>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-12 h-12 bg-slate-900/50 rounded-lg flex items-center justify-center overflow-hidden border border-slate-700/50">
+                                                <img
+                                                    src={`/images/jobs/${data.job.replace(/[\/\?<>\\:\*\|":]/g, '_')}.png`}
+                                                    alt={data.job}
+                                                    className="w-full h-full object-contain p-0.5"
+                                                    onError={(e) => e.currentTarget.style.display = 'none'}
+                                                />
+                                            </div>
+                                            <h3 className="text-lg font-bold text-white">{data.job}</h3>
+                                        </div>
                                         <div className={`px-3 py-1 rounded-full text-sm font-bold ${isSwitching ? 'bg-purple-500/20 text-purple-300' :
                                             isContinuous ? 'bg-blue-500/20 text-blue-300' :
                                                 'bg-red-500/20 text-red-300'
