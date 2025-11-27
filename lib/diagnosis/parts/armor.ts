@@ -189,24 +189,21 @@ export function diagnoseArmor(item: any, job?: string): string[] {
     if (slot !== "어깨장식") {
         const addOpts = item.item_add_option || {};
 
-        // 추옵 점수 계산 시 주스탯 반영
-        let addStat = 0;
-        mainStats.forEach(stat => {
-            if (stat === 'STR') addStat = Math.max(addStat, parseInt(addOpts.str || 0));
-            if (stat === 'DEX') addStat = Math.max(addStat, parseInt(addOpts.dex || 0));
-            if (stat === 'INT') addStat = Math.max(addStat, parseInt(addOpts.int || 0));
-            if (stat === 'LUK') addStat = Math.max(addStat, parseInt(addOpts.luk || 0));
-            if (stat === 'HP') addStat = Math.max(addStat, parseInt(addOpts.max_hp || 0) / 100); // HP는 대략적인 환산
-        });
+        const str = parseInt(addOpts.str || "0");
+        const dex = parseInt(addOpts.dex || "0");
+        const int = parseInt(addOpts.int || "0");
+        const luk = parseInt(addOpts.luk || "0");
+        const att = parseInt(addOpts.attack_power || "0");
+        const magic = parseInt(addOpts.magic_power || "0");
+        const allStat = parseInt(addOpts.all_stat || "0");
 
-        const addAllStat = parseInt(addOpts.all_stat || "0");
-        const addAtt = parseInt(addOpts.attack_power || "0");
-        const addMagic = parseInt(addOpts.magic_power || "0");
+        // 깡추옵 + 공마*4 + 올스탯*10
+        const scoreSTR = str + (att * 4) + (allStat * 10);
+        const scoreDEX = dex + (att * 4) + (allStat * 10);
+        const scoreINT = int + (magic * 4) + (allStat * 10);
+        const scoreLUK = luk + (att * 4) + (allStat * 10);
 
-        // 공격력/마력 중 높은 것 사용 (추옵은 보통 자기 직업꺼 씀)
-        const usefulAtt = isMagic ? addMagic : addAtt;
-
-        const score = addStat + (usefulAtt * 4) + (addAllStat * 10);
+        const score = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK);
 
         if (score >= 160) comments.push(`[극추옵] <b>160급</b> 이상! 초고스펙용 종결 추옵입니다.`);
         else if (score >= 130) comments.push(`[고추옵] <b>130급</b> 이상! 고스펙용으로 훌륭합니다.`);
