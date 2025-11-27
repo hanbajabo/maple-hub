@@ -603,11 +603,7 @@ export default function Home() {
         <div className="w-full max-w-4xl relative">
           {/* Glow effect behind search bar */}
           {!character && (
-            <>
-              <div className="absolute inset-0 bg-[url('/images/hero-bg.png')] bg-cover bg-center opacity-40 blur-sm -z-20 rounded-3xl"></div>
-              <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/60 to-slate-950/90 -z-10 rounded-3xl"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/10 via-yellow-400/5 to-orange-500/10 blur-2xl -z-10 animate-pulse"></div>
-            </>
+            <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
           )}
 
           <div className="w-full relative flex items-center gap-2 sm:gap-3">
@@ -744,37 +740,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Real-time Data Analysis Graph */}
-            <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
-              <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-6 flex items-center gap-2">
-                <span className="text-3xl">📈</span>
-                실시간 인기 직업 TOP 5 (전투력 기준)
-              </h2>
-              <div className="space-y-4">
-                {[
-                  { name: '나이트로드', value: 95, color: 'bg-purple-500' },
-                  { name: '비숍', value: 92, color: 'bg-yellow-500' },
-                  { name: '듀얼블레이더', value: 88, color: 'bg-red-500' },
-                  { name: '아델', value: 85, color: 'bg-blue-500' },
-                  { name: '히어로', value: 82, color: 'bg-orange-500' },
-                ].map((job, idx) => (
-                  <div key={job.name} className="relative">
-                    <div className="flex justify-between text-sm text-slate-300 mb-1">
-                      <span className="font-bold">{idx + 1}. {job.name}</span>
-                      <span>상위 {100 - job.value}%</span>
-                    </div>
-                    <div className="h-4 bg-slate-800 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full ${job.color} rounded-full transition-all duration-1000 ease-out`}
-                        style={{ width: `${job.value}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-slate-500 mt-4 text-right">* 메이플 AI 분석 데이터 (2025.11 기준)</p>
-            </div>
-
             {/* How to Use */}
             <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
               <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-6 flex items-center gap-2">
@@ -855,13 +820,11 @@ export default function Home() {
       )}
 
       {/* Maple News Section - Moved to bottom, only show when no character */}
-      {
-        !character && !loading && (
-          <section className="w-full sm:max-w-4xl mb-16 px-2">
-            <MapleNews />
-          </section>
-        )
-      }
+      {!character && !loading && (
+        <section className="w-full sm:max-w-4xl mb-16 px-2">
+          <MapleNews />
+        </section>
+      )}
 
       {/* Result Section */}
       <section ref={resultRef} className="w-full xl:max-w-[1920px] px-0 sm:px-4 mb-16 flex flex-col xl:flex-row gap-4 sm:gap-6 items-stretch">
@@ -1609,15 +1572,13 @@ export default function Home() {
         <p className="mt-2 text-xs text-slate-600">Copyright © 2025. 한자유튜브 - All right reserved</p>
       </footer>
       {/* Weapon Diagnosis Modal */}
-      {
-        selectedWeapon && (
-          <WeaponDiagnosisModal
-            item={selectedWeapon}
-            onClose={() => setSelectedWeapon(null)}
-          />
-        )
-      }
-    </main >
+      {selectedWeapon && (
+        <WeaponDiagnosisModal
+          item={selectedWeapon}
+          onClose={() => setSelectedWeapon(null)}
+        />
+      )}
+    </main>
   );
 }
 
