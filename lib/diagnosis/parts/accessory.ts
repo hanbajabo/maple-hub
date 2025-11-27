@@ -210,9 +210,10 @@ export function diagnoseAccessory(item: any): string[] {
     const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
 
     // 에디셔널 공/마 및 주스탯% 수치 계산
+    // 에디셔널 공/마 및 주스탯% 수치 계산
     let adiAtt = 0;
     let adiMagic = 0;
-    let hasStatPct = false;
+    let adiStatPct = 0;
 
     adiLines.forEach(l => {
         if (l) {
@@ -225,30 +226,38 @@ export function diagnoseAccessory(item: any): string[] {
                 if (match) adiMagic += parseInt(match[1]);
             }
             // 주스탯 % 체크 (올스탯 포함)
-            if (l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("올스탯"))) {
-                hasStatPct = true;
+            const matchPct = l.match(/(\d+)%/);
+            if (matchPct && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("올스탯"))) {
+                adiStatPct += parseInt(matchPct[1]);
             }
         }
     });
 
+    const mainAdiAtt = Math.max(adiAtt, adiMagic);
+
     if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
-        if (hasStatPct) {
-            comments.push(`[가성비 굿] 에디셔널에서 <b>주스탯 %</b>를 챙기셨네요. 공/마 10만큼이나 훌륭한 가성비 옵션입니다.`);
-        } else if (adiAtt >= 10 || adiMagic >= 10) {
-            comments.push(`[가성비 굿] 에디셔널에서 공/마 <b>+${Math.max(adiAtt, adiMagic)}</b>을 챙기셨네요. 레어 등급에서는 최선의 선택입니다. 아주 알뜰하시군요!`);
+        if (adiStatPct > 0 && mainAdiAtt > 0) {
+            comments.push(`[가성비 굿] 에디셔널에서 <b>주스탯 ${adiStatPct}%</b>와 <b>공/마 +${mainAdiAtt}</b>을 모두 챙기셨네요. 아주 알뜰한 세팅입니다.`);
+        } else if (adiStatPct > 0) {
+            comments.push(`[가성비 굿] 에디셔널에서 <b>주스탯 ${adiStatPct}%</b>를 챙기셨네요. 공/마 10만큼이나 훌륭한 가성비 옵션입니다.`);
+        } else if (mainAdiAtt >= 10) {
+            comments.push(`[가성비 굿] 에디셔널에서 공/마 <b>+${mainAdiAtt}</b>을 챙기셨네요. 레어 등급에서는 최선의 선택입니다. 아주 알뜰하시군요!`);
         } else {
             comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 공/마나 주스탯 %를 챙겨주세요.`);
         }
     } else if (adiGrade === "유니크") {
         // 유니크 에디셔널 평가 추가
-        if (hasStatPct) {
-            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 %</b>! 유니크 등급에서 훌륭한 옵션입니다.`);
-        } else if (adiAtt >= 10 || adiMagic >= 10) {
-            comments.push(`[에디 유니크] 에디셔널 공/마 <b>+${Math.max(adiAtt, adiMagic)}</b>! 든든한 옵션입니다.`);
+        if (adiStatPct > 0 && mainAdiAtt > 0) {
+            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>에 <b>공/마 +${mainAdiAtt}</b>까지! 유효 옵션을 꽉 채운 훌륭한 아이템입니다.`);
+        } else if (adiStatPct > 0) {
+            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 유니크 등급에서 훌륭한 옵션입니다.`);
+        } else if (mainAdiAtt >= 10) {
+            comments.push(`[에디 유니크] 에디셔널 공/마 <b>+${mainAdiAtt}</b>! 든든한 옵션입니다.`);
         }
     } else if (adiGrade === "에픽") {
-        if (hasStatPct) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 %</b>! 아주 든든한 옵션입니다.`);
-        else if (adiAtt >= 10 || adiMagic >= 10) comments.push(`[에디 에픽] 에디셔널 공/마를 잘 챙기셨습니다. 든든합니다.`);
+        if (adiStatPct > 0 && mainAdiAtt > 0) comments.push(`[에디 에픽] <b>주스탯 ${adiStatPct}%</b>와 <b>공/마 +${mainAdiAtt}</b>! 에픽에서 챙길 수 있는 건 다 챙기셨네요.`);
+        else if (adiStatPct > 0) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 아주 든든한 옵션입니다.`);
+        else if (mainAdiAtt >= 10) comments.push(`[에디 에픽] 에디셔널 공/마를 잘 챙기셨습니다. 든든합니다.`);
     }
 
     // 8. 추옵 진단

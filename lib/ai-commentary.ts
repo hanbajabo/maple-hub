@@ -543,62 +543,50 @@ export function generateItemCommentary(item: any): string {
                     else if (line.includes('HP') && line.includes('%')) hpLines++;
                 });
 
-                // 가장 높은 줄 수를 가진 스탯을 기준으로 함
+                // 가장 높은 줄 수를 가진 스탯을 기준으로 함 (HP 제외 - 데벤져 외 직업 오인 방지)
                 const addStatLines = Math.max(
                     strLines + allStatLines,
                     dexLines + allStatLines,
                     intLines + allStatLines,
-                    lukLines + allStatLines,
-                    hpLines + allStatLines
+                    lukLines + allStatLines
                 );
 
                 const addAttFlat = addPotentials.some(l => (l.includes('공격력') || l.includes('마력')) && !l.includes('%')); // 공/마 상수
+                const addAttVal = addPotentials.reduce((acc, l) => {
+                    if ((l.includes('공격력') || l.includes('마력')) && !l.includes('%')) {
+                        return acc + (parseInt(l.replace(/[^0-9]/g, '')) || 0);
+                    }
+                    return acc;
+                }, 0);
 
                 if (addStatLines >= 3) {
                     comments.push(pick([
                         `${adiPrefix} <b>주스탯 3줄</b>...?! 이건 <b>진짜 종결급</b>입니다. 더 이상 손댈 곳이 없습니다.`,
                         `${adiPrefix} 와... <b>3줄</b>이라니! 메이플 인생에 몇 번 보기 힘든 옵션입니다.`,
-                        `${adiPrefix} <b>주스탯 3줄</b>! 완벽 그 자체입니다. 졸업을 축하드립니다.`,
-                        `${adiPrefix} 큐브가 춤을 췄군요. <b>3줄 유효</b> 대박!`,
-                        `${adiPrefix} 이건 가보로 물려줘야 합니다. <b>3줄</b>의 기적!`,
-                        `${adiPrefix} 에디 <b>3줄</b>이면... 경매장에 올리면 댓글이 불탈 거예요. 절대 팔지 마세요!`,
-                        `${adiPrefix} 제가 평생 봐온 장비 중에서도 손에 꼽습니다. <b>3줄</b>의 위엄!`,
-                        `${adiPrefix} 단풍이가 절을 올립니다. (꾸벅) <b>주스탯 3줄</b>의 주인님을 영접합니다.`,
-                        `${adiPrefix} 이 장비는 박물관 전시용입니다. <b>3줄</b>... 국보급 매물!`,
-                        `${adiPrefix} 로또 1등보다 낮은 확률을 뚫으셨습니다. <b>3줄 유효</b> 기적!`,
-                        `${adiPrefix} 큐브 회사가 파산할 뻔했는데 <b>3줄</b> 나왔네요! 대박입니다!`,
-                        `${adiPrefix} 이 옵션 띄우려고 얼마나 많은 에디큐브를... 존경합니다. <b>3줄</b>!`,
-                        `${adiPrefix} <b>주스탯 3줄</b>? 서버 전체가 떠들썩하겠는데요?!`,
-                        `${adiPrefix} 혹시 넥슨 개발자이신가요? 일반인이 <b>3줄</b>을 띄우다니...`,
-                        `${adiPrefix} 이 장비 하나로 은퇴하셔도 됩니다. <b>3줄 유효</b> 종결!`,
-                        `${adiPrefix} 경매장 시세? 매길 수가 없습니다. <b>3줄</b>은 가격을 초월해요.`,
-                        `${adiPrefix} 단풍이 AI가 감동의 눈물을 흘립니다. <b>주스탯 3줄</b>이라니...`,
-                        `${adiPrefix} 이건 그냥 <b>완성형</b>입니다. 더 이상의 설명이 필요없어요.`,
-                        `${adiPrefix} 길드원들이 부러워서 잠을 못 잘 거예요. <b>3줄</b> 실화?!`,
-                        `${adiPrefix} <b>주스탯 3줄</b>... 단풍이도 처음 봅니다. 전설이시네요.`,
-                        `${adiPrefix} 이 장비는 메이플스토리 역사에 기록될 겁니다. <b>3줄 완벽</b>!`,
-                        `${adiPrefix} 큐브 확률표를 거스른 당신... <b>3줄</b>의 신!`,
-                        `${adiPrefix} 남들은 1줄도 못 띄우는데 <b>3줄</b>이라니! 운이 좋으신 거예요, 노력? 둘 다!`,
-                        `${adiPrefix} 이 정도면 유튜브에 인증해야 합니다. <b>3줄</b> 달성!`,
-                        `${adiPrefix} 메이플 인생의 하이라이트를 찍으셨군요. <b>주스탯 3줄</b> 축하!`
+                        `${adiPrefix} <b>주스탯 3줄</b>! 완벽 그 자체입니다. 졸업을 축하드립니다.`
                     ]));
                 } else if (addStatLines === 2) {
-                    comments.push(pick([
-                        `${adiPrefix} <b>주스탯 2줄</b>! 방어구 에디셔널 종결급입니다.`,
-                        `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 이 정도면 평생 쓰셔도 됩니다.`,
-                        `${adiPrefix} 깔끔하게 <b>2줄</b> 챙기셨네요. 스펙업에 큰 도움이 됩니다.`
-                    ]));
+                    if (addAttFlat) {
+                        comments.push(`${adiPrefix} <b>주스탯 2줄</b>에 <b>공/마 +${addAttVal}</b>까지! 완벽에 가까운 에디셔널입니다.`);
+                    } else {
+                        comments.push(pick([
+                            `${adiPrefix} <b>주스탯 2줄</b>! 방어구 에디셔널 종결급입니다.`,
+                            `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 이 정도면 평생 쓰셔도 됩니다.`
+                        ]));
+                    }
                 } else if (addStatLines === 1) {
+                    if (addAttFlat) {
+                        comments.push(`${adiPrefix} <b>주스탯 %</b>와 <b>공/마 +${addAttVal}</b>을 모두 챙기셨군요. 가성비 최고의 알짜배기 옵션입니다.`);
+                    } else {
+                        comments.push(pick([
+                            `${adiPrefix} <b>주스탯 %</b> 한 줄도 훌륭한 유효 옵션입니다. 가성비 최고!`,
+                            `${adiPrefix} <b>주스탯 %</b>를 챙기셨군요. 공/마 10만큼이나 든든한 옵션입니다.`
+                        ]));
+                    }
+                } else if (addAttVal >= 10) {
                     comments.push(pick([
-                        `${adiPrefix} <b>주스탯 %</b> 한 줄도 훌륭한 유효 옵션입니다. 가성비 최고!`,
-                        `${adiPrefix} <b>주스탯 %</b>를 챙기셨군요. 공/마 10만큼이나 든든한 옵션입니다.`,
-                        `${adiPrefix} 소소하지만 확실한 스펙업! <b>주스탯 %</b> 한 줄 챙기기 성공입니다.`
-                    ]));
-                } else if (addAttVal >= 10 || addMagicVal >= 10) {
-                    comments.push(pick([
-                        `${adiPrefix} <b>공/마 +${Math.max(addAttVal, addMagicVal)}</b>! 스펙업의 정석입니다.`,
-                        `${adiPrefix} 소소하지만 확실한 <b>공/마</b> 챙기기! 아주 좋습니다.`,
-                        `${adiPrefix} <b>공/마</b>는 언제나 옳습니다.`
+                        `${adiPrefix} <b>공/마 +${addAttVal}</b>! 스펙업의 정석입니다.`,
+                        `${adiPrefix} 소소하지만 확실한 <b>공/마</b> 챙기기! 아주 좋습니다.`
                     ]));
                 }
             }

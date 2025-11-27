@@ -109,6 +109,21 @@ export function diagnoseEquipment(items: any[], mainStat: string, attType: strin
                 result.good.push(displayComment);
             }
         });
+
+        // 12성 미만 장비에 대한 공통 조언 추가 (진화형 AI)
+        const starforce = parseInt(item.starforce || "0");
+        const isSuperior = itemName.includes("타일런트") || itemName.includes("노바") || itemName.includes("헬리시움"); // 슈페리얼 아이템
+        const isEventRing = ["테네브리스", "SS급", "어웨이크", "글로리온", "카오스", "벤젼스", "결속의", "이터널 플레임", "어드벤처 딥다크", "오닉스", "코스모스", "이벤트 링", "어드벤처", "시너지", "쥬얼", "다크 크리티컬"].some(k => itemName.includes(k));
+        const isCantStarforce = ["훈장", "뱃지", "포켓 아이템", "엠블렘", "보조무기", "기계 심장"].some(s => slot.includes(s));
+
+        if (starforce < 12 && !isSuperior && !isEventRing && !isCantStarforce) {
+            const advice = `[${slot}] ${itemName}: [성장 조언] 스타포스 12성은 가성비가 매우 좋습니다. 우선 12성까지 강화를 추천합니다.`;
+            // 중복 방지: 이미 비슷한 멘트가 있는지 확인
+            if (!result.starforce.some(c => c.includes(itemName) && (c.includes("12성") || c.includes("강화 필요")))) {
+                result.starforce.push(advice);
+                result.scoreDeduction += 2;
+            }
+        }
     });
 
     // 드롭률 체크 (사냥 모드)
