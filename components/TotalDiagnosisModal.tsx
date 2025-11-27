@@ -9,9 +9,10 @@ interface TotalDiagnosisModalProps {
     onClose: () => void;
     data: TotalCheckupResult;
     userName: string;
+    equipment: any[];
 }
 
-export default function TotalDiagnosisModal({ isOpen, onClose, data, userName }: TotalDiagnosisModalProps) {
+export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, equipment }: TotalDiagnosisModalProps) {
 
     // 뒤로가기 핸들링 및 스크롤 방지
     useEffect(() => {
@@ -156,14 +157,119 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName }:
                             </div>
                         </div>
 
-                        <div className="mt-4 relative z-10 bg-slate-950/30 p-3 rounded-lg border border-white/5 text-center">
-                            {data.starforce.average >= 21.5 ? (
-                                <span className="text-green-400 font-bold flex items-center justify-center gap-2"><CheckCircle2 className="w-4 h-4" /> 졸업급 스펙입니다! 더 이상 손댈 곳이 거의 없네요.</span>
-                            ) : data.starforce.average >= 17 ? (
-                                <span className="text-blue-400 font-bold flex items-center justify-center gap-2"><CheckCircle2 className="w-4 h-4" /> 국민 세팅(17~18성) 구간입니다. 22성을 향해 도전해보세요!</span>
-                            ) : (
-                                <span className="text-orange-400 font-bold flex items-center justify-center gap-2"><AlertTriangle className="w-4 h-4" /> 스타포스 강화가 필요합니다. 17성 둘둘부터 시작해봅시다.</span>
-                            )}
+                        <div className="mt-4 relative z-10 bg-slate-950/30 p-4 rounded-lg border border-white/5">
+                            {(() => {
+                                const avg = data.starforce.average;
+                                const count22 = data.starforce.count22 || 0;
+                                const count25Plus = equipment?.filter(item => parseInt(item.starforce || "0") >= 25).length || 0;
+
+                                // 25성 이상이 있는 경우 최고의 찬사
+                                if (count25Plus > 0) {
+                                    return (
+                                        <div className="text-center space-y-3">
+                                            <div className="flex justify-center items-center gap-2 text-2xl">
+                                                <Star className="w-8 h-8 text-yellow-300 fill-yellow-300 animate-pulse" />
+                                                <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-orange-400">
+                                                    완벽을 넘어선 경지
+                                                </span>
+                                                <Star className="w-8 h-8 text-yellow-300 fill-yellow-300 animate-pulse" />
+                                            </div>
+                                            <p className="text-yellow-300 font-bold text-lg">
+                                                🌟 25성 아이템이 <span className="text-2xl text-yellow-200">{count25Plus}개</span>나 있습니다!
+                                            </p>
+                                            <p className="text-orange-200">
+                                                단풍이가 무릎을 꿇습니다... 당신은 메이플의 <span className="text-yellow-300 font-black">전설</span>입니다. 💎
+                                            </p>
+                                            <p className="text-slate-400 text-sm">
+                                                이 정도 스펙이면 모든 보스가 당신 앞에 무릎을 꿇을 것입니다. 경의를 표합니다! 🙇‍♂️
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                // 평균 23성 이상
+                                if (avg >= 23) {
+                                    return (
+                                        <div className="text-center space-y-2">
+                                            <span className="text-green-400 font-bold text-lg flex items-center justify-center gap-2">
+                                                <Star className="w-5 h-5 fill-green-400" /> 전설급 스타포스 완성도!
+                                            </span>
+                                            <p className="text-green-300">
+                                                평균 <span className="text-2xl font-black text-yellow-300">{avg}성</span>이면 이미 졸업급입니다! 🎓
+                                            </p>
+                                            <p className="text-slate-300 text-sm">
+                                                이 정도면 끝판왕 스펙입니다. 메이플 월드에서 당신을 막을 자는 없습니다! ⚔️
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                // 평균 22성 이상
+                                if (avg >= 22) {
+                                    return (
+                                        <div className="text-center space-y-2">
+                                            <span className="text-green-400 font-bold flex items-center justify-center gap-2">
+                                                <CheckCircle2 className="w-5 h-5" /> 완벽한 22성 세팅!
+                                            </span>
+                                            <p className="text-green-300">
+                                                평균 <span className="text-xl font-black">{avg}성</span> 달성! 22성 아이템이 <span className="font-bold">{count22}개</span>입니다.
+                                            </p>
+                                            <p className="text-slate-300 text-sm">
+                                                스타포스는 졸업입니다. 이제 25성에 도전해보실 건가요? 🌟
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                // 평균 21성 이상
+                                if (avg >= 21) {
+                                    return (
+                                        <div className="text-center space-y-2">
+                                            <span className="text-cyan-400 font-bold flex items-center justify-center gap-2">
+                                                <CheckCircle2 className="w-5 h-5" /> 거의 완성!
+                                            </span>
+                                            <p className="text-cyan-300">
+                                                평균 <span className="text-xl font-black">{avg}성</span>! 22성 졸업이 눈앞입니다.
+                                            </p>
+                                            <p className="text-slate-300 text-sm">
+                                                남은 아이템만 22성으로 올리면 완벽합니다! 조금만 더 화이팅! 💪
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                // 평균 17성 이상
+                                if (avg >= 17) {
+                                    return (
+                                        <div className="text-center space-y-2">
+                                            <span className="text-blue-400 font-bold flex items-center justify-center gap-2">
+                                                <CheckCircle2 className="w-4 h-4" /> 국민 세팅(17~18성) 구간입니다.
+                                            </span>
+                                            <p className="text-blue-300">
+                                                평균 <span className="text-xl font-black">{avg}성</span>이면 안정적인 스펙입니다!
+                                            </p>
+                                            <p className="text-slate-300 text-sm">
+                                                이제 22성을 향해 도전해보세요! 천천히 올리시면 됩니다. 🎯
+                                            </p>
+                                        </div>
+                                    );
+                                }
+
+                                // 평균 17성 미만
+                                return (
+                                    <div className="text-center space-y-2">
+                                        <span className="text-orange-400 font-bold flex items-center justify-center gap-2">
+                                            <AlertTriangle className="w-4 h-4" /> 스타포스 강화가 필요합니다.
+                                        </span>
+                                        <p className="text-orange-300">
+                                            평균 <span className="text-xl font-black">{avg}성</span> - 17성 둘둘부터 시작해봅시다!
+                                        </p>
+                                        <p className="text-slate-300 text-sm">
+                                            스타포스는 스펙의 기본입니다. 하나씩 17성으로 올려보세요! 🌱
+                                        </p>
+                                    </div>
+                                );
+                            })()}
                         </div>
                     </div>
 

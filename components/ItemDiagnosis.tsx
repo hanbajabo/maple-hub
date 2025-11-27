@@ -202,6 +202,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey }
                     onClose={() => setIsTotalDiagnosisOpen(false)}
                     data={totalCheckupData}
                     userName={rawData?.basic?.character_name || "용사"}
+                    equipment={equipment}
                 />,
                 document.body
             )}
