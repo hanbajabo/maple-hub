@@ -60,6 +60,25 @@ export default function HexaSkillGuideClient() {
                             <li>✅ 직업별 100명 이상 샘플</li>
                             <li>❌ 솔야누스, 솔야누스:새벽, 헥사스탯은 제외 (공통 스킬)</li>
                         </ul>
+
+                        <div className="mt-6 relative group">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                            <img
+                                src="/images/guides/hexa-skill-matrix.jpg"
+                                alt="인게임 헥사 매트릭스 전체 화면"
+                                className="relative w-full h-auto rounded-lg shadow-2xl border border-purple-500/30 hover:scale-[1.01] transition-transform duration-300"
+                            />
+                            <div className="absolute top-3 left-3 bg-black/70 px-3 py-1.5 rounded-lg border border-purple-400/30">
+                                <p className="text-xs text-purple-300 font-bold">
+                                    🎮 실제 인게임 화면
+                                </p>
+                            </div>
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 rounded-b-lg">
+                                <p className="text-sm text-slate-200 text-center font-medium">
+                                    💫 헥사 매트릭스 전체 UI - 헥사 스킬과 헥사 스탯을 한눈에!
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">

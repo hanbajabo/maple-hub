@@ -61,14 +61,21 @@ export function diagnoseGlove(item: any): string[] {
     }
 
     // 3. 에디셔널 잠재능력 (Additional Potential)
-    // 장갑은 에디 공/마 효율이 좋음
+    // 장갑은 에디 공/마 또는 크리티컬 데미지가 최상급 옵션
     const adiGrade = item.additional_potential_option_grade;
     const hasAtt = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")));
+    const adiCritDmgLines = adiLines.filter(l => l && l.includes("크리티컬 데미지")).length;
 
-    if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
-        if (!hasAtt) comments.push(`[속 빈 강정] 크뎀 장갑의 효율을 극대화하려면 에디셔널 공/마가 필수입니다.`);
-    } else if (adiGrade === "에픽" && hasAtt) {
-        comments.push(`[가성비 굿] 에디셔널 공/마 1줄, 딱 좋습니다.`);
+    if (adiGrade === "레전드리" || adiGrade === "유니크" || adiGrade === "에픽") {
+        if (adiCritDmgLines >= 2) {
+            comments.push(`[에디 신화] 에디셔널 <b>쌍크뎀</b>! 전 서버급 매물입니다. 부르는 게 값!`);
+        } else if (adiCritDmgLines === 1) {
+            comments.push(`[에디 종결] 에디셔널 <b>크리티컬 데미지</b>! 장갑 에디의 최상급 옵션입니다.`);
+        } else if (hasAtt) {
+            comments.push(`[에디 가성비] 에디셔널 공/마도 나쁘지 않습니다만, 크뎀이 더 좋습니다.`);
+        } else if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
+            comments.push(`[속 빈 강정] 크뎀 장갑의 효율을 극대화하려면 에디셔널 크뎀이나 공/마가 필수입니다.`);
+        }
     }
 
     // 4. 추옵 (Flame)

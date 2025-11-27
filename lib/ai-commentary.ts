@@ -257,7 +257,11 @@ export function generateItemCommentary(item: any): string {
     }
 
     // 2. 추가옵션(추옵) 분석
-    if (!isMedal && !isBadge && !isEmblem && !isSubWeapon && !isRing && !isHeart) {
+    // 환생의 불꽃 사용 가능 부위: 무기, 모자, 상의, 하의, 신발, 망토, 장갑, 눈장식, 얼굴장식, 펜던트, 벨트, 귀고리
+    // 사용 불가: 반지, 어깨장식, 뱃지, 훈장, 포켓, 엠블렘, 보조무기, 기계심장
+    const canUseFlame = ['무기', '모자', '상의', '하의', '신발', '망토', '장갑', '눈장식', '얼굴장식', '펜던트', '벨트', '귀고리'].includes(slot);
+
+    if (canUseFlame) {
         const addOptions = item.item_add_option || {};
         const addAtt = parseInt(addOptions.attack_power) || 0;
         const addMagic = parseInt(addOptions.magic_power) || 0;
@@ -372,37 +376,41 @@ export function generateItemCommentary(item: any): string {
             }
             // 방어구/장신구 로직
             else {
+                const potPrefixes = ["잠재능력은", "잠재는", "윗잠은", "잠재 옵션은"];
+                const potPrefix = pick(potPrefixes);
+
                 if (statPct >= 36) {
                     comments.push(pick([
-                        `잠재능력 <b>주스탯 ${statPct}%</b>... <b>'올이탈'</b> 국가권력급 스펙입니다! 로또 1등 당첨보다 어렵다는 확률을 뚫으셨군요.`,
-                        `<b>주스탯 ${statPct}%</b>?! 큐브가 고장난 거 아닌가요? 믿을 수 없는 수치입니다.`,
-                        `옵션 세 줄이 전부 이탈이라니... <b>${statPct}%</b>의 기적을 봅니다.`,
-                        `이 잠재능력은 예술 작품입니다. <b>${statPct}%</b>... 감탄만 나오네요.`
+                        `${potPrefix} <b>주스탯 ${statPct}%</b>... <b>'올이탈'</b> 국가권력급 스펙입니다! 로또 1등 당첨보다 어렵다는 확률을 뚫으셨군요.`,
+                        `${potPrefix} <b>주스탯 ${statPct}%</b>?! 큐브가 고장난 거 아닌가요? 믿을 수 없는 수치입니다.`,
+                        `${potPrefix} 옵션 세 줄이 전부 이탈이라니... <b>${statPct}%</b>의 기적을 봅니다.`,
+                        `${potPrefix} 예술 작품입니다. <b>${statPct}%</b>... 감탄만 나오네요.`
                     ]));
                 } else if (statPct >= 33) {
                     comments.push(pick([
-                        `<b>'쌍이탈'</b> 옵션(33% 이상)이 떴습니다! 정옵을 뛰어넘은 초고스펙입니다.`,
-                        `<b>주스탯 ${statPct}%</b>! 쌍이탈의 축복을 받으셨군요.`,
-                        `남들은 하나 띄우기도 힘든 이탈 옵션을 두 줄이나! <b>${statPct}%</b> 달성!`,
-                        `정옵(30%)을 가볍게 뛰어넘는 <b>${statPct}%</b>! 고스펙의 증명입니다.`
+                        `${potPrefix} <b>'쌍이탈'</b> 옵션(33% 이상)이 떴습니다! 정옵을 뛰어넘은 초고스펙입니다.`,
+                        `${potPrefix} <b>주스탯 ${statPct}%</b>! 쌍이탈의 축복을 받으셨군요.`,
+                        `${potPrefix} 남들은 하나 띄우기도 힘든 이탈 옵션을 두 줄이나! <b>${statPct}%</b> 달성!`,
+                        `${potPrefix} 정옵(30%)을 가볍게 뛰어넘는 <b>${statPct}%</b>! 고스펙의 증명입니다.`
                     ]));
                 } else if (statPct >= 30) {
                     comments.push(pick([
-                        `<b>주스탯 ${statPct}%</b>로 깔끔하게 3줄 유효 옵션을 챙기셨네요. 군더더기 없는 완벽한 졸업급 정옵입니다.`,
-                        `<b>${statPct}%</b> 정옵! 마음이 편안해지는 숫자입니다.`,
-                        `깔끔한 <b>30%</b>! 더 이상 바랄 게 없는 졸업 옵션입니다.`
+                        `${potPrefix} <b>주스탯 ${statPct}%</b>로 깔끔하게 3줄 유효 옵션을 챙기셨네요. 군더더기 없는 완벽한 졸업급 정옵입니다.`,
+                        `${potPrefix} <b>${statPct}%</b> 정옵! 마음이 편안해지는 숫자입니다.`,
+                        `${potPrefix} 깔끔한 <b>30%</b>! 더 이상 바랄 게 없는 졸업 옵션입니다.`
                     ]));
                 } else if (statPct >= 27) {
                     comments.push(pick([
-                        `<b>주스탯 ${statPct}%</b>면 준수한 3줄 유효 옵션입니다. 충분히 현역으로 쓸만합니다.`,
-                        `<b>27%</b>도 훌륭합니다. 가성비와 성능을 모두 챙긴 현명한 선택!`,
-                        `<b>${statPct}%</b>... 나쁘지 않네요! 실전에서 아주 든든할 겁니다.`
+                        `${potPrefix} <b>주스탯 ${statPct}%</b>! 3줄 유효 옵션을 챙기셨군요. 상위권 스펙으로 도약하기 위한 아주 강력한 발판입니다.`,
+                        `${potPrefix} <b>27%</b>면 사실상 졸업급입니다. 아주 훌륭한 스펙을 완성하셨네요!`,
+                        `${potPrefix} <b>${statPct}%</b>! 이 정도면 어디 가서 꿀리지 않는 고스펙입니다. 든든합니다!`
                     ]));
                 } else if (statPct >= 21) {
                     comments.push(pick([
-                        `<b>주스탯 ${statPct}%</b>는 레전드리 등급의 표준입니다. 나쁘지 않지만, 고스펙을 노린다면 27% 이상을 도전해보세요.`,
-                        `<b>21%</b>로 일단 멈추셨군요. 가성비는 좋지만 레전드리 등급치고는 조금 아쉽습니다.`,
-                        `일단 <b>${statPct}%</b>로 쓰시다가, 나중에 여유 될 때 3줄을 노려봅시다.`
+                        `${potPrefix} <b>주스탯 ${statPct}%</b>는 레전드리 등급의 표준입니다. 나쁘지 않지만, 고스펙을 노린다면 27% 이상을 도전해보세요.`,
+                        `${potPrefix} <b>21%</b>로 일단 멈추셨군요. 가성비는 좋지만 레전드리 등급치고는 조금 아쉽습니다.`,
+                        `일단 <b>${statPct}%</b>로 쓰시다가, 나중에 여유 될 때 3줄을 노려봅시다.`,
+                        `${potPrefix} <b>${statPct}%</b>... 레전드리 맛보기 스푼이군요. 더 높은 곳을 향해!`
                     ]));
                 } else if (statPct < 21 && !coolTime && !critDmg && !dropRate && !mesoRate) {
                     comments.push(`레전드리 등급이지만 옵션 수치가 아쉽습니다. 큐브를 통해 <b>21% 이상</b> 혹은 <b>유효 2줄</b>을 노려보시는 걸 추천합니다.`);
@@ -475,45 +483,122 @@ export function generateItemCommentary(item: any): string {
             }
         } else {
             // 에픽, 유니크, 레전드리 에디셔널
+            const adiPrefixes = ["에디셔널은", "에디는", "밑잠은", "에디 옵션은"];
+            const adiPrefix = pick(adiPrefixes);
+
             if (slot === '무기' || slot === '보조무기' || slot === '엠블렘' || item.item_equipment_part === '보조무기') {
                 const addAttLines = addPotentials.filter(l => (l.includes('공격력') || l.includes('마력')) && l.includes('%')).length;
                 const addBossLines = addPotentials.filter(l => l.includes('보스')).length;
 
                 if (addAttLines >= 3) {
-                    comments.push(`에디셔널 <b>공/마 3줄</b>...?! 이건 기적입니다. 전 서버급 매물을 보유하고 계시네요.`);
+                    comments.push(`${adiPrefix} <b>공/마 3줄</b>...?! 이건 기적입니다. 전 서버급 매물을 보유하고 계시네요.`);
                 } else if (addAttLines >= 2) {
-                    comments.push(`에디셔널 <b>공/마 2줄</b>! 윗잠재와 합쳐져서 엄청난 시너지를 냅니다. 종결급 에디셔널입니다.`);
+                    comments.push(`${adiPrefix} <b>공/마 2줄</b>! 윗잠재와 합쳐져서 엄청난 시너지를 냅니다. 종결급 에디셔널입니다.`);
                 } else if (addAttLines >= 1 && addBossLines >= 1) {
-                    comments.push(`에디셔널에서 <b>공/마</b>와 <b>보공</b>을 모두 챙기셨군요. 밸런스가 아주 좋은 준종결 세팅입니다.`);
+                    comments.push(`${adiPrefix} <b>공/마</b>와 <b>보공</b>을 모두 챙기셨군요. 밸런스가 아주 좋은 준종결 세팅입니다.`);
                 } else if (addAttLines >= 1) {
-                    comments.push(`에디셔널 <b>공/마 1줄</b>은 국룰이죠. 든든하게 스펙을 받쳐주고 있습니다.`);
+                    comments.push(`${adiPrefix} <b>공/마 1줄</b>은 국룰이죠. 든든하게 스펙을 받쳐주고 있습니다.`);
                 } else if (addBossLines >= 2) {
-                    comments.push(`에디셔널 <b>보공 2줄</b>! 공/마보다는 티어가 낮지만, 실전 딜 상승량은 무시할 수 없습니다. 가성비 최고의 선택입니다.`);
+                    comments.push(`${adiPrefix} <b>보공 2줄</b>! 공/마보다는 티어가 낮지만, 실전 딜 상승량은 무시할 수 없습니다. 가성비 최고의 선택입니다.`);
                 } else if (addBossLines >= 1) {
-                    comments.push(`에디셔널에서 <b>보공</b>을 챙기셨네요. 나쁘지 않지만, 추후 <b>공/마 %</b> 옵션으로 교체를 고려해보세요.`);
+                    comments.push(`${adiPrefix} <b>보공</b>을 챙기셨네요. 나쁘지 않지만, 추후 <b>공/마 %</b> 옵션으로 교체를 고려해보세요.`);
                 }
             } else {
                 // 방어구 에디셔널 (주스탯/공마)
-                const addStatLines = addPotentials.filter(l => l.includes('올스탯') || l.includes('STR') || l.includes('DEX') || l.includes('INT') || l.includes('LUK')).length;
+                // 에디셔널도 주스탯만 계산 (부스탯 제외)
+                let addStrTotal = 0;
+                let addDexTotal = 0;
+                let addIntTotal = 0;
+                let addLukTotal = 0;
+                let addAllStatTotal = 0;
+
+                addPotentials.forEach(line => {
+                    if (line) {
+                        const match = line.match(/(\d+)%/);
+                        if (match) {
+                            if (line.includes('STR') && line.includes('%')) addStrTotal += parseInt(match[1]);
+                            else if (line.includes('DEX') && line.includes('%')) addDexTotal += parseInt(match[1]);
+                            else if (line.includes('INT') && line.includes('%')) addIntTotal += parseInt(match[1]);
+                            else if (line.includes('LUK') && line.includes('%')) addLukTotal += parseInt(match[1]);
+                            else if (line.includes('올스탯') && line.includes('%')) addAllStatTotal += parseInt(match[1]);
+                        }
+                    }
+                });
+
+                // 유효 줄 수 계산 (각 스탯별로 올스탯 포함하여 최대 줄 수 계산)
+                let strLines = 0;
+                let dexLines = 0;
+                let intLines = 0;
+                let lukLines = 0;
+                let hpLines = 0;
+                let allStatLines = 0;
+
+                addPotentials.forEach(line => {
+                    if (!line) return;
+                    if (line.includes('올스탯') && line.includes('%')) allStatLines++;
+                    else if (line.includes('STR') && line.includes('%')) strLines++;
+                    else if (line.includes('DEX') && line.includes('%')) dexLines++;
+                    else if (line.includes('INT') && line.includes('%')) intLines++;
+                    else if (line.includes('LUK') && line.includes('%')) lukLines++;
+                    else if (line.includes('HP') && line.includes('%')) hpLines++;
+                });
+
+                // 가장 높은 줄 수를 가진 스탯을 기준으로 함
+                const addStatLines = Math.max(
+                    strLines + allStatLines,
+                    dexLines + allStatLines,
+                    intLines + allStatLines,
+                    lukLines + allStatLines,
+                    hpLines + allStatLines
+                );
+
                 const addAttFlat = addPotentials.some(l => (l.includes('공격력') || l.includes('마력')) && !l.includes('%')); // 공/마 상수
 
                 if (addStatLines >= 3) {
                     comments.push(pick([
-                        `에디셔널에서 <b>주스탯 3줄</b>...?! 이건 <b>진짜 종결급</b>입니다. 더 이상 손댈 곳이 없습니다.`,
-                        `와... 에디셔널 <b>3줄</b>이라니! 메이플 인생에 몇 번 보기 힘든 옵션입니다.`,
-                        `<b>주스탯 3줄</b>! 완벽 그 자체입니다. 졸업을 축하드립니다!`
+                        `${adiPrefix} <b>주스탯 3줄</b>...?! 이건 <b>진짜 종결급</b>입니다. 더 이상 손댈 곳이 없습니다.`,
+                        `${adiPrefix} 와... <b>3줄</b>이라니! 메이플 인생에 몇 번 보기 힘든 옵션입니다.`,
+                        `${adiPrefix} <b>주스탯 3줄</b>! 완벽 그 자체입니다. 졸업을 축하드립니다.`,
+                        `${adiPrefix} 큐브가 춤을 췄군요. <b>3줄 유효</b> 대박!`,
+                        `${adiPrefix} 이건 가보로 물려줘야 합니다. <b>3줄</b>의 기적!`,
+                        `${adiPrefix} 에디 <b>3줄</b>이면... 경매장에 올리면 댓글이 불탈 거예요. 절대 팔지 마세요!`,
+                        `${adiPrefix} 제가 평생 봐온 장비 중에서도 손에 꼽습니다. <b>3줄</b>의 위엄!`,
+                        `${adiPrefix} 단풍이가 절을 올립니다. (꾸벅) <b>주스탯 3줄</b>의 주인님을 영접합니다.`,
+                        `${adiPrefix} 이 장비는 박물관 전시용입니다. <b>3줄</b>... 국보급 매물!`,
+                        `${adiPrefix} 로또 1등보다 낮은 확률을 뚫으셨습니다. <b>3줄 유효</b> 기적!`,
+                        `${adiPrefix} 큐브 회사가 파산할 뻔했는데 <b>3줄</b> 나왔네요! 대박입니다!`,
+                        `${adiPrefix} 이 옵션 띄우려고 얼마나 많은 에디큐브를... 존경합니다. <b>3줄</b>!`,
+                        `${adiPrefix} <b>주스탯 3줄</b>? 서버 전체가 떠들썩하겠는데요?!`,
+                        `${adiPrefix} 혹시 넥슨 개발자이신가요? 일반인이 <b>3줄</b>을 띄우다니...`,
+                        `${adiPrefix} 이 장비 하나로 은퇴하셔도 됩니다. <b>3줄 유효</b> 종결!`,
+                        `${adiPrefix} 경매장 시세? 매길 수가 없습니다. <b>3줄</b>은 가격을 초월해요.`,
+                        `${adiPrefix} 단풍이 AI가 감동의 눈물을 흘립니다. <b>주스탯 3줄</b>이라니...`,
+                        `${adiPrefix} 이건 그냥 <b>완성형</b>입니다. 더 이상의 설명이 필요없어요.`,
+                        `${adiPrefix} 길드원들이 부러워서 잠을 못 잘 거예요. <b>3줄</b> 실화?!`,
+                        `${adiPrefix} <b>주스탯 3줄</b>... 단풍이도 처음 봅니다. 전설이시네요.`,
+                        `${adiPrefix} 이 장비는 메이플스토리 역사에 기록될 겁니다. <b>3줄 완벽</b>!`,
+                        `${adiPrefix} 큐브 확률표를 거스른 당신... <b>3줄</b>의 신!`,
+                        `${adiPrefix} 남들은 1줄도 못 띄우는데 <b>3줄</b>이라니! 운이 좋으신 거예요, 노력? 둘 다!`,
+                        `${adiPrefix} 이 정도면 유튜브에 인증해야 합니다. <b>3줄</b> 달성!`,
+                        `${adiPrefix} 메이플 인생의 하이라이트를 찍으셨군요. <b>주스탯 3줄</b> 축하!`
                     ]));
                 } else if (addStatLines === 2) {
                     comments.push(pick([
-                        `에디셔널에서 <b>주스탯 2줄</b>! 방어구 에디셔널 종결급입니다.`,
-                        `<b>주스탯 2줄</b>, 아주 훌륭합니다. 이 정도면 평생 쓰셔도 됩니다.`,
-                        `깔끔하게 <b>2줄</b> 챙기셨네요. 스펙업에 큰 도움이 됩니다.`
+                        `${adiPrefix} <b>주스탯 2줄</b>! 방어구 에디셔널 종결급입니다.`,
+                        `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 이 정도면 평생 쓰셔도 됩니다.`,
+                        `${adiPrefix} 깔끔하게 <b>2줄</b> 챙기셨네요. 스펙업에 큰 도움이 됩니다.`
+                    ]));
+                } else if (addStatLines === 1) {
+                    comments.push(pick([
+                        `${adiPrefix} <b>주스탯 %</b> 한 줄도 훌륭한 유효 옵션입니다. 가성비 최고!`,
+                        `${adiPrefix} <b>주스탯 %</b>를 챙기셨군요. 공/마 10만큼이나 든든한 옵션입니다.`,
+                        `${adiPrefix} 소소하지만 확실한 스펙업! <b>주스탯 %</b> 한 줄 챙기기 성공입니다.`
                     ]));
                 } else if (addAttVal >= 10 || addMagicVal >= 10) {
                     comments.push(pick([
-                        `에디셔널 <b>공/마 +${Math.max(addAttVal, addMagicVal)}</b>! 스펙업의 정석입니다.`,
-                        `소소하지만 확실한 <b>공/마</b> 챙기기! 아주 좋습니다.`,
-                        `에디셔널 <b>공/마</b>는 언제나 옳습니다.`
+                        `${adiPrefix} <b>공/마 +${Math.max(addAttVal, addMagicVal)}</b>! 스펙업의 정석입니다.`,
+                        `${adiPrefix} 소소하지만 확실한 <b>공/마</b> 챙기기! 아주 좋습니다.`,
+                        `${adiPrefix} <b>공/마</b>는 언제나 옳습니다.`
                     ]));
                 }
             }

@@ -67,30 +67,116 @@ export function diagnoseArmor(item: any): string[] {
         }
     }
 
-    // 4. 잠재능력 (Potential) - 에픽 등급 진단
-    // 유니크/레전드리는 각 부위별 로직이나 공통 로직에서 처리될 수 있음 (현재는 에픽만 추가)
-    if (potentialGrade === '에픽') {
-        const epicComments = diagnoseEpicPotential(potentialGrade, [item.potential_option_1, item.potential_option_2, item.potential_option_3]);
+    // 4. 잠재능력 (Potential) 진단
+    const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3].filter(Boolean);
+
+    if (potentialGrade === '레전드리' || potentialGrade === '유니크') {
+        // 주스탯 % 계산
+        let strTotal = 0;
+        let dexTotal = 0;
+        let intTotal = 0;
+        let lukTotal = 0;
+        let allStatTotal = 0;
+
+        potentials.forEach(line => {
+            if (line) {
+                const match = line.match(/(\d+)%/);
+                if (match) {
+                    if (line.includes('STR')) strTotal += parseInt(match[1]);
+                    else if (line.includes('DEX')) dexTotal += parseInt(match[1]);
+                    else if (line.includes('INT')) intTotal += parseInt(match[1]);
+                    else if (line.includes('LUK')) lukTotal += parseInt(match[1]);
+                    else if (line.includes('올스탯')) allStatTotal += parseInt(match[1]);
+                }
+            }
+        });
+
+        const statPct = Math.max(strTotal, dexTotal, intTotal, lukTotal) + allStatTotal;
+
+        if (potentialGrade === '레전드리') {
+            if (statPct >= 30) {
+                comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 3줄 정옵입니다.`);
+            } else if (statPct >= 27) {
+                comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다.`);
+            } else if (statPct >= 21) {
+                comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
+            } else if (statPct > 0) {
+                comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다. 21% 이상 권장합니다.`);
+            }
+        } else if (potentialGrade === '유니크') {
+            if (statPct >= 15) {
+                comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다.`);
+            } else if (statPct >= 12) {
+                comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 괜찮은 수치입니다.`);
+            } else if (statPct > 0) {
+                comments.push(`[유니크 아쉬움] 주스탯이 <b>${statPct}%</b>로 낮습니다. 15% 이상 권장합니다.`);
+            }
+        }
+    } else if (potentialGrade === '에픽') {
+        const epicComments = diagnoseEpicPotential(potentialGrade, potentials);
         comments.push(...epicComments);
     }
 
-    // 5. 공통: 추옵 진단 (Flame)
-    const addOpts = item.item_add_option || {};
-    const addStat = Math.max(
-        parseInt(addOpts.str || "0"),
-        parseInt(addOpts.dex || "0"),
-        parseInt(addOpts.int || "0"),
-        parseInt(addOpts.luk || "0")
-    );
-    const addAllStat = parseInt(addOpts.all_stat || "0");
-    const addAtt = parseInt(addOpts.attack_power || "0");
-    const score = addStat + (addAtt * 4) + (addAllStat * 10);
+    // 5. 에디셔널 진단 (Additional Potential)
+    const adiGrade = item.additional_potential_option_grade;
+    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
 
-    if (score >= 160) comments.push(`[극추옵] <b>160급</b> 이상! 초고스펙용 종결 추옵입니다.`);
-    else if (score >= 130) comments.push(`[고추옵] <b>130급</b> 이상! 고스펙용으로 훌륭합니다.`);
-    else if (score >= 100) comments.push(`[합격점] <b>100급</b> 이상! 실전에서 사용하기 적절합니다.`);
-    else if (score < 80 && item.item_base_option?.base_equipment_level >= 140) {
-        comments.push(`[환불 필요] <b>80급</b> 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
+    // 에디셔널 공/마 및 주스탯% 수치 계산
+    let adiAtt = 0;
+    let adiMagic = 0;
+    let hasStatPct = false;
+
+    adiLines.forEach(l => {
+        if (l) {
+            if (l.includes("공격력")) {
+                const match = l.match(/\+(\d+)/);
+                if (match) adiAtt += parseInt(match[1]);
+            }
+            if (l.includes("마력")) {
+                const match = l.match(/\+(\d+)/);
+                if (match) adiMagic += parseInt(match[1]);
+            }
+            // 주스탯 % 체크 (올스탯 포함)
+            if (l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("올스탯"))) {
+                hasStatPct = true;
+            }
+        }
+    });
+
+    if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
+        if (hasStatPct) {
+            comments.push(`[가성비 굿] 에디셔널에서 <b>주스탯 %</b>를 챙기셨네요. 공/마 10만큼이나 훌륭한 가성비 옵션입니다.`);
+        } else if (adiAtt >= 10 || adiMagic >= 10) {
+            comments.push(`[가성비 굿] 에디셔널에서 공/마 <b>+${Math.max(adiAtt, adiMagic)}</b>을 챙기셨네요. 레어 등급에서는 최선의 선택입니다. 아주 알뜰하시군요!`);
+        } else {
+            comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 공/마나 주스탯 %를 챙겨주세요.`);
+        }
+    } else if (adiGrade === "에픽") {
+        if (hasStatPct) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 %</b>! 아주 든든한 옵션입니다.`);
+        else if (adiAtt >= 10 || adiMagic >= 10) comments.push(`[에디 에픽] 에디셔널 공/마를 잘 챙기셨습니다. 든든합니다.`);
+    }
+
+    // 6. 공통: 추옵 진단 (Flame)
+    // 환생의 불꽃 사용 가능 부위: 무기, 모자, 상의, 하의, 신발, 망토, 장갑
+    // 어깨장식(견장)은 환생의 불꽃 사용 불가
+    if (slot !== "어깨장식") {
+        const addOpts = item.item_add_option || {};
+        const addStat = Math.max(
+            parseInt(addOpts.str || "0"),
+            parseInt(addOpts.dex || "0"),
+            parseInt(addOpts.int || "0"),
+            parseInt(addOpts.luk || "0")
+        );
+        const addAllStat = parseInt(addOpts.all_stat || "0");
+        const addAtt = parseInt(addOpts.attack_power || "0");
+        const score = addStat + (addAtt * 4) + (addAllStat * 10);
+
+        if (score >= 160) comments.push(`[극추옵] <b>160급</b> 이상! 초고스펙용 종결 추옵입니다.`);
+        else if (score >= 130) comments.push(`[고추옵] <b>130급</b> 이상! 고스펙용으로 훌륭합니다.`);
+        else if (score >= 100) comments.push(`[합격점] <b>100급</b> 이상! 실전에서 사용하기 적절합니다.`);
+        else if (score < 80 && item.item_base_option?.base_equipment_level >= 140) {
+            comments.push(`[환불 필요] <b>80급</b> 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
+        }
     }
 
     return comments;

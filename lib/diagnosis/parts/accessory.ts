@@ -20,8 +20,11 @@ export function diagnoseAccessory(item: any): string[] {
     const starforce = parseInt(item.starforce || "0");
     const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
 
-    // 0. 주문서 작 진단 (Scroll) - 기계 심장, 뱃지, 훈장, 포켓 제외 (작 불가 아이템)
-    if (!slot.includes("기계 심장") && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓")) {
+    // 이벤트링 체크 (주문서 적용 불가)
+    const isEventRing = EVENT_RING_KEYWORDS.some(k => itemName.includes(k));
+
+    // 0. 주문서 작 진단 (Scroll) - 기계 심장, 뱃지, 훈장, 포켓, 이벤트링 제외 (작 불가 아이템)
+    if (!slot.includes("기계 심장") && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !isEventRing) {
         const scrollComments = diagnoseScroll(item);
         comments.push(...scrollComments);
     }
@@ -81,7 +84,16 @@ export function diagnoseAccessory(item: any): string[] {
         const dropLines = potentials.filter(l => l && l.includes("아이템 드롭률")).length;
         const mesoLines = potentials.filter(l => l && l.includes("메소 획득량")).length;
 
-        if (dropLines + mesoLines >= 2) {
+        if (dropLines + mesoLines === 3) {
+            // 드/메 3줄 - 초특급 반응!
+            if (dropLines === 3) {
+                comments.push(`[광부의 신] <b>드롭률 3줄</b>...?! 메이플 역사에 길이 남을 전설의 광부템입니다! 이 아이템은 박물관에 전시해야 합니다!`);
+            } else if (mesoLines === 3) {
+                comments.push(`[메소 황제] <b>메소 획득량 3줄</b>! 이건 장비가 아니라 금광입니다. 길드원들이 시샘할 엄청난 아이템이에요!`);
+            } else {
+                comments.push(`[광부 초종결] <b>드/메 3줄 완벽</b>! 전 서버를 통틀어도 보기 힘든 사냥 최종 병기입니다. 절대 팔지 마세요!`);
+            }
+        } else if (dropLines + mesoLines === 2) {
             comments.push(`[광부 종결] 사냥용 종결 아이템입니다. (드/메 2줄)`);
         } else if (dropLines + mesoLines === 1) {
             // 주스탯과 섞여있으면 하이브리드
@@ -109,7 +121,6 @@ export function diagnoseAccessory(item: any): string[] {
     }
 
     // 5. 일반 스타포스 진단 (시드링, 뱃지, 훈장, 포켓, 이벤트링 제외)
-    const isEventRing = EVENT_RING_KEYWORDS.some(k => itemName.includes(k));
     if (!isSeedRing && !isEventRing && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !slot.includes("엠블렘")) {
         if (!isPitch) { // 칠흑은 위에서 별도 처리
             // 놀장강(Amazing Enhancement) 체크
@@ -134,24 +145,61 @@ export function diagnoseAccessory(item: any): string[] {
     // 6. 잠재능력 진단 (주스탯%)
     const potentialGrade = item.potential_option_grade;
     if (potentialGrade === "레전드리") {
-        let totalStat = 0;
+        // 주스탯 % 계산 - 부스탯 제외
+        let strTotal = 0;
+        let dexTotal = 0;
+        let intTotal = 0;
+        let lukTotal = 0;
+        let allStatTotal = 0;
+
         potentials.forEach(l => {
             if (l) {
                 const match = l.match(/(\d+)%/);
-                if (match && (l.includes("올스탯") || l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK"))) {
-                    totalStat += parseInt(match[1]);
+                if (match) {
+                    if (l.includes('STR')) strTotal += parseInt(match[1]);
+                    else if (l.includes('DEX')) dexTotal += parseInt(match[1]);
+                    else if (l.includes('INT')) intTotal += parseInt(match[1]);
+                    else if (l.includes('LUK')) lukTotal += parseInt(match[1]);
+                    else if (l.includes('올스탯')) allStatTotal += parseInt(match[1]);
                 }
             }
         });
 
-        if (totalStat >= 27) comments.push(`[고스펙] 주스탯 <b>${totalStat}%</b>! 고스펙을 위한 훌륭한 수치입니다.`);
-        else if (totalStat >= 21) comments.push(`[표준] 주스탯 <b>${totalStat}%</b>는 레전드리 등급의 표준입니다. 고스펙을 노린다면 <b>27%</b> 이상을 도전해보세요.`);
-        else if (totalStat >= 18) comments.push(`[아쉬움] 주스탯 <b>${totalStat}%</b>는 유니크 등급 효율입니다. 큐브 작업이 권장됩니다.`);
-        else {
-            const statLines = potentials.filter(l => l && (l.includes("올스탯") || l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK")));
-            if (statLines.length >= 3) comments.push(`[3줄 유효] 주스탯 3줄! 깔끔한 종결 잠재입니다.`);
-            else if (statLines.length === 2) comments.push(`[2줄 유효] 주스탯 2줄, 가성비 좋게 챙기셨습니다.`);
+        const statPct = Math.max(strTotal, dexTotal, intTotal, lukTotal) + allStatTotal;
+
+        if (statPct >= 30) comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 3줄 정옵입니다.`);
+        else if (statPct >= 27) comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다.`);
+        else if (statPct >= 21) comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
+        else if (statPct >= 18) comments.push(`[아쉬움] 주스탯 <b>${statPct}%</b>는 유니크 등급 효율입니다. 큐브 작업이 권장됩니다.`);
+        else if (statPct > 0) {
+            comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
         }
+    } else if (potentialGrade === '유니크') {
+        // 유니크 등급 추가
+        let strTotal = 0;
+        let dexTotal = 0;
+        let intTotal = 0;
+        let lukTotal = 0;
+        let allStatTotal = 0;
+
+        potentials.forEach(l => {
+            if (l) {
+                const match = l.match(/(\d+)%/);
+                if (match) {
+                    if (l.includes('STR')) strTotal += parseInt(match[1]);
+                    else if (l.includes('DEX')) dexTotal += parseInt(match[1]);
+                    else if (l.includes('INT')) intTotal += parseInt(match[1]);
+                    else if (l.includes('LUK')) lukTotal += parseInt(match[1]);
+                    else if (l.includes('올스탯')) allStatTotal += parseInt(match[1]);
+                }
+            }
+        });
+
+        const statPct = Math.max(strTotal, dexTotal, intTotal, lukTotal) + allStatTotal;
+
+        if (statPct >= 15) comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다.`);
+        else if (statPct >= 12) comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 괜찮은 수치입니다.`);
+        else if (statPct > 0) comments.push(`[유니크 아쉬움] 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
     } else if (potentialGrade === '에픽') {
         const epicComments = diagnoseEpicPotential(potentialGrade, potentials);
         comments.push(...epicComments);
@@ -161,9 +209,11 @@ export function diagnoseAccessory(item: any): string[] {
     const adiGrade = item.additional_potential_option_grade;
     const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
 
-    // 에디셔널 공/마 수치 계산
+    // 에디셔널 공/마 및 주스탯% 수치 계산
     let adiAtt = 0;
     let adiMagic = 0;
+    let hasStatPct = false;
+
     adiLines.forEach(l => {
         if (l) {
             if (l.includes("공격력")) {
@@ -174,17 +224,31 @@ export function diagnoseAccessory(item: any): string[] {
                 const match = l.match(/\+(\d+)/);
                 if (match) adiMagic += parseInt(match[1]);
             }
+            // 주스탯 % 체크 (올스탯 포함)
+            if (l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("올스탯"))) {
+                hasStatPct = true;
+            }
         }
     });
 
     if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
-        if (adiAtt >= 10 || adiMagic >= 10) {
+        if (hasStatPct) {
+            comments.push(`[가성비 굿] 에디셔널에서 <b>주스탯 %</b>를 챙기셨네요. 공/마 10만큼이나 훌륭한 가성비 옵션입니다.`);
+        } else if (adiAtt >= 10 || adiMagic >= 10) {
             comments.push(`[가성비 굿] 에디셔널에서 공/마 <b>+${Math.max(adiAtt, adiMagic)}</b>을 챙기셨네요. 레어 등급에서는 최선의 선택입니다. 아주 알뜰하시군요!`);
         } else {
-            comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 공/마를 챙겨주세요.`);
+            comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 공/마나 주스탯 %를 챙겨주세요.`);
+        }
+    } else if (adiGrade === "유니크") {
+        // 유니크 에디셔널 평가 추가
+        if (hasStatPct) {
+            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 %</b>! 유니크 등급에서 훌륭한 옵션입니다.`);
+        } else if (adiAtt >= 10 || adiMagic >= 10) {
+            comments.push(`[에디 유니크] 에디셔널 공/마 <b>+${Math.max(adiAtt, adiMagic)}</b>! 든든한 옵션입니다.`);
         }
     } else if (adiGrade === "에픽") {
-        if (adiAtt >= 10 || adiMagic >= 10) comments.push(`[에디 에픽] 에디셔널 공/마를 잘 챙기셨습니다. 든든합니다.`);
+        if (hasStatPct) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 %</b>! 아주 든든한 옵션입니다.`);
+        else if (adiAtt >= 10 || adiMagic >= 10) comments.push(`[에디 에픽] 에디셔널 공/마를 잘 챙기셨습니다. 든든합니다.`);
     }
 
     // 8. 추옵 진단

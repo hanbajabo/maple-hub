@@ -64,6 +64,42 @@ const ARMOR_GRADES = [
     }
 ];
 
+const ARCANE_WEAPON_STATS = [
+    { name: '가즈', type: '아대', base: 149, t1: 92, t2: 72, t3: 55, t4: 40, t5: 27 },
+    { name: '피스톨', type: '건', base: 216, t1: 133, t2: 104, t3: 79, t4: 58, t5: 39 },
+    { name: '에너지체인', type: '에너지소드', base: 221, t1: 136, t2: 106, t3: 81, t4: 59, t5: 40 },
+    { name: '클로', type: '너클', base: 221, t1: 136, t2: 106, t3: 81, t4: 59, t5: 40 },
+    { name: '엘라하', type: '건틀렛 리볼버', base: 221, t1: 136, t2: 106, t3: 81, t4: 59, t5: 40 },
+    { name: '소울슈터', type: '소울슈터', base: 221, t1: 136, t2: 106, t3: 81, t4: 59, t5: 40 },
+    { name: '폴암', type: '폴암', base: 264, t1: 163, t2: 127, t3: 96, t4: 70, t5: 48 },
+    { name: '에인션트 보우', type: '에인션트 보우', base: 276, t1: 170, t2: 133, t3: 101, t4: 73, t5: 50 },
+    { name: '초선', type: '부채', base: 276, t1: 170, t2: 133, t3: 101, t4: 73, t5: 50 },
+    { name: '보우', type: '활', base: 276, t1: 170, t2: 133, t3: 101, t4: 73, t5: 50 },
+    { name: '브레스 슈터', type: '브레스 슈터', base: 276, t1: 170, t2: 133, t3: 101, t4: 73, t5: 50 },
+    { name: '듀얼보우건', type: '듀얼보우건', base: 276, t1: 170, t2: 133, t3: 101, t4: 73, t5: 50 },
+    { name: '대거', type: '단검', base: 276, t1: 170, t2: 133, t3: 101, t4: 73, t5: 50 },
+    { name: '체인', type: '체인', base: 276, t1: 170, t2: 133, t3: 101, t4: 73, t5: 50 },
+    { name: '세이버', type: '한손검', base: 283, t1: 175, t2: 136, t3: 103, t4: 75, t5: 51 },
+    { name: '엑스', type: '한손도끼', base: 283, t1: 175, t2: 136, t3: 103, t4: 75, t5: 51 },
+    { name: '해머', type: '한손둔기', base: 283, t1: 175, t2: 136, t3: 103, t4: 75, t5: 51 },
+    { name: '케인', type: '케인', base: 283, t1: 175, t2: 136, t3: 103, t4: 75, t5: 51 },
+    { name: '크로스보우', type: '석궁', base: 283, t1: 175, t2: 136, t3: 103, t4: 75, t5: 51 },
+    { name: '라피스 9형', type: '대검 (제로)', base: 297, t1: 131, t2: 95, t3: 65, t4: 40, t5: 18 },
+    { name: '라즐리 9형', type: '태도 (제로)', base: 293, t1: 131, t2: 95, t3: 65, t4: 40, t5: 18 },
+    { name: '튜너', type: '튜너', base: 295, t1: 182, t2: 142, t3: 108, t4: 78, t5: 54 },
+    { name: '스피어', type: '창', base: 295, t1: 182, t2: 142, t3: 108, t4: 78, t5: 54 },
+    { name: '투핸드소드', type: '두손검', base: 295, t1: 182, t2: 142, t3: 108, t4: 78, t5: 54 },
+    { name: '투핸드액스', type: '두손도끼', base: 295, t1: 182, t2: 142, t3: 108, t4: 78, t5: 54 },
+    { name: '투핸드해머', type: '두손둔기', base: 295, t1: 182, t2: 142, t3: 108, t4: 78, t5: 54 },
+    { name: '데스페라도', type: '데스페라도', base: 295, t1: 182, t2: 142, t3: 108, t4: 78, t5: 54 },
+    { name: '시즈건', type: '핸드캐논', base: 302, t1: 186, t2: 145, t3: 110, t4: 80, t5: 55 },
+    { name: '완드', type: '완드', base: 347, t1: 214, t2: 167, t3: 126, t4: 92, t5: 63 },
+    { name: '샤이닝로드', type: '샤이닝로드', base: 347, t1: 214, t2: 167, t3: 126, t4: 92, t5: 63 },
+    { name: 'ESP리미터', type: 'ESP리미터', base: 347, t1: 214, t2: 167, t3: 126, t4: 92, t5: 63 },
+    { name: '매직 건틀렛', type: '매직 건틀렛', base: 347, t1: 214, t2: 167, t3: 126, t4: 92, t5: 63 },
+    { name: '스태프', type: '스태프', base: 353, t1: 218, t2: 170, t3: 129, t4: 94, t5: 64 },
+];
+
 const getColorClasses = (color: string) => {
     const colors: Record<string, { bg: string; border: string; text: string; badge: string }> = {
         gold: { bg: 'bg-yellow-500/20', border: 'border-yellow-500/50', text: 'text-yellow-300', badge: 'bg-yellow-500/30 text-yellow-200' },
@@ -139,6 +175,47 @@ export default function BonusStatGuidePage() {
                                 </div>
                             );
                         })}
+                    </div>
+
+                    <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
+                        <Target className="w-6 h-6 text-purple-400" />
+                        아케인셰이드 무기 추가옵션 표
+                    </h2>
+
+                    <div className="bg-slate-800/40 border border-slate-700 rounded-xl overflow-hidden">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-xs sm:text-sm text-left">
+                                <thead className="bg-slate-900/50 text-slate-400 font-medium border-b border-slate-700">
+                                    <tr>
+                                        <th className="px-2 sm:px-4 py-3 whitespace-nowrap">무기 이름</th>
+                                        <th className="px-2 sm:px-4 py-3 whitespace-nowrap">분류</th>
+                                        <th className="px-2 sm:px-4 py-3 whitespace-nowrap text-center">기본 공/마</th>
+                                        <th className="px-2 sm:px-4 py-3 whitespace-nowrap text-center text-yellow-400 bg-yellow-500/10">1추</th>
+                                        <th className="px-2 sm:px-4 py-3 whitespace-nowrap text-center text-purple-400 bg-purple-500/10">2추</th>
+                                        <th className="px-2 sm:px-4 py-3 whitespace-nowrap text-center text-blue-400">3추</th>
+                                        <th className="px-2 sm:px-4 py-3 whitespace-nowrap text-center text-slate-500">4추</th>
+                                        <th className="px-2 sm:px-4 py-3 whitespace-nowrap text-center text-slate-600">5추</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-700">
+                                    {ARCANE_WEAPON_STATS.map((weapon, idx) => (
+                                        <tr key={idx} className="hover:bg-slate-700/30 transition-colors">
+                                            <td className="px-2 sm:px-4 py-3 font-bold text-white whitespace-nowrap">{weapon.name}</td>
+                                            <td className="px-2 sm:px-4 py-3 text-slate-400 whitespace-nowrap">{weapon.type}</td>
+                                            <td className="px-2 sm:px-4 py-3 text-center text-slate-300 font-mono">{weapon.base}</td>
+                                            <td className="px-2 sm:px-4 py-3 text-center font-bold text-yellow-400 bg-yellow-500/5 font-mono">+{weapon.t1}</td>
+                                            <td className="px-2 sm:px-4 py-3 text-center font-bold text-purple-400 bg-purple-500/5 font-mono">+{weapon.t2}</td>
+                                            <td className="px-2 sm:px-4 py-3 text-center text-blue-400 font-mono">+{weapon.t3}</td>
+                                            <td className="px-2 sm:px-4 py-3 text-center text-slate-500 font-mono">+{weapon.t4}</td>
+                                            <td className="px-2 sm:px-4 py-3 text-center text-slate-600 font-mono">+{weapon.t5}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="p-3 bg-slate-900/30 border-t border-slate-700 text-xs text-slate-500 text-center">
+                            * 모바일에서는 좌우로 스크롤하여 확인할 수 있습니다.
+                        </div>
                     </div>
 
                     <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">

@@ -86,17 +86,56 @@ export default function AbilityGuideClient() {
                 </div>
 
                 <section className="prose prose-invert max-w-none mb-12">
-                    <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6 mb-8">
-                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <Target className="w-6 h-6 text-orange-400" />
+                    <div className="bg-gradient-to-br from-green-900/30 via-teal-900/30 to-blue-900/30 border border-green-500/40 rounded-2xl p-8 mb-8 overflow-hidden relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-green-600/10 to-blue-600/10 opacity-50"></div>
+
+                        <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3 relative z-10">
+                            <Target className="w-8 h-8 text-green-400 animate-pulse" />
                             어빌리티란?
                         </h2>
-                        <p className="text-slate-300 leading-relaxed mb-4">
-                            어빌리티는 <strong className="text-white">명예의 전당 시스템</strong>으로 획득하는 추가 능력치입니다.
-                        </p>
-                        <p className="text-slate-300 leading-relaxed">
-                            <strong className="text-yellow-400">어빌리티 북</strong>을 사용하여 재설정하며, 레전드리 등급에서 최고 효율의 옵션을 노려야 합니다!
-                        </p>
+
+                        <div className="grid md:grid-cols-2 gap-6 relative z-10">
+                            <div className="space-y-4">
+                                <p className="text-slate-300 leading-relaxed">
+                                    어빌리티는 <strong className="text-white">명예의 전당 시스템</strong>으로 획득하는 추가 능력치입니다.
+                                </p>
+                                <p className="text-slate-300 leading-relaxed">
+                                    <strong className="text-yellow-400">어빌리티 북</strong>을 사용하여 재설정하며, 레전드리 등급에서 최고 효율의 옵션을 노려야 합니다!
+                                </p>
+
+                                <div className="bg-green-950/50 border border-green-500/30 rounded-lg p-4 mt-2">
+                                    <h4 className="text-sm font-bold text-green-300 mb-2">💡 핵심 요약</h4>
+                                    <ul className="space-y-1 text-sm text-slate-300">
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-green-400 mt-0.5">•</span>
+                                            <span><strong className="text-white">레전드리 등급</strong>: 필수 시작점</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-green-400 mt-0.5">•</span>
+                                            <span><strong className="text-white">첫 줄</strong>: 보공 20% or 벞지 50%</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-green-400 mt-0.5">•</span>
+                                            <span><strong className="text-white">둘째/셋째 줄</strong>: 유니크 옵션 노리기</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="relative group">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-green-600 to-blue-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
+                                <img
+                                    src="/images/guides/ability-ui.png"
+                                    alt="인게임 어빌리티 UI"
+                                    className="relative w-full h-auto rounded-lg shadow-2xl border border-green-500/30 hover:scale-105 transition-transform duration-300"
+                                />
+                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 rounded-b-lg">
+                                    <p className="text-xs text-slate-300 text-center">
+                                        ✨ 레전드리 어빌리티 종결 옵션 예시
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6 mb-8">

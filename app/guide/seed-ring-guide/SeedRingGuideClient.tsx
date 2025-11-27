@@ -95,19 +95,29 @@ export default function SeedRingGuideClient() {
                             시드링은 대표적으로 <strong className="text-white">리스트레인트 링(리레)</strong>과 <strong className="text-white">컨티뉴어스 링(컨티)</strong> 두 종류가 있습니다.
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <Zap className="w-5 h-5 text-red-400" />
-                                    <h3 className="text-lg font-bold text-white">리스트레인트 링 (리레)</h3>
+                            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 flex gap-4 items-center">
+                                <div className="flex-shrink-0 bg-slate-900/50 rounded-lg p-2 border border-red-500/20">
+                                    <img src="/images/guides/restraint-ring.png" alt="리스트레인트 링" className="w-12 h-12 object-contain" />
                                 </div>
-                                <p className="text-slate-300 text-sm">극딜형 링. 40초마다 15초간 공격력 대폭 증가. <strong className="text-yellow-400">극딜 압축</strong>에 최적화.</p>
+                                <div>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Zap className="w-5 h-5 text-red-400" />
+                                        <h3 className="text-lg font-bold text-white">리스트레인트 링 (리레)</h3>
+                                    </div>
+                                    <p className="text-slate-300 text-sm">극딜형 링. 40초마다 15초간 공격력 대폭 증가. <strong className="text-yellow-400">극딜 압축</strong>에 최적화.</p>
+                                </div>
                             </div>
-                            <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <Shield className="w-5 h-5 text-blue-400" />
-                                    <h3 className="text-lg font-bold text-white">컨티뉴어스 링 (컨티)</h3>
+                            <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 flex gap-4 items-center">
+                                <div className="flex-shrink-0 bg-slate-900/50 rounded-lg p-2 border border-blue-500/20">
+                                    <img src="/images/guides/continuous-ring.png" alt="컨티뉴어스 링" className="w-12 h-12 object-contain" />
                                 </div>
-                                <p className="text-slate-300 text-sm">지속딜형 링. 항상 공격력 증가 유지. <strong className="text-green-400">평딜/지속딜</strong>에 효율적.</p>
+                                <div>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Shield className="w-5 h-5 text-blue-400" />
+                                        <h3 className="text-lg font-bold text-white">컨티뉴어스 링 (컨티)</h3>
+                                    </div>
+                                    <p className="text-slate-300 text-sm">지속딜형 링. 항상 공격력 증가 유지. <strong className="text-green-400">평딜/지속딜</strong>에 효율적.</p>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -86,16 +86,7 @@ export const StageCard: React.FC<StageCardProps> = ({
     const [expandedItemSlot, setExpandedItemSlot] = React.useState<string | null>(null);
     const [expandedPassedItem, setExpandedPassedItem] = React.useState<any | null>(null);
 
-    React.useEffect(() => {
-        if (expandedItemSlot || expandedPassedItem) {
-            const handlePopState = () => {
-                setExpandedItemSlot(null);
-                setExpandedPassedItem(null);
-            };
-            window.addEventListener('popstate', handlePopState);
-            return () => window.removeEventListener('popstate', handlePopState);
-        }
-    }, [expandedItemSlot, expandedPassedItem]);
+
 
     // Ring Logic
     const passedRings = React.useMemo(() => {
@@ -462,11 +453,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                 className="w-10 h-10 rounded bg-slate-800 border border-slate-700 cursor-pointer hover:border-green-500 transition-colors"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    if (expandedPassedItem === item) window.history.back();
-                                    else {
-                                        window.history.pushState({ modal: 'itemDetail' }, '', window.location.href);
-                                        setExpandedPassedItem(item);
-                                    }
+                                    setExpandedPassedItem(expandedPassedItem === item ? null : item);
                                 }}
                             />
                             {item.starforce > 0 && (
@@ -750,11 +737,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                             className="w-8 h-8 ml-2 cursor-pointer border border-pink-500/50 rounded bg-slate-900 hover:scale-110 transition-transform"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                if (expandedItemSlot === '엠블렘') window.history.back();
-                                                else {
-                                                    window.history.pushState({ modal: 'itemDetail' }, '', window.location.href);
-                                                    setExpandedItemSlot('엠블렘');
-                                                }
+                                                setExpandedItemSlot(expandedItemSlot === '엠블렘' ? null : '엠블렘');
                                             }}
                                             title="클릭하여 옵션 확인"
                                         />
@@ -798,11 +781,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                             className="w-8 h-8 ml-2 cursor-pointer border border-orange-500/50 rounded bg-slate-900 hover:scale-110 transition-transform"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                if (expandedItemSlot === '무기') window.history.back();
-                                                else {
-                                                    window.history.pushState({ modal: 'itemDetail' }, '', window.location.href);
-                                                    setExpandedItemSlot('무기');
-                                                }
+                                                setExpandedItemSlot(expandedItemSlot === '무기' ? null : '무기');
                                             }}
                                             title="클릭하여 옵션 확인"
                                         />

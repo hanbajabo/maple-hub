@@ -104,36 +104,38 @@ export function diagnoseWeapon(item: any): string[] {
         else if (bossLines >= 1) comments.push(`[에디 입문] 보공 1줄을 챙기셨네요. 추후 공/마 옵션을 노려보세요.`);
     }
 
-    // 6. 추가옵션 (Flame)
-    const addOpts = item.item_add_option || {};
-    const addAtt = parseInt(addOpts.attack_power || "0");
-    const addMagic = parseInt(addOpts.magic_power || "0");
-    const mainAddAtt = isMage ? addMagic : addAtt;
+    // 6. 추가옵션 (Flame) - 엠블렘과 보조무기는 환생의 불꽃 사용 불가
+    if (!isEmblem && !isSecondary) {
+        const addOpts = item.item_add_option || {};
+        const addAtt = parseInt(addOpts.attack_power || "0");
+        const addMagic = parseInt(addOpts.magic_power || "0");
+        const mainAddAtt = isMage ? addMagic : addAtt;
 
-    if (isZeroWeapon) {
-        if (mainAddAtt > 0) comments.push(`[제로 종결] 제로 무기는 2추옵+공격력만 붙어도 종결로 인정합니다. (1추옵 확률 극악)`);
-    } else if (isGenesis) {
-        if (mainAddAtt < 130) comments.push(`[아쉬움] 제네시스 무기치고는 추옵이 낮습니다. 영환불을 권장합니다.`);
-    } else {
-        // 일반 무기 추옵 (1추/2추 판별)
-        // 대략적인 기준: 1추는 기본공의 약 40~50% 수준, 2추는 30~40% 수준
-        // 정확한 테이블 없이도, 절대 수치로 어느 정도 판별 가능
-        // 아케인(200제): 1추(130~145), 2추(100~115)
-        // 앱솔(160제): 1추(100~120), 2추(75~90)
-        // 파프(150제): 1추(80~100), 2추(60~75)
+        if (isZeroWeapon) {
+            if (mainAddAtt > 0) comments.push(`[제로 종결] 제로 무기는 2추옵+공격력만 붙어도 종결로 인정합니다. (1추옵 확률 극악)`);
+        } else if (isGenesis) {
+            if (mainAddAtt < 130) comments.push(`[아쉬움] 제네시스 무기치고는 추옵이 낮습니다. 영환불을 권장합니다.`);
+        } else {
+            // 일반 무기 추옵 (1추/2추 판별)
+            // 대략적인 기준: 1추는 기본공의 약 40~50% 수준, 2추는 30~40% 수준
+            // 정확한 테이블 없이도, 절대 수치로 어느 정도 판별 가능
+            // 아케인(200제): 1추(130~145), 2추(100~115)
+            // 앱솔(160제): 1추(100~120), 2추(75~90)
+            // 파프(150제): 1추(80~100), 2추(60~75)
 
-        const level = item.item_base_option?.base_equipment_level || 0;
-        let tier1 = 0;
-        let tier2 = 0;
+            const level = item.item_base_option?.base_equipment_level || 0;
+            let tier1 = 0;
+            let tier2 = 0;
 
-        if (level >= 200) { tier1 = 125; tier2 = 98; } // 아케인 기준 (대략적 하한선)
-        else if (level >= 160) { tier1 = 95; tier2 = 74; } // 앱솔 기준
-        else if (level >= 150) { tier1 = 75; tier2 = 58; } // 파프 기준
+            if (level >= 200) { tier1 = 125; tier2 = 98; } // 아케인 기준 (대략적 하한선)
+            else if (level >= 160) { tier1 = 95; tier2 = 74; } // 앱솔 기준
+            else if (level >= 150) { tier1 = 75; tier2 = 58; } // 파프 기준
 
-        if (mainAddAtt >= tier1) comments.push(`[1추옵] 무기 추가옵션 <b>1티어</b>! 완벽한 추옵입니다.`);
-        else if (mainAddAtt >= tier2) comments.push(`[2추옵] 무기 추가옵션 <b>2티어</b>! 가성비 좋게 사용하기 충분합니다.`);
-        else if (mainAddAtt > 0) comments.push(`[추옵 아쉬움] <b>1추옵</b>이나 <b>2추옵</b>을 노려보세요. 공격력 차이가 큽니다.`);
-        else comments.push(`[치명적] 무기에 추가옵션 공/마가 없습니다. 엔진 없는 자동차와 같습니다.`);
+            if (mainAddAtt >= tier1) comments.push(`[1추옵] 무기 추가옵션 <b>1티어</b>! 완벽한 추옵입니다.`);
+            else if (mainAddAtt >= tier2) comments.push(`[2추옵] 무기 추가옵션 <b>2티어</b>! 가성비 좋게 사용하기 충분합니다.`);
+            else if (mainAddAtt > 0) comments.push(`[추옵 아쉬움] <b>1추옵</b>이나 <b>2추옵</b>을 노려보세요. 공격력 차이가 큽니다.`);
+            else comments.push(`[치명적] 무기에 추가옵션 공/마가 없습니다. 엔진 없는 자동차와 같습니다.`);
+        }
     }
 
     return comments;

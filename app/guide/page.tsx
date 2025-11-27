@@ -131,7 +131,9 @@ export default function GuidePage() {
                 {/* Intro */}
                 <div className="bg-slate-800/30 rounded-2xl p-6 sm:p-8 border border-slate-700 mb-12">
                     <div className="flex items-start gap-4">
-                        <div className="text-4xl">🍁</div>
+                        <div className="flex-shrink-0">
+                            <img src="/images/maple-ai-logo.jpg" alt="단풍이" className="w-16 h-16 rounded-full object-cover border-2 border-orange-500/30" />
+                        </div>
                         <div className="flex-1">
                             <h2 className="text-xl font-bold text-white mb-2">단풍이 AI의 가이드에 오신 걸 환영합니다!</h2>
                             <p className="text-slate-300 leading-relaxed">

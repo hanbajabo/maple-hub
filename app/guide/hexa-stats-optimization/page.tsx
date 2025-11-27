@@ -38,16 +38,55 @@ export default function HexaStatsGuidePage() {
 
                 {/* Introduction */}
                 <section className="prose prose-invert max-w-none mb-12">
-                    <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6 mb-8">
-                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <Star className="w-6 h-6 text-orange-400" />
+                    <div className="bg-gradient-to-br from-purple-900/30 via-indigo-900/30 to-blue-900/30 border border-purple-500/40 rounded-2xl p-8 mb-8 overflow-hidden relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10 opacity-50"></div>
+
+                        <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3 relative z-10">
+                            <Star className="w-8 h-8 text-purple-400 animate-pulse" />
                             헥사 스탯이란?
                         </h2>
-                        <p className="text-slate-300 leading-relaxed mb-4">
-                            헥사 스탯은 6차 전직 시스템의 강력한 스탯 강화 시스템입니다.
-                            <strong className="text-white"> 메인 스탯 1가지</strong>와 <strong className="text-white">에디셔널 스탯 2가지</strong>를 선택하며,
-                            메인은 에디셔널보다 <strong className="text-yellow-400">최대 2배 이상</strong> 효율을 제공합니다.
-                        </p>
+
+                        <div className="grid md:grid-cols-2 gap-6 mb-6 relative z-10">
+                            <div className="space-y-4">
+                                <p className="text-slate-300 leading-relaxed">
+                                    헥사 스탯은 6차 전직 시스템의 강력한 스탯 강화 시스템입니다.
+                                    <strong className="text-white"> 메인 스탯 1가지</strong>와 <strong className="text-white">에디셔널 스탯 2가지</strong>를 선택하며,
+                                    메인은 에디셔널보다 <strong className="text-yellow-400">최대 2배 이상</strong> 효율을 제공합니다.
+                                </p>
+
+                                <div className="bg-indigo-950/50 border border-indigo-500/30 rounded-lg p-4">
+                                    <h4 className="text-sm font-bold text-indigo-300 mb-2">💡 핵심 요약</h4>
+                                    <ul className="space-y-1 text-sm text-slate-300">
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-purple-400 mt-0.5">•</span>
+                                            <span><strong className="text-white">메인 스탯</strong>: 레벨 20까지 강화 가능</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-purple-400 mt-0.5">•</span>
+                                            <span><strong className="text-white">에디셔널 스탯</strong>: 각 레벨 10까지</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-purple-400 mt-0.5">•</span>
+                                            <span>레벨마다 <strong className="text-yellow-400">강화율 20%씩 증가</strong></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="relative group">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
+                                <img
+                                    src="/images/guides/hexa-stat-ingame.jpg"
+                                    alt="인게임 헥사 스탯 화면"
+                                    className="relative w-full h-auto rounded-lg shadow-2xl border border-purple-500/30 hover:scale-105 transition-transform duration-300"
+                                />
+                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 rounded-b-lg">
+                                    <p className="text-xs text-slate-300 text-center">
+                                        📸 실제 인게임 헥사 매트릭스 화면
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Budget Guide First! */}

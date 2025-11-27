@@ -114,18 +114,57 @@ export default function StarforceGuidePage() {
                 </div>
 
                 <section className="prose prose-invert max-w-none mb-12">
-                    <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6 mb-8">
-                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <Target className="w-6 h-6 text-orange-400" />
+                    <div className="bg-gradient-to-br from-yellow-900/30 via-orange-900/30 to-red-900/30 border border-yellow-500/40 rounded-2xl p-8 mb-8 overflow-hidden relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 to-orange-600/10 opacity-50"></div>
+
+                        <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3 relative z-10">
+                            <Target className="w-8 h-8 text-yellow-400 animate-pulse" />
                             스타포스란?
                         </h2>
-                        <p className="text-slate-300 leading-relaxed mb-4">
-                            스타포스는 장비를 강화하여 <strong className="text-white">공격력/마력과 올스탯</strong>을 올리는 핵심 시스템입니다.
-                        </p>
-                        <p className="text-slate-300 leading-relaxed">
-                            하지만 모든 구간의 <strong className="text-yellow-400">가성비가 같지 않습니다</strong>!
-                            이 가이드로 효율적인 투자 구간을 찾으세요.
-                        </p>
+
+                        <div className="grid md:grid-cols-2 gap-6 relative z-10">
+                            <div className="space-y-4">
+                                <p className="text-slate-300 leading-relaxed">
+                                    스타포스는 장비를 강화하여 <strong className="text-white">공격력/마력과 올스탯</strong>을 올리는 핵심 시스템입니다.
+                                </p>
+                                <p className="text-slate-300 leading-relaxed">
+                                    하지만 모든 구간의 <strong className="text-yellow-400">가성비가 같지 않습니다</strong>!
+                                    이 가이드로 효율적인 투자 구간을 찾으세요.
+                                </p>
+
+                                <div className="bg-orange-950/50 border border-orange-500/30 rounded-lg p-4 mt-2">
+                                    <h4 className="text-sm font-bold text-orange-300 mb-2">💡 핵심 요약</h4>
+                                    <ul className="space-y-1 text-sm text-slate-300">
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-yellow-400 mt-0.5">•</span>
+                                            <span><strong className="text-white">10성</strong>: 최소한의 예의</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-yellow-400 mt-0.5">•</span>
+                                            <span><strong className="text-white">17성</strong>: 가성비 최고의 국민 세팅</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-yellow-400 mt-0.5">•</span>
+                                            <span><strong className="text-white">22성</strong>: 엔드 스펙의 시작</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="relative group">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-yellow-600 to-orange-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
+                                <img
+                                    src="/images/guides/starforce-ui.png"
+                                    alt="인게임 스타포스 강화 화면"
+                                    className="relative w-full h-auto rounded-lg shadow-2xl border border-yellow-500/30 hover:scale-105 transition-transform duration-300"
+                                />
+                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 rounded-b-lg">
+                                    <p className="text-xs text-slate-300 text-center">
+                                        ✨ 22성 → 23성 도전 화면 (파괴 확률 주의!)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
