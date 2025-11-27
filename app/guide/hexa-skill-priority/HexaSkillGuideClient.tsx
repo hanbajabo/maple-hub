@@ -62,12 +62,7 @@ export default function HexaSkillGuideClient() {
                         </ul>
                     </div>
 
-                    <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
-                        <TrendingUp className="w-6 h-6 text-indigo-400" />
-                        전직업 헥사 스킬 우선순위
-                    </h2>
-
-                    <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-4 mb-6">
+                    <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-4 mb-6 sticky top-24 z-10 backdrop-blur-md shadow-xl">
                         <div className="flex items-center gap-4">
                             <Search className="w-5 h-5 text-slate-400" />
                             <select
@@ -83,23 +78,65 @@ export default function HexaSkillGuideClient() {
                         </div>
                     </div>
 
+                    {selectedJob && (
+                        <div className="mb-8 relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-700 p-6 sm:p-10 flex flex-col sm:flex-row items-center gap-6 shadow-2xl">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2"></div>
+
+                            <img
+                                src={`/images/jobs/${selectedJob.replace(/[\/\?<>\\:\*\|":]/g, '_')}.png`}
+                                alt={selectedJob}
+                                className="w-32 h-32 sm:w-48 sm:h-48 object-contain relative z-10 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]"
+                                onError={(e) => e.currentTarget.style.display = 'none'}
+                            />
+
+                            <div className="relative z-10 text-center sm:text-left">
+                                <h2 className="text-3xl sm:text-5xl font-black text-white mb-2">{selectedJob}</h2>
+                                <p className="text-indigo-300 font-medium text-lg">헥사 스킬 강화 우선순위 TOP 3</p>
+                                <div className="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
+                                    {HEXA_SKILL_PRIORITIES[selectedJob]?.slice(0, 3).map((skill, idx) => (
+                                        <div key={idx} className="flex items-center gap-2 px-4 py-2 bg-slate-950/50 border border-slate-600 rounded-lg">
+                                            <span className="text-yellow-400 font-bold">{idx + 1}</span>
+                                            <span className="text-white text-sm font-medium">{skill}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
+                        <TrendingUp className="w-6 h-6 text-indigo-400" />
+                        전직업 헥사 스킬 우선순위 {selectedJob && `- ${selectedJob}`}
+                    </h2>
+
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {filteredJobs.map((job) => {
                             const skills = HEXA_SKILL_PRIORITIES[job];
                             const displaySkills = skills.slice(0, 8); // TOP 8만 표시
 
                             return (
-                                <div key={job} className="bg-slate-800/40 border border-slate-700 rounded-xl p-6 hover:border-purple-500/50 transition-colors">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
-                                            <span className="text-white font-bold text-lg">{job[0]}</span>
+                                <div key={job} className="bg-slate-800/40 border border-slate-700 rounded-xl p-6 hover:border-indigo-500/50 transition-all hover:bg-slate-800/60 group">
+                                    <div className="flex items-center gap-4 mb-4">
+                                        <div className="w-16 h-16 bg-slate-900 rounded-lg flex items-center justify-center overflow-hidden border border-slate-700 group-hover:border-indigo-500/30 transition-colors">
+                                            <img
+                                                src={`/images/jobs/${job.replace(/[\/\?<>\\:\*\|":]/g, '_')}.png`}
+                                                alt={job}
+                                                className="w-full h-full object-contain p-1"
+                                                onError={(e) => e.currentTarget.style.display = 'none'}
+                                            />
                                         </div>
-                                        <h3 className="text-xl font-bold text-white">{job}</h3>
+                                        <div>
+                                            <h3 className="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">{job}</h3>
+                                            <div className="flex items-center gap-1 text-xs text-slate-400">
+                                                <TrendingUp className="w-3 h-3 text-indigo-400" />
+                                                <span>강화 우선순위 데이터</span>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div className="space-y-2">
                                         {displaySkills.map((skill, idx) => (
-                                            <div key={idx} className="flex items-center gap-3 p-2.5 bg-slate-900/50 rounded-lg hover:bg-slate-900/70 transition-colors">
+                                            <div key={idx} className="flex items-center gap-3 p-2.5 bg-slate-900/50 rounded-lg hover:bg-slate-900/70 transition-colors border border-transparent hover:border-slate-700">
                                                 <span className={`font-bold text-sm min-w-[20px] ${idx === 0 ? 'text-yellow-400' :
                                                     idx === 1 ? 'text-slate-300' :
                                                         idx === 2 ? 'text-orange-400' :
