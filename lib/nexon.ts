@@ -1,5 +1,7 @@
-const API_KEY = process.env.NEXT_PUBLIC_NEXON_API_KEY || '';
-const BASE_URL = process.env.NEXT_PUBLIC_NEXON_API_URL || 'https://open.api.nexon.com';
+"use server";
+
+const API_KEY = process.env.NEXON_API_KEY || '';
+const BASE_URL = process.env.NEXON_API_URL || 'https://open.api.nexon.com';
 
 // 한국 시간(KST) 기준 어제 날짜 반환 함수
 const getYesterday = (): string => {
@@ -121,11 +123,11 @@ export const getCharacterHexaMatrixStat = async (ocid: string) => {
 };
 
 // 유니온 아티팩트 정보 조회
-export const getUserUnionArtifact = (ocid: string) =>
+export const getUserUnionArtifact = async (ocid: string) =>
     nexonFetch('/maplestory/v1/user/union-artifact', { ocid });
 
 // 유니온 챔피언 정보 조회
-export const getUserUnionChampion = (ocid: string) =>
+export const getUserUnionChampion = async (ocid: string) =>
     nexonFetch('/maplestory/v1/user/union-champion', { ocid });
 
 // 심볼 장비 정보 조회
