@@ -83,7 +83,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         const potScore = GRADE_SCORE[potGrade] || 0;
         const adiScore = GRADE_SCORE[adiGrade] || 0;
 
-        const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스"];
+        const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스", "어드벤처 딥다크 크리티컬 링"];
         const isSpecialRing = slot.includes("반지") && specialRingKeywords.some(k => name.includes(k));
 
         // 이벤트 링 (스타포스 불가)
@@ -97,7 +97,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         // * 이벤트 링은 스타포스 불가하므로 체크 제외
         const isTyrant = name.includes("타일런트");
         const isEternal = name.includes("에테르넬");
-        let starforceThreshold = isTyrant ? 10 : 17;
+        let starforceThreshold = isTyrant ? 5 : 17;
         if (isEternal) starforceThreshold = 12;
 
         // 놀라운 장비 강화 주문서(놀장강) 적용 여부 확인
@@ -117,7 +117,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
             }
         }
 
-        // 2. 주문서 작 (방어구 56+ or 50급, 장신구 32급)
+        // 2. 주문서 작 (방어구 56+ or 50급, 장신구 30급)
         // * 특수 반지는 무조건 통과
         targetStats.scroll.total++;
         const statKey = getJobInfo(jobName).mainStat.toLowerCase();
@@ -137,11 +137,11 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
                 issues.push({ type: 'growth_scroll', message: `[성장/주문서] ${name}: 작 상태 미달 (주스탯 +${threshold} 또는 50급 미만)` });
             }
         } else if (isAccessory) {
-            if (scrollScore >= 32) scrollPass = true;
+            if (scrollScore >= 30) scrollPass = true;
             else {
                 stage4Issues++;
                 targetStats.scroll.failedItems.push(`${name} (${scrollScore}급)`);
-                issues.push({ type: 'growth_scroll', message: `[성장/주문서] ${name}: 작 상태 미달 (32급 미만)` });
+                issues.push({ type: 'growth_scroll', message: `[성장/주문서] ${name}: 작 상태 미달 (30급 미만) - 프악공/놀긍혼 추천` });
             }
         }
         if (scrollPass) targetStats.scroll.current++;

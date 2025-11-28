@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { getCharacterSymbolEquipment } from '../lib/nexon';
+import { getAuthenticSymbolCost, AuthenticSymbolRegion } from '../lib/authentic_symbol_db';
+import { getArcaneSymbolCost, ArcaneSymbolRegion } from '../lib/arcane_symbol_db';
 
 interface Symbol {
     symbol_name: string;
@@ -108,6 +110,62 @@ export default function SymbolBadge({ ocid, refreshKey }: { ocid: string, refres
         return stats.join(', ');
     };
 
+    // 비용 계산 함수
+    const calculateCosts = (symbol: Symbol) => {
+        const isArcane = symbol.symbol_name.includes('아케인');
+        const isAuthentic = symbol.symbol_name.includes('어센틱') && !symbol.symbol_name.includes('그랜드');
+
+        if (!isArcane && !isAuthentic) return { nextCost: 0, totalCost: 0 };
+
+        let region = '';
+        // 심볼 이름에서 지역명 추출 (예: "아케인심볼 : 여로")
+        const parts = symbol.symbol_name.split(':');
+        if (parts.length > 1) {
+            region = parts[1].trim();
+        }
+
+        // 지역명 정규화
+        if (region === '소멸의 여로') region = '여로';
+        else if (region === '츄츄 아일랜드') region = '츄츄';
+        else if (region === '호텔 아르크스') region = '아르크스';
+
+        let nextCost = 0;
+        let totalCost = 0;
+        const currentLevel = symbol.symbol_level;
+
+        if (isArcane) {
+            const maxLevel = 20;
+            // 다음 레벨 비용
+            nextCost = getArcaneSymbolCost(region as ArcaneSymbolRegion, currentLevel);
+
+            // 만렙까지 총 비용
+            for (let i = currentLevel; i < maxLevel; i++) {
+                totalCost += getArcaneSymbolCost(region as ArcaneSymbolRegion, i);
+            }
+        } else if (isAuthentic) {
+            const maxLevel = 11;
+            // 다음 레벨 비용
+            nextCost = getAuthenticSymbolCost(region as AuthenticSymbolRegion, currentLevel);
+
+            // 만렙까지 총 비용
+            for (let i = currentLevel; i < maxLevel; i++) {
+                totalCost += getAuthenticSymbolCost(region as AuthenticSymbolRegion, i);
+            }
+        }
+
+        return { nextCost, totalCost };
+    };
+
+    const formatMeso = (meso: number) => {
+        if (meso === 0) return '0';
+        if (meso >= 100000000) {
+            const uk = Math.floor(meso / 100000000);
+            const man = Math.floor((meso % 100000000) / 10000);
+            return `${uk}억 ${man > 0 ? man + '만' : ''}`;
+        }
+        return `${Math.floor(meso / 10000)}만`;
+    };
+
     // 아케인/어센틱 전체 진행도 계산
     const getOverallProgress = () => {
         const arcaneSymbols = symbols.filter(s => s.symbol_name.includes('아케인'));
@@ -119,15 +177,39 @@ export default function SymbolBadge({ ocid, refreshKey }: { ocid: string, refres
         const arcaneCurrentTotal = arcaneSymbols.reduce((sum, s) => sum + s.symbol_level, 0);
         const arcaneProgress = arcaneMaxTotal > 0 ? Math.floor((arcaneCurrentTotal / arcaneMaxTotal) * 100) : 0;
 
+        let totalArcaneRemainingCost = 0;
+        arcaneSymbols.forEach(s => {
+            totalArcaneRemainingCost += calculateCosts(s).totalCost;
+        });
+
         // 어센틱 심볼: 총 6개 존재 (그랜드 어센틱 제외), 각 만렙 11
         const authenticMaxTotal = 6 * 11;
         const authenticCurrentTotal = authenticSymbols.reduce((sum, s) => sum + s.symbol_level, 0);
         const authenticProgress = authenticMaxTotal > 0 ? Math.floor((authenticCurrentTotal / authenticMaxTotal) * 100) : 0;
 
-        return { arcaneProgress, authenticProgress, hasArcane: arcaneSymbols.length > 0, hasAuthentic: authenticSymbols.length > 0 };
+        let totalAuthenticRemainingCost = 0;
+        authenticSymbols.forEach(s => {
+            totalAuthenticRemainingCost += calculateCosts(s).totalCost;
+        });
+
+        return {
+            arcaneProgress,
+            authenticProgress,
+            hasArcane: arcaneSymbols.length > 0,
+            hasAuthentic: authenticSymbols.length > 0,
+            totalArcaneRemainingCost,
+            totalAuthenticRemainingCost
+        };
     };
 
-    const { arcaneProgress, authenticProgress, hasArcane, hasAuthentic } = getOverallProgress();
+    const {
+        arcaneProgress,
+        authenticProgress,
+        hasArcane,
+        hasAuthentic,
+        totalArcaneRemainingCost,
+        totalAuthenticRemainingCost
+    } = getOverallProgress();
 
     return (
         <div className={`relative w-full h-full ${isOpen ? 'z-[100]' : 'z-0'}`}>
@@ -137,9 +219,23 @@ export default function SymbolBadge({ ocid, refreshKey }: { ocid: string, refres
             >
                 <span className="text-lg">✨</span>
                 <span className="text-sm">심볼</span>
-                <div className="flex gap-1.5 ml-1">
-                    {hasArcane && <span className="text-[11px] bg-purple-950 text-purple-300 px-1.5 py-0.5 rounded border border-purple-800 font-bold">아케인 {arcaneProgress}%</span>}
-                    {hasAuthentic && <span className="text-[11px] bg-pink-950 text-pink-300 px-1.5 py-0.5 rounded border border-pink-800 font-bold">어센틱 {authenticProgress}%</span>}
+                <div className="flex gap-2 ml-2">
+                    {hasArcane && (
+                        <span className="text-xs bg-purple-950 text-purple-300 px-2 py-1 rounded border border-purple-800 font-bold flex items-center gap-1.5">
+                            <span>아케인 {arcaneProgress}%</span>
+                            {arcaneProgress < 100 && totalArcaneRemainingCost > 0 && (
+                                <span className="text-purple-200 opacity-80 text-[10px] font-normal">({formatMeso(totalArcaneRemainingCost)})</span>
+                            )}
+                        </span>
+                    )}
+                    {hasAuthentic && (
+                        <span className="text-xs bg-pink-950 text-pink-300 px-2 py-1 rounded border border-pink-800 font-bold flex items-center gap-1.5">
+                            <span>어센틱 {authenticProgress}%</span>
+                            {authenticProgress < 100 && totalAuthenticRemainingCost > 0 && (
+                                <span className="text-pink-200 opacity-80 text-[10px] font-normal">({formatMeso(totalAuthenticRemainingCost)})</span>
+                            )}
+                        </span>
+                    )}
                 </div>
             </div>
 
@@ -184,6 +280,20 @@ export default function SymbolBadge({ ocid, refreshKey }: { ocid: string, refres
                                                     ></div>
                                                 </div>
                                             </div>
+
+                                            {/* Cost Section */}
+                                            {!isMax && (
+                                                <div className="mt-2 pt-2 border-t border-white/10 text-[10px] space-y-1">
+                                                    <div className="flex justify-between">
+                                                        <span className="opacity-70">다음 레벨업</span>
+                                                        <span className="font-bold text-yellow-200">{formatMeso(calculateCosts(symbol).nextCost)} 메소</span>
+                                                    </div>
+                                                    <div className="flex justify-between">
+                                                        <span className="opacity-70">졸업까지</span>
+                                                        <span className="font-bold text-yellow-200">{formatMeso(calculateCosts(symbol).totalCost)} 메소</span>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     );
                                 })}

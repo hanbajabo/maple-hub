@@ -956,6 +956,24 @@ export const StageCard: React.FC<StageCardProps> = ({
                                             '도전자'가 들어간 아이템을 4개 이상 착용하고 있다면 통과
                                         </p>
                                     </div>
+
+                                    {!isPassed && (
+                                        <div className="mt-4 p-3 bg-slate-900/80 border border-slate-700 rounded text-center">
+                                            <p className="text-slate-300 text-sm mb-2">
+                                                아직 세트를 맞추는 중이거나, 메소가 부족하여 완성하지 못했다면<br />
+                                                일단 <strong>패스</strong>하고 다음 단계 진단을 확인하세요!
+                                            </p>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (onPass) onPass();
+                                                }}
+                                                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded transition-colors text-sm shadow-lg shadow-purple-900/20"
+                                            >
+                                                지금은 패스하고 다음 단계 보기 👉
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -968,7 +986,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                 </h4>
                                 <ul className="space-y-1 text-slate-300 pl-1">
                                     <li className={`flex flex-col items-start gap-1 ${stage4Stats.armor.starforce.current >= stage4Stats.armor.starforce.total ? 'text-green-300 font-bold' : ''}`}>
-                                        {renderStatItem("스타포스", stage4Stats.armor.starforce, "17성 이상 (타일런트 10성)")}
+                                        {renderStatItem("스타포스", stage4Stats.armor.starforce, "17성 이상 (타일런트 5성)")}
                                         <div className="pl-6 text-xs text-slate-400/80 mb-0.5">
                                             * 에테르넬: 12성 ≈ 18성 카루타
                                         </div>
@@ -982,14 +1000,14 @@ export const StageCard: React.FC<StageCardProps> = ({
                                         <div className="flex items-center gap-2">
                                             <span>{stage4Stats.armor.scroll.current >= stage4Stats.armor.scroll.total ? '✅' : '•'}</span>
                                             <span>
-                                                주문서 작: <strong className="text-white">최소 30% 주문서 작 (주스탯 +56 이상, 모자 +84 이상) 혹은 놀긍혼(떡작) 50급 이상</strong>
+                                                주문서 작: <strong className="text-white">방어구 56급(모자 84급) / 장신구 30급 이상</strong>
                                                 <span className={`ml-1 text-xs ${stage4Stats.armor.scroll.current >= stage4Stats.armor.scroll.total ? 'text-green-400' : 'text-red-400'}`}>
                                                     ({stage4Stats.armor.scroll.current}/{stage4Stats.armor.scroll.total})
                                                 </span>
                                             </span>
                                         </div>
                                         <div className="pl-6 text-xs text-slate-400/80 mb-0.5">
-                                            * 급 계산식: 각 직업에 맞는 주스텟 + (공/마 × 4) + (올스텟% × 10)
+                                            * 방어구: 30%작 or 놀긍혼 50급↑ / 장신구: 놀긍혼 or 프악공 추천
                                         </div>
                                         {stage4Stats.armor.scroll.failedItems.length > 0 && (
                                             <div className="pl-6 text-xs text-red-300/80">
@@ -1271,7 +1289,7 @@ export const StageCard: React.FC<StageCardProps> = ({
 
                                 <div className="mt-3 p-2 bg-slate-950/50 rounded border border-slate-800">
                                     <p className="text-xs text-slate-400">
-                                        * 에테르넬: 12성 ≈ 18성 카루타 (자동으로 통과 처리됩니다)
+                                        * 에테르넬 12성 / 타일런트 7성 이상은 18성급으로 인정됩니다.
                                     </p>
                                 </div>
                             </div>
@@ -1296,30 +1314,6 @@ export const StageCard: React.FC<StageCardProps> = ({
                                         <p className="text-cyan-300 font-bold">
                                             현재 조합 상태: {stage7Info.currentCombination}
                                         </p>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-3">
-                                    <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
-                                        <h5 className="text-white font-bold mb-2 border-b border-slate-800 pb-1">
-                                            22성 3루타 + 4아케인 or 앱솔 조합
-                                        </h5>
-                                        <p className="text-xs text-slate-500 mb-2">
-                                            (모자/상의/하의) + (장갑/신발/망토/어깨장식)
-                                        </p>
-                                        <ul className="space-y-1 text-slate-300 pl-1">
-                                            <li className="flex items-start gap-2">
-                                                <span className="text-cyan-500 font-bold">1안</span>
-                                                <span>3루타비스 + 4아케인 + 제네시스 무기</span>
-                                            </li>
-                                            <li className="flex items-start gap-2">
-                                                <span className="text-cyan-500 font-bold">2안</span>
-                                                <span>3루타비스 + 4앱솔랩스 + 제네시스 무기</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div className="bg-slate-950/50 p-3 rounded-lg border border-slate-800">
                                         <h5 className="text-white font-bold mb-2 border-b border-slate-800 pb-1">
                                             17~18성 에테르넬을 섞은 조합
                                         </h5>

@@ -308,21 +308,33 @@ export function generateItemCommentary(item: any, job?: string): string {
 
             const maxScore = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK);
 
-            if (maxScore >= 130) {
-                comments.push(pick([
-                    `<b>${maxScore}급</b> 극추옵! 전 서버급 매물입니다. 평생 쓰셔도 됩니다.`,
-                    `와... <b>${maxScore}급</b>이라니! 환생의 불꽃 대성공입니다.`,
-                    `이건 추옵이 아니라 예술입니다. <b>${maxScore}급</b> 종결 추옵!`
-                ]));
-            } else if (maxScore >= 100) {
-                comments.push(pick([
-                    `<b>${maxScore}급</b> 고추옵이 든든하게 받쳐주고 있네요.`,
-                    `<b>${maxScore}급</b>! 방어구 추옵의 핵심을 잘 챙기셨습니다.`,
-                    `추옵이 아주 예쁘게 붙었네요. <b>${maxScore}급</b> 굿!`
-                ]));
-            } else if (maxScore >= 80) {
-                comments.push(`<b>${maxScore}급</b>으로 준수한 추옵을 챙기셨습니다. 가성비 좋습니다.`);
-            } else if (maxScore === 0 && isEndGameItem) {
+            // 레벨별 추옵 기준 세분화 (250, 200, 160, 150제 등)
+            // 250제(에테르넬)
+            if (level >= 250) {
+                if (maxScore >= 190) comments.push(`이건 추옵이 아니라 예술입니다. <b>${maxScore}급</b> 종결 추옵! 전 서버급 매물입니다.`);
+                else if (maxScore >= 170) comments.push(`<b>${maxScore}급</b> 초고스펙 추옵! 에테르넬의 품격에 맞는 옵션입니다.`);
+                else if (maxScore >= 150) comments.push(`<b>${maxScore}급</b>! 아주 훌륭한 추옵입니다. 든든하네요.`);
+                else if (maxScore >= 130) comments.push(`<b>${maxScore}급</b> 준수한 추옵입니다. 실전에서 충분히 좋습니다.`);
+                else if (maxScore >= 100) comments.push(`<b>${maxScore}급</b>... 에테르넬치고는 조금 아쉽습니다. 환불 작업을 추천합니다.`);
+            }
+            // 200제(아케인)
+            else if (level >= 200) {
+                if (maxScore >= 170) comments.push(`이건 추옵이 아니라 예술입니다. <b>${maxScore}급</b> 종결 추옵! 전 서버급 매물입니다.`);
+                else if (maxScore >= 150) comments.push(`<b>${maxScore}급</b> 초고스펙 추옵! 아케인셰이드의 품격에 맞는 옵션입니다.`);
+                else if (maxScore >= 130) comments.push(`<b>${maxScore}급</b>! 아주 훌륭한 추옵입니다. 든든하네요.`);
+                else if (maxScore >= 110) comments.push(`<b>${maxScore}급</b> 준수한 추옵입니다. 실전에서 충분히 좋습니다.`);
+                else if (maxScore >= 90) comments.push(`<b>${maxScore}급</b>... 아케인치고는 조금 아쉽습니다. 환불 작업을 추천합니다.`);
+            }
+            // 160제(앱솔) 및 그 외
+            else {
+                if (maxScore >= 150) comments.push(`이건 추옵이 아니라 예술입니다. <b>${maxScore}급</b> 종결 추옵! 전 서버급 매물입니다.`);
+                else if (maxScore >= 130) comments.push(`<b>${maxScore}급</b> 초고스펙 추옵! 아주 훌륭합니다.`);
+                else if (maxScore >= 110) comments.push(`<b>${maxScore}급</b>! 든든한 고추옵입니다.`);
+                else if (maxScore >= 90) comments.push(`<b>${maxScore}급</b> 준수한 추옵입니다. 가성비 좋습니다.`);
+                else if (maxScore >= 70) comments.push(`<b>${maxScore}급</b>... 조금 아쉽지만 쓸만합니다.`);
+            }
+
+            if (maxScore === 0 && isEndGameItem) {
                 comments.push(`이 좋은 장비에 추가옵션이 거의 없습니다. <b>환생의 불꽃</b> 작업이 필수입니다.`);
             }
         }
@@ -356,6 +368,25 @@ export function generateItemCommentary(item: any, job?: string): string {
                 if (line.includes('재사용 대기시간')) coolTime += parseInt(line.replace(/[^0-9]/g, '')) || 0;
                 if (line.includes('아이템 드롭률')) dropRate += parseInt(line.replace(/[^0-9]/g, '')) || 0;
                 if (line.includes('메소 획득량')) mesoRate += parseInt(line.replace(/[^0-9]/g, '')) || 0;
+
+                // 렙당 스탯 처리 (캐릭터 기준 9레벨 당 +X)
+                // 9레벨 당 +1 -> 약 9%급 (유니크)
+                // 9레벨 당 +2 -> 약 12%급 (레전드리)
+                let levelStatBonus = 0;
+                if (line.includes('캐릭터 기준 9레벨 당') || line.includes('캐릭터 기준 10레벨 당')) {
+                    // 주스탯/올스탯 여부 확인
+                    const valMatch = line.match(/\+(\d+)/);
+                    const val = valMatch ? parseInt(valMatch[1]) : 0;
+
+                    // 대략적인 % 환산 (9레벨당 1 = 9%, 2 = 12% 로 가정)
+                    if (val >= 2) levelStatBonus = 12;
+                    else if (val >= 1) levelStatBonus = 9;
+
+                    if (line.includes('STR')) strTotal += levelStatBonus;
+                    if (line.includes('DEX')) dexTotal += levelStatBonus;
+                    if (line.includes('INT')) intTotal += levelStatBonus;
+                    if (line.includes('LUK')) lukTotal += levelStatBonus;
+                }
 
                 if (line.includes('STR') && line.includes('%')) strTotal += parseInt(line.replace(/[^0-9]/g, '')) || 0;
                 if (line.includes('DEX') && line.includes('%')) dexTotal += parseInt(line.replace(/[^0-9]/g, '')) || 0;
@@ -515,17 +546,50 @@ export function generateItemCommentary(item: any, job?: string): string {
                 let hasAdiCoolReduce = false; // 에디 쿨감 체크
                 let adiCritDmgLines = 0; // 에디 크뎀 체크 (장갑)
 
+                // 에디셔널 레전드리/유니크 등급 정밀 분석을 위한 변수
+                let adiStatPct = 0;
+
                 addPotentials.forEach(line => {
                     if (!line) return;
 
                     // 1. 주스탯 % 체크
                     if (line.includes('%')) {
+                        let isValid = false;
                         if (line.includes('올스탯')) {
-                            validStatLines++;
+                            isValid = true;
                         } else {
                             // 직업 주스탯과 일치하는 경우만 카운트
                             const isMainStat = mainStats.some((stat: string) => line.includes(stat));
-                            if (isMainStat) validStatLines++;
+                            if (isMainStat) isValid = true;
+                        }
+
+                        if (isValid) {
+                            validStatLines++;
+                            const val = parseInt(line.replace(/[^0-9]/g, '')) || 0;
+                            adiStatPct += val;
+                        }
+                    }
+
+                    // 렙당 스탯 처리 (에디셔널)
+                    if (line.includes('캐릭터 기준 9레벨 당') || line.includes('캐릭터 기준 10레벨 당')) {
+                        const valMatch = line.match(/\+(\d+)/);
+                        const val = valMatch ? parseInt(valMatch[1]) : 0;
+
+                        // 에디셔널 렙당 스탯 환산 (9레벨당 1 = 7%, 2 = 10% 가정)
+                        let bonusPct = 0;
+                        if (val >= 2) bonusPct = 10;
+                        else if (val >= 1) bonusPct = 7;
+
+                        // 주스탯 포함 여부 확인
+                        let isValid = false;
+                        if (line.includes('STR') && mainStats.includes('STR')) isValid = true;
+                        if (line.includes('DEX') && mainStats.includes('DEX')) isValid = true;
+                        if (line.includes('INT') && mainStats.includes('INT')) isValid = true;
+                        if (line.includes('LUK') && mainStats.includes('LUK')) isValid = true;
+
+                        if (isValid) {
+                            validStatLines++;
+                            adiStatPct += bonusPct;
                         }
                     }
 
@@ -555,6 +619,17 @@ export function generateItemCommentary(item: any, job?: string): string {
                     comments.push(`${adiPrefix} <b>크리티컬 데미지</b>! 장갑 에디셔널의 종결 옵션입니다. 공/마보다 훨씬 좋습니다.`);
                 } else if (hasAdiCoolReduce) {
                     comments.push(`${adiPrefix} <b>쿨타임 감소</b> 옵션이 붙어있습니다! 에디셔널에서 챙길 수 있는 최고의 유효 옵션 중 하나입니다. 대박!`);
+                } else if (addPotentialGrade === '레전드리') {
+                    // 레전드리 등급 전용 멘트
+                    if (adiStatPct >= 21) {
+                        comments.push(`${adiPrefix} <b>주스탯 ${adiStatPct}% 이상</b>! 에디셔널 종결급 옵션입니다. 전 서버급 스펙입니다.`);
+                    } else if (adiStatPct >= 14) {
+                        comments.push(`${adiPrefix} <b>주스탯 ${adiStatPct}% 이상</b>! 아주 훌륭한 스펙입니다.`);
+                    } else if (validAttFlat >= 12) {
+                        comments.push(`${adiPrefix} <b>${attType} +${validAttFlat}</b> 이상! 든든한 옵션입니다.`);
+                    } else {
+                        comments.push(`${adiPrefix} 레전드리 등급이지만 옵션이 조금 아쉽습니다. 돌려보시는 건 어떨까요?`);
+                    }
                 } else if (validStatLines >= 3) {
                     comments.push(pick([
                         `${adiPrefix} <b>주스탯 3줄</b>...?! 이건 <b>진짜 종결급</b>입니다. 더 이상 손댈 곳이 없습니다.`,

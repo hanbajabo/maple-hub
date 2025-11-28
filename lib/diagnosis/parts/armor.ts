@@ -95,6 +95,14 @@ export function diagnoseArmor(item: any, job?: string): string[] {
                         });
                     }
                 }
+                // 렙당 주스탯 (유효 라인 인정)
+                if (l.includes("캐릭터 기준 9레벨 당")) {
+                    const isMainStat = l.includes("올스탯") || mainStats.some(stat => l.includes(stat));
+                    if (isMainStat) {
+                        if (l.includes("+1")) statPct += 9; // 유니크급 (9%) 인정
+                        if (l.includes("+2")) statPct += 12; // 레전드리급 (12%) 인정
+                    }
+                }
             }
         });
 
@@ -154,6 +162,14 @@ export function diagnoseArmor(item: any, job?: string): string[] {
                     });
                 }
             }
+            // 렙당 주스탯 (유효 라인 인정)
+            if (l.includes("캐릭터 기준 9레벨 당")) {
+                const isMainStat = l.includes("올스탯") || mainStats.some(stat => l.includes(stat));
+                if (isMainStat) {
+                    if (l.includes("+1")) adiStatPct += 7; // 에디 유효 라인 (7%) 인정
+                    if (l.includes("+2")) adiStatPct += 10;
+                }
+            }
         }
     });
 
@@ -177,6 +193,16 @@ export function diagnoseArmor(item: any, job?: string): string[] {
             comments.push(`[에디 유니크] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 든든한 옵션입니다.`);
         } else {
             comments.push(`[옵션 아쉬움] 에디셔널 유니크 등급이지만 유효 옵션이 부족합니다. 큐브로 스펙업을 노려보세요.`);
+        }
+    } else if (adiGrade === "레전드리") {
+        if (adiStatPct >= 21) {
+            comments.push(`[에디 종결] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 전 서버급 초고스펙 옵션입니다.`);
+        } else if (adiStatPct >= 14) {
+            comments.push(`[에디 준종결] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 아주 훌륭한 스펙입니다.`);
+        } else if (validAdiAtt >= 12) {
+            comments.push(`[에디 레전드리] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 든든한 옵션입니다.`);
+        } else {
+            comments.push(`[옵션 아쉬움] 에디셔널 레전드리 등급이지만 유효 옵션이 조금 아쉽습니다.`);
         }
     } else if (adiGrade === "에픽") {
         if (adiStatPct > 0) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 아주 든든한 옵션입니다.`);
@@ -205,11 +231,47 @@ export function diagnoseArmor(item: any, job?: string): string[] {
 
         const score = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK);
 
-        if (score >= 160) comments.push(`[극추옵] <b>160급</b> 이상! 초고스펙용 종결 추옵입니다.`);
-        else if (score >= 130) comments.push(`[고추옵] <b>130급</b> 이상! 고스펙용으로 훌륭합니다.`);
-        else if (score >= 100) comments.push(`[합격점] <b>100급</b> 이상! 실전에서 사용하기 적절합니다.`);
-        else if (score < 80 && item.item_base_option?.base_equipment_level >= 140) {
-            comments.push(`[환불 필요] <b>80급</b> 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
+        const level = item.item_base_option?.base_equipment_level || 0;
+
+        if (level >= 250) {
+            if (score >= 190) comments.push(`[종결] <b>${score}급</b> (${level}제)! 전 서버급 신화적인 추옵입니다.`);
+            else if (score >= 180) comments.push(`[종결급] <b>${score}급</b> (${level}제)! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
+            else if (score >= 170) comments.push(`[최상급 옵션] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
+            else if (score >= 160) comments.push(`[많이 좋음] <b>${score}급</b> (${level}제)! 아주 훌륭한 고스펙용 추옵입니다.`);
+            else if (score >= 150) comments.push(`[꽤 좋음] <b>${score}급</b> (${level}제)! 어디 가서 꿀리지 않는 좋은 추옵입니다.`);
+            else if (score >= 140) comments.push(`[좋음] <b>${score}급</b> (${level}제)! 실전에서 사용하기 좋습니다.`);
+            else if (score >= 130) comments.push(`[준수] <b>${score}급</b> (${level}제)! 무난하게 사용 가능합니다.`);
+            else if (score >= 120) comments.push(`[보통] <b>${score}급</b> (${level}제)! 임시로 쓰기 적절합니다.`);
+            else if (score >= 110) comments.push(`[아쉬움] <b>${score}급</b> (${level}제)! 조금 더 높은 추옵을 노려보세요.`);
+            else if (score >= 100) comments.push(`[부캐용] <b>${score}급</b> (${level}제)! 본캐용으로는 아쉽습니다.`);
+            else comments.push(`[환불 필요] <b>${score}급</b> (${level}제) 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
+        } else if (level >= 200) {
+            if (score >= 170) comments.push(`[종결급] <b>${score}급</b> (${level}제)! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
+            else if (score >= 160) comments.push(`[최상급 옵션] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
+            else if (score >= 150) comments.push(`[많이 좋음] <b>${score}급</b> (${level}제)! 아주 훌륭한 고스펙용 추옵입니다.`);
+            else if (score >= 140) comments.push(`[꽤 좋음] <b>${score}급</b> (${level}제)! 어디 가서 꿀리지 않는 좋은 추옵입니다.`);
+            else if (score >= 130) comments.push(`[좋음] <b>${score}급</b> (${level}제)! 실전에서 사용하기 좋습니다.`);
+            else if (score >= 120) comments.push(`[준수] <b>${score}급</b> (${level}제)! 무난하게 사용 가능합니다.`);
+            else if (score >= 110) comments.push(`[보통] <b>${score}급</b> (${level}제)! 임시로 쓰기 적절합니다.`);
+            else if (score >= 100) comments.push(`[부캐용] <b>${score}급</b> (${level}제)! 본캐용으로는 아쉽습니다.`);
+            else comments.push(`[환불 필요] <b>${score}급</b> (${level}제) 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
+        } else if (level >= 160) {
+            if (score >= 150) comments.push(`[종결급] <b>${score}급</b> (${level}제)! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
+            else if (score >= 140) comments.push(`[최상급 좋음] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
+            else if (score >= 130) comments.push(`[많이 좋음] <b>${score}급</b> (${level}제)! 아주 훌륭한 고스펙용 추옵입니다.`);
+            else if (score >= 120) comments.push(`[좋음] <b>${score}급</b> (${level}제)! 실전에서 사용하기 좋습니다.`);
+            else if (score >= 110) comments.push(`[준수] <b>${score}급</b> (${level}제)! 무난하게 사용 가능합니다.`);
+            else if (score >= 100) comments.push(`[보통] <b>${score}급</b> (${level}제)! 임시로 쓰기 적절합니다.`);
+            else comments.push(`[환불 필요] <b>${score}급</b> (${level}제) 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
+        } else {
+            // 140~150 and below
+            if (score >= 150) comments.push(`[종결급] <b>${score}급</b> (${level}제)! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
+            else if (score >= 140) comments.push(`[최상급 좋음] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
+            else if (score >= 130) comments.push(`[많이 좋음] <b>${score}급</b> (${level}제)! 아주 훌륭한 고스펙용 추옵입니다.`);
+            else if (score >= 120) comments.push(`[좋음] <b>${score}급</b> (${level}제)! 실전에서 사용하기 좋습니다.`);
+            else if (score >= 110) comments.push(`[준수] <b>${score}급</b> (${level}제)! 무난하게 사용 가능합니다.`);
+            else if (score >= 100) comments.push(`[보통] <b>${score}급</b> (${level}제)! 임시로 쓰기 적절합니다.`);
+            else if (level >= 140) comments.push(`[환불 필요] <b>${score}급</b> (${level}제) 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
         }
     }
 

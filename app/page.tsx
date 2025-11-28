@@ -954,7 +954,19 @@ export default function Home() {
                           <Swords className={`w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 ${currentTier.color} drop-shadow-lg`} />
                           <span className="text-lg sm:text-2xl md:text-3xl text-slate-400 font-bold drop-shadow-md">전투력 :</span>
                           <span className={`text-xl sm:text-3xl md:text-4xl font-black ${currentTier.color} tracking-tight drop-shadow-lg`}>
-                            {formatNumber(combatPower)}
+                            {(() => {
+                              const num = typeof combatPower === 'string' ? parseInt(combatPower.replace(/,/g, '')) : Number(combatPower);
+                              if (isNaN(num)) return "0";
+                              if (num < 10000) return num.toLocaleString();
+                              const eok = Math.floor(num / 100000000);
+                              const man = Math.floor((num % 100000000) / 10000);
+                              const remainder = num % 10000;
+                              let result = "";
+                              if (eok > 0) result += `${eok}억 `;
+                              if (man > 0) result += `${man}만 `;
+                              if (remainder > 0) result += `${remainder}`;
+                              return result.trim();
+                            })()}
                           </span>
                         </div>
                       </div>

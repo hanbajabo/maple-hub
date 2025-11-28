@@ -18,6 +18,7 @@ export interface PotentialEvaluation {
     options_score: number;
     good_options: string[];
     recommendation: string;
+    evaluation: string;
 }
 
 function getCeilingCost(
@@ -65,6 +66,7 @@ export function evaluatePotential(
 
     const { goodOptions, optionsScore } = evaluateOptions(type, currentGrade, options, equipmentType, itemSlot);
     const recommendation = generateRecommendation(type, currentGrade, equipmentType, optionsScore, goodOptions, ceilingCost, itemSlot);
+    const evaluation = generateEvaluation(type, currentGrade, equipmentType, optionsScore, goodOptions);
 
     return {
         current_grade: currentGrade,
@@ -75,8 +77,100 @@ export function evaluatePotential(
         avg_cost: avgCost,
         options_score: Math.max(0, optionsScore),
         good_options: goodOptions,
-        recommendation
+        recommendation,
+        evaluation
     };
+}
+
+function generateEvaluation(
+    type: 'main' | 'additional',
+    grade: string,
+    equipmentType: string,
+    score: number,
+    goodOptions: string[]
+): string {
+    // 1. 무기/보조무기/엠블렘 평가
+    if (equipmentType === '무기' || equipmentType === '보조무기' || equipmentType === '엠블렘') {
+        if (grade === '레전드리') {
+            if (score >= 88) return '종결';
+            if (score >= 66) return '훌륭';
+            if (score >= 33) return '준수';
+            return '아쉬움';
+        }
+        if (grade === '유니크') {
+            if (score >= 90) return '종결급';
+            if (score >= 70) return '준수';
+            return '아쉬움';
+        }
+        return score >= 60 ? '준수' : '부족';
+    }
+
+    // 2. 방어구/장신구 평가
+    if (type === 'main') {
+        // 메인 잠재
+        if (grade === '레전드리') {
+            // 쿨감/크뎀 특수 평가
+            const hasCoolReduce = goodOptions.some(opt => opt.includes('재사용 대기시간'));
+            const hasCritDmg = goodOptions.some(opt => opt.includes('크리티컬 데미지'));
+
+            if (hasCoolReduce) {
+                let cd = 0;
+                goodOptions.forEach(opt => {
+                    const m = opt.match(/(\d+)초/);
+                    if (m) cd += parseInt(m[1]);
+                });
+                if (cd >= 5) return '종결'; // 5초 이상
+                if (cd >= 4) return '최상급'; // 4초
+                if (cd >= 2) return '훌륭'; // 2초 이상
+            }
+
+            if (hasCritDmg) {
+                let lines = goodOptions.filter(opt => opt.includes('크리티컬 데미지')).length;
+                if (lines >= 3) return '신화';
+                if (lines >= 2) return '종결';
+                if (lines >= 1) return '훌륭';
+            }
+
+            if (score >= 90) return '종결'; // 33% 이상
+            if (score >= 70) return '훌륭'; // 21% 이상
+            if (score >= 50) return '준수'; // 15% 이상 (레전드리치곤 낮음)
+            return '아쉬움';
+        }
+        if (grade === '유니크') {
+            if (score >= 75) return '종결급'; // 21%
+            if (score >= 50) return '준수'; // 15%
+            return '아쉬움';
+        }
+        if (grade === '에픽') {
+            if (score >= 50) return '종결급';
+            return '준수';
+        }
+    } else {
+        // 에디셔널
+        if (grade === '레전드리') {
+            if (score >= 21) return '종결';
+            if (score >= 14) return '최상급';
+            if (score >= 10) return '준수';
+            return '아쉬움';
+        }
+        if (grade === '유니크') {
+            if (score >= 15) return '종결급';
+            if (score >= 10) return '준수';
+            return '아쉬움';
+        }
+        if (grade === '에픽') {
+            if (score >= 10) return '종결급';
+            if (score >= 4) return '준수';
+            return '아쉬움';
+        }
+        if (grade === '레어') {
+            if (score >= 10) return '통과'; // 공 10
+            if (score >= 3) return '통과';
+            return '부족';
+        }
+    }
+
+    return '미진단';
 }
 
 function evaluateOptions(
@@ -265,43 +359,53 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
     }
     // 에디셔널 잠재능력 평가
     else {
-        let attackLines = 0; // 공/마 +10 이상 줄 개수
-        let statPercentLines = 0; // 주스탯 % 줄 개수
+        let totalStatEquivalent = 0;
+        let validLines = 0;
 
         options.forEach(opt => {
-            // 공/마 상수 체크
-            if ((opt.includes('공격력 +') || opt.includes('마력 +')) && !opt.includes('%')) {
-                const match = opt.match(/\+(\d+)/);
-                if (match && parseInt(match[1]) >= 10) {
-                    attackLines++;
-                    goodOptions.push(opt);
+            let isGoodOption = false;
+
+            // 1. 주스탯 % 체크
+            if ((opt.includes('STR') || opt.includes('DEX') || opt.includes('INT') || opt.includes('LUK') || opt.includes('올스탯')) && opt.includes('%')) {
+                const match = opt.match(/(\d+)%/);
+                if (match) {
+                    const val = parseInt(match[1]);
+                    totalStatEquivalent += val;
+                    isGoodOption = true;
                 }
             }
-            // 주스탯 % 체크 (에픽 이상)
-            else if (currentGrade !== '레어' && (opt.includes('STR') || opt.includes('DEX') || opt.includes('INT') || opt.includes('LUK')) && opt.includes('%')) {
-                statPercentLines++;
+            // 2. 렙당 스탯 (캐릭터 기준 9레벨 당)
+            else if (opt.includes('캐릭터 기준 9레벨 당') || opt.includes('캐릭터 기준 10레벨 당')) {
+                const match = opt.match(/\+(\d+)/);
+                if (match) {
+                    const val = parseInt(match[1]);
+                    // 렙당 2 = 약 10% (레전드리 유효), 렙당 1 = 약 7% (유니크/레전드리 유효)
+                    if (val >= 2) totalStatEquivalent += 10;
+                    else if (val >= 1) totalStatEquivalent += 7;
+                    isGoodOption = true;
+                }
+            }
+            // 3. 공/마 상수 (10 이상)
+            else if ((opt.includes('공격력 +') || opt.includes('마력 +')) && !opt.includes('%')) {
+                const match = opt.match(/\+(\d+)/);
+                if (match) {
+                    const val = parseInt(match[1]);
+                    if (val >= 10) {
+                        // 공/마 +10은 주스탯 약 3~4% 효율로 환산
+                        totalStatEquivalent += 3;
+                        isGoodOption = true;
+                    }
+                }
+            }
+
+            if (isGoodOption) {
+                validLines++;
                 goodOptions.push(opt);
             }
         });
 
-        let optionsScore = 0;
-
-        if (currentGrade === '레어') {
-            // 레어: 공/마 +10 이상 1줄이라도 있으면 통과
-            if (attackLines >= 1) optionsScore = 70;
-            else optionsScore = 30;
-        } else {
-            // 에픽/유니크/레전드리: 2줄 이상이면 아주 좋음, 1줄이면 좋음
-            if (statPercentLines >= 2 || attackLines >= 2) {
-                optionsScore = 85; // 아주 좋음
-            } else if (statPercentLines >= 1 || attackLines >= 1) {
-                optionsScore = 70; // 좋음 (통과)
-            } else {
-                optionsScore = 30; // 부족
-            }
-        }
-
-        return { goodOptions, optionsScore };
+        // 점수 산정 (주스탯 % 환산치 그대로 사용)
+        return { goodOptions, optionsScore: totalStatEquivalent };
     }
 }
 
@@ -461,14 +565,31 @@ function generateGeneralRecommendation(
             // 에디셔널 잠재능력
             if (!grade || grade === '') grade = '레어';
 
+            if (grade === '레전드리') {
+                if (score >= 21) return `종결급! 주스탯 ${score}%급 효율입니다. (3줄 유효)`;
+                if (score >= 14) return `최상급! 주스탯 ${score}%급 효율입니다. (2줄 유효)`;
+                if (score >= 10) return `준수함! 주스탯 ${score}%급 효율입니다. (1.5줄 이상)`;
+                return `레전드리 등급이지만 옵션이 아쉽습니다. (${score}%급)`;
+            }
+
+            if (grade === '유니크') {
+                if (score >= 15) return `유니크 종결! 주스탯 ${score}%급 효율입니다.`;
+                if (score >= 10) return `유니크 통과! 주스탯 ${score}%급 효율입니다.`;
+                return '재설정 권장. 주스탯 15%급 이상을 목표로 하세요.';
+            }
+
+            if (grade === '에픽') {
+                if (score >= 10) return `에픽 종결! 주스탯 ${score}%급 효율입니다.`;
+                if (score >= 4) return `에픽 통과! 주스탯 ${score}%급 효율입니다.`; // 공/마 10 = 3% + 1%?
+                return '재설정 필요. 공/마 10 또는 주스탯 4% 이상을 챙기세요.';
+            }
+
             if (grade === '레어') {
-                if (score >= 70) return '레어 통과! 공/마 +10 이상 기준을 만족합니다.';
+                if (score >= 3) return '레어 통과! 공/마 +10 이상 기준을 만족합니다.';
                 return '공/마 +10 이상을 목표로 재설정이 필요합니다.';
             }
 
-            if (score >= 85) return '아주 좋음! 주스탯 % 또는 공/마 +10 이상이 2줄 이상입니다.';
-            if (score >= 70) return '좋음! 주스탯 % 또는 공/마 +10 이상이 있습니다.';
-            return '재설정 필요. 주스탯 % 또는 공/마 +10 이상을 목표로 하세요.';
+            return '잠재능력 등급 확인이 필요합니다.';
         }
     }
 

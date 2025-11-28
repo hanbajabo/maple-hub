@@ -114,7 +114,8 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
                 avg_cost: 0,
                 options_score: 0,
                 good_options: [],
-                recommendation: '이 아이템에는 잠재능력이 설정되지 않았습니다.'
+                recommendation: '이 아이템에는 잠재능력이 설정되지 않았습니다.',
+                evaluation: '미설정'
             };
         } else {
             potResult = evaluatePotential(
@@ -146,7 +147,8 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
                 avg_cost: 0,
                 options_score: 0,
                 good_options: [],
-                recommendation: '이 아이템에는 에디셔널 잠재능력이 설정되지 않았습니다.'
+                recommendation: '이 아이템에는 에디셔널 잠재능력이 설정되지 않았습니다.',
+                evaluation: '미설정'
             };
         } else {
             addPotResult = evaluatePotential(
@@ -436,7 +438,16 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
                                     <span className="text-slate-400">현재 등급</span>
                                     <span className="text-white font-bold">{result.potential.current_grade}</span>
                                 </div>
-
+                                <div className="flex justify-between items-center">
+                                    <span className="text-slate-400">옵션 평가</span>
+                                    <span className={`font-bold px-2 py-0.5 rounded ${['종결', '종결급', '신화', '최상급'].includes(result.potential.evaluation) ? 'bg-green-500/20 text-green-400' :
+                                        ['훌륭', '좋음', '준수', '통과'].includes(result.potential.evaluation) ? 'bg-blue-500/20 text-blue-400' :
+                                            ['보통'].includes(result.potential.evaluation) ? 'bg-yellow-500/20 text-yellow-400' :
+                                                'bg-red-500/20 text-red-400'
+                                        }`}>
+                                        {result.potential.evaluation}
+                                    </span>
+                                </div>
                                 <div className="bg-slate-900/50 p-3 rounded-lg text-sm text-slate-300 mt-2">
                                     {result.potential.recommendation}
                                 </div>
@@ -453,7 +464,16 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
                                     <span className="text-slate-400">현재 등급</span>
                                     <span className="text-white font-bold">{result.additional_potential.current_grade}</span>
                                 </div>
-
+                                <div className="flex justify-between items-center">
+                                    <span className="text-slate-400">옵션 평가</span>
+                                    <span className={`font-bold px-2 py-0.5 rounded ${['종결', '종결급', '최상급'].includes(result.additional_potential.evaluation) ? 'bg-green-500/20 text-green-400' :
+                                        ['훌륭', '좋음', '준수', '통과'].includes(result.additional_potential.evaluation) ? 'bg-blue-500/20 text-blue-400' :
+                                            ['보통'].includes(result.additional_potential.evaluation) ? 'bg-yellow-500/20 text-yellow-400' :
+                                                'bg-red-500/20 text-red-400'
+                                        }`}>
+                                        {result.additional_potential.evaluation}
+                                    </span>
+                                </div>
                                 <div className="bg-slate-900/50 p-3 rounded-lg text-sm text-slate-300 mt-2">
                                     {result.additional_potential.recommendation}
                                 </div>

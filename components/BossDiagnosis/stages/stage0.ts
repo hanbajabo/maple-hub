@@ -42,7 +42,7 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
         const isPocket = slot === "포켓 아이템";
         const isMedal = slot === "훈장";
         const isEmblem = slot === "엠블렘";
-        const isSubWeapon = slot === "보조무기";
+        const isSubWeapon = slot === "보조무기" || slot === "방패" || slot.includes("블레이드");
 
         // 특수 반지 정의
         const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스", "딥다크"];
@@ -83,7 +83,7 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
             const potScore = GRADE_SCORE[potGrade] || 0;
 
             // 보조무기 유니크 이상 통과
-            const isSubWeaponUnique = slot === "보조무기" && potScore >= 3;
+            const isSubWeaponUnique = isSubWeapon && potScore >= 3;
 
             if (isSubWeaponUnique) {
                 // Pass
@@ -149,7 +149,7 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                 const hasStatPct = adiLines.some(l => l && targetKeywords.some(k => l.includes(k)) && l.includes("%"));
 
                 // WSE (무기, 보조, 엠블렘) 에디셔널 공/마 % 확인 (에픽 이상, 3% 이상)
-                const isWSE = slot === "무기" || slot === "보조무기" || slot === "엠블렘";
+                const isWSE = slot === "무기" || isSubWeapon || slot === "엠블렘";
                 const hasAttPct3 = adiLines.some(l => {
                     if (!l) return false;
                     if ((l.includes("공격력") || l.includes("마력")) && l.includes("%")) {

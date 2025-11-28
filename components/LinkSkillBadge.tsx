@@ -14,6 +14,10 @@ const LINK_SKILL_JOBS: Record<string, string> = {
     "어드벤쳐러 큐리어스": "모험가 궁수",
     "시프 커닝": "모험가 도적",
     "파이렛 블레스": "모험가 해적",
+    "파이렛 블레스(바이퍼)": "모험가 해적",
+    "파이렛 블레스(캡틴)": "모험가 해적",
+    "파이렛 블레스(캐논슈터)": "모험가 해적",
+    "파이렛 블레스(캐논마스터)": "모험가 해적",
     "시그너스 블레스": "시그너스 기사단",
     "하이브리드 로직": "제논",
     "데몬스 퓨리": "데몬슬레이어",
@@ -140,7 +144,9 @@ export default function LinkSkillBadge({ ocid, initialData, refreshKey }: { ocid
                             {skills.length > 0 ? skills.map((skill, idx) => (
                                 <div key={idx} className="flex justify-between items-center p-2 rounded bg-slate-950/50 border border-slate-800/50 hover:bg-slate-800 transition-colors">
                                     <div className="flex flex-col">
-                                        <span className="text-xs sm:text-sm font-bold text-slate-200">{LINK_SKILL_JOBS[skill.skill_name] || '직업 정보 없음'}</span>
+                                        <span className="text-xs sm:text-sm font-bold text-slate-200">
+                                            {LINK_SKILL_JOBS[skill.skill_name] || LINK_SKILL_JOBS[skill.skill_name.split('(')[0].trim()] || '직업 정보 없음'}
+                                        </span>
                                         <span className="text-[10px] sm:text-[11px] text-slate-400">{skill.skill_name}</span>
                                     </div>
                                     <span className="text-[10px] font-bold bg-slate-900 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700">

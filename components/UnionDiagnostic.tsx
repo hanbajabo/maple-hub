@@ -160,7 +160,9 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
             >
                 <span className="text-lg">⚔️</span>
                 <span className="text-sm">유니온</span>
-                <span className="text-xs bg-slate-950 px-1.5 py-0.5 rounded text-slate-400">{raiders.length}</span>
+                <span className="text-xs bg-slate-950 px-1.5 py-0.5 rounded text-slate-400">
+                    Lv.{raiders.reduce((sum, r) => sum + parseInt(r.block_level), 0).toLocaleString()}
+                </span>
                 {hasMissing && (
                     <span className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500/20 text-red-400 text-xs font-bold animate-pulse" title="부족한 유니온 대원이 있습니다">!</span>
                 )}

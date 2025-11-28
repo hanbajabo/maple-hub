@@ -69,7 +69,7 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
 
     // 아이템 분류 및 데이터 추출
     const setCounts: Record<string, number> = {};
-    let hasGenesisOrDestiny = false;
+    let luckyItemCount = 0;
 
     items.forEach(item => {
         const slot = item.item_equipment_slot;
@@ -222,9 +222,14 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
 
         if (name.includes('칠흑') || isPitchBoss(name)) incrementSet(setCounts, '칠흑');
 
-        // 럭키 아이템 체크 (제네시스, 데스티니)
-        if (name.includes('제네시스') || name.includes('데스티니')) {
-            hasGenesisOrDestiny = true;
+        // 럭키 아이템 체크 (제네시스, 데스티니, 카오스 모자 4종)
+        const isGenesisOrDestiny = name.includes('제네시스') || name.includes('데스티니');
+        const isChaosHat = [
+            '카오스 벨룸의 헬름', '카오스 피에르 모자', '카오스 반반 투구', '카오스 퀸의 티아라'
+        ].some(k => name === k || name.includes(k));
+
+        if (isGenesisOrDestiny || isChaosHat) {
+            luckyItemCount++;
         }
     });
 
@@ -235,12 +240,33 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
     }
 
     // 세트 효과 분석 (럭키 아이템 적용)
-    if (hasGenesisOrDestiny) {
+    // 럭키 아이템은 3세트 이상인 세트에만 적용되며,
+    // 여러 개의 럭키 아이템이 있어도 하나의 세트에는 1개만 적용됨.
+    // 럭키 아이템이 여러 개일 경우, 우선순위가 높은 세트부터 차례대로 적용됨.
+    if (luckyItemCount > 0) {
         result.setEffect.luckyItemApplied = true;
-        for (const set in setCounts) {
-            if (setCounts[set] >= 3) {
-                setCounts[set]++; // 3셋 이상이면 +1
-            }
+
+        // 세트 우선순위 정의 (높은 레벨/티어 순)
+        const setPriority: Record<string, number> = {
+            '에테르넬': 100,
+            '칠흑': 90,
+            '아케인셰이드': 80,
+            '여명': 70,
+            '앱솔랩스': 60,
+            '카루타': 50,
+            '마이스터': 40,
+            '보스 장신구': 30
+        };
+
+        // 3세트 이상인 세트만 필터링 및 정렬
+        const candidateSets = Object.keys(setCounts)
+            .filter(set => setCounts[set] >= 3)
+            .sort((a, b) => (setPriority[b] || 0) - (setPriority[a] || 0));
+
+        // 럭키 아이템 개수만큼 상위 세트에 +1 적용
+        for (let i = 0; i < Math.min(luckyItemCount, candidateSets.length); i++) {
+            const targetSet = candidateSets[i];
+            setCounts[targetSet]++;
         }
     }
 

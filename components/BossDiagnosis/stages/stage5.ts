@@ -52,6 +52,14 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
 
         const targetStats = isArmor ? stage5Stats.armor : stage5Stats.accessory;
 
+        // 딥다크링은 18성 단계에서 교체 권장 (실패 처리)
+        if (name.includes("어드벤처 딥다크 크리티컬 링")) {
+            stage5Issues++;
+            targetStats.starforce.failedItems.push(name);
+            issues.push({ type: 'growth_starforce', message: `[성장/스타포스] ${name}: 18성 스펙에서는 교체 권장 (스타포스 불가)` });
+            return;
+        }
+
 
 
         const star = parseInt(item.starforce || "0");
@@ -65,7 +73,7 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
         // 1. 스타포스 (18성 이상, 타일런트 10성 이상)
         const isTyrant = name.includes("타일런트");
         const isEternal = name.includes("에테르넬");
-        let starforceThreshold = isTyrant ? 10 : 18;
+        let starforceThreshold = isTyrant ? 7 : 18;
         if (isEternal) starforceThreshold = 12;
 
         const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
