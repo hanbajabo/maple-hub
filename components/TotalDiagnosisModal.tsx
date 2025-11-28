@@ -427,6 +427,7 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, e
                             <div>
                                 <h3 className="text-xl font-bold text-yellow-100">스타포스</h3>
                                 <p className="text-xs text-slate-400">대상: 17부위 (무기+방어구+장신구 - 특수반지 자리 1개 제외)</p>
+                                <p className="text-[10px] text-slate-500 mt-0.5">* 이벤트 링은 스타포스 강화가 불가능합니다.</p>
                             </div>
                         </div>
 

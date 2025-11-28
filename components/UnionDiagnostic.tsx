@@ -60,15 +60,16 @@ const UNION_EFFECTS: Record<string, { effect: string; tier?: number; type: strin
 
 // 직업별 주스텟 매핑
 const getMainStat = (className: string): string => {
-    const strClasses = ['히어로', '팔라딘', '다크나이트', '소울마스터', '미하일', '블래스터', '데몬슬레이어', '데몬어벤져', '아란', '카이저', '제로', '아델', '아크', '바이퍼', '캐논마스터', '스트라이커', '은월'];
-    const dexClasses = ['보우마스터', '신궁', '패스파인더', '윈드브레이커', '와일드헌터', '메르세데스', '카인', '엔젤릭버스터'];
-    const intClasses = ['비숍', '불독', '썬콜', '플레임위자드', '배틀메이지', '에반', '루미너스', '일리움', '라라', '키네시스'];
-    const lukClasses = ['나이트로드', '섀도어', '듀얼블레이더', '나이트워커', '팬텀', '카데나', '칼리', '호영'];
+    const strClasses = ['히어로', '팔라딘', '다크나이트', '소울마스터', '미하일', '블래스터', '데몬슬레이어', '데몬어벤져', '아란', '카이저', '제로', '아델', '아크', '바이퍼', '캐논마스터', '캐논슈터', '스트라이커', '은월', '렌'];
+    const dexClasses = ['보우마스터', '신궁', '패스파인더', '윈드브레이커', '와일드헌터', '메르세데스', '카인', '엔젤릭버스터', '캡틴', '메카닉'];
+    const intClasses = ['아크메이지', '비숍', '불독', '썬콜', '불,독', '썬,콜', '플레임위자드', '배틀메이지', '에반', '루미너스', '일리움', '라라', '키네시스', '린'];
+    const lukClasses = ['나이트로드', '섀도어', '듀얼블레이드', '듀얼블레이더', '나이트워커', '팬텀', '카데나', '칼리', '호영'];
 
+    if (intClasses.some(c => className.includes(c))) return 'INT';
     if (strClasses.some(c => className.includes(c))) return 'STR';
     if (dexClasses.some(c => className.includes(c))) return 'DEX';
-    if (intClasses.some(c => className.includes(c))) return 'INT';
     if (lukClasses.some(c => className.includes(c))) return 'LUK';
+    if (className.includes('제논')) return 'AllStat';
     return 'STR';
 };
 

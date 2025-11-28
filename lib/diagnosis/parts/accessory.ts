@@ -5,7 +5,11 @@ import { getJobMainStat } from '../../job_utils';
 
 const SPECIAL_RING_KEYWORDS = ["웨폰퍼프", "리스트레인트", "리스크테이커", "컨티뉴어스", "링 오브 썸", "크라이시스"];
 const DAWN_BOSS_KEYWORDS = ["트와일라이트 마크", "에스텔라 이어링", "데이브레이크 펜던트", "여명의 가디언 엔젤 링"];
-const EVENT_RING_KEYWORDS = ["테네브리스", "SS급", "어웨이크", "글로리온", "카오스", "벤젼스", "결속의", "이터널 플레임", "어드벤처 딥다크", "오닉스", "코스모스", "이벤트 링", "어드벤처", "시너지", "쥬얼", "다크 크리티컬"];
+const EVENT_RING_KEYWORDS = [
+    "테네브리스", "SS급", "어웨이크", "글로리온", "카오스", "벤젼스", "결속의", "이터널 플레임",
+    "어드벤처 딥다크", "오닉스", "코스모스", "이벤트 링", "어드벤처", "시너지", "쥬얼", "다크 크리티컬"
+];
+const SPECIAL_NON_UPGRADABLE_RINGS = ["어비스 헌터스 링", "크리티컬 링"];
 
 /**
  * 💍 장신구(Accessory) 전용 진단 로직
@@ -28,11 +32,17 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
 
     // 이벤트링 체크 (주문서 적용 불가)
     const isEventRing = EVENT_RING_KEYWORDS.some(k => itemName.includes(k));
+    const isSpecialRing = SPECIAL_NON_UPGRADABLE_RINGS.some(k => itemName.includes(k));
 
-    // 0. 주문서 작 진단 (Scroll) - 기계 심장, 뱃지, 훈장, 포켓, 이벤트링 제외 (작 불가 아이템)
-    if (!slot.includes("기계 심장") && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !isEventRing) {
+    // 0. 주문서 작 진단 (Scroll) - 기계 심장, 뱃지, 훈장, 포켓, 이벤트링, 특수링 제외 (작 불가 아이템)
+    if (!slot.includes("기계 심장") && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !isEventRing && !isSpecialRing) {
         const scrollComments = diagnoseScroll(item);
         comments.push(...scrollComments);
+    }
+
+    if (isSpecialRing) {
+        comments.push(`[특수 링] 자체 옵션이 우수한 특수 반지입니다. (스타포스/주문서/잠재 불가능)`);
+        return comments;
     }
 
     // 0. 기계 심장 (Mechanical Heart)
@@ -121,6 +131,8 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
     // 4. 칠흑의 보스 세트 (Pitch Boss)
     // 마도서, 몽벨, 루컨마, 마깃안, 거공, 고근 등
     const isPitch = itemName.includes("저주받은 마도서") || itemName.includes("몽환의 벨트") || itemName.includes("루즈 컨트롤") || itemName.includes("마력이 깃든") || itemName.includes("거대한 공포") || itemName.includes("고통의 근원") || itemName.includes("창세의 뱃지") || itemName.includes("미트라의 분노");
+    const isTyrant = itemName.includes("타일런트");
+
     if (isPitch) {
         comments.push(`[칠흑] 메이플스토리 최상위 '칠흑의 보스 세트' 파츠입니다. 존재만으로도 영롱합니다.`);
 
@@ -130,11 +142,21 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
             else if (starforce >= 18) comments.push(`[칠흑 고스펙] <b>18성</b> 이상 칠흑은 <b>22성</b> 여명보다 강력합니다.`);
             else if (starforce === 17) comments.push(`[아쉬움] 칠흑의 성능을 100% 끌어내려면 <b>22성</b>이 권장됩니다. (파괴 리스크 주의)`);
         }
+    } else if (isTyrant) {
+        // 타일런트 (슈페리얼) 전용 진단
+        comments.push(`[슈페리얼] 타일런트 아이템은 별 하나하나의 가치가 매우 높습니다.`);
+        if (starforce >= 15) comments.push(`[종결급] <b>15성</b> 타일런트! 전설적인 수치입니다. 더 이상 바랄 게 없습니다.`);
+        else if (starforce >= 14) comments.push(`[엄청 좋음] <b>14성</b> 타일런트! 매우 강력한 성능을 자랑합니다.`);
+        else if (starforce >= 13) comments.push(`[고성능] <b>13성</b> 타일런트! 현역으로 충분히 강력합니다.`);
+        else if (starforce >= 12) comments.push(`[준종결] <b>12성</b> 타일런트! 22성 일반 아이템과 맞먹는 성능입니다.`);
+        else if (starforce >= 10) comments.push(`[고스펙] <b>10성</b> 이상 타일런트는 21성급 성능을 냅니다.`);
+        else if (starforce >= 5) comments.push(`[가성비] <b>5성</b> 타일런트는 17성 일반 아이템과 비슷한 효율을 냅니다.`);
+        else comments.push(`[강화 필요] 슈페리얼 아이템은 <b>5성</b> 이상 강화해야 진가를 발휘합니다.`);
     }
 
-    // 5. 일반 스타포스 진단 (시드링, 뱃지, 훈장, 포켓, 이벤트링 제외)
-    if (!isSeedRing && !isEventRing && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !slot.includes("엠블렘")) {
-        if (!isPitch) { // 칠흑은 위에서 별도 처리
+    // 5. 일반 스타포스 진단 (시드링, 뱃지, 훈장, 포켓, 이벤트링, 특수링 제외)
+    if (!isSeedRing && !isEventRing && !isSpecialRing && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !slot.includes("엠블렘")) {
+        if (!isPitch && !isTyrant) { // 칠흑과 타일런트는 위에서 별도 처리
             // 놀장강(Amazing Enhancement) 체크
             // 조건: 12성 이하이면서, 스타포스로 인한 공/마 상승량이 존재할 경우 (일반 장신구는 15성까지 공/마 안 오름)
             const sfOpts = item.item_starforce_option || {};

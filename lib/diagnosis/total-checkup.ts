@@ -86,9 +86,13 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
             slot === '반지';
 
         const isSeedRing = item.special_ring_level > 0;
-        const isEventRing = ["테네브리스", "SS급", "어웨이크", "글로리온", "카오스", "벤젼스", "결속의", "이터널 플레임", "어드벤처 딥다크", "오닉스"].some(k => name.includes(k));
+        const isEventRing = [
+            "테네브리스", "SS급", "어웨이크", "글로리온", "카오스", "벤젼스", "결속의", "이터널 플레임",
+            "어드벤처 딥다크", "오닉스", "코스모스", "이벤트 링", "어드벤처", "시너지", "쥬얼", "다크 크리티컬"
+        ].some(k => name.includes(k));
+        const isSpecialRing = ["어비스 헌터스 링", "크리티컬 링"].some(k => name.includes(k));
 
-        if (isSfTarget && !isSeedRing && !isEventRing) {
+        if (isSfTarget && !isSeedRing && !isEventRing && !isSpecialRing) {
             sfSum += sf;
             sfCount++;
             if (sf >= 22) result.starforce.count22++;
@@ -168,7 +172,7 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
                 result.armorAcc.additional.gradeCount[addPotGrade] = (result.armorAcc.additional.gradeCount[addPotGrade] || 0) + 1;
                 addPotentials.forEach(line => {
                     if (!line) return;
-                    // 유효 옵션: 공/마 상수, 주스탯%, 크뎀(장갑), 쿨감(모자)
+                    // 유효 옵션: 공/마 상수, 주스탯%, 크뎀(장갑), 쿨감(모자), 렙당 주스탯
                     const isAttFlat = (isMagic ? line.includes('마력') : line.includes('공격력')) && !line.includes('%');
 
                     let isStatPct = false;
@@ -182,8 +186,9 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
 
                     const isCrit = line.includes('크리티컬 데미지');
                     const isCool = line.includes('재사용 대기시간');
+                    const isLevelStat = line.includes('캐릭터 기준 9레벨 당');
 
-                    if (isAttFlat || isStatPct || isCrit || isCool) {
+                    if (isAttFlat || isStatPct || isCrit || isCool || isLevelStat) {
                         result.armorAcc.additional.validLines++;
                     }
 

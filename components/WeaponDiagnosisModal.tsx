@@ -190,17 +190,24 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
             };
         } else if (type === '무기' || (type === '보조무기' && item.item_name.includes('라피스'))) {
             const level = item.item_base_option.base_equipment_level;
-            const baseAtt = Number(item.item_base_option.attack_power);
-            const addAtt = Number(item.item_add_option.attack_power);
+            const baseAttVal = Number(item.item_base_option.attack_power) || 0;
+            const baseMagicVal = Number(item.item_base_option.magic_power) || 0;
+
+            // 마력 무기 여부 판별 (기본 마력이 기본 공격력보다 높으면 마력 무기로 간주)
+            const isMagicWeapon = baseMagicVal > baseAttVal;
+
+            const baseStat = isMagicWeapon ? baseMagicVal : baseAttVal;
+            const addStat = isMagicWeapon ? Number(item.item_add_option.magic_power) : Number(item.item_add_option.attack_power);
 
             let tier = 0;
-            if (baseAtt > 0 && addAtt > 0) {
+            if (baseStat > 0 && addStat > 0) {
                 const k = Math.floor(level / 40) + 1;
                 for (let step = 7; step >= 3; step--) {
                     const multiplier = Math.pow(1.1, step - 3);
                     const percentage = k * step * multiplier;
-                    const calculated = Math.ceil((baseAtt * percentage) / 100);
-                    if (Math.abs(calculated - addAtt) <= 1) {
+                    const calculated = Math.ceil((baseStat * percentage) / 100);
+                    // 오차 범위 1 허용
+                    if (Math.abs(calculated - addStat) <= 1) {
                         tier = 8 - step;
                         break;
                     }
@@ -208,12 +215,13 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
             }
 
             const addOptionsList = [];
-            if (addAtt > 0) addOptionsList.push(`공격력 +${addAtt}`);
+            if (Number(item.item_add_option.attack_power) > 0) addOptionsList.push(`공격력 +${item.item_add_option.attack_power}`);
+            if (Number(item.item_add_option.magic_power) > 0) addOptionsList.push(`마력 +${item.item_add_option.magic_power}`);
             if (item.item_add_option.boss_damage !== "0") addOptionsList.push(`보공 +${item.item_add_option.boss_damage}%`);
             if (item.item_add_option.damage !== "0") addOptionsList.push(`데미지 +${item.item_add_option.damage}%`);
             if (item.item_add_option.all_stat !== "0") addOptionsList.push(`올스탯 +${item.item_add_option.all_stat}%`);
 
-            flameResult = evaluateWeaponFlame(tier, addOptionsList, item.item_name);
+            flameResult = evaluateWeaponFlame(tier, addOptionsList, item.item_name, isMagicWeapon);
         } else if (type === '보조무기' || type === '엠블렘') {
             // 보조무기와 엠블렘은 추가옵션이 붙지 않음
             flameResult = {

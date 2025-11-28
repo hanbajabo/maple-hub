@@ -8,12 +8,46 @@ import { diagnoseEquipment } from './diagnosis/equipment';
 export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS', bossStage?: number): any {
     const { basic, item, stat, union, link, ability, hexaMatrix, hexaStat } = characterData;
     const myClass = basic.character_class;
-    const jobData = JOB_META_DATA[myClass] || { stat: "STR", att: "공격력" };
+
+    let jobData = JOB_META_DATA[myClass];
+
+    // [Hotfix] 아크메이지 계열 강제 지정 (아크(STR)로 오인되는 경우 방지)
+    if (myClass.includes("아크메이지") || myClass.includes("메이지") || myClass.includes("Arch Mage")) {
+        jobData = { stat: "INT", att: "마력" };
+    }
+
+    // 1. 정확한 매칭이 안된 경우, 공백을 제거하고 재시도
+    if (!jobData) {
+        const normalizedClass = myClass.replace(/\s/g, "");
+        const foundKey = Object.keys(JOB_META_DATA).find(key => key.replace(/\s/g, "") === normalizedClass);
+        if (foundKey) {
+            jobData = JOB_META_DATA[foundKey];
+        }
+    }
+
+    // 2. 그래도 안된 경우, 특정 키워드로 추론
+    if (!jobData) {
+        if (myClass.includes("아크메이지") || myClass.includes("비숍") || myClass.includes("플레임위자드") || myClass.includes("에반") || myClass.includes("루미너스") || myClass.includes("배틀메이지") || myClass.includes("키네시스") || myClass.includes("일리움") || myClass.includes("라라")) {
+            jobData = { stat: "INT", att: "마력" };
+        } else if (myClass.includes("보우마스터") || myClass.includes("신궁") || myClass.includes("패스파인더") || myClass.includes("윈드브레이커") || myClass.includes("와일드헌터") || myClass.includes("메르세데스") || myClass.includes("카인") || myClass.includes("엔젤릭버스터") || myClass.includes("캡틴") || myClass.includes("메카닉")) {
+            jobData = { stat: "DEX", att: "공격력" };
+        } else if (myClass.includes("나이트로드") || myClass.includes("섀도어") || myClass.includes("듀얼블레이드") || myClass.includes("나이트워커") || myClass.includes("팬텀") || myClass.includes("카데나") || myClass.includes("호영") || myClass.includes("칼리")) {
+            jobData = { stat: "LUK", att: "공격력" };
+        } else if (myClass.includes("제논")) {
+            jobData = { stat: "ALL", att: "공격력" };
+        } else if (myClass.includes("데몬어벤져")) {
+            jobData = { stat: "HP", att: "공격력" };
+        } else {
+            // 기본값 (전사 계열 등)
+            jobData = { stat: "STR", att: "공격력" };
+        }
+    }
+
     const mainStat = jobData.stat;
     const attType = jobData.att;
 
     // 1. 링크 스킬
-    const linkResult = diagnoseLinkSkill(targetMode, link);
+    const linkResult = diagnoseLinkSkill(targetMode, link, myClass);
 
     // 2. 유니온
     const unionResult = diagnoseUnion(targetMode, union, mainStat);

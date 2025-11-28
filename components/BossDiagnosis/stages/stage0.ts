@@ -148,30 +148,39 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                 // 주스탯 % 확인
                 const hasStatPct = adiLines.some(l => l && targetKeywords.some(k => l.includes(k)) && l.includes("%"));
 
-                // WSE (무기, 보조, 엠블렘) 에디셔널 공/마 % 확인 (에픽 이상, 3% 이상)
-                const isWSE = slot === "무기" || isSubWeapon || slot === "엠블렘";
-                const hasAttPct3 = adiLines.some(l => {
-                    if (!l) return false;
-                    if ((l.includes("공격력") || l.includes("마력")) && l.includes("%")) {
-                        const match = l.match(/(\d+)%/);
-                        return match && parseInt(match[1]) >= 3;
-                    }
-                    return false;
-                });
+                // 장갑: 크리티컬 데미지, 렙당 주스탯 확인
+                const isGlove = slot === "장갑";
+                const hasCritDmg = adiLines.some(l => l && l.includes("크리티컬 데미지"));
+                const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
 
-                if (isWSE && adiScore >= 2 && hasAttPct3) {
-                    // Pass: WSE이고 에픽 이상이며 공/마 3% 이상이면 통과
-                } else if (adiScore >= 2) { // 에픽 이상
-                    // 공/마+10 OR 주스탯%
-                    if (!hasAtt10 && !hasStatPct) {
-                        isPassed = false;
-                        issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 또는 주스탯% 옵션 없음` });
-                    }
-                } else { // 레어
-                    // 공/마+10
-                    if (!hasAtt10) {
-                        isPassed = false;
-                        issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 옵션 없음` });
+                if (isGlove && (hasCritDmg || hasLevelStat)) {
+                    // Pass: 장갑이고 크뎀이나 렙당 스탯이 있으면 통과
+                } else {
+                    // WSE (무기, 보조, 엠블렘) 에디셔널 공/마 % 확인 (에픽 이상, 3% 이상)
+                    const isWSE = slot === "무기" || isSubWeapon || slot === "엠블렘";
+                    const hasAttPct3 = adiLines.some(l => {
+                        if (!l) return false;
+                        if ((l.includes("공격력") || l.includes("마력")) && l.includes("%")) {
+                            const match = l.match(/(\d+)%/);
+                            return match && parseInt(match[1]) >= 3;
+                        }
+                        return false;
+                    });
+
+                    if (isWSE && adiScore >= 2 && hasAttPct3) {
+                        // Pass: WSE이고 에픽 이상이며 공/마 3% 이상이면 통과
+                    } else if (adiScore >= 2) { // 에픽 이상
+                        // 공/마+10 OR 주스탯%
+                        if (!hasAtt10 && !hasStatPct) {
+                            isPassed = false;
+                            issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 또는 주스탯% 옵션 없음` });
+                        }
+                    } else { // 레어
+                        // 공/마+10
+                        if (!hasAtt10) {
+                            isPassed = false;
+                            issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 옵션 없음` });
+                        }
                     }
                 }
             }

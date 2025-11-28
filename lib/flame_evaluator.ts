@@ -9,7 +9,8 @@ export interface FlameEvaluation {
 export function evaluateWeaponFlame(
     tier: number,
     additionalOptions: string[],
-    itemName: string = ''
+    itemName: string = '',
+    isMagic: boolean = false
 ): FlameEvaluation {
     if (itemName.includes('데스티니')) {
         return {
@@ -36,10 +37,11 @@ export function evaluateWeaponFlame(
 
     let evaluation: '종결' | '준수' | '보통' | '부족' | '재설정 필요' = '재설정 필요';
     let recommendation = '';
+    const statName = isMagic ? '마력' : '공격력';
 
     if (tier === 1) {
         evaluation = '종결';
-        recommendation = '1티어 공격력 추가옵션입니다! (Pass)';
+        recommendation = `1티어 ${statName} 추가옵션입니다! (Pass)`;
 
         const hasBossDmg = additionalOptions.some(o => o.includes('보스 몬스터'));
         const hasDmg = additionalOptions.some(o => o.includes('데미지'));
@@ -55,14 +57,14 @@ export function evaluateWeaponFlame(
 
         if (hasBossDmg || hasDmg || hasAllStat) {
             evaluation = '준수';
-            recommendation = '2추 + 유효옵션(보공/뎀/올%)이 있어 충분히 사용 가능합니다.';
+            recommendation = `2추 + 유효옵션(보공/뎀/올%)이 있어 충분히 사용 가능합니다.`;
         } else {
             evaluation = '부족';
-            recommendation = '2추 단독으로는 아쉽습니다. 보공/데미지/올스탯%가 함께 붙은 2추를 노리거나, 1추를 도전하세요.';
+            recommendation = `2추 단독으로는 아쉽습니다. 보공/데미지/올스탯%가 함께 붙은 2추를 노리거나, 1추를 도전하세요.`;
         }
     } else {
         evaluation = '재설정 필요';
-        recommendation = '3추 이하입니다. 최소 2추 이상, 권장 1추를 목표로 환생의 불꽃을 사용하세요.';
+        recommendation = `3추 이하입니다. 최소 2추 이상, 권장 1추를 목표로 환생의 불꽃을 사용하세요.`;
     }
 
     return { tier, is_weapon: true, score: 0, evaluation, recommendation };
