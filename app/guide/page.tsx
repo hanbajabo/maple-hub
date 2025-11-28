@@ -99,6 +99,15 @@ const guides = [
         difficulty: '초급',
         icon: '🎁',
     },
+    {
+        id: 'about-danpung-i',
+        title: '단풍이 소개 & 판단 기준',
+        description: '메이플 AI 마스코트 단풍이 소개와 아이템 진단, 스펙 분석 기준 상세 안내',
+        category: '소개',
+        readTime: '3분',
+        difficulty: '필독',
+        icon: '🍁',
+    },
 ];
 
 export default function GuidePage() {
