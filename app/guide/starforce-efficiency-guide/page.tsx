@@ -82,8 +82,8 @@ const SUPERIOR_STAGES = [
     {
         range: '10 ~ 12성',
         grade: '졸업급',
-        description: '22성급 성능! 슈페리얼의 종결',
-        longDescription: '슈페리얼 장비의 10성은 일반 장비의 22성과 맞먹는 성능을 자랑합니다. 12성까지 강화에 성공한다면 그야말로 "종결급" 아이템이 됩니다. 하지만 10성 이후부터는 파괴 확률이 존재하므로, 파괴 방지 주문서를 사용하거나 여분의 장비를 준비해야 합니다.'
+        description: '12성이 22성급 성능! 실질적 졸업',
+        longDescription: '슈페리얼 장비는 12성 도달 시 일반 장비 22성과 맞먹는 강력한 성능을 발휘합니다. 최대 15성까지 강화 가능하지만, 12성 이후로는 성공 확률이 매우 낮고 파괴 리스크가 커서 12성을 실질적인 졸업 라인으로 봅니다.'
     }
 ];
 
@@ -222,8 +222,8 @@ export default function StarforceGuidePage() {
 
                     <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6 mb-6">
                         <p className="text-slate-300 leading-relaxed">
-                            슈페리얼 장비는 <strong className="text-yellow-400">최대 12성</strong>까지만 강화 가능하지만,
-                            <strong className="text-green-400"> 10성이 일반 장비 22성급 성능</strong>을 냅니다!
+                            슈페리얼 장비는 <strong className="text-yellow-400">최대 15성</strong>까지만 강화 가능하지만,
+                            <strong className="text-green-400"> 12성이 일반 장비 22성급 성능</strong>을 냅니다!
                             강화 비용이 비싸고 실패 시 장비가 파괴될 수 있으므로 주의가 필요합니다.
                         </p>
                     </div>
@@ -284,10 +284,10 @@ export default function StarforceGuidePage() {
                         </div>
 
                         <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6">
-                            <h4 className="font-bold text-white mb-2">💎 슈페리얼은 10성이 목표!</h4>
+                            <h4 className="font-bold text-white mb-2">💎 슈페리얼은 12성이 목표!</h4>
                             <p className="text-slate-300 text-sm">
-                                슈페리얼 장비 (타일런트 망토/벨트, 파프니르 장신구 등)는 <strong className="text-blue-400">10성 = 일반 22성급</strong> 성능을 냅니다!
-                                최대 12성까지만 가능하므로 10성을 목표로 하세요. 10성 이후부터는 파괴 확률이 있어 매우 위험합니다.
+                                슈페리얼 장비 (타일런트 망토/벨트 등)는 <strong className="text-blue-400">12성 = 일반 22성급</strong> 성능을 냅니다!
+                                최대 15성까지 가능하지만, 12성을 목표로 하는 것이 효율적입니다.
                             </p>
                         </div>
                     </div>
