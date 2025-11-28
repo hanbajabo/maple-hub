@@ -94,205 +94,192 @@ export default function CooltimeHatGuidePage() {
                 {/* Introduction */}
                 <section className="prose prose-invert max-w-none mb-12">
                     <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6 mb-8">
-                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <Clock className="w-6 h-6 text-blue-400" />
-                            쿨뚝이란?
-                        </h2>
-                        <p className="text-slate-300 leading-relaxed mb-4">
-                            <strong className="text-white">쿨뚝(쿨타임 감소 모자)</strong>은 잠재능력 옵션을 통해 스킬의 재사용 대기시간을 줄여주는 특수 장비입니다.
-                            레전드리 등급 모자에서 등장하는 <strong className="text-yellow-400">"모든 스킬의 재사용 대기시간 -2초(최대 -1초)"</strong> 옵션을 활용합니다.
-                        </p>
-                        <p className="text-slate-300 leading-relaxed mb-4">
-                            주스탯(STR/DEX/INT/LUK) % 옵션 대신 쿨타임 감소 옵션을 선택하면, 스탯창에 표시되는 공격력은 다소 낮아질 수 있습니다.
-                            하지만 주력기나 극딜 버프의 쿨타임이 줄어들어 <strong className="text-green-400">스킬 사용 횟수가 늘어나고</strong>, 결과적으로 실전 누적 딜량(DPM)이 비약적으로 상승하는 효과를 볼 수 있습니다.
-                        </p>
-                        <p className="text-slate-300 leading-relaxed">
-                            특히 5차, 6차 전직 이후 쿨타임이 있는 강력한 스킬들의 비중이 높아지면서, 쿨뚝의 가치는 날이 갈수록 높아지고 있습니다.
-                        </p>
-                    </div>
-
-                    {/* Image Section */}
-                    <div className="mb-12">
-                        <div className="relative group">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
-                            <img
-                                src="/images/guides/cooltime-hat-example.png"
-                                alt="에테르넬 나이트헬름 쿨타임 감소 -7초 예시"
-                                className="relative w-full h-auto rounded-lg shadow-2xl border border-blue-500/30"
-                            />
-                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 rounded-b-lg">
-                                <p className="text-white font-bold text-center">
-                                    ✨ 꿈의 장비: 쿨타임 감소 -7초 에테르넬 모자
-                                </p>
-                                <p className="text-xs text-slate-300 text-center mt-1">
-                                    (윗잠 -6초 / 에디 -1초 / 26성??)
-                                </p>
-                            </div>
-                        </div>
-                        <p className="text-slate-400 text-sm text-center mt-2">
-                            ▲ 쿨뚝의 끝판왕 예시입니다. 실제로는 -2초(한 줄)나 -4초(두 줄) 세팅이 일반적입니다.
-                        </p>
-                    </div>
-
-                    {/* 판단 기준 */}
-                    <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6 mb-8">
-                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <Target className="w-6 h-6 text-orange-400" />
-                            판단 기준
-                        </h2>
-                        <div className="space-y-3">
-                            <div className="flex items-center gap-3 p-3 bg-green-900/20 rounded-lg border border-green-700/30">
-                                <span className="text-2xl font-black text-green-400">O</span>
-                                <div>
-                                    <div className="font-bold text-white">추천</div>
-                                    <div className="text-sm text-slate-400">사용률 60% 이상 - 쿨뚝 강력 추천</div>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-3 bg-yellow-900/20 rounded-lg border border-yellow-700/30">
-                                <span className="text-2xl font-black text-yellow-400">△</span>
-                                <div>
-                                    <div className="font-bold text-white">선택</div>
-                                    <div className="text-sm text-slate-400">사용률 30~60% - 취향 차이</div>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-3 bg-red-900/20 rounded-lg border border-red-700/30">
-                                <span className="text-2xl font-black text-red-400">X</span>
-                                <div>
-                                    <div className="font-bold text-white">비추천</div>
-                                    <div className="text-sm text-slate-400">사용률 30% 미만 - 주스탯 모자 추천</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* 추천 직업 */}
-                    <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
-                        <span className="text-green-400">O</span> 쿨뚝 추천 직업 ({recommendedJobs.length}개)
-                    </h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-                        {recommendedJobs.map((job) => (
-                            <div key={job.job} className="bg-slate-800/40 border border-slate-700 rounded-xl p-4">
-                                <div className="flex items-center justify-between mb-2">
-                                    <h3 className="text-lg font-bold text-white">{job.job}</h3>
-                                    <span className="text-2xl font-black text-green-400">{job.rate}%</span>
-                                </div>
-                                <p className="text-sm text-slate-400">{job.note}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* 선택 직업 */}
-                    <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
-                        <span className="text-yellow-400">△</span> 취향 차이 직업 ({optionalJobs.length}개)
-                    </h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-                        {optionalJobs.map((job) => (
-                            <div key={job.job} className="bg-slate-800/40 border border-slate-700 rounded-xl p-4">
-                                <div className="flex items-center justify-between mb-2">
-                                    <h3 className="text-lg font-bold text-white">{job.job}</h3>
-                                    <span className="text-2xl font-black text-yellow-400">{job.rate}%</span>
-                                </div>
-                                <p className="text-sm text-slate-400">{job.note}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* 비추천 직업 */}
-                    <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
-                        <span className="text-red-400">X</span> 주스탯 모자 추천 직업 ({notRecommendedJobs.length}개)
-                    </h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-                        {notRecommendedJobs.map((job) => (
-                            <div key={job.job} className="bg-slate-800/40 border border-slate-700 rounded-xl p-4">
-                                <div className="flex items-center justify-between mb-2">
-                                    <h3 className="text-lg font-bold text-white">{job.job}</h3>
-                                    <span className="text-2xl font-black text-red-400">{job.rate}%</span>
-                                </div>
-                                <p className="text-sm text-slate-400">{job.note}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
-                        <TrendingUp className="w-6 h-6 text-indigo-400" />
-                        핵심 요약
-                    </h2>
-
-                    <div className="space-y-4">
-                        <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-6">
-                            <h4 className="font-bold text-white mb-2">💡 대세는 쿨뚝!</h4>
-                            <p className="text-slate-300 text-sm">
-                                47개 직업 중 <strong className="text-yellow-400">30개 직업(64%)</strong>이 쿨뚝을 추천받았습니다.
-                            </p>
-                        </div>
-
-                        <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6">
-                            <h4 className="font-bold text-white mb-2">🔥 의외의 결과</h4>
-                            <p className="text-slate-300 text-sm">
-                                나이트로드, 캐논마스터, 렌 등은 저스펙에선 잘 안 쓰지만,
-                                <strong className="text-yellow-400"> 고스펙으로 갈수록 쿨뚝 채용률이 급격히 늘어납니다.</strong>
-                            </p>
-                        </div>
-
-                        <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
-                            <h4 className="font-bold text-white mb-2">⚡ 굳건한 주스탯파</h4>
-                            <p className="text-slate-300 text-sm">
-                                비숍, 보우마스터, 신궁, 바이퍼 등은 고스펙이 되어도 쿨뚝을 거의 쓰지 않습니다.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* FAQ Section */}
-                    <section className="mt-16 border-t border-slate-700 pt-12">
-                        <h2 className="text-3xl font-bold text-white mb-8">자주 묻는 질문 (FAQ)</h2>
-
-                        <div className="space-y-6">
-                            <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-6">
-                                <h3 className="text-lg font-bold text-blue-400 mb-2">Q. 쿨뚝은 몇 초부터 쓰는 게 좋나요?</h3>
-                                <p className="text-slate-300 text-sm leading-relaxed">
-                                    A. 직업마다 다르지만, 보통 <strong className="text-white">-2초</strong>부터 유의미한 효율을 보입니다.
-                                    자본이 부족하다면 -2초(레전드리 첫 줄 or 유니크 2줄)로 시작해서, 나중에 -4초(레전드리 2줄) 이상으로 업그레이드하는 것을 추천합니다.
-                                    -1초(유니크 1줄)는 주스탯 모자보다 효율이 떨어지는 경우가 많으니 주의하세요.
-                                </p>
-                            </div>
-
-                            <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-6">
-                                <h3 className="text-lg font-bold text-blue-400 mb-2">Q. 쿨뚝을 쓰면 스탯창 공격력이 떨어지는데 괜찮나요?</h3>
-                                <p className="text-slate-300 text-sm leading-relaxed">
-                                    A. 네, 지극히 정상입니다! 쿨뚝의 핵심은 <strong className="text-white">"스킬 가동률 증가"</strong>입니다.
-                                    스탯창에 보이는 공격력은 떨어지지만, 강력한 5차/6차 스킬을 더 자주 사용함으로써 실전 딜량(DPM)은 오히려 상승합니다.
-                                    따라서 쿨뚝 효율은 스탯창이 아닌, 전투분석이나 환산 주스탯 계산기를 통해 확인해야 합니다.
-                                </p>
-                            </div>
-
-                            <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-6">
-                                <h3 className="text-lg font-bold text-blue-400 mb-2">Q. 럭키 아이템(카벨뚝)에도 쿨감이 뜨나요?</h3>
-                                <p className="text-slate-300 text-sm leading-relaxed">
-                                    A. 네, 뜹니다! 카오스 벨룸의 헬름 같은 럭키 아이템도 160제 이상(앱솔랩스/아케인셰이드 세트 포함)이라면 쿨타임 감소 잠재능력이 등장합니다.
-                                    다만, 최근에는 세트 효과 문제로 인해 럭키 아이템보다는 <strong className="text-white">아케인셰이드</strong>나 <strong className="text-white">에테르넬</strong> 모자에 쿨감을 띄우는 추세입니다.
-                                </p>
-                            </div>
-                        </div>
-                    </section>
-                </section>
-
-                {/* CTA */}
-                <div className="mt-16 bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-500/30 rounded-2xl p-8 text-center">
-                    <h3 className="text-2xl font-bold text-white mb-4">내 캐릭터에게 쿨뚝이 맞을까?</h3>
-                    <p className="text-slate-300 mb-6">
-                        메이플 AI로 실시간 캐릭터 분석을 받아보세요
+                        특히 5차, 6차 전직 이후 쿨타임이 있는 강력한 스킬들의 비중이 높아지면서, 쿨뚝의 가치는 날이 갈수록 높아지고 있습니다.
                     </p>
-                    <Link
-                        href="/"
-                        className="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-colors shadow-lg"
-                    >
-                        지금 분석 받기 →
-                    </Link>
                 </div>
-            </article>
-        </div>
+
+                {/* Image Section */}
+                <div className="mb-12">
+                    <div className="relative group">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
+                        <img
+                            src="/images/guides/cooltime-hat-example.png"
+                            alt="에테르넬 나이트헬름 쿨타임 감소 -7초 예시"
+                            className="relative w-full h-auto rounded-lg shadow-2xl border border-blue-500/30"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 rounded-b-lg">
+                            <p className="text-white font-bold text-center">
+                                ✨ 꿈의 장비: 쿨타임 감소 -7초 에테르넬 모자
+                            </p>
+                            <p className="text-xs text-slate-300 text-center mt-1">
+                                (윗잠 -6초 / 에디 -1초 / 26성??)
+                            </p>
+                        </div>
+                    </div>
+                    <p className="text-slate-400 text-sm text-center mt-2">
+                        ▲ 쿨뚝의 끝판왕 예시입니다. 실제로는 -2초(한 줄)나 -4초(두 줄) 세팅이 일반적입니다.
+                    </p>
+                </div>
+
+                {/* 판단 기준 */}
+                <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6 mb-8">
+                    <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                        <Target className="w-6 h-6 text-orange-400" />
+                        판단 기준
+                    </h2>
+                    <div className="space-y-3">
+                        <div className="flex items-center gap-3 p-3 bg-green-900/20 rounded-lg border border-green-700/30">
+                            <span className="text-2xl font-black text-green-400">O</span>
+                            <div>
+                                <div className="font-bold text-white">추천</div>
+                                <div className="text-sm text-slate-400">사용률 60% 이상 - 쿨뚝 강력 추천</div>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3 p-3 bg-yellow-900/20 rounded-lg border border-yellow-700/30">
+                            <span className="text-2xl font-black text-yellow-400">△</span>
+                            <div>
+                                <div className="font-bold text-white">선택</div>
+                                <div className="text-sm text-slate-400">사용률 30~60% - 취향 차이</div>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3 p-3 bg-red-900/20 rounded-lg border border-red-700/30">
+                            <span className="text-2xl font-black text-red-400">X</span>
+                            <div>
+                                <div className="font-bold text-white">비추천</div>
+                                <div className="text-sm text-slate-400">사용률 30% 미만 - 주스탯 모자 추천</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 추천 직업 */}
+                <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
+                    <span className="text-green-400">O</span> 쿨뚝 추천 직업 ({recommendedJobs.length}개)
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+                    {recommendedJobs.map((job) => (
+                        <div key={job.job} className="bg-slate-800/40 border border-slate-700 rounded-xl p-4">
+                            <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-lg font-bold text-white">{job.job}</h3>
+                                <span className="text-2xl font-black text-green-400">{job.rate}%</span>
+                            </div>
+                            <p className="text-sm text-slate-400">{job.note}</p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* 선택 직업 */}
+                <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
+                    <span className="text-yellow-400">△</span> 취향 차이 직업 ({optionalJobs.length}개)
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+                    {optionalJobs.map((job) => (
+                        <div key={job.job} className="bg-slate-800/40 border border-slate-700 rounded-xl p-4">
+                            <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-lg font-bold text-white">{job.job}</h3>
+                                <span className="text-2xl font-black text-yellow-400">{job.rate}%</span>
+                            </div>
+                            <p className="text-sm text-slate-400">{job.note}</p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* 비추천 직업 */}
+                <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
+                    <span className="text-red-400">X</span> 주스탯 모자 추천 직업 ({notRecommendedJobs.length}개)
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+                    {notRecommendedJobs.map((job) => (
+                        <div key={job.job} className="bg-slate-800/40 border border-slate-700 rounded-xl p-4">
+                            <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-lg font-bold text-white">{job.job}</h3>
+                                <span className="text-2xl font-black text-red-400">{job.rate}%</span>
+                            </div>
+                            <p className="text-sm text-slate-400">{job.note}</p>
+                        </div>
+                    ))}
+                </div>
+
+                <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
+                    <TrendingUp className="w-6 h-6 text-indigo-400" />
+                    핵심 요약
+                </h2>
+
+                <div className="space-y-4">
+                    <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-6">
+                        <h4 className="font-bold text-white mb-2">💡 대세는 쿨뚝!</h4>
+                        <p className="text-slate-300 text-sm">
+                            47개 직업 중 <strong className="text-yellow-400">30개 직업(64%)</strong>이 쿨뚝을 추천받았습니다.
+                        </p>
+                    </div>
+
+                    <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6">
+                        <h4 className="font-bold text-white mb-2">🔥 의외의 결과</h4>
+                        <p className="text-slate-300 text-sm">
+                            나이트로드, 캐논마스터, 렌 등은 저스펙에선 잘 안 쓰지만,
+                            <strong className="text-yellow-400"> 고스펙으로 갈수록 쿨뚝 채용률이 급격히 늘어납니다.</strong>
+                        </p>
+                    </div>
+
+                    <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
+                        <h4 className="font-bold text-white mb-2">⚡ 굳건한 주스탯파</h4>
+                        <p className="text-slate-300 text-sm">
+                            비숍, 보우마스터, 신궁, 바이퍼 등은 고스펙이 되어도 쿨뚝을 거의 쓰지 않습니다.
+                        </p>
+                    </div>
+                </div>
+
+                {/* FAQ Section */}
+                <section className="mt-16 border-t border-slate-700 pt-12">
+                    <h2 className="text-3xl font-bold text-white mb-8">자주 묻는 질문 (FAQ)</h2>
+
+                    <div className="space-y-6">
+                        <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-6">
+                            <h3 className="text-lg font-bold text-blue-400 mb-2">Q. 쿨뚝은 몇 초부터 쓰는 게 좋나요?</h3>
+                            <p className="text-slate-300 text-sm leading-relaxed">
+                                A. 직업마다 다르지만, 보통 <strong className="text-white">-2초</strong>부터 유의미한 효율을 보입니다.
+                                자본이 부족하다면 -2초(레전드리 첫 줄 or 유니크 2줄)로 시작해서, 나중에 -4초(레전드리 2줄) 이상으로 업그레이드하는 것을 추천합니다.
+                                -1초(유니크 1줄)는 주스탯 모자보다 효율이 떨어지는 경우가 많으니 주의하세요.
+                            </p>
+                        </div>
+
+                        <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-6">
+                            <h3 className="text-lg font-bold text-blue-400 mb-2">Q. 쿨뚝을 쓰면 스탯창 공격력이 떨어지는데 괜찮나요?</h3>
+                            <p className="text-slate-300 text-sm leading-relaxed">
+                                A. 네, 지극히 정상입니다! 쿨뚝의 핵심은 <strong className="text-white">"스킬 가동률 증가"</strong>입니다.
+                                스탯창에 보이는 공격력은 떨어지지만, 강력한 5차/6차 스킬을 더 자주 사용함으로써 실전 딜량(DPM)은 오히려 상승합니다.
+                                따라서 쿨뚝 효율은 스탯창이 아닌, 전투분석이나 환산 주스탯 계산기를 통해 확인해야 합니다.
+                            </p>
+                        </div>
+
+                        <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-6">
+                            <h3 className="text-lg font-bold text-blue-400 mb-2">Q. 럭키 아이템(카벨뚝)에도 쿨감이 뜨나요?</h3>
+                            <p className="text-slate-300 text-sm leading-relaxed">
+                                A. 네, 뜹니다! 카오스 벨룸의 헬름 같은 럭키 아이템도 160제 이상(앱솔랩스/아케인셰이드 세트 포함)이라면 쿨타임 감소 잠재능력이 등장합니다.
+                                다만, 최근에는 세트 효과 문제로 인해 럭키 아이템보다는 <strong className="text-white">아케인셰이드</strong>나 <strong className="text-white">에테르넬</strong> 모자에 쿨감을 띄우는 추세입니다.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            {/* CTA */}
+            <div className="mt-16 bg-gradient-to-r from-blue-900/20 to-purple-900/20 border border-blue-500/30 rounded-2xl p-8 text-center">
+                <h3 className="text-2xl font-bold text-white mb-4">내 캐릭터에게 쿨뚝이 맞을까?</h3>
+                <p className="text-slate-300 mb-6">
+                    메이플 AI로 실시간 캐릭터 분석을 받아보세요
+                </p>
+                <Link
+                    href="/"
+                    className="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-colors shadow-lg"
+                >
+                    지금 분석 받기 →
+                </Link>
+            </div>
+        </article>
+        </div >
     );
 }
