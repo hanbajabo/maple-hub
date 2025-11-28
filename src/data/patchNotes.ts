@@ -7,6 +7,16 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
     {
+        version: "1.1.3",
+        date: "2025-11-29",
+        title: "쿨타임 감소 모자 가이드 업데이트",
+        changes: [
+            "쿨타임 감소 모자(쿨뚝) 가이드: 상세 설명 및 FAQ 섹션 추가",
+            "시각 자료 보강: 에테르넬 쿨뚝 예시 이미지 추가",
+            "콘텐츠 품질 개선: 애드센스 승인 기준에 맞춰 정보성 텍스트 대폭 강화"
+        ]
+    },
+    {
         version: "1.1.2",
         date: "2025-11-29",
         title: "가이드 콘텐츠 대규모 보강",
