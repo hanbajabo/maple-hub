@@ -125,7 +125,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         const scrollScore = calcStatScore(item.item_etc_option, jobName);
         let scrollPass = false;
 
-        if (isSpecialRing || name.includes("글로리온")) {
+        if (isSpecialRing || name.includes("글로리온") || name.includes("SS급 쥬얼링")) {
             scrollPass = true;
         } else if (isArmor) {
             const isHat = slot === "모자";

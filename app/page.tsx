@@ -23,6 +23,7 @@ import CombatPowerRank, { TIERS } from "../components/CombatPowerRank";
 import WeaponDiagnosisModal from "../components/WeaponDiagnosisModal";
 import EquipmentOverviewModal from "../components/EquipmentOverviewModal";
 import MainEquipmentGrid from "../components/MainEquipmentGrid";
+import PatchNotesModal from "../components/PatchNotesModal";
 
 interface CharacterData {
   character_name: string;
@@ -128,6 +129,7 @@ export default function Home() {
   const [linkSkillData, setLinkSkillData] = useState<any>(null);
   const [unionRaiderData, setUnionRaiderData] = useState<any>(null);
   const [isOverviewOpen, setIsOverviewOpen] = useState(false);
+  const [isPatchNotesOpen, setIsPatchNotesOpen] = useState(false);
 
   const [refreshKey, setRefreshKey] = useState(0);
   const [selectedWeapon, setSelectedWeapon] = useState<ItemData | null>(null);
@@ -567,14 +569,23 @@ export default function Home() {
           <span className="text-lg sm:text-2xl font-bold text-maple-orange">메이플 AI</span>
         </button>
 
-        {/* Guide Link */}
-        <a
-          href="/guide"
-          className="px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg"
-        >
-          <span>📚</span>
-          <span className="hidden sm:inline">가이드</span>
-        </a>
+        {/* Guide Link & Patch Notes */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsPatchNotesOpen(true)}
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg transition-colors flex items-center gap-2 border border-slate-700"
+          >
+            <span>📢</span>
+            <span className="hidden sm:inline">패치노트</span>
+          </button>
+          <a
+            href="/guide"
+            className="px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg"
+          >
+            <span>📚</span>
+            <span className="hidden sm:inline">가이드</span>
+          </a>
+        </div>
       </header>
 
       {/* Search Section */}
@@ -661,6 +672,13 @@ export default function Home() {
               <p className="text-lg sm:text-xl text-slate-300 font-medium">
                 메이플스토리 캐릭터 종합 분석 및 성장 가이드 플랫폼
               </p>
+              <button
+                onClick={() => setIsPatchNotesOpen(true)}
+                className="mt-4 text-sm text-slate-400 hover:text-maple-orange underline underline-offset-4 transition-colors flex items-center gap-1"
+              >
+                <span>📢</span>
+                단풍이의 메이플 AI 패치내용 보기
+              </button>
             </div>
 
             {/* What is this site */}
@@ -1573,6 +1591,11 @@ export default function Home() {
         onClose={() => setIsOverviewOpen(false)}
         equipmentGrid={equipmentGrid}
         setSelectedWeapon={setSelectedWeapon}
+      />
+
+      <PatchNotesModal
+        isOpen={isPatchNotesOpen}
+        onClose={() => setIsPatchNotesOpen(false)}
       />
 
       {/* Trivia Section */}
