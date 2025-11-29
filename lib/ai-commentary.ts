@@ -520,11 +520,17 @@ export function generateItemCommentary(item: any, job?: string): string {
                     }
                 });
 
-                if (addAttLines >= 2) {
+                if (addAttLines >= 3) {
                     comments.push(pick([
-                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 2줄</b> 이상! 아주 훌륭합니다.`,
-                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} %</b>가 든든하게 붙어있군요.`,
-                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 2줄</b>, 스펙업의 정석입니다.`
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 3줄</b>...?! 이건 <b>기적</b>입니다. 에디셔널 종결을 축하드립니다!`,
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 3줄</b>! 더 이상 바랄 게 없는 완벽한 옵션입니다.`,
+                        `${adiPrefix} 와... 에디셔널 <b>3줄</b> 유효라니! 전 서버급 매물입니다.`
+                    ]));
+                } else if (addAttLines >= 2) {
+                    comments.push(pick([
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 2줄</b>! 아주 훌륭합니다. 스펙업의 정석이죠.`,
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} %</b>가 2줄이나 든든하게 붙어있군요.`,
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 2줄</b>, 실전에서 차고 넘치는 성능입니다.`
                     ]));
                 } else if (addAttLines === 1 && addBossLines >= 1) {
                     comments.push(`${adiPrefix} <b>${isMagic ? '마력' : '공격력'}</b>과 <b>보공</b>의 조화! 밸런스가 좋습니다.`);
