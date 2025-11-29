@@ -446,7 +446,7 @@ function generateRecommendation(
     }
 
     if (equipmentType === '엠블렘') {
-        return generateEmblemRecommendation(type, score);
+        return generateEmblemRecommendation(type, score, goodOptions);
     }
 
     return generateGeneralRecommendation(grade, score, equipmentType, type, goodOptions, ceilingCost, itemSlot);
@@ -471,13 +471,21 @@ function generateWeaponAdditionalRecommendation(grade: string, score: number, go
     return '공/마 상수 옵션이 좋지만, 에픽 이상으로 등급업하는 것이 최우선입니다.';
 }
 
-function generateEmblemRecommendation(type: string, score: number): string {
+function generateEmblemRecommendation(type: string, score: number, goodOptions?: string[]): string {
     if (type === 'additional') {
         if (score >= 66) return '공격력/마력 % 위주의 훌륭한 옵션입니다.';
         if (score >= 33) return '공/마% 한 줄은 아쉽습니다. 2줄 이상을 목표로 하세요.';
         return '공격력/마력 % 옵션이 필수입니다.';
     }
-    if (score >= 66) return '공/마%와 방무가 적절히 섞인 훌륭한 옵션입니다.';
+
+    // 메인 잠재능력 평가
+    const hasIED = goodOptions?.some(opt => opt.includes('몬스터 방어율'));
+
+    if (score >= 88) return '공격력/마력 % 3줄! 엠블렘 종결 옵션입니다. 축하드립니다!';
+    if (score >= 66) {
+        if (hasIED) return '공/마%와 방무가 적절히 섞인 훌륭한 옵션입니다.';
+        return '공격력/마력 % 2줄 이상으로 아주 훌륭한 옵션입니다.';
+    }
     if (score >= 33) return '쓸만한 옵션이지만, 공/마% 비중을 높이는 것이 좋습니다.';
     return '재설정이 필요합니다. 엠블렘은 공/마%가 핵심입니다.';
 }
