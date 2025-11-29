@@ -13,20 +13,21 @@ interface TierDef {
     bg: string;
     desc: string;
     hasDivisions: boolean;
+    barColor: string;
 }
 
 // 티어 데이터
 export const TIERS: TierDef[] = [
-    { name: "LEGEND", min: 1500000000, percent: "0.01%", color: "text-amber-500", bg: "bg-amber-950/40 border-amber-500/50", desc: "신화 속의 존재", hasDivisions: false },
-    { name: "CHALLENGER", min: 1000000000, max: 1500000000, percent: "0.1%", color: "text-red-500", bg: "bg-red-950/40 border-red-500/50", desc: "메이플월드의 정점", hasDivisions: false },
-    { name: "GRAND MASTER", min: 500000000, max: 1000000000, percent: "1%", color: "text-red-400", bg: "bg-red-900/30 border-red-400/30", desc: "초월자급 스펙", hasDivisions: false },
-    { name: "MASTER", min: 250000000, max: 500000000, percent: "3%", color: "text-purple-400", bg: "bg-purple-900/30 border-purple-400/30", desc: "진정한 고인물", hasDivisions: false },
-    { name: "DIAMOND", min: 100000000, max: 250000000, percent: "10%", color: "text-cyan-400", bg: "bg-cyan-900/30 border-cyan-400/30", desc: "카링 / 칼로스 / 익스우", hasDivisions: true },
-    { name: "PLATINUM", min: 50000000, max: 100000000, percent: "20%", color: "text-emerald-400", bg: "bg-emerald-900/30 border-emerald-400/30", desc: "검은 마법사 / 세렌 파티", hasDivisions: true },
-    { name: "GOLD", min: 20000000, max: 50000000, percent: "40%", color: "text-yellow-400", bg: "bg-yellow-900/30 border-yellow-400/30", desc: "하드 보스 (루/윌/진) 파티", hasDivisions: true },
-    { name: "SILVER", min: 10000000, max: 20000000, percent: "60%", color: "text-slate-300", bg: "bg-slate-700/40 border-slate-500/30", desc: "노말 루시드/윌 파티", hasDivisions: true },
-    { name: "BRONZE", min: 5000000, max: 10000000, percent: "80%", color: "text-amber-600", bg: "bg-amber-900/30 border-amber-700/30", desc: "스우/데미안 솔플", hasDivisions: true },
-    { name: "IRON", min: 0, max: 5000000, percent: "99%", color: "text-stone-500", bg: "bg-stone-800/40 border-stone-600/30", desc: "카루타 / 하매 도전", hasDivisions: true },
+    { name: "LEGEND", min: 1500000000, percent: "0.01%", color: "text-amber-500", bg: "bg-amber-950/40 border-amber-500/50", desc: "신화 속의 존재", hasDivisions: false, barColor: "bg-amber-500" },
+    { name: "CHALLENGER", min: 1000000000, max: 1500000000, percent: "0.1%", color: "text-red-500", bg: "bg-red-950/40 border-red-500/50", desc: "메이플월드의 정점", hasDivisions: false, barColor: "bg-red-500" },
+    { name: "GRAND MASTER", min: 500000000, max: 1000000000, percent: "1%", color: "text-red-400", bg: "bg-red-900/30 border-red-400/30", desc: "초월자급 스펙", hasDivisions: false, barColor: "bg-red-400" },
+    { name: "MASTER", min: 250000000, max: 500000000, percent: "3%", color: "text-purple-400", bg: "bg-purple-900/30 border-purple-400/30", desc: "진정한 고인물", hasDivisions: false, barColor: "bg-purple-400" },
+    { name: "DIAMOND", min: 100000000, max: 250000000, percent: "10%", color: "text-cyan-400", bg: "bg-cyan-900/30 border-cyan-400/30", desc: "카링 / 칼로스 / 익스우", hasDivisions: true, barColor: "bg-cyan-400" },
+    { name: "PLATINUM", min: 50000000, max: 100000000, percent: "20%", color: "text-emerald-400", bg: "bg-emerald-900/30 border-emerald-400/30", desc: "검은 마법사 / 세렌 파티", hasDivisions: true, barColor: "bg-emerald-400" },
+    { name: "GOLD", min: 20000000, max: 50000000, percent: "40%", color: "text-yellow-400", bg: "bg-yellow-900/30 border-yellow-400/30", desc: "하드 보스 (루/윌/진) 파티", hasDivisions: true, barColor: "bg-yellow-400" },
+    { name: "SILVER", min: 10000000, max: 20000000, percent: "60%", color: "text-slate-300", bg: "bg-slate-700/40 border-slate-500/30", desc: "노말 루시드/윌 파티", hasDivisions: true, barColor: "bg-slate-300" },
+    { name: "BRONZE", min: 5000000, max: 10000000, percent: "80%", color: "text-amber-600", bg: "bg-amber-900/30 border-amber-700/30", desc: "스우/데미안 솔플", hasDivisions: true, barColor: "bg-amber-600" },
+    { name: "IRON", min: 0, max: 5000000, percent: "99%", color: "text-stone-500", bg: "bg-stone-800/40 border-stone-600/30", desc: "카루타 / 하매 도전", hasDivisions: true, barColor: "bg-stone-500" },
 ];
 
 // 보스 데이터 (2025년 기준 최신화)
@@ -557,17 +558,27 @@ export default function CombatPowerRank({ combatPower }: { combatPower: string |
                 </div>
 
                 {/* 진행도 게이지 */}
-                <div className="relative h-4 bg-slate-950 rounded-full overflow-hidden border border-slate-800/50 z-10">
-                    <div className="absolute inset-0 flex justify-between px-1 pointer-events-none z-20">
-                        <div className="w-[1px] h-full bg-white/5 opacity-20"></div>
-                        <div className="w-[1px] h-full bg-white/5 opacity-20"></div>
-                        <div className="w-[1px] h-full bg-white/5 opacity-20"></div>
+                {/* 진행도 게이지 */}
+                <div className="relative h-3 sm:h-4 bg-slate-950/80 rounded-full overflow-hidden border border-slate-700/50 z-10 shadow-inner mt-1">
+                    {/* Background Grid */}
+                    <div className="absolute inset-0 flex justify-evenly pointer-events-none z-0">
+                        {[...Array(4)].map((_, i) => (
+                            <div key={i} className="w-[1px] h-full bg-slate-800"></div>
+                        ))}
                     </div>
+
+                    {/* Active Bar */}
                     <div
-                        className={`absolute top-0 left-0 h-full transition-all duration-1000 ease-out flex items-center justify-end px-1 ${tier.color.replace('text-', 'bg-')}`}
-                        style={{ width: `${Math.min(currentProgress, 100)}%`, opacity: 0.8 }}
+                        className={`absolute top-0 left-0 h-full transition-all duration-1000 ease-out flex items-center justify-end ${tier.barColor}`}
+                        style={{
+                            width: `${Math.min(currentProgress, 100)}%`,
+                        }}
                     >
-                        <div className="w-1 h-1 bg-white rounded-full shadow-lg animate-ping opacity-50"></div>
+                        {/* Glossy Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent"></div>
+
+                        {/* End Sparkle */}
+                        <div className="relative z-10 w-1 h-full bg-white/50 blur-[1px] shadow-[0_0_8px_1px_rgba(255,255,255,0.5)]"></div>
                     </div>
                 </div>
                 <div className="flex justify-between mt-1.5 px-0.5 mb-3">

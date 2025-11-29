@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { PATCH_NOTES } from "@/src/data/patchNotes";
+import { useEffect, useRef } from "react";
 
 interface PatchNotesModalProps {
     isOpen: boolean;
@@ -7,6 +8,32 @@ interface PatchNotesModalProps {
 }
 
 export default function PatchNotesModal({ isOpen, onClose }: PatchNotesModalProps) {
+    const onCloseRef = useRef(onClose);
+
+    useEffect(() => {
+        onCloseRef.current = onClose;
+    }, [onClose]);
+
+    useEffect(() => {
+        if (isOpen) {
+            window.history.pushState(null, "", window.location.href);
+
+            const handlePopState = () => {
+                onCloseRef.current();
+            };
+
+            window.addEventListener("popstate", handlePopState);
+
+            return () => {
+                window.removeEventListener("popstate", handlePopState);
+            };
+        }
+    }, [isOpen]);
+
+    const handleClose = () => {
+        window.history.back();
+    };
+
     if (!isOpen) return null;
 
     return (
@@ -21,7 +48,7 @@ export default function PatchNotesModal({ isOpen, onClose }: PatchNotesModalProp
                         </h2>
                     </div>
                     <button
-                        onClick={onClose}
+                        onClick={handleClose}
                         className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
                     >
                         <X size={24} />
