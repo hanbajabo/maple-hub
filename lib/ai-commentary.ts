@@ -308,30 +308,40 @@ export function generateItemCommentary(item: any, job?: string): string {
 
             const maxScore = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK);
 
-            // 레벨별 추옵 기준 세분화 (250, 200, 160, 150제 등)
-            // 250제(에테르넬)
+            // 레벨별 추옵 기준 세분화 (사용자 요청 반영)
+            // 250제 (에테르넬)
             if (level >= 250) {
-                if (maxScore >= 190) comments.push(`이건 추옵이 아니라 예술입니다. <b>${maxScore}급</b> 종결 추옵! 전 서버급 매물입니다.`);
-                else if (maxScore >= 170) comments.push(`<b>${maxScore}급</b> 초고스펙 추옵! 에테르넬의 품격에 맞는 옵션입니다.`);
-                else if (maxScore >= 150) comments.push(`<b>${maxScore}급</b>! 아주 훌륭한 추옵입니다. 든든하네요.`);
-                else if (maxScore >= 130) comments.push(`<b>${maxScore}급</b> 준수한 추옵입니다. 실전에서 충분히 좋습니다.`);
-                else if (maxScore >= 100) comments.push(`<b>${maxScore}급</b>... 에테르넬치고는 조금 아쉽습니다. 환불 작업을 추천합니다.`);
+                if (maxScore >= 200) comments.push(`[신화급] <b>${maxScore}급</b>...?! 이건 운영자가 실수로 만든 게 분명합니다. 전 서버급 1티어 추옵입니다.`);
+                else if (maxScore >= 190) comments.push(`[종결] <b>${maxScore}급</b>! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
+                else if (maxScore >= 180) comments.push(`[종결급] <b>${maxScore}급</b>! 에테르넬의 품격에 걸맞은 압도적인 추옵입니다.`);
+                else if (maxScore >= 170) comments.push(`[최상급] <b>${maxScore}급</b>! 아주 훌륭한 추옵입니다. 든든하네요.`);
+                else if (maxScore >= 160) comments.push(`[많이 좋음] <b>${maxScore}급</b>! 상위권 유저들도 부러워할 옵션입니다.`);
+                else if (maxScore >= 150) comments.push(`[꽤 좋음] <b>${maxScore}급</b>! 실전에서 차고 넘치는 성능입니다.`);
+                else if (maxScore >= 140) comments.push(`[좋음] <b>${maxScore}급</b>! 에테르넬 입문용으로 아주 좋습니다.`);
+                else if (maxScore >= 130) comments.push(`[준수] <b>${maxScore}급</b>. 쓸만하지만 욕심을 조금 더 내보셔도 좋습니다.`);
+                else if (maxScore >= 120) comments.push(`[보통] <b>${maxScore}급</b>. 임시로 쓰기엔 괜찮습니다.`);
+                else if (maxScore >= 110) comments.push(`[아쉬움] <b>${maxScore}급</b>... 에테르넬치고는 많이 아쉽습니다. 환불을 추천합니다.`);
+                else if (maxScore >= 100) comments.push(`[부캐용] <b>${maxScore}급</b>. 본캐라면 재설정이 시급합니다.`);
             }
-            // 200제(아케인)
+            // 200제 (아케인)
             else if (level >= 200) {
-                if (maxScore >= 170) comments.push(`이건 추옵이 아니라 예술입니다. <b>${maxScore}급</b> 종결 추옵! 전 서버급 매물입니다.`);
-                else if (maxScore >= 150) comments.push(`<b>${maxScore}급</b> 초고스펙 추옵! 아케인셰이드의 품격에 맞는 옵션입니다.`);
-                else if (maxScore >= 130) comments.push(`<b>${maxScore}급</b>! 아주 훌륭한 추옵입니다. 든든하네요.`);
-                else if (maxScore >= 110) comments.push(`<b>${maxScore}급</b> 준수한 추옵입니다. 실전에서 충분히 좋습니다.`);
-                else if (maxScore >= 90) comments.push(`<b>${maxScore}급</b>... 아케인치고는 조금 아쉽습니다. 환불 작업을 추천합니다.`);
+                if (maxScore >= 170) comments.push(`[종결급] <b>${maxScore}급</b>! 아케인셰이드의 한계를 뛰어넘었습니다.`);
+                else if (maxScore >= 160) comments.push(`[최상급] <b>${maxScore}급</b>! 전 서버급 매물입니다.`);
+                else if (maxScore >= 150) comments.push(`[많이 좋음] <b>${maxScore}급</b>! 아주 훌륭합니다. 평생 쓰셔도 됩니다.`);
+                else if (maxScore >= 140) comments.push(`[꽤 좋음] <b>${maxScore}급</b>! 든든한 국밥 같은 추옵입니다.`);
+                else if (maxScore >= 130) comments.push(`[좋음] <b>${maxScore}급</b>! 실전용으로 손색이 없습니다.`);
+                else if (maxScore >= 120) comments.push(`[준수] <b>${maxScore}급</b>. 가성비 좋게 쓰기 딱 좋습니다.`);
+                else if (maxScore >= 110) comments.push(`[보통] <b>${maxScore}급</b>. 나쁘지 않지만 조금 아쉽네요.`);
+                else if (maxScore >= 100) comments.push(`[부캐용] <b>${maxScore}급</b>. 임시로 거쳐가는 용도입니다.`);
             }
-            // 160제(앱솔) 및 그 외
+            // 140~160제 (앱솔, 파프, 여명 등)
             else {
-                if (maxScore >= 150) comments.push(`이건 추옵이 아니라 예술입니다. <b>${maxScore}급</b> 종결 추옵! 전 서버급 매물입니다.`);
-                else if (maxScore >= 130) comments.push(`<b>${maxScore}급</b> 초고스펙 추옵! 아주 훌륭합니다.`);
-                else if (maxScore >= 110) comments.push(`<b>${maxScore}급</b>! 든든한 고추옵입니다.`);
-                else if (maxScore >= 90) comments.push(`<b>${maxScore}급</b> 준수한 추옵입니다. 가성비 좋습니다.`);
-                else if (maxScore >= 70) comments.push(`<b>${maxScore}급</b>... 조금 아쉽지만 쓸만합니다.`);
+                if (maxScore >= 150) comments.push(`[종결급] <b>${maxScore}급</b>! 이 레벨대 장비에서 볼 수 있는 끝판왕 추옵입니다.`);
+                else if (maxScore >= 140) comments.push(`[최상급] <b>${maxScore}급</b>! 아주 귀한 옵션입니다. 축하드립니다.`);
+                else if (maxScore >= 130) comments.push(`[많이 좋음] <b>${maxScore}급</b>! 훌륭합니다. 든든하게 쓰세요.`);
+                else if (maxScore >= 120) comments.push(`[좋음] <b>${maxScore}급</b>! 가성비와 성능을 모두 잡았습니다.`);
+                else if (maxScore >= 110) comments.push(`[준수] <b>${maxScore}급</b>. 실전에서 충분히 통하는 옵션입니다.`);
+                else if (maxScore >= 100) comments.push(`[보통] <b>${maxScore}급</b>. 무난하게 쓰기 좋습니다.`);
             }
 
             if (maxScore === 0 && isEndGameItem) {
