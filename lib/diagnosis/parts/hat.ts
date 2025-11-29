@@ -116,8 +116,11 @@ export function diagnoseHat(item: any, job?: string): string[] {
     const addAllStat = parseInt(addOpts.all_stat || "0");
     const score = addStat + (addAllStat * 10);
 
-    if (score >= 130) comments.push(`[극추옵] 모자에 <b>130급</b> 이상 추옵은 정말 보기 드뭅니다. 평생 쓰셔도 됩니다.`);
-    else if (score >= 100) comments.push(`[고추옵] <b>100급</b> 이상으로 훌륭합니다.`);
+    if (score >= 200) comments.push(`[신화급 추옵] <b>${score}급</b>...?! 이건 운영자가 실수로 만든 게 분명합니다. 전 서버급 1티어 추옵입니다.`);
+    else if (score >= 180) comments.push(`[초월급 추옵] <b>${score}급</b>! 에테르넬의 품격에 걸맞은 압도적인 추옵입니다.`);
+    else if (score >= 160) comments.push(`[종결급 추옵] <b>${score}급</b>! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
+    else if (score >= 130) comments.push(`[극추옵] 모자에 <b>${score}급</b> 추옵은 정말 보기 드뭅니다. 평생 쓰셔도 됩니다.`);
+    else if (score >= 100) comments.push(`[고추옵] <b>${score}급</b>으로 훌륭합니다.`);
 
     return comments;
 }
