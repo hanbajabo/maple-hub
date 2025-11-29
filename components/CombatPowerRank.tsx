@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Trophy, Target, List } from 'lucide-react';
+import { getBossImage } from '@/lib/boss-images';
 
 interface TierDef {
     name: string;
@@ -517,11 +518,11 @@ export default function CombatPowerRank({ combatPower }: { combatPower: string |
 
     return (
         <>
-            <div className={`mt-4 p-6 rounded-xl border ${tier.bg} backdrop-blur-sm relative overflow-hidden shadow-lg group`}>
+            <div className={`mt-4 p-4 rounded-xl border ${tier.bg} backdrop-blur-sm relative overflow-hidden shadow-lg group`}>
                 {/* 배경 효과 */}
                 <div className={`absolute -top-10 -right-10 w-40 h-40 rounded-full blur-[60px] opacity-20 ${tier.color.replace('text-', 'bg-')}`}></div>
 
-                <div className="flex justify-between items-end mb-5 relative z-10">
+                <div className="flex justify-between items-end mb-3 relative z-10">
                     <div>
                         <h3 className="text-xs text-slate-400 font-bold mb-1 tracking-widest uppercase">Combat Power Tier</h3>
                         <div className="flex items-baseline gap-2">
@@ -569,13 +570,13 @@ export default function CombatPowerRank({ combatPower }: { combatPower: string |
                         <div className="w-1 h-1 bg-white rounded-full shadow-lg animate-ping opacity-50"></div>
                     </div>
                 </div>
-                <div className="flex justify-between mt-1.5 px-0.5 mb-5">
+                <div className="flex justify-between mt-1.5 px-0.5 mb-3">
                     <span className="text-[10px] text-slate-500 font-mono">{formatNum(tier.hasDivisions ? (nextGoal - (tier.max! - tier.min!) / 5) : tier.min)}</span>
                     <span className="text-[10px] text-slate-500 font-mono">{formatNum(nextGoal)}</span>
                 </div>
 
                 {/* AI Greeting (환영 인사) */}
-                <div className="bg-slate-950/50 rounded-xl p-4 border border-slate-800/50 relative z-10 mb-4 flex items-start gap-3 group/greeting">
+                <div className="bg-slate-950/50 rounded-xl p-3 border border-slate-800/50 relative z-10 mb-3 flex items-start gap-3 group/greeting">
                     <div className="shrink-0 w-10 h-10 rounded-full bg-slate-900 border border-slate-700 overflow-hidden">
                         <img src="/images/maple-ai-logo.jpg" alt="AI" className="w-full h-full object-cover" />
                     </div>
@@ -596,7 +597,7 @@ export default function CombatPowerRank({ combatPower }: { combatPower: string |
                 </div>
 
                 {/* Clearable Bosses (리스트) */}
-                <div className="pt-4 border-t border-white/5 relative z-10">
+                <div className="pt-3 border-t border-white/5 relative z-10">
                     <div className="flex justify-between items-center mb-3">
                         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
                             <Trophy className="w-3 h-3" /> Clearable Bosses
@@ -604,12 +605,35 @@ export default function CombatPowerRank({ combatPower }: { combatPower: string |
 
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                        {clearableBosses.map((boss, idx) => (
-                            <div key={idx} className="bg-black/20 rounded px-3 py-2 flex justify-between items-center border border-white/5 hover:bg-white/5 transition-colors">
-                                <span className="text-xs text-slate-200 font-medium truncate">{boss.name}</span>
-                                <span className="text-xs text-slate-500">{formatNum(boss.cp)}</span>
-                            </div>
-                        ))}
+                        {clearableBosses.map((boss, idx) => {
+                            const bossNameOnly = boss.name.split(' (')[0];
+                            const bossImage = getBossImage(bossNameOnly);
+
+                            return (
+                                <div key={idx} className="bg-black/40 rounded-lg p-2 flex items-center gap-3 border border-white/10 hover:border-white/20 hover:bg-white/5 transition-all relative overflow-hidden group">
+                                    {/* 배경 이미지 */}
+                                    <div
+                                        className="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-[1px]"
+                                        style={{ backgroundImage: `url(${bossImage})` }}
+                                    />
+
+                                    {/* 썸네일 */}
+                                    <div className="w-10 h-10 rounded-lg bg-slate-900 border border-slate-700 overflow-hidden shrink-0 relative z-10 shadow-md group-hover:scale-105 transition-transform">
+                                        <img
+                                            src={bossImage}
+                                            alt={boss.name}
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => e.currentTarget.style.display = 'none'}
+                                        />
+                                    </div>
+
+                                    <div className="flex flex-col min-w-0 relative z-10">
+                                        <span className="text-xs text-slate-200 font-bold truncate group-hover:text-white transition-colors">{boss.name}</span>
+                                        <span className="text-[10px] text-slate-500 font-mono">CP {formatNum(boss.cp)}</span>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

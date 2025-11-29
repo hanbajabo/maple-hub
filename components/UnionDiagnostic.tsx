@@ -6,6 +6,7 @@ interface UnionBlock {
     block_type: string;
     block_class: string;
     block_level: string;
+    block_position?: { x: number; y: number }[];
 }
 
 // 유니온 대원 효과 데이터
@@ -58,6 +59,26 @@ const UNION_EFFECTS: Record<string, { effect: string; tier?: number; type: strin
     "제논": { effect: "STR, DEX, LUK 5/10/20/40/50 증가", type: "AllStat" },
 };
 
+const BLOCK_COLORS = [
+    'bg-red-600/90 border-red-400',
+    'bg-orange-600/90 border-orange-400',
+    'bg-amber-600/90 border-amber-400',
+    'bg-yellow-600/90 border-yellow-400',
+    'bg-lime-600/90 border-lime-400',
+    'bg-green-600/90 border-green-400',
+    'bg-emerald-600/90 border-emerald-400',
+    'bg-teal-600/90 border-teal-400',
+    'bg-cyan-600/90 border-cyan-400',
+    'bg-sky-600/90 border-sky-400',
+    'bg-blue-600/90 border-blue-400',
+    'bg-indigo-600/90 border-indigo-400',
+    'bg-violet-600/90 border-violet-400',
+    'bg-purple-600/90 border-purple-400',
+    'bg-fuchsia-600/90 border-fuchsia-400',
+    'bg-pink-600/90 border-pink-400',
+    'bg-rose-600/90 border-rose-400',
+];
+
 // 직업별 주스텟 매핑
 const getMainStat = (className: string): string => {
     const strClasses = ['히어로', '팔라딘', '다크나이트', '소울마스터', '미하일', '블래스터', '데몬슬레이어', '데몬어벤져', '아란', '카이저', '제로', '아델', '아크', '바이퍼', '캐논마스터', '캐논슈터', '스트라이커', '은월', '렌'];
@@ -73,11 +94,12 @@ const getMainStat = (className: string): string => {
     return 'STR';
 };
 
-export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass }: { ocid: string, initialData?: any, refreshKey?: number, myClass?: string }) {
+export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass, unionLevel, children }: { ocid: string, initialData?: any, refreshKey?: number, myClass?: string, unionLevel?: number, children?: React.ReactNode }) {
     const [raiders, setRaiders] = useState<UnionBlock[]>([]);
     const [loading, setLoading] = useState(!initialData);
     const [isOpen, setIsOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const [hoveredInfo, setHoveredInfo] = useState<{ x: number, y: number, job?: string } | null>(null);
 
     useEffect(() => {
         setMounted(true);
@@ -152,22 +174,39 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
         .map(([name, data]) => `${name} (${data.effect})`);
 
     const hasMissing = missingEssential.length > 0 || missingStatMembers.length > 0;
+    const displayLevel = unionLevel || raiders.reduce((sum, r) => sum + parseInt(r.block_level), 0);
+
+    // 유니온 그리드 맵 생성
+    const gridMap = new Map<string, { job: string, index: number }>();
+    if (hasRaiders) {
+        raiders.forEach((r, idx) => {
+            r.block_position?.forEach(pos => {
+                gridMap.set(`${pos.x},${pos.y}`, { job: r.block_class, index: idx });
+            });
+        });
+    }
 
     return (
         <>
-            <div
-                onClick={() => setIsOpen(!isOpen)}
-                className={`w-full h-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl border ${hasMissing ? 'border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.2)]' : 'border-slate-700'} bg-slate-800/50 hover:bg-slate-800 text-slate-200 font-bold transition-all cursor-pointer shadow-sm hover:shadow-md hover:border-slate-500`}
-            >
-                <span className="text-lg">⚔️</span>
-                <span className="text-sm">유니온</span>
-                <span className="text-xs bg-slate-950 px-1.5 py-0.5 rounded text-slate-400">
-                    Lv.{raiders.reduce((sum, r) => sum + parseInt(r.block_level), 0).toLocaleString()}
-                </span>
-                {hasMissing && (
-                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500/20 text-red-400 text-xs font-bold animate-pulse" title="부족한 유니온 대원이 있습니다">!</span>
-                )}
-            </div>
+            {children ? (
+                <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer w-full h-full">
+                    {children}
+                </div>
+            ) : (
+                <div
+                    onClick={() => setIsOpen(!isOpen)}
+                    className={`w-full h-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl border ${hasMissing ? 'border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.2)]' : 'border-slate-700'} bg-slate-800/50 hover:bg-slate-800 text-slate-200 font-bold transition-all cursor-pointer shadow-sm hover:shadow-md hover:border-slate-500`}
+                >
+                    <span className="text-lg">⚔️</span>
+                    <span className="text-sm">유니온</span>
+                    <span className="text-xs bg-slate-950 px-1.5 py-0.5 rounded text-slate-400">
+                        Lv.{displayLevel.toLocaleString()}
+                    </span>
+                    {hasMissing && (
+                        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500/20 text-red-400 text-xs font-bold animate-pulse" title="부족한 유니온 대원이 있습니다">!</span>
+                    )}
+                </div>
+            )}
 
             {isOpen && mounted && createPortal(
                 <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-2" onClick={handleClose}>
@@ -176,6 +215,50 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
                             <h4 className="text-xs sm:text-sm font-bold text-slate-300">배치된 공격대원 목록</h4>
                             <button onClick={handleClose} className="text-slate-500 hover:text-slate-300">✕</button>
                         </div>
+
+                        {/* 유니온 배치도 */}
+                        {hasRaiders && raiders[0].block_position && (
+                            <div className="mb-4 p-3 bg-slate-950 rounded-lg flex flex-col items-center border border-slate-800" onMouseLeave={() => setHoveredInfo(null)}>
+                                <div className="grid gap-[1px] mb-2" style={{ gridTemplateColumns: `repeat(22, 10px)` }}>
+                                    {Array.from({ length: 20 }).map((_, rowIdx) => {
+                                        const y = 10 - rowIdx; // y: 10 ~ -9
+                                        return Array.from({ length: 22 }).map((_, colIdx) => {
+                                            const x = colIdx - 11; // x: -11 ~ 10
+                                            const key = `${x},${y}`;
+                                            const cellData = gridMap.get(key);
+                                            const job = cellData?.job;
+                                            const isCenter = x === 0 && y === 0;
+
+                                            const colorClass = cellData
+                                                ? BLOCK_COLORS[cellData.index % BLOCK_COLORS.length]
+                                                : 'bg-slate-800/40 border-slate-700/50';
+
+                                            return (
+                                                <div
+                                                    key={key}
+                                                    className={`w-[10px] h-[10px] rounded-[1px] border ${colorClass} ${isCenter && !cellData ? '!bg-slate-600 !border-slate-500' : ''} hover:ring-1 hover:ring-white hover:z-20 z-10 cursor-crosshair shadow-sm`}
+                                                    onMouseEnter={() => setHoveredInfo({ x, y, job })}
+                                                />
+                                            );
+                                        });
+                                    })}
+                                </div>
+                                <div className="h-6 flex items-center justify-center text-xs w-full">
+                                    {hoveredInfo ? (
+                                        <div className="flex gap-2 items-center bg-slate-900 px-3 py-1 rounded-full border border-slate-700 shadow-sm animate-in fade-in duration-200">
+                                            <span className="font-mono text-slate-500">({hoveredInfo.x}, {hoveredInfo.y})</span>
+                                            {hoveredInfo.job ? (
+                                                <span className="font-bold text-yellow-400">{hoveredInfo.job}</span>
+                                            ) : (
+                                                <span className="text-slate-600">빈 공간</span>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <span className="text-slate-700">블록에 마우스를 올려보세요</span>
+                                    )}
+                                </div>
+                            </div>
+                        )}
 
                         {hasRaiders && (
                             <div className="grid grid-cols-2 gap-1 mb-4">

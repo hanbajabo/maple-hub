@@ -908,7 +908,7 @@ export default function Home() {
                   {ocid && (
                     <div className="w-full grid grid-cols-2 gap-1.5 sm:gap-2 mt-1 sm:mt-2 relative z-20">
                       <LinkSkillBadge ocid={ocid} initialData={linkSkillData} refreshKey={refreshKey} />
-                      <UnionDiagnostic ocid={ocid} initialData={unionRaiderData} refreshKey={refreshKey} myClass={character.character_class} />
+                      <UnionDiagnostic ocid={ocid} initialData={unionRaiderData} refreshKey={refreshKey} myClass={character.character_class} unionLevel={union?.union_level} />
                       <ArtifactBadge ocid={ocid} refreshKey={refreshKey} />
                       <ChampionBadge ocid={ocid} refreshKey={refreshKey} />
                       <div className="col-span-2">
@@ -943,7 +943,7 @@ export default function Home() {
 
             {/* Middle Panel: Core Spec Dashboard */}
             {stats && (
-              <div className="w-full xl:w-[42%] grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4 animate-in fade-in slide-in-from-bottom-6 delay-200">
+              <div className="w-full xl:w-[42%] flex flex-col gap-3 sm:gap-4 animate-in fade-in slide-in-from-bottom-6 delay-200">
                 {/* Card 1: Combat Power */}
                 {(() => {
                   // Calculate tier for dynamic coloring
@@ -954,7 +954,7 @@ export default function Home() {
                   const tierColorClass = currentTier.color.replace('text-', '');
 
                   return (
-                    <div className={`relative bg-slate-900 rounded-xl sm:rounded-2xl p-3 sm:p-6 border shadow-lg col-span-1 md:col-span-2 flex flex-col justify-center items-center gap-3 sm:gap-6 min-h-[160px] sm:min-h-[260px] overflow-hidden group transition-all duration-500 border-${tierColorClass}/30 hover:border-${tierColorClass}/50`} style={{ borderColor: `rgb(var(--tw-${tierColorClass}-rgb) / 0.3)` }}>
+                    <div className={`relative bg-slate-900 rounded-xl sm:rounded-2xl p-3 sm:p-4 border shadow-lg flex flex-col justify-center items-center gap-2 sm:gap-4 min-h-[160px] sm:min-h-[220px] overflow-hidden group transition-all duration-500 border-${tierColorClass}/30 hover:border-${tierColorClass}/50`} style={{ borderColor: `rgb(var(--tw-${tierColorClass}-rgb) / 0.3)` }}>
                       {/* Ambient Background */}
                       <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] pointer-events-none opacity-20`} style={{
                         background: `radial-gradient(circle at center, rgb(var(--tw-${tierColorClass}-rgb) / 0.15), transparent 70%)`
@@ -997,583 +997,599 @@ export default function Home() {
                   );
                 })()}
 
-                {/* Card 2: Main Stat */}
-                <div className="relative bg-slate-800 rounded-lg sm:rounded-xl p-2 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-0.5 sm:gap-1">
-                  <span className="text-xs sm:text-sm text-gray-400 font-medium">총 {mainStat.name}</span>
-                  <div className="flex flex-col items-center">
-                    <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-lg sm:text-2xl font-bold text-white group-hover:text-green-400 group-hover:drop-shadow-lg group-hover:drop-shadow-green-500/50 cursor-help transition-colors">
-                        {formatNumber(mainStat.value)}
-                      </span>
+                {/* Detailed Stats Panel - Flex-1 to fill height */}
+                <div className="flex-1 bg-slate-900 rounded-3xl p-3 sm:p-4 border border-slate-800 shadow-xl flex flex-col gap-3 justify-between">
 
-                      {/* Tooltip */}
-                      {mainStatResult.breakdown.length > 0 && (
-                        <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-64 sm:w-96 bg-slate-950 border border-green-500 rounded-lg p-3 sm:p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
-                          <div className="text-[10px] sm:text-xs font-bold text-slate-300 mb-2 border-b border-slate-700 pb-2">
-                            📊 {mainStat.name}% 장비 출처
-                          </div>
-                          <div className="space-y-1 max-h-[300px] sm:max-h-[600px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
-                            {mainStatResult.breakdown.map((entry, idx) => (
-                              <div key={idx} className="flex justify-between items-center text-[10px] sm:text-xs">
-                                <span className="text-slate-400 truncate flex-1">{entry.item}</span>
-                                <span className="text-green-400 font-mono ml-2">+{entry.value}%</span>
+                  {/* Row 1: Main Stat & Att % */}
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* Card 2: Main Stat */}
+                    <div className="relative bg-slate-800 rounded-2xl p-3 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-1">
+                      <span className="text-xs sm:text-sm text-gray-400 font-medium">총 {mainStat.name}</span>
+                      <div className="flex flex-col items-center">
+                        <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
+                          <span className="text-lg sm:text-2xl font-bold text-white group-hover:text-green-400 group-hover:drop-shadow-lg group-hover:drop-shadow-green-500/50 cursor-help transition-colors">
+                            {formatNumber(mainStat.value)}
+                          </span>
+
+                          {/* Tooltip */}
+                          {mainStatResult.breakdown.length > 0 && (
+                            <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-64 sm:w-96 bg-slate-950 border border-green-500 rounded-lg p-3 sm:p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
+                              <div className="text-[10px] sm:text-xs font-bold text-slate-300 mb-2 border-b border-slate-700 pb-2">
+                                📊 {mainStat.name}% 장비 출처
                               </div>
-                            ))}
-                          </div>
-                          <div className="mt-2 pt-2 border-t border-slate-700 flex justify-between text-[10px] sm:text-xs font-bold">
-                            <span className="text-slate-300">총합</span>
-                            <span className="text-green-300">{mainStatPct}%</span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <span className="text-[10px] sm:text-xs text-gray-500 mt-0.5">
-                      {mainStat.name} %: {mainStatPct}%
-                    </span>
-                  </div>
-                </div>
-
-                {/* Card 3: Total Attack/Magic % */}
-                <div className="relative bg-slate-800 rounded-xl p-2 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-0.5 sm:gap-1">
-                  <span className="text-xs sm:text-sm text-gray-400 font-medium">총 {displayAttName} %</span>
-                  <div className="flex flex-col items-center">
-                    <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-lg sm:text-2xl font-bold text-white text-center break-all group-hover:text-orange-400 group-hover:drop-shadow-lg group-hover:drop-shadow-orange-500/50 cursor-help transition-colors">
-                        {displayAttPct}%
-                      </span>
-
-                      {/* Tooltip */}
-                      {displayAttBreakdown.length > 0 && (
-                        <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-96 bg-slate-950 border border-orange-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
-                          <div className="text-xs font-bold text-slate-300 mb-2 border-b border-slate-700 pb-2">
-                            ⚔️ {displayAttName}% 장비 출처
-                          </div>
-                          <div className="space-y-1 max-h-[600px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
-                            {displayAttBreakdown.map((entry, idx) => (
-                              <div key={idx} className="flex justify-between items-center text-xs">
-                                <span className="text-slate-400 truncate flex-1">{entry.item}</span>
-                                <span className="text-orange-400 font-mono ml-2">+{entry.value}%</span>
+                              <div className="space-y-1 max-h-[300px] sm:max-h-[600px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
+                                {mainStatResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-between items-center text-[10px] sm:text-xs">
+                                    <span className="text-slate-400 truncate flex-1">{entry.item}</span>
+                                    <span className="text-green-400 font-mono ml-2">+{entry.value}%</span>
+                                  </div>
+                                ))}
                               </div>
-                            ))}
-                          </div>
-                          <div className="mt-2 pt-2 border-t border-slate-700 flex justify-between text-xs font-bold">
-                            <span className="text-slate-300">총합</span>
-                            <span className="text-orange-300">{displayAttPct}%</span>
-                          </div>
+                              <div className="mt-2 pt-2 border-t border-slate-700 flex justify-between text-[10px] sm:text-xs font-bold">
+                                <span className="text-slate-300">총합</span>
+                                <span className="text-green-300">{mainStatPct}%</span>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                      )}
+
+                        <span className="text-[10px] sm:text-xs text-gray-500 mt-0.5">
+                          {mainStat.name} %: {mainStatPct}%
+                        </span>
+                      </div>
                     </div>
 
-                    <span className="text-sm text-gray-500 mt-1">
-                      총 {displayAttName}: {formatNumber(totalAttackValue)}
-                    </span>
-                  </div>
-                </div>
+                    {/* Card 3: Total Attack/Magic % */}
+                    <div className="relative bg-slate-800 rounded-2xl p-3 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors flex flex-col justify-center items-center gap-1">
+                      <span className="text-xs sm:text-sm text-gray-400 font-medium">총 {displayAttName} %</span>
+                      <div className="flex flex-col items-center">
+                        <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
+                          <span className="text-lg sm:text-2xl font-bold text-white text-center break-all group-hover:text-orange-400 group-hover:drop-shadow-lg group-hover:drop-shadow-orange-500/50 cursor-help transition-colors">
+                            {displayAttPct}%
+                          </span>
 
-                {/* Card 4: Core 3 Elements */}
-                <div className="bg-slate-800 rounded-xl p-3 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors col-span-1 md:col-span-2 grid grid-cols-3 gap-2 sm:gap-3 text-center divide-x divide-slate-700">
-                  {/* Boss Damage */}
-                  <div className="relative flex flex-col gap-1 items-center">
-                    <span className="text-xs sm:text-sm text-gray-400">보스 데미지</span>
-                    <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-base sm:text-lg font-bold text-white group-hover:text-red-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
-                        {getStatValue("보스 몬스터 데미지")}%
-                      </span>
-
-                      <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-96 bg-slate-950 border border-red-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
-                        <div className="text-sm font-bold text-slate-200 mb-2 text-center border-b border-slate-700 pb-2">
-                          💀 보스 몬스터 데미지
+                          {/* Tooltip */}
+                          {displayAttBreakdown.length > 0 && (
+                            <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-96 bg-slate-950 border border-orange-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
+                              <div className="text-xs font-bold text-slate-300 mb-2 border-b border-slate-700 pb-2">
+                                ⚔️ {displayAttName}% 장비 출처
+                              </div>
+                              <div className="space-y-1 max-h-[600px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
+                                {displayAttBreakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-between items-center text-xs">
+                                    <span className="text-slate-400 truncate flex-1">{entry.item}</span>
+                                    <span className="text-orange-400 font-mono ml-2">+{entry.value}%</span>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="mt-2 pt-2 border-t border-slate-700 flex justify-between text-xs font-bold">
+                                <span className="text-slate-300">총합</span>
+                                <span className="text-orange-300">{displayAttPct}%</span>
+                              </div>
+                            </div>
+                          )}
                         </div>
 
-                        <div className="text-xs font-bold text-slate-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                        <span className="text-sm text-gray-500 mt-1">
+                          총 {displayAttName}: {formatNumber(totalAttackValue)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
 
-                        {bossDmgResult.breakdown.length > 0 ? (
-                          <div className="mb-3">
-                            <div className="space-y-1 ml-2 max-h-[300px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
-                              {bossDmgResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-center items-center gap-4 text-xs">
-                                  <span className="text-slate-300">{entry.item}</span>
-                                  <span className="text-red-400 font-mono font-bold">+{entry.value}%</span>
-                                </div>
-                              ))}
-                            </div>
+                  {/* Card 4: Core 3 Elements */}
+                  <div className="bg-slate-800 rounded-2xl py-3 px-4 border border-slate-700 hover:bg-slate-750 transition-colors w-full grid grid-cols-3 gap-2 text-center divide-x divide-slate-700 items-center">
+                    {/* Boss Damage */}
+                    <div className="relative flex flex-col gap-1 items-center">
+                      <span className="text-xs sm:text-sm text-gray-400">보스 데미지</span>
+                      <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
+                        <span className="text-base sm:text-lg font-bold text-white group-hover:text-red-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
+                          {getStatValue("보스 몬스터 데미지")}%
+                        </span>
+
+                        <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-96 bg-slate-950 border border-red-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
+                          <div className="text-sm font-bold text-slate-200 mb-2 text-center border-b border-slate-700 pb-2">
+                            💀 보스 몬스터 데미지
                           </div>
-                        ) : (
-                          <div className="mb-3 text-xs text-slate-500 text-center">장비에서 적용되는 수치 없음</div>
-                        )}
 
-                        <div className="text-center pt-3 border-t border-slate-700">
-                          <span className="text-2xl font-black">
-                            <span className="text-red-400">{bossDmgResult.total}%</span>
-                            <span className="text-slate-300"> + </span>
-                            <span className="text-white">{Number(getStatValue("보스 몬스터 데미지")) - bossDmgResult.total}%</span>
-                          </span>
+                          <div className="text-xs font-bold text-slate-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+
+                          {bossDmgResult.breakdown.length > 0 ? (
+                            <div className="mb-3">
+                              <div className="space-y-1 ml-2 max-h-[300px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
+                                {bossDmgResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-center items-center gap-4 text-xs">
+                                    <span className="text-slate-300">{entry.item}</span>
+                                    <span className="text-red-400 font-mono font-bold">+{entry.value}%</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="mb-3 text-xs text-slate-500 text-center">장비에서 적용되는 수치 없음</div>
+                          )}
+
+                          <div className="text-center pt-3 border-t border-slate-700">
+                            <span className="text-2xl font-black">
+                              <span className="text-red-400">{bossDmgResult.total}%</span>
+                              <span className="text-slate-300"> + </span>
+                              <span className="text-white">{Number(getStatValue("보스 몬스터 데미지")) - bossDmgResult.total}%</span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Ignore Defense */}
+                    <div className="relative flex flex-col gap-1 items-center">
+                      <span className="text-xs sm:text-sm text-gray-400">방어율 무시</span>
+                      <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
+                        <span className="text-base sm:text-lg font-bold text-white group-hover:text-purple-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
+                          {ignoreDefense}%
+                        </span>
+
+                        <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-96 bg-slate-950 border border-purple-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
+                          <div className="text-sm font-bold text-slate-200 mb-2 text-center border-b border-slate-700 pb-2">
+                            🛡️ 방어율 무시
+                          </div>
+
+                          <div className="text-xs font-bold text-slate-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+
+                          {ignoreDefResult.breakdown.length > 0 ? (
+                            <div className="mb-3">
+                              <div className="space-y-1 ml-2 max-h-[300px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
+                                {ignoreDefResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-center items-center gap-4 text-xs">
+                                    <span className="text-slate-300">{entry.item}</span>
+                                    <span className="text-purple-400 font-mono font-bold">+{entry.value}%</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="mb-3 text-xs text-slate-500 text-center">장비에서 적용되는 수치 없음</div>
+                          )}
+
+                          <div className="text-center pt-3 border-t border-slate-700">
+                            <span className="text-2xl font-black">
+                              <span className="text-purple-400">{ignoreDefResult.total}%</span>
+                              <span className="text-slate-300"> + </span>
+                              <span className="text-white">{Number(ignoreDefense) - ignoreDefResult.total}%</span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Critical Damage */}
+                    <div className="relative flex flex-col gap-1 items-center">
+                      <span className="text-xs sm:text-sm text-gray-400">크리티컬 데미지</span>
+                      <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
+                        <span className="text-base sm:text-lg font-bold text-white group-hover:text-yellow-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
+                          {getStatValue("크리티컬 데미지")}%
+                        </span>
+
+                        <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-96 bg-slate-950 border border-yellow-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
+                          <div className="text-sm font-bold text-slate-200 mb-2 text-center border-b border-slate-700 pb-2">
+                            💥 크리티컬 데미지
+                          </div>
+
+                          <div className="text-xs font-bold text-slate-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+
+                          {critDmgResult.breakdown.length > 0 ? (
+                            <div className="mb-3">
+                              <div className="space-y-1 ml-2 max-h-[300px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
+                                {critDmgResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-center items-center gap-4 text-xs">
+                                    <span className="text-slate-300">{entry.item}</span>
+                                    <span className="text-yellow-400 font-mono font-bold">+{entry.value}%</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="mb-3 text-xs text-slate-500 text-center">장비에서 적용되는 수치 없음</div>
+                          )}
+
+                          <div className="text-center pt-3 border-t border-slate-700">
+                            <span className="text-2xl font-black">
+                              <span className="text-yellow-400">{critDmgResult.total}%</span>
+                              <span className="text-slate-300"> + </span>
+                              <span className="text-white">{Number(getStatValue("크리티컬 데미지")) - critDmgResult.total}%</span>
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Ignore Defense */}
-                  <div className="relative flex flex-col gap-1 items-center">
-                    <span className="text-xs sm:text-sm text-gray-400">방어율 무시</span>
-                    <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-base sm:text-lg font-bold text-white group-hover:text-purple-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
-                        {ignoreDefense}%
+                  {/* Card 5: Advanced Stats (Union, Drop, etc) */}
+                  <div className="bg-slate-800 rounded-2xl p-3 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors w-full grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 text-center">
+                    {/* 1. Union Level */}
+                    <UnionDiagnostic
+                      ocid={ocid}
+                      initialData={unionRaiderData}
+                      refreshKey={refreshKey}
+                      myClass={character.character_class}
+                      unionLevel={union?.union_level}
+                    >
+                      <div className="flex flex-col gap-0.5 p-2 bg-slate-900/50 rounded-lg hover:bg-slate-700/50 transition-colors cursor-pointer group h-full justify-center items-center">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[10px] sm:text-xs text-gray-400 group-hover:text-slate-300">유니온 레벨</span>
+                          <span className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">🔍</span>
+                        </div>
+                        <span className="text-base sm:text-lg font-bold text-yellow-400 group-hover:text-yellow-300">{union ? union.union_level : "-"}</span>
+                      </div>
+                    </UnionDiagnostic>
+                    {/* 2. Buff Duration */}
+                    <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
+                      <span className="text-xs text-gray-400">버프 지속 시간</span>
+                      <span className="text-lg font-bold text-white group-hover:text-cyan-400 group-hover:drop-shadow-lg transition-colors">
+                        {buffDuration}%
                       </span>
 
-                      <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-96 bg-slate-950 border border-purple-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
-                        <div className="text-sm font-bold text-slate-200 mb-2 text-center border-b border-slate-700 pb-2">
-                          🛡️ 방어율 무시
-                        </div>
+                      {(() => {
+                        const totalValue = Number(String(buffDuration).replace(/[^0-9.]/g, '')) || 0;
+                        const equipmentTotal = buffDurResult.total;
+                        const otherValue = Math.max(0, totalValue - equipmentTotal);
 
-                        <div className="text-xs font-bold text-slate-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                        if (totalValue <= 0) return null;
 
-                        {ignoreDefResult.breakdown.length > 0 ? (
-                          <div className="mb-3">
-                            <div className="space-y-1 ml-2 max-h-[300px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
-                              {ignoreDefResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-center items-center gap-4 text-xs">
-                                  <span className="text-slate-300">{entry.item}</span>
-                                  <span className="text-purple-400 font-mono font-bold">+{entry.value}%</span>
-                                </div>
-                              ))}
+                        return (
+                          <div
+                            className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-cyan-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
+                            onWheel={(e) => e.stopPropagation()}
+                          >
+                            <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
+                              <span>⏳</span>
+                              <span>버프 지속 시간</span>
+                            </div>
+                            <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
+                              {buffDurResult.breakdown.length > 0 ? (
+                                buffDurResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-between items-center text-xs px-2">
+                                    <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
+                                    <span className="text-cyan-400 font-mono ml-2">+{entry.value}%</span>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
+                              )}
+                            </div>
+                            <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
+                              <span className="text-2xl font-bold text-cyan-400">{equipmentTotal}%</span>
+                              <span className="text-xl font-bold text-slate-500">+</span>
+                              <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
                             </div>
                           </div>
-                        ) : (
-                          <div className="mb-3 text-xs text-slate-500 text-center">장비에서 적용되는 수치 없음</div>
-                        )}
-
-                        <div className="text-center pt-3 border-t border-slate-700">
-                          <span className="text-2xl font-black">
-                            <span className="text-purple-400">{ignoreDefResult.total}%</span>
-                            <span className="text-slate-300"> + </span>
-                            <span className="text-white">{Number(ignoreDefense) - ignoreDefResult.total}%</span>
-                          </span>
-                        </div>
-                      </div>
+                        );
+                      })()}
                     </div>
-                  </div>
 
-                  {/* Critical Damage */}
-                  <div className="relative flex flex-col gap-1 items-center">
-                    <span className="text-xs sm:text-sm text-gray-400">크리티컬 데미지</span>
-                    <div className="relative group inline-block rounded px-2 py-1 -mx-2 -my-1 hover:bg-slate-700/50 transition-colors">
-                      <span className="text-base sm:text-lg font-bold text-white group-hover:text-yellow-400 group-hover:drop-shadow-lg cursor-help transition-colors whitespace-nowrap">
-                        {getStatValue("크리티컬 데미지")}%
+                    {/* 3. Critical Rate */}
+                    <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
+                      <span className="text-xs text-gray-400">크리티컬 확률</span>
+                      <span className="text-lg font-bold text-white group-hover:text-red-400 group-hover:drop-shadow-lg transition-colors">
+                        {critRate}%
                       </span>
 
-                      <div className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-96 bg-slate-950 border border-yellow-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200">
-                        <div className="text-sm font-bold text-slate-200 mb-2 text-center border-b border-slate-700 pb-2">
-                          💥 크리티컬 데미지
-                        </div>
+                      {(() => {
+                        const totalValue = Number(String(critRate).replace(/[^0-9.]/g, '')) || 0;
+                        const equipmentTotal = critRateResult.total;
+                        const otherValue = Math.max(0, totalValue - equipmentTotal);
 
-                        <div className="text-xs font-bold text-slate-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                        if (totalValue <= 0) return null;
 
-                        {critDmgResult.breakdown.length > 0 ? (
-                          <div className="mb-3">
-                            <div className="space-y-1 ml-2 max-h-[300px] overflow-y-auto custom-scrollbar pointer-events-none group-hover:pointer-events-auto">
-                              {critDmgResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-center items-center gap-4 text-xs">
-                                  <span className="text-slate-300">{entry.item}</span>
-                                  <span className="text-yellow-400 font-mono font-bold">+{entry.value}%</span>
-                                </div>
-                              ))}
+                        return (
+                          <div
+                            className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-red-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
+                            onWheel={(e) => e.stopPropagation()}
+                          >
+                            <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
+                              <span>🎯</span>
+                              <span>크리티컬 확률</span>
+                            </div>
+                            <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
+                              {critRateResult.breakdown.length > 0 ? (
+                                critRateResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-between items-center text-xs px-2">
+                                    <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
+                                    <span className="text-red-400 font-mono ml-2">+{entry.value}%</span>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
+                              )}
+                            </div>
+                            <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
+                              <span className="text-2xl font-bold text-red-400">{equipmentTotal}%</span>
+                              <span className="text-xl font-bold text-slate-500">+</span>
+                              <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
                             </div>
                           </div>
-                        ) : (
-                          <div className="mb-3 text-xs text-slate-500 text-center">장비에서 적용되는 수치 없음</div>
-                        )}
+                        );
+                      })()}
+                    </div>
 
-                        <div className="text-center pt-3 border-t border-slate-700">
-                          <span className="text-2xl font-black">
-                            <span className="text-yellow-400">{critDmgResult.total}%</span>
-                            <span className="text-slate-300"> + </span>
-                            <span className="text-white">{Number(getStatValue("크리티컬 데미지")) - critDmgResult.total}%</span>
-                          </span>
-                        </div>
-                      </div>
+                    {/* 4. Cooldown Reduction (Sec) */}
+                    <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
+                      <span className="text-xs text-gray-400">재사용 대기시간 감소</span>
+                      <span className="text-lg font-bold text-white group-hover:text-emerald-400 group-hover:drop-shadow-lg transition-colors">
+                        -{cooldownReductionSec}초
+                      </span>
+
+                      {(() => {
+                        const totalValue = Number(String(cooldownReductionSec).replace(/[^0-9.]/g, '')) || 0;
+                        const equipmentTotal = cooldownSecResult.total;
+                        const otherValue = Math.max(0, totalValue - equipmentTotal);
+
+                        if (totalValue <= 0) return null;
+
+                        return (
+                          <div
+                            className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-emerald-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
+                            onWheel={(e) => e.stopPropagation()}
+                          >
+                            <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
+                              <span>⌛</span>
+                              <span>재사용 대기시간 감소</span>
+                            </div>
+                            <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
+                              {cooldownSecResult.breakdown.length > 0 ? (
+                                cooldownSecResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-center items-center gap-4 text-xs">
+                                    <span className="text-slate-400">{entry.item}</span>
+                                    <span className="text-emerald-400 font-mono font-bold">-{entry.value}초</span>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
+                              )}
+                            </div>
+                            <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
+                              <span className="text-2xl font-bold text-emerald-400">-{equipmentTotal}초</span>
+                              <span className="text-xl font-bold text-slate-500">+</span>
+                              <span className="text-2xl font-bold text-white">-{Number(otherValue.toFixed(2))}초</span>
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+
+                    {/* 5. Cooldown Skip Chance (Original) */}
+                    <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
+                      <span className="text-xs text-gray-400">재사용 대기시간 미적용</span>
+                      <span className="text-lg font-bold text-white group-hover:text-blue-400 group-hover:drop-shadow-lg transition-colors">
+                        {cooldownReduction}%
+                      </span>
+
+                      {(() => {
+                        const totalValue = Number(String(cooldownReduction).replace(/[^0-9.]/g, '')) || 0;
+                        const equipmentTotal = cooldownResult.total;
+                        const otherValue = Math.max(0, totalValue - equipmentTotal);
+
+                        if (totalValue <= 0) return null;
+
+                        return (
+                          <div
+                            className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-blue-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
+                            onWheel={(e) => e.stopPropagation()}
+                          >
+                            <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
+                              <span>⏱️</span>
+                              <span>재사용 대기시간 미적용</span>
+                            </div>
+                            <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
+                              {cooldownResult.breakdown.length > 0 ? (
+                                cooldownResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-between items-center text-xs px-2">
+                                    <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
+                                    <span className="text-blue-400 font-mono ml-2">+{entry.value}%</span>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
+                              )}
+                            </div>
+                            <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
+                              <span className="text-2xl font-bold text-blue-400">{equipmentTotal}%</span>
+                              <span className="text-xl font-bold text-slate-500">+</span>
+                              <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+
+                    {/* 6. Status Damage */}
+                    <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
+                      <span className="text-xs text-gray-400">상태이상 데미지</span>
+                      <span className="text-lg font-bold text-white group-hover:text-pink-400 group-hover:drop-shadow-lg transition-colors">
+                        {statusDamage}%
+                      </span>
+
+                      {(() => {
+                        const totalValue = Number(String(statusDamage).replace(/[^0-9.]/g, '')) || 0;
+                        const equipmentTotal = statusDmgResult.total;
+                        const otherValue = Math.max(0, totalValue - equipmentTotal);
+
+                        if (totalValue <= 0) return null;
+
+                        return (
+                          <div
+                            className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-pink-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
+                            onWheel={(e) => e.stopPropagation()}
+                          >
+                            <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
+                              <span>🌀</span>
+                              <span>상태이상 데미지</span>
+                            </div>
+                            <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
+                              {statusDmgResult.breakdown.length > 0 ? (
+                                statusDmgResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-between items-center text-xs px-2">
+                                    <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
+                                    <span className="text-pink-400 font-mono ml-2">+{entry.value}%</span>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
+                              )}
+                            </div>
+                            <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
+                              <span className="text-2xl font-bold text-pink-400">{equipmentTotal}%</span>
+                              <span className="text-xl font-bold text-slate-500">+</span>
+                              <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+
+                    {/* 7. Item Drop Rate */}
+                    <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
+                      <span className="text-xs text-gray-400">아이템 드롭률</span>
+                      <span className="text-lg font-bold text-white group-hover:text-indigo-400 group-hover:drop-shadow-lg transition-colors">
+                        {itemDropRate}%
+                      </span>
+
+                      {(() => {
+                        const totalValue = Number(String(itemDropRate).replace(/[^0-9.]/g, '')) || 0;
+                        const equipmentTotal = dropRateResult.total;
+                        const otherValue = Math.max(0, totalValue - equipmentTotal);
+
+                        if (totalValue <= 0) return null;
+
+                        return (
+                          <div
+                            className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-indigo-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
+                            onWheel={(e) => e.stopPropagation()}
+                          >
+                            <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
+                              <span>💎</span>
+                              <span>아이템 드롭률</span>
+                            </div>
+                            <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
+                              {dropRateResult.breakdown.length > 0 ? (
+                                dropRateResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-between items-center text-xs px-2">
+                                    <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
+                                    <span className="text-indigo-400 font-mono ml-2">+{entry.value}%</span>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
+                              )}
+                            </div>
+                            <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
+                              <span className="text-2xl font-bold text-indigo-400">{equipmentTotal}%</span>
+                              <span className="text-xl font-bold text-slate-500">+</span>
+                              <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+
+                    {/* 8. Meso Acquisition */}
+                    <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
+                      <span className="text-xs text-gray-400">메소 획득량</span>
+                      <span className="text-lg font-bold text-white group-hover:text-yellow-400 group-hover:drop-shadow-lg transition-colors">
+                        {mesoDropRate}%
+                      </span>
+
+                      {(() => {
+                        const totalValue = Number(String(mesoDropRate).replace(/[^0-9.]/g, '')) || 0;
+                        const equipmentTotal = mesoRateResult.total;
+                        const otherValue = Math.max(0, totalValue - equipmentTotal);
+
+                        if (totalValue <= 0) return null;
+
+                        return (
+                          <div
+                            className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-yellow-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
+                            onWheel={(e) => e.stopPropagation()}
+                          >
+                            <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
+                              <span>💰</span>
+                              <span>메소 획득량</span>
+                            </div>
+                            <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
+                              {mesoRateResult.breakdown.length > 0 ? (
+                                mesoRateResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-between items-center text-xs px-2">
+                                    <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
+                                    <span className="text-yellow-400 font-mono ml-2">+{entry.value}%</span>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
+                              )}
+                            </div>
+                            <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
+                              <span className="text-2xl font-bold text-yellow-400">{equipmentTotal}%</span>
+                              <span className="text-xl font-bold text-slate-500">+</span>
+                              <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+
+                    {/* 9. EXP Rate */}
+                    <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
+                      <span className="text-xs text-gray-400">추가 경험치 획득</span>
+                      <span className="text-lg font-bold text-white group-hover:text-lime-400 group-hover:drop-shadow-lg transition-colors">
+                        {expRate}%
+                      </span>
+
+                      {(() => {
+                        const totalValue = Number(String(expRate).replace(/[^0-9.]/g, '')) || 0;
+                        const equipmentTotal = expRateResult.total;
+                        const otherValue = Math.max(0, totalValue - equipmentTotal);
+
+                        if (totalValue <= 0) return null;
+
+                        return (
+                          <div
+                            className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-lime-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
+                            onWheel={(e) => e.stopPropagation()}
+                          >
+                            <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
+                              <span>📈</span>
+                              <span>추가 경험치 획득</span>
+                            </div>
+                            <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
+                            <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
+                              {expRateResult.breakdown.length > 0 ? (
+                                expRateResult.breakdown.map((entry, idx) => (
+                                  <div key={idx} className="flex justify-between items-center text-xs px-2">
+                                    <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
+                                    <span className="text-lime-400 font-mono ml-2">+{entry.value}%</span>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
+                              )}
+                            </div>
+                            <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
+                              <span className="text-2xl font-bold text-lime-400">{equipmentTotal}%</span>
+                              <span className="text-xl font-bold text-slate-500">+</span>
+                              <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
+                            </div>
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
                 </div>
-
-                {/* Card 5: Advanced Stats (Union, Drop, etc) */}
-                <div className="bg-slate-800 rounded-xl p-3 sm:p-4 border border-slate-700 hover:bg-slate-750 transition-colors col-span-1 md:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 text-center">
-                  {/* 1. Union Level */}
-                  <div className="flex flex-col gap-0.5 p-2 bg-slate-900/50 rounded-lg">
-                    <span className="text-[10px] sm:text-xs text-gray-400">유니온 레벨</span>
-                    <span className="text-base sm:text-lg font-bold text-yellow-400">{union ? union.union_level : "-"}</span>
-                  </div>
-
-                  {/* 2. Buff Duration */}
-                  <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
-                    <span className="text-xs text-gray-400">버프 지속 시간</span>
-                    <span className="text-lg font-bold text-white group-hover:text-cyan-400 group-hover:drop-shadow-lg transition-colors">
-                      {buffDuration}%
-                    </span>
-
-                    {(() => {
-                      const totalValue = Number(String(buffDuration).replace(/[^0-9.]/g, '')) || 0;
-                      const equipmentTotal = buffDurResult.total;
-                      const otherValue = Math.max(0, totalValue - equipmentTotal);
-
-                      if (totalValue <= 0) return null;
-
-                      return (
-                        <div
-                          className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-cyan-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
-                          onWheel={(e) => e.stopPropagation()}
-                        >
-                          <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
-                            <span>⏳</span>
-                            <span>버프 지속 시간</span>
-                          </div>
-                          <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
-                          <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
-                            {buffDurResult.breakdown.length > 0 ? (
-                              buffDurResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-between items-center text-xs px-2">
-                                  <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
-                                  <span className="text-cyan-400 font-mono ml-2">+{entry.value}%</span>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
-                            )}
-                          </div>
-                          <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
-                            <span className="text-2xl font-bold text-cyan-400">{equipmentTotal}%</span>
-                            <span className="text-xl font-bold text-slate-500">+</span>
-                            <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  {/* 3. Critical Rate */}
-                  <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
-                    <span className="text-xs text-gray-400">크리티컬 확률</span>
-                    <span className="text-lg font-bold text-white group-hover:text-red-400 group-hover:drop-shadow-lg transition-colors">
-                      {critRate}%
-                    </span>
-
-                    {(() => {
-                      const totalValue = Number(String(critRate).replace(/[^0-9.]/g, '')) || 0;
-                      const equipmentTotal = critRateResult.total;
-                      const otherValue = Math.max(0, totalValue - equipmentTotal);
-
-                      if (totalValue <= 0) return null;
-
-                      return (
-                        <div
-                          className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-red-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
-                          onWheel={(e) => e.stopPropagation()}
-                        >
-                          <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
-                            <span>🎯</span>
-                            <span>크리티컬 확률</span>
-                          </div>
-                          <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
-                          <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
-                            {critRateResult.breakdown.length > 0 ? (
-                              critRateResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-between items-center text-xs px-2">
-                                  <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
-                                  <span className="text-red-400 font-mono ml-2">+{entry.value}%</span>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
-                            )}
-                          </div>
-                          <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
-                            <span className="text-2xl font-bold text-red-400">{equipmentTotal}%</span>
-                            <span className="text-xl font-bold text-slate-500">+</span>
-                            <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  {/* 4. Cooldown Reduction (Sec) */}
-                  <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
-                    <span className="text-xs text-gray-400">재사용 대기시간 감소</span>
-                    <span className="text-lg font-bold text-white group-hover:text-emerald-400 group-hover:drop-shadow-lg transition-colors">
-                      -{cooldownReductionSec}초
-                    </span>
-
-                    {(() => {
-                      const totalValue = Number(String(cooldownReductionSec).replace(/[^0-9.]/g, '')) || 0;
-                      const equipmentTotal = cooldownSecResult.total;
-                      const otherValue = Math.max(0, totalValue - equipmentTotal);
-
-                      if (totalValue <= 0) return null;
-
-                      return (
-                        <div
-                          className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-emerald-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
-                          onWheel={(e) => e.stopPropagation()}
-                        >
-                          <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
-                            <span>⌛</span>
-                            <span>재사용 대기시간 감소</span>
-                          </div>
-                          <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
-                          <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
-                            {cooldownSecResult.breakdown.length > 0 ? (
-                              cooldownSecResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-center items-center gap-4 text-xs">
-                                  <span className="text-slate-400">{entry.item}</span>
-                                  <span className="text-emerald-400 font-mono font-bold">-{entry.value}초</span>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
-                            )}
-                          </div>
-                          <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
-                            <span className="text-2xl font-bold text-emerald-400">-{equipmentTotal}초</span>
-                            <span className="text-xl font-bold text-slate-500">+</span>
-                            <span className="text-2xl font-bold text-white">-{Number(otherValue.toFixed(2))}초</span>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  {/* 5. Cooldown Skip Chance (Original) */}
-                  <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
-                    <span className="text-xs text-gray-400">재사용 대기시간 미적용</span>
-                    <span className="text-lg font-bold text-white group-hover:text-blue-400 group-hover:drop-shadow-lg transition-colors">
-                      {cooldownReduction}%
-                    </span>
-
-                    {(() => {
-                      const totalValue = Number(String(cooldownReduction).replace(/[^0-9.]/g, '')) || 0;
-                      const equipmentTotal = cooldownResult.total;
-                      const otherValue = Math.max(0, totalValue - equipmentTotal);
-
-                      if (totalValue <= 0) return null;
-
-                      return (
-                        <div
-                          className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-blue-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
-                          onWheel={(e) => e.stopPropagation()}
-                        >
-                          <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
-                            <span>⏱️</span>
-                            <span>재사용 대기시간 미적용</span>
-                          </div>
-                          <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
-                          <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
-                            {cooldownResult.breakdown.length > 0 ? (
-                              cooldownResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-between items-center text-xs px-2">
-                                  <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
-                                  <span className="text-blue-400 font-mono ml-2">+{entry.value}%</span>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
-                            )}
-                          </div>
-                          <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
-                            <span className="text-2xl font-bold text-blue-400">{equipmentTotal}%</span>
-                            <span className="text-xl font-bold text-slate-500">+</span>
-                            <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  {/* 6. Status Damage */}
-                  <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
-                    <span className="text-xs text-gray-400">상태이상 데미지</span>
-                    <span className="text-lg font-bold text-white group-hover:text-pink-400 group-hover:drop-shadow-lg transition-colors">
-                      {statusDamage}%
-                    </span>
-
-                    {(() => {
-                      const totalValue = Number(String(statusDamage).replace(/[^0-9.]/g, '')) || 0;
-                      const equipmentTotal = statusDmgResult.total;
-                      const otherValue = Math.max(0, totalValue - equipmentTotal);
-
-                      if (totalValue <= 0) return null;
-
-                      return (
-                        <div
-                          className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-pink-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
-                          onWheel={(e) => e.stopPropagation()}
-                        >
-                          <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
-                            <span>🌀</span>
-                            <span>상태이상 데미지</span>
-                          </div>
-                          <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
-                          <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
-                            {statusDmgResult.breakdown.length > 0 ? (
-                              statusDmgResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-between items-center text-xs px-2">
-                                  <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
-                                  <span className="text-pink-400 font-mono ml-2">+{entry.value}%</span>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
-                            )}
-                          </div>
-                          <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
-                            <span className="text-2xl font-bold text-pink-400">{equipmentTotal}%</span>
-                            <span className="text-xl font-bold text-slate-500">+</span>
-                            <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  {/* 7. Item Drop Rate */}
-                  <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
-                    <span className="text-xs text-gray-400">아이템 드롭률</span>
-                    <span className="text-lg font-bold text-white group-hover:text-indigo-400 group-hover:drop-shadow-lg transition-colors">
-                      {itemDropRate}%
-                    </span>
-
-                    {(() => {
-                      const totalValue = Number(String(itemDropRate).replace(/[^0-9.]/g, '')) || 0;
-                      const equipmentTotal = dropRateResult.total;
-                      const otherValue = Math.max(0, totalValue - equipmentTotal);
-
-                      if (totalValue <= 0) return null;
-
-                      return (
-                        <div
-                          className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-indigo-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
-                          onWheel={(e) => e.stopPropagation()}
-                        >
-                          <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
-                            <span>💎</span>
-                            <span>아이템 드롭률</span>
-                          </div>
-                          <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
-                          <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
-                            {dropRateResult.breakdown.length > 0 ? (
-                              dropRateResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-between items-center text-xs px-2">
-                                  <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
-                                  <span className="text-indigo-400 font-mono ml-2">+{entry.value}%</span>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
-                            )}
-                          </div>
-                          <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
-                            <span className="text-2xl font-bold text-indigo-400">{equipmentTotal}%</span>
-                            <span className="text-xl font-bold text-slate-500">+</span>
-                            <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  {/* 8. Meso Acquisition */}
-                  <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
-                    <span className="text-xs text-gray-400">메소 획득량</span>
-                    <span className="text-lg font-bold text-white group-hover:text-yellow-400 group-hover:drop-shadow-lg transition-colors">
-                      {mesoDropRate}%
-                    </span>
-
-                    {(() => {
-                      const totalValue = Number(String(mesoDropRate).replace(/[^0-9.]/g, '')) || 0;
-                      const equipmentTotal = mesoRateResult.total;
-                      const otherValue = Math.max(0, totalValue - equipmentTotal);
-
-                      if (totalValue <= 0) return null;
-
-                      return (
-                        <div
-                          className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-yellow-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
-                          onWheel={(e) => e.stopPropagation()}
-                        >
-                          <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
-                            <span>💰</span>
-                            <span>메소 획득량</span>
-                          </div>
-                          <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
-                          <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
-                            {mesoRateResult.breakdown.length > 0 ? (
-                              mesoRateResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-between items-center text-xs px-2">
-                                  <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
-                                  <span className="text-yellow-400 font-mono ml-2">+{entry.value}%</span>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
-                            )}
-                          </div>
-                          <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
-                            <span className="text-2xl font-bold text-yellow-400">{equipmentTotal}%</span>
-                            <span className="text-xl font-bold text-slate-500">+</span>
-                            <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  {/* 9. EXP Rate */}
-                  <div className="relative flex flex-col gap-1 p-2 bg-slate-900/50 rounded-lg items-center group hover:bg-slate-700/50 cursor-help transition-colors">
-                    <span className="text-xs text-gray-400">추가 경험치 획득</span>
-                    <span className="text-lg font-bold text-white group-hover:text-lime-400 group-hover:drop-shadow-lg transition-colors">
-                      {expRate}%
-                    </span>
-
-                    {(() => {
-                      const totalValue = Number(String(expRate).replace(/[^0-9.]/g, '')) || 0;
-                      const equipmentTotal = expRateResult.total;
-                      const otherValue = Math.max(0, totalValue - equipmentTotal);
-
-                      if (totalValue <= 0) return null;
-
-                      return (
-                        <div
-                          className="absolute left-1/2 bottom-full mb-2 -translate-x-1/2 w-80 bg-slate-950 border border-lime-500 rounded-lg p-4 shadow-2xl z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200"
-                          onWheel={(e) => e.stopPropagation()}
-                        >
-                          <div className="text-center font-bold text-white mb-3 pb-2 border-b border-slate-700 flex justify-center items-center gap-2">
-                            <span>📈</span>
-                            <span>추가 경험치 획득</span>
-                          </div>
-                          <div className="text-center text-xs text-gray-400 mb-2">장비 아이템에서 적용 중인 수치:</div>
-                          <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar mb-4">
-                            {expRateResult.breakdown.length > 0 ? (
-                              expRateResult.breakdown.map((entry, idx) => (
-                                <div key={idx} className="flex justify-between items-center text-xs px-2">
-                                  <span className="text-slate-400 truncate flex-1 text-left">{entry.item}</span>
-                                  <span className="text-lime-400 font-mono ml-2">+{entry.value}%</span>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="text-center text-xs text-slate-600 py-2">장비에서 적용되는 수치 없음</div>
-                            )}
-                          </div>
-                          <div className="pt-3 border-t border-slate-700 text-center flex justify-center items-center gap-2">
-                            <span className="text-2xl font-bold text-lime-400">{equipmentTotal}%</span>
-                            <span className="text-xl font-bold text-slate-500">+</span>
-                            <span className="text-2xl font-bold text-white">{Number(otherValue.toFixed(2))}%</span>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                </div>
-
               </div>
             )}
 
@@ -1583,10 +1599,11 @@ export default function Home() {
             </div>
           </div>
         )}
+
       </section>
 
       {/* Equipment Overview Modal */}
-      <EquipmentOverviewModal
+      < EquipmentOverviewModal
         isOpen={isOverviewOpen}
         onClose={() => setIsOverviewOpen(false)}
         equipmentGrid={equipmentGrid}
@@ -1613,14 +1630,16 @@ export default function Home() {
         <p className="mt-2 text-xs text-slate-600">Copyright © 2025. 한자유튜브 - All right reserved</p>
       </footer>
       {/* Weapon Diagnosis Modal */}
-      {selectedWeapon && (
-        <WeaponDiagnosisModal
-          item={selectedWeapon}
-          onClose={() => setSelectedWeapon(null)}
-          characterClass={character?.character_class || ""}
-        />
-      )}
-    </main>
+      {
+        selectedWeapon && (
+          <WeaponDiagnosisModal
+            item={selectedWeapon}
+            onClose={() => setSelectedWeapon(null)}
+            characterClass={character?.character_class || ""}
+          />
+        )
+      }
+    </main >
   );
 }
 
