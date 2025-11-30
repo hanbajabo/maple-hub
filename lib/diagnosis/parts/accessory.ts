@@ -262,7 +262,7 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
                 }
             }
             // 렙당 주스탯 (유효 라인 인정)
-            if (l.includes("캐릭터 기준 9레벨 당")) {
+            if (l.includes("레벨 당")) {
                 const isMainStat = l.includes("올스탯") || mainStats.some(stat => l.includes(stat));
                 if (isMainStat) {
                     if (l.includes("+1")) adiStatPct += 7; // 에디 유효 라인 (7%) 인정

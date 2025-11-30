@@ -38,6 +38,7 @@ export interface TotalCheckupResult {
         activeSets: string[];
         luckyItemApplied: boolean;
         brokenSets: string[]; // 깨진 세트 (예: 3카 4앱 등 애매한 상태)
+        setDetails: Record<string, string[]>; // 세트별 포함된 아이템 목록
     };
 }
 
@@ -55,7 +56,7 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
             potential: { gradeCount: {}, validLines: 0, totalLines: 51, hatCooltime: 0, gloveCritDmg: 0 },
             additional: { gradeCount: {}, validLines: 0, totalLines: 51 }
         },
-        setEffect: { activeSets: [], luckyItemApplied: false, brokenSets: [] }
+        setEffect: { activeSets: [], luckyItemApplied: false, brokenSets: [], setDetails: {} }
     };
 
     if (!items || items.length === 0) return result;
@@ -69,7 +70,9 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
 
     // 아이템 분류 및 데이터 추출
     const setCounts: Record<string, number> = {};
+    const setItems: Record<string, string[]> = {};
     let luckyItemCount = 0;
+    let luckyItemName = "";
 
     items.forEach(item => {
         const slot = item.item_equipment_slot;
@@ -204,15 +207,15 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
         }
 
         // 세트 효과 카운팅
-        if (name.includes('카루타') || name.includes('하이네스') || name.includes('이글아이') || name.includes('트릭스터') || name.includes('파프니르')) incrementSet(setCounts, '카루타');
-        if (name.includes('앱솔랩스')) incrementSet(setCounts, '앱솔랩스');
-        if (name.includes('아케인셰이드')) incrementSet(setCounts, '아케인셰이드');
-        if (name.includes('에테르넬')) incrementSet(setCounts, '에테르넬');
-        if (name.includes('마이스터')) incrementSet(setCounts, '마이스터');
+        if (name.includes('카루타') || name.includes('하이네스') || name.includes('이글아이') || name.includes('트릭스터') || name.includes('파프니르')) incrementSet(setCounts, setItems, '카루타', name);
+        if (name.includes('앱솔랩스')) incrementSet(setCounts, setItems, '앱솔랩스', name);
+        if (name.includes('아케인셰이드')) incrementSet(setCounts, setItems, '아케인셰이드', name);
+        if (name.includes('에테르넬')) incrementSet(setCounts, setItems, '에테르넬', name);
+        if (name.includes('마이스터')) incrementSet(setCounts, setItems, '마이스터', name);
 
         // 여명 세트
         if (name.includes('트와일라이트 마크') || name.includes('에스텔라 이어링') || name.includes('가디언 엔젤 링') || name.includes('데이브레이크 펜던트')) {
-            incrementSet(setCounts, '여명');
+            incrementSet(setCounts, setItems, '여명', name);
         }
 
         // 보스 장신구 세트 (주요 아이템)
@@ -222,10 +225,11 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
             '골든 클로버 벨트', '분노한 자쿰의 벨트', '로얄 블랙메탈 숄더', '핑크빛 성배', '크리스탈 웬투스 뱃지', '지옥의 불꽃'
         ];
         if (bossAccList.some(acc => name === acc || name.includes(acc))) {
-            incrementSet(setCounts, '보스 장신구');
+            incrementSet(setCounts, setItems, '보스 장신구', name);
         }
 
-        if (name.includes('칠흑') || isPitchBoss(name)) incrementSet(setCounts, '칠흑');
+        if (name.includes('칠흑') || isPitchBoss(name)) incrementSet(setCounts, setItems, '칠흑', name);
+        if (isBrilliantBoss(name)) incrementSet(setCounts, setItems, '광휘의 보스', name);
 
         // 럭키 아이템 체크 (제네시스, 데스티니, 카오스 모자 4종)
         const isGenesisOrDestiny = name.includes('제네시스') || name.includes('데스티니');
@@ -235,6 +239,7 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
 
         if (isGenesisOrDestiny || isChaosHat) {
             luckyItemCount++;
+            luckyItemName = name;
         }
     });
 
@@ -252,15 +257,13 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
         result.setEffect.luckyItemApplied = true;
 
         // 세트 우선순위 정의 (높은 레벨/티어 순)
+        // * 장신구 세트(칠흑, 여명, 보스 장신구)는 럭키 아이템(무기) 적용 대상 아님
         const setPriority: Record<string, number> = {
             '에테르넬': 100,
-            '칠흑': 90,
             '아케인셰이드': 80,
-            '여명': 70,
             '앱솔랩스': 60,
             '카루타': 50,
-            '마이스터': 40,
-            '보스 장신구': 30
+            '마이스터': 40
         };
 
         // 3세트 이상인 세트만 필터링 및 정렬
@@ -269,9 +272,15 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
             .sort((a, b) => (setPriority[b] || 0) - (setPriority[a] || 0));
 
         // 럭키 아이템 개수만큼 상위 세트에 +1 적용
+        // candidateSets에 있는 세트만 적용됨 (우선순위 맵에 없는 세트는 제외됨)
         for (let i = 0; i < Math.min(luckyItemCount, candidateSets.length); i++) {
             const targetSet = candidateSets[i];
-            setCounts[targetSet]++;
+            if (setPriority[targetSet]) { // 우선순위 목록에 있는 세트만 적용
+                setCounts[targetSet]++;
+                // 럭키 아이템도 목록에 추가
+                if (!setItems[targetSet]) setItems[targetSet] = [];
+                setItems[targetSet].push(`${luckyItemName} (럭키 아이템)`);
+            }
         }
     }
 
@@ -286,20 +295,34 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
         if (set === '여명' && count >= 2) result.setEffect.activeSets.push(`여명 ${count}셋`);
         if (set === '보스 장신구' && count >= 3) result.setEffect.activeSets.push(`보스 장신구 ${count}셋`);
         if (set === '칠흑' && count >= 2) result.setEffect.activeSets.push(`칠흑 ${count}셋`);
+        if (set === '광휘의 보스' && count >= 2) result.setEffect.activeSets.push(`광휘의 보스 ${count}셋`);
     }
+
+    result.setEffect.setDetails = setItems;
 
     return result;
 }
 
-function incrementSet(counts: Record<string, number>, set: string) {
+function incrementSet(counts: Record<string, number>, items: Record<string, string[]>, set: string, itemName: string) {
     counts[set] = (counts[set] || 0) + 1;
+    if (!items[set]) items[set] = [];
+    items[set].push(itemName);
 }
 
 function isPitchBoss(name: string): boolean {
     const pitchBossSet = [
         '창세의 뱃지', '저주받은 마도서', '미트라의 분노',
         '고통의 근원', '몽환의 벨트', '루즈 컨트롤 머신 마크', '마력이 깃든 안대',
-        '커맨더 포스 이어링', '거대한 공포'
+        '커맨더 포스 이어링', '거대한 공포',
+        '블랙 하트', '블랙하트', '컴플리트 언더컨트롤', '컴플리트언더컨트롤',
+        '저주받은 적의 마도서', '저주받은 청의 마도서', '저주받은 녹의 마도서', '저주받은 황의 마도서'
     ];
     return pitchBossSet.some(p => name.includes(p));
+}
+
+function isBrilliantBoss(name: string): boolean {
+    const brilliantBossSet = [
+        '근원의 속삭임', '죽음의 맹세', '불멸의 유산'
+    ];
+    return brilliantBossSet.some(p => name.includes(p));
 }

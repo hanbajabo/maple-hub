@@ -1091,9 +1091,29 @@ export const StageCard: React.FC<StageCardProps> = ({
                                         </div>
                                     </div>
                                 )}
-                                <p className="text-xs text-pink-300 mb-2 bg-pink-950/50 p-1.5 rounded">
-                                    💡 <strong>진단:</strong> 카르마 유니크 잠재능력 주문서를 최우선 순위로 사용하여 유니크 옵션을 확보 한 후 이벤트 큐브를 활용하여 옵션 뽑기
-                                </p>
+                                {(() => {
+                                    const emblem = equipment?.find(i => i.item_equipment_slot === "엠블렘");
+                                    if (!emblem) return null;
+
+                                    const grade = emblem.potential_option_grade;
+                                    const isBelowUnique = grade === '레어' || grade === '에픽' || !grade;
+
+                                    // 유니크지만 유효 옵션이 없는 경우 체크
+                                    let hasValidOption = false;
+                                    if (grade === '유니크') {
+                                        const lines = [emblem.potential_option_1, emblem.potential_option_2, emblem.potential_option_3];
+                                        hasValidOption = lines.some(l => l && (l.includes('공격력') || l.includes('마력')) && l.includes('%'));
+                                    }
+
+                                    if (isBelowUnique || (grade === '유니크' && !hasValidOption)) {
+                                        return (
+                                            <p className="text-xs text-pink-300 mb-2 bg-pink-950/50 p-1.5 rounded">
+                                                💡 <strong>진단:</strong> 유니크 잠재능력 주문서 등을 활용하여 유니크 옵션을 확보 한 후 이벤트 큐브를 활용하여 옵션 뽑기
+                                            </p>
+                                        );
+                                    }
+                                    return null;
+                                })()}
                                 <ul className="space-y-1 text-slate-300">
                                     <li>• 잠재능력 : <strong className="text-white">유니크 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 9% 이상</strong></li>
                                     <li>• 에디셔널 : <strong className="text-white">에픽 이상</strong> / 옵션 : <strong className="text-white">{attTypeKor}% 1줄 이상</strong></li>

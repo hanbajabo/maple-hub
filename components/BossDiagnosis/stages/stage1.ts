@@ -15,31 +15,33 @@ export const evaluateStage1 = (equipment: EquipmentItem[], isGenesisWeapon: bool
         "블랙메탈", // 어깨장식
         "성배", "영생의돌" // 포켓
     ];
-    const bossSetCount = checkSetItems(equipment, bossSetKeywords, ["여명의"]);
+    let bossSetCount = checkSetItems(equipment, bossSetKeywords, ["여명의"]);
 
     // 여명의 보스 세트
     const dawnSetKeywords = [
-        "여명의가디언엔젤링", // 반지
-        "데이브레이크", // 펜던트
-        "트와일라이트", // 얼굴장식
-        "에스텔라" // 귀고리
+        "여명의가디언엔젤링", // 반지 (이름에 '여명의'가 붙은 것만 여명 세트 인정)
+        "데이브레이크펜던트", "데이브레이크", // 펜던트
+        "트와일라이트마크", "트와일라이트", // 얼굴장식
+        "에스텔라이어링", "에스텔라" // 귀고리
     ];
-    const dawnSetCount = checkSetItems(equipment, dawnSetKeywords);
+    let dawnSetCount = checkSetItems(equipment, dawnSetKeywords);
 
     // 칠흑의 보스 세트
     const pitchedSetKeywords = [
-        "루즈컨트롤", // 얼굴장식
-        "마력이깃든안대", // 눈장식
-        "거대한공포", // 반지
-        "저주받은적의마도서", "저주받은청의마도서", "저주받은녹의마도서", "저주받은황의마도서", // 포켓 (색상별)
-        "블랙하트", "컴플리트언더컨트롤", // 기계 심장
-        "몽환의벨트", // 벨트
-        "고통의근원", // 펜던트
-        "창세의뱃지", // 뱃지
-        "커맨더포스", // 귀고리
-        "미트라의분노" // 엠블렘
+        "루즈컨트롤머신마크", "루즈 컨트롤 머신 마크", "루즈컨트롤", // 얼굴장식
+        "마력이깃든안대", "마력이 깃든 안대", // 눈장식
+        "거대한공포", "거대한 공포", // 반지
+        "저주받은적의마도서", "저주받은청의마도서", "저주받은녹의마도서", "저주받은황의마도서", // 포켓 (풀네임)
+        "저주받은 적의 마도서", "저주받은 청의 마도서", "저주받은 녹의 마도서", "저주받은 황의 마도서", // 포켓 (띄어쓰기)
+        "마도서", // 포켓 (범용)
+        "블랙하트", "블랙 하트", "컴플리트언더컨트롤", "컴플리트 언더컨트롤", // 기계 심장
+        "몽환의벨트", "몽환의 벨트", // 벨트
+        "고통의근원", "고통의 근원", // 펜던트
+        "창세의뱃지", "창세의 뱃지", // 뱃지
+        "커맨더포스이어링", "커맨더 포스 이어링", "커맨더포스", // 귀고리
+        "미트라의분노", "미트라의 분노", "미트라" // 엠블렘
     ];
-    const pitchedSetCount = checkSetItems(equipment, pitchedSetKeywords);
+    let pitchedSetCount = checkSetItems(equipment, pitchedSetKeywords);
 
     // 광휘의 보스 세트
     const brilliantSetKeywords = [
@@ -47,10 +49,17 @@ export const evaluateStage1 = (equipment: EquipmentItem[], isGenesisWeapon: bool
         "죽음의맹세", // 펜던트
         "불멸의유산" // 훈장
     ];
-    const brilliantSetCount = checkSetItems(equipment, brilliantSetKeywords);
+    let brilliantSetCount = checkSetItems(equipment, brilliantSetKeywords);
 
-    // 마이스터 세트 (기존 유지)
-    const meisterSetCount = checkSetItems(equipment, ["마이스터"]);
+    // 마이스터 세트
+    let meisterSetCount = checkSetItems(equipment, ["마이스터"]);
+
+    // 럭키 아이템 (제네시스 무기) 처리
+    // * 제네시스 무기는 '무기'가 포함된 세트에만 적용됨 (보스/여명/칠흑은 장신구 세트라 적용 X)
+    // * 마이스터 세트는 무기가 포함되어 있으므로 적용 가능
+    if (isGenesisWeapon && meisterSetCount >= 3) {
+        meisterSetCount++;
+    }
 
     const setCounts = { bossSetCount, dawnSetCount, pitchedSetCount, meisterSetCount, brilliantSetCount };
 

@@ -159,8 +159,8 @@ export function generateItemCommentary(item: any, job?: string): string {
 
     // 강화 불가 부위 체크
     const slot = item.item_equipment_slot;
-    const isMedal = slot === '훈장';
-    const isBadge = slot === '뱃지';
+    const isMedal = slot === '훈장' || slot.includes('훈장');
+    const isBadge = slot === '뱃지' || slot.includes('뱃지');
     const isPocket = slot === '포켓 아이템';
     const isEmblem = slot === '엠블렘';
     const isSubWeapon = slot === '보조무기' || (item.item_equipment_part === '보조무기');

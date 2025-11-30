@@ -148,7 +148,18 @@ function generateEvaluation(
     } else {
         // 에디셔널
         if (grade === '레전드리') {
+            const hasCoolReduce = goodOptions.some(opt => opt.includes('재사용 대기시간'));
+            if (hasCoolReduce) {
+                const cdLines = goodOptions.filter(opt => opt.includes('재사용 대기시간')).length;
+                if (cdLines >= 3) return '신화';
+                if (cdLines >= 2) return '종결';
+                if (goodOptions.length >= 3) return '종결';
+                if (goodOptions.length >= 2) return '최상급';
+                return '훌륭';
+            }
+
             if (score >= 21) return '종결';
+            if (goodOptions.length >= 3 && score >= 17) return '종결';
             if (score >= 14) return '최상급';
             if (score >= 10) return '준수';
             return '아쉬움';
@@ -375,7 +386,7 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                 }
             }
             // 2. 렙당 스탯 (캐릭터 기준 9레벨 당)
-            else if (opt.includes('캐릭터 기준 9레벨 당') || opt.includes('캐릭터 기준 10레벨 당')) {
+            else if (opt.includes('레벨 당')) {
                 const match = opt.match(/\+(\d+)/);
                 if (match) {
                     const val = parseInt(match[1]);
@@ -395,6 +406,16 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                         totalStatEquivalent += 3;
                         isGoodOption = true;
                     }
+                }
+            }
+
+            // 4. 쿨타임 감소 (모자 에디셔널 등)
+            else if (opt.includes('재사용 대기시간')) {
+                const match = opt.match(/(\d+)초/);
+                if (match) {
+                    // 쿨감은 점수(score)로 환산하기 어려우므로 별도 플래그 처리하거나 점수에 반영하지 않음
+                    // 하지만 goodOptions에는 포함되어야 함
+                    isGoodOption = true;
                 }
             }
 
@@ -574,9 +595,35 @@ function generateGeneralRecommendation(
             if (!grade || grade === '') grade = '레어';
 
             if (grade === '레전드리') {
-                if (score >= 21) return `종결급! 주스탯 ${score}%급 효율입니다. (3줄 유효)`;
-                if (score >= 14) return `최상급! 주스탯 ${score}%급 효율입니다. (2줄 유효)`;
-                if (score >= 10) return `준수함! 주스탯 ${score}%급 효율입니다. (1.5줄 이상)`;
+                // 에디셔널 쿨감 체크
+                const hasCoolReduce = goodOptions.some(opt => opt.includes('재사용 대기시간'));
+                if (hasCoolReduce) {
+                    let cd = 0;
+                    let cdLines = 0;
+                    goodOptions.forEach(opt => {
+                        const m = opt.match(/(\d+)초/);
+                        if (m) {
+                            cd += parseInt(m[1]);
+                            cdLines++;
+                        }
+                    });
+
+                    if (cdLines >= 3) return `신화급! 에디셔널 쿨감 -${cd}초...?! 전 서버에 몇 없는 기적의 아이템입니다.`;
+                    if (cdLines >= 2) return `종결급! 에디셔널 쿨감 -${cd}초! 윗잠에서도 보기 힘든 옵션입니다.`;
+
+                    const lineCount = goodOptions.length;
+                    if (lineCount >= 3) return `종결급! 에디셔널 쿨감 -${cd}초에 유효 옵션 2줄까지! 완벽합니다.`;
+                    if (lineCount >= 2) return `최상급! 에디셔널 쿨감 -${cd}초와 유효 옵션을 함께 챙기셨네요.`;
+                    return `훌륭함! 에디셔널 쿨감 -${cd}초는 직업에 따라 최고의 옵션입니다.`;
+                }
+
+                const lineCount = goodOptions.length;
+                const linesText = lineCount >= 3 ? '3줄 유효' : (lineCount >= 2 ? '2줄 유효' : '1줄 유효');
+
+                if (score >= 21) return `종결급! 주스탯 ${score}%급 효율입니다. (${linesText})`;
+                if (lineCount >= 3 && score >= 17) return `종결급! 주스탯 ${score}%급 효율입니다. (${linesText})`;
+                if (score >= 14) return `최상급! 주스탯 ${score}%급 효율입니다. (${linesText})`;
+                if (score >= 10) return `준수함! 주스탯 ${score}%급 효율입니다. (${linesText})`;
                 return `레전드리 등급이지만 옵션이 아쉽습니다. (${score}%급)`;
             }
 

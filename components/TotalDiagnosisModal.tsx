@@ -317,6 +317,7 @@ const StarforceCommentary = ({ avg, count22, count25Plus }: { avg: number, count
 };
 
 export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, equipment }: TotalDiagnosisModalProps) {
+    const [selectedSet, setSelectedSet] = useState<string | null>(null);
 
     // 뒤로가기 핸들링 및 스크롤 방지
     useEffect(() => {
@@ -592,7 +593,7 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, e
                     </div>
 
                     {/* 4. Set Effect Section */}
-                    <div className="bg-slate-800/40 rounded-2xl p-6 border border-white/5 hover:border-purple-500/30 transition-colors relative overflow-hidden">
+                    <div className="bg-slate-800/40 rounded-2xl p-6 border border-white/5 hover:border-purple-500/30 transition-colors relative">
                         <div className="absolute top-0 right-0 p-4 opacity-5">
                             <Layers className="w-24 h-24 text-purple-500" />
                         </div>
@@ -607,11 +608,52 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, e
                         <div className="bg-slate-950/50 p-5 rounded-xl border border-purple-500/20 relative z-10">
                             <div className="flex flex-wrap gap-2">
                                 {data.setEffect.activeSets.length > 0 ? (
-                                    data.setEffect.activeSets.map((set, idx) => (
-                                        <span key={idx} className="px-4 py-1.5 bg-purple-500/10 text-purple-300 rounded-lg text-sm font-bold border border-purple-500/30 shadow-sm">
-                                            {set}
-                                        </span>
-                                    ))
+                                    data.setEffect.activeSets.map((setStr, idx) => {
+                                        const parts = setStr.split(' ');
+                                        const setName = parts.slice(0, parts.length - 1).join(' '); // "광휘의 보스 3셋" -> "광휘의 보스"
+                                        const items = data.setEffect.setDetails?.[setName] || [];
+                                        const isSelected = selectedSet === setName;
+
+                                        return (
+                                            <div key={idx} className="relative">
+                                                <button
+                                                    onClick={() => setSelectedSet(isSelected ? null : setName)}
+                                                    className={`px-4 py-1.5 rounded-lg text-sm font-bold border shadow-sm transition-all flex items-center gap-2
+                                                        ${isSelected
+                                                            ? 'bg-purple-500 text-white border-purple-400 shadow-purple-500/20'
+                                                            : 'bg-purple-500/10 text-purple-300 border-purple-500/30 hover:bg-purple-500/20'
+                                                        }`}
+                                                >
+                                                    {setStr}
+                                                    {items.length > 0 && (
+                                                        <span className="text-[10px] bg-black/30 px-1.5 py-0.5 rounded-full">
+                                                            ℹ️
+                                                        </span>
+                                                    )}
+                                                </button>
+
+                                                {/* Item List Popover */}
+                                                {isSelected && items.length > 0 && (
+                                                    <div className="absolute bottom-full left-0 mb-2 w-64 bg-slate-900 border border-purple-500/30 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                                                        <div className="bg-purple-500/10 px-3 py-2 border-b border-purple-500/20 flex justify-between items-center">
+                                                            <span className="text-xs font-bold text-purple-300">{setName} 구성 아이템</span>
+                                                            <button onClick={(e) => { e.stopPropagation(); setSelectedSet(null); }} className="text-slate-400 hover:text-white">
+                                                                <X className="w-3 h-3" />
+                                                            </button>
+                                                        </div>
+                                                        <ul className="p-2 max-h-60 overflow-y-auto custom-scrollbar">
+                                                            {items.map((item, i) => (
+                                                                <li key={i} className="text-xs text-slate-300 py-1.5 px-2 hover:bg-white/5 rounded flex items-center gap-2">
+                                                                    <span className="w-1 h-1 bg-purple-400 rounded-full"></span>
+                                                                    {item}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })
                                 ) : (
                                     <span className="text-slate-500 text-sm">적용 중인 주요 세트 효과가 없습니다.</span>
                                 )}
