@@ -100,6 +100,15 @@ const guides = [
         icon: '🎁',
     },
     {
+        id: 'boss-tier-guide',
+        title: '보스 티어 (Boss Tier) 가이드',
+        description: '금별부터 납별까지, 결정석 가격과 체감 난이도로 정리한 보스 몬스터 계급도',
+        category: '보스',
+        readTime: '5분',
+        difficulty: '초급',
+        icon: '🏆',
+    },
+    {
         id: 'about-danpung-i',
         title: '단풍이 소개 & 판단 기준',
         description: '메이플 AI 마스코트 단풍이 소개와 아이템 진단, 스펙 분석 기준 상세 안내',
