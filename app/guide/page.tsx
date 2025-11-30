@@ -117,6 +117,15 @@ const guides = [
         difficulty: '필독',
         icon: '🍁',
     },
+    {
+        id: '../tools/starforce',
+        title: '스타포스 시뮬레이터',
+        description: '2025년 최신 확률 적용! 파괴 방지, 스타캐치, 썬데이 메이플까지 완벽 구현된 강화 시뮬레이터',
+        category: '도구',
+        readTime: '무제한',
+        difficulty: '누구나',
+        icon: '🎰',
+    },
 ];
 
 export default function GuidePage() {

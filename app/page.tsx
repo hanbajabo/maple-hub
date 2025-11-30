@@ -579,6 +579,13 @@ export default function Home() {
             <span className="hidden sm:inline">패치노트</span>
           </button>
           <a
+            href="/tools/starforce"
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg shadow-indigo-900/20"
+          >
+            <span>⭐</span>
+            <span className="hidden sm:inline">스타포스</span>
+          </a>
+          <a
             href="/guide"
             className="px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg"
           >
