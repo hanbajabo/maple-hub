@@ -2,6 +2,7 @@ import { STARFORCE_SIMULATION_STATS } from './starforce_db';
 import { evaluatePotential } from './potential_evaluator';
 import { evaluateWeaponFlame, evaluateArmorFlame } from './flame_evaluator';
 import { getMaxStarforce } from './diagnosis/equipment';
+import { isPensalirItem } from './utils/item_classifier';
 
 export type { PotentialEvaluation } from './potential_evaluator';
 export type { FlameEvaluation } from './flame_evaluator';
@@ -43,7 +44,7 @@ export function evaluateStarforce(
     }
 
     // 펜살리르/우트가르드 무기 특별 처리
-    if (itemName.includes('펜살리르') || itemName.includes('우트가르드')) {
+    if (isPensalirItem(itemName)) {
         return {
             current_star: currentStar,
             target_star: 17,
