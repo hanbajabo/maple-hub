@@ -1,0 +1,16 @@
+// Add this after line 205 (after 실버블라썸 링 block)
+    } else if (itemName.includes('펜살리르')) {
+        // 펜살리르 장비 중 무기/모자/한벌옷만 경고
+        const isPensalirWeapon = slot === '무기' || slot.includes('무기');
+        const isPensalirHatOverall = slot.includes('모자') || slot.includes('한벌옷');
+        const isPensalirOtherArmor = !isPensalirWeapon && !isPensalirHatOverall && 
+                                      (slot.includes('장갑') || slot.includes('신발') || slot.includes('망토') || slot.includes('어깨'));
+        
+        if (isPensalirWeapon) {
+            comments.push(`[⚠️ 긴급 경고] 펜살리르 무기는 성능이 매우 부족합니다. <b>본캐용이라면 즉시 아케인셰이드 무기로 교체</b>하세요. 부캐/유니온용이라면 파프니르나 앱솔랩스도 괜찮습니다.`);
+        } else if (isPensalirHatOverall) {
+            comments.push(`[⚠️ 교체 권장] 펜살리르 ${slot}은 성능이 좋지 않습니다. <b>루타비스(카루타) 세트</b>로 교체하는 것을 강력히 권장합니다.`);
+        } else if (isPensalirOtherArmor) {
+            comments.push(`[교체 추천] 펜살리르 ${slot}보다 <b>앱솔랩스/아케인셰이드 ${slot}</b>이 훨씬 좋습니다. 교체를 고려해보세요.`);
+        }
+    }

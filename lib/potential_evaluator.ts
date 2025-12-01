@@ -43,8 +43,37 @@ export function evaluatePotential(
     options: string[],
     itemLevel: number,
     equipmentType: '무기' | '방어구' | '장신구' | '보조무기' | '엠블렘',
-    itemSlot?: string
+    itemSlot?: string,
+    itemName?: string
 ): PotentialEvaluation {
+    // 펜살리르/우트가르드 장비 특별 처리 (잠재능력 투자 비추천)
+    if (itemName && (itemName.includes('펜살리르') || itemName.includes('우트가르드'))) {
+        const isWeapon = equipmentType === '무기' || itemName.includes('우트가르드');
+        const isHatOverall = itemName.includes('모자') || itemName.includes('한벌옷');
+
+        let recommendation = '';
+        if (isWeapon) {
+            recommendation = '[교체 권장] 우트가르드(펜살리르) 무기에 잠재능력 투자는 비효율적입니다. 아케인셰이드 무기로 교체하세요.';
+        } else if (isHatOverall) {
+            recommendation = '[교체 권장] 펜살리르 방어구에 잠재능력 투자는 비효율적입니다. 루타비스(카루타) 세트로 교체하세요.';
+        } else {
+            recommendation = '[교체 권장] 펜살리르 방어구에 잠재능력 투자는 비효율적입니다. 앱솔랩스/아케인셰이드로 교체하세요.';
+        }
+
+        return {
+            current_grade: currentGrade,
+            target_grade: '레전드리',
+            upgrade_rate: 0,
+            ceiling_count: 0,
+            ceiling_cost: 0,
+            avg_cost: 0,
+            options_score: 0,
+            good_options: [],
+            recommendation,
+            evaluation: '투자 비추천'
+        };
+    }
+
     const targetGrade = '레전드리';
     const isMain = type === 'main';
 

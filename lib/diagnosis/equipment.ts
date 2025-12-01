@@ -6,6 +6,15 @@ import { diagnoseWeapon } from './parts/weapon';
 import { diagnoseArmor } from './parts/armor';
 import { diagnoseAccessory } from './parts/accessory';
 
+export function getMaxStarforce(level: number): number {
+    if (level <= 94) return 5;
+    if (level <= 107) return 8;
+    if (level <= 117) return 10;
+    if (level <= 127) return 15;
+    if (level <= 137) return 20;
+    return 25;
+}
+
 // === 🚀 진화형 AI: 정밀 진단 로직 (Deep Diagnosis) ===
 // 기준표 Section 11. 진단 파이프라인 설계 적용
 // === 🚀 진화형 AI: 정밀 진단 로직 (Deep Diagnosis) ===
@@ -118,12 +127,22 @@ export function diagnoseEquipment(items: any[], mainStat: string, attType: strin
         const isEventRing = ["테네브리스", "SS급", "어웨이크", "글로리온", "카오스", "벤젼스", "결속의", "이터널 플레임", "어드벤처 딥다크", "오닉스", "코스모스", "이벤트 링", "어드벤처", "시너지", "쥬얼", "다크 크리티컬"].some(k => itemName.includes(k));
         const isCantStarforce = ["훈장", "뱃지", "포켓 아이템", "엠블렘", "보조무기", "기계 심장"].some(s => slot.includes(s));
 
+        const level = item.item_base_option?.base_equipment_level || 0;
+        const maxSf = getMaxStarforce(level);
+
         if (starforce < 12 && !isSuperior && !isEventRing && !isCantStarforce) {
-            const advice = `[${slot}] ${itemName}: [성장 조언] 스타포스 12성은 가성비가 매우 좋습니다. 우선 12성까지 강화를 추천합니다.`;
-            // 중복 방지: 이미 비슷한 멘트가 있는지 확인
-            if (!result.starforce.some(c => c.includes(itemName) && (c.includes("12성") || c.includes("강화 필요")))) {
-                result.starforce.push(advice);
-                result.scoreDeduction += 2;
+            if (maxSf >= 12) {
+                const advice = `[${slot}] ${itemName}: [성장 조언] 스타포스 12성은 가성비가 매우 좋습니다. 우선 12성까지 강화를 추천합니다.`;
+                if (!result.starforce.some(c => c.includes(itemName) && (c.includes("12성") || c.includes("강화 필요")))) {
+                    result.starforce.push(advice);
+                    result.scoreDeduction += 2;
+                }
+            } else if (starforce < maxSf) {
+                const advice = `[${slot}] ${itemName}: [성장 조언] 이 장비는 최대 ${maxSf}성까지 강화 가능합니다. 풀강을 추천합니다.`;
+                if (!result.starforce.some(c => c.includes(itemName) && (c.includes("풀강") || c.includes("강화 필요")))) {
+                    result.starforce.push(advice);
+                    result.scoreDeduction += 2;
+                }
             }
         }
     });

@@ -22,6 +22,17 @@ export function evaluateWeaponFlame(
         };
     }
 
+    // 펜살리르/우트가르드 무기 특별 처리
+    if (itemName.includes('펜살리르') || itemName.includes('우트가르드')) {
+        return {
+            tier: 0,
+            is_weapon: true,
+            score: 0,
+            evaluation: '재설정 필요',
+            recommendation: '[교체 권장] 우트가르드(펜살리르) 무기에 환생의 불꽃 투자는 비효율적입니다. 아케인셰이드 무기로 교체하세요.'
+        };
+    }
+
     if (itemName.includes('라즐리') || itemName.includes('라피스')) {
         const attOption = additionalOptions.find(opt => opt.includes('공격력') && !opt.includes('%'));
         let addAtt = 0;
@@ -72,10 +83,30 @@ export function evaluateWeaponFlame(
 
 export function evaluateArmorFlame(
     itemLevel: number,
-    score: number
+    score: number,
+    itemName: string = ''
 ): FlameEvaluation {
     let evaluation: '종결' | '준수' | '보통' | '부족' | '재설정 필요' = '부족';
     let recommendation = '';
+
+    // 펜살리르 방어구 특별 처리
+    if (itemName.includes('펜살리르')) {
+        const isHatOverall = itemName.includes('모자') || itemName.includes('한벌옷');
+
+        if (isHatOverall) {
+            recommendation = '[교체 권장] 펜살리르 방어구에 환생의 불꽃 투자는 비효율적입니다. 루타비스(카루타) 세트로 교체하세요.';
+        } else {
+            recommendation = '[교체 권장] 펜살리르 방어구에 환생의 불꽃 투자는 비효율적입니다. 앱솔랩스/아케인셰이드로 교체하세요.';
+        }
+
+        return {
+            tier: 0,
+            is_weapon: false,
+            score: score,
+            evaluation: '재설정 필요',
+            recommendation
+        };
+    }
 
     if (itemLevel >= 140 && itemLevel <= 159) {
         if (score >= 140) {

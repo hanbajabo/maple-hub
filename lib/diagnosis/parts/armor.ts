@@ -51,7 +51,9 @@ export function diagnoseArmor(item: any, job?: string): string[] {
 
     // 3. 신발 / 망토 / 어깨장식 (Shoes / Cape / Shoulder)
     if (slot === "신발" || slot === "망토" || slot === "어깨장식") {
-        if (itemName.includes("앱솔랩스")) {
+        if (itemName.includes('펜살리르')) {
+            comments.push(`[교체 추천] 펜살리르 ${slot}보다 <b>앱솔랩스/아케인셰이드 ${slot}</b>이 훨씬 좋습니다. 교체를 고려해보세요.`);
+        } else if (itemName.includes("앱솔랩스")) {
             if (starforce >= 22) {
                 comments.push(`[가성비 제왕] <b>22성</b> 앱솔랩스는 <b>17성</b> 아케인보다 공격력이 월등히 높습니다. 현명한 선택입니다.`);
             } else if (starforce >= 17) {
@@ -69,13 +71,21 @@ export function diagnoseArmor(item: any, job?: string): string[] {
             if (starforce >= 17) {
                 comments.push(`[최상위 포식자] 에테르넬 세트는 존재만으로도 강력합니다.`);
             }
+        } else if (itemName.includes("로얄 블랙메탈 숄더")) {
+            if (starforce >= 12) {
+                comments.push(`[거쳐가는 단계] <b>${starforce}성</b>이면 충분합니다. 추후 <b>앱솔랩스</b>나 <b>아케인셰이드</b> 견장으로 넘어가세요.`);
+            } else {
+                comments.push(`[성장 조언] 가성비 좋게 <b>12성</b>까지만 강화해서 쓰다가 상위 견장으로 교체하는 것을 추천합니다.`);
+            }
         }
     }
 
     // 4. 잠재능력 (Potential) 진단
     const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3].filter(Boolean);
 
-    if (potentialGrade === '레전드리' || potentialGrade === '유니크') {
+    if (itemName.includes('펜살리르')) {
+        comments.push(`[교체 권장] 펜살리르 장비에 잠재능력 투자는 비효율적입니다. 앱솔랩스/아케인셰이드로 교체하세요.`);
+    } else if (potentialGrade === '레전드리' || potentialGrade === '유니크') {
         // 주스탯 % 계산 - 직업 주스탯만 계산
         let statPct = 0;
 
@@ -212,7 +222,9 @@ export function diagnoseArmor(item: any, job?: string): string[] {
     // 6. 공통: 추옵 진단 (Flame)
     // 환생의 불꽃 사용 가능 부위: 무기, 모자, 상의, 하의, 신발, 망토, 장갑
     // 어깨장식(견장)은 환생의 불꽃 사용 불가
-    if (slot !== "어깨장식") {
+    if (itemName.includes('펜살리르')) {
+        comments.push(`[교체 권장] 펜살리르 장비에 환생의 불꽃 투자는 비효율적입니다. 앱솔랩스/아케인셰이드로 교체하세요.`);
+    } else if (slot !== "어깨장식") {
         const addOpts = item.item_add_option || {};
 
         const str = parseInt(addOpts.str || "0");

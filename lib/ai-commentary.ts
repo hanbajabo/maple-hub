@@ -14,6 +14,7 @@ export function generateItemCommentary(item: any, job?: string): string {
     const potentialGrade = item.potential_option_grade || '없음';
     const addPotentialGrade = item.additional_potential_option_grade || '없음';
     const itemName = item.item_name || '장비';
+    const slot = item.item_equipment_slot || '';
 
     // 잠재능력 옵션 리스트
     const potentials = [
@@ -92,6 +93,12 @@ export function generateItemCommentary(item: any, job?: string): string {
             `[여명의 보스 세트] 칠흑으로 넘어가기 전 최고의 선택이죠. 아주 좋습니다.`,
             `[여명의 보스 세트] 든든한 허리 라인업! 스펙업의 정석을 밟고 계시네요.`
         ]));
+    } else if (itemName.includes('펜살리르') || itemName.includes('우트가르드')) {
+        comments.push(pick([
+            `[⚠️ 긴급 경고] 우트가르드(펜살리르) 무기는 성능이 매우 부족합니다. 본캐용이라면 즉시 아케인셰이드 무기로 교체하세요. 부캐/유니온용이라면 파프니르나 앱솔랩스도 괜찮습니다.`,
+            `[⚠️ 교체 권장] 우트가르드(펜살리르) 장비는 더 이상 투자하지 마세요. 아케인셰이드나 앱솔랩스 장비로 교체가 시급합니다.`,
+            `[⚠️ 투자 주의] 이 장비는 거쳐가는 용도입니다. 스타포스나 잠재능력에 과도한 투자는 금물입니다!`
+        ]));
     } else {
         const openings = [
             `[단풍이의 분석] "${itemName}"의 잠재력을 냉철하게 분석했습니다.`,
@@ -158,7 +165,6 @@ export function generateItemCommentary(item: any, job?: string): string {
     }
 
     // 강화 불가 부위 체크
-    const slot = item.item_equipment_slot;
     const isMedal = slot === '훈장' || slot.includes('훈장');
     const isBadge = slot === '뱃지' || slot.includes('뱃지');
     const isPocket = slot === '포켓 아이템';
@@ -198,11 +204,6 @@ export function generateItemCommentary(item: any, job?: string): string {
             }
         }
     } else if (itemName.includes('실버블라썸 링')) {
-        if (starforce >= 10) {
-            comments.push(`<b>10성</b>! 실버블라썸 링의 최대 강화 수치까지 달성하셨군요. 가성비 반지의 제왕입니다.`);
-        } else {
-            comments.push(`실버블라썸 링은 <b>10성</b>이 최대입니다. 조금만 더 강화해서 가성비를 챙겨보세요!`);
-        }
     } else if (isNoljang) {
         if (starforce >= 10) {
             comments.push(`<b>놀장강/슈페리얼 ${starforce}성</b>! 22성 아이템과 맞먹는 엄청난 성능입니다. 구하기 힘든 귀한 아이템을 가지고 계시네요.`);

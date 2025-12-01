@@ -79,10 +79,10 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
         const starforce = parseInt(item.starforce || "0");
 
         if (type === '무기') {
-            sfResult = evaluateStarforce(starforce, 22, item.item_name);
+            sfResult = evaluateStarforce(starforce, 22, item.item_name, item.item_base_option.base_equipment_level);
         } else if (type === '방어구' || type === '장신구') {
             // 방어구/장신구는 별도 평가
-            sfResult = evaluateArmorStarforce(starforce);
+            sfResult = evaluateArmorStarforce(starforce, item.item_base_option.base_equipment_level, item.item_name);
         } else {
             sfResult = {
                 current_star: 0,
@@ -124,7 +124,8 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
                 potentials,
                 item.item_base_option.base_equipment_level,
                 type,
-                item.item_equipment_slot
+                item.item_equipment_slot,
+                item.item_name
             );
         }
 
@@ -157,7 +158,8 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
                 addPotentials,
                 item.item_base_option.base_equipment_level,
                 type,
-                item.item_equipment_slot
+                item.item_equipment_slot,
+                item.item_name
             );
         }
 
@@ -251,7 +253,7 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
 
             const maxScore = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK);
 
-            flameResult = evaluateArmorFlame(level, maxScore);
+            flameResult = evaluateArmorFlame(level, maxScore, item.item_name);
         }
 
         setResult({

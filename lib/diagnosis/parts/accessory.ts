@@ -1,5 +1,6 @@
 
 import { diagnoseEpicPotential } from './common';
+import { getMaxStarforce } from '../equipment';
 import { diagnoseScroll } from './scroll';
 import { getJobMainStat } from '../../job_utils';
 
@@ -23,6 +24,7 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
     const itemName = item.item_name || "";
     const slot = item.item_equipment_slot || "";
     const starforce = parseInt(item.starforce || "0");
+    const level = item.item_base_option?.base_equipment_level || 0;
     const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
 
     // 직업별 주스탯 및 공/마 타입 결정
@@ -170,11 +172,31 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
                 comments.push(`[놀장강] 별의 개수는 적지만 성능은 확실합니다. 잊혀진 고대 기술의 유산입니다.`);
             } else {
                 // 일반 스타포스
-                if (starforce >= 22) comments.push(`[졸업] 장신구 <b>22성</b>! 더 이상 바랄 게 없습니다.`);
-                else if (starforce >= 20) comments.push(`[준종결] <b>20성</b> 이상으로 훌륭한 스펙입니다.`);
-                else if (starforce >= 17) comments.push(`[국민 세팅] <b>17성</b> 장신구는 가성비가 좋습니다.`);
-                else if (starforce >= 10) comments.push(`[입문] 유니온/링크용 혹은 거쳐가는 단계입니다.`);
-                else comments.push(`[강화 필요] 스타포스 수치가 낮습니다. 최소 <b>10~12성</b>은 맞춰주세요.`);
+                const maxSf = getMaxStarforce(level);
+
+                if (starforce >= maxSf) {
+                    if (maxSf < 15) { // 10성, 5성, 8성 등 낮은 한계
+                        comments.push(`[거쳐가는 단계] <b>${starforce}성</b>(최대치)입니다. 유니온/링크 육성용으로 적합하며, 더 높은 스펙을 위해서는 상위 레벨 아이템(예: 트와일라이트 마크, 마이스터링 등)으로 교체를 권장합니다.`);
+                    } else if (maxSf < 22) {
+                        comments.push(`[한계 도달] <b>${starforce}성</b>(최대치)입니다. 이 아이템에서 챙길 수 있는 최대 스펙입니다.`);
+                    } else {
+                        // 25성 한계인 경우 (보통 22성에서 졸업함)
+                        if (starforce >= 22) comments.push(`[졸업] <b>${starforce}성</b>! 더 이상 바랄 게 없는 종결급 수치입니다.`);
+                        else comments.push(`[고스펙] <b>${starforce}성</b>! 훌륭합니다. (최대 25성 가능)`);
+                    }
+                } else {
+                    if (starforce >= 22) comments.push(`[졸업] 장신구 <b>22성</b>! 더 이상 바랄 게 없습니다.`);
+                    else if (starforce >= 20) comments.push(`[준종결] <b>20성</b> 이상으로 훌륭한 스펙입니다.`);
+                    else if (starforce >= 17) comments.push(`[국민 세팅] <b>17성</b> 장신구는 가성비가 좋습니다.`);
+                    else if (starforce >= 10) {
+                        if (maxSf < 17) {
+                            comments.push(`[성장 조언] 현재 <b>${starforce}성</b>입니다. 이 아이템은 최대 <b>${maxSf}성</b>이 한계이므로, 스펙업을 원하시면 상위 장비로 교체해야 합니다.`);
+                        } else {
+                            comments.push(`[입문] 유니온/링크용 혹은 거쳐가는 단계입니다.`);
+                        }
+                    }
+                    else comments.push(`[강화 필요] 스타포스 수치가 낮습니다. 최소 <b>10~12성</b>은 맞춰주세요.`);
+                }
             }
         }
     }

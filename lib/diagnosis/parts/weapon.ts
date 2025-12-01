@@ -1,6 +1,7 @@
 import { GENESIS_WEAPON } from '../../../src/data/set_item_data';
 import { diagnoseEpicPotential } from './common';
 import { isMagicJob } from '../../job_utils';
+import { getMaxStarforce } from '../equipment';
 
 // 소울 웨폰 티어 데이터
 const TIER_1_SOULS = ["진 힐라", "감시자 칼로스", "카링", "선택받은 세렌", "검은 마법사", "최초의 대적자", "발드릭스", "림보", "섬멸병기 스우", "매그너스", "시그너스", "블러디 퀸", "벨룸", "무르무르"];
@@ -21,6 +22,7 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
     const potentialGrade = item.potential_option_grade;
     const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
     const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+    const level = item.item_base_option?.base_equipment_level || 0;
 
     const isGenesis = GENESIS_WEAPON.some(g => itemName.includes(g));
     const isZeroWeapon = itemName.includes("라피스") || itemName.includes("라즐리");
@@ -50,15 +52,23 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
     }
 
     // 2. 스타포스 (Starforce)
-    if (!isGenesis && !isZeroWeapon && !isSecondary && !isEmblem) { // 보조/엠블렘은 스타포스 없음 (방패 제외, 방패는 별도 처리 필요하나 여기선 생략)
-        if (starforce >= 22) comments.push(`[졸업] <b>22성</b> 무기... 공격력이 폭발합니다. 완벽합니다.`);
+    if (itemName.includes('펜살리르') || itemName.includes('우트가르드')) {
+        comments.push(`[긴급 경고] 우트가르드(펜살리르) 무기는 성능이 매우 부족합니다. 본캐용이라면 즉시 아케인셰이드 무기로 교체하세요.`);
+    } else if (!isGenesis && !isZeroWeapon && !isSecondary && !isEmblem) { // 보조/엠블렘은 스타포스 없음 (방패 제외, 방패는 별도 처리 필요하나 여기선 생략)
+        const maxSf = getMaxStarforce(level);
+        if (starforce >= maxSf) {
+            if (maxSf < 22) comments.push(`[최대 강화] 현재 레벨에서 가능한 최대 스타포스(${maxSf}성)입니다. 더 높은 스펙을 원하시면 상위 장비로 교체하세요.`);
+            else comments.push(`[졸업] <b>22성</b> 무기... 공격력이 폭발합니다. 완벽합니다.`);
+        }
         else if (starforce >= 17) comments.push(`[국민 세팅] <b>17성</b> 무기는 가성비가 좋지만, <b>22성</b>과의 공격력 차이가 큽니다.`);
         else if (starforce >= 10) comments.push(`[입문] 임시로 사용하는 단계입니다. <b>17성</b>을 목표로 하세요.`);
         else comments.push(`[강화 필요] 무기 스타포스가 너무 낮습니다. 공격력 손실이 큽니다.`);
     }
 
     // 4. 잠재능력 (Potential) - WSE
-    if (potentialGrade === "레전드리") {
+    if (itemName.includes('펜살리르') || itemName.includes('우트가르드')) {
+        comments.push(`[교체 권장] 우트가르드(펜살리르) 무기에 잠재능력 투자는 비효율적입니다. 아케인셰이드 무기로 교체하세요.`);
+    } else if (potentialGrade === "레전드리") {
         const bossLines = potentials.filter(l => l && l.includes("보스"));
         const attLines = potentials.filter(l => l && (l.includes("공격력") || l.includes("마력")));
         const iedLines = potentials.filter(l => l && l.includes("방어율 무시"));
@@ -114,7 +124,9 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
     }
 
     // 6. 추가옵션 (Flame) - 엠블렘과 보조무기는 환생의 불꽃 사용 불가
-    if (!isEmblem && !isSecondary) {
+    if (itemName.includes('펜살리르') || itemName.includes('우트가르드')) {
+        comments.push(`[교체 권장] 우트가르드(펜살리르) 무기에 환생의 불꽃 투자는 비효율적입니다. 아케인셰이드 무기로 교체하세요.`);
+    } else if (!isEmblem && !isSecondary) {
         const addOpts = item.item_add_option || {};
         const addAtt = parseInt(addOpts.attack_power || "0");
         const addMagic = parseInt(addOpts.magic_power || "0");
@@ -132,7 +144,6 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
             // 앱솔(160제): 1추(100~120), 2추(75~90)
             // 파프(150제): 1추(80~100), 2추(60~75)
 
-            const level = item.item_base_option?.base_equipment_level || 0;
             let tier1 = 0;
             let tier2 = 0;
 
