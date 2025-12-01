@@ -2,6 +2,15 @@ import { diagnoseItemDeeply } from './diagnosis/equipment';
 import { isMagicJob, getJobMainStat } from './job_utils';
 import { isPensalirItem, isGenesisItem, isEternalItem, isPitchBossItem, isBrilliantBossItem, isDawnBossItem, isChallengerItem } from './utils/item_classifier';
 import { WEAPON_STARFORCE, ARMOR_STARFORCE } from './config/evaluation_criteria';
+import {
+    getPensalirMessage,
+    GENESIS_MESSAGES,
+    ETERNAL_MESSAGES,
+    PITCH_BOSS_MESSAGES,
+    BRILLIANT_BOSS_MESSAGES,
+    DAWN_BOSS_MESSAGES,
+    CHALLENGER_MESSAGES
+} from './config/message_templates';
 
 // 아이템 데이터를 기반으로 AI 분석 멘트를 생성하는 함수
 export function generateItemCommentary(item: any, job?: string): string {
@@ -40,56 +49,29 @@ export function generateItemCommentary(item: any, job?: string): string {
     let isStarter = false; // 스타터 아이템 여부
 
     if (isChallengerItem(itemName)) {
-        comments.push(pick([
-            `[도전자 세트] 메이플 월드에 오신 것을 환영합니다! (혹은 복귀를 축하드려요!) 이 장비는 성장의 든든한 발판이 되어줄 겁니다.`,
-            `[도전자 세트] 시작이 반입니다! 이 장비와 함께라면 어떤 모험도 두렵지 않아요.`,
-            `[도전자 세트] 아주 좋은 시작입니다. 이 장비로 레벨업 쭉쭉 하세요!`
-        ]));
+        comments.push(pick(CHALLENGER_MESSAGES));
         isStarter = true;
     } else if (isGenesisItem(itemName)) {
-        comments.push(pick([
-            `[제네시스 무기] 해방의 기쁨이 느껴지는군요! 검은 마법사를 쓰러뜨린 영웅의 무기입니다.`,
-            `[제네시스 무기] 진정한 해방 퀘스트의 증표! 그동안의 노력이 헛되지 않았습니다.`,
-            `[제네시스 무기] 이 무기를 들고 계신다는 건, 메이플스토리의 정점에 서 계신다는 뜻이죠.`
-        ]));
+        comments.push(pick(GENESIS_MESSAGES));
         isLuxury = true;
         isEndGameItem = true;
     } else if (isEternalItem(itemName)) {
-        comments.push(pick([
-            `[에테르넬 세트] 현존 최강의 방어구, 에테르넬을 착용하셨군요. 압도적인 성능이 기대됩니다.`,
-            `[에테르넬 세트] 그란디스의 힘이 깃든 장비입니다. 진정한 고스펙의 상징이죠.`,
-            `[에테르넬 세트] 보기만 해도 든든합니다. 이 장비와 함께라면 어떤 보스도 두렵지 않겠어요.`
-        ]));
+        comments.push(pick(ETERNAL_MESSAGES));
         isLuxury = true;
         isEndGameItem = true;
     } else if (isPitchBossItem(itemName)) {
-        comments.push(pick([
-            `[칠흑의 보스 세트] 검은 마법사의 군단장들이 남긴 저주받은(하지만 강력한) 장비입니다.`,
-            `[칠흑의 보스 세트] 칠흑 세트라니... 운이 정말 좋으시거나, 엄청난 노력을 하셨군요.`,
-            `[칠흑의 보스 세트] 최상위 보스 전리품! 스펙업의 끝판왕입니다.`
-        ]));
+        comments.push(pick(PITCH_BOSS_MESSAGES));
         isLuxury = true;
         isEndGameItem = true;
     } else if (isBrilliantBossItem(itemName)) {
-        comments.push(pick([
-            `[광휘의 보스 세트] 익스트림 보스들이 드롭하는 최상위 장신구입니다. 영롱하네요.`,
-            `[광휘의 보스 세트] 선택받은 자만이 가질 수 있는 아이템입니다. 대단합니다!`,
-            `[광휘의 보스 세트] 서버에 몇 없는 귀한 아이템을 가지고 계시는군요.`
-        ]));
+        comments.push(pick(BRILLIANT_BOSS_MESSAGES));
         isLuxury = true;
         isEndGameItem = true;
     } else if (isDawnBossItem(itemName)) {
-        comments.push(pick([
-            `[여명의 보스 세트] 가성비와 성능을 모두 잡은 훌륭한 세트입니다.`,
-            `[여명의 보스 세트] 칠흑으로 넘어가기 전 최고의 선택이죠. 아주 좋습니다.`,
-            `[여명의 보스 세트] 든든한 허리 라인업! 스펙업의 정석을 밟고 계시네요.`
-        ]));
+        comments.push(pick(DAWN_BOSS_MESSAGES));
     } else if (isPensalirItem(itemName)) {
-        comments.push(pick([
-            `[⚠️ 긴급 경고] 우트가르드(펜살리르) 무기는 성능이 매우 부족합니다. 본캐용이라면 즉시 아케인셰이드 무기로 교체하세요. 부캐/유니온용이라면 파프니르나 앱솔랩스도 괜찮습니다.`,
-            `[⚠️ 교체 권장] 우트가르드(펜살리르) 장비는 더 이상 투자하지 마세요. 아케인셰이드나 앱솔랩스 장비로 교체가 시급합니다.`,
-            `[⚠️ 투자 주의] 이 장비는 거쳐가는 용도입니다. 스타포스나 잠재능력에 과도한 투자는 금물입니다!`
-        ]));
+        // 아이템 타입(무기/방어구)에 따라 적절한 메시지 선택
+        comments.push(pick(getPensalirMessage(slot, itemName)));
     } else {
         const openings = [
             `[단풍이의 분석] "${itemName}"의 잠재력을 냉철하게 분석했습니다.`,
