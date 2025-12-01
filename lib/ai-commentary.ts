@@ -485,7 +485,10 @@ export function generateItemCommentary(item: any, job?: string): string {
                 }
             }
         } else if (potentialGrade === '에픽') {
-            if (statPct >= 12) {
+            if (isEventRing) {
+                // 🎁 이벤트링이 에픽일 때
+                comments.push(pick(EVENT_RING_MESSAGES.UPGRADE_TO_LEGENDARY));
+            } else if (statPct >= 12) {
                 comments.push(`에픽 등급에서 <b>주스탯 ${statPct}%</b>! 유니크 부럽지 않은 가성비 최고의 옵션입니다.`);
             } else if (statPct >= 9) {
                 comments.push(`<b>주스탯 ${statPct}%</b>로 에픽 등급의 정석을 맞추셨네요. 훌륭합니다.`);
