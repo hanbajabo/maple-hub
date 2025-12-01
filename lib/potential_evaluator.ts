@@ -343,13 +343,33 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
         let maxCritDamageValue = 0;
         let cooldownReduction = 0;
 
+        // 🔍 주스탯 추론: 가장 많이 나온 스탯을 주스탯으로 간주
+        const statCounts = { STR: 0, DEX: 0, INT: 0, LUK: 0 };
         options.forEach(opt => {
-            // 주스탯 %
-            if ((opt.includes('STR') || opt.includes('DEX') || opt.includes('INT') || opt.includes('LUK')) && opt.includes('%')) {
+            if (opt.includes('STR') && opt.includes('%') && !opt.includes('크리티컬')) statCounts.STR++;
+            if (opt.includes('DEX') && opt.includes('%') && !opt.includes('크리티컬')) statCounts.DEX++;
+            if (opt.includes('INT') && opt.includes('%') && !opt.includes('크리티컬')) statCounts.INT++;
+            if (opt.includes('LUK') && opt.includes('%') && !opt.includes('크리티컬')) statCounts.LUK++;
+        });
+        const mainStat = (Object.keys(statCounts) as Array<'STR' | 'DEX' | 'INT' | 'LUK'>).reduce((a, b) => (statCounts[a] > statCounts[b] ? a : b));
+        const hasAnyStatPercent = Object.values(statCounts).some(count => count > 0);
+
+        options.forEach(opt => {
+            // 주스탯 % (주스탯만 유효)
+            if (opt.includes('%') && !opt.includes('크리티컬') && !opt.includes('재사용')) {
                 const match = opt.match(/(\d+)%/);
                 if (match) {
-                    totalStatPercent += parseInt(match[1]);
-                    goodOptions.push(opt);
+                    const val = parseInt(match[1]);
+                    // 올스탯은 항상 유효 (0.5 가중치)
+                    if (opt.includes('올스탯')) {
+                        totalStatPercent += (val * 0.5);
+                        goodOptions.push(opt);
+                    }
+                    // 개별 스탯은 주스탯만 유효
+                    else if (hasAnyStatPercent && opt.includes(mainStat)) {
+                        totalStatPercent += val;
+                        goodOptions.push(opt);
+                    }
                 }
             }
             // 크뎀 %
@@ -366,14 +386,6 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                 const match = opt.match(/(\d+)초/);
                 if (match) {
                     cooldownReduction += parseInt(match[1]);
-                    goodOptions.push(opt);
-                }
-            }
-            // 올스탯 %
-            else if (opt.includes('올스탯') && opt.includes('%') && !opt.includes('크리티컬')) {
-                const match = opt.match(/(\d+)%/);
-                if (match) {
-                    totalStatPercent += (parseInt(match[1]) * 0.5);
                     goodOptions.push(opt);
                 }
             }
@@ -431,27 +443,49 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
         let totalStatEquivalent = 0;
         let validLines = 0;
 
+        // 🔍 주스탯 추론: 가장 많이 나온 스탯을 주스탯으로 간주
+        const statCounts = { STR: 0, DEX: 0, INT: 0, LUK: 0 };
+        options.forEach(opt => {
+            if (opt.includes('STR') && opt.includes('%')) statCounts.STR++;
+            if (opt.includes('DEX') && opt.includes('%')) statCounts.DEX++;
+            if (opt.includes('INT') && opt.includes('%')) statCounts.INT++;
+            if (opt.includes('LUK') && opt.includes('%')) statCounts.LUK++;
+        });
+        const mainStat = (Object.keys(statCounts) as Array<'STR' | 'DEX' | 'INT' | 'LUK'>).reduce((a, b) => (statCounts[a] > statCounts[b] ? a : b));
+        const hasAnyStatPercent = Object.values(statCounts).some(count => count > 0);
+
         options.forEach(opt => {
             let isGoodOption = false;
 
-            // 1. 주스탯 % 체크
-            if ((opt.includes('STR') || opt.includes('DEX') || opt.includes('INT') || opt.includes('LUK') || opt.includes('올스탯')) && opt.includes('%')) {
+            // 1. 주스탯 % 체크 (주스탯 또는 올스탯만 유효)
+            if (opt.includes('%') && !opt.includes('크리티컬')) {
                 const match = opt.match(/(\d+)%/);
                 if (match) {
                     const val = parseInt(match[1]);
-                    totalStatEquivalent += val;
-                    isGoodOption = true;
+                    // 올스탯은 항상 유효
+                    if (opt.includes('올스탯')) {
+                        totalStatEquivalent += val;
+                        isGoodOption = true;
+                    }
+                    // 개별 스탯은 주스탯만 유효 (주스탯이 명확한 경우에만)
+                    else if (hasAnyStatPercent && opt.includes(mainStat)) {
+                        totalStatEquivalent += val;
+                        isGoodOption = true;
+                    }
                 }
             }
-            // 2. 렙당 스탯 (캐릭터 기준 9레벨 당)
-            else if (opt.includes('레벨 당')) {
+            // 2. 렙당 스탯 (캐릭터 기준 9레벨 당) - 주스탯만 유효
+            else if (opt.includes('레벨 당') || opt.includes('9레벨 당')) {
                 const match = opt.match(/\+(\d+)/);
                 if (match) {
                     const val = parseInt(match[1]);
-                    // 렙당 2 = 약 10% (레전드리 유효), 렙당 1 = 약 7% (유니크/레전드리 유효)
-                    if (val >= 2) totalStatEquivalent += 10;
-                    else if (val >= 1) totalStatEquivalent += 7;
-                    isGoodOption = true;
+                    // 올스탯 또는 주스탯인 경우에만 유효
+                    if (opt.includes('올스탯') || (hasAnyStatPercent && opt.includes(mainStat))) {
+                        // 렙당 2 = 약 10% (레전드리 유효), 렙당 1 = 약 7-9% (유니크/레전드리 유효)
+                        if (val >= 2) totalStatEquivalent += 10;
+                        else if (val >= 1) totalStatEquivalent += 9; // 9레벨당 1 = 약 9%
+                        isGoodOption = true;
+                    }
                 }
             }
             // 3. 공/마 상수 (10 이상)
