@@ -481,9 +481,9 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                     const val = parseInt(match[1]);
                     // 올스탯 또는 주스탯인 경우에만 유효
                     if (opt.includes('올스탯') || (hasAnyStatPercent && opt.includes(mainStat))) {
-                        // 렙당 2 = 약 10% (레전드리 유효), 렙당 1 = 약 7-9% (유니크/레전드리 유효)
-                        if (val >= 2) totalStatEquivalent += 10;
-                        else if (val >= 1) totalStatEquivalent += 9; // 9레벨당 1 = 약 9%
+                        // 렙당 2 = 약 6% (레전드리 유효), 렙당 1 = 약 3% (유니크/레전드리 유효)
+                        if (val >= 2) totalStatEquivalent += 6;
+                        else if (val >= 1) totalStatEquivalent += 3;
                         isGoodOption = true;
                     }
                 }
