@@ -1,6 +1,7 @@
 import { diagnoseItemDeeply } from './diagnosis/equipment';
 import { isMagicJob, getJobMainStat } from './job_utils';
 import { isPensalirItem, isGenesisItem, isEternalItem, isPitchBossItem, isBrilliantBossItem, isDawnBossItem, isChallengerItem } from './utils/item_classifier';
+import { WEAPON_STARFORCE, ARMOR_STARFORCE } from './config/evaluation_criteria';
 
 // 아이템 데이터를 기반으로 AI 분석 멘트를 생성하는 함수
 export function generateItemCommentary(item: any, job?: string): string {

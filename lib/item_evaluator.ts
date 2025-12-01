@@ -3,6 +3,7 @@ import { evaluatePotential } from './potential_evaluator';
 import { evaluateWeaponFlame, evaluateArmorFlame } from './flame_evaluator';
 import { getMaxStarforce } from './diagnosis/equipment';
 import { isPensalirItem } from './utils/item_classifier';
+import { WEAPON_STARFORCE, ARMOR_STARFORCE, SPECIAL_STARFORCE } from './config/evaluation_criteria';
 
 export type { PotentialEvaluation } from './potential_evaluator';
 export type { FlameEvaluation } from './flame_evaluator';
@@ -63,22 +64,22 @@ export function evaluateStarforce(
 
     if (currentStar >= maxSf) {
         evaluation = '종결';
-    } else if (currentStar >= 22) evaluation = '종결';
+    } else if (currentStar >= WEAPON_STARFORCE.ENDGAME) evaluation = '종결';
     else if (currentStar >= 21) evaluation = '훌륭';
     else if (currentStar >= 18) evaluation = '준수';
-    else if (currentStar >= 17) evaluation = '보통';
+    else if (currentStar >= WEAPON_STARFORCE.STANDARD) evaluation = '보통';
 
     let recommendation = '';
     if (currentStar >= maxSf) {
-        if (maxSf < 22) {
+        if (maxSf < WEAPON_STARFORCE.ENDGAME) {
             recommendation = `현재 ${currentStar}성(최대치)입니다. 더 높은 스펙을 원하시면 상위 레벨 장비로 교체하세요.`;
         } else {
             recommendation = '이미 목표에 도달했습니다.';
         }
-    } else if (currentStar >= 22) {
+    } else if (currentStar >= WEAPON_STARFORCE.ENDGAME) {
         recommendation = '이미 목표에 도달했습니다.';
     } else {
-        recommendation = `22성 도달까지 평균 ${stats?.average_destroy_count.toFixed(2)}회의 파괴가 예상됩니다. 여분의 아이템을 준비하세요.`;
+        recommendation = `${WEAPON_STARFORCE.ENDGAME}성 도달까지 평균 ${stats?.average_destroy_count.toFixed(2)}회의 파괴가 예상됩니다. 여분의 아이템을 준비하세요.`;
     }
 
     return {
@@ -104,16 +105,17 @@ export function evaluateArmorStarforce(
 
     // 로얄 블랙메탈 숄더 특별 처리: 12성을 목표로 함
     if (itemName.includes('로얄 블랙메탈 숄더')) {
-        if (currentStar >= 12) {
+        const targetStar = SPECIAL_STARFORCE.ROYAL_BLACK_METAL_SHOULDER;
+        if (currentStar >= targetStar) {
             evaluation = '좋음';
-            recommendation = `${currentStar}성! 로얄 블랙메탈 숄더는 거쳐가는 장비입니다. 12성이면 충분하며, 앱솔랩스나 아케인셰이드 견장으로 교체하세요.`;
+            recommendation = `${currentStar}성! 로얄 블랙메탈 숄더는 거쳐가는 장비입니다. ${targetStar}성이면 충분하며, 앱솔랩스나 아케인셰이드 견장으로 교체하세요.`;
         } else {
             evaluation = '부족';
-            recommendation = `현재 ${currentStar}성입니다. 가성비 좋게 12성까지만 강화해서 쓰다가 상위 견장으로 교체하는 것을 추천합니다.`;
+            recommendation = `현재 ${currentStar}성입니다. 가성비 좋게 ${targetStar}성까지만 강화해서 쓰다가 상위 견장으로 교체하는 것을 추천합니다.`;
         }
         return {
             current_star: currentStar,
-            target_star: 12,
+            target_star: targetStar,
             success_rate: 0,
             destroy_risk: 0,
             avg_destroy_count: 0,
