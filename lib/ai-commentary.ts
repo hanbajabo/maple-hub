@@ -499,7 +499,13 @@ export function generateItemCommentary(item: any, job?: string): string {
             if (isEndGameItem) {
                 comments.push(`<b>${potentialGrade}</b> 등급이라니요... 장비가 울고 있습니다! 당장 등급업이 시급합니다.`);
             } else if (statPct === 0 && attPct === 0 && magicPct === 0) {
-                comments.push(`잠재능력 옵션이 아쉽습니다. <b>수상한 큐브</b>로 최소 <b>주스탯 %</b> 또는 <b>공격력/마력 %</b>를 챙겨주세요.`);
+                // 부위별로 다른 조언 제공
+                const isWSE = slot === '무기' || slot === '보조무기' || slot === '엠블렘' || item.item_equipment_part === '보조무기';
+                if (isWSE) {
+                    comments.push(`잠재능력 옵션이 아쉽습니다. <b>수상한 큐브</b>로 최소 <b>공격력/마력 %</b> 또는 <b>보스 공격력 %</b>를 챙겨주세요.`);
+                } else {
+                    comments.push(`잠재능력 옵션이 아쉽습니다. <b>수상한 큐브</b>로 최소 <b>주스탯 %</b>를 챙겨주세요.`);
+                }
             }
         }
 
