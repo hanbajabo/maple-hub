@@ -54,14 +54,14 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
         if (slot === '보조무기' || slot === 'Sub Weapon' || slot === 'SubWeapon' || name.includes('보조무기') || item.item_equipment_part === '보조무기') return '보조무기';
         if (name.includes('라즐리') || name.includes('라피스')) return '무기';
 
+        // 장신구 분류 (보조무기보다 먼저 체크하여 '쥬얼' 등이 보조무기로 오인되는 것 방지)
+        const accessorySlots = ['귀고리', '펜던트', '벨트', '포켓 아이템', '뱃지', '훈장', '어깨장식', '반지', '눈장식', '얼굴장식'];
+        if (accessorySlots.some(s => slot.includes(s))) return '장신구';
+
         const subWeaponKeywords = ['카타라', '방패', '마도서', '여우구슬', '단검용 검집', '부적', '로잘리오', '쇠사슬', '마법화살', '소울링', '매그넘', '손목보호대', '조준기', '쥬얼', '그립', '화약통', '무게추', '문서', '매직윙', '수정구', '오브', '카드', '호루라기', '노리개', '선추'];
         if (subWeaponKeywords.some(kw => name.includes(kw)) && slot !== '무기' && slot !== 'Weapon' && slot !== 'Weapoon') return '보조무기';
 
         if (slot === '무기' || slot === 'Weapon') return '무기';
-
-        // 장신구 분류
-        const accessorySlots = ['귀고리', '펜던트', '벨트', '포켓 아이템', '뱃지', '훈장', '어깨장식', '반지'];
-        if (accessorySlots.includes(slot)) return '장신구';
 
         return '방어구';
     };

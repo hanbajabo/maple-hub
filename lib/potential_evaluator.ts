@@ -75,6 +75,34 @@ export function evaluatePotential(
         };
     }
 
+    // 🎁 이벤트링 특별 처리 (이벤트링 전용 레전드리 주문서 사용)
+    const EVENT_RING_KEYWORDS = ["테네브리스", "SS급", "어웨이크", "글로리온", "카오스", "벤젼스", "결속의", "이터널 플레임", "어드벤처 딥다크", "쥬얼"];
+    const isEventRing = itemName && EVENT_RING_KEYWORDS.some(k => itemName.includes(k));
+
+    if (isEventRing && currentGrade !== '레전드리') {
+        const { goodOptions, optionsScore } = evaluateOptions(type, currentGrade, options, equipmentType, itemSlot);
+
+        let recommendation = '';
+        if (currentGrade === '레어' || currentGrade === '에픽') {
+            recommendation = '[이벤트링 업그레이드] 이벤트링 전용 레전드리 잠재능력 주문서를 사용하여 레전드리로 만드세요. (큐브 천장 비용 불필요!)';
+        } else if (currentGrade === '유니크') {
+            recommendation = '[이벤트링 업그레이드] 이벤트링 전용 레전드리 주문서로 레전드리를 만들면 더 강력해집니다.';
+        }
+
+        return {
+            current_grade: currentGrade,
+            target_grade: '레전드리',
+            upgrade_rate: 0,
+            ceiling_count: 0,
+            ceiling_cost: 0,  // 천장 비용 0 (전용 주문서 사용)
+            avg_cost: 0,
+            options_score: optionsScore,
+            good_options: goodOptions,
+            recommendation,
+            evaluation: currentGrade === '레어' || currentGrade === '에픽' ? '부족' : '준수'
+        };
+    }
+
     const targetGrade = '레전드리';
     const isMain = type === 'main';
 
