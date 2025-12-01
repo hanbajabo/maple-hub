@@ -1,3 +1,5 @@
+import { isPensalirItem } from './utils/item_classifier';
+
 export interface FlameEvaluation {
     tier: number;
     is_weapon: boolean;
@@ -23,7 +25,7 @@ export function evaluateWeaponFlame(
     }
 
     // 펜살리르/우트가르드 무기 특별 처리
-    if (itemName.includes('펜살리르') || itemName.includes('우트가르드')) {
+    if (isPensalirItem(itemName)) {
         return {
             tier: 0,
             is_weapon: true,

@@ -2,6 +2,7 @@ import { GENESIS_WEAPON } from '../../../src/data/set_item_data';
 import { diagnoseEpicPotential } from './common';
 import { isMagicJob } from '../../job_utils';
 import { getMaxStarforce } from '../equipment';
+import { isPensalirItem } from '../../utils/item_classifier';
 
 // 소울 웨폰 티어 데이터
 const TIER_1_SOULS = ["진 힐라", "감시자 칼로스", "카링", "선택받은 세렌", "검은 마법사", "최초의 대적자", "발드릭스", "림보", "섬멸병기 스우", "매그너스", "시그너스", "블러디 퀸", "벨룸", "무르무르"];
@@ -52,7 +53,7 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
     }
 
     // 2. 스타포스 (Starforce)
-    if (itemName.includes('펜살리르') || itemName.includes('우트가르드')) {
+    if (isPensalirItem(itemName)) {
         comments.push(`[긴급 경고] 우트가르드(펜살리르) 무기는 성능이 매우 부족합니다. 본캐용이라면 즉시 아케인셰이드 무기로 교체하세요.`);
     } else if (!isGenesis && !isZeroWeapon && !isSecondary && !isEmblem) { // 보조/엠블렘은 스타포스 없음 (방패 제외, 방패는 별도 처리 필요하나 여기선 생략)
         const maxSf = getMaxStarforce(level);
@@ -66,7 +67,7 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
     }
 
     // 4. 잠재능력 (Potential) - WSE
-    if (itemName.includes('펜살리르') || itemName.includes('우트가르드')) {
+    if (isPensalirItem(itemName)) {
         comments.push(`[교체 권장] 우트가르드(펜살리르) 무기에 잠재능력 투자는 비효율적입니다. 아케인셰이드 무기로 교체하세요.`);
     } else if (potentialGrade === "레전드리") {
         const bossLines = potentials.filter(l => l && l.includes("보스"));
@@ -124,7 +125,7 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
     }
 
     // 6. 추가옵션 (Flame) - 엠블렘과 보조무기는 환생의 불꽃 사용 불가
-    if (itemName.includes('펜살리르') || itemName.includes('우트가르드')) {
+    if (isPensalirItem(itemName)) {
         comments.push(`[교체 권장] 우트가르드(펜살리르) 무기에 환생의 불꽃 투자는 비효율적입니다. 아케인셰이드 무기로 교체하세요.`);
     } else if (!isEmblem && !isSecondary) {
         const addOpts = item.item_add_option || {};

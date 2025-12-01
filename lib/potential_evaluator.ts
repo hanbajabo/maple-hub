@@ -7,6 +7,7 @@ import {
     getAdditionalPotentialResetCost,
     ADDITIONAL_POTENTIAL_CEILING_COSTS
 } from './cube_db';
+import { isPensalirItem } from './utils/item_classifier';
 
 export interface PotentialEvaluation {
     current_grade: '레어' | '에픽' | '유니크' | '레전드리';
@@ -47,7 +48,7 @@ export function evaluatePotential(
     itemName?: string
 ): PotentialEvaluation {
     // 펜살리르/우트가르드 장비 특별 처리 (잠재능력 투자 비추천)
-    if (itemName && (itemName.includes('펜살리르') || itemName.includes('우트가르드'))) {
+    if (itemName && isPensalirItem(itemName)) {
         const isWeapon = equipmentType === '무기' || itemName.includes('우트가르드');
         const isHatOverall = itemName.includes('모자') || itemName.includes('한벌옷');
 
