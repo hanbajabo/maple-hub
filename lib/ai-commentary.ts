@@ -499,6 +499,9 @@ export function generateItemCommentary(item: any, job?: string): string {
         } else if (potentialGrade === '레어' || potentialGrade === '없음') {
             if (isEndGameItem) {
                 comments.push(`<b>${potentialGrade}</b> 등급이라니요... 장비가 울고 있습니다! 당장 등급업이 시급합니다.`);
+            } else if (isEventRing) {
+                // 🎁 이벤트링 특별 조언
+                comments.push(pick(EVENT_RING_MESSAGES.UPGRADE_TO_LEGENDARY));
             } else if (statPct === 0 && attPct === 0 && magicPct === 0) {
                 // 부위별로 다른 조언 제공
                 const isWSE = slot === '무기' || slot === '보조무기' || slot === '엠블렘' || item.item_equipment_part === '보조무기';
@@ -508,6 +511,9 @@ export function generateItemCommentary(item: any, job?: string): string {
                     comments.push(`잠재능력 옵션이 아쉽습니다. <b>수상한 큐브</b>로 최소 <b>주스탯 %</b>를 챙겨주세요.`);
                 }
             }
+        } else if (potentialGrade === '유니크' && isEventRing) {
+            // 🎁 이벤트링이 유니크일 때도 레전드리 업그레이드 권장
+            comments.push(pick(EVENT_RING_MESSAGES.UPGRADE_FROM_UNIQUE));
         }
 
         // 4. 에디셔널 옵션 평가

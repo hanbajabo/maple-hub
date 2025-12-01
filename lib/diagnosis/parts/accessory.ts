@@ -3,6 +3,7 @@ import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { getMaxStarforce } from '../equipment';
 import { diagnoseScroll } from './scroll';
 import { getJobMainStat } from '../../job_utils';
+import { EVENT_RING_MESSAGES } from '../../config/message_templates';
 
 const SPECIAL_RING_KEYWORDS = ["웨폰퍼프", "리스트레인트", "리스크테이커", "컨티뉴어스", "링 오브 썸", "크라이시스"];
 const DAWN_BOSS_KEYWORDS = ["트와일라이트 마크", "에스텔라 이어링", "데이브레이크 펜던트", "여명의 가디언 엔젤 링"];
@@ -44,6 +45,20 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
     if (!slot.includes("기계 심장") && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !isEventRing && !isSpecialRing) {
         const scrollComments = diagnoseScroll(item);
         comments.push(...scrollComments);
+    }
+
+    // 🎁 이벤트링 잠재능력 진단
+    if (isEventRing) {
+        const potGrade = item.potential_option_grade || '없음';
+        if (potGrade === '레어' || potGrade === '에픽' || potGrade === '없음') {
+            // 에픽 이하: 레전드리 주문서 + 명장의 큐브 추천
+            const messages = EVENT_RING_MESSAGES.UPGRADE_TO_LEGENDARY;
+            comments.push(messages[Math.floor(Math.random() * messages.length)]);
+        } else if (potGrade === '유니크') {
+            // 유니크: 레전드리 업그레이드 권장
+            const messages = EVENT_RING_MESSAGES.UPGRADE_FROM_UNIQUE;
+            comments.push(messages[Math.floor(Math.random() * messages.length)]);
+        }
     }
 
     if (isSpecialRing) {
