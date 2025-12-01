@@ -1,7 +1,7 @@
 import { diagnoseItemDeeply } from './diagnosis/equipment';
 import { isMagicJob, getJobMainStat } from './job_utils';
 import { isPensalirItem, isGenesisItem, isEternalItem, isPitchBossItem, isBrilliantBossItem, isDawnBossItem, isChallengerItem } from './utils/item_classifier';
-import { WEAPON_STARFORCE, ARMOR_STARFORCE } from './config/evaluation_criteria';
+import { WEAPON_STARFORCE, ARMOR_STARFORCE, SPECIAL_STARFORCE } from './config/evaluation_criteria';
 import {
     getPensalirMessage,
     GENESIS_MESSAGES,
@@ -189,6 +189,14 @@ export function generateItemCommentary(item: any, job?: string): string {
             comments.push(`<b>놀장강/슈페리얼 ${starforce}성</b>! 22성 아이템과 맞먹는 엄청난 성능입니다. 구하기 힘든 귀한 아이템을 가지고 계시네요.`);
         } else {
             comments.push(`<b>놀장강/슈페리얼 ${starforce}성</b>! 일반적인 스타포스보다 훨씬 강력한 성능을 보여줍니다.`);
+        }
+    } else if (itemName.includes('로얄 블랙메탈 숄더')) {
+        // 🎯 로얄 블랙메탈 숄더 특별 처리 - 12성 목표
+        const targetStar = SPECIAL_STARFORCE.ROYAL_BLACK_METAL_SHOULDER;
+        if (starforce >= targetStar) {
+            comments.push(`<b>${targetStar}성</b>! 로얄 블랙메탈 숄더는 거쳐가는 장비입니다. ${targetStar}성이면 충분하며, 앱솔랩스나 아케인셰이드 견장으로 교체하세요.`);
+        } else {
+            comments.push(`현재 <b>${starforce}성</b>입니다. 가성비 좋게 <b>${targetStar}성</b>까지만 강화해서 쓰다가 상위 견장으로 교체하는 것을 추천합니다.`);
         }
     } else if (!isMedal && !isBadge && !isPocket && !isEmblem && !isSubWeapon && !isEventRing) {
         if (starforce >= 23) {
