@@ -70,8 +70,15 @@ export function generateItemCommentary(item: any, job?: string): string {
     } else if (isDawnBossItem(itemName)) {
         comments.push(pick(DAWN_BOSS_MESSAGES));
     } else if (isPensalirItem(itemName)) {
-        // 아이템 타입(무기/방어구)에 따라 적절한 메시지 선택
+        // 🚨 펜살리르 아이템 - 교체 권장 메시지만 출력하고 종료
         comments.push(pick(getPensalirMessage(slot, itemName)));
+
+        // === 🚀 진화형 AI (Antigravity) 추가 진단 ===
+        const deepComments = diagnoseItemDeeply(item, job);
+        if (deepComments.length > 0) {
+            return comments.join(" ") + "\n---\n### 🚀 [진화형 AI] 정밀 진단 리포트\n" + deepComments.join("\n\n");
+        }
+        return comments.join(" "); // 펜살리르는 여기서 분석 종료
     } else {
         const openings = [
             `[단풍이의 분석] "${itemName}"의 잠재력을 냉철하게 분석했습니다.`,
