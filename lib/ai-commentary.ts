@@ -9,7 +9,8 @@ import {
     PITCH_BOSS_MESSAGES,
     BRILLIANT_BOSS_MESSAGES,
     DAWN_BOSS_MESSAGES,
-    CHALLENGER_MESSAGES
+    CHALLENGER_MESSAGES,
+    EVENT_RING_MESSAGES
 } from './config/message_templates';
 
 // 아이템 데이터를 기반으로 AI 분석 멘트를 생성하는 함수
