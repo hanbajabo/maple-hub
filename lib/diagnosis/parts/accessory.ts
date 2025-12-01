@@ -204,9 +204,9 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
                         else comments.push(`[고스펙] <b>${starforce}성</b>! 훌륭합니다. (최대 25성 가능)`);
                     }
                 } else {
-                    if (starforce >= 22) comments.push(`[졸업] 장신구 <b>22성</b>! 더 이상 바랄 게 없습니다.`);
-                    else if (starforce >= 20) comments.push(`[준종결] <b>20성</b> 이상으로 훌륭한 스펙입니다.`);
-                    else if (starforce >= 17) comments.push(`[국민 세팅] <b>17성</b> 장신구는 가성비가 좋습니다.`);
+                    if (starforce >= 22) comments.push(`[졸업] 장신구 <b>${starforce}성</b>! 더 이상 바랄 게 없습니다.`);
+                    else if (starforce >= 20) comments.push(`[준종결] <b>${starforce}성</b> 이상으로 훌륭한 스펙입니다.`);
+                    else if (starforce >= 17) comments.push(`[국민 세팅] <b>${starforce}성</b> 장신구는 가성비가 좋습니다.`);
                     else if (starforce >= 10) {
                         if (maxSf < 17) {
                             comments.push(`[성장 조언] 현재 <b>${starforce}성</b>입니다. 이 아이템은 최대 <b>${maxSf}성</b>이 한계이므로, 스펙업을 원하시면 상위 장비로 교체해야 합니다.`);

@@ -218,7 +218,7 @@ export function evaluateArmorStarforce(
         recommendation = '20성 이상! 상당히 강력한 장비입니다.';
     } else if (currentStar >= 18) {
         evaluation = '준수';
-        recommendation = '18성! 준수한 성능을 발휘합니다.';
+        recommendation = `${currentStar}성! 준수한 성능을 발휘합니다.`;
     } else if (currentStar === 17) {
         evaluation = '보통';
         recommendation = '17성! 국민 스타포스 세팅입니다.';
