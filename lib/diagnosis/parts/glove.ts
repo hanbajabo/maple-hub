@@ -1,5 +1,5 @@
 
-import { diagnoseEpicPotential } from './common';
+import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { diagnoseScroll } from './scroll';
 
 /**
@@ -15,6 +15,10 @@ export function diagnoseGlove(item: any, job?: string): string[] {
     const potentialGrade = item.potential_option_grade;
     const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
     const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+
+    // 🚨 펜살리르 체크 - 펜살리르면 여기서 종료
+    const pensalirWarning = checkPensalirAndWarn(itemName, 'armor');
+    if (pensalirWarning) return pensalirWarning;
 
     // 0. 주문서 작 진단 (Scroll)
     const scrollComments = diagnoseScroll(item);

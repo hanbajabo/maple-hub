@@ -1,4 +1,4 @@
-import { diagnoseEpicPotential } from './common';
+import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { diagnoseScroll } from './scroll';
 import { getJobMainStat } from '../../job_utils';
 
@@ -14,6 +14,10 @@ export function diagnoseArmor(item: any, job?: string): string[] {
     const slot = item.item_equipment_slot || "";
     const starforce = parseInt(item.starforce || "0");
     const potentialGrade = item.potential_option_grade;
+
+    // 🚨 펜살리르 체크 - 펜살리르면 여기서 종료
+    const pensalirWarning = checkPensalirAndWarn(itemName, 'armor');
+    if (pensalirWarning) return pensalirWarning;
 
     // 직업별 주스탯 및 공/마 타입 결정
     const mainStats = getJobMainStat(job || "");

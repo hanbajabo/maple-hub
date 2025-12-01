@@ -4,6 +4,28 @@
  * - 에픽 등급 잠재능력 진단 등 여러 부위에서 공통으로 쓰이는 로직
  */
 
+import { isPensalirItem } from '../../utils/item_classifier';
+
+/**
+ * 펜살리르 장비인지 체크하고, 맞다면 교체 권장 메시지 반환
+ * @returns 펜살리르면 경고 메시지 배열, 아니면 null
+ */
+export function checkPensalirAndWarn(itemName: string, itemType: 'weapon' | 'armor'): string[] | null {
+    if (!isPensalirItem(itemName)) return null; // 펜살리르 아님
+
+    // 모자/한벌옷 특별 처리 (루타비스 추천)
+    const isHatOverall = itemName.includes('모자') || itemName.includes('한벌옷');
+
+    if (itemType === 'weapon') {
+        return [`[교체 권장] 펜살리르 무기에 더 이상 투자는 비효율적입니다. 아케인셰이드 무기로 교체하세요.`];
+    } else if (isHatOverall) {
+        return [`[교체 권장] 펜살리르 모자/한벌옷은 루타비스(카루타) 세트로 교체하는 것을 강력 추천합니다.`];
+    } else {
+        return [`[교체 권장] 펜살리르 장비는 성능이 부족합니다. 앱솔랩스/아케인셰이드로 교체하세요.`];
+    }
+}
+
+
 export function diagnoseEpicPotential(potentialGrade: string, potentials: string[], isEndGameItem: boolean = false): string[] {
     const comments: string[] = [];
 
