@@ -323,10 +323,18 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
                 }
             }
         }
-    });
+    })
+
+        ;
 
     // 직업에 맞는 공/마만 유효로 인정
     const validAdiAtt = isMagic ? adiMagic : adiAtt;
+
+    // 공/마를 주스탯%로 환산하여 합산
+    // 공/마 1 = 주스탯 4, 주스탯 10 = 1%
+    // 따라서 공/마 15 = 주스탯 60 = 6%
+    const attEquiv = (validAdiAtt * 4) / 10;
+    const totalAdiStatPct = adiStatPct + attEquiv;
 
     if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
         if (adiStatPct > 0 && validAdiAtt > 0) {
@@ -348,12 +356,15 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
             comments.push(`[에디 유니크] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 든든한 옵션입니다.`);
         }
     } else if (adiGrade === "레전드리") {
-        if (adiStatPct >= 21) {
-            comments.push(`[에디 종결] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 전 서버급 초고스펙 옵션입니다.`);
-        } else if (adiStatPct >= 14) {
-            comments.push(`[에디 준종결] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 아주 훌륭한 스펙입니다.`);
-        } else if (validAdiAtt >= 12) {
+        if (totalAdiStatPct >= 21) {
+            comments.push(`[에디 종결] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>! 전 서버급 초고스펙 옵션입니다.`);
+        } else if (totalAdiStatPct >= 14) {
+            comments.push(`[에디 준종결] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>! 아주 훌륭한 스펙입니다.`);
+        } else if (validAdiAtt >= 12 && adiStatPct === 0) {
+            // 공/마만 있고 주스탯%가 없는 경우
             comments.push(`[에디 레전드리] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 든든한 옵션입니다.`);
+        } else if (totalAdiStatPct >= 10) {
+            comments.push(`[에디 레전드리] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>급 효율! 준수한 옵션입니다.`);
         } else {
             comments.push(`[옵션 아쉬움] 에디셔널 레전드리 등급이지만 유효 옵션이 조금 아쉽습니다.`);
         }
