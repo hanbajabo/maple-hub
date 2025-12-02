@@ -211,7 +211,13 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
                         if (maxSf < 17) {
                             comments.push(`[성장 조언] 현재 <b>${starforce}성</b>입니다. 이 아이템은 최대 <b>${maxSf}성</b>이 한계이므로, 스펙업을 원하시면 상위 장비로 교체해야 합니다.`);
                         } else {
-                            comments.push(`[입문] 유니온/링크용 혹은 거쳐가는 단계입니다.`);
+                            // 여명 세트인지 확인
+                            const isDawnBoss = DAWN_BOSS_KEYWORDS.some(k => itemName.includes(k));
+                            if (isDawnBoss) {
+                                comments.push(`[가성비 구간] <b>${starforce}성</b>! 여명 세트로 임시 사용하기 좋은 수치입니다. <b>17성</b>까지 강화하면 칠흑으로 넘어가기 전까지 충분히 사용할 수 있습니다.`);
+                            } else {
+                                comments.push(`[입문 단계] <b>${starforce}성</b>. 거쳐가는 장비라면 적당하지만, 본캐용이라면 <b>17성</b>을 목표로 하세요.`);
+                            }
                         }
                     }
                     else comments.push(`[강화 필요] 스타포스 수치가 낮습니다. 최소 <b>10~12성</b>은 맞춰주세요.`);
@@ -266,7 +272,7 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
         else if (statPct >= 12) comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 괜찮은 수치입니다.`);
         else if (statPct > 0) comments.push(`[유니크 아쉬움] 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
     } else if (potentialGrade === '에픽') {
-        const epicComments = diagnoseEpicPotential(potentialGrade, potentials);
+        const epicComments = diagnoseEpicPotential(potentialGrade, potentials, job);
         comments.push(...epicComments);
     }
 
@@ -349,6 +355,15 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
         if (adiStatPct > 0 && validAdiAtt > 0) comments.push(`[에디 에픽] <b>주스탯 ${adiStatPct}%</b>와 <b>${attType} +${validAdiAtt}</b>! 에픽에서 챙길 수 있는 건 다 챙기셨네요.`);
         else if (adiStatPct > 0) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 아주 든든한 옵션입니다.`);
         else if (validAdiAtt >= 10) comments.push(`[에디 에픽] 에디셔널 ${attType}를 잘 챙기셨습니다. 든든합니다.`);
+    } else if (adiGrade === "레어") {
+        // 잠재 등급과 무관하게 에디 레어 평가
+        if (validAdiAtt >= 10) {
+            comments.push(`[에디 레어] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 레어치고는 괜찮습니다. 에픽 이상으로 등급업하시면 더 좋습니다.`);
+        } else if (validAdiAtt >= 6 || adiStatPct > 0) {
+            comments.push(`[에디 레어] 에디셔널을 어느 정도 챙기셨네요. 에픽 이상으로 등급업이 권장됩니다.`);
+        } else {
+            comments.push(`[에디 부족] 에디셔널이 레어 등급입니다. 에픽 이상으로 등급업이 필요합니다.`);
+        }
     }
 
     // 8. 추옵 진단
@@ -359,6 +374,7 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
         const dex = parseInt(addOpts.dex || "0");
         const int = parseInt(addOpts.int || "0");
         const luk = parseInt(addOpts.luk || "0");
+        const hp = parseInt(addOpts.max_hp || "0"); // HP 추가 (데몬어벤져용)
         const att = parseInt(addOpts.attack_power || "0");
         const magic = parseInt(addOpts.magic_power || "0");
         const allStat = parseInt(addOpts.all_stat || "0");
@@ -368,8 +384,10 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
         const scoreDEX = dex + (att * 4) + (allStat * 10);
         const scoreINT = int + (magic * 4) + (allStat * 10);
         const scoreLUK = luk + (att * 4) + (allStat * 10);
+        // HP는 21당 주스탯 1 효율
+        const scoreHP = (hp / 21) + (att * 4) + (allStat * 10);
 
-        const score = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK);
+        const score = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK, scoreHP);
 
         const level = item.item_base_option?.base_equipment_level || 0;
 

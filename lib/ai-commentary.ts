@@ -12,6 +12,7 @@ import {
     CHALLENGER_MESSAGES,
     EVENT_RING_MESSAGES
 } from './config/message_templates';
+import { getSpecialItemConfig } from './config/special_items';
 
 // 아이템 데이터를 기반으로 AI 분석 멘트를 생성하는 함수
 export function generateItemCommentary(item: any, job?: string): string {
@@ -111,6 +112,14 @@ export function generateItemCommentary(item: any, job?: string): string {
         return comments.join(" "); // 스타터는 여기서 분석 종료 (복잡한 수치 분석 생략)
     }
 
+    // 🎯 특수 아이템 처리 (중앙 설정 사용)
+    const specialItemConfig = getSpecialItemConfig(itemName);
+    if (specialItemConfig) {
+        comments.push(`<b>[특수 링]</b> 자체 옵션이 우수한 특수 반지입니다. (스타포스/주문서/잠재 불가능)`);
+        comments.push(pick(specialItemConfig.danpungiComments));
+        // 진화형 AI 진단을 위해 여기서 return하지 않고 계속 진행
+    }
+
     // 특수 반지(시드링) 분석
     const specialRingLevel = item.special_ring_level || 0;
     if (specialRingLevel > 0) {
@@ -199,7 +208,7 @@ export function generateItemCommentary(item: any, job?: string): string {
         } else {
             comments.push(`현재 <b>${starforce}성</b>입니다. 가성비 좋게 <b>${targetStar}성</b>까지만 강화해서 쓰다가 상위 견장으로 교체하는 것을 추천합니다.`);
         }
-    } else if (!isMedal && !isBadge && !isPocket && !isEmblem && !isSubWeapon && !isEventRing) {
+    } else if (!isMedal && !isBadge && !isPocket && !isEmblem && !isSubWeapon && !isEventRing && !specialItemConfig) {
         if (starforce >= 23) {
             comments.push(pick([
                 `<b>${starforce}성</b>...?! 이건 데이터 오류가 아닙니다. <b>'신'의 영역</b>입니다. 전 서버를 통틀어도 보기 힘든 기적의 아이템입니다.`,
@@ -341,7 +350,7 @@ export function generateItemCommentary(item: any, job?: string): string {
     }
 
     // 3. 잠재능력 정밀 분석 (눈높이 적용)
-    if (!isMedal && !isBadge && !isPocket) {
+    if (!isMedal && !isBadge && !isPocket && !specialItemConfig) {
         let bossDmg = 0;
         let ied = 0;
         let attPct = 0;
@@ -356,6 +365,7 @@ export function generateItemCommentary(item: any, job?: string): string {
         let dexTotal = 0;
         let intTotal = 0;
         let lukTotal = 0;
+        let hpTotal = 0;
         let allStatTotal = 0;
 
         const parseOption = (lines: string[]) => {
@@ -392,10 +402,11 @@ export function generateItemCommentary(item: any, job?: string): string {
                 if (line.includes('DEX') && line.includes('%')) dexTotal += parseInt(line.replace(/[^0-9]/g, '')) || 0;
                 if (line.includes('INT') && line.includes('%')) intTotal += parseInt(line.replace(/[^0-9]/g, '')) || 0;
                 if (line.includes('LUK') && line.includes('%')) lukTotal += parseInt(line.replace(/[^0-9]/g, '')) || 0;
+                if (line.includes('HP') && line.includes('%')) hpTotal += parseInt(line.replace(/[^0-9]/g, '')) || 0;
                 if (line.includes('올스탯') && line.includes('%')) allStatTotal += parseInt(line.replace(/[^0-9]/g, '')) || 0;
             });
-            // 주스탯은 STR/DEX/INT/LUK 중 가장 높은 값만 선택 (직업의 주스탯이 가장 높게 나올 것)
-            statPct = Math.max(strTotal, dexTotal, intTotal, lukTotal) + allStatTotal;
+            // 주스탯은 STR/DEX/INT/LUK/HP 중 가장 높은 값만 선택 (직업의 주스탯이 가장 높게 나올 것)
+            statPct = Math.max(strTotal, dexTotal, intTotal, lukTotal, hpTotal) + allStatTotal;
         };
 
         parseOption(potentials);
@@ -428,7 +439,26 @@ export function generateItemCommentary(item: any, job?: string): string {
                 const potPrefixes = ["잠재능력은", "잠재는", "윗잠은", "잠재 옵션은"];
                 const potPrefix = pick(potPrefixes);
 
-                if (statPct >= 36) {
+                // 쿨감 + 주스탯 조합 평가 (모자 등)
+                if (coolTime >= 2 && statPct > 0) {
+                    if (coolTime >= 4 && statPct >= 21) {
+                        comments.push(`${potPrefix} <b>쿨감 -${coolTime}초 + 주스탯 ${statPct}%</b>! 모자 최종 종결 옵션입니다. 이 이상은 없습니다.`);
+                    } else if (coolTime >= 2 && statPct >= 21) {
+                        comments.push(`${potPrefix} <b>쿨감 -${coolTime}초 + 주스탯 ${statPct}%</b>! 실전 종결급 조합입니다.`);
+                    } else if (coolTime >= 2 && statPct >= 13) {
+                        comments.push(`${potPrefix} <b>쿨감 -${coolTime}초 + 주스탯 ${statPct}%</b>! 쿨감과 주스탯을 함께 챙긴 훌륭한 옵션입니다.`);
+                    } else {
+                        comments.push(`${potPrefix} <b>쿨감 -${coolTime}초 + 주스탯 ${statPct}%</b>가 있습니다. 쿨감은 직업에 따라 매우 중요한 옵션입니다.`);
+                    }
+                }
+                // 쿨감만 있는 경우
+                else if (coolTime >= 4) {
+                    comments.push(`<b>쿨타임 감소 ${coolTime}초</b>는 종결급 옵션입니다.`);
+                } else if (coolTime >= 2) {
+                    comments.push(`<b>쿨타임 감소 ${coolTime}초</b>는 직업에 따라 주스탯 30% 이상의 가치를 가집니다. 1순위 옵션입니다.`);
+                }
+                // 주스탯만 있는 경우
+                else if (statPct >= 36) {
                     comments.push(pick([
                         `${potPrefix} <b>주스탯 ${statPct}%</b>... <b>'올이탈'</b> 국가권력급 스펙입니다! 로또 1등 당첨보다 어렵다는 확률을 뚫으셨군요.`,
                         `${potPrefix} <b>주스탯 ${statPct}%</b>?! 큐브가 고장난 거 아닌가요? 믿을 수 없는 수치입니다.`,
@@ -465,8 +495,6 @@ export function generateItemCommentary(item: any, job?: string): string {
                     comments.push(`레전드리 등급이지만 옵션 수치가 아쉽습니다. 큐브를 통해 <b>21% 이상</b> 혹은 <b>유효 2줄</b>을 노려보시는 걸 추천합니다.`);
                 }
             }
-
-            if (coolTime >= 4) comments.push(`<b>쿨타임 감소 ${coolTime}초</b>는 종결급 옵션입니다.`);
             if (critDmg >= 24) comments.push(`<b>3크뎀</b>...?! 이건 전설이 아니라 <b>신화</b>입니다. 메이플 역사에 남을 아이템입니다.`);
             else if (critDmg >= 16) comments.push(`<b>쌍크뎀</b> 장갑... 전 서버급 매물입니다.`);
 
@@ -578,7 +606,12 @@ export function generateItemCommentary(item: any, job?: string): string {
                         let isValid = false;
                         if (line.includes('올스탯')) {
                             isValid = true;
-                        } else {
+                        }
+                        // HP%는 항상 체크 (데몬어벤져용)
+                        else if (line.includes('HP') && line.includes('%')) {
+                            isValid = true;
+                        }
+                        else {
                             // 직업 주스탯과 일치하는 경우만 카운트
                             const isMainStat = mainStats.some((stat: string) => line.includes(stat));
                             if (isMainStat) isValid = true;
@@ -607,6 +640,7 @@ export function generateItemCommentary(item: any, job?: string): string {
                         if (line.includes('DEX') && mainStats.includes('DEX')) isValid = true;
                         if (line.includes('INT') && mainStats.includes('INT')) isValid = true;
                         if (line.includes('LUK') && mainStats.includes('LUK')) isValid = true;
+                        if (line.includes('HP')) isValid = true; // HP는 항상 유효 (데몬어벤져용)
 
                         if (isValid) {
                             validStatLines++;

@@ -37,7 +37,8 @@ export function getJobMainStat(jobName: string): string[] {
 
     const normalized = jobName.replace(/\s/g, "");
 
-    if (normalized.includes('데몬어벤져')) return ['HP'];
+    // 데몬어벤져는 HP가 주스탯이지만, 잠재능력에서는 STR % 사용
+    if (normalized.includes('데몬어벤져')) return ['STR'];
     if (normalized.includes('제논')) return ['STR', 'DEX', 'LUK'];
 
     // INT Jobs (Magic jobs)

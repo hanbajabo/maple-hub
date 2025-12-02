@@ -43,6 +43,7 @@ export const getAddOptions = (item: any) => {
     if (add.dex !== "0") opts.push(`DEX +${add.dex}`);
     if (add.int !== "0") opts.push(`INT +${add.int}`);
     if (add.luk !== "0") opts.push(`LUK +${add.luk}`);
+    if (add.max_hp !== "0") opts.push(`HP +${add.max_hp}`);
     if (add.attack_power !== "0") opts.push(`공격력 +${add.attack_power}`);
     if (add.magic_power !== "0") opts.push(`마력 +${add.magic_power}`);
     if (add.boss_damage !== "0") opts.push(`보공 +${add.boss_damage}%`);
@@ -61,6 +62,7 @@ export const getEtcOptions = (item: any) => {
     if (etc.dex !== "0") opts.push(`DEX +${etc.dex}`);
     if (etc.int !== "0") opts.push(`INT +${etc.int}`);
     if (etc.luk !== "0") opts.push(`LUK +${etc.luk}`);
+    if (etc.max_hp !== "0") opts.push(`HP +${etc.max_hp}`);
     if (etc.attack_power !== "0") opts.push(`공격력 +${etc.attack_power}`);
     if (etc.magic_power !== "0") opts.push(`마력 +${etc.magic_power}`);
     if (etc.armor !== "0") opts.push(`방어력 +${etc.armor}`);
@@ -137,6 +139,7 @@ export const getArmorScoreLabel = (item: any) => {
     const dex = Number(add.dex) || 0;
     const int = Number(add.int) || 0;
     const luk = Number(add.luk) || 0;
+    const hp = Number(add.max_hp) || 0;
     const att = Number(add.attack_power) || 0;
     const magic = Number(add.magic_power) || 0;
     const allStat = Number(add.all_stat) || 0;
@@ -145,8 +148,9 @@ export const getArmorScoreLabel = (item: any) => {
     const scoreDEX = dex + (att * 4) + (allStat * 10);
     const scoreINT = int + (magic * 4) + (allStat * 10);
     const scoreLUK = luk + (att * 4) + (allStat * 10);
+    const scoreHP = (hp / 21) + (att * 4) + (allStat * 10);
 
-    const maxScore = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK);
+    const maxScore = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK, scoreHP);
     if (maxScore <= 0) return null;
-    return `${maxScore}급`;
+    return `${Math.floor(maxScore)}급`;
 };

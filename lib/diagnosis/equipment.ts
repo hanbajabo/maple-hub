@@ -5,6 +5,7 @@ import { diagnoseGlove } from './parts/glove';
 import { diagnoseWeapon } from './parts/weapon';
 import { diagnoseArmor } from './parts/armor';
 import { diagnoseAccessory } from './parts/accessory';
+import { getSpecialItemConfig } from '../config/special_items';
 
 export function getMaxStarforce(level: number): number {
     if (level <= 94) return 5;
@@ -21,6 +22,13 @@ export function getMaxStarforce(level: number): number {
 // 기준표 Section 11. 진단 파이프라인 설계 적용
 export function diagnoseItemDeeply(item: any, job?: string): string[] {
     const slot = item.item_equipment_slot || "";
+    const itemName = item.item_name || "";
+
+    // 🎯 특수 아이템 처리 (중앙 설정 사용)
+    const specialItemConfig = getSpecialItemConfig(itemName);
+    if (specialItemConfig) {
+        return [specialItemConfig.hexaComment];
+    }
 
     // 1. 모자 (Hat)
     if (slot.includes("모자")) {

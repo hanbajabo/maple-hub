@@ -4,6 +4,7 @@ import { evaluateWeaponFlame, evaluateArmorFlame } from './flame_evaluator';
 import { getMaxStarforce } from './diagnosis/equipment';
 import { isPensalirItem } from './utils/item_classifier';
 import { WEAPON_STARFORCE, ARMOR_STARFORCE, SPECIAL_STARFORCE } from './config/evaluation_criteria';
+import { getSpecialItemConfig } from './config/special_items';
 
 export type { PotentialEvaluation } from './potential_evaluator';
 export type { FlameEvaluation } from './flame_evaluator';
@@ -32,6 +33,20 @@ export function evaluateStarforce(
     itemName: string = '',
     level: number = 200
 ): StarforceEvaluation {
+    // 🎯 특수 아이템 체크 (스타포스 불가)
+    const specialItemConfig = getSpecialItemConfig(itemName);
+    if (specialItemConfig?.skipSections?.starforce) {
+        return {
+            current_star: 0,
+            target_star: 0,
+            success_rate: 0,
+            destroy_risk: 0,
+            avg_destroy_count: 0,
+            evaluation: '안전',
+            recommendation: '이 아이템은 스타포스 강화가 불가능한 특수 아이템입니다.'
+        };
+    }
+
     if (itemName.includes('제네시스')) {
         return {
             current_star: 22,
@@ -98,6 +113,20 @@ export function evaluateArmorStarforce(
     level: number = 200,
     itemName: string = ''
 ): StarforceEvaluation {
+    // 🎯 특수 아이템 체크 (스타포스 불가)
+    const specialItemConfig = getSpecialItemConfig(itemName);
+    if (specialItemConfig?.skipSections?.starforce) {
+        return {
+            current_star: 0,
+            target_star: 0,
+            success_rate: 0,
+            destroy_risk: 0,
+            avg_destroy_count: 0,
+            evaluation: '안전',
+            recommendation: '이 아이템은 스타포스 강화가 불가능한 특수 아이템입니다.'
+        };
+    }
+
     let evaluation: StarforceEvaluation['evaluation'] = '부족';
     let recommendation = '';
 
@@ -183,7 +212,7 @@ export function evaluateArmorStarforce(
             // 25성 한계인 경우 (기존 로직 유지)
             if (currentStar >= 22) {
                 evaluation = '종결';
-                recommendation = '22성! 진짜 좋은 스타포스 수치입니다. 졸업급 스펙입니다.';
+                recommendation = `${currentStar}성! 진짜 좋은 스타포스 수치입니다. 졸업급 스펙입니다.`;
             } else if (currentStar >= 17) {
                 evaluation = '보통';
                 recommendation = '17성! 국민 스타포스 세팅입니다.';

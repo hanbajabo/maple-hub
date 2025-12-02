@@ -31,14 +31,30 @@ export function diagnoseArmor(item: any, job?: string): string[] {
     // 1. 상의 / 하의 (Top / Bottom)
     if (slot === "상의" || slot === "하의") {
         if (itemName.includes("에테르넬")) {
-            if (starforce >= 21) {
-                comments.push(`[최종 졸업] <b>21성</b> 이상 에테르넬은 카루타의 시대를 끝낸 유일한 아이템입니다. 압도적입니다.`);
+            if (starforce >= 25) {
+                comments.push(`[신화의 경지] <b>${starforce}성</b> 에테르넬...?! 이건 메이플스토리의 역사를 새로 쓰는 아이템입니다. 전 서버 유일무이한 스펙일 수 있습니다.`);
+            } else if (starforce === 24) {
+                comments.push(`[초월적 스펙] <b>24성</b> 에테르넬! 운영자도 놀랄만한 기적의 아이템입니다.`);
+            } else if (starforce === 23) {
+                comments.push(`[전설의 시작] <b>23성</b> 에테르넬은 그 자체로 하나의 전설입니다. 압도적인 위용을 자랑합니다.`);
+            } else if (starforce === 22) {
+                comments.push(`[완벽한 졸업] <b>22성</b> 에테르넬은 카루타의 시대를 완전히 끝낸 최종 종결템입니다.`);
+            } else if (starforce === 21) {
+                comments.push(`[해방급 스펙] <b>21성</b> 에테르넬은 매우 훌륭한 선택입니다. 22성을 도전할지 고민되시겠군요.`);
             } else if (starforce >= 17) {
                 comments.push(`[차세대 종결] 파프니르 <b>22성</b>을 넘어서는 스펙입니다. <b>21성</b> 이상을 목표로 하세요.`);
             }
         } else if (itemName.includes("하이네스") || itemName.includes("이글아이") || itemName.includes("트릭스터")) { // 카루타
-            if (starforce >= 22) {
+            if (starforce >= 25) {
+                comments.push(`[전설의 카루타] <b>${starforce}성</b>...?! 이 정도면 에테르넬도 부럽지 않은 괴물 같은 성능입니다.`);
+            } else if (starforce === 24) {
+                comments.push(`[기적의 강화] <b>24성</b> 카루타! 수많은 파괴를 딛고 탄생한 역작입니다.`);
+            } else if (starforce === 23) {
+                comments.push(`[초고스펙] <b>23성</b> 카루타는 가성비와 성능의 정점입니다. 평생 쓰셔도 됩니다.`);
+            } else if (starforce === 22) {
                 comments.push(`[현역 최강] 에테르넬 전까지 대체 불가입니다. 평생 써도 무방한 명품입니다.`);
+            } else if (starforce === 21) {
+                comments.push(`[고효율 세팅] <b>21성</b> 카루타는 가성비가 매우 좋습니다. 22성을 도전해볼 만한 가치가 있습니다.`);
             } else if (starforce >= 17) {
                 comments.push(`[국민 세팅] 카루타 상/하의는 가성비와 성능 모두 훌륭합니다.`);
             }
@@ -58,21 +74,41 @@ export function diagnoseArmor(item: any, job?: string): string[] {
         if (itemName.includes('펜살리르')) {
             comments.push(`[교체 추천] 펜살리르 ${slot}보다 <b>앱솔랩스/아케인셰이드 ${slot}</b>이 훨씬 좋습니다. 교체를 고려해보세요.`);
         } else if (itemName.includes("앱솔랩스")) {
-            if (starforce >= 22) {
+            if (starforce >= 23) {
+                comments.push(`[앱솔의 한계 돌파] <b>${starforce}성</b> 앱솔랩스...?! 애정이 가득 담긴 아이템이군요. 대단합니다.`);
+            } else if (starforce === 22) {
                 comments.push(`[가성비 제왕] <b>22성</b> 앱솔랩스는 <b>17성</b> 아케인보다 공격력이 월등히 높습니다. 현명한 선택입니다.`);
+            } else if (starforce === 21) {
+                comments.push(`[준수한 고스펙] <b>21성</b> 앱솔랩스는 가성비 좋게 사용하기 좋습니다.`);
             } else if (starforce >= 17) {
                 comments.push(`[국민 세팅] <b>17성</b> 앱솔은 가성비가 좋지만, 추후 <b>22성 앱솔</b>이나 <b>18성 아케인</b>으로 넘어가면 공격력이 대폭 상승합니다.`);
             }
         } else if (itemName.includes("아케인셰이드")) {
-            if (starforce >= 22) {
+            if (starforce >= 25) {
+                comments.push(`[아케인의 정점] <b>${starforce}성</b> 아케인...?! 칠흑 세트 부럽지 않은 압도적인 깡스펙입니다.`);
+            } else if (starforce >= 23) {
+                comments.push(`[초월급 아케인] <b>${starforce}성</b> 아케인은 정말 보기 드문 귀한 아이템입니다.`);
+            } else if (starforce === 22) {
                 comments.push(`[졸업] <b>22성</b> 아케인... 더 이상 바랄 게 없는 엔드 스펙입니다.`);
+            } else if (starforce === 21) {
+                comments.push(`[준종결] <b>21성</b> 아케인은 충분히 강력합니다. 22성 도전을 추천합니다.`);
             } else if (starforce >= 18) {
                 comments.push(`[성장 교차점] <b>18성</b>부터는 깡공격력이 높아져 <b>22성</b> 앱솔과의 격차를 줄일 수 있습니다.`);
             } else if (starforce === 17) {
                 comments.push(`[미래 지향적] 당장은 <b>22성</b> 앱솔보다 약할 수 있지만, <b>22성</b>을 바라보는 잠재력 있는 템셋팅입니다.`);
             }
         } else if (itemName.includes("에테르넬")) {
-            if (starforce >= 17) {
+            if (starforce >= 25) {
+                comments.push(`[신화의 경지] <b>${starforce}성</b> 에테르넬...?! 이건 메이플스토리의 역사를 새로 쓰는 아이템입니다.`);
+            } else if (starforce === 24) {
+                comments.push(`[초월적 스펙] <b>24성</b> 에테르넬! 운영자도 놀랄만한 기적의 아이템입니다.`);
+            } else if (starforce === 23) {
+                comments.push(`[전설의 시작] <b>23성</b> 에테르넬은 그 자체로 하나의 전설입니다.`);
+            } else if (starforce === 22) {
+                comments.push(`[완벽한 졸업] <b>22성</b> 에테르넬은 최종 종결템입니다.`);
+            } else if (starforce === 21) {
+                comments.push(`[해방급 스펙] <b>21성</b> 에테르넬은 매우 훌륭한 선택입니다.`);
+            } else if (starforce >= 17) {
                 comments.push(`[최상위 포식자] 에테르넬 세트는 존재만으로도 강력합니다.`);
             }
         } else if (itemName.includes("로얄 블랙메탈 숄더")) {
@@ -100,8 +136,13 @@ export function diagnoseArmor(item: any, job?: string): string[] {
                     // 올스탯은 항상 포함
                     if (l.includes('올스탯')) {
                         statPct += parseInt(match[1]);
-                    } else {
-                        // 직업 주스탯과 일치하는 경우만 합산
+                    }
+                    // HP%는 항상 체크 (데몬어벤져용 - 직업 정보 없어도 인식)
+                    else if (l.includes('HP') && l.includes('%')) {
+                        statPct += parseInt(match[1]);
+                    }
+                    // 직업 주스탯과 일치하는 경우만 합산
+                    else {
                         mainStats.forEach(stat => {
                             if (l.includes(stat)) {
                                 statPct += parseInt(match[1]);
@@ -121,7 +162,11 @@ export function diagnoseArmor(item: any, job?: string): string[] {
         });
 
         if (potentialGrade === '레전드리') {
-            if (statPct >= 30) {
+            if (statPct >= 36) {
+                comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다. 전 서버급 스펙입니다.`);
+            } else if (statPct >= 33) {
+                comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션입니다. 정옵을 뛰어넘은 최상급 스펙입니다.`);
+            } else if (statPct >= 30) {
                 comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 3줄 정옵입니다.`);
             } else if (statPct >= 27) {
                 comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다.`);
@@ -140,7 +185,7 @@ export function diagnoseArmor(item: any, job?: string): string[] {
             }
         }
     } else if (potentialGrade === '에픽') {
-        const epicComments = diagnoseEpicPotential(potentialGrade, potentials);
+        const epicComments = diagnoseEpicPotential(potentialGrade, potentials, job);
         comments.push(...epicComments);
     }
 
@@ -168,7 +213,12 @@ export function diagnoseArmor(item: any, job?: string): string[] {
             if (matchPct) {
                 if (l.includes("올스탯")) {
                     adiStatPct += parseInt(matchPct[1]);
-                } else {
+                }
+                // HP%는 항상 체크 (데몬어벤져용 - 직업 정보 없어도 인식)
+                else if (l.includes('HP') && l.includes('%')) {
+                    adiStatPct += parseInt(matchPct[1]);
+                }
+                else {
                     mainStats.forEach(stat => {
                         if (l.includes(stat)) {
                             adiStatPct += parseInt(matchPct[1]);
@@ -235,6 +285,7 @@ export function diagnoseArmor(item: any, job?: string): string[] {
         const dex = parseInt(addOpts.dex || "0");
         const int = parseInt(addOpts.int || "0");
         const luk = parseInt(addOpts.luk || "0");
+        const hp = parseInt(addOpts.max_hp || "0"); // HP 추가 (데몬어벤져용)
         const att = parseInt(addOpts.attack_power || "0");
         const magic = parseInt(addOpts.magic_power || "0");
         const allStat = parseInt(addOpts.all_stat || "0");
@@ -244,8 +295,10 @@ export function diagnoseArmor(item: any, job?: string): string[] {
         const scoreDEX = dex + (att * 4) + (allStat * 10);
         const scoreINT = int + (magic * 4) + (allStat * 10);
         const scoreLUK = luk + (att * 4) + (allStat * 10);
+        // HP는 21당 주스탯 1 효율 (이미지 기준)
+        const scoreHP = (hp / 21) + (att * 4) + (allStat * 10);
 
-        const score = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK);
+        const score = Math.floor(Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK, scoreHP));
 
         const level = item.item_base_option?.base_equipment_level || 0;
 

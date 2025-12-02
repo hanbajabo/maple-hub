@@ -11,6 +11,7 @@ import {
 import { generateItemCommentary } from '../lib/ai-commentary';
 import AICommentary from './AICommentary';
 import ItemCard from './ItemCard';
+import { getSpecialItemConfig } from '../lib/config/special_items';
 
 interface WeaponDiagnosisModalProps {
     item: any; // ItemData type
@@ -102,8 +103,26 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
             item.potential_option_3
         ].filter(Boolean);
 
+
+        // 🎯 특수 아이템 처리 (중앙 설정 사용)
+        const specialItemConfig = getSpecialItemConfig(item.item_name || "");
+
         let potResult;
-        if (!item.potential_option_grade || potentials.length === 0) {
+        if (specialItemConfig?.detailedDiagnosis?.potential) {
+            const config = specialItemConfig.detailedDiagnosis.potential;
+            potResult = {
+                current_grade: config.grade,
+                target_grade: config.grade,
+                upgrade_rate: 0,
+                ceiling_count: 0,
+                ceiling_cost: 0,
+                avg_cost: 0,
+                options_score: config.score || 100,
+                good_options: config.goodOptions || [],
+                recommendation: config.recommendation,
+                evaluation: config.evaluation
+            };
+        } else if (!item.potential_option_grade || potentials.length === 0) {
             // 잠재능력이 없는 경우
             potResult = {
                 current_grade: '레어' as const,
@@ -137,7 +156,21 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
         ].filter(Boolean);
 
         let addPotResult;
-        if (!item.additional_potential_option_grade || addPotentials.length === 0) {
+        if (specialItemConfig?.detailedDiagnosis?.additionalPotential) {
+            const config = specialItemConfig.detailedDiagnosis.additionalPotential;
+            addPotResult = {
+                current_grade: config.grade,
+                target_grade: config.grade,
+                upgrade_rate: 0,
+                ceiling_count: 0,
+                ceiling_cost: 0,
+                avg_cost: 0,
+                options_score: config.score || 100,
+                good_options: config.goodOptions || [],
+                recommendation: config.recommendation,
+                evaluation: config.evaluation
+            };
+        } else if (!item.additional_potential_option_grade || addPotentials.length === 0) {
             // 에디셔널이 없는 경우
             addPotResult = {
                 current_grade: '레어' as const,
@@ -242,6 +275,7 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
             const dex = Number(add.dex) || 0;
             const int = Number(add.int) || 0;
             const luk = Number(add.luk) || 0;
+            const hp = Number(add.max_hp) || 0;
             const att = Number(add.attack_power) || 0;
             const magic = Number(add.magic_power) || 0;
             const allStat = Number(add.all_stat) || 0;
@@ -250,8 +284,9 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
             const scoreDEX = dex + (att * 4) + (allStat * 10);
             const scoreINT = int + (magic * 4) + (allStat * 10);
             const scoreLUK = luk + (att * 4) + (allStat * 10);
+            const scoreHP = (hp / 21) + (att * 4) + (allStat * 10);
 
-            const maxScore = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK);
+            const maxScore = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK, scoreHP);
 
             flameResult = evaluateArmorFlame(level, maxScore, item.item_name);
         }
@@ -450,7 +485,7 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-slate-400">옵션 평가</span>
-                                    <span className={`font-bold px-2 py-0.5 rounded ${['종결', '종결급', '신화', '최상급'].includes(result.potential.evaluation) ? 'bg-green-500/20 text-green-400' :
+                                    <span className={`font-bold px-2 py-0.5 rounded ${['종결', '종결급', '신화', '최상급', '유니크급'].includes(result.potential.evaluation) ? 'bg-green-500/20 text-green-400' :
                                         ['훌륭', '좋음', '준수', '통과'].includes(result.potential.evaluation) ? 'bg-blue-500/20 text-blue-400' :
                                             ['보통'].includes(result.potential.evaluation) ? 'bg-yellow-500/20 text-yellow-400' :
                                                 'bg-red-500/20 text-red-400'

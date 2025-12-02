@@ -104,7 +104,7 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
         if (bossLines.length + validAttLines.length >= 2) comments.push(`[유니크 종결] 유니크 등급에서 뽑을 수 있는 최상의 옵션입니다.`);
         else if (bossLines.length + validAttLines.length === 1) comments.push(`[유니크 현역] 쓸만한 유효 옵션입니다.`);
     } else if (potentialGrade === '에픽') {
-        const epicComments = diagnoseEpicPotential(potentialGrade, potentials);
+        const epicComments = diagnoseEpicPotential(potentialGrade, potentials, job);
         comments.push(...epicComments);
     }
 

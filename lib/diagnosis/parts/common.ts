@@ -5,6 +5,7 @@
  */
 
 import { isPensalirItem } from '../../utils/item_classifier';
+import { getJobMainStat } from '../../job_utils';
 
 /**
  * 펜살리르 장비인지 체크하고, 맞다면 교체 권장 메시지 반환
@@ -26,7 +27,7 @@ export function checkPensalirAndWarn(itemName: string, itemType: 'weapon' | 'arm
 }
 
 
-export function diagnoseEpicPotential(potentialGrade: string, potentials: string[], isEndGameItem: boolean = false): string[] {
+export function diagnoseEpicPotential(potentialGrade: string, potentials: string[], job?: string, isEndGameItem: boolean = false): string[] {
     const comments: string[] = [];
 
     if (potentialGrade === '에픽') {
@@ -34,20 +35,41 @@ export function diagnoseEpicPotential(potentialGrade: string, potentials: string
         let attPct = 0;
         let magicPct = 0;
 
+        // 직업 정보로 주스탯 결정
+        const mainStats = job ? getJobMainStat(job) : [];
+        const hasJobInfo = mainStats.length > 0;
+
         potentials.forEach(line => {
             if (!line) return;
             if (line.includes('공격력') && line.includes('%')) attPct += parseInt(line.replace(/[^0-9]/g, '')) || 0;
             if (line.includes('마력') && line.includes('%')) magicPct += parseInt(line.replace(/[^0-9]/g, '')) || 0;
 
-            const str = line.includes('STR') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
-            const dex = line.includes('DEX') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
-            const int = line.includes('INT') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
-            const luk = line.includes('LUK') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
-            const all = line.includes('올스탯') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
-            statPct += Math.max(str, dex, int, luk) + all;
+            // 올스탯은 항상 카운트
+            if (line.includes('올스탯') && line.includes('%')) {
+                const val = parseInt(line.replace(/[^0-9]/g, '')) || 0;
+                statPct += val;
+            }
+            // 직업 정보가 있으면 주스탯만 카운트
+            else if (hasJobInfo) {
+                const isMainStat = mainStats.some(stat => line.includes(stat) && line.includes('%'));
+                if (isMainStat) {
+                    const val = parseInt(line.replace(/[^0-9]/g, '')) || 0;
+                    statPct += val;
+                }
+            }
+            // 직업 정보가 없으면 기존 로직 (각 줄의 최대값)
+            else {
+                const str = line.includes('STR') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
+                const dex = line.includes('DEX') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
+                const int = line.includes('INT') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
+                const luk = line.includes('LUK') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
+                statPct += Math.max(str, dex, int, luk);
+            }
         });
 
-        if (statPct >= 12) {
+        if (statPct >= 15) {
+            comments.push(`[유니크급 효율] 에픽 등급이지만 주스탯 <b>${statPct}%</b> 이상으로 유니크 2줄급 성능을 냅니다. 훌륭합니다.`);
+        } else if (statPct >= 12) {
             comments.push(`[가성비 최강] 에픽 등급에서 주스탯 <b>${statPct}%</b>! 유니크 부럽지 않은 최고의 효율입니다.`);
         } else if (statPct >= 9) {
             comments.push(`[에픽 정석] 주스탯 <b>${statPct}%</b>로 깔끔하게 맞추셨네요. 가성비 구간 졸업입니다.`);

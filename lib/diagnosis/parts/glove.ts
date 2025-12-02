@@ -35,14 +35,14 @@ export function diagnoseGlove(item: any, job?: string): string[] {
         // 1줄일 때 추가 분석
         const hasStat = potentials.some(l => l && (l.includes("올스탯") || l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK")));
         if (potentialGrade === "레전드리") {
-            comments.push(`[아쉬움] 레전드리 장갑인데 크뎀이 한 줄뿐입니다. 스펙업 욕심이 있다면 <b>'쌍크뎀(2줄)'</b>을 노려보세요.`);
+            comments.push(`[좋음] 크리티컬 데미지 <b>8%</b>는 주스탯 30% 이상의 효율을 냅니다. 충분히 훌륭한 옵션입니다.`);
         } else {
             comments.push(`[필수 옵션] 크뎀 <b>8%</b>는 주스탯 3줄급 효율입니다. 유니크 등급에서는 최상의 옵션입니다.`);
         }
     } else if (potentialGrade === "레전드리" || potentialGrade === "유니크") {
         comments.push(`[옵션 미달] 장갑의 핵심은 <b>'크리티컬 데미지'</b>입니다. 주스탯보다 크뎀을 우선적으로 뽑아주세요.`);
     } else if (potentialGrade === '에픽') {
-        const epicComments = diagnoseEpicPotential(potentialGrade, potentials);
+        const epicComments = diagnoseEpicPotential(potentialGrade, potentials, job);
         comments.push(...epicComments);
     }
 
@@ -89,14 +89,15 @@ export function diagnoseGlove(item: any, job?: string): string[] {
         parseInt(addOpts.str || "0"),
         parseInt(addOpts.dex || "0"),
         parseInt(addOpts.int || "0"),
-        parseInt(addOpts.luk || "0")
+        parseInt(addOpts.luk || "0"),
+        parseInt(addOpts.max_hp || "0") / 21
     );
     const addAllStat = parseInt(addOpts.all_stat || "0");
     const addAtt = parseInt(addOpts.attack_power || "0");
-    const score = addStat + (addAtt * 4) + (addAllStat * 10);
+    const score = Math.floor(addStat + (addAtt * 4) + (addAllStat * 10));
 
-    if (score >= 120) comments.push(`[극추옵] 장갑에서 <b>120급</b>은 정말 귀합니다. 평생 가져가세요.`);
-    else if (score >= 100) comments.push(`[고추옵] <b>100급</b> 이상! 훌륭합니다.`);
+    if (score >= 120) comments.push(`[극추옵] 장갑에서 <b>${score}급</b>은 정말 귀합니다. 평생 가져가세요.`);
+    else if (score >= 100) comments.push(`[고추옵] <b>${score}급</b>! 훌륭합니다.`);
     else if (score < 80 && item.item_base_option?.base_equipment_level >= 160) {
         comments.push(`[추옵 아쉬움] 장갑은 추옵 뽑기가 어렵지만, <b>80급</b> 이상은 맞춰주는 것이 좋습니다.`);
     }

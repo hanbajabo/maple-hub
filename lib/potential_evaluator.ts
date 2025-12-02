@@ -10,8 +10,8 @@ import {
 import { isPensalirItem } from './utils/item_classifier';
 
 export interface PotentialEvaluation {
-    current_grade: '레어' | '에픽' | '유니크' | '레전드리';
-    target_grade: '레어' | '에픽' | '유니크' | '레전드리';
+    current_grade: '레어' | '에픽' | '유니크' | '레전드리' | '특수';
+    target_grade: '레어' | '에픽' | '유니크' | '레전드리' | '특수';
     upgrade_rate: number;
     ceiling_count: number;
     ceiling_cost: number;
@@ -200,7 +200,7 @@ function generateEvaluation(
             return '아쉬움';
         }
         if (grade === '에픽') {
-            if (score >= 50) return '종결급';
+            if (score >= 50) return '유니크급';
             return '준수';
         }
     } else {
@@ -365,6 +365,11 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                         totalStatPercent += (val * 0.5);
                         goodOptions.push(opt);
                     }
+                    // HP%는 명시적으로 체크 (데몬어벤져용)
+                    else if (opt.includes('HP') && opt.includes('%')) {
+                        totalStatPercent += val;
+                        goodOptions.push(opt);
+                    }
                     // 개별 스탯은 주스탯만 유효
                     else if (hasAnyStatPercent && opt.includes(mainStat)) {
                         totalStatPercent += val;
@@ -442,6 +447,8 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
     else {
         let totalStatEquivalent = 0;
         let validLines = 0;
+        let maxAttack = 0;  // 공격력 최대값
+        let maxMagic = 0;   // 마력 최대값
 
         // 🔍 주스탯 추론: 가장 많이 나온 스탯을 주스탯으로 간주
         const statCounts = { STR: 0, DEX: 0, INT: 0, LUK: 0 };
@@ -467,6 +474,11 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                         totalStatEquivalent += val;
                         isGoodOption = true;
                     }
+                    // HP%는 명시적으로 체크 (데몬어벤져용)
+                    else if (opt.includes('HP') && opt.includes('%')) {
+                        totalStatEquivalent += val;
+                        isGoodOption = true;
+                    }
                     // 개별 스탯은 주스탯만 유효 (주스탯이 명확한 경우에만)
                     else if (hasAnyStatPercent && opt.includes(mainStat)) {
                         totalStatEquivalent += val;
@@ -488,20 +500,30 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                     }
                 }
             }
-            // 3. 공/마 상수 (10 이상)
-            else if ((opt.includes('공격력 +') || opt.includes('마력 +')) && !opt.includes('%')) {
+            // 3. 공격력 체크 (따로 저장)
+            else if (opt.includes('공격력 +') && !opt.includes('%')) {
                 const match = opt.match(/\+(\d+)/);
                 if (match) {
                     const val = parseInt(match[1]);
                     if (val >= 10) {
-                        // 공/마 +10은 주스탯 약 3~4% 효율로 환산
-                        totalStatEquivalent += 3;
+                        maxAttack = Math.max(maxAttack, val);
+                        isGoodOption = true;
+                    }
+                }
+            }
+            // 4. 마력 체크 (따로 저장)
+            else if (opt.includes('마력 +') && !opt.includes('%')) {
+                const match = opt.match(/\+(\d+)/);
+                if (match) {
+                    const val = parseInt(match[1]);
+                    if (val >= 10) {
+                        maxMagic = Math.max(maxMagic, val);
                         isGoodOption = true;
                     }
                 }
             }
 
-            // 4. 쿨타임 감소 (모자 에디셔널 등)
+            // 5. 쿨타임 감소 (모자 에디셔널 등)
             else if (opt.includes('재사용 대기시간')) {
                 const match = opt.match(/(\d+)초/);
                 if (match) {
@@ -516,6 +538,17 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                 goodOptions.push(opt);
             }
         });
+
+        // 공격력과 마력 중 더 큰 값만 카운트 (물리/마법 직업 구분)
+        const maxAttMagic = Math.max(maxAttack, maxMagic);
+        if (maxAttMagic >= 10) {
+            // 공/마 +1 = 주스탯 4 효율
+            // 주스탯 10 = 주스탯 1%
+            // 공/마 +10 = 주스탯 40 = 4%
+            // 공/마 +11 = 주스탯 44 = 4.4%
+            const statEquiv = (maxAttMagic * 4) / 10;
+            totalStatEquivalent += statEquiv;
+        }
 
         // 점수 산정 (주스탯 % 환산치 그대로 사용)
         return { goodOptions, optionsScore: totalStatEquivalent };
@@ -615,6 +648,11 @@ function generateGeneralRecommendation(
     // 방어구/장신구 평가
     if (equipmentType === '방어구' || equipmentType === '장신구') {
         if (type === 'main') {
+            // 에픽 등급에서 점수가 높으면(15% 이상) 칭찬
+            if (grade === '에픽' && score >= 50) {
+                return '에픽 등급이지만 주스탯 15% 이상으로 유니크급 효율을 냅니다. 훌륭합니다!';
+            }
+
             if (grade !== '유니크' && grade !== '레전드리') {
                 return `${grade}에서 최소 유니크 이상으로 등급업이 필요합니다.`;
             }
@@ -637,11 +675,30 @@ function generateGeneralRecommendation(
                     }
                 });
 
+                // 주스탯 % 계산
+                let totalStatPercent = 0;
+                goodOptions.forEach(opt => {
+                    // 재사용 대기시간 제외
+                    if (!opt.includes('재사용') && opt.includes('%')) {
+                        const match = opt.match(/(\d+)%/);
+                        if (match) {
+                            totalStatPercent += parseInt(match[1]);
+                        }
+                    }
+                });
+
                 if (totalCooldown >= 6) return '초월급! 쿨감 6초 이상입니다. 전서버급 옵션!';
                 if (totalCooldown >= 5) return '엔드급! 쿨감 5초 이상입니다. 졸업하셔도 됩니다.';
                 if (totalCooldown >= 4) return '최상급! 쿨감 4초 이상입니다. 매우 훌륭합니다.';
                 if (totalCooldown >= 3) return '진짜 좋음! 쿨감 3초 이상입니다.';
-                if (totalCooldown >= 2) return '좋음! 쿨감 2초 이상입니다.';
+
+                // 쿨감 2초 이상일 때 주스탯도 체크
+                if (totalCooldown >= 2) {
+                    if (totalStatPercent > 0) {
+                        return `좋음! 쿨감 ${totalCooldown}초 + 주스탯 ${Math.floor(totalStatPercent)}%`;
+                    }
+                    return '좋음! 쿨감 2초 이상입니다.';
+                }
             }
 
             // 크뎀 옵션이 있으면 우선 평가
@@ -727,8 +784,8 @@ function generateGeneralRecommendation(
 
             if (grade === '에픽') {
                 if (score >= 10) return `에픽 종결! 주스탯 ${score}%급 효율입니다.`;
-                if (score >= 4) return `에픽 통과! 주스탯 ${score}%급 효율입니다.`; // 공/마 10 = 3% + 1%?
-                return '재설정 필요. 공/마 10 또는 주스탯 4% 이상을 챙기세요.';
+                if (score >= 3) return `에픽 통과! 주스탯 ${score}%급 효율입니다.`; // 공/마 10 = 3%
+                return '재설정 필요. 공/마 10 또는 주스탯 3% 이상을 챙기세요.';
             }
 
             if (grade === '레어') {

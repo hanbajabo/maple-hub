@@ -18,10 +18,11 @@ export function diagnoseScroll(item: any): string[] {
     const dex = parseInt(etcOpts.dex || "0");
     const int = parseInt(etcOpts.int || "0");
     const luk = parseInt(etcOpts.luk || "0");
+    const hp = parseInt(etcOpts.max_hp || "0"); // HP 추가 (데몬어벤져용)
     const att = parseInt(etcOpts.attack_power || "0");
     const magic = parseInt(etcOpts.magic_power || "0");
 
-    const maxStat = Math.max(str, dex, int, luk);
+    const maxStat = Math.max(str, dex, int, luk, hp);
 
     // 공/마 구분
     const mainAtt = Math.max(att, magic);
@@ -63,18 +64,37 @@ export function diagnoseScroll(item: any): string[] {
     // 🛡️ 방어구 (Armor)
     if (["모자", "상의", "하의", "한벌옷", "신발", "망토", "어깨장식"].some(s => slot.includes(s))) {
         // 주흔 스탯 기준 (120제 이상)
-        // 30%: +7 (4번째 강화부터 +? 일단 +7 기준)
+        // 30%: +7
         // 70%: +4
+        // HP 30%: +470 (대략)
+        // HP 70%: +270 (대략)
         const perfectStat = 7;
         const normalStat = 4;
+        const perfectHP = 400;
+        const normalHP = 200;
 
-        if (mainAtt > 0) {
+        const avgHP = hp / scrollCount;
+
+        // HP 작 우선 체크 (데몬어벤져)
+        if (avgHP >= normalHP) {
+            if (avgHP >= perfectHP) comments.push(`[HP 30% 완작] 평균 HP <b>+${Math.floor(avgHP)}</b>! 데몬어벤져를 위한 깔끔한 HP 작입니다.`);
+            else comments.push(`[HP 70% 작] 평균 HP <b>+${Math.floor(avgHP)}</b>. 가성비 HP 세팅입니다.`);
+
+            // 공/마가 덤으로 붙은 경우 언급
+            if (mainAtt > 0) comments.push(`(보너스 ${attType} <b>+${mainAtt}</b>)`);
+        }
+        else if (mainAtt > 0) {
             if (avgAtt >= 4) {
                 comments.push(`[놀긍혼 리턴 완작] 전 부위 놀긍혼 리턴작! 엔드 스펙입니다. (${attType} <b>+${mainAtt}</b>)`);
             } else if (mainAtt >= 4 && avgStat >= 5) {
                 comments.push(`[놀긍혼 긍혼 + 주흔] 첫작 놀긍혼으로 ${attType}을 챙기고, 나머지는 주흔으로 스탯을 채운 효율적인 세팅입니다.`);
             } else if (mainAtt <= 3) {
-                comments.push(`[${attType} 소량] 방어구에 ${attType}이 <b>+${mainAtt}</b> 붙어있습니다. (주흔작 보너스 혹은 긍혼 떡작 가능성)`);
+                // 스탯작이 잘 되어있는지 확인
+                if (avgStat >= normalStat) {
+                    comments.push(`[주흔 작 + 공/마] 스탯 작이 잘 되어있으며, 보너스로 ${attType}도 챙기셨습니다.`);
+                } else {
+                    comments.push(`[${attType} 소량] 방어구에 ${attType}이 <b>+${mainAtt}</b> 붙어있습니다. (주흔작 보너스 혹은 긍혼 떡작 가능성)`);
+                }
             } else {
                 comments.push(`[${attType} 섞인 작] 주문서 작에 ${attType}이 포함되어 있습니다. (${attType} <b>+${mainAtt}</b>)`);
             }
