@@ -612,9 +612,12 @@ function generateGeneralRecommendation(
     // 방어구/장신구 평가
     if (equipmentType === '방어구' || equipmentType === '장신구') {
         if (type === 'main') {
-            // 에픽 등급에서 점수가 높으면(15% 이상) 칭찬
-            if (grade === '에픽' && score >= 15) {
-                return '에픽 등급이지만 주스탯 15% 이상으로 유니크급 효율을 냅니다. 훌륭합니다!';
+            // 에픽 등급 세부 평가
+            if (grade === '에픽') {
+                if (score >= 18) return '에픽 완벽! 주스탯 3줄(18% 이상)입니다. 에픽 종결급이지만 유니크로 넘어가면 더 좋습니다.';
+                if (score >= 15) return '에픽 등급이지만 주스탯 15% 이상으로 유니크급 효율을 냅니다. 훌륭합니다!';
+                if (score >= 12) return '에픽 준수! 주스탯 3줄(12% 이상)로 쓸만합니다. 유니크 등급업을 추천합니다.';
+                return `${grade}에서 최소 유니크 이상으로 등급업이 필요합니다.`;
             }
 
             if (grade !== '유니크' && grade !== '레전드리') {
