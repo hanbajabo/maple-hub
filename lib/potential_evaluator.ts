@@ -623,7 +623,13 @@ function generateGeneralRecommendation(
                 if (score >= 18) return '에픽 완벽! 주스탯 3줄(18% 이상)입니다. 에픽 종결급이지만 유니크로 넘어가면 더 좋습니다.';
                 if (score >= 15) return '에픽 등급이지만 주스탯 15% 이상으로 유니크급 효율을 냅니다. 훌륭합니다!';
                 if (score >= 12) return '에픽 준수! 주스탯 3줄(12% 이상)로 쓸만합니다. 유니크 등급업을 추천합니다.';
-                return `${grade}에서 최소 유니크 이상으로 등급업이 필요합니다.`;
+
+                const lineCount = goodOptions.length;
+                if (lineCount >= 1) {
+                    return `유효 ${lineCount}줄입니다. 에픽 등급에서는 3줄 또는 유니크 등급업을 목표로 하세요.`;
+                } else {
+                    return `${grade}에서 최소 유니크 이상으로 등급업이 필요합니다.`;
+                }
             }
 
             if (grade !== '유니크' && grade !== '레전드리') {
@@ -631,9 +637,18 @@ function generateGeneralRecommendation(
             }
 
             if (grade === '유니크') {
+                const lineCount = goodOptions.length;
+
                 if (score >= 21) return '유니크 좋음! 주스탯 3줄(21% 이상)입니다.';
                 if (score >= 15) return '유니크 통과. 주스탯 2줄(15% 이상) 기준을 만족합니다.';
-                return '주스탯 2줄(15% 이상)을 목표로 재설정이 필요합니다.';
+
+                if (lineCount >= 2) {
+                    return `유효 ${lineCount}줄이지만 효율이 낮습니다. 주스탯 2줄(15% 이상)을 노려보세요.`;
+                } else if (lineCount === 1) {
+                    return '유효 1줄입니다. 유니크 등급에서는 주스탯 2줄(15% 이상)을 목표로 하세요.';
+                } else {
+                    return '유효 옵션이 없습니다. 주스탯 2줄(15% 이상)을 목표로 재설정이 필요합니다.';
+                }
             }
 
             // 레전드리
