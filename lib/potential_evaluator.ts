@@ -45,7 +45,8 @@ export function evaluatePotential(
     itemLevel: number,
     equipmentType: '무기' | '방어구' | '장신구' | '보조무기' | '엠블렘',
     itemSlot?: string,
-    itemName?: string
+    itemName?: string,
+    job?: string
 ): PotentialEvaluation {
     // 펜살리르/우트가르드 장비 특별 처리 (잠재능력 투자 비추천)
     if (itemName && isPensalirItem(itemName)) {
@@ -122,7 +123,7 @@ export function evaluatePotential(
         avgCost = (oneTimeCost * 100 / upgradeRate) / 100000000;
     }
 
-    const { goodOptions, optionsScore } = evaluateOptions(type, currentGrade, options, equipmentType, itemSlot);
+    const { goodOptions, optionsScore } = evaluateOptions(type, currentGrade, options, equipmentType, itemSlot, job);
     const recommendation = generateRecommendation(type, currentGrade, equipmentType, optionsScore, goodOptions, ceilingCost, itemSlot, itemLevel);
     const evaluation = generateEvaluation(type, currentGrade, equipmentType, optionsScore, goodOptions);
 
@@ -247,7 +248,8 @@ function evaluateOptions(
     currentGrade: string,
     options: string[],
     equipmentType: string,
-    itemSlot?: string
+    itemSlot?: string,
+    job?: string
 ): { goodOptions: string[], optionsScore: number } {
 
     if ((equipmentType === '무기' || equipmentType === '보조무기') && type === 'additional') {
@@ -259,7 +261,7 @@ function evaluateOptions(
     }
 
     if (equipmentType !== '무기' && equipmentType !== '보조무기') {
-        return evaluateArmorAccessory(options, type, currentGrade, itemSlot);
+        return evaluateArmorAccessory(options, type, currentGrade, itemSlot, job);
     }
 
     return evaluateWeaponMain(currentGrade, options);
@@ -333,7 +335,7 @@ function evaluateEmblem(type: string, options: string[]) {
     return { goodOptions, optionsScore };
 }
 
-function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' = 'main', currentGrade: string = '레전드리', itemSlot?: string) {
+function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' = 'main', currentGrade: string = '레전드리', itemSlot?: string, job?: string) {
     const goodOptions: string[] = [];
 
     // 메인 잠재능력 평가
@@ -365,10 +367,12 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                         totalStatPercent += val;
                         goodOptions.push(opt);
                     }
-                    // HP%는 명시적으로 체크 (데몬어벤져용)
+                    // HP%는 데몬어벤져만 주스탯으로 인정
                     else if (opt.includes('HP') && opt.includes('%')) {
-                        totalStatPercent += val;
-                        goodOptions.push(opt);
+                        if (job && job.includes('데몬어벤져')) {
+                            totalStatPercent += val;
+                            goodOptions.push(opt);
+                        }
                     }
                     // 개별 스탯은 주스탯만 유효
                     else if (hasAnyStatPercent && opt.includes(mainStat)) {
@@ -437,10 +441,12 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                         totalStatEquivalent += val;
                         isGoodOption = true;
                     }
-                    // HP%는 명시적으로 체크 (데몬어벤져용)
+                    // HP%는 데몬어벤져만 주스탯으로 인정
                     else if (opt.includes('HP') && opt.includes('%')) {
-                        totalStatEquivalent += val;
-                        isGoodOption = true;
+                        if (job && job.includes('데몬어벤져')) {
+                            totalStatEquivalent += val;
+                            isGoodOption = true;
+                        }
                     }
                     // 개별 스탯은 주스탯만 유효 (가장 높은 % 스탯만)
                     else if (hasMainStat && opt.includes(mainStat)) {

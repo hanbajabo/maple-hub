@@ -144,7 +144,8 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
                 item.item_base_option.base_equipment_level,
                 type,
                 item.item_equipment_slot,
-                item.item_name
+                item.item_name,
+                characterClass
             );
         }
 
@@ -192,7 +193,8 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
                 item.item_base_option.base_equipment_level,
                 type,
                 item.item_equipment_slot,
-                item.item_name
+                item.item_name,
+                characterClass
             );
         }
 
