@@ -162,26 +162,64 @@ export function diagnoseArmor(item: any, job?: string): string[] {
         });
 
         if (potentialGrade === '레전드리') {
-            if (statPct >= 36) {
-                comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다. 전 서버급 스펙입니다.`);
-            } else if (statPct >= 33) {
-                comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션입니다. 정옵을 뛰어넘은 최상급 스펙입니다.`);
-            } else if (statPct >= 30) {
-                comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 3줄 정옵입니다.`);
-            } else if (statPct >= 27) {
-                comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다.`);
-            } else if (statPct >= 21) {
-                comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
-            } else if (statPct > 0) {
-                comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다. 21% 이상 권장합니다.`);
+            // 레벨별 기준 적용 (71~200: 36%/33%/30%, 201~250: 39%/35%/33%)
+            const itemLevel = item.item_base_option?.base_equipment_level || 150;
+            const tier = itemLevel >= 201 ? '201~250제' : '71~200제';
+
+            if (itemLevel >= 201) {
+                // 201~250레벨 (에테르넬 등) - 13%/줄
+                if (statPct >= 39) {
+                    comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다. (${tier})`);
+                } else if (statPct >= 35) {
+                    comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈+ 옵션입니다. 정옵을 뛰어넘은 최상급 스펙입니다. (${tier})`);
+                } else if (statPct >= 33) {
+                    comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 3줄 정옵입니다. (${tier})`);
+                } else if (statPct >= 30) {
+                    comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다. (${tier})`);
+                } else if (statPct >= 23) {
+                    comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다. (${tier})`);
+                } else if (statPct > 0) {
+                    comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다. 23% 이상 권장합니다.`);
+                }
+            } else {
+                // 71~200레벨 (파프니르, 앱솔, 아케인 등) - 12%/줄
+                if (statPct >= 36) {
+                    comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다. (${tier})`);
+                } else if (statPct >= 33) {
+                    comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션입니다. 정옵을 뛰어넘은 최상급 스펙입니다. (${tier})`);
+                } else if (statPct >= 30) {
+                    comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 3줄 정옵입니다. (${tier})`);
+                } else if (statPct >= 27) {
+                    comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다. (${tier})`);
+                } else if (statPct >= 21) {
+                    comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다. (${tier})`);
+                } else if (statPct > 0) {
+                    comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다. 21% 이상 권장합니다.`);
+                }
             }
         } else if (potentialGrade === '유니크') {
-            if (statPct >= 15) {
-                comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다.`);
-            } else if (statPct >= 12) {
-                comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 괜찮은 수치입니다.`);
-            } else if (statPct > 0) {
-                comments.push(`[유니크 아쉬움] 주스탯이 <b>${statPct}%</b>로 낮습니다. 15% 이상 권장합니다.`);
+            // 레벨별 기준 적용
+            const itemLevel = item.item_base_option?.base_equipment_level || 150;
+            const tier = itemLevel >= 201 ? '201~250제' : '71~200제';
+
+            if (itemLevel >= 201) {
+                // 201~250레벨 - 10%/줄
+                if (statPct >= 30) {
+                    comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다. (${tier})`);
+                } else if (statPct >= 17) {
+                    comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 괜찮은 수치입니다. (${tier})`);
+                } else if (statPct > 0) {
+                    comments.push(`[유니크 아쉬움] 주스탯이 <b>${statPct}%</b>로 낮습니다. 17% 이상 권장합니다.`);
+                }
+            } else {
+                // 71~200레벨 - 9%/줄
+                if (statPct >= 27) {
+                    comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다. (${tier})`);
+                } else if (statPct >= 15) {
+                    comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 괜찮은 수치입니다. (${tier})`);
+                } else if (statPct > 0) {
+                    comments.push(`[유니크 아쉬움] 주스탯이 <b>${statPct}%</b>로 낮습니다. 15% 이상 권장합니다.`);
+                }
             }
         }
     } else if (potentialGrade === '에픽') {
