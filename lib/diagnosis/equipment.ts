@@ -85,7 +85,7 @@ function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisG
     let statPct = 0;
 
     pots.forEach((line: any) => {
-        if (!line) return;
+        if (!line || typeof line !== 'string') return;
 
         const m = line.match(/(\d+)%/);
         if (m && (line.includes('STR') || line.includes('DEX') || line.includes('INT') || line.includes('LUK') || line.includes('올스탯') || line.includes('HP'))) {
@@ -165,7 +165,7 @@ function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisG
     let adiValidLines = 0;
 
     adiLines.forEach((line: any) => {
-        if (!line) return;
+        if (!line || typeof line !== 'string') return;
         if (line.includes('공격력')) { const m = line.match(/\+(\d+)/); if (m) adiAtt += parseInt(m[1]); }
         if (line.includes('마력')) { const m = line.match(/\+(\d+)/); if (m) adiMag += parseInt(m[1]); }
         const mp = line.match(/(\d+)%/);
@@ -360,62 +360,66 @@ export function diagnoseEquipment(items: any[], mainStat: string, attType: strin
     }
 
     items.forEach((item: any) => {
-        const comments = diagnoseItemDeeply(item, job);
-        const itemName = item.item_name || "";
-        const slot = item.item_equipment_slot || "";
+        try {
+            const comments = diagnoseItemDeeply(item, job);
+            const itemName = item.item_name || "";
+            const slot = item.item_equipment_slot || "";
 
-        // 점수 기반 등급 평가
-        const uniqueKey = `${slot}_${itemName}`;
-        result.itemGrades[uniqueKey] = evaluateGradeByScore(item, attType);
+            // 점수 기반 등급 평가
+            const uniqueKey = `${slot}_${itemName}`;
+            result.itemGrades[uniqueKey] = evaluateGradeByScore(item, attType);
 
-        comments.forEach(comment => {
-            const displayComment = `[${slot}] ${itemName}: ${comment}`;
+            comments.forEach(comment => {
+                const displayComment = `[${slot}] ${itemName}: ${comment}`;
 
-            if (comment.includes("[미달]") || comment.includes("[경고]") || comment.includes("[치명적]") || comment.includes("[망작]") || comment.includes("[강화 필요]") || comment.includes("[환불 필요]") || comment.includes("[비추천]")) {
-                if (comment.includes("스타포스")) result.starforce.push(displayComment);
-                else if (comment.includes("잠재")) result.potential.push(displayComment);
-                else if (comment.includes("에디")) result.additional.push(displayComment);
-                else result.general.push(displayComment);
-                result.scoreDeduction += 5;
-            }
-            else if (comment.includes("[주의]") || comment.includes("[옵션 아쉬움]") || comment.includes("[등급업 시급]") || comment.includes("[속 빈 강정]") || comment.includes("[강화 권장]") || comment.includes("[소울 업글 권장]")) {
-                if (comment.includes("스타포스")) result.starforce.push(displayComment);
-                else if (comment.includes("잠재")) result.potential.push(displayComment);
-                else if (comment.includes("에디")) result.additional.push(displayComment);
-                else result.general.push(displayComment);
-                result.scoreDeduction += 2;
-            }
-            else if (comment.includes("[아쉬움]") || comment.includes("[애매함]") || comment.includes("[체험판]") || comment.includes("[입문]") || comment.includes("[성장 교차점]") || comment.includes("[미래 지향적]")) {
-                result.general.push(displayComment);
-                result.scoreDeduction += 1;
-            }
-            else {
-                result.good.push(displayComment);
-            }
-        });
-
-        const starforce = parseInt(item.starforce || "0");
-        const isSuperior = itemName.includes("타일런트") || itemName.includes("노바") || itemName.includes("헬리시움");
-        const isEventRing = ["테네브리스", "SS급", "어웨이크", "글로리온", "카오스", "벤젼스", "결속의", "이터널 플레임", "어드벤처 딥다크", "오닉스", "코스모스", "이벤트 링", "어드벤처", "시너지", "쥬얼", "다크 크리티컬"].some(k => itemName.includes(k));
-        const isCantStarforce = ["훈장", "뱃지", "포켓 아이템", "엠블렘", "보조무기", "기계 심장"].some(s => slot.includes(s));
-
-        const level = item.item_base_option?.base_equipment_level || 0;
-        const maxSf = getMaxStarforce(level);
-
-        if (starforce < 12 && !isSuperior && !isEventRing && !isCantStarforce) {
-            if (maxSf >= 12) {
-                const advice = `[${slot}] ${itemName}: [성장 조언] 스타포스 12성은 가성비가 매우 좋습니다. 우선 12성까지 강화를 추천합니다.`;
-                if (!result.starforce.some(c => c.includes(itemName) && (c.includes("12성") || c.includes("강화 필요")))) {
-                    result.starforce.push(advice);
+                if (comment.includes("[미달]") || comment.includes("[경고]") || comment.includes("[치명적]") || comment.includes("[망작]") || comment.includes("[강화 필요]") || comment.includes("[환불 필요]") || comment.includes("[비추천]")) {
+                    if (comment.includes("스타포스")) result.starforce.push(displayComment);
+                    else if (comment.includes("잠재")) result.potential.push(displayComment);
+                    else if (comment.includes("에디")) result.additional.push(displayComment);
+                    else result.general.push(displayComment);
+                    result.scoreDeduction += 5;
+                }
+                else if (comment.includes("[주의]") || comment.includes("[옵션 아쉬움]") || comment.includes("[등급업 시급]") || comment.includes("[속 빈 강정]") || comment.includes("[강화 권장]") || comment.includes("[소울 업글 권장]")) {
+                    if (comment.includes("스타포스")) result.starforce.push(displayComment);
+                    else if (comment.includes("잠재")) result.potential.push(displayComment);
+                    else if (comment.includes("에디")) result.additional.push(displayComment);
+                    else result.general.push(displayComment);
                     result.scoreDeduction += 2;
                 }
-            } else if (starforce < maxSf) {
-                const advice = `[${slot}] ${itemName}: [성장 조언] 이 장비는 최대 ${maxSf}성까지 강화 가능합니다. 풀강을 추천합니다.`;
-                if (!result.starforce.some(c => c.includes(itemName) && (c.includes("풀강") || c.includes("강화 필요")))) {
-                    result.starforce.push(advice);
-                    result.scoreDeduction += 2;
+                else if (comment.includes("[아쉬움]") || comment.includes("[애매함]") || comment.includes("[체험판]") || comment.includes("[입문]") || comment.includes("[성장 교차점]") || comment.includes("[미래 지향적]")) {
+                    result.general.push(displayComment);
+                    result.scoreDeduction += 1;
+                }
+                else {
+                    result.good.push(displayComment);
+                }
+            });
+
+            const starforce = parseInt(item.starforce || "0");
+            const isSuperior = itemName.includes("타일런트") || itemName.includes("노바") || itemName.includes("헬리시움");
+            const isEventRing = ["테네브리스", "SS급", "어웨이크", "글로리온", "카오스", "벤젼스", "결속의", "이터널 플레임", "어드벤처 딥다크", "오닉스", "코스모스", "이벤트 링", "어드벤처", "시너지", "쥬얼", "다크 크리티컬"].some(k => itemName.includes(k));
+            const isCantStarforce = ["훈장", "뱃지", "포켓 아이템", "엠블렘", "보조무기", "기계 심장"].some(s => slot.includes(s));
+
+            const level = item.item_base_option?.base_equipment_level || 0;
+            const maxSf = getMaxStarforce(level);
+
+            if (starforce < 12 && !isSuperior && !isEventRing && !isCantStarforce) {
+                if (maxSf >= 12) {
+                    const advice = `[${slot}] ${itemName}: [성장 조언] 스타포스 12성은 가성비가 매우 좋습니다. 우선 12성까지 강화를 추천합니다.`;
+                    if (!result.starforce.some(c => c.includes(itemName) && (c.includes("12성") || c.includes("강화 필요")))) {
+                        result.starforce.push(advice);
+                        result.scoreDeduction += 2;
+                    }
+                } else if (starforce < maxSf) {
+                    const advice = `[${slot}] ${itemName}: [성장 조언] 이 장비는 최대 ${maxSf}성까지 강화 가능합니다. 풀강을 추천합니다.`;
+                    if (!result.starforce.some(c => c.includes(itemName) && (c.includes("풀강") || c.includes("강화 필요")))) {
+                        result.starforce.push(advice);
+                        result.scoreDeduction += 2;
+                    }
                 }
             }
+        } catch (e) {
+            console.error(`Error diagnosing item ${item?.item_name}:`, e);
         }
     });
 
