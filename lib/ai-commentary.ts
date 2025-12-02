@@ -743,10 +743,14 @@ export function generateItemCommentary(item: any, job?: string): string {
                     if (validAttFlat > 0) {
                         comments.push(`${adiPrefix} <b>주스탯 %</b>와 <b>${attType} +${validAttFlat}</b>을 모두 챙기셨군요. 가성비 최고의 알짜배기 옵션입니다.`);
                     } else {
-                        comments.push(pick([
-                            `${adiPrefix} <b>주스탯 %</b> 한 줄도 훌륭한 유효 옵션입니다. 가성비 최고!`,
-                            `${adiPrefix} <b>주스탯 %</b>를 챙기셨군요. ${attType} 10만큼이나 든든한 옵션입니다.`
-                        ]));
+                        if (addPotentialGrade === '유니크') {
+                            comments.push(`${adiPrefix} <b>주스탯 %</b> 1줄입니다. 유니크 등급치고는 아쉽습니다. 2줄 이상을 노려보세요.`);
+                        } else {
+                            comments.push(pick([
+                                `${adiPrefix} <b>주스탯 %</b> 한 줄도 훌륭한 유효 옵션입니다. 가성비 최고!`,
+                                `${adiPrefix} <b>주스탯 %</b>를 챙기셨군요. ${attType} 10만큼이나 든든한 옵션입니다.`
+                            ]));
+                        }
                     }
                 } else if (validAttFlat >= 10) {
                     comments.push(pick([
