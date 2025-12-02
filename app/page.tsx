@@ -687,6 +687,22 @@ export default function Home() {
             인게임에서 <strong className="text-orange-400">[캐시샵 입장]</strong> 또는 <strong className="text-orange-400">[재접속]</strong> 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
           </p>
         </div>
+
+        {error && (
+          <div className="w-full max-w-4xl mt-4 p-4 bg-red-950/50 border border-red-500/50 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 shadow-lg shadow-red-900/20">
+            <span className="text-2xl">🚫</span>
+            <div className="flex flex-col">
+              <p className="text-red-200 font-bold text-lg">검색 실패</p>
+              <p className="text-red-300/90 text-sm">{error}</p>
+            </div>
+            <button
+              onClick={() => setError("")}
+              className="ml-auto p-2 hover:bg-red-500/20 rounded-lg transition-colors text-red-300"
+            >
+              <X size={20} />
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Site Introduction Section - Only show when no character */}
@@ -882,11 +898,7 @@ export default function Home() {
           </div>
         )}
 
-        {error && (
-          <div className="w-full text-center text-red-500 bg-red-500/10 p-4 rounded-lg mx-2">
-            {error}
-          </div>
-        )}
+
 
         {character && !loading && (
           // Key Remounting: refreshKey가 바뀌면 이 div 내부의 모든 컴포넌트가 재생성됨
