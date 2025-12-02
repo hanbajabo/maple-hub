@@ -239,7 +239,9 @@ export function evaluateAdditional(grade: string, lines: (string | null | undefi
             if (l.includes("올스탯")) {
                 statPct += val;
             } else if (l.includes('HP') && l.includes('%')) {
-                statPct += val;
+                if (job && job.includes('데몬어벤져')) {
+                    statPct += val;
+                }
             } else {
                 // 직업 주스탯이거나, 직업 정보 없으면 가장 높은 것(여기서는 단순 합산 후 나중에 정제 필요하지만, 일단 포함)
                 // *주의: 여기서도 아까와 같은 문제(DEX 합산)가 발생할 수 있음.

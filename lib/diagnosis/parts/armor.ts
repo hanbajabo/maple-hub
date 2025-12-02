@@ -145,9 +145,11 @@ export function diagnoseArmor(item: any, job?: string): string[] {
                     if (l.includes('올스탯')) {
                         statPct += parseInt(match[1]);
                     }
-                    // HP%는 항상 체크 (데몬어벤져용 - 직업 정보 없어도 인식)
+                    // HP%는 데몬어벤져만 주스탯으로 인정
                     else if (l.includes('HP') && l.includes('%')) {
-                        statPct += parseInt(match[1]);
+                        if (job && job.includes('데몬어벤져')) {
+                            statPct += parseInt(match[1]);
+                        }
                     }
                     // 직업 주스탯과 일치하는 경우만 합산
                     else {
@@ -264,9 +266,11 @@ export function diagnoseArmor(item: any, job?: string): string[] {
                 if (l.includes("올스탯")) {
                     adiStatPct += parseInt(matchPct[1]);
                 }
-                // HP%는 항상 체크 (데몬어벤져용 - 직업 정보 없어도 인식)
+                // HP%는 데몬어벤져만 주스탯으로 인정
                 else if (l.includes('HP') && l.includes('%')) {
-                    adiStatPct += parseInt(matchPct[1]);
+                    if (job && job.includes('데몬어벤져')) {
+                        adiStatPct += parseInt(matchPct[1]);
+                    }
                 }
                 else {
                     mainStats.forEach(stat => {
