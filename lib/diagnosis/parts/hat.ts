@@ -3,6 +3,7 @@ import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { getJobMainStat } from '../../job_utils';
 import { diagnoseScroll } from './scroll';
 import { parsePotentialLines, evaluatePotential, evaluateAdditional } from '../../utils/potential_utils';
+import { STARFORCE_TIERS, COOLDOWN_REDUCTION, STARFORCE_TIERS as SF } from '../../config/unified_criteria';
 
 /**
  * 🎩 모자(Hat) 전용 진단 로직
@@ -44,11 +45,11 @@ export function diagnoseHat(item: any, job?: string): string[] {
         }
     });
 
-    if (coolReduce >= 6) {
+    if (coolReduce >= COOLDOWN_REDUCTION.MYTHIC) {
         comments.push(`[신화급: 3쿨감] 쿨타임 감소 <b>-${coolReduce}초</b>! 이건 종결을 넘어선 <b>신화급</b> 아이템입니다. 전 서버를 통틀어도 보기 힘든 기적의 옵션입니다.`);
-    } else if (coolReduce >= 4) {
+    } else if (coolReduce >= COOLDOWN_REDUCTION.EXCELLENT) {
         comments.push(`[종결: 쌍쿨감] 쿨타임 감소 <b>-${coolReduce}초</b>! 직업에 따라서는 주스탯 수만급 효율을 내는 최상급 모자입니다.`);
-    } else if (coolReduce >= 2) {
+    } else if (coolReduce >= COOLDOWN_REDUCTION.GOOD) {
         if (statPct > 0) {
             comments.push(`[졸업: 쿨감+스탯] 쿨감 <b>-${coolReduce}초</b>에 주스탯 <b>${Math.floor(statPct)}%</b>까지 챙긴 <b>실전 종결급</b> 모자입니다.`);
         } else {
@@ -83,36 +84,36 @@ export function diagnoseHat(item: any, job?: string): string[] {
     // 2. 아이템 종류별 메타 분석 (Meta Analysis)
     if (itemName.includes("에테르넬")) {
         // 에테르넬 (250제)
-        if (starforce >= 25) {
+        if (starforce >= SF.MAX) {
             comments.push(`[신화의 경지] <b>${starforce}성</b> 에테르넬...?! 이건 메이플스토리의 역사를 새로 쓰는 아이템입니다. 전 서버 유일무이한 스펙일 수 있습니다.`);
         } else if (starforce === 24) {
             comments.push(`[초월적 스펙] <b>24성</b> 에테르넬 모자라니... 운영자도 놀랄만한 기적의 아이템입니다.`);
         } else if (starforce === 23) {
             comments.push(`[전설의 시작] <b>23성</b> 에테르넬 모자는 그 자체로 하나의 전설입니다. 압도적인 위용을 자랑합니다.`);
-        } else if (starforce === 22) {
-            comments.push(`[완벽한 졸업] <b>22성</b> 에테르넬 모자는 파프니르의 시대를 끝낼 유일한 대항마입니다. 더 이상 바랄 게 없는 최종 종결템입니다.`);
-        } else if (starforce === 21) {
-            comments.push(`[해방급 스펙] <b>21성</b> 에테르넬 모자는 매우 훌륭한 선택입니다. 22성을 도전할지 고민되시겠군요.`);
-        } else if (starforce >= 18) {
-            comments.push(`[고급 세팅] <b>${starforce}성</b> 에테르넬 모자는 준수한 성능입니다. 22성을 목표로 하세요.`);
-        } else if (starforce === 17) {
+        } else if (starforce === SF.ENDGAME) {
+            comments.push(`[완벽한 졸업] <b>${SF.ENDGAME}성</b> 에테르넬 모자는 파프니르의 시대를 끝낼 유일한 대항마입니다. 더 이상 바랄 게 없는 최종 종결템입니다.`);
+        } else if (starforce === SF.NEAR_ENDGAME) {
+            comments.push(`[해방급 스펙] <b>${SF.NEAR_ENDGAME}성</b> 에테르넬 모자는 매우 훌륭한 선택입니다. ${SF.ENDGAME}성을 도전할지 고민되시겠군요.`);
+        } else if (starforce >= SF.CROSSOVER) {
+            comments.push(`[고급 세팅] <b>${starforce}성</b> 에테르넬 모자는 준수한 성능입니다. ${SF.ENDGAME}성을 목표로 하세요.`);
+        } else if (starforce === SF.STANDARD) {
             comments.push(`[차세대 종결템] 파프니르 4세트를 포기하더라도, 자체 체급과 에테르넬 세트 효과로 충분히 강력합니다.`);
         }
     } else if (itemName.includes("하이네스")) {
         // 파프니르 (150제) - 뚝배기
-        if (starforce >= 25) {
+        if (starforce >= SF.MAX) {
             comments.push(`[전설의 뚝배기] <b>${starforce}성</b> 파프니르...?! 이 정도면 에테르넬도 부럽지 않은 괴물 같은 성능입니다.`);
         } else if (starforce === 24) {
             comments.push(`[기적의 강화] <b>24성</b> 파프니르 모자! 수많은 파괴를 딛고 탄생한 역작입니다.`);
         } else if (starforce === 23) {
             comments.push(`[초고스펙] <b>23성</b> 파프니르 모자는 가성비와 성능의 정점입니다. 평생 쓰셔도 됩니다.`);
-        } else if (starforce === 22) {
-            comments.push(`[가성비의 제왕] <b>22성</b> 파프니르 모자는 해방 후에도 4세트 효과(보공 30%)를 챙기는 천재적인 세팅입니다. 에테르넬 전까지 현역 최강입니다.`);
-        } else if (starforce === 21) {
-            comments.push(`[고효율 세팅] <b>21성</b> 파프니르 모자는 가성비가 매우 좋습니다. 22성을 도전해볼 만한 가치가 있습니다.`);
-        } else if (starforce >= 18) {
-            comments.push(`[고급 세팅] <b>${starforce}성</b> 파프니르 모자는 준수한 성능입니다. 22성을 목표로 하세요.`);
-        } else if (starforce === 17) {
+        } else if (starforce === SF.ENDGAME) {
+            comments.push(`[가성비의 제왕] <b>${SF.ENDGAME}성</b> 파프니르 모자는 해방 후에도 4세트 효과(보공 30%)를 챙기는 천재적인 세팅입니다. 에테르넬 전까지 현역 최강입니다.`);
+        } else if (starforce === SF.NEAR_ENDGAME) {
+            comments.push(`[고효율 세팅] <b>${SF.NEAR_ENDGAME}성</b> 파프니르 모자는 가성비가 매우 좋습니다. ${SF.ENDGAME}성을 도전해볼 만한 가치가 있습니다.`);
+        } else if (starforce >= SF.CROSSOVER) {
+            comments.push(`[고급 세팅] <b>${starforce}성</b> 파프니르 모자는 준수한 성능입니다. ${SF.ENDGAME}성을 목표로 하세요.`);
+        } else if (starforce === SF.STANDARD) {
             comments.push(`[국민 세팅] 카루타 세트 효과를 챙기는 가장 무난하고 효율적인 선택입니다.`);
         }
     } else if (itemName.includes("아케인셰이드")) {

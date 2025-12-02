@@ -1,4 +1,5 @@
 import { isPensalirItem } from './utils/item_classifier';
+import { ARMOR_FLAME_SCORE, GRADE_LABELS } from './config/unified_criteria';
 
 export interface FlameEvaluation {
     tier: number;
@@ -111,63 +112,63 @@ export function evaluateArmorFlame(
     }
 
     if (itemLevel >= 140 && itemLevel <= 159) {
-        if (score >= 140) {
+        if (score >= ARMOR_FLAME_SCORE.LEVEL_140.EXCELLENT) {
             evaluation = '종결';
-            recommendation = '140급 이상! 최상급 추가옵션입니다. 완벽합니다.';
-        } else if (score >= 120) {
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_140.EXCELLENT}급 이상! 최상급 추가옵션입니다. 완벽합니다.`;
+        } else if (score >= ARMOR_FLAME_SCORE.LEVEL_140.GREAT) {
             evaluation = '준수';
-            recommendation = '120~130급으로 꽤 좋은 추가옵션입니다.';
-        } else if (score >= 100) {
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_140.GREAT}~${ARMOR_FLAME_SCORE.LEVEL_140.EXCELLENT}급으로 꽤 좋은 추가옵션입니다.`;
+        } else if (score >= ARMOR_FLAME_SCORE.LEVEL_140.DECENT) {
             evaluation = '준수';
-            recommendation = '100~120급으로 준수한 추가옵션입니다.';
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_140.DECENT}~${ARMOR_FLAME_SCORE.LEVEL_140.GREAT}급으로 준수한 추가옵션입니다.`;
         } else {
             evaluation = '부족';
-            recommendation = '100급 미만입니다. 최소 100급 이상을 목표로 하세요.';
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_140.DECENT}급 미만입니다. 최소 ${ARMOR_FLAME_SCORE.LEVEL_140.DECENT}급 이상을 목표로 하세요.`;
         }
     }
     else if (itemLevel >= 160 && itemLevel <= 199) {
-        if (score >= 140) {
+        if (score >= ARMOR_FLAME_SCORE.LEVEL_160.EXCELLENT) {
             evaluation = '종결';
-            recommendation = '140급 이상! 최상급 추가옵션입니다.';
-        } else if (score >= 125) {
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_160.EXCELLENT}급 이상! 최상급 추가옵션입니다.`;
+        } else if (score >= ARMOR_FLAME_SCORE.LEVEL_160.GREAT) {
             evaluation = '준수';
-            recommendation = '125~135급으로 훌륭한 추가옵션입니다.';
-        } else if (score >= 120) {
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_160.GREAT}~${ARMOR_FLAME_SCORE.LEVEL_160.EXCELLENT}급으로 훌륭한 추가옵션입니다.`;
+        } else if (score >= ARMOR_FLAME_SCORE.LEVEL_160.DECENT) {
             evaluation = '준수';
-            recommendation = '120급 정도로 준수한 수준입니다.';
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_160.DECENT}급 정도로 준수한 수준입니다.`;
         } else {
             evaluation = '부족';
-            recommendation = '160제 장비는 최소 120급 이상을 권장합니다.';
+            recommendation = `160제 장비는 최소 ${ARMOR_FLAME_SCORE.LEVEL_160.DECENT}급 이상을 권장합니다.`;
         }
     }
     else if (itemLevel >= 200 && itemLevel <= 249) {
-        if (score >= 170) {
+        if (score >= ARMOR_FLAME_SCORE.LEVEL_200.EXCELLENT) {
             evaluation = '종결';
-            recommendation = '170급 이상! 매우 훌륭한 최상급 옵션입니다.';
-        } else if (score >= 150) {
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_200.EXCELLENT}급 이상! 매우 훌륭한 최상급 옵션입니다.`;
+        } else if (score >= ARMOR_FLAME_SCORE.LEVEL_200.GREAT) {
             evaluation = '준수';
-            recommendation = '150~155급으로 아주 좋은 추가옵션입니다.';
-        } else if (score >= 140) {
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_200.GREAT}~${ARMOR_FLAME_SCORE.LEVEL_200.EXCELLENT}급으로 아주 좋은 추가옵션입니다.`;
+        } else if (score >= ARMOR_FLAME_SCORE.LEVEL_200.DECENT) {
             evaluation = '준수';
-            recommendation = '140급 정도로 꽤 좋은 수준입니다.';
-        } else if (score >= 120) {
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_200.DECENT}급 정도로 꽤 좋은 수준입니다.`;
+        } else if (score >= ARMOR_FLAME_SCORE.LEVEL_200.NORMAL) {
             evaluation = '보통';
-            recommendation = '120급은 부캐릭터용으로 적합합니다.';
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_200.NORMAL}급은 부캐릭터용으로 적합합니다.`;
         } else {
             evaluation = '부족';
-            recommendation = '200제 장비는 최소 120급(부캐) 또는 140급(본캐) 이상을 권장합니다.';
+            recommendation = `200제 장비는 최소 ${ARMOR_FLAME_SCORE.LEVEL_200.NORMAL}급(부캐) 또는 ${ARMOR_FLAME_SCORE.LEVEL_200.DECENT}급(본캐) 이상을 권장합니다.`;
         }
     }
     else if (itemLevel >= 250) {
-        if (score >= 185) {
+        if (score >= ARMOR_FLAME_SCORE.LEVEL_250.EXCELLENT) {
             evaluation = '종결';
-            recommendation = '185급 이상! 완벽에 가까운 최상급 옵션입니다.';
-        } else if (score >= 170) {
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_250.EXCELLENT}급 이상! 완벽에 가까운 최상급 옵션입니다.`;
+        } else if (score >= ARMOR_FLAME_SCORE.LEVEL_250.DECENT) {
             evaluation = '준수';
-            recommendation = '170급 이상으로 매우 훌륭한 추가옵션입니다.';
+            recommendation = `${ARMOR_FLAME_SCORE.LEVEL_250.DECENT}급 이상으로 매우 훌륭한 추가옵션입니다.`;
         } else {
             evaluation = '부족';
-            recommendation = '250제 에테르넬 장비는 최소 170급 이상을 목표로 하시는 것이 좋습니다.';
+            recommendation = `250제 에테르넬 장비는 최소 ${ARMOR_FLAME_SCORE.LEVEL_250.DECENT}급 이상을 목표로 하시는 것이 좋습니다.`;
         }
     }
     else {

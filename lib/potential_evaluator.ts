@@ -8,6 +8,14 @@ import {
     ADDITIONAL_POTENTIAL_CEILING_COSTS
 } from './cube_db';
 import { isPensalirItem } from './utils/item_classifier';
+import {
+    WEAPON_ADDITIONAL_SCORE,
+    MAIN_POTENTIAL_STAT,
+    ADDITIONAL_POTENTIAL_STAT,
+    COOLDOWN_REDUCTION,
+    CRIT_DAMAGE_LINES,
+    STAT_CONVERSION
+} from './config/unified_criteria';
 
 export interface PotentialEvaluation {
     current_grade: '레어' | '에픽' | '유니크' | '레전드리' | '특수';
@@ -151,17 +159,17 @@ function generateEvaluation(
     // 1. 무기/보조무기/엠블렘 평가
     if (equipmentType === '무기' || equipmentType === '보조무기' || equipmentType === '엠블렘') {
         if (grade === '레전드리') {
-            if (score >= 88) return '종결';
-            if (score >= 66) return '훌륭';
-            if (score >= 33) return '준수';
+            if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.EXCELLENT) return '종결';
+            if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.DECENT) return '훌륭';
+            if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.PASS) return '준수';
             return '아쉬움';
         }
         if (grade === '유니크') {
-            if (score >= 90) return '종결급';
-            if (score >= 70) return '준수';
+            if (score >= WEAPON_ADDITIONAL_SCORE.UNIQUE.EXCELLENT) return '종결급';
+            if (score >= WEAPON_ADDITIONAL_SCORE.UNIQUE.DECENT) return '준수';
             return '아쉬움';
         }
-        return score >= 60 ? '준수' : '부족';
+        return score >= WEAPON_ADDITIONAL_SCORE.EPIC.PASS ? '준수' : '부족';
     }
 
     // 2. 방어구/장신구 평가
@@ -179,33 +187,33 @@ function generateEvaluation(
                     if (m) cd += parseInt(m[1]);
                 });
                 if (cd >= 5) return '종결'; // 5초 이상
-                if (cd >= 4) return '최상급'; // 4초
-                if (cd >= 2) return '훌륭'; // 2초 이상
+                if (cd >= COOLDOWN_REDUCTION.EXCELLENT) return '최상급'; // 4초
+                if (cd >= COOLDOWN_REDUCTION.GOOD) return '훌륭'; // 2초 이상
             }
 
             if (hasCritDmg) {
                 let lines = goodOptions.filter(opt => opt.includes('크리티컬 데미지')).length;
-                if (lines >= 3) return '신화';
-                if (lines >= 2) return '종결';
-                if (lines >= 1) return '훌륭';
+                if (lines >= CRIT_DAMAGE_LINES.MYTHIC) return '신화';
+                if (lines >= CRIT_DAMAGE_LINES.ENDGAME) return '종결';
+                if (lines >= CRIT_DAMAGE_LINES.GOOD) return '훌륭';
             }
 
-            if (score >= 33) return '종결'; // 33% 이상 (3줄 완벽)
+            if (score >= MAIN_POTENTIAL_STAT.LEGENDARY.ENDGAME) return '종결'; // 30% 이상 (3줄 완벽)
             if (score >= 27) return '최상급'; // 27% 이상 (3줄 준수)
-            if (score >= 21) return '준수'; // 21% 이상 (2줄)
-            if (score >= 15) return '통과'; // 15% 이상 (2줄 낮음)
+            if (score >= MAIN_POTENTIAL_STAT.LEGENDARY.GOOD) return '준수'; // 21% 이상 (2줄)
+            if (score >= MAIN_POTENTIAL_STAT.LEGENDARY.DECENT) return '통과'; // 15% 이상 (2줄 낮음)
             return '아쉬움';
         }
         if (grade === '유니크') {
-            if (score >= 21) return '종결급'; // 21% (3줄)
-            if (score >= 15) return '준수'; // 15% (2줄)
-            if (score >= 10) return '통과'; // 10% (2줄 낮음)
+            if (score >= MAIN_POTENTIAL_STAT.UNIQUE.EXCELLENT) return '종결급'; // 21% (3줄)
+            if (score >= MAIN_POTENTIAL_STAT.UNIQUE.DECENT) return '준수'; // 15% (2줄)
+            if (score >= MAIN_POTENTIAL_STAT.UNIQUE.MINIMUM) return '통과'; // 10% (2줄 낮음)
             return '아쉬움';
         }
         if (grade === '에픽') {
-            if (score >= 15) return '유니크급'; // 15% (유니크 2줄급)
-            if (score >= 12) return '준수'; // 12% (3줄)
-            if (score >= 9) return '통과'; // 9% (3줄 일반)
+            if (score >= MAIN_POTENTIAL_STAT.EPIC.UNIQUE_LEVEL) return '유니크급'; // 15% (유니크 2줄급)
+            if (score >= MAIN_POTENTIAL_STAT.EPIC.DECENT) return '준수'; // 12% (3줄)
+            if (score >= MAIN_POTENTIAL_STAT.EPIC.PASS) return '통과'; // 9% (3줄 일반)
             return '아쉬움';
         }
     } else {
@@ -221,20 +229,20 @@ function generateEvaluation(
                 return '훌륭';
             }
 
-            if (score >= 21) return '종결';
+            if (score >= ADDITIONAL_POTENTIAL_STAT.LEGENDARY.EXCELLENT) return '종결';
             if (goodOptions.length >= 3 && score >= 17) return '종결';
-            if (score >= 14) return '최상급';
-            if (score >= 10) return '준수';
+            if (score >= ADDITIONAL_POTENTIAL_STAT.LEGENDARY.GREAT) return '최상급';
+            if (score >= ADDITIONAL_POTENTIAL_STAT.LEGENDARY.DECENT) return '준수';
             return '아쉬움';
         }
         if (grade === '유니크') {
-            if (score >= 15) return '종결급';
-            if (score >= 10) return '준수';
+            if (score >= ADDITIONAL_POTENTIAL_STAT.UNIQUE.EXCELLENT) return '종결급';
+            if (score >= ADDITIONAL_POTENTIAL_STAT.UNIQUE.DECENT) return '준수';
             return '아쉬움';
         }
         if (grade === '에픽') {
-            if (score >= 10) return '종결급';
-            if (score >= 4) return '준수';
+            if (score >= ADDITIONAL_POTENTIAL_STAT.EPIC.EXCELLENT) return '종결급';
+            if (score >= ADDITIONAL_POTENTIAL_STAT.EPIC.DECENT) return '준수';
             return '아쉬움';
         }
         if (grade === '레어') {
@@ -297,14 +305,14 @@ function evaluateWeaponAdditional(grade: string, options: string[]) {
             if (points > 0) { totalPoints += points; return true; }
             return false;
         });
-        if (attPercentCount >= 3) optionsScore = 90;
-        else if (attPercentCount >= 2) optionsScore = 70;
+        if (attPercentCount >= 3) optionsScore = WEAPON_ADDITIONAL_SCORE.UNIQUE.EXCELLENT;
+        else if (attPercentCount >= 2) optionsScore = WEAPON_ADDITIONAL_SCORE.UNIQUE.DECENT;
         else optionsScore = (totalPoints / 9) * 100;
     }
     else if (grade === '에픽') {
         const hasAttPercent = options.some(opt => (opt.includes('공격력 +') || opt.includes('마력 +')) && opt.includes('%'));
         if (hasAttPercent) {
-            optionsScore = 60;
+            optionsScore = WEAPON_ADDITIONAL_SCORE.EPIC.PASS;
             goodOptions = options.filter(opt => (opt.includes('공격력 +') || opt.includes('마력 +')) && opt.includes('%'));
         }
     }
@@ -467,8 +475,8 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                     // 올스탯 또는 주스탯인 경우에만 유효
                     if (opt.includes('올스탯') || (hasMainStat && opt.includes(mainStat))) {
                         // 렙당 2 = 약 6%, 렙당 1 = 약 3%
-                        if (val >= 2) totalStatEquivalent += 6;
-                        else if (val >= 1) totalStatEquivalent += 3;
+                        if (val >= 2) totalStatEquivalent += STAT_CONVERSION.LEVEL_STAT_2_TO_PERCENT;
+                        else if (val >= 1) totalStatEquivalent += STAT_CONVERSION.LEVEL_STAT_1_TO_PERCENT;
                         isGoodOption = true;
                     }
                 }
@@ -518,7 +526,7 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
             // 공/마 +1 = 주스탯 4
             // 주스탯 10 = 주스탯 1%
             // 따라서 공/마 +21 = 주스탯 84 = 8.4%
-            const statEquiv = (maxAttMagic * 4) / 10;
+            const statEquiv = (maxAttMagic * STAT_CONVERSION.ATT_TO_STAT) / STAT_CONVERSION.STAT_TO_PERCENT;
             totalStatEquivalent += statEquiv;
         }
 
@@ -574,38 +582,38 @@ function generateRecommendation(
 function generateWeaponAdditionalRecommendation(grade: string, score: number, goodOptions: string[]): string {
     if (grade === '레전드리') {
         const hasBoss = goodOptions.some(opt => opt.includes('보스 몬스터'));
-        if (score >= 88) return '공격력/마력 % 위주의 최상급 옵션입니다. 종결하셔도 좋습니다.';
-        if (score >= 66) return hasBoss ? '공/마%와 보공%가 섞인 준수한 옵션입니다.' : '공격력/마력 % 2줄 이상으로 준수한 옵션입니다.';
-        if (score >= 33) return '유효 옵션이 있지만, 공/마% 비중이 낮거나 줄 수가 부족합니다.';
+        if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.EXCELLENT) return '공격력/마력 % 위주의 최상급 옵션입니다. 종결하셔도 좋습니다.';
+        if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.DECENT) return hasBoss ? '공/마%와 보공%가 섮인 준수한 옵션입니다.' : '공격력/마력 % 2줄 이상으로 준수한 옵션입니다.';
+        if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.PASS) return '유효 옵션이 있지만, 공/마% 비중이 낮거나 줄 수가 부족합니다.';
         return '공격력/마력 % 옵션을 목표로 재설정이 필요합니다.';
     }
     if (grade === '유니크') {
-        if (score >= 90) return '공/마% 3줄로 꽤 준수합니다. (레전드리 2줄급 효율) 종결하셔도 무방합니다.';
-        if (score >= 70) return '공/마% 2줄로 통과 기준을 만족합니다. 사용하셔도 좋습니다.';
+        if (score >= WEAPON_ADDITIONAL_SCORE.UNIQUE.EXCELLENT) return '공/마% 3줄로 꽤 준수합니다. (레전드리 2줄급 효율) 종결하셔도 무방합니다.';
+        if (score >= WEAPON_ADDITIONAL_SCORE.UNIQUE.DECENT) return '공/마% 2줄로 통과 기준을 만족합니다. 사용하셔도 좋습니다.';
         return '공/마% 2줄 이상을 목표로 재설정하거나 레전드리 등급업을 권장합니다.';
     }
     if (grade === '에픽') {
-        return score >= 60 ? '공/마% 옵션이 있어 임시로 사용하기 좋습니다. 추후 유니크 이상 도전을 권장합니다.' : '공격력/마력 % 옵션이 없습니다. 재설정이 필요합니다.';
+        return score >= WEAPON_ADDITIONAL_SCORE.EPIC.PASS ? '공/마% 옵션이 있어 임시로 사용하기 좋습니다. 추후 유니크 이상 도전을 권장합니다.' : '공격력/마력 % 옵션이 없습니다. 재설정이 필요합니다.';
     }
     return '공/마 상수 옵션이 좋지만, 에픽 이상으로 등급업하는 것이 최우선입니다.';
 }
 
 function generateEmblemRecommendation(type: string, score: number, goodOptions?: string[]): string {
     if (type === 'additional') {
-        if (score >= 66) return '공격력/마력 % 위주의 훌륭한 옵션입니다.';
-        if (score >= 33) return '공/마% 한 줄은 아쉽습니다. 2줄 이상을 목표로 하세요.';
+        if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.DECENT) return '공격력/마력 % 위주의 훌륭한 옵션입니다.';
+        if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.PASS) return '공/마% 한 줄은 아쉽습니다. 2줄 이상을 목표로 하세요.';
         return '공격력/마력 % 옵션이 필수입니다.';
     }
 
     // 메인 잠재능력 평가
     const hasIED = goodOptions?.some(opt => opt.includes('몬스터 방어율'));
 
-    if (score >= 88) return '공격력/마력 % 3줄! 엠블렘 종결 옵션입니다. 축하드립니다!';
-    if (score >= 66) {
+    if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.EXCELLENT) return '공격력/마력 % 3줄! 엠블렘 종결 옵션입니다. 축하드립니다!';
+    if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.DECENT) {
         if (hasIED) return '공/마%와 방무가 적절히 섞인 훌륭한 옵션입니다.';
         return '공격력/마력 % 2줄 이상으로 아주 훌륭한 옵션입니다.';
     }
-    if (score >= 33) return '쓸만한 옵션이지만, 공/마% 비중을 높이는 것이 좋습니다.';
+    if (score >= WEAPON_ADDITIONAL_SCORE.LEGENDARY.PASS) return '쓸만한 옵션이지만, 공/마% 비중을 높이는 것이 좋습니다.';
     return '재설정이 필요합니다. 엠블렘은 공/마%가 핵심입니다.';
 }
 
@@ -624,9 +632,9 @@ function generateGeneralRecommendation(
         if (type === 'main') {
             // 에픽 등급 세부 평가
             if (grade === '에픽') {
-                if (score >= 18) return '에픽 완벽! 주스탯 3줄(18% 이상)입니다. 에픽 종결급이지만 유니크로 넘어가면 더 좋습니다.';
-                if (score >= 15) return '에픽 등급이지만 주스탯 15% 이상으로 유니크급 효율을 냅니다. 훌륭합니다!';
-                if (score >= 12) return '에픽 준수! 주스탯 3줄(12% 이상)로 쓸만합니다. 유니크 등급업을 추천합니다.';
+                if (score >= MAIN_POTENTIAL_STAT.EPIC.PERFECT) return '에픽 완벽! 주스탯 3줄(18% 이상)입니다. 에픽 종결급이지만 유니크로 넘어가면 더 좋습니다.';
+                if (score >= MAIN_POTENTIAL_STAT.EPIC.UNIQUE_LEVEL) return '에픽 등급이지만 주스탯 15% 이상으로 유니크급 효율을 냅니다. 훌륭합니다!';
+                if (score >= MAIN_POTENTIAL_STAT.EPIC.DECENT) return '에픽 준수! 주스탯 3줄(12% 이상)로 쓸만합니다. 유니크 등급업을 추천합니다.';
 
                 const lineCount = goodOptions.length;
                 if (lineCount >= 1) {
@@ -643,8 +651,8 @@ function generateGeneralRecommendation(
             if (grade === '유니크') {
                 const lineCount = goodOptions.length;
 
-                if (score >= 21) return '유니크 좋음! 주스탯 3줄(21% 이상)입니다.';
-                if (score >= 15) return '유니크 통과. 주스탯 2줄(15% 이상) 기준을 만족합니다.';
+                if (score >= MAIN_POTENTIAL_STAT.UNIQUE.EXCELLENT) return '유니크 좋음! 주스탯 3줄(21% 이상)입니다.';
+                if (score >= MAIN_POTENTIAL_STAT.UNIQUE.DECENT) return '유니크 통과. 주스탯 2줄(15% 이상) 기준을 만족합니다.';
 
                 if (lineCount >= 2) {
                     return `유효 ${lineCount}줄이지만 효율이 낮습니다. 주스탯 2줄(15% 이상)을 노려보세요.`;
@@ -679,13 +687,13 @@ function generateGeneralRecommendation(
                     }
                 });
 
-                if (totalCooldown >= 6) return '초월급! 쿨감 6초 이상입니다. 전서버급 옵션!';
+                if (totalCooldown >= COOLDOWN_REDUCTION.MYTHIC) return '초월급! 쿨감 6초 이상입니다. 전서버급 옵션!';
                 if (totalCooldown >= 5) return '엔드급! 쿨감 5초 이상입니다. 졸업하셔도 됩니다.';
-                if (totalCooldown >= 4) return '최상급! 쿨감 4초 이상입니다. 매우 훌륭합니다.';
+                if (totalCooldown >= COOLDOWN_REDUCTION.EXCELLENT) return '최상급! 쿨감 4초 이상입니다. 매우 훌륭합니다.';
                 if (totalCooldown >= 3) return '진짜 좋음! 쿨감 3초 이상입니다.';
 
                 // 쿨감 2초 이상일 때 주스탯도 체크
-                if (totalCooldown >= 2) {
+                if (totalCooldown >= COOLDOWN_REDUCTION.GOOD) {
                     if (totalStatPercent > 0) {
                         return `좋음! 쿨감 ${totalCooldown}초 + 주스탯 ${Math.floor(totalStatPercent)}%`;
                     }
@@ -711,36 +719,36 @@ function generateGeneralRecommendation(
                 );
 
                 // 크뎀 줄 수와 조합에 따라 평가
-                if (critDamageLines >= 3) {
+                if (critDamageLines >= CRIT_DAMAGE_LINES.MYTHIC) {
                     return '초월급! 크뎀 3줄입니다. 전서버급 장갑 옵션!';
-                } else if (critDamageLines >= 2 && hasStatPercent) {
+                } else if (critDamageLines >= CRIT_DAMAGE_LINES.ENDGAME && hasStatPercent) {
                     return '엔드급! 크뎀 2줄 + 스탯%입니다. 졸업하셔도 됩니다.';
-                } else if (critDamageLines >= 2) {
+                } else if (critDamageLines >= CRIT_DAMAGE_LINES.ENDGAME) {
                     return '최고 좋음! 크뎀 2줄입니다. 매우 훌륭합니다.';
-                } else if (critDamageLines >= 1 && hasStatPercent) {
+                } else if (critDamageLines >= CRIT_DAMAGE_LINES.GOOD && hasStatPercent) {
                     return '진짜 좋음! 크뎀 + 스탯% 조합입니다.';
-                } else if (critDamageLines >= 1) {
+                } else if (critDamageLines >= CRIT_DAMAGE_LINES.GOOD) {
                     return '좋음! 크뎀 옵션이 있습니다.';
                 }
             }
 
             // 201레벨 이상 (에테르넬 등) - 정옵 33%, 이탈 13%
             if (itemLevel && itemLevel > 200) {
-                if (score >= 39) return '초월급! 주스탯 3줄 완벽(39% 이상)입니다. 최고의 최고!';
-                if (score >= 36) return '엔드급! 주스탯 3줄 하이엔드(36% 이상)입니다.';
-                if (score >= 33) return '최상급! 주스탯 3줄(33% 이상)입니다. 종결급입니다.';
-                if (score >= 23) return '좋음! 주스탯 2줄(23% 이상)입니다.';
-                if (score >= 20) return '조금 좋음. 주스탯+올스탯 조합(20% 이상)입니다.';
-                if (score >= 16) return '통과. 주스탯 2줄 기본 기준(16% 이상)을 만족합니다.';
+                if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.MYTHIC) return '초월급! 주스탯 3줄 완벽(39% 이상)입니다. 최고의 최고!';
+                if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.ENDGAME_HIGH) return '엔드급! 주스탯 3줄 하이엔드(36% 이상)입니다.';
+                if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.ENDGAME) return '최상급! 주스탯 3줄(33% 이상)입니다. 종결급입니다.';
+                if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.GOOD) return '좋음! 주스탯 2줄(23% 이상)입니다.';
+                if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.DECENT_PLUS) return '조금 좋음. 주스탯+올스탯 조합(20% 이상)입니다.';
+                if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.DECENT) return '통과. 주스탯 2줄 기본 기준(16% 이상)을 만족합니다.';
                 return '재설정 필요. 주스탯 2줄(16% 이상)을 목표로 하세요.';
             }
 
-            if (score >= 36) return '초월급! 주스탯 3줄 완벽(36% 이상)입니다. 최고의 최고!';
+            if (score >= MAIN_POTENTIAL_STAT.LEGENDARY.MYTHIC) return '초월급! 주스탯 3줄 완벽(36% 이상)입니다. 최고의 최고!';
             if (score >= 34) return '엔드급! 주스탯 3줄 하이엔드(34% 이상)입니다.';
-            if (score >= 30) return '최상급! 주스탯 3줄(33% 이상)입니다. 종결급입니다.';
-            if (score >= 21) return '좋음! 주스탯 2줄(21% 이상)입니다.';
-            if (score >= 18) return '조금 좋음. 주스탯+올스탯 조합(18% 이상)입니다.';
-            if (score >= 15) return '통과. 주스탯 2줄 기본 기준(15% 이상)을 만족합니다.';
+            if (score >= MAIN_POTENTIAL_STAT.LEGENDARY.ENDGAME) return '최상급! 주스탯 3줄(33% 이상)입니다. 종결급입니다.';
+            if (score >= MAIN_POTENTIAL_STAT.LEGENDARY.GOOD) return '좋음! 주스탯 2줄(21% 이상)입니다.';
+            if (score >= MAIN_POTENTIAL_STAT.LEGENDARY.DECENT_PLUS) return '조금 좋음. 주스탯+올스탯 조합(18% 이상)입니다.';
+            if (score >= MAIN_POTENTIAL_STAT.LEGENDARY.DECENT) return '통과. 주스탯 2줄 기본 기준(15% 이상)을 만족합니다.';
             return '재설정 필요. 주스탯 2줄(15% 이상)을 목표로 하세요.';
         } else {
             // 에디셔널 잠재능력

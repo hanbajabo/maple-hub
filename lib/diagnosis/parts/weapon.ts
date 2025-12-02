@@ -1,9 +1,14 @@
 import { GENESIS_WEAPON } from '../../../src/data/set_item_data';
 import { diagnoseEpicPotential } from './common';
 import { isMagicJob } from '../../job_utils';
-import { getMaxStarforce } from '../equipment';
 import { isPensalirItem } from '../../utils/item_classifier';
-import { WEAPON_STARFORCE, WEAPON_FLAME } from '../../config/evaluation_criteria';
+import {
+    STARFORCE_TIERS,
+    WEAPON_FLAME_TIERS,
+    SCROLL_QUALITY,
+    WEAPON_POTENTIAL,
+    getMaxStarforce
+} from '../../config/unified_criteria';
 
 // 소울 웨폰 티어 데이터
 const TIER_1_SOULS = ["진 힐라", "감시자 칼로스", "카링", "선택받은 세렌", "검은 마법사", "최초의 대적자", "발드릭스", "림보", "섬멸병기 스우", "매그너스", "시그너스", "블러디 퀸", "벨룸", "무르무르"];
@@ -44,10 +49,10 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
 
     if (scrollCount > 0 && !isGenesis && !isEmblem && !isSecondary) { // 엠블렘/보조무기(일부 제외)는 작 불가
         const avgGain = mainAttGain / scrollCount;
-        if (avgGain >= 9) comments.push(`[완작 (Perfect)] 15% 주문서작 성공! 무기의 생명을 완벽하게 불어넣으셨습니다.`);
-        else if (avgGain >= 7) comments.push(`[수작 (Great)] 15%와 30%가 섞인 훌륭한 작입니다.`);
-        else if (avgGain >= 5) comments.push(`[평작 (Normal)] 30%작 혹은 70%작이 섞여있습니다. 가성비 구간입니다.`);
-        else if (avgGain >= 3) comments.push(`[떡작 (Basic)] 70% 혹은 100% 주문서 작입니다. 임시용입니다.`);
+        if (avgGain >= SCROLL_QUALITY.PERFECT) comments.push(`[완작 (Perfect)] 15% 주문서작 성공! 무기의 생명을 완벽하게 불어넣으셨습니다.`);
+        else if (avgGain >= SCROLL_QUALITY.GREAT) comments.push(`[수작 (Great)] 15%와 30%가 섞인 훌륭한 작입니다.`);
+        else if (avgGain >= SCROLL_QUALITY.NORMAL) comments.push(`[평작 (Normal)] 30%작 혹은 70%작이 섞여있습니다. 가성비 구간입니다.`);
+        else if (avgGain >= SCROLL_QUALITY.BASIC) comments.push(`[떡작 (Basic)] 70% 혹은 100% 주문서 작입니다. 임시용입니다.`);
         else comments.push(`[망작 (Bad)] 주문서 작 상태가 좋지 않습니다. <b>아크 이노센트 주문서</b> 사용을 권장합니다.`);
     } else if (isGenesis) {
         comments.push(`[해방의 증표] 검은 마법사를 격파하고 진정한 해방을 이루셨군요. 주문서 작이 필요 없는 완성된 무기입니다.`);
@@ -59,11 +64,11 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
     } else if (!isGenesis && !isZeroWeapon && !isSecondary && !isEmblem) { // 보조/엠블렘은 스타포스 없음 (방패 제외, 방패는 별도 처리 필요하나 여기선 생략)
         const maxSf = getMaxStarforce(level);
         if (starforce >= maxSf) {
-            if (maxSf < WEAPON_STARFORCE.ENDGAME) comments.push(`[최대 강화] 현재 레벨에서 가능한 최대 스타포스(${maxSf}성)입니다. 더 높은 스펙을 원하시면 상위 장비로 교체하세요.`);
-            else comments.push(`[졸업] <b>${WEAPON_STARFORCE.ENDGAME}성</b> 무기... 공격력이 폭발합니다. 완벽합니다.`);
+            if (maxSf < STARFORCE_TIERS.ENDGAME) comments.push(`[최대 강화] 현재 레벨에서 가능한 최대 스타포스(${maxSf}성)입니다. 더 높은 스펙을 원하시면 상위 장비로 교체하세요.`);
+            else comments.push(`[졸업] <b>${STARFORCE_TIERS.ENDGAME}성</b> 무기... 공격력이 폭발합니다. 완벽합니다.`);
         }
-        else if (starforce >= WEAPON_STARFORCE.STANDARD) comments.push(`[국민 세팅] <b>${WEAPON_STARFORCE.STANDARD}성</b> 무기는 가성비가 좋지만, <b>${WEAPON_STARFORCE.ENDGAME}성</b>과의 공격력 차이가 큽니다.`);
-        else if (starforce >= WEAPON_STARFORCE.ENTRY) comments.push(`[입문] 임시로 사용하는 단계입니다. <b>${WEAPON_STARFORCE.STANDARD}성</b>을 목표로 하세요.`);
+        else if (starforce >= STARFORCE_TIERS.STANDARD) comments.push(`[국민 세팅] <b>${STARFORCE_TIERS.STANDARD}성</b> 무기는 가성비가 좋지만, <b>${STARFORCE_TIERS.ENDGAME}성</b>과의 공격력 차이가 큽니다.`);
+        else if (starforce >= STARFORCE_TIERS.ENTRY) comments.push(`[입문] 임시로 사용하는 단계입니다. <b>${STARFORCE_TIERS.STANDARD}성</b>을 목표로 하세요.`);
         else comments.push(`[강화 필요] 무기 스타포스가 너무 낮습니다. 공격력 손실이 큽니다.`);
     }
 
@@ -137,21 +142,21 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
         if (isZeroWeapon) {
             if (mainAddAtt > 0) comments.push(`[제로 종결] 제로 무기는 2추옵+공격력만 붙어도 종결로 인정합니다. (1추옵 확률 극악)`);
         } else if (isGenesis) {
-            if (mainAddAtt < WEAPON_FLAME.GENESIS_MINIMUM) comments.push(`[아쉬움] 제네시스 무기치고는 추옵이 낮습니다. 영환불을 권장합니다.`);
+            if (mainAddAtt < WEAPON_FLAME_TIERS.GENESIS_MIN) comments.push(`[아쉬움] 제네시스 무기치고는 추옵이 낮습니다. 영환불을 권장합니다.`);
         } else {
             // 일반 무기 추옵 (1추/2추 판별)
             let tier1 = 0;
             let tier2 = 0;
 
             if (level >= 200) {
-                tier1 = WEAPON_FLAME.ARCANE.TIER1_MIN;
-                tier2 = WEAPON_FLAME.ARCANE.TIER2_MIN;
+                tier1 = WEAPON_FLAME_TIERS.ARCANE.TIER1_MIN;
+                tier2 = WEAPON_FLAME_TIERS.ARCANE.TIER2_MIN;
             } else if (level >= 160) {
-                tier1 = WEAPON_FLAME.ABSOLAB.TIER1_MIN;
-                tier2 = WEAPON_FLAME.ABSOLAB.TIER2_MIN;
+                tier1 = WEAPON_FLAME_TIERS.ABSOLAB.TIER1_MIN;
+                tier2 = WEAPON_FLAME_TIERS.ABSOLAB.TIER2_MIN;
             } else if (level >= 150) {
-                tier1 = WEAPON_FLAME.FAFNIR.TIER1_MIN;
-                tier2 = WEAPON_FLAME.FAFNIR.TIER2_MIN;
+                tier1 = WEAPON_FLAME_TIERS.FAFNIR.TIER1_MIN;
+                tier2 = WEAPON_FLAME_TIERS.FAFNIR.TIER2_MIN;
             }
 
             if (mainAddAtt >= tier1) comments.push(`[1추옵] 무기 추가옵션 <b>1티어</b>! 완벽한 추옵입니다.`);

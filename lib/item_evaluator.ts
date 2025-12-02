@@ -1,7 +1,7 @@
 import { STARFORCE_SIMULATION_STATS } from './starforce_db';
 import { evaluatePotential } from './potential_evaluator';
 import { evaluateWeaponFlame, evaluateArmorFlame } from './flame_evaluator';
-import { getMaxStarforce } from './diagnosis/equipment';
+import { getMaxStarforce } from './config/unified_criteria';
 import { isPensalirItem } from './utils/item_classifier';
 import { WEAPON_STARFORCE, ARMOR_STARFORCE, SPECIAL_STARFORCE } from './config/evaluation_criteria';
 import { getSpecialItemConfig } from './config/special_items';

@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { JOB_META_DATA } from "@/src/data/diagnosisData";
 import { toPng } from "html-to-image";
 import { Search, RefreshCw, Swords, Camera, X } from "lucide-react";
 import { getOcid, getCharacterBasic, getCharacterItemEquipment, getCharacterStat, getCharacterUnion, getCharacterLinkSkill, getUserUnionRaider } from "../lib/nexon";
 import { calculateCumulativeExpectedCost } from "../lib/starforce_db";
+import { diagnoseEquipment } from "../lib/diagnosis/equipment";
+import { EquipmentReport } from "../lib/diagnosis/types";
 
 import LinkSkillBadge from "../components/LinkSkillBadge";
 import UnionDiagnostic from "../components/UnionDiagnostic";
@@ -133,6 +135,7 @@ export default function Home() {
 
   const [refreshKey, setRefreshKey] = useState(0);
   const [selectedWeapon, setSelectedWeapon] = useState<ItemData | null>(null);
+  const [diagnosisReport, setDiagnosisReport] = useState<EquipmentReport | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
 
@@ -411,6 +414,26 @@ export default function Home() {
   // Note: "공격력" or "마력" in FinalStat is usually the total raw value.
   const totalAttackValue = getStatValue(displayAttName);
 
+
+
+  // Equipment diagnosis effect
+  useEffect(() => {
+    if (equipment.length > 0 && stats) {
+      const mainStatInfo = getMainStatInfo();
+      const attPct = calculateTotalAttackPercent();
+      const dropRate = parseFloat(getStatValue("아이템 드롭률").replace("%", ""));
+
+      const report = diagnoseEquipment(
+        equipment,
+        mainStatInfo.name,
+        attPct.totalAttPct > attPct.totalMagicPct ? 'attack' : 'magic',
+        'BOSS',
+        dropRate
+      );
+
+      setDiagnosisReport(report);
+    }
+  }, [equipment, stats]);
 
   // Equipment Sorting Logic
   const sortEquipment = (items: ItemData[]) => {
@@ -944,6 +967,7 @@ export default function Home() {
                   equipmentGrid={equipmentGrid}
                   setSelectedWeapon={setSelectedWeapon}
                   setIsOverviewOpen={setIsOverviewOpen}
+                  itemGrades={diagnosisReport?.itemGrades}
                 />
               )}
             </div>

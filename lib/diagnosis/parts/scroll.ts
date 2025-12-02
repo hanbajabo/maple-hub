@@ -4,6 +4,7 @@
  * - 방어구, 장신구, 장갑 등의 주문서 작 상태를 정밀 진단합니다.
  * - 아이템 레벨에 따른 주흔 작 수치 차이를 반영합니다.
  */
+import { SCROLL_STANDARDS } from '../../config/unified_criteria';
 
 export function diagnoseScroll(item: any): string[] {
     const comments: string[] = [];
@@ -39,18 +40,18 @@ export function diagnoseScroll(item: any): string[] {
         // 200제(아케인): 15%(+4), 30%(+3), 70%(+2)
         // 160제(앱솔) 이하: 15%(+3), 30%(+3), 70%(+2)
 
-        const perfectAtt = level >= 200 ? 4 : 3; // 15%작 기준
+        const perfectAtt = level >= 200 ? SCROLL_STANDARDS.GLOVE.ARCANE_15 : SCROLL_STANDARDS.GLOVE.NORMAL_15_30; // 15%작 기준
 
         if (mainAtt > 0) {
-            if (avgAtt >= 6) {
+            if (avgAtt >= SCROLL_STANDARDS.GLOVE.CHAOS_EXCELLENT) {
                 comments.push(`[놀긍 완작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. 이건 주흔작이 아닙니다. <b>놀라운 긍정의 혼돈 주문서</b>로 공격력을 극한까지 끌어올린 지작입니다.`);
-            } else if (avgAtt >= 5) {
+            } else if (avgAtt >= SCROLL_STANDARDS.GLOVE.CHAOS_GOOD) {
                 comments.push(`[놀긍작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. 주흔작의 한계를 넘었습니다. 놀긍혼으로 공격력을 잘 챙기셨네요.`);
             } else if (avgAtt >= perfectAtt) {
                 comments.push(`[장갑 주흔 15% 완작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. 완벽한 ${attType} 작입니다.`);
-            } else if (avgAtt >= 3) {
+            } else if (avgAtt >= SCROLL_STANDARDS.GLOVE.NORMAL_15_30) {
                 comments.push(`[장갑 주흔 30% 완작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. 훌륭한 ${attType} 작입니다.`);
-            } else if (avgAtt >= 2) {
+            } else if (avgAtt >= SCROLL_STANDARDS.GLOVE.SCROLL_70) {
                 comments.push(`[장갑 주흔 70% 작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. 가성비 세팅입니다.`);
             } else {
                 comments.push(`[장갑 주흔작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. ${attType}을 챙기셨습니다.`);
@@ -68,10 +69,10 @@ export function diagnoseScroll(item: any): string[] {
         // 70%: +4
         // HP 30%: +470 (대략)
         // HP 70%: +270 (대략)
-        const perfectStat = 7;
-        const normalStat = 4;
-        const perfectHP = 400;
-        const normalHP = 200;
+        const perfectStat = SCROLL_STANDARDS.ARMOR.STAT_30;
+        const normalStat = SCROLL_STANDARDS.ARMOR.STAT_70;
+        const perfectHP = SCROLL_STANDARDS.ARMOR.HP_30;
+        const normalHP = SCROLL_STANDARDS.ARMOR.HP_70;
 
         const avgHP = hp / scrollCount;
 
@@ -84,9 +85,9 @@ export function diagnoseScroll(item: any): string[] {
             if (mainAtt > 0) comments.push(`(보너스 ${attType} <b>+${mainAtt}</b>)`);
         }
         else if (mainAtt > 0) {
-            if (avgAtt >= 4) {
+            if (avgAtt >= SCROLL_STANDARDS.ARMOR.CHAOS_ATT) {
                 comments.push(`[놀긍혼 리턴 완작] 전 부위 놀긍혼 리턴작! 엔드 스펙입니다. (${attType} <b>+${mainAtt}</b>)`);
-            } else if (mainAtt >= 4 && avgStat >= 5) {
+            } else if (mainAtt >= SCROLL_STANDARDS.ARMOR.CHAOS_ATT && avgStat >= 5) {
                 comments.push(`[놀긍혼 긍혼 + 주흔] 첫작 놀긍혼으로 ${attType}을 챙기고, 나머지는 주흔으로 스탯을 채운 효율적인 세팅입니다.`);
             } else if (mainAtt <= 3) {
                 // 스탯작이 잘 되어있는지 확인
@@ -108,11 +109,11 @@ export function diagnoseScroll(item: any): string[] {
 
     // 💍 장신구 (Accessory)
     if (mainAtt > 0) {
-        if (avgAtt >= 5) {
+        if (avgAtt >= SCROLL_STANDARDS.ACCESSORY.CHAOS_RETURN) {
             comments.push(`[놀긍혼 리턴 종결] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>! 놀긍혼 리턴작의 정점입니다. 스탯도 든든하게 챙기셨겠군요.`);
-        } else if (avgAtt >= 4) {
+        } else if (avgAtt >= SCROLL_STANDARDS.ACCESSORY.PREMIUM) {
             comments.push(`[프악공/프악마 완작] 평균 ${attType} <b>+${avgAtt.toFixed(1)}</b>. 프리미엄 악세서리 스크롤 작으로 보입니다. 깔끔한 종결 스펙입니다.`);
-        } else if (avgAtt >= 2) {
+        } else if (avgAtt >= SCROLL_STANDARDS.ACCESSORY.NORMAL) {
             comments.push(`[놀긍혼/악공] 긍정의 혼돈 주문서 혹은 악세서리 ${attType} 스크롤 작입니다.`);
         } else {
             comments.push(`[${attType} 소량] ${attType}이 붙어있습니다.`);

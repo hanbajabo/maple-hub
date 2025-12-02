@@ -6,6 +6,7 @@
 
 import { isPensalirItem } from '../../utils/item_classifier';
 import { getJobMainStat } from '../../job_utils';
+import { MAIN_POTENTIAL_STAT } from '../../config/unified_criteria';
 
 /**
  * 펜살리르 장비인지 체크하고, 맞다면 교체 권장 메시지 반환
@@ -67,18 +68,18 @@ export function diagnoseEpicPotential(potentialGrade: string, potentials: string
             }
         });
 
-        if (statPct >= 15) {
+        if (statPct >= MAIN_POTENTIAL_STAT.EPIC.UNIQUE_LEVEL) {
             comments.push(`[유니크급 효율] 에픽 등급이지만 주스탯 <b>${statPct}%</b> 이상으로 유니크 2줄급 성능을 냅니다. 훌륭합니다.`);
-        } else if (statPct >= 12) {
+        } else if (statPct >= MAIN_POTENTIAL_STAT.EPIC.DECENT) {
             comments.push(`[가성비 최강] 에픽 등급에서 주스탯 <b>${statPct}%</b>! 유니크 부럽지 않은 최고의 효율입니다.`);
-        } else if (statPct >= 9) {
+        } else if (statPct >= MAIN_POTENTIAL_STAT.EPIC.PASS) {
             comments.push(`[에픽 정석] 주스탯 <b>${statPct}%</b>로 깔끔하게 맞추셨네요. 가성비 구간 졸업입니다.`);
-        } else if (statPct >= 6) {
-            comments.push(`[성장 교차점] 주스탯 <b>${statPct}%</b>는 임시용입니다. 유니크 등급업을 통해 <b>주스탯 15% 이상</b>을 목표로 하세요.`);
-        } else if (attPct >= 6 || magicPct >= 6) {
+        } else if (statPct >= MAIN_POTENTIAL_STAT.EPIC.GROWTH) {
+            comments.push(`[성장 교차점] 주스탯 <b>${statPct}%</b>는 임시용입니다. 유니크 등급업을 통해 <b>주스탯 ${MAIN_POTENTIAL_STAT.EPIC.UNIQUE_LEVEL}% 이상</b>을 목표로 하세요.`);
+        } else if (attPct >= MAIN_POTENTIAL_STAT.EPIC.GROWTH || magicPct >= MAIN_POTENTIAL_STAT.EPIC.GROWTH) {
             comments.push(`[무기/엠블 에픽] 공/마 <b>${Math.max(attPct, magicPct)}%</b>는 나쁘지 않지만, 유니크 이상으로 가서 공/마 두 줄을 노려보세요.`);
         } else {
-            comments.push(`[등급업 권장] 현재 옵션으로는 한계가 명확합니다. 유니크 등급으로 올려서 <b>주스탯 15% 이상</b>을 챙겨주세요.`);
+            comments.push(`[등급업 권장] 현재 옵션으로는 한계가 명확합니다. 유니크 등급으로 올려서 <b>주스탯 ${MAIN_POTENTIAL_STAT.EPIC.UNIQUE_LEVEL}% 이상</b>을 챙겨주세요.`);
         }
     }
 

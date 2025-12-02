@@ -1,17 +1,25 @@
 
 import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
-import { getMaxStarforce } from '../equipment';
+
 import { diagnoseScroll } from './scroll';
 import { getJobMainStat } from '../../job_utils';
 import { EVENT_RING_MESSAGES } from '../../config/message_templates';
-
-const SPECIAL_RING_KEYWORDS = ["웨폰퍼프", "리스트레인트", "리스크테이커", "컨티뉴어스", "링 오브 썸", "크라이시스"];
-const DAWN_BOSS_KEYWORDS = ["트와일라이트 마크", "에스텔라 이어링", "데이브레이크 펜던트", "여명의 가디언 엔젤 링"];
-const EVENT_RING_KEYWORDS = [
-    "테네브리스", "SS급", "어웨이크", "글로리온", "카오스", "벤젼스", "결속의", "이터널 플레임",
-    "어드벤처 딥다크", "오닉스", "코스모스", "이벤트 링", "어드벤처", "시너지", "쥬얼", "다크 크리티컬"
-];
-const SPECIAL_NON_UPGRADABLE_RINGS = ["어비스 헌터스 링", "크리티컬 링"];
+import {
+    getMaxStarforce,
+    STARFORCE_TIERS,
+    SUPERIOR_STARFORCE,
+    MAIN_POTENTIAL_STAT,
+    ADDITIONAL_POTENTIAL_STAT,
+    ARMOR_FLAME_SCORE,
+    SPECIAL_RING_KEYWORDS,
+    DAWN_BOSS_KEYWORDS,
+    EVENT_RING_KEYWORDS,
+    SPECIAL_NON_UPGRADABLE_RINGS,
+    PITCH_BOSS_KEYWORDS,
+    MECHANICAL_HEART_KEYWORDS,
+    STAT_CONVERSION,
+    SPECIAL_STARFORCE_GOALS
+} from '../../config/unified_criteria';
 
 /**
  * 💍 장신구(Accessory) 전용 진단 로직
@@ -151,7 +159,7 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
 
     // 4. 칠흑의 보스 세트 (Pitch Boss)
     // 마도서, 몽벨, 루컨마, 마깃안, 거공, 고근 등
-    const isPitch = itemName.includes("저주받은 마도서") || itemName.includes("몽환의 벨트") || itemName.includes("루즈 컨트롤") || itemName.includes("마력이 깃든") || itemName.includes("거대한 공포") || itemName.includes("고통의 근원") || itemName.includes("창세의 뱃지") || itemName.includes("미트라의 분노");
+    const isPitch = PITCH_BOSS_KEYWORDS.some(k => itemName.includes(k));
     const isTyrant = itemName.includes("타일런트");
 
     if (isPitch) {
@@ -159,23 +167,23 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
 
         // 칠흑 전용 스타포스 진단
         if (!slot.includes("뱃지") && !slot.includes("포켓") && !slot.includes("엠블렘")) {
-            if (starforce >= 25) comments.push(`[신화의 경지] <b>${starforce}성</b> 칠흑...?! 이건 메이플스토리의 역사를 새로 쓰는 아이템입니다. 전 서버 유일무이한 스펙일 수 있습니다.`);
+            if (starforce >= STARFORCE_TIERS.MAX) comments.push(`[신화의 경지] <b>${starforce}성</b> 칠흑...?! 이건 메이플스토리의 역사를 새로 쓰는 아이템입니다. 전 서버 유일무이한 스펙일 수 있습니다.`);
             else if (starforce === 24) comments.push(`[초월적 스펙] <b>24성</b> 칠흑이라니... 운영자도 놀랄만한 기적의 아이템입니다.`);
             else if (starforce === 23) comments.push(`[전설의 시작] <b>23성</b> 칠흑은 그 자체로 하나의 전설입니다. 압도적인 위용을 자랑합니다.`);
-            else if (starforce === 22) comments.push(`[칠흑 졸업] <b>22성</b> 칠흑... 서버 내 최상위 포식자입니다.`);
-            else if (starforce >= 18) comments.push(`[칠흑 고스펙] <b>18성</b> 이상 칠흑은 <b>22성</b> 여명보다 강력합니다.`);
-            else if (starforce === 17) comments.push(`[아쉬움] 칠흑의 성능을 100% 끌어내려면 <b>22성</b>이 권장됩니다. (파괴 리스크 주의)`);
+            else if (starforce === STARFORCE_TIERS.ENDGAME) comments.push(`[칠흑 졸업] <b>${STARFORCE_TIERS.ENDGAME}성</b> 칠흑... 서버 내 최상위 포식자입니다.`);
+            else if (starforce >= STARFORCE_TIERS.CROSSOVER) comments.push(`[칠흑 고스펙] <b>${STARFORCE_TIERS.CROSSOVER}성</b> 이상 칠흑은 <b>${STARFORCE_TIERS.ENDGAME}성</b> 여명보다 강력합니다.`);
+            else if (starforce === STARFORCE_TIERS.STANDARD) comments.push(`[아쉬움] 칠흑의 성능을 100% 끌어내려면 <b>${STARFORCE_TIERS.ENDGAME}성</b>이 권장됩니다. (파괴 리스크 주의)`);
         }
     } else if (isTyrant) {
         // 타일런트 (슈페리얼) 전용 진단
         comments.push(`[슈페리얼] 타일런트 아이템은 별 하나하나의 가치가 매우 높습니다.`);
-        if (starforce >= 15) comments.push(`[종결급] <b>15성</b> 타일런트! 전설적인 수치입니다. 더 이상 바랄 게 없습니다.`);
+        if (starforce >= SUPERIOR_STARFORCE.MAX) comments.push(`[종결급] <b>${SUPERIOR_STARFORCE.MAX}성</b> 타일런트! 전설적인 수치입니다. 더 이상 바랄 게 없습니다.`);
         else if (starforce >= 14) comments.push(`[엄청 좋음] <b>14성</b> 타일런트! 매우 강력한 성능을 자랑합니다.`);
         else if (starforce >= 13) comments.push(`[고성능] <b>13성</b> 타일런트! 현역으로 충분히 강력합니다.`);
-        else if (starforce >= 12) comments.push(`[준종결] <b>12성</b> 타일런트! 22성 일반 아이템과 맞먹는 성능입니다.`);
-        else if (starforce >= 10) comments.push(`[고스펙] <b>10성</b> 이상 타일런트는 21성급 성능을 냅니다.`);
-        else if (starforce >= 5) comments.push(`[가성비] <b>5성</b> 타일런트는 17성 일반 아이템과 비슷한 효율을 냅니다.`);
-        else comments.push(`[강화 필요] 슈페리얼 아이템은 <b>5성</b> 이상 강화해야 진가를 발휘합니다.`);
+        else if (starforce >= SUPERIOR_STARFORCE.EXCELLENT) comments.push(`[준종결] <b>${SUPERIOR_STARFORCE.EXCELLENT}성</b> 타일런트! ${STARFORCE_TIERS.ENDGAME}성 일반 아이템과 맞먹는 성능입니다.`);
+        else if (starforce >= 10) comments.push(`[고스펙] <b>10성</b> 이상 타일런트는 ${STARFORCE_TIERS.NEAR_ENDGAME}성급 성능을 냅니다.`);
+        else if (starforce >= SUPERIOR_STARFORCE.MINIMUM) comments.push(`[가성비] <b>${SUPERIOR_STARFORCE.MINIMUM}성</b> 타일런트는 ${STARFORCE_TIERS.STANDARD}성 일반 아이템과 비슷한 효율을 냅니다.`);
+        else comments.push(`[강화 필요] 슈페리얼 아이템은 <b>${SUPERIOR_STARFORCE.MINIMUM}성</b> 이상 강화해야 진가를 발휘합니다.`);
     }
 
     // 5. 일반 스타포스 진단 (시드링, 뱃지, 훈장, 포켓, 이벤트링, 특수링 제외)
@@ -199,34 +207,34 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
                 if (starforce >= maxSf) {
                     if (maxSf < 15) { // 10성, 5성, 8성 등 낮은 한계
                         comments.push(`[거쳐가는 단계] <b>${starforce}성</b>(최대치)입니다. 유니온/링크 육성용으로 적합하며, 더 높은 스펙을 위해서는 상위 레벨 아이템(예: 트와일라이트 마크, 마이스터링 등)으로 교체를 권장합니다.`);
-                    } else if (maxSf < 22) {
+                    } else if (maxSf < STARFORCE_TIERS.ENDGAME) {
                         comments.push(`[한계 도달] <b>${starforce}성</b>(최대치)입니다. 이 아이템에서 챙길 수 있는 최대 스펙입니다.`);
                     } else {
                         // 25성 한계인 경우 (보통 22성에서 졸업함)
-                        if (starforce >= 25) comments.push(`[신화의 경지] <b>${starforce}성</b>! 이건 메이플스토리의 역사를 새로 쓰는 아이템입니다.`);
+                        if (starforce >= STARFORCE_TIERS.MAX) comments.push(`[신화의 경지] <b>${starforce}성</b>! 이건 메이플스토리의 역사를 새로 쓰는 아이템입니다.`);
                         else if (starforce === 24) comments.push(`[초월적 스펙] <b>24성</b>! 운영자도 놀랄만한 기적의 아이템입니다.`);
                         else if (starforce === 23) comments.push(`[전설의 시작] <b>23성</b>! 압도적인 위용을 자랑합니다.`);
-                        else if (starforce === 22) comments.push(`[졸업] <b>${starforce}성</b>! 더 이상 바랄 게 없는 종결급 수치입니다.`);
-                        else comments.push(`[고스펙] <b>${starforce}성</b>! 훌륭합니다. (최대 25성 가능)`);
+                        else if (starforce === STARFORCE_TIERS.ENDGAME) comments.push(`[졸업] <b>${starforce}성</b>! 더 이상 바랄 게 없는 종결급 수치입니다.`);
+                        else comments.push(`[고스펙] <b>${starforce}성</b>! 훌륭합니다. (최대 ${STARFORCE_TIERS.MAX}성 가능)`);
                     }
                 } else {
-                    if (starforce >= 22) comments.push(`[졸업] 장신구 <b>${starforce}성</b>! 더 이상 바랄 게 없습니다.`);
+                    if (starforce >= STARFORCE_TIERS.ENDGAME) comments.push(`[졸업] 장신구 <b>${starforce}성</b>! 더 이상 바랄 게 없습니다.`);
                     else if (starforce >= 20) comments.push(`[준종결] <b>${starforce}성</b> 이상으로 훌륭한 스펙입니다.`);
-                    else if (starforce >= 17) comments.push(`[국민 세팅] <b>${starforce}성</b> 장신구는 가성비가 좋습니다.`);
-                    else if (starforce >= 10) {
-                        if (maxSf < 17) {
+                    else if (starforce >= STARFORCE_TIERS.STANDARD) comments.push(`[국민 세팅] <b>${starforce}성</b> 장신구는 가성비가 좋습니다.`);
+                    else if (starforce >= STARFORCE_TIERS.ENTRY) {
+                        if (maxSf < STARFORCE_TIERS.STANDARD) {
                             comments.push(`[성장 조언] 현재 <b>${starforce}성</b>입니다. 이 아이템은 최대 <b>${maxSf}성</b>이 한계이므로, 스펙업을 원하시면 상위 장비로 교체해야 합니다.`);
                         } else {
                             // 여명 세트인지 확인
                             const isDawnBoss = DAWN_BOSS_KEYWORDS.some(k => itemName.includes(k));
                             if (isDawnBoss) {
-                                comments.push(`[가성비 구간] <b>${starforce}성</b>! 여명 세트로 임시 사용하기 좋은 수치입니다. <b>17성</b>까지 강화하면 칠흑으로 넘어가기 전까지 충분히 사용할 수 있습니다.`);
+                                comments.push(`[가성비 구간] <b>${starforce}성</b>! 여명 세트로 임시 사용하기 좋은 수치입니다. <b>${STARFORCE_TIERS.STANDARD}성</b>까지 강화하면 칠흑으로 넘어가기 전까지 충분히 사용할 수 있습니다.`);
                             } else {
-                                comments.push(`[입문 단계] <b>${starforce}성</b>. 거쳐가는 장비라면 적당하지만, 본캐용이라면 <b>17성</b>을 목표로 하세요.`);
+                                comments.push(`[입문 단계] <b>${starforce}성</b>. 거쳐가는 장비라면 적당하지만, 본캐용이라면 <b>${STARFORCE_TIERS.STANDARD}성</b>을 목표로 하세요.`);
                             }
                         }
                     }
-                    else comments.push(`[강화 필요] 스타포스 수치가 낮습니다. 최소 <b>10~12성</b>은 맞춰주세요.`);
+                    else comments.push(`[강화 필요] 스타포스 수치가 낮습니다. 최소 <b>${STARFORCE_TIERS.ENTRY}~${STARFORCE_TIERS.COST_EFFECTIVE}성</b>은 맞춰주세요.`);
                 }
             }
         }
@@ -258,8 +266,8 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
             if (l.includes("캐릭터 기준 9레벨 당")) {
                 const isMainStat = l.includes("올스탯") || mainStats.some(stat => l.includes(stat));
                 if (isMainStat) {
-                    if (l.includes("+1")) statPct += 3; // 렙당 1 = 3%
-                    if (l.includes("+2")) statPct += 6; // 렙당 2 = 6%
+                    if (l.includes("+1")) statPct += STAT_CONVERSION.LEVEL_STAT_1_TO_PERCENT; // 렙당 1 = 3%
+                    if (l.includes("+2")) statPct += STAT_CONVERSION.LEVEL_STAT_2_TO_PERCENT; // 렙당 2 = 6%
                 }
             }
         }
@@ -270,23 +278,23 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
 
         if (itemLevel > 200) {
             // 201레벨 이상 (칠흑 등)
-            if (statPct >= 39) comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다.`);
-            else if (statPct >= 36) comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션(36% 이상)입니다.`);
-            else if (statPct >= 33) comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 졸업급 정옵입니다.`);
-            else if (statPct >= 23) comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
+            if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.MYTHIC) comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다.`);
+            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.ENDGAME_HIGH) comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션(${MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.ENDGAME_HIGH}% 이상)입니다.`);
+            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.ENDGAME) comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 졸업급 정옵입니다.`);
+            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.GOOD) comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
             else if (statPct > 0) comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
         } else {
             // 200레벨 이하
-            if (statPct >= 36) comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다.`);
-            else if (statPct >= 33) comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션(33% 이상)입니다.`);
-            else if (statPct >= 30) comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 졸업급 정옵입니다.`);
+            if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY.MYTHIC) comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다.`);
+            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY.ENDGAME) comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션(${MAIN_POTENTIAL_STAT.LEGENDARY.ENDGAME}% 이상)입니다.`);
+            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY.ENDGAME) comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 졸업급 정옵입니다.`);
             else if (statPct >= 27) comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다.`);
-            else if (statPct >= 21) comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
-            else if (statPct >= 18) comments.push(`[아쉬움] 주스탯 <b>${statPct}%</b>는 유니크 등급 효율입니다. 큐브 작업이 권장됩니다.`);
+            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY.GOOD) comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
+            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY.DECENT_PLUS) comments.push(`[아쉬움] 주스탯 <b>${statPct}%</b>는 유니크 등급 효율입니다. 큐브 작업이 권장됩니다.`);
             else if (statPct > 0) comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
         }
     } else if (potentialGrade === '유니크') {
-        if (statPct >= 15) comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다.`);
+        if (statPct >= MAIN_POTENTIAL_STAT.UNIQUE.DECENT) comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다.`);
         else if (statPct >= 12) comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 괜찮은 수치입니다.`);
         else if (statPct > 0) comments.push(`[유니크 아쉬움] 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
     } else if (potentialGrade === '에픽') {
@@ -330,8 +338,8 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
             if (l.includes("레벨 당")) {
                 const isMainStat = l.includes("올스탯") || mainStats.some(stat => l.includes(stat));
                 if (isMainStat) {
-                    if (l.includes("+1")) adiStatPct += 3; // 렙당 1 = 3%
-                    if (l.includes("+2")) adiStatPct += 6; // 렙당 2 = 6%
+                    if (l.includes("+1")) adiStatPct += STAT_CONVERSION.LEVEL_STAT_1_TO_PERCENT; // 렙당 1 = 3%
+                    if (l.includes("+2")) adiStatPct += STAT_CONVERSION.LEVEL_STAT_2_TO_PERCENT; // 렙당 2 = 6%
                 }
             }
         }
@@ -345,7 +353,7 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
     // 공/마를 주스탯%로 환산하여 합산
     // 공/마 1 = 주스탯 4, 주스탯 10 = 1%
     // 따라서 공/마 15 = 주스탯 60 = 6%
-    const attEquiv = (validAdiAtt * 4) / 10;
+    const attEquiv = (validAdiAtt * STAT_CONVERSION.ATT_TO_STAT) / STAT_CONVERSION.STAT_TO_PERCENT;
     const totalAdiStatPct = adiStatPct + attEquiv;
 
     if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
@@ -368,14 +376,14 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
             comments.push(`[에디 유니크] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 든든한 옵션입니다.`);
         }
     } else if (adiGrade === "레전드리") {
-        if (totalAdiStatPct >= 21) {
+        if (totalAdiStatPct >= ADDITIONAL_POTENTIAL_STAT.LEGENDARY.EXCELLENT) {
             comments.push(`[에디 종결] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>! 전 서버급 초고스펙 옵션입니다.`);
-        } else if (totalAdiStatPct >= 14) {
+        } else if (totalAdiStatPct >= ADDITIONAL_POTENTIAL_STAT.LEGENDARY.GREAT) {
             comments.push(`[에디 준종결] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>! 아주 훌륭한 준종결급 스펙입니다.`);
         } else if (validAdiAtt >= 12 && adiStatPct === 0) {
             // 공/마만 있고 주스탯%가 없는 경우
             comments.push(`[에디 레전드리] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 든든한 옵션입니다.`);
-        } else if (totalAdiStatPct >= 10) {
+        } else if (totalAdiStatPct >= ADDITIONAL_POTENTIAL_STAT.LEGENDARY.DECENT) {
             comments.push(`[에디 레전드리] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>급 효율! 준수한 옵션입니다.`);
         } else {
             comments.push(`[옵션 아쉬움] 에디셔널 레전드리 등급이지만 유효 옵션이 조금 아쉽습니다.`);
@@ -422,8 +430,8 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
 
         if (level >= 250) {
             if (score >= 190) comments.push(`[종결] <b>${score}급</b> (${level}제)! 전 서버급 신화적인 추옵입니다.`);
-            else if (score >= 180) comments.push(`[종결급] <b>${score}급</b> (${level}제)! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
-            else if (score >= 170) comments.push(`[최상급 옵션] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
+            else if (score >= ARMOR_FLAME_SCORE.LEVEL_250.EXCELLENT) comments.push(`[종결급] <b>${score}급</b> (${level}제)! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
+            else if (score >= ARMOR_FLAME_SCORE.LEVEL_250.DECENT) comments.push(`[최상급 옵션] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
             else if (score >= 160) comments.push(`[많이 좋음] <b>${score}급</b> (${level}제)! 아주 훌륭한 고스펙용 추옵입니다.`);
             else if (score >= 150) comments.push(`[꽤 좋음] <b>${score}급</b> (${level}제)! 어디 가서 꿀리지 않는 좋은 추옵입니다.`);
             else if (score >= 140) comments.push(`[좋음] <b>${score}급</b> (${level}제)! 실전에서 사용하기 좋습니다.`);
@@ -433,31 +441,31 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
             else if (score >= 100) comments.push(`[부캐용] <b>${score}급</b> (${level}제)! 본캐용으로는 아쉽습니다.`);
             else comments.push(`[환불 필요] <b>${score}급</b> (${level}제) 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
         } else if (level >= 200) {
-            if (score >= 170) comments.push(`[종결급] <b>${score}급</b> (${level}제)! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
+            if (score >= ARMOR_FLAME_SCORE.LEVEL_200.EXCELLENT) comments.push(`[종결급] <b>${score}급</b> (${level}제)! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
             else if (score >= 160) comments.push(`[최상급 옵션] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
-            else if (score >= 150) comments.push(`[많이 좋음] <b>${score}급</b> (${level}제)! 아주 훌륭한 고스펙용 추옵입니다.`);
-            else if (score >= 140) comments.push(`[꽤 좋음] <b>${score}급</b> (${level}제)! 어디 가서 꿀리지 않는 좋은 추옵입니다.`);
+            else if (score >= ARMOR_FLAME_SCORE.LEVEL_200.GREAT) comments.push(`[많이 좋음] <b>${score}급</b> (${level}제)! 아주 훌륭한 고스펙용 추옵입니다.`);
+            else if (score >= ARMOR_FLAME_SCORE.LEVEL_200.DECENT) comments.push(`[꽤 좋음] <b>${score}급</b> (${level}제)! 어디 가서 꿀리지 않는 좋은 추옵입니다.`);
             else if (score >= 130) comments.push(`[좋음] <b>${score}급</b> (${level}제)! 실전에서 사용하기 좋습니다.`);
-            else if (score >= 120) comments.push(`[준수] <b>${score}급</b> (${level}제)! 무난하게 사용 가능합니다.`);
+            else if (score >= ARMOR_FLAME_SCORE.LEVEL_200.NORMAL) comments.push(`[준수] <b>${score}급</b> (${level}제)! 무난하게 사용 가능합니다.`);
             else if (score >= 110) comments.push(`[보통] <b>${score}급</b> (${level}제)! 임시로 쓰기 적절합니다.`);
             else if (score >= 100) comments.push(`[부캐용] <b>${score}급</b> (${level}제)! 본캐용으로는 아쉽습니다.`);
             else comments.push(`[환불 필요] <b>${score}급</b> (${level}제) 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
         } else if (level >= 160) {
             if (score >= 150) comments.push(`[종결급] <b>${score}급</b> (${level}제)! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
-            else if (score >= 140) comments.push(`[최상급 좋음] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
+            else if (score >= ARMOR_FLAME_SCORE.LEVEL_160.EXCELLENT) comments.push(`[최상급 좋음] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
             else if (score >= 130) comments.push(`[많이 좋음] <b>${score}급</b> (${level}제)! 아주 훌륭한 고스펙용 추옵입니다.`);
-            else if (score >= 120) comments.push(`[좋음] <b>${score}급</b> (${level}제)! 실전에서 사용하기 좋습니다.`);
+            else if (score >= ARMOR_FLAME_SCORE.LEVEL_160.DECENT) comments.push(`[좋음] <b>${score}급</b> (${level}제)! 실전에서 사용하기 좋습니다.`);
             else if (score >= 110) comments.push(`[준수] <b>${score}급</b> (${level}제)! 무난하게 사용 가능합니다.`);
             else if (score >= 100) comments.push(`[보통] <b>${score}급</b> (${level}제)! 임시로 쓰기 적절합니다.`);
             else comments.push(`[환불 필요] <b>${score}급</b> (${level}제) 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
         } else {
             // 140~150 and below
             if (score >= 150) comments.push(`[종결급] <b>${score}급</b> (${level}제)! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
-            else if (score >= 140) comments.push(`[최상급 좋음] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
+            else if (score >= ARMOR_FLAME_SCORE.LEVEL_140.EXCELLENT) comments.push(`[최상급 좋음] <b>${score}급</b> (${level}제)! 최상위권 유저들도 부러워할 수치입니다.`);
             else if (score >= 130) comments.push(`[많이 좋음] <b>${score}급</b> (${level}제)! 아주 훌륭한 고스펙용 추옵입니다.`);
-            else if (score >= 120) comments.push(`[좋음] <b>${score}급</b> (${level}제)! 실전에서 사용하기 좋습니다.`);
+            else if (score >= ARMOR_FLAME_SCORE.LEVEL_140.GREAT) comments.push(`[좋음] <b>${score}급</b> (${level}제)! 실전에서 사용하기 좋습니다.`);
             else if (score >= 110) comments.push(`[준수] <b>${score}급</b> (${level}제)! 무난하게 사용 가능합니다.`);
-            else if (score >= 100) comments.push(`[보통] <b>${score}급</b> (${level}제)! 임시로 쓰기 적절합니다.`);
+            else if (score >= ARMOR_FLAME_SCORE.LEVEL_140.DECENT) comments.push(`[보통] <b>${score}급</b> (${level}제)! 임시로 쓰기 적절합니다.`);
             else if (level >= 140) comments.push(`[환불 필요] <b>${score}급</b> (${level}제) 미만입니다. 환생의 불꽃 작업이 필요합니다.`);
         }
     }

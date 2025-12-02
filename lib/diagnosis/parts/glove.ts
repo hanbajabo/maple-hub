@@ -2,6 +2,7 @@
 import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { diagnoseScroll } from './scroll';
 import { parsePotentialLines, evaluateCritDamage, evaluateAdditional } from '../../utils/potential_utils';
+import { STARFORCE_TIERS } from '../../config/unified_criteria';
 
 /**
  * 🧤 장갑(Glove) 전용 진단 로직
@@ -43,20 +44,20 @@ export function diagnoseGlove(item: any, job?: string): string[] {
     // 2. 스타포스 및 아이템 메타 분석 (Meta Analysis)
     // 장갑은 공격력이 중요하므로 22성 효율이 매우 높음
     if (itemName.includes("앱솔랩스")) {
-        if (starforce >= 22) {
-            comments.push(`[가성비 제왕] <b>22성</b> 앱솔 장갑은 <b>17성</b> 아케인보다 공격력이 월등히 높습니다. 현명한 선택입니다.`);
-        } else if (starforce >= 18) {
-            comments.push(`[고급 세팅] <b>${starforce}성</b> 앱솔은 준수한 성능입니다. 22성이나 아케인으로 업그레이드를 고려해보세요.`);
-        } else if (starforce === 17) {
-            comments.push(`[국민 세팅] <b>17성</b> 앱솔은 가성비가 좋지만, 추후 <b>22성 앱솔</b>이나 <b>18성 아케인</b>으로 넘어가면 공격력이 대폭 상승합니다.`);
+        if (starforce >= STARFORCE_TIERS.ENDGAME) {
+            comments.push(`[가성비 제왕] <b>${STARFORCE_TIERS.ENDGAME}성</b> 앱솔 장갑은 <b>${STARFORCE_TIERS.STANDARD}성</b> 아케인보다 공격력이 월등히 높습니다. 현명한 선택입니다.`);
+        } else if (starforce >= STARFORCE_TIERS.CROSSOVER) {
+            comments.push(`[고급 세팅] <b>${starforce}성</b> 앱솔은 준수한 성능입니다. ${STARFORCE_TIERS.ENDGAME}성이나 아케인으로 업그레이드를 고려해보세요.`);
+        } else if (starforce === STARFORCE_TIERS.STANDARD) {
+            comments.push(`[국민 세팅] <b>${STARFORCE_TIERS.STANDARD}성</b> 앱솔은 가성비가 좋지만, 추후 <b>${STARFORCE_TIERS.ENDGAME}성 앱솔</b>이나 <b>${STARFORCE_TIERS.CROSSOVER}성 아케인</b>으로 넘어가면 공격력이 대폭 상승합니다.`);
         }
     } else if (itemName.includes("아케인셰이드")) {
-        if (starforce >= 22) {
-            comments.push(`[졸업] <b>22성</b> 아케인 장갑... 더 이상 바랄 게 없는 엔드 스펙입니다.`);
-        } else if (starforce >= 18) {
-            comments.push(`[성장 교차점] <b>18성</b>부터는 깡공격력이 높아져 <b>22성</b> 앱솔과의 격차를 줄일 수 있습니다.`);
-        } else if (starforce === 17) {
-            comments.push(`[미래 지향적] 당장은 <b>22성</b> 앱솔보다 약할 수 있지만, <b>22성</b>을 바라보는 잠재력 있는 템셋팅입니다.`);
+        if (starforce >= STARFORCE_TIERS.ENDGAME) {
+            comments.push(`[졸업] <b>${STARFORCE_TIERS.ENDGAME}성</b> 아케인 장갑... 더 이상 바랄 게 없는 엔드 스펙입니다.`);
+        } else if (starforce >= STARFORCE_TIERS.CROSSOVER) {
+            comments.push(`[성장 교차점] <b>${STARFORCE_TIERS.CROSSOVER}성</b>부터는 깡공격력이 높아져 <b>${STARFORCE_TIERS.ENDGAME}성</b> 앱솔과의 격차를 줄일 수 있습니다.`);
+        } else if (starforce === STARFORCE_TIERS.STANDARD) {
+            comments.push(`[미래 지향적] 당장은 <b>${STARFORCE_TIERS.ENDGAME}성</b> 앱솔보다 약할 수 있지만, <b>${STARFORCE_TIERS.ENDGAME}성</b>을 바라보는 잠재력 있는 템셋팅입니다.`);
         }
     }
 
