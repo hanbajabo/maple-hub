@@ -510,262 +510,247 @@ export function generateItemCommentary(item: any, job?: string): string {
                         }
                     }
                 }
-            } else if (statPct >= 27) {
-                comments.push(pick([
-                    `${potPrefix} <b>주스탯 ${statPct}%</b>! 3줄 유효 옵션을 챙기셨군요. 상위권 스펙으로 도약하기 위한 아주 강력한 발판입니다.`,
-                    `${potPrefix} <b>27%</b>면 사실상 졸업급입니다. 아주 훌륭한 스펙을 완성하셨네요!`,
-                    `${potPrefix} <b>${statPct}%</b>! 이 정도면 어디 가서 꿀리지 않는 고스펙입니다. 든든합니다!`
-                ]));
-            } else if (statPct >= 21) {
-                comments.push(pick([
-                    `${potPrefix} <b>주스탯 ${statPct}%</b>는 레전드리 등급의 표준입니다. 나쁘지 않지만, 고스펙을 노린다면 27% 이상을 도전해보세요.`,
-                    `${potPrefix} <b>21%</b>로 일단 멈추셨군요. 가성비는 좋지만 레전드리 등급치고는 조금 아쉽습니다.`,
-                    `일단 <b>${statPct}%</b>로 쓰시다가, 나중에 여유 될 때 3줄을 노려봅시다.`,
-                    `${potPrefix} <b>${statPct}%</b>... 레전드리 맛보기 스푼이군요. 더 높은 곳을 향해!`
-                ]));
-            } else if (statPct < 21 && !coolTime && !critDmg && !dropRate && !mesoRate) {
-                comments.push(`레전드리 등급이지만 옵션 수치가 아쉽습니다. 큐브를 통해 <b>21% 이상</b> 혹은 <b>유효 2줄</b>을 노려보시는 걸 추천합니다.`);
-            }
-        }
-        if (critDmg >= 24) comments.push(`<b>3크뎀</b>...?! 이건 전설이 아니라 <b>신화</b>입니다. 메이플 역사에 남을 아이템입니다.`);
-        else if (critDmg >= 16) comments.push(`<b>쌍크뎀</b> 장갑... 전 서버급 매물입니다.`);
 
-    } else if (potentialGrade === '유니크') {
-        if (isEndGameItem) {
-            comments.push(`이런 명품 장비에 유니크 등급은 너무 아깝습니다. <b>레전드리</b> 등급업으로 아이템의 잠재력을 100% 끌어올려주세요.`);
-        } else {
-            if (statPct >= 15) {
-                comments.push(pick([
-                    `유니크 등급에서 <b>스탯 ${statPct}%</b>면 가성비 구간 종결입니다. 거쳐가는 아이템으로는 최고네요.`,
-                    `<b>${statPct}%</b>! 유니크에서 뽑을 수 있는 최상의 옵션입니다.`,
-                    `가성비의 제왕 유니크 <b>15%</b>! 아주 훌륭합니다.`
-                ]));
-            } else if (statPct < 9 && !coolTime && !critDmg) {
-                comments.push(`유니크 등급의 장점을 살리지 못하고 있습니다. 큐브로 최소 <b>15% 이상</b>을 띄워보세요.`);
             }
-        }
-    } else if (potentialGrade === '에픽') {
-        if (isEventRing) {
-            // 🎁 이벤트링이 에픽일 때
-            comments.push(pick(EVENT_RING_MESSAGES.UPGRADE_TO_LEGENDARY));
-        } else if (statPct >= 12) {
-            comments.push(`에픽 등급에서 <b>주스탯 ${statPct}%</b>! 유니크 부럽지 않은 가성비 최고의 옵션입니다.`);
-        } else if (statPct >= 9) {
-            comments.push(`<b>주스탯 ${statPct}%</b>로 에픽 등급의 정석을 맞추셨네요. 훌륭합니다.`);
-        } else if (statPct >= 6) {
-            comments.push(`<b>주스탯 ${statPct}%</b>를 챙기셨군요. 추후 <b>9% 이상</b>을 목표로 해보세요.`);
-        } else if (isEndGameItem) {
-            comments.push(`이런 명품 장비에 에픽 등급은 너무 아깝습니다. <b>유니크/레전드리</b> 등급업으로 아이템의 잠재력을 100% 끌어올려주세요.`);
-        } else if (statPct === 0 && attPct === 0 && magicPct === 0) {
-            comments.push(`잠재능력 옵션이 아쉽습니다. <b>수상한 큐브</b>로 최소 <b>주스탯 9%</b> 또는 <b>공격력/마력 6%</b>를 챙겨주세요.`);
-        }
-    } else if (potentialGrade === '레어' || potentialGrade === '없음') {
-        if (isEndGameItem) {
-            comments.push(`<b>${potentialGrade}</b> 등급이라니요... 장비가 울고 있습니다! 당장 등급업이 시급합니다.`);
-        } else if (isEventRing) {
-            // 🎁 이벤트링 특별 조언
-            comments.push(pick(EVENT_RING_MESSAGES.UPGRADE_TO_LEGENDARY));
-        } else if (statPct === 0 && attPct === 0 && magicPct === 0) {
-            // 부위별로 다른 조언 제공
-            const isWSE = slot === '무기' || slot === '보조무기' || slot === '엠블렘' || item.item_equipment_part === '보조무기';
-            if (isWSE) {
-                comments.push(`잠재능력 옵션이 아쉽습니다. <b>수상한 큐브</b>로 최소 <b>공격력/마력 %</b> 또는 <b>보스 공격력 %</b>를 챙겨주세요.`);
+            if (critDmg >= 24) comments.push(`<b>3크뎀</b>...?! 이건 전설이 아니라 <b>신화</b>입니다. 메이플 역사에 남을 아이템입니다.`);
+            else if (critDmg >= 16) comments.push(`<b>쌍크뎀</b> 장갑... 전 서버급 매물입니다.`);
+
+        } else if (potentialGrade === '유니크') {
+            if (isEndGameItem) {
+                comments.push(`이런 명품 장비에 유니크 등급은 너무 아깝습니다. <b>레전드리</b> 등급업으로 아이템의 잠재력을 100% 끌어올려주세요.`);
             } else {
-                comments.push(`잠재능력 옵션이 아쉽습니다. <b>수상한 큐브</b>로 최소 <b>주스탯 %</b>를 챙겨주세요.`);
-            }
-        }
-    } else if (potentialGrade === '유니크' && isEventRing) {
-        // 🎁 이벤트링이 유니크일 때도 레전드리 업그레이드 권장
-        comments.push(pick(EVENT_RING_MESSAGES.UPGRADE_FROM_UNIQUE));
-    }
-
-    // 4. 에디셔널 옵션 평가
-    if (addPotentialGrade !== '없음') {
-        const adiPrefix = "에디셔널은";
-
-        if (item.item_equipment_slot === '무기' || item.item_equipment_slot === '보조무기' || item.item_equipment_slot === '엠블렘') {
-            // 무보엠 에디셔널 (공/마 %)
-            let addAttLines = 0;
-            let addBossLines = 0;
-
-            addPotentials.forEach(line => {
-                if (line) {
-                    if ((isMagic ? line.includes('마력') : line.includes('공격력')) && line.includes('%')) addAttLines++;
-                    if (line.includes('보스 몬스터')) addBossLines++;
+                if (statPct >= 15) {
+                    comments.push(pick([
+                        `유니크 등급에서 <b>스탯 ${statPct}%</b>면 가성비 구간 종결입니다. 거쳐가는 아이템으로는 최고네요.`,
+                        `<b>${statPct}%</b>! 유니크에서 뽑을 수 있는 최상의 옵션입니다.`,
+                        `가성비의 제왕 유니크 <b>15%</b>! 아주 훌륭합니다.`
+                    ]));
+                } else if (statPct < 9 && !coolTime && !critDmg) {
+                    comments.push(`유니크 등급의 장점을 살리지 못하고 있습니다. 큐브로 최소 <b>15% 이상</b>을 띄워보세요.`);
                 }
-            });
-
-            if (addAttLines >= 3) {
-                comments.push(pick([
-                    `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 3줄</b>...?! 이건 <b>기적</b>입니다. 에디셔널 종결을 축하드립니다!`,
-                    `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 3줄</b>! 더 이상 바랄 게 없는 완벽한 옵션입니다.`,
-                    `${adiPrefix} 와... 에디셔널 <b>3줄</b> 유효라니! 전 서버급 매물입니다.`
-                ]));
-            } else if (addAttLines >= 2) {
-                comments.push(pick([
-                    `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 2줄</b>! 아주 훌륭합니다. 스펙업의 정석이죠.`,
-                    `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} %</b>가 2줄이나 든든하게 붙어있군요.`,
-                    `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 2줄</b>, 실전에서 차고 넘치는 성능입니다.`
-                ]));
-            } else if (addAttLines === 1 && addBossLines >= 1) {
-                comments.push(`${adiPrefix} <b>${isMagic ? '마력' : '공격력'}</b>과 <b>보공</b>의 조화! 밸런스가 좋습니다.`);
-            } else if (addAttLines === 1) {
-                comments.push(`${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 1줄</b>은 국룰이죠. 든든하게 스펙을 받쳐주고 있습니다.`);
-            } else if (addBossLines >= 2) {
-                comments.push(`${adiPrefix} <b>보공 2줄</b>! ${isMagic ? '마력' : '공격력'}보다는 티어가 낮지만, 실전 딜 상승량은 무시할 수 없습니다. 가성비 최고의 선택입니다.`);
-            } else if (addBossLines >= 1) {
-                comments.push(`${adiPrefix} <b>보공</b>을 챙기셨네요. 나쁘지 않지만, 추후 <b>${isMagic ? '마력' : '공격력'} %</b> 옵션으로 교체를 고려해보세요.`);
             }
-        } else {
-            // 방어구 에디셔널 (주스탯/공마)
-            // 직업별 주스탯 정보 가져오기
-            const mainStats = getJobMainStat(job || "");
+        } else if (potentialGrade === '에픽') {
+            if (isEventRing) {
+                // 🎁 이벤트링이 에픽일 때
+                comments.push(pick(EVENT_RING_MESSAGES.UPGRADE_TO_LEGENDARY));
+            } else if (statPct >= 12) {
+                comments.push(`에픽 등급에서 <b>주스탯 ${statPct}%</b>! 유니크 부럽지 않은 가성비 최고의 옵션입니다.`);
+            } else if (statPct >= 9) {
+                comments.push(`<b>주스탯 ${statPct}%</b>로 에픽 등급의 정석을 맞추셨네요. 훌륭합니다.`);
+            } else if (statPct >= 6) {
+                comments.push(`<b>주스탯 ${statPct}%</b>를 챙기셨군요. 추후 <b>9% 이상</b>을 목표로 해보세요.`);
+            } else if (isEndGameItem) {
+                comments.push(`이런 명품 장비에 에픽 등급은 너무 아깝습니다. <b>유니크/레전드리</b> 등급업으로 아이템의 잠재력을 100% 끌어올려주세요.`);
+            } else if (statPct === 0 && attPct === 0 && magicPct === 0) {
+                comments.push(`잠재능력 옵션이 아쉽습니다. <b>수상한 큐브</b>로 최소 <b>주스탯 9%</b> 또는 <b>공격력/마력 6%</b>를 챙겨주세요.`);
+            }
+        } else if (potentialGrade === '레어' || potentialGrade === '없음') {
+            if (isEndGameItem) {
+                comments.push(`<b>${potentialGrade}</b> 등급이라니요... 장비가 울고 있습니다! 당장 등급업이 시급합니다.`);
+            } else if (isEventRing) {
+                // 🎁 이벤트링 특별 조언
+                comments.push(pick(EVENT_RING_MESSAGES.UPGRADE_TO_LEGENDARY));
+            } else if (statPct === 0 && attPct === 0 && magicPct === 0) {
+                // 부위별로 다른 조언 제공
+                const isWSE = slot === '무기' || slot === '보조무기' || slot === '엠블렘' || item.item_equipment_part === '보조무기';
+                if (isWSE) {
+                    comments.push(`잠재능력 옵션이 아쉽습니다. <b>수상한 큐브</b>로 최소 <b>공격력/마력 %</b> 또는 <b>보스 공격력 %</b>를 챙겨주세요.`);
+                } else {
+                    comments.push(`잠재능력 옵션이 아쉽습니다. <b>수상한 큐브</b>로 최소 <b>주스탯 %</b>를 챙겨주세요.`);
+                }
+            }
+        } else if (potentialGrade === '유니크' && isEventRing) {
+            // 🎁 이벤트링이 유니크일 때도 레전드리 업그레이드 권장
+            comments.push(pick(EVENT_RING_MESSAGES.UPGRADE_FROM_UNIQUE));
+        }
 
-            // 유효 줄 수 계산 (직업 주스탯 및 올스탯만 포함)
-            let validStatLines = 0;
-            let validAttFlat = 0;
-            let hasAdiCoolReduce = false; // 에디 쿨감 체크
-            let adiCritDmgLines = 0; // 에디 크뎀 체크 (장갑)
+        // 4. 에디셔널 옵션 평가
+        if (addPotentialGrade !== '없음') {
+            const adiPrefix = "에디셔널은";
 
-            // 에디셔널 레전드리/유니크 등급 정밀 분석을 위한 변수
-            let adiStatPct = 0;
+            if (item.item_equipment_slot === '무기' || item.item_equipment_slot === '보조무기' || item.item_equipment_slot === '엠블렘') {
+                // 무보엠 에디셔널 (공/마 %)
+                let addAttLines = 0;
+                let addBossLines = 0;
 
-            addPotentials.forEach(line => {
-                if (!line) return;
-
-                // 1. 주스탯 % 체크
-                if (line.includes('%')) {
-                    let isValid = false;
-                    if (line.includes('올스탯')) {
-                        isValid = true;
+                addPotentials.forEach(line => {
+                    if (line) {
+                        if ((isMagic ? line.includes('마력') : line.includes('공격력')) && line.includes('%')) addAttLines++;
+                        if (line.includes('보스 몬스터')) addBossLines++;
                     }
-                    // HP%는 항상 체크 (데몬어벤져용)
-                    else if (line.includes('HP') && line.includes('%')) {
-                        isValid = true;
-                    }
-                    else {
-                        // 직업 주스탯과 일치하는 경우만 카운트
-                        const isMainStat = mainStats.some((stat: string) => line.includes(stat));
-                        if (isMainStat) isValid = true;
+                });
+
+                if (addAttLines >= 3) {
+                    comments.push(pick([
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 3줄</b>...?! 이건 <b>기적</b>입니다. 에디셔널 종결을 축하드립니다!`,
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 3줄</b>! 더 이상 바랄 게 없는 완벽한 옵션입니다.`,
+                        `${adiPrefix} 와... 에디셔널 <b>3줄</b> 유효라니! 전 서버급 매물입니다.`
+                    ]));
+                } else if (addAttLines >= 2) {
+                    comments.push(pick([
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 2줄</b>! 아주 훌륭합니다. 스펙업의 정석이죠.`,
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} %</b>가 2줄이나 든든하게 붙어있군요.`,
+                        `${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 2줄</b>, 실전에서 차고 넘치는 성능입니다.`
+                    ]));
+                } else if (addAttLines === 1 && addBossLines >= 1) {
+                    comments.push(`${adiPrefix} <b>${isMagic ? '마력' : '공격력'}</b>과 <b>보공</b>의 조화! 밸런스가 좋습니다.`);
+                } else if (addAttLines === 1) {
+                    comments.push(`${adiPrefix} <b>${isMagic ? '마력' : '공격력'} 1줄</b>은 국룰이죠. 든든하게 스펙을 받쳐주고 있습니다.`);
+                } else if (addBossLines >= 2) {
+                    comments.push(`${adiPrefix} <b>보공 2줄</b>! ${isMagic ? '마력' : '공격력'}보다는 티어가 낮지만, 실전 딜 상승량은 무시할 수 없습니다. 가성비 최고의 선택입니다.`);
+                } else if (addBossLines >= 1) {
+                    comments.push(`${adiPrefix} <b>보공</b>을 챙기셨네요. 나쁘지 않지만, 추후 <b>${isMagic ? '마력' : '공격력'} %</b> 옵션으로 교체를 고려해보세요.`);
+                }
+            } else {
+                // 방어구 에디셔널 (주스탯/공마)
+                // 직업별 주스탯 정보 가져오기
+                const mainStats = getJobMainStat(job || "");
+
+                // 유효 줄 수 계산 (직업 주스탯 및 올스탯만 포함)
+                let validStatLines = 0;
+                let validAttFlat = 0;
+                let hasAdiCoolReduce = false; // 에디 쿨감 체크
+                let adiCritDmgLines = 0; // 에디 크뎀 체크 (장갑)
+
+                // 에디셔널 레전드리/유니크 등급 정밀 분석을 위한 변수
+                let adiStatPct = 0;
+
+                addPotentials.forEach(line => {
+                    if (!line) return;
+
+                    // 1. 주스탯 % 체크
+                    if (line.includes('%')) {
+                        let isValid = false;
+                        if (line.includes('올스탯')) {
+                            isValid = true;
+                        }
+                        // HP%는 항상 체크 (데몬어벤져용)
+                        else if (line.includes('HP') && line.includes('%')) {
+                            isValid = true;
+                        }
+                        else {
+                            // 직업 주스탯과 일치하는 경우만 카운트
+                            const isMainStat = mainStats.some((stat: string) => line.includes(stat));
+                            if (isMainStat) isValid = true;
+                        }
+
+                        if (isValid) {
+                            validStatLines++;
+                            const val = parseInt(line.replace(/[^0-9]/g, '')) || 0;
+                            adiStatPct += val;
+                        }
                     }
 
-                    if (isValid) {
-                        validStatLines++;
+                    // 렙당 스탯 처리 (에디셔널)
+                    if (line.includes('캐릭터 기준 9레벨 당') || line.includes('캐릭터 기준 10레벨 당')) {
+                        const valMatch = line.match(/\+(\d+)/);
+                        const val = valMatch ? parseInt(valMatch[1]) : 0;
+
+                        // 에디셔널 렙당 스탯 환산 (9레벨당 1 = 3%, 2 = 6%)
+                        let bonusPct = 0;
+                        if (val >= 2) bonusPct = 6;
+                        else if (val >= 1) bonusPct = 3;
+
+                        // 주스탯 포함 여부 확인
+                        let isValid = false;
+                        if (line.includes('STR') && mainStats.includes('STR')) isValid = true;
+                        if (line.includes('DEX') && mainStats.includes('DEX')) isValid = true;
+                        if (line.includes('INT') && mainStats.includes('INT')) isValid = true;
+                        if (line.includes('LUK') && mainStats.includes('LUK')) isValid = true;
+                        if (line.includes('HP')) isValid = true; // HP는 항상 유효 (데몬어벤져용)
+
+                        if (isValid) {
+                            validStatLines++;
+                            adiStatPct += bonusPct;
+                        }
+                    }
+
+                    // 2. 공/마 상수 체크
+                    const isAttLine = isMagic ? line.includes('마력') : line.includes('공격력');
+                    if (isAttLine && !line.includes('%')) {
                         const val = parseInt(line.replace(/[^0-9]/g, '')) || 0;
-                        adiStatPct += val;
+                        validAttFlat += val;
                     }
-                }
 
-                // 렙당 스탯 처리 (에디셔널)
-                if (line.includes('캐릭터 기준 9레벨 당') || line.includes('캐릭터 기준 10레벨 당')) {
-                    const valMatch = line.match(/\+(\d+)/);
-                    const val = valMatch ? parseInt(valMatch[1]) : 0;
-
-                    // 에디셔널 렙당 스탯 환산 (9레벨당 1 = 3%, 2 = 6%)
-                    let bonusPct = 0;
-                    if (val >= 2) bonusPct = 6;
-                    else if (val >= 1) bonusPct = 3;
-
-                    // 주스탯 포함 여부 확인
-                    let isValid = false;
-                    if (line.includes('STR') && mainStats.includes('STR')) isValid = true;
-                    if (line.includes('DEX') && mainStats.includes('DEX')) isValid = true;
-                    if (line.includes('INT') && mainStats.includes('INT')) isValid = true;
-                    if (line.includes('LUK') && mainStats.includes('LUK')) isValid = true;
-                    if (line.includes('HP')) isValid = true; // HP는 항상 유효 (데몬어벤져용)
-
-                    if (isValid) {
-                        validStatLines++;
-                        adiStatPct += bonusPct;
+                    // 3. 쿨타임 감소 체크 (모자)
+                    if (item.item_equipment_slot === '모자' && line.includes('재사용 대기시간')) {
+                        hasAdiCoolReduce = true;
                     }
-                }
 
-                // 2. 공/마 상수 체크
-                const isAttLine = isMagic ? line.includes('마력') : line.includes('공격력');
-                if (isAttLine && !line.includes('%')) {
-                    const val = parseInt(line.replace(/[^0-9]/g, '')) || 0;
-                    validAttFlat += val;
-                }
+                    // 4. 크리티컬 데미지 체크 (장갑)
+                    if (item.item_equipment_slot === '장갑' && line.includes('크리티컬 데미지')) {
+                        adiCritDmgLines++;
+                    }
+                });
 
-                // 3. 쿨타임 감소 체크 (모자)
-                if (item.item_equipment_slot === '모자' && line.includes('재사용 대기시간')) {
-                    hasAdiCoolReduce = true;
-                }
+                const attType = isMagic ? '마력' : '공격력';
 
-                // 4. 크리티컬 데미지 체크 (장갑)
-                if (item.item_equipment_slot === '장갑' && line.includes('크리티컬 데미지')) {
-                    adiCritDmgLines++;
-                }
-            });
-
-            const attType = isMagic ? '마력' : '공격력';
-
-            if (adiCritDmgLines >= 2) {
-                comments.push(`${adiPrefix} <b>쌍크뎀</b>...?! 이건 말이 안 됩니다. 전 서버급 에디셔널입니다. 부르는 게 값입니다.`);
-            } else if (adiCritDmgLines === 1) {
-                comments.push(`${adiPrefix} <b>크리티컬 데미지</b>! 장갑 에디셔널의 종결 옵션입니다. 공/마보다 훨씬 좋습니다.`);
-            } else if (hasAdiCoolReduce) {
-                comments.push(`${adiPrefix} <b>쿨타임 감소</b> 옵션이 붙어있습니다! 에디셔널에서 챙길 수 있는 최고의 유효 옵션 중 하나입니다. 대박!`);
-            } else if (addPotentialGrade === '레전드리') {
-                // 레전드리 등급 전용 멘트
-                if (adiStatPct >= 21) {
-                    comments.push(`${adiPrefix} <b>주스탯 ${adiStatPct}% 이상</b>! 에디셔널 종결급 옵션입니다. 전 서버급 스펙입니다.`);
-                } else if (adiStatPct >= 14) {
-                    comments.push(`${adiPrefix} <b>주스탯 ${adiStatPct}% 이상</b>! 아주 훌륭한 스펙입니다.`);
-                } else if (validAttFlat >= 12) {
-                    comments.push(`${adiPrefix} <b>${attType} +${validAttFlat}</b> 이상! 든든한 옵션입니다.`);
-                } else {
-                    comments.push(`${adiPrefix} 레전드리 등급이지만 옵션이 조금 아쉽습니다. 돌려보시는 건 어떨까요?`);
-                }
-            } else if (validStatLines >= 3) {
-                comments.push(pick([
-                    `${adiPrefix} <b>주스탯 3줄</b>...?! 이건 <b>진짜 종결급</b>입니다. 더 이상 손댈 곳이 없습니다.`,
-                    `${adiPrefix} 와... <b>3줄</b>이라니! 메이플 인생에 몇 번 보기 힘든 옵션입니다.`,
-                    `${adiPrefix} <b>주스탯 3줄</b>! 완벽 그 자체입니다. 졸업을 축하드립니다.`
-                ]));
-            } else if (validStatLines === 2) {
-                if (validAttFlat > 0) {
-                    comments.push(`${adiPrefix} <b>주스탯 2줄</b>에 <b>${attType} +${validAttFlat}</b>까지! 완벽에 가까운 에디셔널입니다.`);
-                } else {
+                if (adiCritDmgLines >= 2) {
+                    comments.push(`${adiPrefix} <b>쌍크뎀</b>...?! 이건 말이 안 됩니다. 전 서버급 에디셔널입니다. 부르는 게 값입니다.`);
+                } else if (adiCritDmgLines === 1) {
+                    comments.push(`${adiPrefix} <b>크리티컬 데미지</b>! 장갑 에디셔널의 종결 옵션입니다. 공/마보다 훨씬 좋습니다.`);
+                } else if (hasAdiCoolReduce) {
+                    comments.push(`${adiPrefix} <b>쿨타임 감소</b> 옵션이 붙어있습니다! 에디셔널에서 챙길 수 있는 최고의 유효 옵션 중 하나입니다. 대박!`);
+                } else if (addPotentialGrade === '레전드리') {
+                    // 레전드리 등급 전용 멘트
+                    if (adiStatPct >= 21) {
+                        comments.push(`${adiPrefix} <b>주스탯 ${adiStatPct}% 이상</b>! 에디셔널 종결급 옵션입니다. 전 서버급 스펙입니다.`);
+                    } else if (adiStatPct >= 14) {
+                        comments.push(`${adiPrefix} <b>주스탯 ${adiStatPct}% 이상</b>! 아주 훌륭한 스펙입니다.`);
+                    } else if (validAttFlat >= 12) {
+                        comments.push(`${adiPrefix} <b>${attType} +${validAttFlat}</b> 이상! 든든한 옵션입니다.`);
+                    } else {
+                        comments.push(`${adiPrefix} 레전드리 등급이지만 옵션이 조금 아쉽습니다. 돌려보시는 건 어떨까요?`);
+                    }
+                } else if (validStatLines >= 3) {
                     comments.push(pick([
-                        `${adiPrefix} <b>주스탯 2줄</b>! 방어구 에디셔널 종결급입니다.`,
-                        `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 이 정도면 평생 쓰셔도 됩니다.`
+                        `${adiPrefix} <b>주스탯 3줄</b>...?! 이건 <b>진짜 종결급</b>입니다. 더 이상 손댈 곳이 없습니다.`,
+                        `${adiPrefix} 와... <b>3줄</b>이라니! 메이플 인생에 몇 번 보기 힘든 옵션입니다.`,
+                        `${adiPrefix} <b>주스탯 3줄</b>! 완벽 그 자체입니다. 졸업을 축하드립니다.`
+                    ]));
+                } else if (validStatLines === 2) {
+                    if (validAttFlat > 0) {
+                        comments.push(`${adiPrefix} <b>주스탯 2줄</b>에 <b>${attType} +${validAttFlat}</b>까지! 완벽에 가까운 에디셔널입니다.`);
+                    } else {
+                        comments.push(pick([
+                            `${adiPrefix} <b>주스탯 2줄</b>! 방어구 에디셔널 종결급입니다.`,
+                            `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 이 정도면 평생 쓰셔도 됩니다.`
+                        ]));
+                    }
+                } else if (validStatLines === 1) {
+                    if (validAttFlat > 0) {
+                        comments.push(`${adiPrefix} <b>주스탯 %</b>와 <b>${attType} +${validAttFlat}</b>을 모두 챙기셨군요. 가성비 최고의 알짜배기 옵션입니다.`);
+                    } else {
+                        comments.push(pick([
+                            `${adiPrefix} <b>주스탯 %</b> 한 줄도 훌륭한 유효 옵션입니다. 가성비 최고!`,
+                            `${adiPrefix} <b>주스탯 %</b>를 챙기셨군요. ${attType} 10만큼이나 든든한 옵션입니다.`
+                        ]));
+                    }
+                } else if (validAttFlat >= 10) {
+                    comments.push(pick([
+                        `${adiPrefix} <b>${attType} +${validAttFlat}</b>! 스펙업의 정석입니다.`,
+                        `${adiPrefix} 소소하지만 확실한 <b>${attType}</b> 챙기기! 아주 좋습니다.`
                     ]));
                 }
-            } else if (validStatLines === 1) {
-                if (validAttFlat > 0) {
-                    comments.push(`${adiPrefix} <b>주스탯 %</b>와 <b>${attType} +${validAttFlat}</b>을 모두 챙기셨군요. 가성비 최고의 알짜배기 옵션입니다.`);
-                } else {
-                    comments.push(pick([
-                        `${adiPrefix} <b>주스탯 %</b> 한 줄도 훌륭한 유효 옵션입니다. 가성비 최고!`,
-                        `${adiPrefix} <b>주스탯 %</b>를 챙기셨군요. ${attType} 10만큼이나 든든한 옵션입니다.`
-                    ]));
-                }
-            } else if (validAttFlat >= 10) {
-                comments.push(pick([
-                    `${adiPrefix} <b>${attType} +${validAttFlat}</b>! 스펙업의 정석입니다.`,
-                    `${adiPrefix} 소소하지만 확실한 <b>${attType}</b> 챙기기! 아주 좋습니다.`
-                ]));
             }
         }
     }
-}
 
-// 5. 마무리
-if (comments.length === 0) {
-    comments.push(pick([
-        "전반적으로 무난한 세팅입니다. 하지만 더 강력해질 여지가 충분히 남아있어요!",
-        "나쁘지 않은 장비지만, 조금 더 욕심을 내보셔도 좋을 것 같습니다.",
-        "기본기는 갖춰져 있습니다. 이제 디테일을 챙겨볼까요?"
-    ]));
-}
+    // 5. 마무리
+    if (comments.length === 0) {
+        comments.push(pick([
+            "전반적으로 무난한 세팅입니다. 하지만 더 강력해질 여지가 충분히 남아있어요!",
+            "나쁘지 않은 장비지만, 조금 더 욕심을 내보셔도 좋을 것 같습니다.",
+            "기본기는 갖춰져 있습니다. 이제 디테일을 챙겨볼까요?"
+        ]));
+    }
 
-// === 🚀 진화형 AI (Antigravity) 추가 진단 ===
-const deepComments = diagnoseItemDeeply(item, job);
-if (deepComments.length > 0) {
-    // 줄바꿈을 명확히 하여 UI에서 구분되도록 함
-    return comments.join(" ") + "\n---\n### 🚀 [진화형 AI] 정밀 진단 리포트\n" + deepComments.join("\n\n");
-}
+    // === 🚀 진화형 AI (Antigravity) 추가 진단 ===
+    const deepComments = diagnoseItemDeeply(item, job);
+    if (deepComments.length > 0) {
+        // 줄바꿈을 명확히 하여 UI에서 구분되도록 함
+        return comments.join(" ") + "\n---\n### 🚀 [진화형 AI] 정밀 진단 리포트\n" + deepComments.join("\n\n");
+    }
 
-return comments.join(" ");
+    return comments.join(" ");
 }
