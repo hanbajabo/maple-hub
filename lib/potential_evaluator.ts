@@ -475,19 +475,19 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                 const match = opt.match(/(\d+)%/);
                 if (match) {
                     const val = parseInt(match[1]);
-                    // 올스탯은 항상 유효 (가중치 1.1배 적용 -> 3.3점)
+                    // 올스탯은 항상 유효
                     if (opt.includes('올스탯')) {
-                        totalStatEquivalent += val * 3.3;
+                        totalStatEquivalent += val;
                         isGoodOption = true;
                     }
                     // HP%는 명시적으로 체크 (데몬어벤져용)
                     else if (opt.includes('HP') && opt.includes('%')) {
-                        totalStatEquivalent += val * 3;
+                        totalStatEquivalent += val;
                         isGoodOption = true;
                     }
                     // 개별 스탯은 주스탯만 유효 (가장 높은 % 스탯만)
                     else if (hasMainStat && opt.includes(mainStat)) {
-                        totalStatEquivalent += val * 3;
+                        totalStatEquivalent += val;
                         isGoodOption = true;
                     }
                 }
@@ -499,9 +499,9 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                     const val = parseInt(match[1]);
                     // 올스탯 또는 주스탯인 경우에만 유효
                     if (opt.includes('올스탯') || (hasMainStat && opt.includes(mainStat))) {
-                        // 렙당 2 = 약 6% = 18점, 렙당 1 = 약 3% = 9점
-                        if (val >= 2) totalStatEquivalent += 18;
-                        else if (val >= 1) totalStatEquivalent += 9;
+                        // 렙당 2 = 약 6%, 렙당 1 = 약 3%
+                        if (val >= 2) totalStatEquivalent += 6;
+                        else if (val >= 1) totalStatEquivalent += 3;
                         isGoodOption = true;
                     }
                 }
@@ -552,7 +552,7 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
             // 주스탯 10 = 주스탯 1%
             // 따라서 공/마 +21 = 주스탯 84 = 8.4%
             const statEquiv = (maxAttMagic * 4) / 10;
-            totalStatEquivalent += statEquiv * 3;
+            totalStatEquivalent += statEquiv;
         }
 
         // 점수 산정 (주스탯 % 환산치 그대로 사용)
@@ -654,7 +654,7 @@ function generateGeneralRecommendation(
     if (equipmentType === '방어구' || equipmentType === '장신구') {
         if (type === 'main') {
             // 에픽 등급에서 점수가 높으면(15% 이상) 칭찬
-            if (grade === '에픽' && score >= 50) {
+            if (grade === '에픽' && score >= 15) {
                 return '에픽 등급이지만 주스탯 15% 이상으로 유니크급 효율을 냅니다. 훌륭합니다!';
             }
 
@@ -663,8 +663,8 @@ function generateGeneralRecommendation(
             }
 
             if (grade === '유니크') {
-                if (score >= 75) return '유니크 좋음! 주스탯 3줄(21% 이상)입니다.';
-                if (score >= 50) return '유니크 통과. 주스탯 2줄(15% 이상) 기준을 만족합니다.';
+                if (score >= 21) return '유니크 좋음! 주스탯 3줄(21% 이상)입니다.';
+                if (score >= 15) return '유니크 통과. 주스탯 2줄(15% 이상) 기준을 만족합니다.';
                 return '주스탯 2줄(15% 이상)을 목표로 재설정이 필요합니다.';
             }
 
@@ -737,12 +737,12 @@ function generateGeneralRecommendation(
                 }
             }
 
-            if (score >= 100) return '초월급! 주스탯 3줄 완벽(36% 이상)입니다. 최고의 최고!';
-            if (score >= 95) return '엔드급! 주스탯 3줄 하이엔드(34% 이상)입니다.';
-            if (score >= 90) return '최상급! 주스탯 3줄(33% 이상)입니다. 종결급입니다.';
-            if (score >= 70) return '좋음! 주스탯 2줄(21% 이상)입니다.';
-            if (score >= 60) return '조금 좋음. 주스탯+올스탯 조합(18% 이상)입니다.';
-            if (score >= 50) return '통과. 주스탯 2줄 기본 기준(15% 이상)을 만족합니다.';
+            if (score >= 36) return '초월급! 주스탯 3줄 완벽(36% 이상)입니다. 최고의 최고!';
+            if (score >= 34) return '엔드급! 주스탯 3줄 하이엔드(34% 이상)입니다.';
+            if (score >= 30) return '최상급! 주스탯 3줄(33% 이상)입니다. 종결급입니다.';
+            if (score >= 21) return '좋음! 주스탯 2줄(21% 이상)입니다.';
+            if (score >= 18) return '조금 좋음. 주스탯+올스탯 조합(18% 이상)입니다.';
+            if (score >= 15) return '통과. 주스탯 2줄 기본 기준(15% 이상)을 만족합니다.';
             return '재설정 필요. 주스탯 2줄(15% 이상)을 목표로 하세요.';
         } else {
             // 에디셔널 잠재능력
@@ -774,22 +774,22 @@ function generateGeneralRecommendation(
                 const lineCount = goodOptions.length;
                 const linesText = lineCount >= 3 ? '3줄 유효' : (lineCount >= 2 ? '2줄 유효' : '1줄 유효');
 
-                if (score >= 21) return `종결급! 주스탯 ${score}%급 효율입니다. (${linesText})`;
-                if (lineCount >= 3 && score >= 17) return `종결급! 주스탯 ${score}%급 효율입니다. (${linesText})`;
-                if (score >= 14) return `최상급! 주스탯 ${score}%급 효율입니다. (${linesText})`;
-                if (score >= 10) return `준수함! 주스탯 ${score}%급 효율입니다. (${linesText})`;
-                return `레전드리 등급이지만 옵션이 아쉽습니다. (${score}%급)`;
+                if (score >= 21) return `종결급! 주스탯 ${Math.round(score)}%급 효율입니다. (${linesText})`;
+                if (lineCount >= 3 && score >= 17) return `종결급! 주스탯 ${Math.round(score)}%급 효율입니다. (${linesText})`;
+                if (score >= 14) return `최상급! 주스탯 ${Math.round(score)}%급 효율입니다. (${linesText})`;
+                if (score >= 10) return `준수함! 주스탯 ${Math.round(score)}%급 효율입니다. (${linesText})`;
+                return `레전드리 등급이지만 옵션이 아쉽습니다. (${Math.round(score)}%급)`;
             }
 
             if (grade === '유니크') {
-                if (score >= 15) return `유니크 종결! 주스탯 ${score}%급 효율입니다.`;
-                if (score >= 10) return `유니크 통과! 주스탯 ${score}%급 효율입니다.`;
+                if (score >= 15) return `유니크 종결! 주스탯 ${Math.round(score)}%급 효율입니다.`;
+                if (score >= 10) return `유니크 통과! 주스탯 ${Math.round(score)}%급 효율입니다.`;
                 return '재설정 권장. 주스탯 15%급 이상을 목표로 하세요.';
             }
 
             if (grade === '에픽') {
-                if (score >= 10) return `에픽 종결! 주스탯 ${score}%급 효율입니다.`;
-                if (score >= 3) return `에픽 통과! 주스탯 ${score}%급 효율입니다.`; // 공/마 10 = 3%
+                if (score >= 10) return `에픽 종결! 주스탯 ${Math.round(score)}%급 효율입니다.`;
+                if (score >= 3) return `에픽 통과! 주스탯 ${Math.round(score)}%급 효율입니다.`;
                 return '재설정 필요. 공/마 10 또는 주스탯 3% 이상을 챙기세요.';
             }
 
