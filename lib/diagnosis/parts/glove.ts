@@ -1,6 +1,7 @@
 
 import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { diagnoseScroll } from './scroll';
+import { parsePotentialLines, evaluateCritDamage, evaluateAdditional } from '../../utils/potential_utils';
 
 /**
  * 🧤 장갑(Glove) 전용 진단 로직
@@ -25,20 +26,13 @@ export function diagnoseGlove(item: any, job?: string): string[] {
     comments.push(...scrollComments);
 
     // 1. 크리티컬 데미지 (Critical Damage) - 장갑의 영혼
-    const critDmgLines = potentials.filter(l => l && l.includes("크리티컬 데미지")).length;
+    // 유틸을 사용하여 잠재능력 파싱
+    const parsed = parsePotentialLines(potentials, job);
 
-    if (critDmgLines >= 3) {
-        comments.push(`[신화: 3크뎀] 전 서버급 매물입니다. 부르는 게 값입니다.`);
-    } else if (critDmgLines === 2) {
-        comments.push(`[종결: 쌍크뎀] 크리티컬 데미지 <b>16%</b>! 장갑에서 챙길 수 있는 최고의 옵션입니다. 평생 쓰셔도 됩니다.`);
-    } else if (critDmgLines === 1) {
-        // 1줄일 때 추가 분석
-        const hasStat = potentials.some(l => l && (l.includes("올스탯") || l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK")));
-        if (potentialGrade === "레전드리") {
-            comments.push(`[좋음] 크리티컬 데미지 <b>8%</b>는 주스탯 30% 이상의 효율을 냅니다. 충분히 훌륭한 옵션입니다.`);
-        } else {
-            comments.push(`[필수 옵션] 크뎀 <b>8%</b>는 주스탯 3줄급 효율입니다. 유니크 등급에서는 최상의 옵션입니다.`);
-        }
+    // 크뎀 평가 유틸 사용
+    const critEval = evaluateCritDamage(parsed.critDmg, parsed.statPct, potentialGrade);
+    if (critEval) {
+        comments.push(critEval);
     } else if (potentialGrade === "레전드리" || potentialGrade === "유니크") {
         comments.push(`[옵션 미달] 장갑의 핵심은 <b>'크리티컬 데미지'</b>입니다. 주스탯보다 크뎀을 우선적으로 뽑아주세요.`);
     } else if (potentialGrade === '에픽') {
@@ -67,18 +61,23 @@ export function diagnoseGlove(item: any, job?: string): string[] {
     // 3. 에디셔널 잠재능력 (Additional Potential)
     // 장갑은 에디 공/마 또는 크리티컬 데미지가 최상급 옵션
     const adiGrade = item.additional_potential_option_grade;
-    const hasAtt = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")));
-    const adiCritDmgLines = adiLines.filter(l => l && l.includes("크리티컬 데미지")).length;
+    if (adiGrade === "레전드리" || adiGrade === "유니크" || adiGrade === "에픽") {
+        // 에디셔널 파싱
+        const adiParsed = parsePotentialLines(adiLines, job);
 
-    if (adiCritDmgLines >= 2) {
-        comments.push(`[에디 신화] 에디셔널 <b>쌍크뎀</b>! 전 서버급 매물입니다. 부르는 게 값!`);
-    } else if (adiCritDmgLines === 1) {
-        comments.push(`[에디 종결] 에디셔널 <b>크리티컬 데미지</b>! 장갑 에디의 최상급 옵션입니다. 공/마보다 훨씬 좋습니다.`);
-    } else if (adiGrade === "레전드리" || adiGrade === "유니크" || adiGrade === "에픽") {
-        if (hasAtt) {
-            comments.push(`[에디 준수] 에디셔널 공/마도 좋습니다. 하지만 크뎀이 뜬다면 더 강력해질 수 있습니다.`);
-        } else if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
-            comments.push(`[속 빈 강정] 크뎀 장갑의 효율을 극대화하려면 에디셔널 크뎀이나 공/마가 필수입니다.`);
+        // 에디 크뎀 체크
+        if (adiParsed.critDmg >= 2) {
+            comments.push(`[에디 신화] 에디셔널 <b>쌍크뎀</b>! 전 서버급 매물입니다. 부르는 게 값!`);
+        } else if (adiParsed.critDmg >= 1) {
+            comments.push(`[에디 종결] 에디셔널 <b>크리티컬 데미지</b>! 장갑 에디의 최상급 옵션입니다. 공/마보다 훨씬 좋습니다.`);
+        } else {
+            // 크뎀 없으면 일반 에디셔널 평가 (공/마 합산 로직 적용됨)
+            const adiEval = evaluateAdditional(adiGrade, adiLines, job);
+            if (adiEval.score > 0) {
+                comments.push(adiEval.message);
+            } else if (adiGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
+                comments.push(`[속 빈 강정] 크뎀 장갑의 효율을 극대화하려면 에디셔널 크뎀이나 공/마가 필수입니다.`);
+            }
         }
     }
 

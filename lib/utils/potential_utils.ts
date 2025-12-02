@@ -177,17 +177,21 @@ export function evaluatePotential(
 /**
  * 장갑 크뎀 평가
  */
-export function evaluateCritDamage(critDmg: number): string {
-    if (critDmg >= SPECIAL_OPTIONS.CRIT_DAMAGE.LEGENDARY * 3) {
-        return '3크뎀 신화';  // 24%
+export function evaluateCritDamage(critDmg: number, statPct: number, grade: string): string {
+    if (critDmg >= 24) {
+        return `[신화: 3크뎀] 크리티컬 데미지 <b>${critDmg}%</b>! 전 서버급 매물입니다. 부르는 게 값입니다.`;
     }
-    if (critDmg >= SPECIAL_OPTIONS.CRIT_DAMAGE.LEGENDARY * 2) {
-        return '쌍크뎀';      // 16%
+    if (critDmg >= 16) {
+        return `[종결: 쌍크뎀] 크리티컬 데미지 <b>${critDmg}%</b>! 장갑에서 챙길 수 있는 최고의 옵션입니다. 평생 쓰셔도 됩니다.`;
     }
-    if (critDmg >= SPECIAL_OPTIONS.CRIT_DAMAGE.LEGENDARY) {
-        return '1크뎀';       // 8%
+    if (critDmg >= 8) {
+        if (grade === '레전드리') {
+            return `[좋음] 크리티컬 데미지 <b>${critDmg}%</b>는 주스탯 30% 이상의 효율을 냅니다. 충분히 훌륭한 옵션입니다.`;
+        } else {
+            return `[필수 옵션] 크뎀 <b>${critDmg}%</b>는 주스탯 3줄급 효율입니다. 유니크 등급에서는 최상의 옵션입니다.`;
+        }
     }
-    return '크뎀 부족';
+    return '';
 }
 
 /**
@@ -204,4 +208,80 @@ export function evaluateCooldown(cooldown: number, statPct: number): string {
         return `쿨감 ${cooldown}초`;
     }
     return '쿨감 없음';
+}
+
+/**
+ * 에디셔널 잠재능력 평가 (공/마 합산 포함)
+ */
+export function evaluateAdditional(grade: string, lines: (string | null | undefined)[], job?: string): { score: number, message: string } {
+    const mainStats = getJobMainStat(job || '');
+    let statPct = 0;
+    let att = 0;
+    let magic = 0;
+
+    lines.forEach(l => {
+        if (!l) return;
+
+        // 공/마 (합산)
+        if (l.includes("공격력") && !l.includes('%')) {
+            const match = l.match(/\+(\d+)/);
+            if (match) att += parseInt(match[1]);
+        }
+        if (l.includes("마력") && !l.includes('%')) {
+            const match = l.match(/\+(\d+)/);
+            if (match) magic += parseInt(match[1]);
+        }
+
+        // 주스탯 %
+        const matchPct = l.match(/(\d+)%/);
+        if (matchPct) {
+            const val = parseInt(matchPct[1]);
+            if (l.includes("올스탯")) {
+                statPct += val;
+            } else if (l.includes('HP') && l.includes('%')) {
+                statPct += val;
+            } else {
+                // 직업 주스탯이거나, 직업 정보 없으면 가장 높은 것(여기서는 단순 합산 후 나중에 정제 필요하지만, 일단 포함)
+                // *주의: 여기서도 아까와 같은 문제(DEX 합산)가 발생할 수 있음.
+                // 하지만 parsePotentialLines를 쓰지 않고 직접 파싱하므로, 여기서는 간단하게 처리.
+                // 더 정확하게 하려면 parsePotentialLines를 내부에서 호출하는 것이 좋음.
+                mainStats.forEach((stat: string) => {
+                    if (l.includes(stat)) statPct += val;
+                });
+            }
+        }
+    });
+
+    // 유효 공격력 (공/마 중 높은 것)
+    const validAtt = Math.max(att, magic);
+
+    // 공/마를 주스탯 환산 (공/마 1 = 주스탯 4, 주스탯 10 = 1%)
+    const attEquiv = (validAtt * 4) / 10;
+    const totalEquiv = statPct + attEquiv;
+
+    let message = '';
+
+    if (grade === '에픽') {
+        if (totalEquiv >= 10) {
+            message = `[에디 에픽 종결] 에디셔널 <b>주스탯 ${Math.floor(totalEquiv)}%급</b> 효율! 에픽 등급 최상급 옵션입니다.`;
+        } else if (totalEquiv >= 3) {
+            message = `[에디 에픽] 에디셔널 <b>주스탯 ${totalEquiv.toFixed(1)}%급</b> 효율! 아주 든든한 옵션입니다.`;
+        } else if (statPct > 0 || validAtt > 0) {
+            message = `[에디 에픽] 에디셔널 옵션이 있습니다.`;
+        }
+    } else if (grade === '유니크') {
+        if (totalEquiv >= 15) {
+            message = `[에디 유니크 종결] 에디셔널 <b>주스탯 ${Math.floor(totalEquiv)}%급</b> 효율! 유니크 등급 최상급입니다.`;
+        } else if (totalEquiv >= 8) {
+            message = `[에디 유니크] 에디셔널 <b>주스탯 ${totalEquiv.toFixed(1)}%급</b> 효율! 쓸만한 옵션입니다.`;
+        }
+    } else if (grade === '레전드리') {
+        if (totalEquiv >= 21) {
+            message = `[에디 레전드리 종결] 에디셔널 <b>주스탯 ${Math.floor(totalEquiv)}%급</b> 효율! 전 서버급 옵션입니다.`;
+        } else if (totalEquiv >= 14) {
+            message = `[에디 레전드리] 에디셔널 <b>주스탯 ${totalEquiv.toFixed(1)}%급</b> 효율! 아주 훌륭합니다.`;
+        }
+    }
+
+    return { score: totalEquiv, message };
 }

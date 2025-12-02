@@ -1,6 +1,7 @@
 import { GRADE_SCORE } from '../../../src/data/diagnosisData';
 import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { getJobMainStat } from '../../job_utils';
+import { parsePotentialLines, evaluatePotential } from '../../utils/potential_utils';
 
 /**
  * 🎩 모자(Hat) 전용 진단 로직
@@ -20,24 +21,19 @@ export function diagnoseHat(item: any, job?: string): string[] {
     const pensalirWarning = checkPensalirAndWarn(itemName, 'armor');
     if (pensalirWarning) return pensalirWarning;
 
-    // 1. 쿨타임 감소 (Cooldown Reduction) - 모자의 핵심
-    let coolReduce = 0;
+    // 1. 잠재능력 (Potential) - 쿨타임 감소 및 주스탯 정밀 진단
+    // 유틸을 사용하여 잠재능력 파싱
+    const parsed = parsePotentialLines(potentials, job);
+    const coolReduce = parsed.cooldown;
+    const statPct = parsed.statPct + (parsed.allStatPct * 0.5); // 올스탯은 절반 효율로 계산
+
+    // 에디셔널 쿨감 체크 (기존 로직 유지)
     let hasAdiCoolReduce = false;
-
-    // 윗잠 쿨감 계산
-    potentials.forEach(l => {
-        if (l && l.includes("재사용 대기시간")) {
-            const match = l.match(/(\d+)초/);
-            if (match) coolReduce += parseInt(match[1]);
-        }
-    });
-
-    // 에디 쿨감 계산
     adiLines.forEach(l => {
         if (l && l.includes("재사용 대기시간")) {
             const match = l.match(/(\d+)초/);
             if (match) {
-                coolReduce += parseInt(match[1]);
+                // 에디 쿨감은 별도 변수로 관리 (메인 쿨감과 합치지 않음)
                 hasAdiCoolReduce = true;
             }
         }
@@ -48,76 +44,30 @@ export function diagnoseHat(item: any, job?: string): string[] {
     } else if (coolReduce >= 4) {
         comments.push(`[종결: 쌍쿨감] 쿨타임 감소 <b>-${coolReduce}초</b>! 직업에 따라서는 주스탯 수만급 효율을 내는 최상급 모자입니다.`);
     } else if (coolReduce >= 2) {
-        // 쿨감 + 주스탯 체크 및 계산
-        const mainStats = getJobMainStat(job || "");
-        let statPct = 0;
-        potentials.forEach(l => {
-            if (l) {
-                const match = l.match(/(\d+)%/);
-                if (match) {
-                    if (l.includes('올스탯')) {
-                        statPct += parseInt(match[1]);
-                    }
-                    // HP%는 항상 체크 (데몬어벤져용)
-                    else if (l.includes('HP') && l.includes('%')) {
-                        statPct += parseInt(match[1]);
-                    }
-                    else {
-                        mainStats.forEach((stat: string) => {
-                            if (l.includes(stat)) statPct += parseInt(match[1]);
-                        });
-                    }
-                }
-            }
-        });
-
         if (statPct > 0) {
-            comments.push(`[졸업: 쿨감+스탯] 쿨감 <b>-${coolReduce}초</b>에 주스탯 <b>${statPct}%</b>까지 챙긴 <b>실전 종결급</b> 모자입니다.`);
+            comments.push(`[졸업: 쿨감+스탯] 쿨감 <b>-${coolReduce}초</b>에 주스탯 <b>${Math.floor(statPct)}%</b>까지 챙긴 <b>실전 종결급</b> 모자입니다.`);
         } else {
             comments.push(`[고효율: 쿨감] 쿨타임 감소 <b>-${coolReduce}초</b>는 직업에 따라 주스탯 30% 이상의 가치를 가질 수 있습니다. 1순위 옵션입니다.`);
         }
-    } else if (potentialGrade === "레전드리") {
-        // 레전드리인데 쿨감이 없는 경우
-        comments.push(`[옵션 아쉬움] 레전드리 모자지만 <b>쿨타임 감소</b> 옵션이 없습니다. (직업에 따라 쿨감이 필수일 수 있습니다)`);
-    } else if (potentialGrade === '유니크') {
-        // 유니크: 주스탯 % 진단
-        const mainStats = getJobMainStat(job || "");
-        let statPct = 0;
-        potentials.forEach(l => {
-            if (l) {
-                const match = l.match(/(\d+)%/);
-                if (match) {
-                    if (l.includes('올스탯')) {
-                        statPct += parseInt(match[1]);
-                    }
-                    // HP%는 항상 체크 (데몬어벤져용)
-                    else if (l.includes('HP') && l.includes('%')) {
-                        statPct += parseInt(match[1]);
-                    }
-                    else {
-                        mainStats.forEach((stat: string) => {
-                            if (l.includes(stat)) statPct += parseInt(match[1]);
-                        });
-                    }
-                }
+    } else {
+        // 쿨감이 없는 경우: 주스탯 정밀 진단 수행
+        const evalResult = evaluatePotential(item.item_base_option?.base_equipment_level || 150, potentialGrade, parsed);
+
+        if (potentialGrade === '레전드리') {
+            if (evalResult.statPct >= 30) {
+                // 주스탯이 높으면 쿨감 없어도 칭찬
+                comments.push(evalResult.message);
+                comments.push(`(참고: 직업에 따라 쿨타임 감소 옵션이 더 좋을 수 있습니다)`);
+            } else {
+                // 주스탯도 낮으면 쿨감 부재 언급
+                comments.push(`[옵션 아쉬움] 레전드리 모자지만 <b>쿨타임 감소</b>가 없고 주스탯도 낮습니다. 쿨감이나 고스펙 주스탯을 노려보세요.`);
             }
-        });
-
-        if (statPct >= 15) {
-            comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 등급에서 챙길 수 있는 최상급 옵션입니다.`);
-        } else if (statPct >= 9) {
-            comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 쓸만한 수치입니다. 더 욕심난다면 레전드리 쿨감을 노려보세요.`);
-        } else {
-            comments.push(`[옵션 아쉬움] 유니크 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다. 15% 이상 혹은 레전드리 등급업을 권장합니다.`);
+        } else if (potentialGrade === '유니크') {
+            comments.push(evalResult.message);
+        } else if (potentialGrade === '에픽') {
+            const epicComments = diagnoseEpicPotential(potentialGrade, potentials, job);
+            comments.push(...epicComments);
         }
-    } else if (potentialGrade === '에픽') {
-        const epicComments = diagnoseEpicPotential(potentialGrade, potentials, job);
-        comments.push(...epicComments);
-    }
-
-    // 에디셔널 쿨감 별도 언급
-    if (hasAdiCoolReduce) {
-        comments.push(`[에디셔널 유효] 에디셔널 잠재능력에서 <b>쿨타임 감소</b>를 챙기셨군요! 굉장히 희귀하고 좋은 유효 옵션입니다.`);
     }
 
     // 2. 아이템 종류별 메타 분석 (Meta Analysis)
