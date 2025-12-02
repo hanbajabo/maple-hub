@@ -683,6 +683,15 @@ export function generateItemCommentary(item: any, job?: string): string {
                     }
                 });
 
+                // 공/마 상수를 주스탯 %로 환산하여 합산 (공/마 1 = 주스탯 4, 주스탯 1% = 주스탯 10 가정 시, 공/마 1 = 0.4%)
+                if (validAttFlat > 0) {
+                    const convertedStatPct = (validAttFlat * 4) / 10;
+                    adiStatPct += convertedStatPct;
+                }
+
+                // 소수점 처리 (반올림)
+                adiStatPct = Math.round(adiStatPct);
+
                 const attType = isMagic ? '마력' : '공격력';
 
                 if (adiCritDmgLines >= 2) {
