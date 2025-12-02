@@ -318,8 +318,8 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
             if (l.includes("레벨 당")) {
                 const isMainStat = l.includes("올스탯") || mainStats.some(stat => l.includes(stat));
                 if (isMainStat) {
-                    if (l.includes("+1")) adiStatPct += 7; // 에디 유효 라인 (7%) 인정
-                    if (l.includes("+2")) adiStatPct += 10;
+                    if (l.includes("+1")) adiStatPct += 3; // 렙당 1 = 3%
+                    if (l.includes("+2")) adiStatPct += 6; // 렙당 2 = 6%
                 }
             }
         }
