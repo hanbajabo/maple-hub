@@ -761,15 +761,33 @@ function generateGeneralRecommendation(
             }
 
             if (grade === '유니크') {
-                if (score >= 15) return `유니크 종결! 주스탯 ${Math.round(score)}%급 효율입니다.`;
-                if (score >= 10) return `유니크 통과! 주스탯 ${Math.round(score)}%급 효율입니다.`;
-                return '재설정 권장. 주스탯 15%급 이상을 목표로 하세요.';
+                const lineCount = goodOptions.length;
+                const linesText = lineCount >= 2 ? `${lineCount}줄 유효` : `${lineCount}줄 유효`;
+
+                if (score >= 15) return `유니크 종결! 주스탯 ${Math.round(score)}%급 효율입니다. (${linesText})`;
+                if (score >= 10) return `유니크 통과! 주스탯 ${Math.round(score)}%급 효율입니다. (${linesText})`;
+
+                if (lineCount >= 2) {
+                    return `유효 ${lineCount}줄이지만 효율이 낮습니다. 주스탯 % 또는 공/마를 더 챙기세요.`;
+                } else if (lineCount === 1) {
+                    return `유효 1줄입니다. 유니크 등급에서는 유효 2줄 이상을 목표로 재설정을 권장합니다.`;
+                } else {
+                    return `유효 옵션이 없습니다. 유니크 등급에서는 유효 2줄 이상을 목표로 재설정하세요.`;
+                }
             }
 
             if (grade === '에픽') {
-                if (score >= 10) return `에픽 종결! 주스탯 ${Math.round(score)}%급 효율입니다.`;
-                if (score >= 3) return `에픽 통과! 주스탯 ${Math.round(score)}%급 효율입니다.`;
-                return '재설정 필요. 공/마 10 또는 주스탯 3% 이상을 챙기세요.';
+                const lineCount = goodOptions.length;
+                const linesText = `${lineCount}줄 유효`;
+
+                if (score >= 10) return `에픽 종결! 주스탯 ${Math.round(score)}%급 효율입니다. (${linesText})`;
+                if (score >= 3) return `에픽 통과! 주스탯 ${Math.round(score)}%급 효율입니다. (${linesText})`;
+
+                if (lineCount >= 1) {
+                    return `유효 ${lineCount}줄입니다. 에픽 등급에서는 2줄 이상을 목표로 하세요.`;
+                } else {
+                    return `유효 옵션이 없습니다. 공/마 +10 또는 주스탯 3% 이상을 챙기세요.`;
+                }
             }
 
             if (grade === '레어') {
