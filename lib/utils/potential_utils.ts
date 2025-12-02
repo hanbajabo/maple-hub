@@ -250,6 +250,15 @@ export function evaluateAdditional(grade: string, lines: (string | null | undefi
                 });
             }
         }
+
+        // 렙당 주스탯 (유효 라인 인정)
+        if (l.includes("레벨 당")) {
+            const isMainStat = l.includes("올스탯") || mainStats.some((stat: string) => l.includes(stat));
+            if (isMainStat) {
+                if (l.includes("+1")) statPct += 3; // 렙당 1 = 3%
+                if (l.includes("+2")) statPct += 6; // 렙당 2 = 6%
+            }
+        }
     });
 
     // 유효 공격력 (공/마 중 높은 것)

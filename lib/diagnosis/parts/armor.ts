@@ -154,8 +154,8 @@ export function diagnoseArmor(item: any, job?: string): string[] {
                 if (l.includes("캐릭터 기준 9레벨 당")) {
                     const isMainStat = l.includes("올스탯") || mainStats.some(stat => l.includes(stat));
                     if (isMainStat) {
-                        if (l.includes("+1")) statPct += 9; // 유니크급 (9%) 인정
-                        if (l.includes("+2")) statPct += 12; // 레전드리급 (12%) 인정
+                        if (l.includes("+1")) statPct += 3; // 렙당 1 = 3%
+                        if (l.includes("+2")) statPct += 6; // 렙당 2 = 6%
                     }
                 }
             }
