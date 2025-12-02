@@ -149,33 +149,40 @@ export default function Home() {
     setEquipment([]);
     setStats(null);
     setUnion(null);
+    setLinkSkillData(null);
+    setUnionRaiderData(null);
 
     try {
       const ocid = await getOcid(nickname);
       setOcid(ocid);
 
-      const basicInfo = await getCharacterBasic(ocid);
+      // 모든 데이터를 병렬로 동시에 요청하여 속도 최적화
+      const [
+        basicInfo,
+        equipmentInfo,
+        statInfo,
+        unionInfo,
+        linkSkill,
+        unionRaider
+      ] = await Promise.all([
+        getCharacterBasic(ocid),
+        getCharacterItemEquipment(ocid),
+        getCharacterStat(ocid),
+        getCharacterUnion(ocid),
+        getCharacterLinkSkill(ocid),
+        getUserUnionRaider(ocid)
+      ]);
+
       setCharacter(basicInfo);
 
-      const equipmentInfo = await getCharacterItemEquipment(ocid);
       if (equipmentInfo && equipmentInfo.item_equipment) {
         setEquipment(equipmentInfo.item_equipment);
       }
 
-
-
-      const statInfo = await getCharacterStat(ocid);
       setStats(statInfo);
-
-      const unionInfo = await getCharacterUnion(ocid);
       setUnion(unionInfo);
-
-      // Fetch Link Skill and Union Raider data here to pass as initialData
-      const linkSkillData = await getCharacterLinkSkill(ocid);
-      setLinkSkillData(linkSkillData);
-
-      const unionRaiderData = await getUserUnionRaider(ocid);
-      setUnionRaiderData(unionRaiderData);
+      setLinkSkillData(linkSkill);
+      setUnionRaiderData(unionRaider);
 
     } catch (err) {
       console.error(err);
