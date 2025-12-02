@@ -73,8 +73,8 @@ function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisG
     else if (sf >= 24) scoreSF = 6;
     else if (sf >= 23) scoreSF = 5;
     else if (sf >= 22) scoreSF = 4;
-    else if (sf >= 18) scoreSF = 2;
-    else if (sf >= 17) scoreSF = 1;
+    else if (sf >= 18) scoreSF = 3; // 18성: 3점
+    else if (sf >= 17) scoreSF = 2; // 17성: 2점 (국민셋 인정)
 
     // 2-2. 잠재능력 (Max 5)
     const potGrade = item.potential_option_grade;
@@ -118,8 +118,6 @@ function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisG
         // 장갑: 크리티컬 데미지 (8%는 고득점)
         if (slot.includes("장갑") && line.includes("크리티컬 데미지")) {
             validLines++;
-            // 크뎀은 1줄만 있어도 매우 좋음. 
-            // 쌍크뎀(2줄)이면 validLines가 2가 되어 아래 로직에서 고득점 처리됨
         }
     });
 
@@ -214,7 +212,9 @@ function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisG
         if (slot.includes("장갑") && adiValidLines >= 1) scoreAddi = 4; // 유니크 에디 크뎀도 매우 좋음
         else scoreAddi = 2;
     } else if (adiGrade === '에픽') {
-        scoreAddi = 1;
+        // 에픽이라도 공/마 2줄급(20 이상)이면 유니크급 대우
+        if (validAtt >= 20 || adiValidLines >= 2) scoreAddi = 2;
+        else scoreAddi = 1;
     }
 
     // 2-4. 추가옵션 (Max 5)
