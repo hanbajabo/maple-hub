@@ -624,9 +624,11 @@ export function generateItemCommentary(item: any, job?: string): string {
                         if (line.includes('올스탯')) {
                             isValid = true;
                         }
-                        // HP%는 항상 체크 (데몬어벤져용)
+                        // HP%는 데몬어벤져만 주스탯으로 인정
                         else if (line.includes('HP') && line.includes('%')) {
-                            isValid = true;
+                            if (job && job.includes('데몬어벤져')) {
+                                isValid = true;
+                            }
                         }
                         else {
                             // 직업 주스탯과 일치하는 경우만 카운트
