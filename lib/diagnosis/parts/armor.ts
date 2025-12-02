@@ -296,10 +296,10 @@ export function diagnoseArmor(item: any, job?: string): string[] {
             comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 ${attType}이나 주스탯 %를 챙겨주세요.`);
         }
     } else if (adiGrade === "유니크") {
-        if (adiStatPct > 0 && validAdiAtt > 0) {
-            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>와 <b>${attType} +${validAdiAtt}</b>! 유효 옵션을 알차게 챙기셨습니다.`);
-        } else if (adiStatPct > 0) {
-            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 유니크 등급다운 훌륭한 옵션입니다.`);
+        if (totalAdiStatPct > 0 && validAdiAtt > 0) {
+            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>급 효율! 유효 옵션을 알차게 챙기셨습니다.`);
+        } else if (totalAdiStatPct > 0) {
+            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>급 효율! 유니크 등급다운 훌륭한 옵션입니다.`);
         } else if (validAdiAtt >= 10) {
             comments.push(`[에디 유니크] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 든든한 옵션입니다.`);
         } else {
@@ -319,7 +319,7 @@ export function diagnoseArmor(item: any, job?: string): string[] {
             comments.push(`[옵션 아쉬움] 에디셔널 레전드리 등급이지만 유효 옵션이 조금 아쉽습니다.`);
         }
     } else if (adiGrade === "에픽") {
-        if (adiStatPct > 0) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 아주 든든한 옵션입니다.`);
+        if (totalAdiStatPct > 0) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>급 효율! 아주 든든한 옵션입니다.`);
         else if (validAdiAtt >= 10) comments.push(`[에디 에픽] 에디셔널 ${attType}를 잘 챙기셨습니다. 든든합니다.`);
     }
 

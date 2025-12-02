@@ -360,10 +360,10 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
         }
     } else if (adiGrade === "유니크") {
         // 유니크 에디셔널 평가 추가
-        if (adiStatPct > 0 && validAdiAtt > 0) {
-            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>에 <b>${attType} +${validAdiAtt}</b>까지! 유효 옵션을 꽉 채운 훌륭한 아이템입니다.`);
-        } else if (adiStatPct > 0) {
-            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 유니크 등급에서 훌륭한 옵션입니다.`);
+        if (totalAdiStatPct > 0 && validAdiAtt > 0) {
+            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>급 효율! 유효 옵션을 꽉 채운 훌륭한 아이템입니다.`);
+        } else if (totalAdiStatPct > 0) {
+            comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>급 효율! 유니크 등급에서 훌륭한 옵션입니다.`);
         } else if (validAdiAtt >= 10) {
             comments.push(`[에디 유니크] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 든든한 옵션입니다.`);
         }
@@ -381,8 +381,8 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
             comments.push(`[옵션 아쉬움] 에디셔널 레전드리 등급이지만 유효 옵션이 조금 아쉽습니다.`);
         }
     } else if (adiGrade === "에픽") {
-        if (adiStatPct > 0 && validAdiAtt > 0) comments.push(`[에디 에픽] <b>주스탯 ${adiStatPct}%</b>와 <b>${attType} +${validAdiAtt}</b>! 에픽에서 챙길 수 있는 건 다 챙기셨네요.`);
-        else if (adiStatPct > 0) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 아주 든든한 옵션입니다.`);
+        if (totalAdiStatPct > 0 && validAdiAtt > 0) comments.push(`[에디 에픽] <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>급 효율! 에픽에서 챙길 수 있는 건 다 챙기셨네요.`);
+        else if (totalAdiStatPct > 0) comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>급 효율! 아주 든든한 옵션입니다.`);
         else if (validAdiAtt >= 10) comments.push(`[에디 에픽] 에디셔널 ${attType}를 잘 챙기셨습니다. 든든합니다.`);
     } else if (adiGrade === "레어") {
         // 잠재 등급과 무관하게 에디 레어 평가
