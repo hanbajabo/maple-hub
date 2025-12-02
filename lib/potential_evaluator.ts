@@ -362,7 +362,7 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                     const val = parseInt(match[1]);
                     // 올스탯은 항상 유효 (0.5 가중치)
                     if (opt.includes('올스탯')) {
-                        totalStatPercent += (val * 0.5);
+                        totalStatPercent += val;
                         goodOptions.push(opt);
                     }
                     // HP%는 명시적으로 체크 (데몬어벤져용)
