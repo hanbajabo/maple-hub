@@ -396,52 +396,9 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
             }
         });
 
-        // 주스탯 % 합산 점수
-        let totalPoints = 0;
-
-        if (currentGrade === '유니크') {
-            // 유니크: 2줄(15%) 통과, 3줄(21%) 좋음
-            if (totalStatPercent >= 21) totalPoints = 75; // 3줄 좋음
-            else if (totalStatPercent >= 15) totalPoints = 50; // 2줄 통과
-            else totalPoints = 30;
-        } else {
-            // 레전드리
-            if (totalStatPercent >= 36) totalPoints = 100; // 3줄 초월급 (12%×3)
-            else if (totalStatPercent >= 34) totalPoints = 95; // 3줄 엔드급 (11%×3 이상)
-            else if (totalStatPercent >= 33) totalPoints = 90; // 3줄 최상급 (11%×3)
-            else if (totalStatPercent >= 21) totalPoints = 70; // 2줄 좋음 (7%×3 or 10%+11%)
-            else if (totalStatPercent >= 18) totalPoints = 60; // 주스탯+올스탯 조금 좋음
-            else if (totalStatPercent >= 15) totalPoints = 50; // 통과
-            else totalPoints = 30;
-        }
-
-        // 크뎀이 있으면 대체 점수
-        if (hasCritDamage) {
-            let critPoints = 0;
-            if (maxCritDamageValue >= 8) critPoints = 100;
-            else if (maxCritDamageValue >= 7) critPoints = 90;
-            else if (maxCritDamageValue >= 6) critPoints = 80;
-            else if (maxCritDamageValue >= 5) critPoints = 70;
-            else if (maxCritDamageValue >= 4) critPoints = 60;
-            else critPoints = 50;
-
-            totalPoints = Math.max(totalPoints, critPoints);
-        }
-
-        // 쿨감 평가 (itemSlot 체크 제거, 쿨감 옵션이 있으면 모자로 간주)
-        if (cooldownReduction > 0) {
-            let cooldownPoints = 0;
-            if (cooldownReduction >= 6) cooldownPoints = 100; // 초월급
-            else if (cooldownReduction >= 5) cooldownPoints = 95; // 엔드급
-            else if (cooldownReduction >= 4) cooldownPoints = 90; // 최상급
-            else if (cooldownReduction >= 3) cooldownPoints = 80; // 진짜 좋음
-            else if (cooldownReduction >= 2) cooldownPoints = 70; // 좋음
-            else cooldownPoints = 50;
-
-            totalPoints = Math.max(totalPoints, cooldownPoints);
-        }
-
-        return { goodOptions, optionsScore: totalPoints };
+        // 주스탯 % 합산 점수 (변환 없이 그대로 반환)
+        // generateGeneralRecommendation에서 % 수치를 직접 비교함
+        return { goodOptions, optionsScore: totalStatPercent };
     }
     // 에디셔널 잠재능력 평가
     else {
