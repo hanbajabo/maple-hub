@@ -721,10 +721,17 @@ export function generateItemCommentary(item: any, job?: string): string {
                     if (validAttFlat > 0) {
                         comments.push(`${adiPrefix} <b>주스탯 2줄</b>에 <b>${attType} +${validAttFlat}</b>까지! 완벽에 가까운 에디셔널입니다.`);
                     } else {
-                        comments.push(pick([
-                            `${adiPrefix} <b>주스탯 2줄</b>! 방어구 에디셔널 종결급입니다.`,
-                            `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 이 정도면 평생 쓰셔도 됩니다.`
-                        ]));
+                        if (addPotentialGrade === '에픽' || addPotentialGrade === '레어') {
+                            comments.push(pick([
+                                `${adiPrefix} <b>주스탯 2줄</b>! 에픽 등급에서 챙길 수 있는 최고의 가성비 옵션입니다.`,
+                                `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 가성비 세팅의 끝판왕입니다.`
+                            ]));
+                        } else {
+                            comments.push(pick([
+                                `${adiPrefix} <b>주스탯 2줄</b>! 방어구 에디셔널 종결급입니다.`,
+                                `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 이 정도면 평생 쓰셔도 됩니다.`
+                            ]));
+                        }
                     }
                 } else if (validStatLines === 1) {
                     if (validAttFlat > 0) {
