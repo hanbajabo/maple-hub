@@ -30,7 +30,7 @@ export function diagnoseHat(item: any, job?: string): string[] {
     // 유틸을 사용하여 잠재능력 파싱
     const parsed = parsePotentialLines(potentials, job);
     const coolReduce = parsed.cooldown;
-    const statPct = parsed.statPct + (parsed.allStatPct * 0.5); // 올스탯은 절반 효율로 계산
+    const statPct = parsed.statPct + parsed.allStatPct; // 올스탯은 주스탯과 동일 효율로 계산
 
     // 에디셔널 쿨감 체크 (기존 로직 유지)
     let hasAdiCoolReduce = false;

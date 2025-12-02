@@ -131,7 +131,7 @@ export function evaluatePotential(
     const tierLabel = tier === 'TIER_2' ? '201~250제' : '71~200제';
 
     // 주스탯 + 올스탯(절반 환산) 합계
-    const totalStatPct = parsed.statPct + (parsed.allStatPct * 0.5);
+    const totalStatPct = parsed.statPct + parsed.allStatPct;
 
     const gradeLabel = evaluateStatPercent(itemLevel, potentialGrade, totalStatPct);
     const thresholds = getPotentialThresholds(itemLevel, potentialGrade);
