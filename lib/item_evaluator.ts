@@ -153,6 +153,33 @@ export function evaluateArmorStarforce(
         };
     }
 
+    // 타일런트 장비 특별 처리 (10성~15성 목표)
+    if (itemName.includes('타일런트') || itemName.includes('히아데스')) {
+        if (currentStar >= 15) {
+            evaluation = '종결';
+            recommendation = `${currentStar}성! 타일런트 장비에서 15성은 최고 수준입니다. 파괴 위험이 높으므로 이 정도에서 만족하는 것을 권장합니다.`;
+        } else if (currentStar >= 12) {
+            evaluation = '준수';
+            recommendation = `${currentStar}성! 타일런트 장비에서 준수한 수준입니다. 15성을 목표로 하거나, 파괴 위험을 고려하여 여기서 멈추는 것도 좋은 선택입니다.`;
+        } else if (currentStar >= 10) {
+            evaluation = '보통';
+            recommendation = `${currentStar}성! 타일런트 장비에서 최소 기준입니다. 12성 이상을 목표로 강화를 권장합니다.`;
+        } else {
+            evaluation = '부족';
+            recommendation = `${currentStar}성! 타일런트 장비는 10성 이상을 목표로 하세요. 다만 파괴 위험이 높으므로 신중하게 강화하세요.`;
+        }
+
+        return {
+            current_star: currentStar,
+            target_star: 12, // 타일런트는 12성이 안전한 목표
+            success_rate: 0,
+            destroy_risk: 0,
+            avg_destroy_count: 0,
+            evaluation,
+            recommendation
+        };
+    }
+
     // 펜살리르 장비 특별 처리
     if (itemName.includes('펜살리르')) {
         const isHatOverall = itemName.includes('모자') || itemName.includes('한벌옷');
