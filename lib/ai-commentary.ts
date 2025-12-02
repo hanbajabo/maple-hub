@@ -460,7 +460,7 @@ export function generateItemCommentary(item: any, job?: string): string {
                 // 주스탯만 있는 경우
                 else {
                     const level = item.item_base_option?.base_equipment_level || 0;
-                    const isHighLevel = level >= 200; // 200제 이상 (아케인, 에테르넬)
+                    const isHighLevel = level > 200; // 201제 이상 (에테르넬 등, 아케인은 제외)
 
                     if (isHighLevel) {
                         // 200제 이상 기준 (정옵 33%, 이탈 13%)

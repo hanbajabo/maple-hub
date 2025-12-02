@@ -123,7 +123,7 @@ export function evaluatePotential(
     }
 
     const { goodOptions, optionsScore } = evaluateOptions(type, currentGrade, options, equipmentType, itemSlot);
-    const recommendation = generateRecommendation(type, currentGrade, equipmentType, optionsScore, goodOptions, ceilingCost, itemSlot);
+    const recommendation = generateRecommendation(type, currentGrade, equipmentType, optionsScore, goodOptions, ceilingCost, itemSlot, itemLevel);
     const evaluation = generateEvaluation(type, currentGrade, equipmentType, optionsScore, goodOptions);
 
     return {
@@ -590,7 +590,8 @@ function generateRecommendation(
     score: number,
     goodOptions: string[],
     ceilingCost: number,
-    itemSlot?: string
+    itemSlot?: string,
+    itemLevel?: number
 ): string {
     if ((equipmentType === '무기' || equipmentType === '보조무기') && type === 'additional') {
         return generateWeaponAdditionalRecommendation(grade, score, goodOptions);
@@ -600,7 +601,7 @@ function generateRecommendation(
         return generateEmblemRecommendation(type, score, goodOptions);
     }
 
-    return generateGeneralRecommendation(grade, score, equipmentType, type, goodOptions, ceilingCost, itemSlot);
+    return generateGeneralRecommendation(grade, score, equipmentType, type, goodOptions, ceilingCost, itemSlot, itemLevel);
 }
 
 function generateWeaponAdditionalRecommendation(grade: string, score: number, goodOptions: string[]): string {
@@ -648,7 +649,8 @@ function generateGeneralRecommendation(
     type: string,
     goodOptions: string[],
     ceilingCost: number,
-    itemSlot?: string
+    itemSlot?: string,
+    itemLevel?: number
 ): string {
     // 방어구/장신구 평가
     if (equipmentType === '방어구' || equipmentType === '장신구') {
@@ -735,6 +737,17 @@ function generateGeneralRecommendation(
                 } else if (critDamageLines >= 1) {
                     return '좋음! 크뎀 옵션이 있습니다.';
                 }
+            }
+
+            // 201레벨 이상 (에테르넬 등) - 정옵 33%, 이탈 13%
+            if (itemLevel && itemLevel > 200) {
+                if (score >= 39) return '초월급! 주스탯 3줄 완벽(39% 이상)입니다. 최고의 최고!';
+                if (score >= 36) return '엔드급! 주스탯 3줄 하이엔드(36% 이상)입니다.';
+                if (score >= 33) return '최상급! 주스탯 3줄(33% 이상)입니다. 종결급입니다.';
+                if (score >= 23) return '좋음! 주스탯 2줄(23% 이상)입니다.';
+                if (score >= 20) return '조금 좋음. 주스탯+올스탯 조합(20% 이상)입니다.';
+                if (score >= 16) return '통과. 주스탯 2줄 기본 기준(16% 이상)을 만족합니다.';
+                return '재설정 필요. 주스탯 2줄(16% 이상)을 목표로 하세요.';
             }
 
             if (score >= 36) return '초월급! 주스탯 3줄 완벽(36% 이상)입니다. 최고의 최고!';
