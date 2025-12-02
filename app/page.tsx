@@ -1657,7 +1657,9 @@ export default function Home() {
           </Link>
         </div>
         <p className="font-medium">Data by NEXON Open API</p>
-        <p>Contact: p6092@naver.com</p>
+        <p className="font-medium text-slate-400 mt-1 flex items-center gap-2">
+          📧 문의 or 피드백은 <span className="text-orange-400 font-bold select-all hover:text-orange-300 transition-colors cursor-pointer">p6092@naver.com</span> 메일로 보내주세요
+        </p>
         <p className="mt-2 text-xs text-slate-600">Copyright © 2025. 한자유튜브 - All right reserved</p>
       </footer>
       {/* Weapon Diagnosis Modal */}
