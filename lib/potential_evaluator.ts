@@ -190,19 +190,23 @@ function generateEvaluation(
                 if (lines >= 1) return '훌륭';
             }
 
-            if (score >= 90) return '종결'; // 33% 이상
-            if (score >= 70) return '훌륭'; // 21% 이상
-            if (score >= 50) return '준수'; // 15% 이상 (레전드리치곤 낮음)
+            if (score >= 33) return '종결'; // 33% 이상 (3줄 완벽)
+            if (score >= 27) return '최상급'; // 27% 이상 (3줄 준수)
+            if (score >= 21) return '준수'; // 21% 이상 (2줄)
+            if (score >= 15) return '통과'; // 15% 이상 (2줄 낮음)
             return '아쉬움';
         }
         if (grade === '유니크') {
-            if (score >= 75) return '종결급'; // 21%
-            if (score >= 50) return '준수'; // 15%
+            if (score >= 21) return '종결급'; // 21% (3줄)
+            if (score >= 15) return '준수'; // 15% (2줄)
+            if (score >= 10) return '통과'; // 10% (2줄 낮음)
             return '아쉬움';
         }
         if (grade === '에픽') {
-            if (score >= 50) return '유니크급';
-            return '준수';
+            if (score >= 15) return '유니크급'; // 15% (유니크 2줄급)
+            if (score >= 12) return '준수'; // 12% (3줄)
+            if (score >= 9) return '통과'; // 9% (3줄 일반)
+            return '아쉬움';
         }
     } else {
         // 에디셔널
