@@ -196,14 +196,14 @@ export function diagnoseHat(item: any, job?: string): string[] {
 
         adiLines.forEach(l => {
             if (!l) return;
-            // 공/마 상수
+            // 공/마 상수 (합산)
             if (l.includes("공격력") && !l.includes('%')) {
                 const match = l.match(/\+(\d+)/);
-                if (match) adiAtt = Math.max(adiAtt, parseInt(match[1]));
+                if (match) adiAtt += parseInt(match[1]);
             }
             if (l.includes("마력") && !l.includes('%')) {
                 const match = l.match(/\+(\d+)/);
-                if (match) adiMagic = Math.max(adiMagic, parseInt(match[1]));
+                if (match) adiMagic += parseInt(match[1]);
             }
 
             // 주스탯 %
@@ -245,10 +245,16 @@ export function diagnoseHat(item: any, job?: string): string[] {
                 comments.push(`[에디 유니크] 에디셔널 공/마 <b>+${validAtt}</b>! 든든한 옵션입니다.`);
             }
         } else if (adiGrade === "에픽") {
-            if (adiStatPct > 0) {
-                comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 아주 든든한 옵션입니다.`);
-            } else if (validAtt >= 10) {
-                comments.push(`[에디 에픽] 에디셔널 공/마를 잘 챙기셨습니다.`);
+            // 공/마를 주스탯 환산: 공/마 1 = 주스탯 4, 주스탯 10 = 1%
+            const attEquiv = (validAtt * 4) / 10;
+            const totalEquiv = adiStatPct + attEquiv;
+
+            if (totalEquiv >= 10) {
+                comments.push(`[에디 에픽 종결] 에디셔널 <b>주스탯 ${Math.floor(totalEquiv)}%급</b> 효율! 에픽 등급 최상급 옵션입니다.`);
+            } else if (totalEquiv >= 3) {
+                comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${totalEquiv.toFixed(1)}%급</b> 효율! 아주 든든한 옵션입니다.`);
+            } else if (adiStatPct > 0 || validAtt > 0) {
+                comments.push(`[에디 에픽] 에디셔널 옵션이 있습니다.`);
             }
         }
     } else if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {

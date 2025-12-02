@@ -450,16 +450,22 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
         let maxAttack = 0;  // 공격력 최대값
         let maxMagic = 0;   // 마력 최대값
 
-        // 🔍 주스탯 추론: 가장 많이 나온 스탯을 주스탯으로 간주
-        const statCounts = { STR: 0, DEX: 0, INT: 0, LUK: 0 };
+        // 🔍 주스탯 추론: 각 스탯의 총 %를 계산하여 가장 높은 것을 주스탯으로 간주
+        const statTotals = { STR: 0, DEX: 0, INT: 0, LUK: 0 };
         options.forEach(opt => {
-            if (opt.includes('STR') && opt.includes('%')) statCounts.STR++;
-            if (opt.includes('DEX') && opt.includes('%')) statCounts.DEX++;
-            if (opt.includes('INT') && opt.includes('%')) statCounts.INT++;
-            if (opt.includes('LUK') && opt.includes('%')) statCounts.LUK++;
+            const match = opt.match(/(\d+)%/);
+            if (match) {
+                const val = parseInt(match[1]);
+                if (opt.includes('STR') && opt.includes('%')) statTotals.STR += val;
+                if (opt.includes('DEX') && opt.includes('%')) statTotals.DEX += val;
+                if (opt.includes('INT') && opt.includes('%')) statTotals.INT += val;
+                if (opt.includes('LUK') && opt.includes('%')) statTotals.LUK += val;
+            }
         });
-        const mainStat = (Object.keys(statCounts) as Array<'STR' | 'DEX' | 'INT' | 'LUK'>).reduce((a, b) => (statCounts[a] > statCounts[b] ? a : b));
-        const hasAnyStatPercent = Object.values(statCounts).some(count => count > 0);
+
+        // 가장 높은 % 총합을 가진 스탯을 주스탯으로 결정
+        const mainStat = (Object.keys(statTotals) as Array<'STR' | 'DEX' | 'INT' | 'LUK'>).reduce((a, b) => (statTotals[a] >= statTotals[b] ? a : b));
+        const hasMainStat = statTotals[mainStat] > 0;
 
         options.forEach(opt => {
             let isGoodOption = false;
@@ -479,8 +485,8 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                         totalStatEquivalent += val;
                         isGoodOption = true;
                     }
-                    // 개별 스탯은 주스탯만 유효 (주스탯이 명확한 경우에만)
-                    else if (hasAnyStatPercent && opt.includes(mainStat)) {
+                    // 개별 스탯은 주스탯만 유효 (가장 높은 % 스탯만)
+                    else if (hasMainStat && opt.includes(mainStat)) {
                         totalStatEquivalent += val;
                         isGoodOption = true;
                     }
@@ -500,24 +506,24 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                     }
                 }
             }
-            // 3. 공격력 체크 (따로 저장)
+            // 3. 공격력 체크 (합산)
             else if (opt.includes('공격력 +') && !opt.includes('%')) {
                 const match = opt.match(/\+(\d+)/);
                 if (match) {
                     const val = parseInt(match[1]);
-                    if (val >= 10) {
-                        maxAttack = Math.max(maxAttack, val);
+                    if (val >= 1) {  // 공격력 1 이상부터 모두 카운트
+                        maxAttack += val;  // max가 아니라 sum으로 변경
                         isGoodOption = true;
                     }
                 }
             }
-            // 4. 마력 체크 (따로 저장)
+            // 4. 마력 체크 (합산)
             else if (opt.includes('마력 +') && !opt.includes('%')) {
                 const match = opt.match(/\+(\d+)/);
                 if (match) {
                     const val = parseInt(match[1]);
-                    if (val >= 10) {
-                        maxMagic = Math.max(maxMagic, val);
+                    if (val >= 1) {  // 마력 1 이상부터 모두 카운트
+                        maxMagic += val;  // max가 아니라 sum으로 변경
                         isGoodOption = true;
                     }
                 }
@@ -541,11 +547,10 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
 
         // 공격력과 마력 중 더 큰 값만 카운트 (물리/마법 직업 구분)
         const maxAttMagic = Math.max(maxAttack, maxMagic);
-        if (maxAttMagic >= 10) {
-            // 공/마 +1 = 주스탯 4 효율
+        if (maxAttMagic >= 1) {  // 10 이상 → 1 이상으로 변경 (모든 공/마 포함)
+            // 공/마 +1 = 주스탯 4
             // 주스탯 10 = 주스탯 1%
-            // 공/마 +10 = 주스탯 40 = 4%
-            // 공/마 +11 = 주스탯 44 = 4.4%
+            // 따라서 공/마 +21 = 주스탯 84 = 8.4%
             const statEquiv = (maxAttMagic * 4) / 10;
             totalStatEquivalent += statEquiv;
         }

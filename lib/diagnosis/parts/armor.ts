@@ -167,14 +167,18 @@ export function diagnoseArmor(item: any, job?: string): string[] {
             const tier = itemLevel >= 201 ? '201~250제' : '71~200제';
 
             if (itemLevel >= 201) {
-                // 201~250레벨 (에테르넬 등) - 13%/줄
+                // 201~250레벨 (에테르넬 등) - 13%/줄 (레전), 10%/줄 (유니크)
                 if (statPct >= 39) {
+                    // 13 + 13 + 13 = 올이탈
                     comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다. (${tier})`);
-                } else if (statPct >= 35) {
-                    comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈+ 옵션입니다. 정옵을 뛰어넘은 최상급 스펙입니다. (${tier})`);
+                } else if (statPct >= 36) {
+                    // 13 + 13 + 10 = 쌍이탈
+                    comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션입니다. 정옵을 뛰어넘은 최상급 스펙입니다. (${tier})`);
                 } else if (statPct >= 33) {
-                    comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 3줄 정옵입니다. (${tier})`);
+                    // 13 + 10 + 10 or 71~200제 올이탈
+                    comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 정옵입니다. (${tier})`);
                 } else if (statPct >= 30) {
+                    // 10 + 10 + 10 = 유니크 3줄
                     comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다. (${tier})`);
                 } else if (statPct >= 23) {
                     comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다. (${tier})`);
