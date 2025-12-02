@@ -93,7 +93,9 @@ export function diagnoseHat(item: any, job?: string): string[] {
             comments.push(`[완벽한 졸업] <b>22성</b> 에테르넬 모자는 파프니르의 시대를 끝낼 유일한 대항마입니다. 더 이상 바랄 게 없는 최종 종결템입니다.`);
         } else if (starforce === 21) {
             comments.push(`[해방급 스펙] <b>21성</b> 에테르넬 모자는 매우 훌륭한 선택입니다. 22성을 도전할지 고민되시겠군요.`);
-        } else if (starforce >= 17) {
+        } else if (starforce >= 18) {
+            comments.push(`[고급 세팅] <b>${starforce}성</b> 에테르넬 모자는 준수한 성능입니다. 22성을 목표로 하세요.`);
+        } else if (starforce === 17) {
             comments.push(`[차세대 종결템] 파프니르 4세트를 포기하더라도, 자체 체급과 에테르넬 세트 효과로 충분히 강력합니다.`);
         }
     } else if (itemName.includes("하이네스")) {
@@ -108,7 +110,9 @@ export function diagnoseHat(item: any, job?: string): string[] {
             comments.push(`[가성비의 제왕] <b>22성</b> 파프니르 모자는 해방 후에도 4세트 효과(보공 30%)를 챙기는 천재적인 세팅입니다. 에테르넬 전까지 현역 최강입니다.`);
         } else if (starforce === 21) {
             comments.push(`[고효율 세팅] <b>21성</b> 파프니르 모자는 가성비가 매우 좋습니다. 22성을 도전해볼 만한 가치가 있습니다.`);
-        } else if (starforce >= 17) {
+        } else if (starforce >= 18) {
+            comments.push(`[고급 세팅] <b>${starforce}성</b> 파프니르 모자는 준수한 성능입니다. 22성을 목표로 하세요.`);
+        } else if (starforce === 17) {
             comments.push(`[국민 세팅] 카루타 세트 효과를 챙기는 가장 무난하고 효율적인 선택입니다.`);
         }
     } else if (itemName.includes("아케인셰이드")) {
@@ -123,7 +127,7 @@ export function diagnoseHat(item: any, job?: string): string[] {
             comments.push(`[준종결] <b>21성</b> 아케인 모자는 충분히 강력합니다. 22성 도전을 추천합니다.`);
         } else if (starforce >= 18) {
             comments.push(`[고스펙] <b>18성</b> 아케인 모자는 높은 깡스펙을 자랑합니다. 22성 앱솔보다 좋을 수 있습니다.`);
-        } else if (starforce >= 17) {
+        } else if (starforce === 17) {
             comments.push(`[미래 지향적] <b>17성</b> 아케인 모자는 추후 18성 이상을 노려볼 수 있는 좋은 베이스입니다.`);
         }
     } else if (itemName.includes("앱솔랩스")) {
@@ -134,7 +138,9 @@ export function diagnoseHat(item: any, job?: string): string[] {
             comments.push(`[가성비 고스펙] <b>22성</b> 앱솔 모자는 훌륭하지만, 해방 후 세트 효과 구성에서 파프니르에게 밀릴 수 있습니다.`);
         } else if (starforce === 21) {
             comments.push(`[준수한 고스펙] <b>21성</b> 앱솔랩스 모자는 가성비 좋게 사용하기 좋습니다.`);
-        } else if (starforce >= 17) {
+        } else if (starforce >= 18) {
+            comments.push(`[고급 세팅] <b>${starforce}성</b> 앱솔랩스 모자는 준수한 성능입니다. 22성이나 아케인으로 업그레이드를 고려해보세요.`);
+        } else if (starforce === 17) {
             comments.push(`[국민 세팅] <b>17성</b> 앱솔랩스 모자는 가성비가 매우 훌륭합니다. 카루타 3셋 + 앱솔 5셋 구성의 핵심입니다.`);
         }
     }

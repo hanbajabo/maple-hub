@@ -45,7 +45,9 @@ export function diagnoseGlove(item: any, job?: string): string[] {
     if (itemName.includes("앱솔랩스")) {
         if (starforce >= 22) {
             comments.push(`[가성비 제왕] <b>22성</b> 앱솔 장갑은 <b>17성</b> 아케인보다 공격력이 월등히 높습니다. 현명한 선택입니다.`);
-        } else if (starforce >= 17) {
+        } else if (starforce >= 18) {
+            comments.push(`[고급 세팅] <b>${starforce}성</b> 앱솔은 준수한 성능입니다. 22성이나 아케인으로 업그레이드를 고려해보세요.`);
+        } else if (starforce === 17) {
             comments.push(`[국민 세팅] <b>17성</b> 앱솔은 가성비가 좋지만, 추후 <b>22성 앱솔</b>이나 <b>18성 아케인</b>으로 넘어가면 공격력이 대폭 상승합니다.`);
         }
     } else if (itemName.includes("아케인셰이드")) {
