@@ -475,19 +475,19 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                 const match = opt.match(/(\d+)%/);
                 if (match) {
                     const val = parseInt(match[1]);
-                    // 올스탯은 항상 유효
+                    // 올스탯은 항상 유효 (가중치 1.1배 적용 -> 3.3점)
                     if (opt.includes('올스탯')) {
-                        totalStatEquivalent += val;
+                        totalStatEquivalent += val * 3.3;
                         isGoodOption = true;
                     }
                     // HP%는 명시적으로 체크 (데몬어벤져용)
                     else if (opt.includes('HP') && opt.includes('%')) {
-                        totalStatEquivalent += val;
+                        totalStatEquivalent += val * 3;
                         isGoodOption = true;
                     }
                     // 개별 스탯은 주스탯만 유효 (가장 높은 % 스탯만)
                     else if (hasMainStat && opt.includes(mainStat)) {
-                        totalStatEquivalent += val;
+                        totalStatEquivalent += val * 3;
                         isGoodOption = true;
                     }
                 }
@@ -498,10 +498,10 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                 if (match) {
                     const val = parseInt(match[1]);
                     // 올스탯 또는 주스탯인 경우에만 유효
-                    if (opt.includes('올스탯') || (hasAnyStatPercent && opt.includes(mainStat))) {
-                        // 렙당 2 = 약 6% (레전드리 유효), 렙당 1 = 약 3% (유니크/레전드리 유효)
-                        if (val >= 2) totalStatEquivalent += 6;
-                        else if (val >= 1) totalStatEquivalent += 3;
+                    if (opt.includes('올스탯') || (hasMainStat && opt.includes(mainStat))) {
+                        // 렙당 2 = 약 6% = 18점, 렙당 1 = 약 3% = 9점
+                        if (val >= 2) totalStatEquivalent += 18;
+                        else if (val >= 1) totalStatEquivalent += 9;
                         isGoodOption = true;
                     }
                 }
@@ -552,7 +552,7 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
             // 주스탯 10 = 주스탯 1%
             // 따라서 공/마 +21 = 주스탯 84 = 8.4%
             const statEquiv = (maxAttMagic * 4) / 10;
-            totalStatEquivalent += statEquiv;
+            totalStatEquivalent += statEquiv * 3;
         }
 
         // 점수 산정 (주스탯 % 환산치 그대로 사용)

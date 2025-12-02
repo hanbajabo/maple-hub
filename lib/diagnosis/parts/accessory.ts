@@ -159,7 +159,10 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
 
         // 칠흑 전용 스타포스 진단
         if (!slot.includes("뱃지") && !slot.includes("포켓") && !slot.includes("엠블렘")) {
-            if (starforce >= 22) comments.push(`[칠흑 졸업] <b>22성</b> 칠흑... 서버 내 최상위 포식자입니다.`);
+            if (starforce >= 25) comments.push(`[신화의 경지] <b>${starforce}성</b> 칠흑...?! 이건 메이플스토리의 역사를 새로 쓰는 아이템입니다. 전 서버 유일무이한 스펙일 수 있습니다.`);
+            else if (starforce === 24) comments.push(`[초월적 스펙] <b>24성</b> 칠흑이라니... 운영자도 놀랄만한 기적의 아이템입니다.`);
+            else if (starforce === 23) comments.push(`[전설의 시작] <b>23성</b> 칠흑은 그 자체로 하나의 전설입니다. 압도적인 위용을 자랑합니다.`);
+            else if (starforce === 22) comments.push(`[칠흑 졸업] <b>22성</b> 칠흑... 서버 내 최상위 포식자입니다.`);
             else if (starforce >= 18) comments.push(`[칠흑 고스펙] <b>18성</b> 이상 칠흑은 <b>22성</b> 여명보다 강력합니다.`);
             else if (starforce === 17) comments.push(`[아쉬움] 칠흑의 성능을 100% 끌어내려면 <b>22성</b>이 권장됩니다. (파괴 리스크 주의)`);
         }
@@ -200,7 +203,10 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
                         comments.push(`[한계 도달] <b>${starforce}성</b>(최대치)입니다. 이 아이템에서 챙길 수 있는 최대 스펙입니다.`);
                     } else {
                         // 25성 한계인 경우 (보통 22성에서 졸업함)
-                        if (starforce >= 22) comments.push(`[졸업] <b>${starforce}성</b>! 더 이상 바랄 게 없는 종결급 수치입니다.`);
+                        if (starforce >= 25) comments.push(`[신화의 경지] <b>${starforce}성</b>! 이건 메이플스토리의 역사를 새로 쓰는 아이템입니다.`);
+                        else if (starforce === 24) comments.push(`[초월적 스펙] <b>24성</b>! 운영자도 놀랄만한 기적의 아이템입니다.`);
+                        else if (starforce === 23) comments.push(`[전설의 시작] <b>23성</b>! 압도적인 위용을 자랑합니다.`);
+                        else if (starforce === 22) comments.push(`[졸업] <b>${starforce}성</b>! 더 이상 바랄 게 없는 종결급 수치입니다.`);
                         else comments.push(`[고스펙] <b>${starforce}성</b>! 훌륭합니다. (최대 25성 가능)`);
                     }
                 } else {

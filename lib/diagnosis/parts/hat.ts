@@ -1,7 +1,8 @@
 import { GRADE_SCORE } from '../../../src/data/diagnosisData';
 import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { getJobMainStat } from '../../job_utils';
-import { parsePotentialLines, evaluatePotential } from '../../utils/potential_utils';
+import { diagnoseScroll } from './scroll';
+import { parsePotentialLines, evaluatePotential, evaluateAdditional } from '../../utils/potential_utils';
 
 /**
  * 🎩 모자(Hat) 전용 진단 로직
@@ -20,6 +21,10 @@ export function diagnoseHat(item: any, job?: string): string[] {
     // 🚨 펜살리르 체크 - 펜살리르면 여기서 종료
     const pensalirWarning = checkPensalirAndWarn(itemName, 'armor');
     if (pensalirWarning) return pensalirWarning;
+
+    // 0. 주문서 작 진단 (Scroll)
+    const scrollComments = diagnoseScroll(item);
+    comments.push(...scrollComments);
 
     // 1. 잠재능력 (Potential) - 쿨타임 감소 및 주스탯 정밀 진단
     // 유틸을 사용하여 잠재능력 파싱
@@ -68,6 +73,11 @@ export function diagnoseHat(item: any, job?: string): string[] {
             const epicComments = diagnoseEpicPotential(potentialGrade, potentials, job);
             comments.push(...epicComments);
         }
+    }
+
+    // 에디셔널 쿨감 별도 언급
+    if (hasAdiCoolReduce) {
+        comments.push(`[에디셔널 유효] 에디셔널 잠재능력에서 <b>쿨타임 감소</b>를 챙기셨군요! 굉장히 희귀하고 좋은 유효 옵션입니다.`);
     }
 
     // 2. 아이템 종류별 메타 분석 (Meta Analysis)
@@ -139,77 +149,13 @@ export function diagnoseHat(item: any, job?: string): string[] {
     // 3. 에디셔널 잠재능력 (Additional Potential)
     const adiGrade = item.additional_potential_option_grade;
     if (adiGrade === "레전드리" || adiGrade === "유니크" || adiGrade === "에픽") {
-        const mainStats = getJobMainStat(job || "");
-        let adiStatPct = 0;
-        let adiAtt = 0;
-        let adiMagic = 0;
-
-        adiLines.forEach(l => {
-            if (!l) return;
-            // 공/마 상수 (합산)
-            if (l.includes("공격력") && !l.includes('%')) {
-                const match = l.match(/\+(\d+)/);
-                if (match) adiAtt += parseInt(match[1]);
-            }
-            if (l.includes("마력") && !l.includes('%')) {
-                const match = l.match(/\+(\d+)/);
-                if (match) adiMagic += parseInt(match[1]);
-            }
-
-            // 주스탯 %
-            const matchPct = l.match(/(\d+)%/);
-            if (matchPct) {
-                if (l.includes("올스탯")) {
-                    adiStatPct += parseInt(matchPct[1]);
-                }
-                // HP%는 항상 체크 (데몬어벤져용)
-                else if (l.includes('HP') && l.includes('%')) {
-                    adiStatPct += parseInt(matchPct[1]);
-                }
-                else {
-                    mainStats.forEach((stat: string) => {
-                        if (l.includes(stat)) adiStatPct += parseInt(matchPct[1]);
-                    });
-                }
-            }
-        });
-
-        const validAtt = Math.max(adiAtt, adiMagic);
-
-        if (adiGrade === "레전드리") {
-            if (adiStatPct >= 21) {
-                comments.push(`[에디 종결] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 전 서버급 초고스펙 옵션입니다.`);
-            } else if (adiStatPct >= 14) {
-                comments.push(`[에디 준종결] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 아주 훌륭한 스펙입니다.`);
-            } else if (validAtt >= 12) {
-                comments.push(`[에디 레전드리] 에디셔널 공/마 <b>+${validAtt}</b>! 든든한 옵션입니다.`);
-            } else {
-                comments.push(`[옵션 아쉬움] 에디셔널 레전드리 등급이지만 유효 옵션이 조금 아쉽습니다.`);
-            }
-        } else if (adiGrade === "유니크") {
-            if (adiStatPct > 0 && validAtt > 0) {
-                comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>와 <b>공/마 +${validAtt}</b>! 유효 옵션을 알차게 챙기셨습니다.`);
-            } else if (adiStatPct > 0) {
-                comments.push(`[에디 유니크] 에디셔널 <b>주스탯 ${adiStatPct}%</b>! 유니크 등급다운 훌륭한 옵션입니다.`);
-            } else if (validAtt >= 10) {
-                comments.push(`[에디 유니크] 에디셔널 공/마 <b>+${validAtt}</b>! 든든한 옵션입니다.`);
-            }
-        } else if (adiGrade === "에픽") {
-            // 공/마를 주스탯 환산: 공/마 1 = 주스탯 4, 주스탯 10 = 1%
-            const attEquiv = (validAtt * 4) / 10;
-            const totalEquiv = adiStatPct + attEquiv;
-
-            if (totalEquiv >= 10) {
-                comments.push(`[에디 에픽 종결] 에디셔널 <b>주스탯 ${Math.floor(totalEquiv)}%급</b> 효율! 에픽 등급 최상급 옵션입니다.`);
-            } else if (totalEquiv >= 3) {
-                comments.push(`[에디 에픽] 에디셔널 <b>주스탯 ${totalEquiv.toFixed(1)}%급</b> 효율! 아주 든든한 옵션입니다.`);
-            } else if (adiStatPct > 0 || validAtt > 0) {
-                comments.push(`[에디 에픽] 에디셔널 옵션이 있습니다.`);
-            }
+        const adiEval = evaluateAdditional(adiGrade, adiLines, job);
+        if (adiEval.score > 0) {
+            comments.push(adiEval.message);
+        } else if (adiGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
+            const hasAtt = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")));
+            if (!hasAtt) comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 공/마를 챙겨주세요.`);
         }
-    } else if (potentialGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
-        const hasAtt = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")));
-        if (!hasAtt) comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 공/마를 챙겨주세요.`);
     }
 
     // 4. 추옵 (Flame)
