@@ -153,25 +153,35 @@ export function evaluateArmorStarforce(
         };
     }
 
-    // 타일런트 장비 특별 처리 (10성~15성 목표)
+    // 타일런트 장비 특별 처리 (슈페리얼 등급)
+    // 타일런트 환산: 5성=17성급, 10성=21성급, 12성=22성급, 15성=최대
     if (itemName.includes('타일런트') || itemName.includes('히아데스')) {
         if (currentStar >= 15) {
             evaluation = '종결';
-            recommendation = `${currentStar}성! 타일런트 장비에서 15성은 최고 수준입니다. 파괴 위험이 높으므로 이 정도에서 만족하는 것을 권장합니다.`;
+            recommendation = `${currentStar}성! 타일런트 15성은 전설적인 수치입니다. 더 이상 바랄 게 없는 최고 수준입니다.`;
+        } else if (currentStar >= 14) {
+            evaluation = '최고';
+            recommendation = `${currentStar}성! 타일런트 14성은 매우 강력한 성능을 자랑합니다. 15성 도전도 고려해볼만 합니다.`;
+        } else if (currentStar >= 13) {
+            evaluation = '훌륭';
+            recommendation = `${currentStar}성! 타일런트 13성은 현역으로 충분히 강력합니다. 고성능 세팅입니다.`;
         } else if (currentStar >= 12) {
             evaluation = '준수';
-            recommendation = `${currentStar}성! 타일런트 장비에서 준수한 수준입니다. 15성을 목표로 하거나, 파괴 위험을 고려하여 여기서 멈추는 것도 좋은 선택입니다.`;
+            recommendation = `${currentStar}성! 타일런트 12성은 22성 일반 아이템과 맞먹는 성능입니다. 준종결 세팅!`;
         } else if (currentStar >= 10) {
             evaluation = '보통';
-            recommendation = `${currentStar}성! 타일런트 장비에서 최소 기준입니다. 12성 이상을 목표로 강화를 권장합니다.`;
+            recommendation = `${currentStar}성! 타일런트 10성 이상은 21성급 성능을 냅니다. 고스펙 구간입니다.`;
+        } else if (currentStar >= 5) {
+            evaluation = '부족';
+            recommendation = `${currentStar}성! 타일런트 5성은 17성 일반 아이템과 비슷한 효율입니다. 가성비 구간이지만, 10성 이상을 목표로 하세요.`;
         } else {
             evaluation = '부족';
-            recommendation = `${currentStar}성! 타일런트 장비는 10성 이상을 목표로 하세요. 다만 파괴 위험이 높으므로 신중하게 강화하세요.`;
+            recommendation = `${currentStar}성! 슈페리얼 아이템은 5성 이상 강화해야 진가를 발휘합니다. 파괴 위험을 고려하여 신중하게 강화하세요.`;
         }
 
         return {
             current_star: currentStar,
-            target_star: 12, // 타일런트는 12성이 안전한 목표
+            target_star: 12, // 타일런트는 12성이 안전한 목표 (22성급)
             success_rate: 0,
             destroy_risk: 0,
             avg_destroy_count: 0,
