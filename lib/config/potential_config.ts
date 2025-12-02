@@ -112,7 +112,7 @@ export const POTENTIAL_THRESHOLDS = {
         // 201~250레벨 (13%/줄)
         TIER_2: {
             TRIPLE_PRIME: 39,   // 올이탈 (13×3)
-            DOUBLE_PRIME_PLUS: 35,  // 쌍이탈+ (13×2 + 9)
+            DOUBLE_PRIME_PLUS: 36,  // 쌍이탈+ (13×2 + 10)
             DOUBLE_PRIME: 26,   // 쌍이탈 (13×2)
             PERFECT: 33,        // 정옵 (TIER_1 올이탈 = 12×3)
             GOOD: 30,           // 고스펙 (10×3)

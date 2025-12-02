@@ -266,12 +266,24 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
     });
 
     if (potentialGrade === "레전드리") {
-        if (statPct >= 30) comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 3줄 정옵입니다.`);
-        else if (statPct >= 27) comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다.`);
-        else if (statPct >= 21) comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
-        else if (statPct >= 18) comments.push(`[아쉬움] 주스탯 <b>${statPct}%</b>는 유니크 등급 효율입니다. 큐브 작업이 권장됩니다.`);
-        else if (statPct > 0) {
-            comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
+        const itemLevel = item.item_base_option?.base_equipment_level || 0;
+
+        if (itemLevel > 200) {
+            // 201레벨 이상 (칠흑 등)
+            if (statPct >= 39) comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다.`);
+            else if (statPct >= 36) comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션(36% 이상)입니다.`);
+            else if (statPct >= 33) comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 졸업급 정옵입니다.`);
+            else if (statPct >= 23) comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
+            else if (statPct > 0) comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
+        } else {
+            // 200레벨 이하
+            if (statPct >= 36) comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다.`);
+            else if (statPct >= 33) comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션(33% 이상)입니다.`);
+            else if (statPct >= 30) comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 졸업급 정옵입니다.`);
+            else if (statPct >= 27) comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다.`);
+            else if (statPct >= 21) comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
+            else if (statPct >= 18) comments.push(`[아쉬움] 주스탯 <b>${statPct}%</b>는 유니크 등급 효율입니다. 큐브 작업이 권장됩니다.`);
+            else if (statPct > 0) comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
         }
     } else if (potentialGrade === '유니크') {
         if (statPct >= 15) comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다.`);

@@ -173,10 +173,10 @@ export function diagnoseArmor(item: any, job?: string): string[] {
                     comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다. (${tier})`);
                 } else if (statPct >= 36) {
                     // 13 + 13 + 10 = 쌍이탈
-                    comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션입니다. 정옵을 뛰어넘은 최상급 스펙입니다. (${tier})`);
+                    comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션(36% 이상)입니다. (${tier})`);
                 } else if (statPct >= 33) {
                     // 13 + 10 + 10 or 71~200제 올이탈
-                    comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 정옵입니다. (${tier})`);
+                    comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 졸업급 정옵입니다. (${tier})`);
                 } else if (statPct >= 30) {
                     // 10 + 10 + 10 = 유니크 3줄
                     comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다. (${tier})`);

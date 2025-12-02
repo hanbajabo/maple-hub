@@ -142,9 +142,9 @@ export function evaluatePotential(
         if (gradeLabel === '올이탈') {
             message = `주스탯 ${Math.floor(totalStatPct)}%! 올이탈... 이건 기적입니다. (${tierLabel})`;
         } else if (gradeLabel === '쌍이탈+') {
-            message = `주스탯 ${Math.floor(totalStatPct)}%! 쌍이탈+ 옵션입니다. 정옵을 뛰어넘은 최상급 스펙입니다. (${tierLabel})`;
+            message = `주스탯 ${Math.floor(totalStatPct)}%! 쌍이탈 옵션(${Math.floor(totalStatPct)}% 이상)입니다. (${tierLabel})`;
         } else if (gradeLabel === '정옵') {
-            message = `주스탯 ${Math.floor(totalStatPct)}%! 완벽한 3줄 정옵입니다. (${tierLabel})`;
+            message = `주스탯 ${Math.floor(totalStatPct)}%! 완벽한 졸업급 정옵입니다. (${tierLabel})`;
         } else if (gradeLabel === '고스펙') {
             message = `주스탯 ${Math.floor(totalStatPct)}%! 상위권 스펙입니다. (${tierLabel})`;
         } else if (gradeLabel === '표준') {
