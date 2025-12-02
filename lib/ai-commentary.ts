@@ -705,18 +705,22 @@ export function generateItemCommentary(item: any, job?: string): string {
                     if (adiStatPct >= 21) {
                         comments.push(`${adiPrefix} <b>주스탯 ${adiStatPct}% 이상</b>! 에디셔널 종결급 옵션입니다. 전 서버급 스펙입니다.`);
                     } else if (adiStatPct >= 14) {
-                        comments.push(`${adiPrefix} <b>주스탯 ${adiStatPct}% 이상</b>! 아주 훌륭한 스펙입니다.`);
+                        comments.push(`${adiPrefix} <b>주스탯 ${adiStatPct}% 이상</b>! 아주 훌륭한 준종결급 스펙입니다.`);
                     } else if (validAttFlat >= 12) {
                         comments.push(`${adiPrefix} <b>${attType} +${validAttFlat}</b> 이상! 든든한 옵션입니다.`);
                     } else {
                         comments.push(`${adiPrefix} 레전드리 등급이지만 옵션이 조금 아쉽습니다. 돌려보시는 건 어떨까요?`);
                     }
                 } else if (validStatLines >= 3) {
-                    comments.push(pick([
-                        `${adiPrefix} <b>주스탯 3줄</b>...?! 이건 <b>진짜 종결급</b>입니다. 더 이상 손댈 곳이 없습니다.`,
-                        `${adiPrefix} 와... <b>3줄</b>이라니! 메이플 인생에 몇 번 보기 힘든 옵션입니다.`,
-                        `${adiPrefix} <b>주스탯 3줄</b>! 완벽 그 자체입니다. 졸업을 축하드립니다.`
-                    ]));
+                    if (addPotentialGrade === '유니크') {
+                        comments.push(`${adiPrefix} <b>주스탯 3줄</b>! 레전드리 2줄급의 엄청난 효율입니다. 유니크 종결!`);
+                    } else {
+                        comments.push(pick([
+                            `${adiPrefix} <b>주스탯 3줄</b>...?! 이건 <b>진짜 종결급</b>입니다. 더 이상 손댈 곳이 없습니다.`,
+                            `${adiPrefix} 와... <b>3줄</b>이라니! 메이플 인생에 몇 번 보기 힘든 옵션입니다.`,
+                            `${adiPrefix} <b>주스탯 3줄</b>! 완벽 그 자체입니다. 졸업을 축하드립니다.`
+                        ]));
+                    }
                 } else if (validStatLines === 2) {
                     if (validAttFlat > 0) {
                         comments.push(`${adiPrefix} <b>주스탯 2줄</b>에 <b>${attType} +${validAttFlat}</b>까지! 완벽에 가까운 에디셔널입니다.`);
@@ -726,11 +730,13 @@ export function generateItemCommentary(item: any, job?: string): string {
                                 `${adiPrefix} <b>주스탯 2줄</b>! 에픽 등급에서 챙길 수 있는 최고의 가성비 옵션입니다.`,
                                 `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 가성비 세팅의 끝판왕입니다.`
                             ]));
-                        } else {
+                        } else if (addPotentialGrade === '유니크') {
                             comments.push(pick([
-                                `${adiPrefix} <b>주스탯 2줄</b>! 방어구 에디셔널 종결급입니다.`,
-                                `${adiPrefix} <b>주스탯 2줄</b>, 아주 훌륭합니다. 이 정도면 평생 쓰셔도 됩니다.`
+                                `${adiPrefix} <b>주스탯 2줄</b>! 유니크 등급에서 챙길 수 있는 훌륭한 옵션입니다.`,
+                                `${adiPrefix} <b>주스탯 2줄</b>, 꽤 좋은 옵션입니다. 충분히 현역으로 쓸 수 있습니다.`
                             ]));
+                        } else {
+                            comments.push(`${adiPrefix} <b>주스탯 2줄</b>! 꽤 좋은 옵션입니다.`);
                         }
                     }
                 } else if (validStatLines === 1) {

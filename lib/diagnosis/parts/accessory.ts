@@ -371,7 +371,7 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
         if (totalAdiStatPct >= 21) {
             comments.push(`[에디 종결] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>! 전 서버급 초고스펙 옵션입니다.`);
         } else if (totalAdiStatPct >= 14) {
-            comments.push(`[에디 준종결] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>! 아주 훌륭한 스펙입니다.`);
+            comments.push(`[에디 준종결] 에디셔널 <b>주스탯 ${Math.round(totalAdiStatPct)}%</b>! 아주 훌륭한 준종결급 스펙입니다.`);
         } else if (validAdiAtt >= 12 && adiStatPct === 0) {
             // 공/마만 있고 주스탯%가 없는 경우
             comments.push(`[에디 레전드리] 에디셔널 ${attType} <b>+${validAdiAtt}</b>! 든든한 옵션입니다.`);
