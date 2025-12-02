@@ -380,17 +380,17 @@ export function generateItemCommentary(item: any, job?: string): string {
                 if (line.includes('메소 획득량')) mesoRate += parseInt(line.replace(/[^0-9]/g, '')) || 0;
 
                 // 렙당 스탯 처리 (캐릭터 기준 9레벨 당 +X)
-                // 9레벨 당 +1 -> 약 9%급 (유니크)
-                // 9레벨 당 +2 -> 약 12%급 (레전드리)
+                // 9레벨 당 +1 -> 약 3%급
+                // 9레벨 당 +2 -> 약 6%급
                 let levelStatBonus = 0;
                 if (line.includes('캐릭터 기준 9레벨 당') || line.includes('캐릭터 기준 10레벨 당')) {
                     // 주스탯/올스탯 여부 확인
                     const valMatch = line.match(/\+(\d+)/);
                     const val = valMatch ? parseInt(valMatch[1]) : 0;
 
-                    // 대략적인 % 환산 (9레벨당 1 = 9%, 2 = 12% 로 가정)
-                    if (val >= 2) levelStatBonus = 12;
-                    else if (val >= 1) levelStatBonus = 9;
+                    // 대략적인 % 환산 (9레벨당 1 = 3%, 2 = 6%)
+                    if (val >= 2) levelStatBonus = 6;
+                    else if (val >= 1) levelStatBonus = 3;
 
                     if (line.includes('STR')) strTotal += levelStatBonus;
                     if (line.includes('DEX')) dexTotal += levelStatBonus;
@@ -629,10 +629,10 @@ export function generateItemCommentary(item: any, job?: string): string {
                         const valMatch = line.match(/\+(\d+)/);
                         const val = valMatch ? parseInt(valMatch[1]) : 0;
 
-                        // 에디셔널 렙당 스탯 환산 (9레벨당 1 = 7%, 2 = 10% 가정)
+                        // 에디셔널 렙당 스탯 환산 (9레벨당 1 = 3%, 2 = 6%)
                         let bonusPct = 0;
-                        if (val >= 2) bonusPct = 10;
-                        else if (val >= 1) bonusPct = 7;
+                        if (val >= 2) bonusPct = 6;
+                        else if (val >= 1) bonusPct = 3;
 
                         // 주스탯 포함 여부 확인
                         let isValid = false;
