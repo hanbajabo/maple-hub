@@ -1286,7 +1286,7 @@ export default function Home() {
           // Key Remounting: refreshKey가 바뀌면 이 div 내부의 모든 컴포넌트가 재생성됨
           <div key={refreshKey} className="contents">
             {/* Left Panel: Character Profile & Equipment */}
-            <div className="w-full xl:w-[28%] flex flex-col gap-4 sm:gap-6">
+            <div className="w-full xl:w-[28%] flex flex-col gap-2 sm:gap-3">
               {/* Character Profile Card */}
               <div className="relative z-50 rounded-none sm:rounded-3xl shadow-2xl shadow-black/50 mx-0 sm:mx-0">
                 {/* Background Container - Handles clipping for background effects */}
@@ -1330,7 +1330,7 @@ export default function Home() {
 
                   {/* Badges Grid */}
                   {ocid && (
-                    <div className="w-full grid grid-cols-2 gap-1.5 sm:gap-2 mt-1 sm:mt-2 relative z-20">
+                    <div className="w-full grid grid-cols-2 gap-0.5 mt-1 sm:mt-2 relative z-20">
                       <LinkSkillBadge ocid={ocid} initialData={linkSkillData} refreshKey={refreshKey} />
                       <UnionDiagnostic ocid={ocid} initialData={unionRaiderData} refreshKey={refreshKey} myClass={character.character_class} unionLevel={union?.union_level} />
                       <ArtifactBadge ocid={ocid} refreshKey={refreshKey} />
@@ -1423,7 +1423,7 @@ export default function Home() {
                 })()}
 
                 {/* Detailed Stats Panel - Flex-1 to fill height */}
-                <div className="flex-1 bg-slate-900 rounded-3xl p-3 sm:p-4 border border-slate-800 shadow-xl flex flex-col gap-3 justify-between">
+                <div className="flex-1 bg-slate-900 rounded-3xl p-3 sm:p-4 border border-slate-800 shadow-xl flex flex-col gap-3 justify-start">
 
                   {/* Row 1: Main Stat & Att % */}
                   <div className="grid grid-cols-2 gap-4">

@@ -185,6 +185,11 @@ const EquipmentOverviewModal: React.FC<EquipmentOverviewModalProps> = ({
                                                         놀장강
                                                     </span>
                                                 )}
+                                                {item!.item_name.includes("타일런트") && (
+                                                    <span className={`text-white bg-purple-600 rounded shadow-sm font-bold border border-purple-500 ${getZoomTextClass(zoomLevel, 'badge')}`}>
+                                                        슈페리얼
+                                                    </span>
+                                                )}
                                             </div>
                                             <div className="flex flex-wrap gap-x-1.5 gap-y-0 leading-tight">
                                                 {getEtcOptions(item!).map((opt, i) => (

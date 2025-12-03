@@ -1,6 +1,7 @@
 import { EquipmentItem, Issue, GRADE_SCORE } from '../types';
 import { getJobInfo } from '../constants';
 import { getStarforce } from '../../../lib/diagnosis/utils';
+import { isAmazingEnhancementItem } from '@/lib/amazing_enhancement_table';
 
 export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attTypeKor: string) => {
     const { mainStat } = getJobInfo(jobName);
@@ -56,19 +57,24 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
         const star = getStarforce(item);
 
         // 놀라운 장비 강화 주문서(놀장강) 적용 여부 확인
-        const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
+        const isAmazingEnhancement = isAmazingEnhancementItem(item);
+        const hasAmazingScroll = (item.starforce_scroll_flag !== "0" && star > 0) || isAmazingEnhancement;
 
         if (!slot.includes("반지") && !skipStarforce) {
             const isEyeFace = slot === "눈장식" || slot === "얼굴장식";
             const isFairyHeart = name.includes("페어리 하트");
+            const isTyrant = name.includes("타일런트");
 
             let targetStar = 12;
             if (isEyeFace || isFairyHeart) targetStar = 8;
 
-            // 놀장강 적용 아이템은 예외 처리 (통과)
-            if (hasAmazingScroll) {
-                // 통과 (놀장강 적용됨)
-            } else if (star < targetStar) {
+            // 놀장강/슈페리얼 아이템은 3성 이상이면 통과 (12성 기준)
+            if (isAmazingEnhancement || isTyrant) {
+                targetStar = 3;
+            }
+
+            // 놀장강 적용 아이템은 예외 처리 (통과) -> 이제 기준 적용
+            if (star < targetStar) {
                 isPassed = false;
                 issues.push({ type: 'starforce', message: `[스타포스] ${item.item_name}: ${targetStar}성 미만 (${star}성)` });
             }

@@ -10,6 +10,7 @@ import { Stage7Content } from './stage_contents/Stage7Content';
 import { Stage8Content } from './stage_contents/Stage8Content';
 import { EquipmentItem } from '../../lib/diagnosis/types';
 import { getStarforce, parseStatPercent, getPotentialGradeScore, calculateFlameScore } from '../../lib/diagnosis/utils';
+import { isAmazingEnhancementItem } from '@/lib/amazing_enhancement_table';
 
 interface StageCardProps {
     stageInfo: {
@@ -221,7 +222,9 @@ export const StageCard: React.FC<StageCardProps> = ({
                 const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
                 const isTyrant = name.includes("타일런트");
                 const isEternal = name.includes("에테르넬");
-                const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
+                // 놀라운 장비 강화 주문서(놀장강) 적용 여부 확인
+                const isAmazingEnhancement = isAmazingEnhancementItem(item);
+                const hasAmazingScroll = (item.starforce_scroll_flag !== "0" && star > 0) || isAmazingEnhancement;
 
                 let starforceThreshold = isTyrant ? 10 : 17;
                 if (isEternal) starforceThreshold = 12;
@@ -232,7 +235,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                 }
 
                 // 2. 주문서 작 체크 (글로리온 링 예외)
-                if (!isSpecialRing && !name.includes("글로리온")) {
+                if (!isSpecialRing && !name.includes("글로리온") && !hasAmazingScroll) {
                     // 주스탯 계산
                     const str = parseInt(item.item_etc_option?.str || "0");
                     const dex = parseInt(item.item_etc_option?.dex || "0");
@@ -369,6 +372,10 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (isEternal) threshold = 12;
                 if (isTyrant) threshold = 10;
 
+                // 놀장강 처리: 10성 이상이면 20성급이므로 18성 통과
+                const isAmazingEnhancement = isAmazingEnhancementItem(item);
+                if (isAmazingEnhancement) return star >= 10;
+
                 return star >= threshold;
             }
 
@@ -381,6 +388,11 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (!isArmor) return false;
 
                 const isEternal = name.includes("에테르넬");
+
+                // 놀장강 처리: 12성 이상이면 22성급이므로 통과
+                const isAmazingEnhancement = isAmazingEnhancementItem(item);
+                if (isAmazingEnhancement) return star >= 12;
+
                 if (isEternal) return star >= 17;
                 return star >= 22;
             }
@@ -394,6 +406,11 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (!isArmor) return false;
 
                 const isEternal = name.includes("에테르넬");
+
+                // 놀장강 처리: 12성 이상이면 22성급이므로 통과
+                const isAmazingEnhancement = isAmazingEnhancementItem(item);
+                if (isAmazingEnhancement) return star >= 12;
+
                 if (isEternal) return star >= 17;
                 return star >= 22;
             }
@@ -452,7 +469,9 @@ export const StageCard: React.FC<StageCardProps> = ({
                 const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
                 const isTyrant = name.includes("타일런트");
                 const isEternal = name.includes("에테르넬");
-                const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
+                // 놀라운 장비 강화 주문서(놀장강) 적용 여부 확인
+                const isAmazingEnhancement = isAmazingEnhancementItem(item);
+                const hasAmazingScroll = (item.starforce_scroll_flag !== "0" && star > 0) || isAmazingEnhancement;
 
                 let starforceThreshold = isTyrant ? 10 : 17;
                 if (isEternal) starforceThreshold = 12;
@@ -463,7 +482,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                 }
 
                 // 2. 주문서 작 체크
-                if (!isSpecialRing && !name.includes("글로리온")) {
+                if (!isSpecialRing && !name.includes("글로리온") && !hasAmazingScroll) {
                     const str = parseInt(item.item_etc_option?.str || "0");
                     const dex = parseInt(item.item_etc_option?.dex || "0");
                     const int_val = parseInt(item.item_etc_option?.int || "0");
@@ -578,6 +597,13 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (isEternal) threshold = 12;
                 if (isTyrant) threshold = 10;
 
+                // 놀장강 처리: 10성 이상이면 20성급이므로 18성 통과
+                const isAmazingEnhancement = isAmazingEnhancementItem(item);
+                if (isAmazingEnhancement) {
+                    if (star < 10) return true;
+                    return false;
+                }
+
                 if (star < threshold) return true;
                 return false;
             }
@@ -591,6 +617,14 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (!isArmor) return false;
 
                 const isEternal = name.includes("에테르넬");
+
+                // 놀장강 처리: 12성 이상이면 22성급이므로 통과
+                const isAmazingEnhancement = isAmazingEnhancementItem(item);
+                if (isAmazingEnhancement) {
+                    if (star < 12) return true;
+                    return false;
+                }
+
                 if (isEternal) {
                     if (star < 17) return true;
                 } else {
@@ -706,6 +740,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                             <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-slate-300 text-xs">
                                 {Object.entries(expandedPassedItem.item_add_option || {}).map(([key, val]) => {
                                     if (val === "0") return null;
+                                    if (key === "equipment_level_decrease") return null;
                                     let label = key;
                                     if (key === "str") label = "STR";
                                     if (key === "dex") label = "DEX";
@@ -830,6 +865,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                             <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-slate-300 text-xs">
                                 {Object.entries(expandedFailedItem.item_add_option || {}).map(([key, val]) => {
                                     if (val === "0") return null;
+                                    if (key === "equipment_level_decrease") return null;
                                     let label = key;
                                     if (key === "str") label = "STR";
                                     if (key === "dex") label = "DEX";

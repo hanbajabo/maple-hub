@@ -6,6 +6,7 @@ import { getJobMainStat } from '../../job_utils';
 import { EVENT_RING_MESSAGES } from '../../config/message_templates';
 import { EquipmentItem } from '../types';
 import { getStarforce, calculateFlameScore, getSeedRingLevel } from '../utils';
+import { isAmazingEnhancementItem } from '../../amazing_enhancement_table';
 import {
     getMaxStarforce,
     STARFORCE_TIERS,
@@ -53,8 +54,8 @@ export function diagnoseAccessory(item: EquipmentItem, job?: string): string[] {
     const isEventRing = EVENT_RING_KEYWORDS.some(k => itemName.includes(k));
     const isSpecialRing = SPECIAL_NON_UPGRADABLE_RINGS.some(k => itemName.includes(k));
 
-    // 0. 주문서 작 진단 (Scroll) - 기계 심장, 뱃지, 훈장, 포켓, 이벤트링, 특수링 제외 (작 불가 아이템)
-    if (!slot.includes("기계 심장") && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !isEventRing && !isSpecialRing) {
+    // 0. 주문서 작 진단 (Scroll) - 기계 심장, 뱃지, 훈장, 포켓, 이벤트링, 특수링, 놀장강 제외
+    if (!slot.includes("기계 심장") && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !isEventRing && !isSpecialRing && !isAmazingEnhancementItem(item)) {
         const scrollComments = diagnoseScroll(item);
         comments.push(...scrollComments);
     }
@@ -191,17 +192,23 @@ export function diagnoseAccessory(item: EquipmentItem, job?: string): string[] {
     // 5. 일반 스타포스 진단 (시드링, 뱃지, 훈장, 포켓, 이벤트링, 특수링 제외)
     if (!isSeedRing && !isEventRing && !isSpecialRing && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !slot.includes("엠블렘")) {
         if (!isPitch && !isTyrant) { // 칠흑과 타일런트는 위에서 별도 처리
-            // 놀장강(Amazing Enhancement) 체크
-            // 조건: 12성 이하이면서, 스타포스로 인한 공/마 상승량이 존재할 경우 (일반 장신구는 15성까지 공/마 안 오름)
-            const sfOpts = item.item_starforce_option;
-            const sfAtt = sfOpts ? parseInt(sfOpts.attack_power || "0") : 0;
-            const sfMagic = sfOpts ? parseInt(sfOpts.magic_power || "0") : 0;
+            // 놀장강(Amazing Enhancement) 정확한 감지
+            const isAmazingEnhancement = isAmazingEnhancementItem(item);
 
-            // 직업에 맞는 공/마 상승 여부 확인
-            const hasUsefulSfStat = isMagic ? sfMagic > 0 : sfAtt > 0;
+            if (isAmazingEnhancement) {
+                // 놀장강 효율 계산 (5성=17성급, 10성=20성급, 12성=22성급)
+                let gradeLabel = "좋음";
 
-            if (starforce > 0 && starforce <= 12 && hasUsefulSfStat) {
-                comments.push(`[놀장강] 별의 개수는 적지만 성능은 확실합니다. 잊혀진 고대 기술의 유산입니다.`);
+                if (starforce >= 12) {
+                    gradeLabel = "종결";
+                    comments.push(`[${gradeLabel}] 놀장강 <b>${starforce}성</b> = 일반 <b>22성급 효율</b>! 슈페리얼 장비의 끝판왕입니다. 더 이상 스타포스 강화가 불가능하며, 이미 최고 성능입니다.`);
+                } else if (starforce >= 10) {
+                    gradeLabel = "우수";
+                    comments.push(`[${gradeLabel}] 놀장강 <b>${starforce}성</b> = 일반 <b>20성급 효율</b>! 매우 훌륭합니다. <b>12성</b>(22성급)을 최종 목표로 하세요.`);
+                } else {
+                    gradeLabel = "좋음";
+                    comments.push(`[${gradeLabel}] 놀장강 <b>${starforce}성</b> = 일반 <b>17성급 효율</b>! 우수한 성능입니다. <b>12성</b>(22성급)을 목표로 하세요.`);
+                }
             } else {
                 // 일반 스타포스
                 const maxSf = getMaxStarforce(level);

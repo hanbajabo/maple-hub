@@ -2,6 +2,7 @@ import { EquipmentItem, Issue, GRADE_SCORE } from '../types';
 import { getJobInfo } from '../constants';
 import { calcStatScore, getScrollStat } from '../utils';
 import { getStarforce } from '../../../lib/diagnosis/utils';
+import { isAmazingEnhancementItem } from '@/lib/amazing_enhancement_table';
 
 // UI Stage 7: 18-star Completion
 export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attTypeKor: string) => {
@@ -69,10 +70,15 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
         const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
         const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
 
-        // 1. 스타포스 (18성 이상, 타일런트 10성 이상)
+        // 1. 스타포스 (18성 이상, 타일런트 10성 이상 -> 5성 이상)
         const isTyrant = name.includes("타일런트");
         const isEternal = name.includes("에테르넬");
-        let starforceThreshold = isTyrant ? 7 : 18;
+
+        // 놀라운 장비 강화 주문서(놀장강) 적용 여부 확인
+        const isAmazingEnhancement = isAmazingEnhancementItem(item);
+
+        let starforceThreshold = 18;
+        if (isTyrant || isAmazingEnhancement) starforceThreshold = 5;
         if (isEternal) starforceThreshold = 12;
 
         const isNoStarforce = item.starforce_scroll_flag === "0" && getStarforce(item) === 0;

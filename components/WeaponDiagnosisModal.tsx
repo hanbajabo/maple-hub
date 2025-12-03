@@ -12,6 +12,7 @@ import { generateItemCommentary } from '../lib/ai-commentary';
 import AICommentary from './AICommentary';
 import ItemCard from './ItemCard';
 import { getSpecialItemConfig } from '../lib/config/special_items';
+import { isAmazingEnhancementItem } from '../lib/amazing_enhancement_table';
 
 interface WeaponDiagnosisModalProps {
     item: any; // ItemData type
@@ -78,12 +79,13 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
         // 1. 스타포스 진단
         let sfResult = null;
         const starforce = parseInt(item.starforce || "0");
+        const isAmazingEnhancement = isAmazingEnhancementItem(item);
 
         if (type === '무기') {
-            sfResult = evaluateStarforce(starforce, 22, item.item_name, item.item_base_option.base_equipment_level);
+            sfResult = evaluateStarforce(starforce, 22, item.item_name, item.item_base_option.base_equipment_level, isAmazingEnhancement);
         } else if (type === '방어구' || type === '장신구') {
             // 방어구/장신구는 별도 평가
-            sfResult = evaluateArmorStarforce(starforce, item.item_base_option.base_equipment_level, item.item_name);
+            sfResult = evaluateArmorStarforce(starforce, item.item_base_option.base_equipment_level, item.item_name, isAmazingEnhancement);
         } else {
             sfResult = {
                 current_star: 0,

@@ -102,6 +102,31 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
         const slot = item.item_equipment_slot;
         const name = item.item_name;
 
+        // === 펜살리르/우트가르드 장비 교체 권장 ===
+        const isPensalir = name.includes('펜살리르') || name.includes('우트가르드');
+        if (isPensalir) {
+            let targetEquipment = '';
+            if (slot.includes('무기')) {
+                targetEquipment = '아케인셰이드 무기';
+            } else if (slot.includes('모자') || slot.includes('한벌옷')) {
+                targetEquipment = '루타비스(카루타) 세트';
+            } else {
+                targetEquipment = '앱솔/아케인 장비';
+            }
+
+            priorities.push({
+                item,
+                priorityScore: 1000, // 최고 우선순위
+                type: 'STARFORCE',
+                currentStatus: '펜살리르 (성능 부족)',
+                targetStatus: `${targetEquipment}로 교체`,
+                costEstimate: '장비 교체 필수',
+                efficiencyLabel: '🚨 장비 교체 필수',
+                rank: 1 // Must Do
+            });
+            return; // 다른 평가 skip
+        }
+
         // === 특수 아이템 필터링 ===
         if (name.includes('정령의 펜던트')) return;
 

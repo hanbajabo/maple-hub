@@ -418,7 +418,7 @@ export function diagnoseEquipment(items: any[], mainStat: string, attType: strin
             comments.forEach(comment => {
                 const displayComment = `[${slot}] ${itemName}: ${comment}`;
 
-                if (comment.includes("[미달]") || comment.includes("[경고]") || comment.includes("[치명적]") || comment.includes("[망작]") || comment.includes("[강화 필요]") || comment.includes("[환불 필요]") || comment.includes("[비추천]")) {
+                if (comment.includes("[미달]") || comment.includes("[경고]") || comment.includes("[치명적]") || comment.includes("[망작]") || comment.includes("[강화 필요]") || comment.includes("[환불 필요]") || comment.includes("[비추천]") || comment.includes("[교체 권장]")) {
                     if (comment.includes("스타포스")) result.starforce.push(displayComment);
                     else if (comment.includes("잠재")) result.potential.push(displayComment);
                     else if (comment.includes("에디")) result.additional.push(displayComment);

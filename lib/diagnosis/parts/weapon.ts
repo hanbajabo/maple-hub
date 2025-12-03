@@ -10,6 +10,7 @@ import {
 } from '../../config/unified_criteria';
 import { EquipmentItem } from '../types';
 import { getStarforce } from '../utils';
+import { isAmazingEnhancementItem } from '../../amazing_enhancement_table';
 
 // 소울 웨폰 티어 데이터
 const TIER_1_SOULS = ["진 힐라", "감시자 칼로스", "카링", "선택받은 세렌", "검은 마법사", "최초의 대적자", "발드릭스", "림보", "섬멸병기 스우", "매그너스", "시그너스", "블러디 퀸", "벨룸", "무르무르"];
@@ -62,25 +63,32 @@ export function diagnoseWeapon(item: EquipmentItem, job?: string): string[] {
     if (isPensalirItem(itemName)) {
         comments.push(`[긴급 경고] 우트가르드(펜살리르) 무기는 성능이 매우 부족합니다. 본캐용이라면 즉시 아케인셰이드 무기로 교체하세요.`);
     } else if (!isGenesis && !isZeroWeapon && !isSecondary && !isEmblem) { // 보조/엠블렘은 스타포스 없음 (방패 제외, 방패는 별도 처리 필요하나 여기선 생략)
-        const maxSf = getMaxStarforce(level);
-        if (starforce >= maxSf) {
-            if (maxSf < STARFORCE_TIERS.ENDGAME) comments.push(`[최대 강화] 현재 레벨에서 가능한 최대 스타포스(${maxSf}성)입니다. 더 높은 스펙을 원하시면 상위 장비로 교체하세요.`);
-            else comments.push(`[졸업] <b>${STARFORCE_TIERS.ENDGAME}성</b> 무기... 공격력이 폭발합니다. 완벽합니다.`);
-        }
-        else if (starforce >= STARFORCE_TIERS.STANDARD) comments.push(`[국민 세팅] <b>${STARFORCE_TIERS.STANDARD}성</b> 무기는 가성비가 좋지만, <b>${STARFORCE_TIERS.ENDGAME}성</b>과의 공격력 차이가 큽니다.`);
-        else if (starforce >= STARFORCE_TIERS.ENTRY) {
-            if (maxSf < STARFORCE_TIERS.STANDARD) {
-                comments.push(`[입문] 임시로 사용하는 단계입니다. (최대 <b>${maxSf}성</b>)`);
-            } else {
-                comments.push(`[입문] 임시로 사용하는 단계입니다. <b>${STARFORCE_TIERS.STANDARD}성</b>을 목표로 하세요.`);
+        const isAmazingEnhancement = isAmazingEnhancementItem(item);
+        if (isAmazingEnhancement) {
+            if (starforce >= 12) comments.push(`[종결] 놀장강 <b>${starforce}성</b> 무기! <b>22성급 효율</b>의 끝판왕 장비입니다.`);
+            else if (starforce >= 10) comments.push(`[우수] 놀장강 <b>${starforce}성</b> 무기! <b>20성급 효율</b>을 보여줍니다.`);
+            else comments.push(`[좋음] 놀장강 <b>${starforce}성</b> 무기! <b>17성급 효율</b>로 준수한 성능입니다.`);
+        } else {
+            const maxSf = getMaxStarforce(level);
+            if (starforce >= maxSf) {
+                if (maxSf < STARFORCE_TIERS.ENDGAME) comments.push(`[최대 강화] 현재 레벨에서 가능한 최대 스타포스(${maxSf}성)입니다. 더 높은 스펙을 원하시면 상위 장비로 교체하세요.`);
+                else comments.push(`[졸업] <b>${STARFORCE_TIERS.ENDGAME}성</b> 무기... 공격력이 폭발합니다. 완벽합니다.`);
             }
-        }
-        else {
-            const minTarget = Math.min(STARFORCE_TIERS.ENTRY, maxSf);
-            if (minTarget < STARFORCE_TIERS.ENTRY) {
-                comments.push(`[강화 필요] 무기 스타포스가 너무 낮습니다. 최대 <b>${minTarget}성</b>까지 강화해주세요.`);
-            } else {
-                comments.push(`[강화 필요] 무기 스타포스가 너무 낮습니다. 최소 <b>${STARFORCE_TIERS.ENTRY}성</b>은 맞춰주세요.`);
+            else if (starforce >= STARFORCE_TIERS.STANDARD) comments.push(`[국민 세팅] <b>${STARFORCE_TIERS.STANDARD}성</b> 무기는 가성비가 좋지만, <b>${STARFORCE_TIERS.ENDGAME}성</b>과의 공격력 차이가 큽니다.`);
+            else if (starforce >= STARFORCE_TIERS.ENTRY) {
+                if (maxSf < STARFORCE_TIERS.STANDARD) {
+                    comments.push(`[입문] 임시로 사용하는 단계입니다. (최대 <b>${maxSf}성</b>)`);
+                } else {
+                    comments.push(`[입문] 임시로 사용하는 단계입니다. <b>${STARFORCE_TIERS.STANDARD}성</b>을 목표로 하세요.`);
+                }
+            }
+            else {
+                const minTarget = Math.min(STARFORCE_TIERS.ENTRY, maxSf);
+                if (minTarget < STARFORCE_TIERS.ENTRY) {
+                    comments.push(`[강화 필요] 무기 스타포스가 너무 낮습니다. 최대 <b>${minTarget}성</b>까지 강화해주세요.`);
+                } else {
+                    comments.push(`[강화 필요] 무기 스타포스가 너무 낮습니다. 최소 <b>${STARFORCE_TIERS.ENTRY}성</b>은 맞춰주세요.`);
+                }
             }
         }
     }

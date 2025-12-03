@@ -1,7 +1,8 @@
 import { EquipmentItem, Issue, GRADE_SCORE } from '../types';
 import { getJobInfo } from '../constants';
 import { calcStatScore, getScrollStat } from '../utils';
-import { getStarforce } from '../../../lib/diagnosis/utils';
+import { getStarforce } from '@/lib/diagnosis/utils';
+import { isAmazingEnhancementItem } from '@/lib/amazing_enhancement_table';
 
 // UI Stage 5: 17-star Growth Diagnosis
 export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attTypeKor: string) => {
@@ -91,23 +92,26 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
         const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
 
-        // 1. 스타포스 (17성 이상, 타일런트 10성 이상)
+        // 1. 스타포스 (17성 이상, 타일런트 10성 이상 -> 5성 이상)
         // * 특수 반지는 무조건 통과
-        // * 놀라운 장비 강화 주문서 적용 아이템은 통과
+        // * 놀라운 장비 강화 주문서 적용 아이템은 5성 이상 통과
         // * 에테르넬 장비는 12성만 되어도 통과 (12성 에테르넬 ≈ 18성 카루타)
         // * 이벤트 링은 스타포스 불가하므로 체크 제외
         const isTyrant = name.includes("타일런트");
         const isEternal = name.includes("에테르넬");
-        let starforceThreshold = isTyrant ? 5 : 17;
-        if (isEternal) starforceThreshold = 12;
 
         // 놀라운 장비 강화 주문서(놀장강) 적용 여부 확인
-        const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
+        const isAmazingEnhancement = isAmazingEnhancementItem(item);
+        const hasAmazingScroll = (item.starforce_scroll_flag !== "0" && star > 0) || isAmazingEnhancement;
+
+        let starforceThreshold = 17;
+        if (isTyrant || isAmazingEnhancement) starforceThreshold = 5;
+        if (isEternal) starforceThreshold = 12;
 
         const isNoStarforce = item.starforce_scroll_flag === "0" && getStarforce(item) === 0;
         if (!isNoStarforce && !isEventRing) {
             targetStats.starforce.total++;
-            if (isSpecialRing || hasAmazingScroll) {
+            if (isSpecialRing) {
                 targetStats.starforce.current++;
             } else if (star < starforceThreshold) {
                 stage4Issues++;
@@ -130,7 +134,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         const scrollEventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "이터널 플레임", "결속의", "어비스"];
         const isScrollEventRing = slot.includes("반지") && scrollEventRingKeywords.some(k => name.includes(k));
 
-        if (isSpecialRing || isScrollEventRing) {
+        if (isSpecialRing || isScrollEventRing || hasAmazingScroll) {
             scrollPass = true;
         } else if (isArmor) {
             const isHat = slot === "모자";

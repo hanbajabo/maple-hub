@@ -14,6 +14,7 @@ import {
 } from './config/message_templates';
 import { MAIN_POTENTIAL_STAT } from './config/unified_criteria';
 import { getSpecialItemConfig } from './config/special_items';
+import { isAmazingEnhancementItem } from './amazing_enhancement_table';
 
 // 아이템 데이터를 기반으로 AI 분석 멘트를 생성하는 함수
 export function generateItemCommentary(item: any, job?: string): string {
@@ -173,13 +174,17 @@ export function generateItemCommentary(item: any, job?: string): string {
     const sfOpts = item.item_starforce_option || {};
     const sfAtt = parseInt(sfOpts.attack_power || "0");
     const sfMagic = parseInt(sfOpts.magic_power || "0");
-    // 놀장강/슈페리얼 판단: 5~12성 + (무기/장갑 제외)
-    const normalizedName = itemName.replace(/\s+/g, "");
-    const isMeisterRing = normalizedName.includes("마이스터링");
 
-    // 주의: item_etc_option(주문서)은 제외하고 오직 스타포스 옵션만 확인
-    const isNoljang = starforce >= 5 && starforce <= 12 && !slot.includes("무기") && !slot.includes("장갑") &&
-        (sfAtt > 0 || sfMagic > 0 || (isMeisterRing && starforce >= 10));
+    // 놀장강 아이템 감지 (정확한 함수 사용)
+    const isAmazingEnhancement = isAmazingEnhancementItem(item);
+
+    // 놀장강 효율 계산 (5성=17성급, 10성=20성급, 12성=22성급)
+    const getAmazingEquivalentStar = (stars: number): number => {
+        if (stars >= 12) return 22;
+        if (stars >= 10) return 20;
+        if (stars >= 5) return 17;
+        return stars;
+    };
 
     if (isHeart) {
         if (itemName.includes('페어리 하트') || itemName.includes('티타늄 하트')) {
@@ -196,11 +201,46 @@ export function generateItemCommentary(item: any, job?: string): string {
             }
         }
     } else if (itemName.includes('실버블라썸 링')) {
-    } else if (isNoljang) {
-        if (starforce >= 10) {
-            comments.push(`<b>놀장강/슈페리얼 ${starforce}성</b>! 22성 아이템과 맞먹는 엄청난 성능입니다. 구하기 힘든 귀한 아이템을 가지고 계시네요.`);
+    } else if (isAmazingEnhancement) {
+        // 놀장강 아이템 특별 처리
+        const equivalentStar = getAmazingEquivalentStar(starforce);
+
+        if (starforce >= 12) {
+            comments.push(pick([
+                `<b>놀장강 ${starforce}성</b>! <b>22성급 효율</b>의 압도적인 성능입니다. 구하기 힘든 귀한 아이템을 가지고 계시네요.`,
+                `<b>놀장강 ${starforce}성</b> = 일반 22성급! 엄청난 아이템입니다.`,
+                `와... 놀장강 12성! 이건 일반 장비로는 절대 따라갈 수 없는 22성급 스펙입니다.`
+            ]));
+        } else if (starforce >= 10) {
+            comments.push(pick([
+                `<b>놀장강 ${starforce}성</b>! <b>20성급 효율</b>을 보여줍니다. 아주 훌륭합니다.`,
+                `<b>놀장강 ${starforce}성</b> = 일반 20성급! 가성비 최고의 선택입니다.`
+            ]));
         } else {
-            comments.push(`<b>놀장강/슈페리얼 ${starforce}성</b>! 일반적인 스타포스보다 훨씬 강력한 성능을 보여줍니다.`);
+            comments.push(pick([
+                `<b>놀장강 ${starforce}성</b>! <b>17성급 효율</b>을 보여줍니다. 일반 장비보다 월등한 성능입니다.`,
+                `<b>놀장강 ${starforce}성</b> = 일반 17성급! 효율이 뛰어난 아이템입니다.`
+            ]));
+        }
+    } else if (itemName.includes('타일런트') || itemName.includes('히아데스')) {
+        // 타일런트(슈페리얼) 아이템 특별 처리
+        if (starforce >= 12) {
+            comments.push(pick([
+                `<b>${starforce}성</b>! 타일런트 12성은 <b>22성급</b> 성능입니다. 준종결 세팅!`,
+                `와... 타일런트 <b>${starforce}성</b>! 일반 장비 22성과 맞먹는 강력한 위력입니다.`
+            ]));
+        } else if (starforce >= 10) {
+            comments.push(pick([
+                `<b>${starforce}성</b>! 타일런트 10성은 <b>21성급</b> 성능입니다. 훌륭합니다.`,
+                `타일런트 <b>${starforce}성</b>! 고스펙 유저의 상징이죠.`
+            ]));
+        } else if (starforce >= 5) {
+            comments.push(pick([
+                `<b>${starforce}성</b>! 타일런트 5성은 <b>17성급</b> 효율입니다. 가성비 구간입니다.`,
+                `타일런트 <b>${starforce}성</b>으로 가성비 좋게 세팅하셨군요.`
+            ]));
+        } else {
+            comments.push(`타일런트 장비는 <b>5성 이상</b> 강화해야 진가를 발휘합니다. 파괴 위험이 있으니 조심하세요!`);
         }
     } else if (itemName.includes('로얄 블랙메탈 숄더')) {
         // 🎯 로얄 블랙메탈 숄더 특별 처리 - 12성 목표
@@ -312,37 +352,37 @@ export function generateItemCommentary(item: any, job?: string): string {
             // 레벨별 추옵 기준 세분화 (사용자 요청 반영)
             // 250제 (에테르넬)
             if (level >= 250) {
-                if (maxScore >= 200) comments.push(`[신화급] <b>${maxScore}급</b>...?! 이건 운영자가 실수로 만든 게 분명합니다. 전 서버급 1티어 추옵입니다.`);
-                else if (maxScore >= 190) comments.push(`[종결] <b>${maxScore}급</b>! 더 이상 바랄 게 없는 완벽한 추옵입니다.`);
-                else if (maxScore >= 180) comments.push(`[종결급] <b>${maxScore}급</b>! 에테르넬의 품격에 걸맞은 압도적인 추옵입니다.`);
-                else if (maxScore >= 170) comments.push(`[최상급] <b>${maxScore}급</b>! 아주 훌륭한 추옵입니다. 든든하네요.`);
-                else if (maxScore >= 160) comments.push(`[많이 좋음] <b>${maxScore}급</b>! 상위권 유저들도 부러워할 옵션입니다.`);
-                else if (maxScore >= 150) comments.push(`[꽤 좋음] <b>${maxScore}급</b>! 실전에서 차고 넘치는 성능입니다.`);
-                else if (maxScore >= 140) comments.push(`[좋음] <b>${maxScore}급</b>! 에테르넬 입문용으로 아주 좋습니다.`);
-                else if (maxScore >= 130) comments.push(`[준수] <b>${maxScore}급</b>. 쓸만하지만 욕심을 조금 더 내보셔도 좋습니다.`);
-                else if (maxScore >= 120) comments.push(`[보통] <b>${maxScore}급</b>. 임시로 쓰기엔 괜찮습니다.`);
-                else if (maxScore >= 110) comments.push(`[아쉬움] <b>${maxScore}급</b>... 에테르넬치고는 많이 아쉽습니다. 환불을 추천합니다.`);
-                else if (maxScore >= 100) comments.push(`[부캐용] <b>${maxScore}급</b>. 본캐라면 재설정이 시급합니다.`);
+                if (maxScore >= 200) comments.push(`추가옵션은 <b>${maxScore}급</b>...?! 이건 운영자가 실수로 만든 게 분명합니다. 전 서버급 1티어 신화급 추옵입니다.`);
+                else if (maxScore >= 190) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 더 이상 바랄 게 없는 완벽한 종결 추옵입니다.`);
+                else if (maxScore >= 180) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 에테르넬의 품격에 걸맞은 압도적인 종결급 추옵입니다.`);
+                else if (maxScore >= 170) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 아주 훌륭한 최상급 추옵입니다. 든든하네요.`);
+                else if (maxScore >= 160) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 상위권 유저들도 부러워할 많이 좋은 옵션입니다.`);
+                else if (maxScore >= 150) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 실전에서 차고 넘치는 꽤 좋은 성능입니다.`);
+                else if (maxScore >= 140) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 에테르넬 입문용으로 아주 좋습니다.`);
+                else if (maxScore >= 130) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 준수하지만 욕심을 조금 더 내보셔도 좋습니다.`);
+                else if (maxScore >= 120) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 임시로 쓰기엔 괜찮은 보통 수준입니다.`);
+                else if (maxScore >= 110) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 에테르넬치고는 많이 아쉽습니다. 환불을 추천합니다.`);
+                else if (maxScore >= 100) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 본캐라면 재설정이 시급한 부캐용 수준입니다.`);
             }
             // 200제 (아케인)
             else if (level >= 200) {
-                if (maxScore >= 170) comments.push(`[종결급] <b>${maxScore}급</b>! 아케인셰이드의 한계를 뛰어넘었습니다.`);
-                else if (maxScore >= 160) comments.push(`[최상급] <b>${maxScore}급</b>! 전 서버급 매물입니다.`);
-                else if (maxScore >= 150) comments.push(`[많이 좋음] <b>${maxScore}급</b>! 아주 훌륭합니다. 평생 쓰셔도 됩니다.`);
-                else if (maxScore >= 140) comments.push(`[꽤 좋음] <b>${maxScore}급</b>! 든든한 국밥 같은 추옵입니다.`);
-                else if (maxScore >= 130) comments.push(`[좋음] <b>${maxScore}급</b>! 실전용으로 손색이 없습니다.`);
-                else if (maxScore >= 120) comments.push(`[준수] <b>${maxScore}급</b>. 가성비 좋게 쓰기 딱 좋습니다.`);
-                else if (maxScore >= 110) comments.push(`[보통] <b>${maxScore}급</b>. 나쁘지 않지만 조금 아쉽네요.`);
-                else if (maxScore >= 100) comments.push(`[부캐용] <b>${maxScore}급</b>. 임시로 거쳐가는 용도입니다.`);
+                if (maxScore >= 170) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 아케인셰이드의 한계를 뛰어넘은 종결급입니다.`);
+                else if (maxScore >= 160) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 전 서버급 매물인 최상급 옵션입니다.`);
+                else if (maxScore >= 150) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 아주 훌륭합니다. 평생 쓰셔도 될 정도로 많이 좋습니다.`);
+                else if (maxScore >= 140) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 든든한 국밥 같은 꽤 좋은 추옵입니다.`);
+                else if (maxScore >= 130) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 실전용으로 손색이 없는 좋은 옵션입니다.`);
+                else if (maxScore >= 120) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 가성비 좋게 쓰기 딱 좋은 준수한 수준입니다.`);
+                else if (maxScore >= 110) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 나쁘지 않지만 조금 아쉬운 보통 수준입니다.`);
+                else if (maxScore >= 100) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 임시로 거쳐가는 부캐용 용도입니다.`);
             }
             // 140~160제 (앱솔, 파프, 여명 등)
             else {
-                if (maxScore >= 150) comments.push(`[종결급] <b>${maxScore}급</b>! 이 레벨대 장비에서 볼 수 있는 끝판왕 추옵입니다.`);
-                else if (maxScore >= 140) comments.push(`[최상급] <b>${maxScore}급</b>! 아주 귀한 옵션입니다. 축하드립니다.`);
-                else if (maxScore >= 130) comments.push(`[많이 좋음] <b>${maxScore}급</b>! 훌륭합니다. 든든하게 쓰세요.`);
-                else if (maxScore >= 120) comments.push(`[좋음] <b>${maxScore}급</b>! 가성비와 성능을 모두 잡았습니다.`);
-                else if (maxScore >= 110) comments.push(`[준수] <b>${maxScore}급</b>. 실전에서 충분히 통하는 옵션입니다.`);
-                else if (maxScore >= 100) comments.push(`[보통] <b>${maxScore}급</b>. 무난하게 쓰기 좋습니다.`);
+                if (maxScore >= 150) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 이 레벨대 장비에서 볼 수 있는 끝판왕 종결급 추옵입니다.`);
+                else if (maxScore >= 140) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 아주 귀한 최상급 옵션입니다. 축하드립니다.`);
+                else if (maxScore >= 130) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 훌륭합니다. 든든하게 쓰실 수 있는 많이 좋은 옵션입니다.`);
+                else if (maxScore >= 120) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 가성비와 성능을 모두 잡은 좋은 옵션입니다.`);
+                else if (maxScore >= 110) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 실전에서 충분히 통하는 준수한 옵션입니다.`);
+                else if (maxScore >= 100) comments.push(`추가옵션은 <b>${maxScore}급</b>으로, 무난하게 쓰기 좋은 보통 수준입니다.`);
             }
 
             if (maxScore === 0 && isEndGameItem) {

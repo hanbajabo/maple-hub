@@ -1,4 +1,5 @@
 import { isMagicJob, getJobMainStat } from '../job_utils';
+import { isAmazingEnhancementItem } from '../amazing_enhancement_table';
 
 export interface TotalCheckupResult {
     starforce: {
@@ -97,8 +98,15 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
         if (isSfTarget && !isSeedRing && !isEventRing && !isSpecialRing) {
             sfSum += sf;
             sfCount++;
-            if (sf >= 22) result.starforce.count22++;
-            else if (sf >= 17) result.starforce.count17++;
+
+            const isAmazingEnhancement = isAmazingEnhancementItem(item);
+            if (isAmazingEnhancement) {
+                if (sf >= 12) result.starforce.count22++; // 놀장 12성 = 22성급
+                else if (sf >= 5) result.starforce.count17++; // 놀장 5성 = 17성급
+            } else {
+                if (sf >= 22) result.starforce.count22++;
+                else if (sf >= 17) result.starforce.count17++;
+            }
         }
 
         // 잠재능력 집계

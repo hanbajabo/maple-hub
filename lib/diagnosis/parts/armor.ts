@@ -11,6 +11,7 @@ import {
     getPotentialCriteria,
     getMainPotentialGrade,
 } from '../../config/unified_criteria';
+import { isAmazingEnhancementItem } from '../../amazing_enhancement_table';
 
 /**
  * 🛡️ 방어구(Armor) 전용 진단 로직
@@ -34,13 +35,20 @@ export function diagnoseArmor(item: any, job?: string): string[] {
     const isMagic = mainStats.includes('INT') && !mainStats.includes('STR'); // 대략적인 마법사 판별 (제논, 데벤져 고려)
     const attType = isMagic ? "마력" : "공격력";
 
-    // 0. 주문서 작 진단 (Scroll)
-    const scrollComments = diagnoseScroll(item);
-    comments.push(...scrollComments);
+    // 0. 주문서 작 진단 (Scroll) - 놀장강 제외
+    if (!isAmazingEnhancementItem(item)) {
+        const scrollComments = diagnoseScroll(item);
+        comments.push(...scrollComments);
+    }
 
     // 1. 상의 / 하의 (Top / Bottom)
     if (slot === "상의" || slot === "하의") {
-        if (itemName.includes("에테르넬")) {
+        const isAmazingEnhancement = isAmazingEnhancementItem(item);
+        if (isAmazingEnhancement) {
+            if (starforce >= 12) comments.push(`[종결] 놀장강 <b>${starforce}성</b> 상/하의! <b>22성급 효율</b>의 끝판왕 장비입니다.`);
+            else if (starforce >= 10) comments.push(`[우수] 놀장강 <b>${starforce}성</b> 상/하의! <b>20성급 효율</b>을 보여줍니다.`);
+            else comments.push(`[좋음] 놀장강 <b>${starforce}성</b> 상/하의! <b>17성급 효율</b>로 준수한 성능입니다.`);
+        } else if (itemName.includes("에테르넬")) {
             if (starforce >= STARFORCE_TIERS.MAX) {
                 comments.push(`[신화의 경지] <b>${starforce}성</b> 에테르넬...?! 이건 메이플스토리의 역사를 새로 쓰는 아이템입니다. 전 서버 유일무이한 스펙일 수 있습니다.`);
             } else if (starforce === 24) {
@@ -85,7 +93,12 @@ export function diagnoseArmor(item: any, job?: string): string[] {
 
     // 3. 신발 / 망토 / 어깨장식 (Shoes / Cape / Shoulder)
     if (slot === "신발" || slot === "망토" || slot === "어깨장식") {
-        if (itemName.includes('펜살리르')) {
+        const isAmazingEnhancement = isAmazingEnhancementItem(item);
+        if (isAmazingEnhancement) {
+            if (starforce >= 12) comments.push(`[종결] 놀장강 <b>${starforce}성</b> ${slot}! <b>22성급 효율</b>의 끝판왕 장비입니다.`);
+            else if (starforce >= 10) comments.push(`[우수] 놀장강 <b>${starforce}성</b> ${slot}! <b>20성급 효율</b>을 보여줍니다.`);
+            else comments.push(`[좋음] 놀장강 <b>${starforce}성</b> ${slot}! <b>17성급 효율</b>로 준수한 성능입니다.`);
+        } else if (itemName.includes('펜살리르')) {
             comments.push(`[교체 추천] 펜살리르 ${slot}보다 <b>앱솔랩스/아케인셰이드 ${slot}</b>이 훨씬 좋습니다. 교체를 고려해보세요.`);
         } else if (itemName.includes("앱솔랩스")) {
             if (starforce >= 23) {
