@@ -68,8 +68,21 @@ export function diagnoseWeapon(item: EquipmentItem, job?: string): string[] {
             else comments.push(`[졸업] <b>${STARFORCE_TIERS.ENDGAME}성</b> 무기... 공격력이 폭발합니다. 완벽합니다.`);
         }
         else if (starforce >= STARFORCE_TIERS.STANDARD) comments.push(`[국민 세팅] <b>${STARFORCE_TIERS.STANDARD}성</b> 무기는 가성비가 좋지만, <b>${STARFORCE_TIERS.ENDGAME}성</b>과의 공격력 차이가 큽니다.`);
-        else if (starforce >= STARFORCE_TIERS.ENTRY) comments.push(`[입문] 임시로 사용하는 단계입니다. <b>${STARFORCE_TIERS.STANDARD}성</b>을 목표로 하세요.`);
-        else comments.push(`[강화 필요] 무기 스타포스가 너무 낮습니다. 공격력 손실이 큽니다.`);
+        else if (starforce >= STARFORCE_TIERS.ENTRY) {
+            if (maxSf < STARFORCE_TIERS.STANDARD) {
+                comments.push(`[입문] 임시로 사용하는 단계입니다. (최대 <b>${maxSf}성</b>)`);
+            } else {
+                comments.push(`[입문] 임시로 사용하는 단계입니다. <b>${STARFORCE_TIERS.STANDARD}성</b>을 목표로 하세요.`);
+            }
+        }
+        else {
+            const minTarget = Math.min(STARFORCE_TIERS.ENTRY, maxSf);
+            if (minTarget < STARFORCE_TIERS.ENTRY) {
+                comments.push(`[강화 필요] 무기 스타포스가 너무 낮습니다. 최대 <b>${minTarget}성</b>까지 강화해주세요.`);
+            } else {
+                comments.push(`[강화 필요] 무기 스타포스가 너무 낮습니다. 최소 <b>${STARFORCE_TIERS.ENTRY}성</b>은 맞춰주세요.`);
+            }
+        }
     }
 
     // 4. 잠재능력 (Potential) - WSE

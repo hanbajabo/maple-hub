@@ -4,6 +4,7 @@ import { ItemData } from '../app/page';
 import { DiagnosisGrade } from '../lib/diagnosis/types';
 import { getWeaponTierLabel, getAddOptions, getEtcOptions, getArmorScoreLabel, getGradeColor } from "../lib/item_utils";
 import { getSeedRingLevel } from "../lib/diagnosis/utils";
+import { isAmazingEnhancementItem } from "../lib/amazing_enhancement_table";
 
 interface MainEquipmentGridProps {
     equipmentGrid: (ItemData | null)[];
@@ -72,6 +73,11 @@ const MainEquipmentGrid: React.FC<MainEquipmentGridProps> = ({
                                             {item.item_name}
                                             {item.starforce !== "0" && <span className="text-yellow-400">★{item.starforce}</span>}
                                             {getSeedRingLevel(item) > 0 && <span className="ml-2 text-cyan-400 text-xs sm:text-sm border border-cyan-500 rounded px-1.5 py-0.5 align-middle">Lv.{getSeedRingLevel(item)}</span>}
+                                            {isAmazingEnhancementItem(item) && (
+                                                <span className="ml-2 text-white bg-amber-600 px-1.5 rounded text-[8px] sm:text-[10px] shadow-sm font-bold border border-amber-500 align-middle">
+                                                    놀장강
+                                                </span>
+                                            )}
                                         </div>
 
                                         {/* Upgrade Count */}
@@ -110,7 +116,15 @@ const MainEquipmentGrid: React.FC<MainEquipmentGridProps> = ({
                                         {/* Etc Options (Blue) */}
                                         {getEtcOptions(item).length > 0 && (
                                             <div className="mb-2 sm:mb-3">
-                                                <div className="text-[10px] sm:text-sm text-sky-500 font-medium mb-0.5 sm:mb-1">주문서 작</div>
+                                                <div className="text-[10px] sm:text-sm text-sky-500 font-medium mb-0.5 sm:mb-1 flex items-center gap-2">
+                                                    주문서 강화
+                                                    {/* 놀장강: 놀라운 장비 강화 주문서로 강화된 아이템 */}
+                                                    {isAmazingEnhancementItem(item) && (
+                                                        <span className="text-white bg-amber-600 px-1.5 rounded text-[8px] sm:text-[10px] shadow-sm font-bold border border-amber-500">
+                                                            놀장강
+                                                        </span>
+                                                    )}
+                                                </div>
                                                 <div className="grid grid-cols-2 gap-x-2">
                                                     {getEtcOptions(item).map((opt, i) => (
                                                         <div key={i} className="text-[10px] sm:text-sm text-blue-400">{opt}</div>

@@ -192,6 +192,26 @@ export default function Home() {
     };
   }, [isFavoritesOpen]);
 
+  // 즐겨찾기 드롭다운 열릴 때 히스토리에 상태 추가, 뒤로가기로 닫기
+  useEffect(() => {
+    if (isFavoritesOpen) {
+      // 히스토리에 즐겨찾기 상태 추가
+      window.history.pushState({ favorites: true }, '');
+
+      const handlePopState = () => {
+        // 뒤로가기 시 즐겨찾기 닫기
+        setIsFavoritesOpen(false);
+      };
+
+      window.addEventListener('popstate', handlePopState);
+
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+      };
+    }
+  }, [isFavoritesOpen]);
+
+
   // Check if current character is favorited
   const isFavorited = character && favorites.some(f => f.name === character.character_name && f.world === character.world_name);
 
@@ -940,7 +960,8 @@ export default function Home() {
 
               {/* Favorites Dropdown */}
               {isFavoritesOpen && (
-                <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-slate-900 border-2 border-yellow-500/50 rounded-xl shadow-2xl z-50 overflow-hidden">
+                <div className="absolute right-2 sm:right-0 top-full mt-2 min-w-[280px] max-w-[90vw] sm:w-80 sm:max-w-none bg-slate-900 border-2 border-yellow-500/50 rounded-xl shadow-2xl z-[9999] overflow-hidden">
+
                   <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 px-4 py-3 border-b border-yellow-500/30">
                     <h3 className="font-bold text-yellow-400 flex items-center gap-2">
                       <Star size={16} className="fill-yellow-400" />
@@ -959,14 +980,18 @@ export default function Home() {
                         <div
                           key={idx}
                           onClick={() => loadFavorite(fav.name)}
-                          className="px-4 py-3 hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800 last:border-b-0 flex items-center justify-between group"
+                          className="px-3 sm:px-4 py-3 hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800 last:border-b-0 flex items-start gap-2 group"
                         >
-                          <div className="flex-1">
-                            <div className="font-bold text-white group-hover:text-yellow-400 transition-colors">
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-white group-hover:text-yellow-400 transition-colors truncate text-sm sm:text-base">
                               {fav.name}
                             </div>
-                            <div className="text-xs text-slate-400 mt-1">
-                              {fav.world} · Lv.{fav.level} · {fav.job}
+                            <div className="text-[10px] sm:text-xs text-slate-400 mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
+                              <span>{fav.world}</span>
+                              <span>·</span>
+                              <span>Lv.{fav.level}</span>
+                              <span>·</span>
+                              <span className="truncate">{fav.job}</span>
                             </div>
                           </div>
                           <button
@@ -974,7 +999,7 @@ export default function Home() {
                               e.stopPropagation();
                               setFavorites(prev => prev.filter((_, i) => i !== idx));
                             }}
-                            className="text-slate-500 hover:text-red-400 transition-colors p-1"
+                            className="text-slate-500 hover:text-red-400 transition-colors p-1 shrink-0"
                             title="삭제"
                           >
                             <X size={16} />

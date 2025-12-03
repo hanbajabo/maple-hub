@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Swords, Minus, Plus } from 'lucide-react';
 import { ItemData } from '../app/page';
 import { getWeaponTierLabel, getAddOptions, getEtcOptions, getArmorScoreLabel, getGradeColor, getGradeBgColor, getGradeBorderColor } from "../lib/item_utils";
+import { isAmazingEnhancementItem } from "../lib/amazing_enhancement_table";
 
 interface EquipmentOverviewModalProps {
     isOpen: boolean;
@@ -178,7 +179,12 @@ const EquipmentOverviewModal: React.FC<EquipmentOverviewModalProps> = ({
                                         <div className="bg-slate-950/50 rounded px-2 py-1.5 border border-slate-800/50">
                                             <div className={`text-sky-500 font-bold mb-0.5 flex items-center gap-1 ${getZoomTextClass(zoomLevel, 'header')}`}>
                                                 <span className="w-1 h-1 rounded-full bg-sky-500"></span>
-                                                주문서 작
+                                                주문서 강화
+                                                {isAmazingEnhancementItem(item!) && (
+                                                    <span className={`text-white bg-amber-600 rounded shadow-sm font-bold border border-amber-500 ${getZoomTextClass(zoomLevel, 'badge')}`}>
+                                                        놀장강
+                                                    </span>
+                                                )}
                                             </div>
                                             <div className="flex flex-wrap gap-x-1.5 gap-y-0 leading-tight">
                                                 {getEtcOptions(item!).map((opt, i) => (

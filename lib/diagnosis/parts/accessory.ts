@@ -236,7 +236,16 @@ export function diagnoseAccessory(item: EquipmentItem, job?: string): string[] {
                             }
                         }
                     }
-                    else comments.push(`[강화 필요] 스타포스 수치가 낮습니다. 최소 <b>${STARFORCE_TIERS.ENTRY}~${STARFORCE_TIERS.COST_EFFECTIVE}성</b>은 맞춰주세요.`);
+                    else {
+                        const targetMin = Math.min(STARFORCE_TIERS.ENTRY, maxSf);
+                        const targetMax = Math.min(STARFORCE_TIERS.COST_EFFECTIVE, maxSf);
+
+                        if (targetMin === targetMax) {
+                            comments.push(`[강화 필요] 스타포스 수치가 낮습니다. <b>${targetMin}성</b>(최대치)까지 강화를 권장합니다.`);
+                        } else {
+                            comments.push(`[강화 필요] 스타포스 수치가 낮습니다. 최소 <b>${targetMin}~${targetMax}성</b>은 맞춰주세요.`);
+                        }
+                    }
                 }
             }
         }

@@ -3,7 +3,7 @@ import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { getJobMainStat } from '../../job_utils';
 import { diagnoseScroll } from './scroll';
 import { parsePotentialLines, evaluatePotential, evaluateAdditional } from '../../utils/potential_utils';
-import { STARFORCE_TIERS, COOLDOWN_REDUCTION, STARFORCE_TIERS as SF } from '../../config/unified_criteria';
+import { STARFORCE_TIERS, COOLDOWN_REDUCTION, STARFORCE_TIERS as SF, getMaxStarforce } from '../../config/unified_criteria';
 import { EquipmentItem } from '../types';
 import { getStarforce } from '../utils';
 
@@ -149,10 +149,22 @@ export function diagnoseHat(item: EquipmentItem, job?: string): string[] {
     }
 
     // 5. 일반 성장 구간 진단 (Low Starforce)
+    const maxSf = getMaxStarforce(item.item_base_option?.base_equipment_level || 0);
+    const targetSf = Math.min(17, maxSf);
+
     if (starforce >= 10 && starforce <= 12) {
-        comments.push(`[입문 단계] 유니온/링크 육성용 혹은 임시 거쳐가는 단계입니다. 본캐라면 <b>17성</b>을 목표로 하세요.`);
+        if (maxSf < 17) {
+            comments.push(`[입문 단계] 유니온/링크 육성용 혹은 임시 거쳐가는 단계입니다. (최대 <b>${maxSf}성</b>)`);
+        } else {
+            comments.push(`[입문 단계] 유니온/링크 육성용 혹은 임시 거쳐가는 단계입니다. 본캐라면 <b>${targetSf}성</b>을 목표로 하세요.`);
+        }
     } else if (starforce < 10) {
-        comments.push(`[강화 필요] 스타포스가 부족합니다. 최소 <b>10성</b>은 맞춰주세요.`);
+        const minTarget = Math.min(10, maxSf);
+        if (minTarget < 10) {
+            comments.push(`[강화 필요] 스타포스가 부족합니다. 최대 <b>${minTarget}성</b>까지 강화해주세요.`);
+        } else {
+            comments.push(`[강화 필요] 스타포스가 부족합니다. 최소 <b>10성</b>은 맞춰주세요.`);
+        }
     }
 
     // 3. 에디셔널 잠재능력 (Additional Potential)

@@ -60,6 +60,25 @@ export default function PriorityDiagnosisModal({ isOpen, onClose, equipment, job
         }
     }, [isOpen, equipment, job]);
 
+    // 모달 열릴 때 히스토리에 상태 추가, 뒤로가기로 모달 닫기
+    useEffect(() => {
+        if (isOpen) {
+            // 히스토리에 모달 상태 추가
+            window.history.pushState({ modal: 'priority' }, '');
+
+            const handlePopState = () => {
+                // 뒤로가기 시 모달 닫기
+                onClose();
+            };
+
+            window.addEventListener('popstate', handlePopState);
+
+            return () => {
+                window.removeEventListener('popstate', handlePopState);
+            };
+        }
+    }, [isOpen, onClose]);
+
     if (!isOpen) return null;
 
     const rank1Groups = groupedItems.filter(g => g.maxRank === 1);
@@ -194,9 +213,9 @@ function GroupedPriorityCard({ group }: { group: GroupedPriorityItem }) {
                         <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-950/30 p-2 rounded-lg">
                             <div className="flex items-center gap-2">
                                 <span className={`text-xs font-bold px-1.5 py-0.5 rounded border ${p.type === 'STARFORCE' ? 'bg-yellow-950/50 text-yellow-400 border-yellow-800' :
-                                        p.type === 'POTENTIAL' ? 'bg-blue-950/50 text-blue-400 border-blue-800' :
-                                            p.type === 'ADDITIONAL' ? 'bg-green-950/50 text-green-400 border-green-800' :
-                                                'bg-orange-950/50 text-orange-400 border-orange-800'
+                                    p.type === 'POTENTIAL' ? 'bg-blue-950/50 text-blue-400 border-blue-800' :
+                                        p.type === 'ADDITIONAL' ? 'bg-green-950/50 text-green-400 border-green-800' :
+                                            'bg-orange-950/50 text-orange-400 border-orange-800'
                                     }`}>
                                     {p.type === 'STARFORCE' ? '스타포스' : p.type === 'POTENTIAL' ? '잠재능력' : p.type === 'ADDITIONAL' ? '에디셔널' : '추가옵션'}
                                 </span>

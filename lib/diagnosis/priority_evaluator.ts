@@ -1,6 +1,7 @@
 import { EquipmentItem } from './types';
 import { getStarforce, calculateFlameScore } from './utils';
 import { JOB_RECOMMENDATIONS } from '../job_recommendations';
+import { isAmazingEnhancementItem } from '../amazing_enhancement_table';
 
 export interface PriorityItem {
     item: EquipmentItem;
@@ -149,7 +150,10 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
         const isHat = slot.includes('모자');
 
         // === 1. 스타포스 평가 ===
-        if (!isStarforceImmune) {
+        // 놀장강 아이템은 더 이상 구할 수 없으므로 스타포스 평가 스킵
+        const isAmazingEnhancement = isAmazingEnhancementItem(item);
+
+        if (!isStarforceImmune && !isAmazingEnhancement) {
             if (slot.includes('기계 심장')) {
                 if (name.includes('페어리') || name.includes('티타늄')) {
                     if (starforce < 8) {

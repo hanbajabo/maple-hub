@@ -8,6 +8,7 @@ import {
     getWeaponTierLabel,
     getArmorScoreLabel
 } from '../lib/item_utils';
+import { isAmazingEnhancementItem } from '../lib/amazing_enhancement_table';
 
 interface ItemCardProps {
     item: any;
@@ -76,7 +77,12 @@ export default function ItemCard({ item }: ItemCardProps) {
                 {getEtcOptions(item).length > 0 && (
                     <div className="bg-slate-950/50 rounded-lg p-3 border border-slate-800/50">
                         <div className="text-sky-500 font-bold mb-1 flex items-center gap-1 text-sm">
-                            <span className="w-1.5 h-1.5 rounded-full bg-sky-500"></span> 주문서 작
+                            <span className="w-1.5 h-1.5 rounded-full bg-sky-500"></span> 주문서 강화
+                            {isAmazingEnhancementItem(item) && (
+                                <span className="text-white bg-amber-600 px-1.5 py-0.5 rounded text-[10px] shadow-sm font-bold border border-amber-500">
+                                    놀장강
+                                </span>
+                            )}
                         </div>
                         <div className="flex flex-wrap gap-x-2 gap-y-0.5">
                             {getEtcOptions(item).map((opt, i) => (
@@ -93,9 +99,9 @@ export default function ItemCard({ item }: ItemCardProps) {
                             <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span> 잠재옵션
                             {item.potential_option_grade && (
                                 <span className={`text-[10px] px-1.5 py-0.5 rounded border ml-1 ${item.potential_option_grade === "레전드리" ? "bg-green-950 text-green-400 border-green-800" :
-                                        item.potential_option_grade === "유니크" ? "bg-yellow-950 text-yellow-400 border-yellow-800" :
-                                            item.potential_option_grade === "에픽" ? "bg-purple-950 text-purple-400 border-purple-800" :
-                                                "bg-blue-950 text-blue-400 border-blue-800"
+                                    item.potential_option_grade === "유니크" ? "bg-yellow-950 text-yellow-400 border-yellow-800" :
+                                        item.potential_option_grade === "에픽" ? "bg-purple-950 text-purple-400 border-purple-800" :
+                                            "bg-blue-950 text-blue-400 border-blue-800"
                                     }`}>
                                     {item.potential_option_grade}
                                 </span>
@@ -116,9 +122,9 @@ export default function ItemCard({ item }: ItemCardProps) {
                             <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span> 에디셔널
                             {item.additional_potential_option_grade && (
                                 <span className={`text-[10px] px-1.5 py-0.5 rounded border ml-1 ${item.additional_potential_option_grade === "레전드리" ? "bg-green-950 text-green-400 border-green-800" :
-                                        item.additional_potential_option_grade === "유니크" ? "bg-yellow-950 text-yellow-400 border-yellow-800" :
-                                            item.additional_potential_option_grade === "에픽" ? "bg-purple-950 text-purple-400 border-purple-800" :
-                                                "bg-blue-950 text-blue-400 border-blue-800"
+                                    item.additional_potential_option_grade === "유니크" ? "bg-yellow-950 text-yellow-400 border-yellow-800" :
+                                        item.additional_potential_option_grade === "에픽" ? "bg-purple-950 text-purple-400 border-purple-800" :
+                                            "bg-blue-950 text-blue-400 border-blue-800"
                                     }`}>
                                     {item.additional_potential_option_grade}
                                 </span>
