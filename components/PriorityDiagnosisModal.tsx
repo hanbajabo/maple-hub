@@ -56,6 +56,23 @@ export default function PriorityDiagnosisModal({ isOpen, onClose, equipment, job
 
             // 배열로 변환 및 정렬 (대표 점수 높은 순)
             const sortedGroups = Object.values(groups).sort((a, b) => b.totalScore - a.totalScore);
+
+            // 각 그룹 내에서 우선순위 항목을 type 순서로 정렬 (STARFORCE → POTENTIAL → ADDITIONAL)
+            const typeOrder: Record<string, number> = {
+                'STARFORCE': 1,
+                'POTENTIAL': 2,
+                'ADDITIONAL': 3,
+                'FLAME': 4,
+                'SCROLL': 5
+            };
+            sortedGroups.forEach(group => {
+                group.priorities.sort((a, b) => {
+                    const orderA = typeOrder[a.type] || 99;
+                    const orderB = typeOrder[b.type] || 99;
+                    return orderA - orderB;
+                });
+            });
+
             setGroupedItems(sortedGroups);
         }
     }, [isOpen, equipment, job]);

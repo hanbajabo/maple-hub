@@ -294,9 +294,10 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
                             costEstimate: '높음', efficiencyLabel: '옵션 최적화', rank: 2
                         });
                     } else if (count < 3) {
+                        const targetMsg = isEmblem ? '유효 3줄 (공공공 등)' : '유효 3줄 (보보공 등)';
                         priorities.push({
                             item, priorityScore: 60, type: 'POTENTIAL',
-                            currentStatus: `유효 ${count}줄`, targetStatus: '유효 3줄 (보보공 등)',
+                            currentStatus: `유효 ${count}줄`, targetStatus: targetMsg,
                             costEstimate: '매우 높음', efficiencyLabel: '엔드급 도전', rank: 3
                         });
                     }
