@@ -1299,6 +1299,11 @@ export const StageCard: React.FC<StageCardProps> = ({
                                         <p className="text-slate-300 mb-1">3에테르넬 + 4에테르넬 + 1무기</p>
                                         <p className="text-slate-500 text-xs">- 고자본용 최고점 템셋팅</p>
                                     </div>
+                                    <div className="bg-slate-900/50 p-2 rounded border border-slate-700/50">
+                                        <h5 className="text-slate-300 font-bold mb-1">5안</h5>
+                                        <p className="text-slate-300 mb-1">3에테르넬 + 4앱솔랩스 + 1무기</p>
+                                        <p className="text-slate-500 text-xs">- 에테르넬과 앱솔랩스 혼합 세팅</p>
+                                    </div>
                                     <div className="bg-green-950/30 p-2 rounded border border-green-900/30">
                                         <h5 className="text-green-400 font-bold mb-1">✅ 예외 조건</h5>
                                         <p className="text-green-200 text-xs">
@@ -1662,9 +1667,23 @@ export const StageCard: React.FC<StageCardProps> = ({
                                         그 전에 먼저 어떤 조합으로 22성을 갈지 결정해봅시다!
                                     </p>
                                     <div className="mt-2 pt-2 border-t border-slate-800">
-                                        <p className="text-cyan-300 font-bold">
+                                        <p className="text-cyan-300 font-bold mb-3">
                                             현재 조합 상태: {stage7Info.currentCombination}
                                         </p>
+
+                                        <h5 className="text-white font-bold mb-2 border-b border-slate-800 pb-1">
+                                            전통적인 22성 조합
+                                        </h5>
+                                        <ul className="space-y-1 text-slate-300 pl-1 mb-4">
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-purple-400 font-bold">1안</span>
+                                                <span>3루타비스 + 4아케인 + 제네시스 무기</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <span className="text-purple-400 font-bold">2안</span>
+                                                <span>3루타비스 + 4앱솔랩스 + 제네시스 무기</span>
+                                            </li>
+                                        </ul>
                                         <h5 className="text-white font-bold mb-2 border-b border-slate-800 pb-1">
                                             17~18성 에테르넬을 섞은 조합
                                         </h5>

@@ -37,6 +37,7 @@ export const evaluateStage3 = (equipment: EquipmentItem[], meisterSetCount: numb
         else if (isLuckyHat && is2CRA && is4Absol && isFafnirWeapon) passedArmorOption = "4루타비스 + 5앱솔랩스 (럭키 아이템)";
         else if (isLuckyHat && is2CRA && is4Arcane && isFafnirWeapon) passedArmorOption = "4루타비스 + 5아케인 (럭키 아이템)";
         else if (is3Eternal && is4Arcane) passedArmorOption = "3에테르넬 + 4아케인";
+        else if (is3Eternal && is4Absol) passedArmorOption = "3에테르넬 + 4앱솔랩스";
         else if (is4Eternal) passedArmorOption = "에테르넬 세트";
         else if (isGenesisWeapon && meisterSetCount >= 3) passedArmorOption = "제네시스 + 3마이스터 (예외 통과)";
         else {

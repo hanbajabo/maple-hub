@@ -191,27 +191,42 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
 
             if (isSpecialRing) {
                 potPass = true;
-            } else if (potScore >= 3) { // 유니크 이상
-                // 모든 링 통일: 15% 이상
-                if (totalStatPct >= 15) potPass = true;
-                else {
-                    stage4Issues++;
-                    targetStats.potential.failedItems.push(`${name} (${totalStatPct}%)`);
-                    issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 주스탯 15% 미만 (현재 ${totalStatPct}%)` });
-                }
             } else {
-                stage4Issues++;
-                targetStats.potential.failedItems.push(`${name} (${potGrade})`);
-                issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 유니크 등급 미만` });
+                // 등급이 유니크 이상이거나, 주스탯 합이 15% 이상이면 통과
+                if (potScore >= 3 || totalStatPct >= 15) {
+                    // 단, 유니크 이상인데 15% 미만이면 실패 (옵션 미달)
+                    // 에픽 이하인데 15% 이상이면 통과 (고스펙 에픽)
+                    if (potScore >= 3 && totalStatPct < 15) {
+                        stage4Issues++;
+                        targetStats.potential.failedItems.push(`${name} (${totalStatPct}%)`);
+                        issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 주스탯 15% 미만 (현재 ${totalStatPct}%)` });
+                    } else if (potScore < 3 && totalStatPct < 15) {
+                        stage4Issues++;
+                        targetStats.potential.failedItems.push(`${name} (${potGrade})`);
+                        issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 유니크 등급 미만 & 15% 미만` });
+                    } else {
+                        potPass = true;
+                    }
+                } else {
+                    stage4Issues++;
+                    targetStats.potential.failedItems.push(`${name} (${potGrade})`);
+                    issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 유니크 등급 미만` });
+                }
             }
         } else {
             // 일반 방어구/장신구
-            if (potScore >= 3) {
-                if (totalStatPct >= 15) potPass = true;
-                else {
+            // 등급이 유니크 이상이거나, 주스탯 합이 15% 이상이면 통과
+            if (potScore >= 3 || totalStatPct >= 15) {
+                if (potScore >= 3 && totalStatPct < 15) {
                     stage4Issues++;
                     targetStats.potential.failedItems.push(`${name} (${totalStatPct}%)`);
                     issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 주스탯 15% 미만 (현재 ${totalStatPct}%)` });
+                } else if (potScore < 3 && totalStatPct < 15) {
+                    stage4Issues++;
+                    targetStats.potential.failedItems.push(`${name} (${potGrade})`);
+                    issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 유니크 등급 미만 & 15% 미만` });
+                } else {
+                    potPass = true;
                 }
             } else {
                 stage4Issues++;
