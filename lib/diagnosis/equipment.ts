@@ -5,6 +5,7 @@ import { diagnoseWeapon } from './parts/weapon';
 import { diagnoseArmor } from './parts/armor';
 import { diagnoseAccessory } from './parts/accessory';
 import { getSpecialItemConfig } from '../config/special_items';
+import { getPotentialCriteria, MAIN_POTENTIAL_STAT } from '../config/unified_criteria';
 
 // 시드링 레벨 추출 헬퍼
 export function getSeedRingLevel(item: any): number {
@@ -37,9 +38,10 @@ export function getSeedRingLevel(item: any): number {
 }
 
 // 객관적 점수 기반 등급 평가
-function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisGrade {
+function evaluateGradeByScore(item: any, attType: string = 'attack', job?: string): DiagnosisGrade {
     const slot = item.item_equipment_slot || "";
     const name = item.item_name || "";
+    const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
 
     // === 1. 특수 아이템 절대 평가 ===
     if (slot.includes("뱃지")) {
@@ -136,10 +138,14 @@ function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisG
             else scorePot = 2;
         }
         else {
-            if (statPct >= 24) scorePot = 5;
-            else if (statPct >= 21) scorePot = 4;
-            else if (statPct >= 18) scorePot = 3;
-            else if (statPct >= 12) scorePot = 2;
+            // 통합 기준 사용 (제논 자동 판별)
+            const itemLevel = item.item_base_option?.base_equipment_level || 150;
+            const criteria = getPotentialCriteria(itemLevel, job);
+
+            if (statPct >= criteria.MYTHIC) scorePot = 5;
+            else if (statPct >= criteria.ENDGAME) scorePot = 5; // 정옵은 만점 (제논 21%/24% 포함)
+            else if (statPct >= criteria.GOOD) scorePot = 4;
+            else if (statPct >= criteria.DECENT) scorePot = 3;
             else scorePot = 1;
         }
     } else if (potGrade === '유니크') {
@@ -150,12 +156,31 @@ function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisG
         else if (slot.includes("모자") && validLines >= 1) scorePot = 3; // 유니크 쿨감
         else if (slot.includes("장갑") && validLines >= 1) scorePot = 3; // 유니크 크뎀 (쓸샾 등)
         else {
-            if (statPct >= 27) scorePot = 3;
-            else if (statPct >= 18) scorePot = 2;
-            else scorePot = 1;
+            // 제논 유니크 별도 처리
+            const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+            if (isXenon) {
+                const criteria = MAIN_POTENTIAL_STAT.XENON_UNIQUE;
+                if (statPct >= criteria.LEGENDARY_TIER) scorePot = 4; // 탈유니크급 (레전드리급 효율)
+                else if (statPct >= criteria.STANDARD) scorePot = 3; // 정옵 (유니크 종결)
+                else if (statPct >= criteria.MINIMUM) scorePot = 2;
+                else scorePot = 1;
+            } else {
+                if (statPct >= 27) scorePot = 3;
+                else if (statPct >= 18) scorePot = 2;
+                else scorePot = 1;
+            }
         }
     } else if (potGrade === '에픽') {
-        scorePot = 0.5;
+        // 제논 에픽 별도 처리
+        const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+        if (isXenon) {
+            const criteria = MAIN_POTENTIAL_STAT.XENON_EPIC;
+            if (statPct >= criteria.ENDGAME) scorePot = 2; // 에픽 종결
+            else if (statPct >= criteria.STANDARD) scorePot = 1;
+            else scorePot = 0.5;
+        } else {
+            scorePot = 0.5;
+        }
     }
 
     // 2-3. 에디셔널 (Max 5)
@@ -169,7 +194,7 @@ function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisG
         if (line.includes('공격력')) { const m = line.match(/\+(\d+)/); if (m) adiAtt += parseInt(m[1]); }
         if (line.includes('마력')) { const m = line.match(/\+(\d+)/); if (m) adiMag += parseInt(m[1]); }
         const mp = line.match(/(\d+)%/);
-        if (mp && (line.includes('STR') || line.includes('DEX') || line.includes('INT') || line.includes('LUK') || line.includes('올스탯'))) {
+        if (mp && (line.includes('STR') || line.includes('DEX') || line.includes('INT') || line.includes('LUK') || line.includes('올스탯') || line.includes('HP'))) {
             adiStat += parseInt(mp[1]);
         }
 
@@ -203,10 +228,17 @@ function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisG
             scoreAddi = 5; // 에디 크뎀 있으면 만점
         }
         else {
-            if (adiTotal >= 21) scoreAddi = 5;
-            else if (adiTotal >= 14) scoreAddi = 4;
-            else if (adiTotal >= 10) scoreAddi = 3;
-            else scoreAddi = 2;
+            if (isXenon) {
+                if (adiTotal >= 16) scoreAddi = 5;
+                else if (adiTotal >= 12) scoreAddi = 4;
+                else if (adiTotal >= 8) scoreAddi = 3;
+                else scoreAddi = 2;
+            } else {
+                if (adiTotal >= 21) scoreAddi = 5;
+                else if (adiTotal >= 14) scoreAddi = 4;
+                else if (adiTotal >= 10) scoreAddi = 3;
+                else scoreAddi = 2;
+            }
         }
     } else if (adiGrade === '유니크') {
         if (slot.includes("장갑") && adiValidLines >= 1) scoreAddi = 4; // 유니크 에디 크뎀도 매우 좋음
@@ -223,21 +255,35 @@ function evaluateGradeByScore(item: any, attType: string = 'attack'): DiagnosisG
         scoreFlame = 5;
     } else {
         const ao = item.item_add_option || {};
-        const fStr = parseInt(ao.str || "0") + (parseInt(ao.attack_power || "0") * 4) + (parseInt(ao.all_stat || "0") * 10);
-        const fDex = parseInt(ao.dex || "0") + (parseInt(ao.attack_power || "0") * 4) + (parseInt(ao.all_stat || "0") * 10);
-        const fInt = parseInt(ao.int || "0") + (parseInt(ao.magic_power || "0") * 4) + (parseInt(ao.all_stat || "0") * 10);
-        const fLuk = parseInt(ao.luk || "0") + (parseInt(ao.attack_power || "0") * 4) + (parseInt(ao.all_stat || "0") * 10);
-        const fHP = (parseInt(ao.max_hp || "0") / 21) + (parseInt(ao.attack_power || "0") * 4) + (parseInt(ao.all_stat || "0") * 10);
-        const flame = Math.floor(Math.max(fStr, fDex, fInt, fLuk, fHP));
+        if (isXenon) {
+            const fXenon = (parseInt(ao.str || "0") + parseInt(ao.dex || "0") + parseInt(ao.luk || "0")) * 0.5 +
+                (parseInt(ao.attack_power || "0") * 4) +
+                (parseInt(ao.all_stat || "0") * 20);
 
-        // 26성 장비는 추옵 만점
-        if (sf >= 25) scoreFlame = 5;
-        else if (sf >= 24) scoreFlame = 4;
-        else if (flame >= 150) scoreFlame = 5;
-        else if (flame >= 130) scoreFlame = 4;
-        else if (flame >= 110) scoreFlame = 3;
-        else if (flame >= 90) scoreFlame = 2;
-        else if (flame >= 70) scoreFlame = 1;
+            if (sf >= 25) scoreFlame = 5;
+            else if (sf >= 24) scoreFlame = 4;
+            else if (fXenon >= 200) scoreFlame = 5;
+            else if (fXenon >= 160) scoreFlame = 4;
+            else if (fXenon >= 130) scoreFlame = 3;
+            else if (fXenon >= 100) scoreFlame = 2;
+            else scoreFlame = 1;
+        } else {
+            const fStr = parseInt(ao.str || "0") + (parseInt(ao.attack_power || "0") * 4) + (parseInt(ao.all_stat || "0") * 10);
+            const fDex = parseInt(ao.dex || "0") + (parseInt(ao.attack_power || "0") * 4) + (parseInt(ao.all_stat || "0") * 10);
+            const fInt = parseInt(ao.int || "0") + (parseInt(ao.magic_power || "0") * 4) + (parseInt(ao.all_stat || "0") * 10);
+            const fLuk = parseInt(ao.luk || "0") + (parseInt(ao.attack_power || "0") * 4) + (parseInt(ao.all_stat || "0") * 10);
+            const fHP = (parseInt(ao.max_hp || "0") / 21) + (parseInt(ao.attack_power || "0") * 4) + (parseInt(ao.all_stat || "0") * 10);
+            const flame = Math.floor(Math.max(fStr, fDex, fInt, fLuk, fHP));
+
+            // 26성 장비는 추옵 만점
+            if (sf >= 25) scoreFlame = 5;
+            else if (sf >= 24) scoreFlame = 4;
+            else if (flame >= 150) scoreFlame = 5;
+            else if (flame >= 130) scoreFlame = 4;
+            else if (flame >= 110) scoreFlame = 3;
+            else if (flame >= 90) scoreFlame = 2;
+            else if (flame >= 70) scoreFlame = 1;
+        }
     }
 
     // === 3. 슬롯별 점수 합산 ===
@@ -367,7 +413,7 @@ export function diagnoseEquipment(items: any[], mainStat: string, attType: strin
 
             // 점수 기반 등급 평가
             const uniqueKey = `${slot}_${itemName}`;
-            result.itemGrades[uniqueKey] = evaluateGradeByScore(item, attType);
+            result.itemGrades[uniqueKey] = evaluateGradeByScore(item, attType, job);
 
             comments.forEach(comment => {
                 const displayComment = `[${slot}] ${itemName}: ${comment}`;

@@ -1,19 +1,18 @@
 import { EquipmentItem, Issue, GRADE_SCORE } from '../types';
 import { getJobInfo } from '../constants';
+import { getStarforce } from '../../../lib/diagnosis/utils';
 
 const getOptionCount = (item: EquipmentItem, attTypeKor: string, jobName: string): { validCount: number, iedCount: number } => {
     const options = [
         item.potential_option_1,
         item.potential_option_2,
         item.potential_option_3
-    ];
+    ].filter((s): s is string => !!s);
 
     let validCount = 0; // Att% or Boss%
     let iedCount = 0;
 
     options.forEach(opt => {
-        if (!opt) return;
-
         // 보스 공격력 (Boss Damage) - "보스 몬스터 공격 시 데미지" or "보스 몬스터 데미지"
         if (opt.includes("보스 몬스터") && opt.includes("데미지")) {
             validCount++;
@@ -40,10 +39,9 @@ const hasOption = (item: EquipmentItem, keyword: string, minValue?: number): boo
         item.potential_option_1,
         item.potential_option_2,
         item.potential_option_3
-    ];
+    ].filter((s): s is string => !!s);
 
     return options.some(opt => {
-        if (!opt) return false;
         if (!opt.includes(keyword)) return false;
 
         if (minValue !== undefined) {
@@ -63,10 +61,9 @@ const hasAdditionalOption = (item: EquipmentItem, keyword: string, isPercentage:
         item.additional_potential_option_1,
         item.additional_potential_option_2,
         item.additional_potential_option_3
-    ];
+    ].filter((s): s is string => !!s);
 
     return options.some(opt => {
-        if (!opt) return false;
         if (!opt.includes(keyword)) return false;
         if (isPercentage && !opt.includes("%")) return false;
         if (!isPercentage && opt.includes("%")) return false; // Flat value check
@@ -149,7 +146,7 @@ export const evaluateStage2 = (equipment: EquipmentItem[], jobName: string, isGe
                 // Starforce Check
                 const isArcane = weapon.item_name.includes("아케인셰이드");
                 const isZeroType8 = (jobName === "제로") && (weapon.item_name.includes("8형") || weapon.item_name.includes("9형"));
-                const star = parseInt(weapon.starforce || "0");
+                const star = getStarforce(weapon);
 
                 if (!isArcane && !isZeroType8) {
                     // 아케인셰이드도 아니고, 제로 8/9형도 아닌 경우

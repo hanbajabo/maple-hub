@@ -1,6 +1,7 @@
 import { EquipmentItem, Issue, GRADE_SCORE } from '../types';
 import { getJobInfo } from '../constants';
 import { calcStatScore, getScrollStat } from '../utils';
+import { getStarforce } from '../../../lib/diagnosis/utils';
 
 // UI Stage 5: 17-star Growth Diagnosis
 export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attTypeKor: string) => {
@@ -56,9 +57,9 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         if (name.includes("도전자")) {
             // 모든 스탯 카운트만 증가시키고 통과 처리
             const isNoFlame = slot.includes("반지") || name.includes("숄더") || name.includes("견장");
-            const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];
+            const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
             const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
-            const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
+            const isNoStarforce = item.starforce_scroll_flag === "0" && getStarforce(item) === 0;
 
             if (!isNoStarforce && !isEventRing) {
                 targetStats.starforce.total++;
@@ -77,7 +78,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
             return; // 도전자 아이템은 여기서 종료
         }
 
-        const star = parseInt(item.starforce || "0");
+        const star = getStarforce(item);
         const potGrade = item.potential_option_grade;
         const adiGrade = item.additional_potential_option_grade;
         const potScore = GRADE_SCORE[potGrade] || 0;
@@ -87,7 +88,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         const isSpecialRing = slot.includes("반지") && specialRingKeywords.some(k => name.includes(k));
 
         // 이벤트 링 (스타포스 불가)
-        const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];
+        const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
         const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
 
         // 1. 스타포스 (17성 이상, 타일런트 10성 이상)
@@ -103,7 +104,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         // 놀라운 장비 강화 주문서(놀장강) 적용 여부 확인
         const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
 
-        const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
+        const isNoStarforce = item.starforce_scroll_flag === "0" && getStarforce(item) === 0;
         if (!isNoStarforce && !isEventRing) {
             targetStats.starforce.total++;
             if (isSpecialRing || hasAmazingScroll) {
@@ -118,14 +119,18 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         }
 
         // 2. 주문서 작 (방어구 56+ or 50급, 장신구 30급)
-        // * 특수 반지는 무조건 통과
+        // * 특수 반지 및 이벤트링은 무조건 통과 (전용 주문서/큐브 사용)
         targetStats.scroll.total++;
         const statKey = getJobInfo(jobName).mainStat.toLowerCase();
         const scrollMainStat = getScrollStat(item, statKey, jobName);
         const scrollScore = calcStatScore(item.item_etc_option, jobName);
         let scrollPass = false;
 
-        if (isSpecialRing || name.includes("글로리온") || name.includes("SS급 쥬얼링")) {
+        // 이벤트링 키워드 (전용 주문서/큐브 사용으로 일반 주문서 작 평가 제외)
+        const scrollEventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "이터널 플레임", "결속의", "어비스"];
+        const isScrollEventRing = slot.includes("반지") && scrollEventRingKeywords.some(k => name.includes(k));
+
+        if (isSpecialRing || isScrollEventRing) {
             scrollPass = true;
         } else if (isArmor) {
             const isHat = slot === "모자";
@@ -166,12 +171,11 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         targetStats.potential.total++;
         let potPass = false;
 
-        const potLines = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
-        const hasCritDmg = potLines.some(l => l && l.includes("크리티컬 데미지"));
-        const hasCooldown = potLines.some(l => l && l.includes("재사용 대기시간"));
+        const potLines = [item.potential_option_1, item.potential_option_2, item.potential_option_3].filter((s): s is string => !!s);
+        const hasCritDmg = potLines.some(l => l.includes("크리티컬 데미지"));
+        const hasCooldown = potLines.some(l => l.includes("재사용 대기시간"));
 
         const totalStatPct = potLines.reduce((sum: number, l: string) => {
-            if (!l) return sum;
             if (targetKeywords.some(k => l.includes(k)) && l.includes("%")) {
                 const match = l.match(/(\d+)%/);
                 return sum + (match ? parseInt(match[1]) : 0);
@@ -184,7 +188,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         } else if (slot === "모자" && hasCooldown) {
             potPass = true;
         } else if (slot.includes("반지")) {
-            const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "이터널 플레임", "결속의", "어비스", "플레임"];
+            const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "이터널 플레임", "결속의", "어비스", "플레임"];
             // specialRingKeywords는 위에서 정의됨
             const isEventRing = eventRingKeywords.some(k => name.includes(k));
             // isSpecialRing은 위에서 정의됨
@@ -239,21 +243,20 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         // 5. 에디셔널
         // * 반지: 이벤트링(레어+공10/탯4%), 일반링(에픽+공10/탯4%)
         targetStats.additional.total++;
-        const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+        const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3].filter((s): s is string => !!s);
         const hasAtt10 = adiLines.some((l: string) => {
-            if (!l) return false;
             if (!l.includes(attTypeKor) && !l.includes("공격력") && !l.includes("마력")) return false;
             const clean = l.replace(/\s+/g, "");
             const match = clean.match(/\+(\d+)/);
             return match && parseInt(match[1]) >= 10;
         });
-        const hasStatPct = adiLines.some((l: string) => l && targetKeywords.some(k => l.includes(k)) && l.includes("%"));
-        const hasStat4 = adiLines.some((l: string) => l && targetKeywords.some(k => l.includes(k)) && l.includes("%") && (parseInt(l.match(/(\d+)%/)?.[1] || "0") >= 4));
+        const hasStatPct = adiLines.some((l: string) => targetKeywords.some(k => l.includes(k)) && l.includes("%"));
+        const hasStat4 = adiLines.some((l: string) => targetKeywords.some(k => l.includes(k)) && l.includes("%") && (parseInt(l.match(/(\d+)%/)?.[1] || "0") >= 4));
 
         let adiPass = false;
 
         if (slot.includes("반지")) {
-            const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "이터널 플레임", "결속의", "어비스", "플레임"];
+            const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "이터널 플레임", "결속의", "어비스", "플레임"];
             // specialRingKeywords는 위에서 정의됨
             const isEventRing = eventRingKeywords.some(k => name.includes(k));
             // isSpecialRing은 위에서 정의됨

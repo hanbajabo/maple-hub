@@ -8,6 +8,8 @@ import {
     ARMOR_FLAME_SCORE,
     STAT_CONVERSION,
     SPECIAL_STARFORCE_GOALS,
+    getPotentialCriteria,
+    getMainPotentialGrade,
 } from '../../config/unified_criteria';
 
 /**
@@ -183,8 +185,10 @@ export function diagnoseArmor(item: any, job?: string): string[] {
             // 레벨별 기준 적용
             const itemLevel = item.item_base_option?.base_equipment_level || 150;
             const is201Plus = itemLevel >= 201;
-            const criteria = is201Plus ? MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL : MAIN_POTENTIAL_STAT.LEGENDARY;
             const tier = is201Plus ? '201~250제' : '71~200제';
+
+            // 통합 기준 사용 (제논 자동 판별)
+            const criteria = getPotentialCriteria(itemLevel, job);
 
             if (statPct >= criteria.MYTHIC) {
                 comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다. (${tier})`);
@@ -197,33 +201,22 @@ export function diagnoseArmor(item: any, job?: string): string[] {
             } else if (statPct > 0) {
                 comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다. ${criteria.GOOD}% 이상 권장합니다.`);
             }
-        } else if (potentialGrade === '유니크') {
-            // 레벨별 기준 적용
+        } else if (potentialGrade === '유니크' || potentialGrade === '에픽') {
             const itemLevel = item.item_base_option?.base_equipment_level || 150;
             const tier = itemLevel >= 201 ? '201~250제' : '71~200제';
 
-            if (itemLevel >= 201) {
-                // 201~250레벨 - 10%/줄
-                if (statPct >= 30) {
-                    comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다. (${tier})`);
-                } else if (statPct >= 17) {
-                    comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 괜찮은 수치입니다. (${tier})`);
-                } else if (statPct > 0) {
-                    comments.push(`[유니크 아쉬움] 주스탯이 <b>${statPct}%</b>로 낮습니다. 17% 이상 권장합니다.`);
-                }
-            } else {
-                // 71~200레벨 - 9%/줄
-                if (statPct >= 27) {
-                    comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다. (${tier})`);
-                } else if (statPct >= 15) {
-                    comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 괜찮은 수치입니다. (${tier})`);
-                } else if (statPct > 0) {
-                    comments.push(`[유니크 아쉬움] 주스탯이 <b>${statPct}%</b>로 낮습니다. 15% 이상 권장합니다.`);
-                }
+            // 통합 평가 함수 사용 (제논 자동 처리)
+            const gradeLabel = getMainPotentialGrade(statPct, potentialGrade, itemLevel, job);
+
+            // 제논일 경우 주스탯 대신 올스탯 표기
+            const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+            const statLabel = isXenon ? '올스탯' : '주스탯';
+
+            if (gradeLabel !== '아쉬움' && gradeLabel !== '부족' && gradeLabel !== '보통') {
+                comments.push(`[${gradeLabel}] <b>${statLabel} ${statPct}%</b>! ${potentialGrade} 등급에서 훌륭한 수치입니다. (${tier})`);
+            } else if (statPct > 0) {
+                comments.push(`[${gradeLabel}] ${statLabel}이 <b>${statPct}%</b>입니다. 조금 더 높은 수치를 노려보세요.`);
             }
-        } else if (potentialGrade === '에픽') {
-            const epicComments = diagnoseEpicPotential(potentialGrade, potentials, job);
-            comments.push(...epicComments);
         }
 
         // 5. 에디셔널 진단 (Additional Potential)

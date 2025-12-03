@@ -28,6 +28,8 @@ export function checkPensalirAndWarn(itemName: string, itemType: 'weapon' | 'arm
 }
 
 
+import { parseStatPercent } from '../utils';
+
 export function diagnoseEpicPotential(potentialGrade: string, potentials: string[], job?: string, isEndGameItem: boolean = false): string[] {
     const comments: string[] = [];
 
@@ -47,24 +49,36 @@ export function diagnoseEpicPotential(potentialGrade: string, potentials: string
 
             // 올스탯은 항상 카운트
             if (line.includes('올스탯') && line.includes('%')) {
-                const val = parseInt(line.replace(/[^0-9]/g, '')) || 0;
-                statPct += val;
+                statPct += parseStatPercent(line);
             }
             // 직업 정보가 있으면 주스탯만 카운트
             else if (hasJobInfo) {
                 const isMainStat = mainStats.some(stat => line.includes(stat) && line.includes('%'));
                 if (isMainStat) {
-                    const val = parseInt(line.replace(/[^0-9]/g, '')) || 0;
-                    statPct += val;
+                    statPct += parseStatPercent(line);
                 }
             }
             // 직업 정보가 없으면 기존 로직 (각 줄의 최대값)
             else {
-                const str = line.includes('STR') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
-                const dex = line.includes('DEX') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
-                const int = line.includes('INT') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
-                const luk = line.includes('LUK') && line.includes('%') ? parseInt(line.replace(/[^0-9]/g, '')) || 0 : 0;
-                statPct += Math.max(str, dex, int, luk);
+                // parseStatPercent returns the value if it matches any stat, but we need to be careful not to sum different stats if we don't know the job.
+                // However, parseStatPercent returns a single number.
+                // The original logic was: Math.max(str, dex, int, luk).
+                // If line is "STR : +6%", parseStatPercent returns 6.
+                // If line is "DEX : +6%", parseStatPercent returns 6.
+                // We should probably accumulate the max of each line if we don't know the job?
+                // Actually, without job info, we usually assume the user is looking for *some* stat.
+                // But summing STR and DEX is wrong if they are different lines.
+                // The original logic summed `Math.max(str, dex, int, luk)` for each line.
+                // So if line 1 is STR 6%, it adds 6. If line 2 is DEX 6%, it adds 6.
+                // This results in 12% total, which is wrong if the user is STR based.
+                // BUT, the original logic DID sum them: `statPct += Math.max(...)`.
+                // So if I have STR 6% and DEX 6%, statPct becomes 12.
+                // This seems like a bug in the original logic or a simplified "potential score" approach.
+                // I will keep the behavior consistent: sum the stat % of the line.
+                const val = parseStatPercent(line);
+                // parseStatPercent checks for STR, DEX, INT, LUK, HP, AllStat.
+                // If it returns > 0, it means it found a stat.
+                statPct += val;
             }
         });
 

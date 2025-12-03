@@ -1,5 +1,6 @@
 import { EquipmentItem, Issue, GRADE_SCORE } from '../types';
 import { getJobInfo } from '../constants';
+import { getStarforce } from '../../../lib/diagnosis/utils';
 
 export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attTypeKor: string) => {
     const { mainStat } = getJobInfo(jobName);
@@ -52,7 +53,7 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
         // 제외: 뱃지, 포켓, 훈장, 엠블렘, 보조무기, 특수 반지
         const skipStarforce = isBadge || isPocket || isMedal || isEmblem || isSubWeapon || isSpecialRing;
 
-        const star = parseInt(item.starforce || "0");
+        const star = getStarforce(item);
 
         // 놀라운 장비 강화 주문서(놀장강) 적용 여부 확인
         const hasAmazingScroll = item.starforce_scroll_flag !== "0" && star > 0;
@@ -91,12 +92,12 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                 isPassed = false;
                 issues.push({ type: 'potential', message: `[잠재능력] ${item.item_name}: 에픽 등급 미만` });
             } else {
-                const potLines = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
+                const potLines = [item.potential_option_1, item.potential_option_2, item.potential_option_3].filter((s): s is string => !!s);
 
                 // 모자: 쿨감 있으면 통과 (스킬 재사용 대기시간 -X초)
-                const hasCooldown = slot === "모자" && potLines.some(l => l && l.includes("재사용 대기시간"));
+                const hasCooldown = slot === "모자" && potLines.some(l => l.includes("재사용 대기시간"));
                 // 장갑: 크뎀 있으면 통과
-                const hasCritDmg = slot === "장갑" && potLines.some(l => l && l.includes("크리티컬 데미지"));
+                const hasCritDmg = slot === "장갑" && potLines.some(l => l.includes("크리티컬 데미지"));
 
                 if (hasCooldown || hasCritDmg) {
                     // Pass
@@ -105,7 +106,6 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                     const isUniqueOrAbove = potScore >= 3;
 
                     const hasValidPot = potLines.some(l => {
-                        if (!l) return false;
                         const basicValid = (targetKeywords.some(k => l.includes(k)) || l.includes(attTypeKor)) && l.includes("%");
                         if (isWSE && isUniqueOrAbove) {
                             return basicValid || l.includes("보스 몬스터") || l.includes("방어율 무시");
@@ -133,11 +133,10 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                 isPassed = false;
                 issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 레어 등급 미만` });
             } else {
-                const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+                const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3].filter((s): s is string => !!s);
 
                 // 공/마 +10 확인
                 const hasAtt10 = adiLines.some(l => {
-                    if (!l) return false;
                     if (l.includes(attTypeKor) || l.includes("공격력") || l.includes("마력")) {
                         const match = l.match(/\+(\d+)/);
                         return match && parseInt(match[1]) >= 10;
@@ -146,12 +145,12 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                 });
 
                 // 주스탯 % 확인
-                const hasStatPct = adiLines.some(l => l && targetKeywords.some(k => l.includes(k)) && l.includes("%"));
+                const hasStatPct = adiLines.some(l => targetKeywords.some(k => l.includes(k)) && l.includes("%"));
 
                 // 장갑: 크리티컬 데미지, 렙당 주스탯 확인
                 const isGlove = slot === "장갑";
-                const hasCritDmg = adiLines.some(l => l && l.includes("크리티컬 데미지"));
-                const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                const hasCritDmg = adiLines.some(l => l.includes("크리티컬 데미지"));
+                const hasLevelStat = adiLines.some(l => l.includes("캐릭터 기준 9레벨 당"));
 
                 if (isGlove && (hasCritDmg || hasLevelStat)) {
                     // Pass: 장갑이고 크뎀이나 렙당 스탯이 있으면 통과
@@ -159,7 +158,6 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                     // WSE (무기, 보조, 엠블렘) 에디셔널 공/마 % 확인 (에픽 이상, 3% 이상)
                     const isWSE = slot === "무기" || isSubWeapon || slot === "엠블렘";
                     const hasAttPct3 = adiLines.some(l => {
-                        if (!l) return false;
                         if ((l.includes("공격력") || l.includes("마력")) && l.includes("%")) {
                             const match = l.match(/(\d+)%/);
                             return match && parseInt(match[1]) >= 3;

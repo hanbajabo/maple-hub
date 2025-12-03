@@ -1,27 +1,26 @@
-
 /**
  * 📜 주문서 작(Scroll) 공통 진단 로직
  * - 방어구, 장신구, 장갑 등의 주문서 작 상태를 정밀 진단합니다.
  * - 아이템 레벨에 따른 주흔 작 수치 차이를 반영합니다.
  */
 import { SCROLL_STANDARDS } from '../../config/unified_criteria';
+import { EquipmentItem } from '../types';
 
-export function diagnoseScroll(item: any): string[] {
+export function diagnoseScroll(item: EquipmentItem): string[] {
     const comments: string[] = [];
     const itemName = item.item_name || "";
     const slot = item.item_equipment_slot || "";
     const scrollCount = parseInt(item.scroll_upgrade || "0"); // 업그레이드 횟수
-    const etcOpts = item.item_etc_option || {}; // 주문서로 오른 스탯
     const level = item.item_base_option?.base_equipment_level || 0; // 아이템 레벨
 
     // 스탯 추출
-    const str = parseInt(etcOpts.str || "0");
-    const dex = parseInt(etcOpts.dex || "0");
-    const int = parseInt(etcOpts.int || "0");
-    const luk = parseInt(etcOpts.luk || "0");
-    const hp = parseInt(etcOpts.max_hp || "0"); // HP 추가 (데몬어벤져용)
-    const att = parseInt(etcOpts.attack_power || "0");
-    const magic = parseInt(etcOpts.magic_power || "0");
+    const str = parseInt(item.item_etc_option?.str || "0");
+    const dex = parseInt(item.item_etc_option?.dex || "0");
+    const int = parseInt(item.item_etc_option?.int || "0");
+    const luk = parseInt(item.item_etc_option?.luk || "0");
+    const hp = parseInt(item.item_etc_option?.max_hp || "0"); // HP 추가 (데몬어벤져용)
+    const att = parseInt(item.item_etc_option?.attack_power || "0");
+    const magic = parseInt(item.item_etc_option?.magic_power || "0");
 
     const maxStat = Math.max(str, dex, int, luk, hp);
 

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { JOB_META_DATA } from "@/src/data/diagnosisData";
 import { toPng } from "html-to-image";
-import { Search, RefreshCw, Swords, Camera, X } from "lucide-react";
+import { Search, RefreshCw, Swords, Camera, X, Star, List } from "lucide-react";
 import { getOcid, getCharacterBasic, getCharacterItemEquipment, getCharacterStat, getCharacterUnion, getCharacterLinkSkill, getUserUnionRaider } from "../lib/nexon";
 import { calculateCumulativeExpectedCost } from "../lib/starforce_db";
 import { diagnoseEquipment } from "../lib/diagnosis/equipment";
@@ -98,7 +98,22 @@ export interface ItemData {
     speed: string;
     jump: string;
   };
+  item_starforce_option?: {
+    str: string;
+    dex: string;
+    int: string;
+    luk: string;
+    max_hp: string;
+    max_mp: string;
+    attack_power: string;
+    magic_power: string;
+    armor: string;
+    speed: string;
+    jump: string;
+  };
+  starforce_scroll_flag: string;
   cuttable_count: string;
+  special_ring_level?: number;
 }
 
 
@@ -137,6 +152,169 @@ export default function Home() {
   const [selectedWeapon, setSelectedWeapon] = useState<ItemData | null>(null);
   const [diagnosisReport, setDiagnosisReport] = useState<EquipmentReport | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
+  const favoritesRef = useRef<HTMLDivElement>(null);
+
+  // Favorites state
+  const [favorites, setFavorites] = useState<Array<{ name: string, world: string, level: number, job: string }>>([]);
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
+
+  // Load favorites from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('maple-ai-favorites');
+    if (saved) {
+      try {
+        setFavorites(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to load favorites:', e);
+      }
+    }
+  }, []);
+
+  // Save favorites to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('maple-ai-favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
+  // Close favorites dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (favoritesRef.current && !favoritesRef.current.contains(event.target as Node)) {
+        setIsFavoritesOpen(false);
+      }
+    };
+
+    if (isFavoritesOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isFavoritesOpen]);
+
+  // Check if current character is favorited
+  const isFavorited = character && favorites.some(f => f.name === character.character_name && f.world === character.world_name);
+
+  // Add to favorites
+  const addToFavorites = () => {
+    if (!character) return;
+    const newFav = {
+      name: character.character_name,
+      world: character.world_name,
+      level: character.character_level,
+      job: character.character_class
+    };
+    setFavorites(prev => [...prev, newFav]);
+  };
+
+  // Remove from favorites
+  const removeFromFavorites = () => {
+    if (!character) return;
+    setFavorites(prev => prev.filter(f => !(f.name === character.character_name && f.world === character.world_name)));
+  };
+
+  // Load favorite character
+  const loadFavorite = async (favName: string) => {
+    setNickname(favName);
+    setIsFavoritesOpen(false);
+
+    // Directly trigger search with the favorite name
+    setLoading(true);
+    setError("");
+    setCharacter(null);
+    setEquipment([]);
+    setStats(null);
+    setUnion(null);
+    setLinkSkillData(null);
+    setUnionRaiderData(null);
+
+    try {
+      const ocid = await getOcid(favName);
+      setOcid(ocid);
+
+      const [
+        basicInfo,
+        equipmentInfo,
+        statInfo,
+        unionInfo,
+        linkSkill,
+        unionRaider
+      ] = await Promise.all([
+        getCharacterBasic(ocid),
+        getCharacterItemEquipment(ocid),
+        getCharacterStat(ocid),
+        getCharacterUnion(ocid),
+        getCharacterLinkSkill(ocid),
+        getUserUnionRaider(ocid)
+      ]);
+
+      setCharacter(basicInfo);
+
+      if (equipmentInfo && equipmentInfo.item_equipment) {
+        setEquipment(equipmentInfo.item_equipment);
+      }
+
+      setStats(statInfo);
+      setUnion(unionInfo);
+      setLinkSkillData(linkSkill);
+      setUnionRaiderData(unionRaider);
+
+      if (equipmentInfo && equipmentInfo.item_equipment && basicInfo) {
+        const characterClass = basicInfo.character_class;
+        let jobData = JOB_META_DATA[characterClass];
+
+        if (!jobData) {
+          const normalizedClass = characterClass.replace(/\s/g, "");
+          const foundKey = Object.keys(JOB_META_DATA).find(key => key.replace(/\s/g, "") === normalizedClass);
+          if (foundKey) {
+            jobData = JOB_META_DATA[foundKey];
+          }
+        }
+
+        if (!jobData) {
+          if (characterClass.includes("데몬어벤져") || characterClass.includes("데몬 어벤져")) {
+            jobData = { stat: "HP", att: "공격력" };
+          } else if (characterClass.includes("제논")) {
+            jobData = { stat: "ALL", att: "공격력" };
+          } else if (characterClass.includes("아크메이지") || characterClass.includes("비숍") || characterClass.includes("플레임위자드") || characterClass.includes("에반") || characterClass.includes("루미너스") || characterClass.includes("배틀메이지") || characterClass.includes("키네시스") || characterClass.includes("일리움") || characterClass.includes("라라")) {
+            jobData = { stat: "INT", att: "마력" };
+          } else if (characterClass.includes("보우마스터") || characterClass.includes("신궁") || characterClass.includes("패스파인더") || characterClass.includes("윈드브레이커") || characterClass.includes("와일드헌터") || characterClass.includes("메르세데스") || characterClass.includes("카인") || characterClass.includes("엔젤릭버스터") || characterClass.includes("캡틴") || characterClass.includes("메카닉")) {
+            jobData = { stat: "DEX", att: "공격력" };
+          } else if (characterClass.includes("나이트로드") || characterClass.includes("섀도어") || characterClass.includes("듀얼블레이드") || characterClass.includes("나이트워커") || characterClass.includes("팬텀") || characterClass.includes("카데나") || characterClass.includes("호영") || characterClass.includes("칼리")) {
+            jobData = { stat: "LUK", att: "공격력" };
+          } else {
+            jobData = { stat: "STR", att: "공격력" };
+          }
+        }
+
+        const mainStat = jobData.stat;
+        const attType = jobData.att === "마력" ? "magic" : "attack";
+        const dropStat = statInfo?.final_stat?.find((s: FinalStat) => s.stat_name === "아이템 드롭률");
+        const currentDropRate = dropStat ? parseInt(dropStat.stat_value || "0") : 0;
+
+        const report = diagnoseEquipment(
+          equipmentInfo.item_equipment,
+          mainStat,
+          attType,
+          'HUNTING',
+          currentDropRate,
+          characterClass
+        );
+
+        setDiagnosisReport(report);
+      }
+
+    } catch (err: any) {
+      console.error(err);
+      if (err?.message?.includes("Too Many Requests") || err?.message?.includes("요청이 너무 많습니다")) {
+        setError("RATE_LIMIT");
+      } else {
+        setError("캐릭터를 찾을 수 없거나 정보를 불러오는데 실패했습니다.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
 
@@ -184,9 +362,66 @@ export default function Home() {
       setLinkSkillData(linkSkill);
       setUnionRaiderData(unionRaider);
 
-    } catch (err) {
+      // 장비 진단 리포트 생성
+      if (equipmentInfo && equipmentInfo.item_equipment && basicInfo) {
+        const characterClass = basicInfo.character_class;
+        let jobData = JOB_META_DATA[characterClass];
+
+        // 직업명 정규화 및 재시도
+        if (!jobData) {
+          const normalizedClass = characterClass.replace(/\s/g, "");
+          const foundKey = Object.keys(JOB_META_DATA).find(key => key.replace(/\s/g, "") === normalizedClass);
+          if (foundKey) {
+            jobData = JOB_META_DATA[foundKey];
+          }
+        }
+
+        // 추론 로직 (데몬어벤져 우선 체크)
+        if (!jobData) {
+          if (characterClass.includes("데몬어벤져") || characterClass.includes("데몬 어벤져")) {
+            jobData = { stat: "HP", att: "공격력" };
+          } else if (characterClass.includes("제논")) {
+            jobData = { stat: "ALL", att: "공격력" };
+          } else if (characterClass.includes("아크메이지") || characterClass.includes("비숍") || characterClass.includes("플레임위자드") || characterClass.includes("에반") || characterClass.includes("루미너스") || characterClass.includes("배틀메이지") || characterClass.includes("키네시스") || characterClass.includes("일리움") || characterClass.includes("라라")) {
+            jobData = { stat: "INT", att: "마력" };
+          } else if (characterClass.includes("보우마스터") || characterClass.includes("신궁") || characterClass.includes("패스파인더") || characterClass.includes("윈드브레이커") || characterClass.includes("와일드헌터") || characterClass.includes("메르세데스") || characterClass.includes("카인") || characterClass.includes("엔젤릭버스터") || characterClass.includes("캡틴") || characterClass.includes("메카닉")) {
+            jobData = { stat: "DEX", att: "공격력" };
+          } else if (characterClass.includes("나이트로드") || characterClass.includes("섀도어") || characterClass.includes("듀얼블레이드") || characterClass.includes("나이트워커") || characterClass.includes("팬텀") || characterClass.includes("카데나") || characterClass.includes("호영") || characterClass.includes("칼리")) {
+            jobData = { stat: "LUK", att: "공격력" };
+          } else {
+            // 기본값 (전사 계열 등)
+            jobData = { stat: "STR", att: "공격력" };
+          }
+        }
+
+        const mainStat = jobData.stat;
+        const attType = jobData.att === "마력" ? "magic" : "attack";
+
+        // 드롭률 정보
+        const dropStat = statInfo?.final_stat?.find((s: FinalStat) => s.stat_name === "아이템 드롭률");
+        const currentDropRate = dropStat ? parseInt(dropStat.stat_value || "0") : 0;
+
+        // 장비 진단 실행
+        const report = diagnoseEquipment(
+          equipmentInfo.item_equipment,
+          mainStat,
+          attType,
+          'HUNTING', // 기본 모드
+          currentDropRate,
+          characterClass
+        );
+
+        setDiagnosisReport(report);
+      }
+
+    } catch (err: any) {
       console.error(err);
-      setError("캐릭터를 찾을 수 없거나 정보를 불러오는데 실패했습니다.");
+      // Check if it's a Rate Limit error
+      if (err?.message?.includes("Too Many Requests") || err?.message?.includes("요청이 너무 많습니다")) {
+        setError("RATE_LIMIT");
+      } else {
+        setError("캐릭터를 찾을 수 없거나 정보를 불러오는데 실패했습니다.");
+      }
     } finally {
       setLoading(false);
     }
@@ -425,7 +660,7 @@ export default function Home() {
 
   // Equipment diagnosis effect
   useEffect(() => {
-    if (equipment.length > 0 && stats) {
+    if (equipment.length > 0 && stats && character) {
       const mainStatInfo = getMainStatInfo();
       const attPct = calculateTotalAttackPercent();
       const dropRate = parseFloat(getStatValue("아이템 드롭률").replace("%", ""));
@@ -435,12 +670,13 @@ export default function Home() {
         mainStatInfo.name,
         attPct.totalAttPct > attPct.totalMagicPct ? 'attack' : 'magic',
         'BOSS',
-        dropRate
+        dropRate,
+        character.character_class // 🔥 FIXED: Pass job to enable Demon Avenger detection
       );
 
       setDiagnosisReport(report);
     }
-  }, [equipment, stats]);
+  }, [equipment, stats, character]);
 
   // Equipment Sorting Logic
   const sortEquipment = (items: ItemData[]) => {
@@ -684,6 +920,92 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-br from-maple-orange/0 to-maple-orange/0 group-hover:from-maple-orange/10 group-hover:to-yellow-400/10 transition-all"></div>
               <RefreshCw size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${loading ? 'animate-spin text-maple-orange' : 'group-hover:rotate-180'}`} />
             </button>
+
+            {/* Favorites Button with Dropdown */}
+            <div className="relative" ref={favoritesRef}>
+              <button
+                onClick={() => setIsFavoritesOpen(!isFavoritesOpen)}
+                className={`relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 bg-slate-900 border-2 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all group overflow-hidden ${favorites.length > 0 ? 'border-yellow-500/50 hover:border-yellow-400' : 'border-slate-800 hover:border-maple-orange'
+                  }`}
+                title="즐겨찾기"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-500/0 to-slate-500/0 group-hover:from-slate-500/10 group-hover:to-slate-400/10 transition-all"></div>
+                <List size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${favorites.length > 0 ? 'text-yellow-400' : 'text-slate-400 group-hover:text-slate-300'}`} />
+                {favorites.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-yellow-500 text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-900">
+                    {favorites.length}
+                  </span>
+                )}
+              </button>
+
+              {/* Favorites Dropdown */}
+              {isFavoritesOpen && (
+                <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-slate-900 border-2 border-yellow-500/50 rounded-xl shadow-2xl z-50 overflow-hidden">
+                  <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 px-4 py-3 border-b border-yellow-500/30">
+                    <h3 className="font-bold text-yellow-400 flex items-center gap-2">
+                      <Star size={16} className="fill-yellow-400" />
+                      즐겨찾기 ({favorites.length})
+                    </h3>
+                  </div>
+                  <div className="max-h-96 overflow-y-auto custom-scrollbar">
+                    {favorites.length === 0 ? (
+                      <div className="p-6 text-center text-slate-500">
+                        <Star size={32} className="mx-auto mb-2 opacity-30" />
+                        <p className="text-sm">즐겨찾기가 비어있습니다</p>
+                        <p className="text-xs mt-1">캐릭터 검색 후 ⭐ 버튼을 눌러보세요</p>
+                      </div>
+                    ) : (
+                      favorites.map((fav, idx) => (
+                        <div
+                          key={idx}
+                          onClick={() => loadFavorite(fav.name)}
+                          className="px-4 py-3 hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800 last:border-b-0 flex items-center justify-between group"
+                        >
+                          <div className="flex-1">
+                            <div className="font-bold text-white group-hover:text-yellow-400 transition-colors">
+                              {fav.name}
+                            </div>
+                            <div className="text-xs text-slate-400 mt-1">
+                              {fav.world} · Lv.{fav.level} · {fav.job}
+                            </div>
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setFavorites(prev => prev.filter((_, i) => i !== idx));
+                            }}
+                            className="text-slate-500 hover:text-red-400 transition-colors p-1"
+                            title="삭제"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Add/Remove Favorite Button (shown when character is loaded) */}
+            {character && (
+              <button
+                onClick={isFavorited ? removeFromFavorites : addToFavorites}
+                className={`relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all group overflow-hidden border-2 ${isFavorited
+                  ? 'bg-yellow-500/10 border-yellow-500 hover:bg-yellow-500/20'
+                  : 'bg-slate-900 border-slate-800 hover:border-yellow-400'
+                  }`}
+                title={isFavorited ? "즐겨찾기 해제" : "즐겨찾기 추가"}
+              >
+                <Star
+                  size={20}
+                  className={`sm:w-8 sm:h-8 transition-all relative z-10 ${isFavorited
+                    ? 'fill-yellow-400 text-yellow-400'
+                    : 'text-slate-400 group-hover:text-yellow-400 group-hover:fill-yellow-400/20'
+                    }`}
+                />
+              </button>
+            )}
           </div>
         </div>
 
@@ -696,19 +1018,47 @@ export default function Home() {
         </div>
 
         {error && (
-          <div className="w-full max-w-4xl mt-4 p-4 bg-red-950/50 border border-red-500/50 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 shadow-lg shadow-red-900/20">
-            <span className="text-2xl">🚫</span>
-            <div className="flex flex-col">
-              <p className="text-red-200 font-bold text-lg">검색 실패</p>
-              <p className="text-red-300/90 text-sm">{error}</p>
+          error === "RATE_LIMIT" ? (
+            <div className="w-full max-w-4xl mt-4 p-6 bg-gradient-to-br from-orange-950/50 to-yellow-950/50 border-2 border-orange-500/50 rounded-2xl animate-in fade-in slide-in-from-top-2 shadow-2xl shadow-orange-900/30">
+              <div className="flex flex-col items-center text-center gap-4">
+                <div className="relative">
+                  <div className="text-6xl animate-bounce">⏱️</div>
+                  <div className="absolute inset-0 blur-xl bg-orange-500/30 animate-pulse"></div>
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-orange-300 mb-2">
+                    현재 너무 많은 요청으로
+                  </h3>
+                  <p className="text-base sm:text-lg text-orange-200 font-medium mb-1">
+                    잠시 후 다시 시도해주세요
+                  </p>
+                  <p className="text-sm sm:text-base text-orange-400/80 italic mt-3">
+                    (이용해주셔서 항상 감사합니다 💛)
+                  </p>
+                </div>
+                <button
+                  onClick={() => setError("")}
+                  className="mt-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-orange-500/50 hover:scale-105"
+                >
+                  확인
+                </button>
+              </div>
             </div>
-            <button
-              onClick={() => setError("")}
-              className="ml-auto p-2 hover:bg-red-500/20 rounded-lg transition-colors text-red-300"
-            >
-              <X size={20} />
-            </button>
-          </div>
+          ) : (
+            <div className="w-full max-w-4xl mt-4 p-4 bg-red-950/50 border border-red-500/50 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 shadow-lg shadow-red-900/20">
+              <span className="text-2xl">🚫</span>
+              <div className="flex flex-col">
+                <p className="text-red-200 font-bold text-lg">검색 실패</p>
+                <p className="text-red-300/90 text-sm">{error}</p>
+              </div>
+              <button
+                onClick={() => setError("")}
+                className="ml-auto p-2 hover:bg-red-500/20 rounded-lg transition-colors text-red-300"
+              >
+                <X size={20} />
+              </button>
+            </div>
+          )
         )}
       </section>
 

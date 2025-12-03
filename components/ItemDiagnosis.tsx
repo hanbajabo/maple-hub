@@ -12,6 +12,7 @@ import HuntingDiagnosis from './HuntingDiagnosis';
 import BossDiagnosis from './BossDiagnosis';
 import { diagnoseTotalCheckup, TotalCheckupResult } from '../lib/diagnosis/total-checkup';
 import TotalDiagnosisModal from './TotalDiagnosisModal';
+import PriorityDiagnosisModal from './PriorityDiagnosisModal';
 
 export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey, characterClass }: { equipment: any[], ocid: string, worldName: string, refreshKey?: number, characterClass: string }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -175,15 +176,21 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey, 
         }
     };
 
+    const [isPriorityOpen, setIsPriorityOpen] = useState(false);
+
     const handleTotalDiagnosis = () => {
         const result = diagnoseTotalCheckup(equipment, characterClass);
         setTotalCheckupData(result);
         setIsTotalDiagnosisOpen(true);
     };
 
+    const handlePriorityDiagnosis = () => {
+        setIsPriorityOpen(true);
+    };
+
     return (
         <>
-            <div className="grid grid-cols-3 gap-2 mt-4">
+            <div className="grid grid-cols-2 gap-2 mt-4">
                 <button onClick={() => runDiagnosis('HUNTING')} className="bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-2 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-xs sm:text-sm border border-green-600 whitespace-nowrap">
                     🏹 사냥용 진단
                 </button>
@@ -193,7 +200,22 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey, 
                 <button onClick={handleTotalDiagnosis} className="bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-3 px-2 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-xs sm:text-sm border border-indigo-700 whitespace-nowrap">
                     🛡️ 종합 스펙 진단
                 </button>
+                <button onClick={handlePriorityDiagnosis} className="bg-amber-700 hover:bg-amber-600 text-white font-bold py-3 px-2 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-xs sm:text-sm border border-amber-500 whitespace-nowrap animate-pulse relative">
+                    ⚡ 스펙업 1순위
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-sm border border-red-400">Beta</span>
+                </button>
             </div>
+
+            {/* Priority Diagnosis Modal */}
+            {mounted && isPriorityOpen && createPortal(
+                <PriorityDiagnosisModal
+                    isOpen={isPriorityOpen}
+                    onClose={() => setIsPriorityOpen(false)}
+                    equipment={equipment}
+                    job={characterClass}
+                />,
+                document.body
+            )}
 
             {/* Total Diagnosis Modal */}
             {mounted && isTotalDiagnosisOpen && totalCheckupData && createPortal(

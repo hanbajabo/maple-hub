@@ -4,6 +4,8 @@ import { getJobMainStat } from '../../job_utils';
 import { diagnoseScroll } from './scroll';
 import { parsePotentialLines, evaluatePotential, evaluateAdditional } from '../../utils/potential_utils';
 import { STARFORCE_TIERS, COOLDOWN_REDUCTION, STARFORCE_TIERS as SF } from '../../config/unified_criteria';
+import { EquipmentItem } from '../types';
+import { getStarforce } from '../utils';
 
 /**
  * 🎩 모자(Hat) 전용 진단 로직
@@ -11,13 +13,13 @@ import { STARFORCE_TIERS, COOLDOWN_REDUCTION, STARFORCE_TIERS as SF } from '../.
  * - 에테르넬 vs 파프니르 vs 아케인 비교 (메타 분석)
  * - 스타포스 및 잠재능력 정밀 진단
  */
-export function diagnoseHat(item: any, job?: string): string[] {
+export function diagnoseHat(item: EquipmentItem, job?: string): string[] {
     const comments: string[] = [];
     const itemName = item.item_name || "";
-    const starforce = parseInt(item.starforce || "0");
+    const starforce = getStarforce(item);
     const potentialGrade = item.potential_option_grade;
-    const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
-    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+    const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3].filter((s): s is string => !!s);
+    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3].filter((s): s is string => !!s);
 
     // 🚨 펜살리르 체크 - 펜살리르면 여기서 종료
     const pensalirWarning = checkPensalirAndWarn(itemName, 'armor');
@@ -57,7 +59,7 @@ export function diagnoseHat(item: any, job?: string): string[] {
         }
     } else {
         // 쿨감이 없는 경우: 주스탯 정밀 진단 수행
-        const evalResult = evaluatePotential(item.item_base_option?.base_equipment_level || 150, potentialGrade, parsed);
+        const evalResult = evaluatePotential(item.item_base_option?.base_equipment_level || 150, potentialGrade, parsed, job);
 
         if (potentialGrade === '레전드리') {
             if (evalResult.statPct >= 30) {
@@ -159,7 +161,7 @@ export function diagnoseHat(item: any, job?: string): string[] {
         const adiEval = evaluateAdditional(adiGrade, adiLines, job);
         if (adiEval.score > 0) {
             comments.push(adiEval.message);
-        } else if (adiGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
+        } else if (adiGrade === "레전드리") {
             const hasAtt = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")));
             if (!hasAtt) comments.push(`[속 빈 강정] 윗잠은 레전드리지만 에디셔널이 부실합니다. 에디 공/마를 챙겨주세요.`);
         }
@@ -167,15 +169,15 @@ export function diagnoseHat(item: any, job?: string): string[] {
 
     // 4. 추옵 (Flame)
     // 모자는 깡추옵이 중요
-    const addOpts = item.item_add_option || {};
+    const addOpts = item.item_add_option;
     const addStat = Math.max(
-        parseInt(addOpts.str || "0"),
-        parseInt(addOpts.dex || "0"),
-        parseInt(addOpts.int || "0"),
-        parseInt(addOpts.luk || "0"),
-        parseInt(addOpts.max_hp || "0") / 21  // HP는 21당 주스탯 1
+        parseInt(addOpts?.str || "0"),
+        parseInt(addOpts?.dex || "0"),
+        parseInt(addOpts?.int || "0"),
+        parseInt(addOpts?.luk || "0"),
+        parseInt(addOpts?.max_hp || "0") / 21  // HP는 21당 주스탯 1
     );
-    const addAllStat = parseInt(addOpts.all_stat || "0");
+    const addAllStat = parseInt(addOpts?.all_stat || "0");
     const score = Math.floor(addStat + (addAllStat * 10));
 
     if (score >= 200) comments.push(`[신화급 추옵] <b>${score}급</b>...?! 이건 운영자가 실수로 만든 게 분명합니다. 전 서버급 1티어 추옵입니다.`);

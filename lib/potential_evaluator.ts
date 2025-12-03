@@ -132,7 +132,7 @@ export function evaluatePotential(
     }
 
     const { goodOptions, optionsScore } = evaluateOptions(type, currentGrade, options, equipmentType, itemSlot, job);
-    const recommendation = generateRecommendation(type, currentGrade, equipmentType, optionsScore, goodOptions, ceilingCost, itemSlot, itemLevel);
+    const recommendation = generateRecommendation(type, currentGrade, equipmentType, optionsScore, goodOptions, ceilingCost, itemSlot, itemLevel, job);
     const evaluation = generateEvaluation(type, currentGrade, equipmentType, optionsScore, goodOptions);
 
     return {
@@ -357,6 +357,8 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
         let maxCritDamageValue = 0;
         let cooldownReduction = 0;
 
+        const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+
         // 🔍 주스탯 추론: 가장 많이 나온 스탯을 주스탯으로 간주
         const statCounts = { STR: 0, DEX: 0, INT: 0, LUK: 0 };
         options.forEach(opt => {
@@ -386,8 +388,8 @@ function evaluateArmorAccessory(options: string[], type: 'main' | 'additional' =
                             goodOptions.push(opt);
                         }
                     }
-                    // 개별 스탯은 주스탯만 유효
-                    else if (hasAnyStatPercent && opt.includes(mainStat)) {
+                    // 개별 스탯은 주스탯만 유효 (제논은 올스탯만 점수에 포함)
+                    else if (!isXenon && hasAnyStatPercent && opt.includes(mainStat)) {
                         totalStatPercent += val;
                         goodOptions.push(opt);
                     }
@@ -566,7 +568,8 @@ function generateRecommendation(
     goodOptions: string[],
     ceilingCost: number,
     itemSlot?: string,
-    itemLevel?: number
+    itemLevel?: number,
+    job?: string
 ): string {
     if ((equipmentType === '무기' || equipmentType === '보조무기') && type === 'additional') {
         return generateWeaponAdditionalRecommendation(grade, score, goodOptions);
@@ -576,7 +579,7 @@ function generateRecommendation(
         return generateEmblemRecommendation(type, score, goodOptions);
     }
 
-    return generateGeneralRecommendation(grade, score, equipmentType, type, goodOptions, ceilingCost, itemSlot, itemLevel);
+    return generateGeneralRecommendation(grade, score, equipmentType, type, goodOptions, ceilingCost, itemSlot, itemLevel, job);
 }
 
 function generateWeaponAdditionalRecommendation(grade: string, score: number, goodOptions: string[]): string {
@@ -625,16 +628,20 @@ function generateGeneralRecommendation(
     goodOptions: string[],
     ceilingCost: number,
     itemSlot?: string,
-    itemLevel?: number
+    itemLevel?: number,
+    job?: string
 ): string {
+    const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+    const statLabel = isXenon ? '올스탯' : '주스탯';
+
     // 방어구/장신구 평가
     if (equipmentType === '방어구' || equipmentType === '장신구') {
         if (type === 'main') {
             // 에픽 등급 세부 평가
             if (grade === '에픽') {
-                if (score >= MAIN_POTENTIAL_STAT.EPIC.PERFECT) return '에픽 완벽! 주스탯 3줄(18% 이상)입니다. 에픽 종결급이지만 유니크로 넘어가면 더 좋습니다.';
-                if (score >= MAIN_POTENTIAL_STAT.EPIC.UNIQUE_LEVEL) return '에픽 등급이지만 주스탯 15% 이상으로 유니크급 효율을 냅니다. 훌륭합니다!';
-                if (score >= MAIN_POTENTIAL_STAT.EPIC.DECENT) return '에픽 준수! 주스탯 3줄(12% 이상)로 쓸만합니다. 유니크 등급업을 추천합니다.';
+                if (score >= MAIN_POTENTIAL_STAT.EPIC.PERFECT) return `에픽 완벽! ${statLabel} 3줄(${score}% 이상)입니다. 에픽 종결급이지만 유니크로 넘어가면 더 좋습니다.`;
+                if (score >= MAIN_POTENTIAL_STAT.EPIC.UNIQUE_LEVEL) return `에픽 등급이지만 ${statLabel} ${score}% 이상으로 유니크급 효율을 냅니다. 훌륭합니다!`;
+                if (score >= MAIN_POTENTIAL_STAT.EPIC.DECENT) return `에픽 준수! ${statLabel} 3줄(${score}% 이상)로 쓸만합니다. 유니크 등급업을 추천합니다.`;
 
                 const lineCount = goodOptions.length;
                 if (lineCount >= 1) {
@@ -651,15 +658,15 @@ function generateGeneralRecommendation(
             if (grade === '유니크') {
                 const lineCount = goodOptions.length;
 
-                if (score >= MAIN_POTENTIAL_STAT.UNIQUE.EXCELLENT) return '유니크 좋음! 주스탯 3줄(21% 이상)입니다.';
-                if (score >= MAIN_POTENTIAL_STAT.UNIQUE.DECENT) return '유니크 통과. 주스탯 2줄(15% 이상) 기준을 만족합니다.';
+                if (score >= MAIN_POTENTIAL_STAT.UNIQUE.EXCELLENT) return `유니크 좋음! ${statLabel} 3줄(${score}% 이상)입니다.`;
+                if (score >= MAIN_POTENTIAL_STAT.UNIQUE.DECENT) return `유니크 통과. ${statLabel} 2줄(${score}% 이상) 기준을 만족합니다.`;
 
                 if (lineCount >= 2) {
-                    return `유효 ${lineCount}줄이지만 효율이 낮습니다. 주스탯 2줄(15% 이상)을 노려보세요.`;
+                    return `유효 ${lineCount}줄이지만 효율이 낮습니다. ${statLabel} 2줄 이상을 노려보세요.`;
                 } else if (lineCount === 1) {
-                    return '유효 1줄입니다. 유니크 등급에서는 주스탯 2줄(15% 이상)을 목표로 하세요.';
+                    return `유효 1줄입니다. 유니크 등급에서는 ${statLabel} 2줄 이상을 목표로 하세요.`;
                 } else {
-                    return '유효 옵션이 없습니다. 주스탯 2줄(15% 이상)을 목표로 재설정이 필요합니다.';
+                    return `유효 옵션이 없습니다. ${statLabel} 2줄 이상을 목표로 재설정이 필요합니다.`;
                 }
             }
 
@@ -695,7 +702,7 @@ function generateGeneralRecommendation(
                 // 쿨감 2초 이상일 때 주스탯도 체크
                 if (totalCooldown >= COOLDOWN_REDUCTION.GOOD) {
                     if (totalStatPercent > 0) {
-                        return `좋음! 쿨감 ${totalCooldown}초 + 주스탯 ${Math.floor(totalStatPercent)}%`;
+                        return `좋음! 쿨감 ${totalCooldown}초 + ${statLabel} ${Math.floor(totalStatPercent)}%`;
                     }
                     return '좋음! 쿨감 2초 이상입니다.';
                 }
@@ -734,6 +741,14 @@ function generateGeneralRecommendation(
 
             // 201레벨 이상 (에테르넬 등) - 정옵 33%, 이탈 13%
             if (itemLevel && itemLevel > 200) {
+                if (isXenon) {
+                    if (score >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL.MYTHIC) return `초월급! 올스탯 3줄 완벽(${score}% 이상)입니다. 최고의 최고!`;
+                    if (score >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL.ENDGAME_HIGH) return `엔드급! 올스탯 3줄 하이엔드(${score}% 이상)입니다.`;
+                    if (score >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL.ENDGAME) return `최상급! 올스탯 3줄(${score}% 이상)입니다. 종결급입니다.`;
+                    if (score >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL.GOOD) return `좋음! 올스탯 2줄(${score}% 이상)입니다.`;
+                    return `재설정 필요. 올스탯 2줄(${MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL.GOOD}% 이상)을 목표로 하세요.`;
+                }
+
                 if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.MYTHIC) return '초월급! 주스탯 3줄 완벽(39% 이상)입니다. 최고의 최고!';
                 if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.ENDGAME_HIGH) return '엔드급! 주스탯 3줄 하이엔드(36% 이상)입니다.';
                 if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.ENDGAME) return '최상급! 주스탯 3줄(33% 이상)입니다. 종결급입니다.';
@@ -741,6 +756,14 @@ function generateGeneralRecommendation(
                 if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.DECENT_PLUS) return '조금 좋음. 주스탯+올스탯 조합(20% 이상)입니다.';
                 if (score >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.DECENT) return '통과. 주스탯 2줄 기본 기준(16% 이상)을 만족합니다.';
                 return '재설정 필요. 주스탯 2줄(16% 이상)을 목표로 하세요.';
+            }
+
+            if (isXenon) {
+                if (score >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY.MYTHIC) return `초월급! 올스탯 3줄 완벽(${score}% 이상)입니다. 최고의 최고!`;
+                if (score >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY.ENDGAME_HIGH) return `엔드급! 올스탯 3줄 하이엔드(${score}% 이상)입니다.`;
+                if (score >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY.ENDGAME) return `최상급! 올스탯 3줄(${score}% 이상)입니다. 종결급입니다.`;
+                if (score >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY.GOOD) return `좋음! 올스탯 2줄(${score}% 이상)입니다.`;
+                return `재설정 필요. 올스탯 2줄(${MAIN_POTENTIAL_STAT.XENON_LEGENDARY.GOOD}% 이상)을 목표로 하세요.`;
             }
 
             if (score >= MAIN_POTENTIAL_STAT.LEGENDARY.MYTHIC) return '초월급! 주스탯 3줄 완벽(36% 이상)입니다. 최고의 최고!';

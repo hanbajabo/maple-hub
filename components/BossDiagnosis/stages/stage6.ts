@@ -1,4 +1,3 @@
-
 import { EquipmentItem, Issue } from '../types';
 import { JOB_RECOMMENDATIONS } from '../../../lib/job_recommendations';
 
@@ -37,10 +36,10 @@ export const evaluateStage6 = (equipment: EquipmentItem[], jobName: string) => {
             hat.additional_potential_option_1,
             hat.additional_potential_option_2,
             hat.additional_potential_option_3
-        ].filter(Boolean);
+        ].filter((s): s is string => !!s);
 
         potentialOptions.forEach(opt => {
-            if (opt && opt.includes('재사용 대기시간')) {
+            if (opt.includes('재사용 대기시간')) {
                 const match = opt.match(/(\d+)초/);
                 if (match) {
                     cooldownSeconds += parseInt(match[1], 10);
@@ -70,26 +69,25 @@ export const evaluateStage6 = (equipment: EquipmentItem[], jobName: string) => {
     const hasContinuous = rings.some(r => r.item_name.includes('컨티뉴어스 링'));
 
     if (recommendation.ring === 'continuous') {
-        if (!hasContinuous) {
+        // 컨티뉴어스 링 또는 리스트레인트 링 중 하나라도 착용하면 통과
+        if (!hasContinuous && !hasRestraint) {
             ringPassed = false;
             ringStatus = 'fail';
             issues.push({
                 type: 'optimization',
                 message: `[시드링] ${jobName} 직업은 '컨티뉴어스 링' 효율이 가장 좋습니다.`,
-                detail: `현재 컨티뉴어스 링을 착용하지 않았습니다.\n${recommendation.ringNote || ''}`
+                detail: `현재 컨티뉴어스 링을 착용하지 않았습니다. 리스트레인트 링도 대안으로 사용 가능합니다.\n${recommendation.ringNote || ''}`
             });
         }
     } else if (recommendation.ring === 'restraint') {
-        // 리레링 추천인데 컨티링만 끼고 있으면 경고 (Fail까진 아니고 Info/Warning)
-        // 하지만 여기선 엄격하게 가이드하려면 Fail 줄 수도 있음.
-        // 일단 리레링이 없으면 Fail로 처리 (고스펙 기준이므로)
-        if (!hasRestraint) {
+        // 리스트레인트 링 또는 컨티뉴어스 링 중 하나라도 착용하면 통과
+        if (!hasRestraint && !hasContinuous) {
             ringPassed = false;
             ringStatus = 'fail';
             issues.push({
                 type: 'optimization',
                 message: `[시드링] ${jobName} 직업은 극딜을 위해 '리스트레인트 링'이 필수입니다.`,
-                detail: `현재 리스트레인트 링을 착용하지 않았습니다.\n${recommendation.ringNote || ''}`
+                detail: `현재 리스트레인트 링을 착용하지 않았습니다. 컨티뉴어스 링도 대안으로 사용 가능합니다.\n${recommendation.ringNote || ''}`
             });
         }
     } else if (recommendation.ring === 'switching') {

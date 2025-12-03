@@ -107,7 +107,7 @@ const BOSS_DATA = [
 export default function CombatPowerRank({ combatPower }: { combatPower: string | number }) {
 
     const [greetingIndex, setGreetingIndex] = useState(() => Math.floor(Math.random() * 1000));
-    const cp = typeof combatPower === 'string' ? parseInt(combatPower.replace(/,/g, '')) : combatPower;
+    const cp = typeof combatPower === 'string' ? parseInt(combatPower.replace(/[^0-9]/g, '')) : combatPower;
 
     if (!cp && cp !== 0) return null;
 

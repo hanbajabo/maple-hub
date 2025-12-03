@@ -1,8 +1,9 @@
-
 import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { diagnoseScroll } from './scroll';
 import { parsePotentialLines, evaluateCritDamage, evaluateAdditional } from '../../utils/potential_utils';
 import { STARFORCE_TIERS } from '../../config/unified_criteria';
+import { EquipmentItem } from '../types';
+import { getStarforce, calculateFlameScore } from '../utils';
 
 /**
  * 🧤 장갑(Glove) 전용 진단 로직
@@ -10,13 +11,13 @@ import { STARFORCE_TIERS } from '../../config/unified_criteria';
  * - 앱솔랩스 vs 아케인셰이드 스타포스 효율 비교
  * - 잠재능력 정밀 진단 (쌍크뎀 권장)
  */
-export function diagnoseGlove(item: any, job?: string): string[] {
+export function diagnoseGlove(item: EquipmentItem, job?: string): string[] {
     const comments: string[] = [];
     const itemName = item.item_name || "";
-    const starforce = parseInt(item.starforce || "0");
+    const starforce = getStarforce(item);
     const potentialGrade = item.potential_option_grade;
-    const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
-    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+    const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3].filter((s): s is string => !!s);
+    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3].filter((s): s is string => !!s);
 
     // 🚨 펜살리르 체크 - 펜살리르면 여기서 종료
     const pensalirWarning = checkPensalirAndWarn(itemName, 'armor');
@@ -31,7 +32,7 @@ export function diagnoseGlove(item: any, job?: string): string[] {
     const parsed = parsePotentialLines(potentials, job);
 
     // 크뎀 평가 유틸 사용
-    const critEval = evaluateCritDamage(parsed.critDmg, parsed.statPct, potentialGrade);
+    const critEval = evaluateCritDamage(parsed.critDmg, parsed.statPct + parsed.allStatPct, potentialGrade);
     if (critEval) {
         comments.push(critEval);
     } else if (potentialGrade === "레전드리" || potentialGrade === "유니크") {
@@ -78,7 +79,7 @@ export function diagnoseGlove(item: any, job?: string): string[] {
             const adiEval = evaluateAdditional(adiGrade, adiLines, job);
             if (adiEval.score > 0) {
                 comments.push(adiEval.message);
-            } else if (adiGrade === "레전드리" && (!adiGrade || adiGrade === "레어")) {
+            } else if (adiGrade === "레전드리") {
                 comments.push(`[속 빈 강정] 크뎀 장갑의 효율을 극대화하려면 에디셔널 크뎀이나 공/마가 필수입니다.`);
             }
         }
@@ -86,21 +87,11 @@ export function diagnoseGlove(item: any, job?: string): string[] {
 
     // 4. 추옵 (Flame)
     // 장갑은 추옵이 잘 안 붙는 부위 (강환불 효율 낮음)
-    const addOpts = item.item_add_option || {};
-    const addStat = Math.max(
-        parseInt(addOpts.str || "0"),
-        parseInt(addOpts.dex || "0"),
-        parseInt(addOpts.int || "0"),
-        parseInt(addOpts.luk || "0"),
-        parseInt(addOpts.max_hp || "0") / 21
-    );
-    const addAllStat = parseInt(addOpts.all_stat || "0");
-    const addAtt = parseInt(addOpts.attack_power || "0");
-    const score = Math.floor(addStat + (addAtt * 4) + (addAllStat * 10));
+    const score = calculateFlameScore(item, job);
 
     if (score >= 120) comments.push(`[극추옵] 장갑에서 <b>${score}급</b>은 정말 귀합니다. 평생 가져가세요.`);
     else if (score >= 100) comments.push(`[고추옵] <b>${score}급</b>! 훌륭합니다.`);
-    else if (score < 80 && item.item_base_option?.base_equipment_level >= 160) {
+    else if (score < 80 && (item.item_base_option?.base_equipment_level || 0) >= 160) {
         comments.push(`[추옵 아쉬움] 장갑은 추옵 뽑기가 어렵지만, <b>80급</b> 이상은 맞춰주는 것이 좋습니다.`);
     }
 

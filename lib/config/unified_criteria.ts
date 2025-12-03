@@ -97,6 +97,56 @@ export const MAIN_POTENTIAL_STAT = {
         /** 준수/통과 (16% 이상) */
         DECENT: 16,
     },
+    /** 제논 레전드리 (71~200제) - 올스탯만 주스탯 */
+    XENON_LEGENDARY: {
+        /** 초월급 (27% 이상 - 올스탯 9/9/9) */
+        MYTHIC: 27,
+        /** 엔드급 (24% 이상 - 올스탯 9/9/6) */
+        ENDGAME_HIGH: 24,
+        /** 최상급/종결 (21% 이상 - 올스탯 9/6/6 정옵) */
+        ENDGAME: 21,
+        /** 좋음 (18% 이상 - 올스탯 6/6/6) */
+        GOOD: 18,
+        /** 조금 좋음 (15% 이상) */
+        DECENT_PLUS: 15,
+        /** 준수/통과 (12% 이상) */
+        DECENT: 12,
+    },
+    /** 제논 레전드리 (201+제 - 에테르넬 등) - 올스탯만 주스탯 */
+    XENON_LEGENDARY_HIGH_LEVEL: {
+        /** 초월급 (30% 이상 - 올스탯 10/10/10) */
+        MYTHIC: 30,
+        /** 엔드급 (27% 이상 - 올스탯 10/10/7) */
+        ENDGAME_HIGH: 27,
+        /** 최상급/종결 (24% 이상 - 올스탯 10/7/7 정옵) */
+        ENDGAME: 24,
+        /** 좋음 (21% 이상 - 올스탯 7/7/7) */
+        GOOD: 21,
+        /** 조금 좋음 (17% 이상) */
+        DECENT_PLUS: 17,
+        /** 준수/통과 (14% 이상) */
+        DECENT: 14,
+    },
+    /** 제논 유니크 */
+    XENON_UNIQUE: {
+        /** 탈유니크급 (18% 이상 - 올스탯 6/6/6) - 레전드리 2줄보다 좋음 */
+        LEGENDARY_TIER: 18,
+        /** 1티어 (15% 이상 - 올스탯 6/6/3) */
+        TIER1: 15,
+        /** 정옵 (12% 이상 - 올스탯 6/3/3) */
+        STANDARD: 12,
+        /** 최소 (9% 이상 - 올스탯 6/3) */
+        MINIMUM: 9,
+    },
+    /** 제논 에픽 */
+    XENON_EPIC: {
+        /** 에픽 종결 (9% 이상 - 올스탯 3/3/3 이탈) */
+        ENDGAME: 9,
+        /** 정옵 (6% 이상 - 올스탯 3/3) */
+        STANDARD: 6,
+        /** 통과 (3% 이상) */
+        PASS: 3,
+    },
     /** 유니크 */
     UNIQUE: {
         /** 종결급 (21% 이상 - 주스탯 7/7/7) */
@@ -661,17 +711,16 @@ export function getStarforceGrade(starforce: number, isSuperior: boolean = false
 }
 
 /**
- * 잠재능력 스탯 %에 따른 평가 등급 반환 (메인 잠재)
+ * 직업별 잠재능력 스탯 %에 따른 평가 등급 반환 (메인 잠재)
  */
 export function getMainPotentialGrade(
     statPercent: number,
     grade: '레전드리' | '유니크' | '에픽',
-    itemLevel: number = 200
+    itemLevel: number = 200,
+    job?: string
 ): string {
     if (grade === '레전드리') {
-        const criteria = itemLevel > 200
-            ? MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL
-            : MAIN_POTENTIAL_STAT.LEGENDARY;
+        const criteria = getPotentialCriteria(itemLevel, job);
 
         if (statPercent >= criteria.MYTHIC) return GRADE_LABELS.MYTHIC;
         if (statPercent >= criteria.ENDGAME_HIGH) return GRADE_LABELS.ENDGAME;
@@ -683,6 +732,16 @@ export function getMainPotentialGrade(
     }
 
     if (grade === '유니크') {
+        // 제논 유니크 별도 처리
+        if (job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'))) {
+            const criteria = MAIN_POTENTIAL_STAT.XENON_UNIQUE;
+            if (statPercent >= criteria.LEGENDARY_TIER) return "탈유니크급";
+            if (statPercent >= criteria.TIER1) return "1티어";
+            if (statPercent >= criteria.STANDARD) return "정옵";
+            if (statPercent >= criteria.MINIMUM) return GRADE_LABELS.PASS;
+            return GRADE_LABELS.LACKING;
+        }
+
         const criteria = MAIN_POTENTIAL_STAT.UNIQUE;
         if (statPercent >= criteria.EXCELLENT) return GRADE_LABELS.EXCELLENT;
         if (statPercent >= criteria.DECENT) return GRADE_LABELS.DECENT;
@@ -691,6 +750,15 @@ export function getMainPotentialGrade(
     }
 
     if (grade === '에픽') {
+        // 제논 에픽 별도 처리
+        if (job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'))) {
+            const criteria = MAIN_POTENTIAL_STAT.XENON_EPIC;
+            if (statPercent >= criteria.ENDGAME) return "에픽 종결";
+            if (statPercent >= criteria.STANDARD) return "정옵";
+            if (statPercent >= criteria.PASS) return GRADE_LABELS.PASS;
+            return GRADE_LABELS.POOR;
+        }
+
         const criteria = MAIN_POTENTIAL_STAT.EPIC;
         if (statPercent >= criteria.PERFECT) return GRADE_LABELS.SUPERIOR;
         if (statPercent >= criteria.UNIQUE_LEVEL) return GRADE_LABELS.EXCELLENT;
@@ -701,6 +769,24 @@ export function getMainPotentialGrade(
     }
 
     return GRADE_LABELS.NORMAL;
+}
+
+/**
+ * 직업과 아이템 레벨에 따라 적절한 잠재능력 기준을 반환
+ */
+export function getPotentialCriteria(itemLevel: number, job?: string) {
+    const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+    const is201Plus = itemLevel >= 201;
+
+    if (isXenon) {
+        return is201Plus
+            ? MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL
+            : MAIN_POTENTIAL_STAT.XENON_LEGENDARY;
+    } else {
+        return is201Plus
+            ? MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL
+            : MAIN_POTENTIAL_STAT.LEGENDARY;
+    }
 }
 
 /**

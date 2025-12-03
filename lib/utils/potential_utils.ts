@@ -12,6 +12,10 @@ import {
     getTier,
     SPECIAL_OPTIONS,
 } from '../config/potential_config';
+import {
+    getPotentialCriteria,
+    getMainPotentialGrade,
+} from '../config/unified_criteria';
 import { getJobMainStat } from '../job_utils';
 
 // ============================================
@@ -125,40 +129,47 @@ export interface PotentialEvaluation {
 export function evaluatePotential(
     itemLevel: number,
     potentialGrade: string,
-    parsed: ParsedPotential
+    parsed: ParsedPotential,
+    job?: string
 ): PotentialEvaluation {
     const tier = getTier(itemLevel);
     const tierLabel = tier === 'TIER_2' ? '201~250제' : '71~200제';
 
     // 주스탯 + 올스탯(절반 환산) 합계
-    const totalStatPct = parsed.statPct + parsed.allStatPct;
+    // 제논의 경우 올스탯이 주스탯이므로 parsed.statPct에 이미 올스탯이 포함되어 있을 수 있음 (parsePotentialLines 로직에 따라)
+    // 하지만 parsePotentialLines는 제논 여부를 모르고 올스탯을 별도로 분리함.
+    // 따라서 제논일 경우 statPct + allStatPct를 합쳐서 넘겨야 함.
+    // 일반 직업의 경우 allStatPct는 효율이 떨어질 수 있으나, 여기서는 단순 합산으로 처리하고 있음.
 
-    const gradeLabel = evaluateStatPercent(itemLevel, potentialGrade, totalStatPct);
-    const thresholds = getPotentialThresholds(itemLevel, potentialGrade);
+    // 제논 판별
+    const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+
+    let totalStatPct = parsed.statPct + parsed.allStatPct;
+
+    // 제논은 올스탯만 유효하므로, parsePotentialLines에서 statPct가 0일 수 있음 (STR/DEX/LUK을 안 셌다면)
+    // 하지만 현재 parsePotentialLines는 직업 주스탯을 모르면 다 셀 수도 있음.
+    // 제논의 경우 job_utils에서 mainStat이 ['올스탯']으로 설정되어 있다면 statPct는 0이고 allStatPct만 있을 것임.
+
+    // 통합 평가 함수 사용
+    // gradeLabel은 'MYTHIC', 'ENDGAME', 'GOOD' 등의 키값이 아니라 '신화급', '졸업', '표준' 등의 한글 라벨임.
+    // getMainPotentialGrade 함수는 한글 라벨을 반환함.
+    const gradeLabel = getMainPotentialGrade(totalStatPct, potentialGrade as any, itemLevel, job);
 
     let message = '';
+    const statLabel = isXenon ? '올스탯' : '주스탯';
 
-    if (potentialGrade === '레전드리') {
-        if (gradeLabel === '올이탈') {
-            message = `주스탯 ${Math.floor(totalStatPct)}%! 올이탈... 이건 기적입니다. (${tierLabel})`;
-        } else if (gradeLabel === '쌍이탈+') {
-            message = `주스탯 ${Math.floor(totalStatPct)}%! 쌍이탈 옵션(${Math.floor(totalStatPct)}% 이상)입니다. (${tierLabel})`;
-        } else if (gradeLabel === '정옵') {
-            message = `주스탯 ${Math.floor(totalStatPct)}%! 완벽한 졸업급 정옵입니다. (${tierLabel})`;
-        } else if (gradeLabel === '고스펙') {
-            message = `주스탯 ${Math.floor(totalStatPct)}%! 상위권 스펙입니다. (${tierLabel})`;
-        } else if (gradeLabel === '표준') {
-            message = `주스탯 ${Math.floor(totalStatPct)}%는 레전드리 표준입니다. (${tierLabel})`;
+    if (potentialGrade === '레전드리' || potentialGrade === '유니크' || potentialGrade === '에픽') {
+        if (gradeLabel !== '아쉬움' && gradeLabel !== '부족' && gradeLabel !== '보통' && gradeLabel !== '미흡') {
+            message = `[${gradeLabel}] ${statLabel} ${Math.floor(totalStatPct)}%! ${potentialGrade} 등급에서 훌륭한 수치입니다. (${tierLabel})`;
         } else {
-            message = `주스탯 ${Math.floor(totalStatPct)}%로 낮습니다. ${thresholds.STANDARD}% 이상 권장합니다.`;
-        }
-    } else if (potentialGrade === '유니크') {
-        if (gradeLabel === '완벽') {
-            message = `주스탯 ${Math.floor(totalStatPct)}%! 유니크 최상급 옵션입니다. (${tierLabel})`;
-        } else if (gradeLabel === '준수') {
-            message = `주스탯 ${Math.floor(totalStatPct)}%는 괜찮은 수치입니다. (${tierLabel})`;
-        } else {
-            message = `주스탯이 ${Math.floor(totalStatPct)}%로 낮습니다. ${thresholds.STANDARD}% 이상 권장합니다.`;
+            // 기준 미달 시 메시지
+            const criteria = getPotentialCriteria(itemLevel, job);
+            let recommend = 0;
+            if (potentialGrade === '레전드리') recommend = criteria.GOOD;
+            else if (potentialGrade === '유니크') recommend = 15; // 임시
+            else recommend = 9; // 임시
+
+            message = `[${gradeLabel}] ${statLabel}이 ${Math.floor(totalStatPct)}%로 낮습니다. ${recommend}% 이상 권장합니다.`;
         }
     }
 

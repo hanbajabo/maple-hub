@@ -88,7 +88,12 @@ export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS', boss
         // 보너스 점수: 기초 점수(링크/유니온/어빌/기초장비)의 10% (최대 10점)
         const bonusScore = deductionScore * 0.1;
 
-        totalScore = Math.min(100, Math.floor(baseScore + bonusScore));
+        // 9단계(진단 완료)면 무조건 만점 처리
+        if (bossStage === 9) {
+            totalScore = 100;
+        } else {
+            totalScore = Math.min(100, Math.floor(baseScore + bonusScore));
+        }
 
         // 티어 산정
         if (totalScore >= 100) tier = "SSS";

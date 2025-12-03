@@ -18,11 +18,11 @@ export const evaluateOptimization = (equipment: EquipmentItem[], jobName: string
             hat.additional_potential_option_1,
             hat.additional_potential_option_2,
             hat.additional_potential_option_3
-        ].filter(Boolean);
+        ].filter((s): s is string => !!s);
 
         let cooldownSeconds = 0;
         potentialOptions.forEach(opt => {
-            if (opt && opt.includes('재사용 대기시간')) {
+            if (opt.includes('재사용 대기시간')) {
                 const match = opt.match(/(\d+)초/);
                 if (match) {
                     cooldownSeconds += parseInt(match[1], 10);

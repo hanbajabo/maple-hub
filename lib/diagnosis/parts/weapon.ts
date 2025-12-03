@@ -6,9 +6,10 @@ import {
     STARFORCE_TIERS,
     WEAPON_FLAME_TIERS,
     SCROLL_QUALITY,
-    WEAPON_POTENTIAL,
     getMaxStarforce
 } from '../../config/unified_criteria';
+import { EquipmentItem } from '../types';
+import { getStarforce } from '../utils';
 
 // 소울 웨폰 티어 데이터
 const TIER_1_SOULS = ["진 힐라", "감시자 칼로스", "카링", "선택받은 세렌", "검은 마법사", "최초의 대적자", "발드릭스", "림보", "섬멸병기 스우", "매그너스", "시그너스", "블러디 퀸", "벨룸", "무르무르"];
@@ -21,14 +22,14 @@ const TIER_2_SOULS = ["듄켈", "더스크", "윌", "루시드", "데미안", "�
  * - 잠재능력 (보보공, 공공보 등) 평가
  * - 제네시스/제로 무기 특수 로직
  */
-export function diagnoseWeapon(item: any, job?: string): string[] {
+export function diagnoseWeapon(item: EquipmentItem, job?: string): string[] {
     const comments: string[] = [];
     const itemName = item.item_name || "";
     const slot = item.item_equipment_slot || "";
-    const starforce = parseInt(item.starforce || "0");
+    const starforce = getStarforce(item);
     const potentialGrade = item.potential_option_grade;
-    const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
-    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+    const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3].filter((s): s is string => !!s);
+    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3].filter((s): s is string => !!s);
     const level = item.item_base_option?.base_equipment_level || 0;
 
     const isGenesis = GENESIS_WEAPON.some(g => itemName.includes(g));
@@ -42,9 +43,8 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
 
     // 1. 주문서 작 진단 (Scroll Analysis)
     const scrollCount = parseInt(item.scroll_upgrade || "0");
-    const etcOpts = item.item_etc_option || {};
-    const etcAtt = parseInt(etcOpts.attack_power || "0");
-    const etcMagic = parseInt(etcOpts.magic_power || "0");
+    const etcAtt = parseInt(item.item_etc_option?.attack_power || "0");
+    const etcMagic = parseInt(item.item_etc_option?.magic_power || "0");
     const mainAttGain = isMage ? etcMagic : etcAtt;
 
     if (scrollCount > 0 && !isGenesis && !isEmblem && !isSecondary) { // 엠블렘/보조무기(일부 제외)는 작 불가
@@ -134,9 +134,8 @@ export function diagnoseWeapon(item: any, job?: string): string[] {
     if (isPensalirItem(itemName)) {
         comments.push(`[교체 권장] 우트가르드(펜살리르) 무기에 환생의 불꽃 투자는 비효율적입니다. 아케인셰이드 무기로 교체하세요.`);
     } else if (!isEmblem && !isSecondary) {
-        const addOpts = item.item_add_option || {};
-        const addAtt = parseInt(addOpts.attack_power || "0");
-        const addMagic = parseInt(addOpts.magic_power || "0");
+        const addAtt = parseInt(item.item_add_option?.attack_power || "0");
+        const addMagic = parseInt(item.item_add_option?.magic_power || "0");
         const mainAddAtt = isMage ? addMagic : addAtt;
 
         if (isZeroWeapon) {

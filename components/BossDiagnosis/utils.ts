@@ -16,13 +16,13 @@ export const checkSetItems = (equipment: EquipmentItem[], keywords: string[], ex
     }).length;
 };
 
-export const calcStatScore = (option: any, jobName: string) => {
+export const calcStatScore = (option: EquipmentItem['item_add_option'] | EquipmentItem['item_etc_option'], jobName: string) => {
     if (!option) return 0;
     const isDA = jobName === "데몬어벤져";
     const isXenon = jobName === "제논";
 
     const attVal = parseInt(option.attack_power || "0") + parseInt(option.magic_power || "0");
-    const allStatVal = parseInt(option.all_stat || "0");
+    const allStatVal = parseInt((option as any).all_stat || "0"); // all_stat might not be in etc_option
 
     if (isDA) {
         const hp = parseInt(option.max_hp || "0");
@@ -33,12 +33,12 @@ export const calcStatScore = (option: any, jobName: string) => {
         const luk = parseInt(option.luk || "0");
         return (str + dex + luk) + (attVal * 4) + (allStatVal * 20);
     } else {
-        const mainStatVal = parseInt(option[getJobInfo(jobName).mainStat.toLowerCase()] || "0");
+        const mainStatVal = parseInt((option as any)[getJobInfo(jobName).mainStat.toLowerCase()] || "0");
         return mainStatVal + (attVal * 4) + (allStatVal * 10);
     }
 };
 
-export const getScrollStat = (item: any, statKey: string, jobName: string) => {
+export const getScrollStat = (item: EquipmentItem, statKey: string, jobName: string) => {
     const opt = item.item_etc_option;
     if (!opt) return 0;
 
@@ -54,6 +54,6 @@ export const getScrollStat = (item: any, statKey: string, jobName: string) => {
         const l = parseInt(opt.luk || "0");
         return Math.floor((s + d + l) / 3);
     } else {
-        return parseInt(opt[statKey] || "0");
+        return parseInt((opt as any)[statKey] || "0");
     }
 };

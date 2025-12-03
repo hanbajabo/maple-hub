@@ -34,7 +34,7 @@ const getValidDate = (): string => {
 };
 
 // 강력한 캐시 방지 Fetch 함수
-async function nexonFetch(endpoint: string, params: Record<string, any> = {}) {
+async function nexonFetch(endpoint: string, params: Record<string, any> = {}, retries = 3): Promise<any> {
     if (!API_KEY) {
         console.error("❌ NEXON_API_KEY is missing in environment variables!");
         throw new Error("API Key is missing");
@@ -64,6 +64,14 @@ async function nexonFetch(endpoint: string, params: Record<string, any> = {}) {
             cache: 'no-store', // Next.js 캐시 끄기
             next: { revalidate: 0 } // ISR 끄기
         });
+
+        if (response.status === 429) {
+            if (retries > 0) {
+                console.warn(`Rate limit exceeded for ${endpoint}. Retrying in 1 second... (${retries} attempts left)`);
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                return nexonFetch(endpoint, params, retries - 1);
+            }
+        }
 
         if (!response.ok) {
             const errorText = await response.text();

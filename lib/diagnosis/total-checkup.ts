@@ -1,3 +1,4 @@
+import { isMagicJob, getJobMainStat } from '../job_utils';
 
 export interface TotalCheckupResult {
     starforce: {
@@ -41,8 +42,6 @@ export interface TotalCheckupResult {
         setDetails: Record<string, string[]>; // 세트별 포함된 아이템 목록
     };
 }
-
-import { isMagicJob, getJobMainStat } from '../job_utils';
 
 export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupResult {
     const result: TotalCheckupResult = {
@@ -147,14 +146,20 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
                     if (!line) return;
                     // 유효 옵션: 주스탯%, 올스탯%, 쿨감, 크뎀, 렙당 주스탯
                     let isStat = false;
-                    if (line.includes('올스탯')) {
+                    if (line.includes('올스탯') || line.includes('모든 스탯')) {
                         isStat = true;
+                    } else if (line.includes('최대 HP')) {
+                        // 데몬어벤져 HP 처리
+                        isStat = mainStats.some(stat => stat.includes('HP'));
                     } else {
-                        isStat = mainStats.some(stat => line.includes(stat));
+                        isStat = mainStats.some(stat => stat !== 'HP' && stat !== '최대HP' && line.includes(stat));
                     }
 
                     const isPct = line.includes('%');
-                    const isPerLevelStat = mainStats.some(stat => line.includes(stat)) && line.includes('10레벨 당');
+                    const isPerLevelStat = line.includes('10레벨 당') && (
+                        mainStats.some(stat => stat !== 'HP' && stat !== '최대HP' && line.includes(stat)) ||
+                        (mainStats.some(stat => stat.includes('HP')) && line.includes('최대 HP'))
+                    );
                     const isCool = line.includes('재사용 대기시간');
                     const isCrit = line.includes('크리티컬 데미지');
 
@@ -180,10 +185,13 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
 
                     let isStatPct = false;
                     if (line.includes('%')) {
-                        if (line.includes('올스탯')) {
+                        if (line.includes('올스탯') || line.includes('모든 스탯')) {
                             isStatPct = true;
+                        } else if (line.includes('최대 HP')) {
+                            // 데몬어벤져 HP 처리
+                            isStatPct = mainStats.some(stat => stat.includes('HP'));
                         } else {
-                            isStatPct = mainStats.some(stat => line.includes(stat));
+                            isStatPct = mainStats.some(stat => stat !== 'HP' && stat !== '최대HP' && line.includes(stat));
                         }
                     }
 

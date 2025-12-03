@@ -4,6 +4,8 @@ import { diagnoseEpicPotential, checkPensalirAndWarn } from './common';
 import { diagnoseScroll } from './scroll';
 import { getJobMainStat } from '../../job_utils';
 import { EVENT_RING_MESSAGES } from '../../config/message_templates';
+import { EquipmentItem } from '../types';
+import { getStarforce, calculateFlameScore, getSeedRingLevel } from '../utils';
 import {
     getMaxStarforce,
     STARFORCE_TIERS,
@@ -18,7 +20,9 @@ import {
     PITCH_BOSS_KEYWORDS,
     MECHANICAL_HEART_KEYWORDS,
     STAT_CONVERSION,
-    SPECIAL_STARFORCE_GOALS
+    SPECIAL_STARFORCE_GOALS,
+    getPotentialCriteria,
+    getMainPotentialGrade
 } from '../../config/unified_criteria';
 
 /**
@@ -28,13 +32,13 @@ import {
  * - 광부 아이템 (드랍/메획) 진단
  * - 기계 심장 (Heart) 진단
  */
-export function diagnoseAccessory(item: any, job?: string): string[] {
+export function diagnoseAccessory(item: EquipmentItem, job?: string): string[] {
     const comments: string[] = [];
     const itemName = item.item_name || "";
     const slot = item.item_equipment_slot || "";
-    const starforce = parseInt(item.starforce || "0");
+    const starforce = getStarforce(item);
     const level = item.item_base_option?.base_equipment_level || 0;
-    const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
+    const potentials = [item.potential_option_1, item.potential_option_2, item.potential_option_3].filter((s): s is string => !!s);
 
     // 🚨 펜살리르 체크 - 펜살리르면 여기서 종료
     const pensalirWarning = checkPensalirAndWarn(itemName, 'armor');
@@ -92,9 +96,8 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
 
         // 하트 작 진단 (주문서)
         const scrollCount = parseInt(item.scroll_upgrade || "0");
-        const etcOpts = item.item_etc_option || {};
-        const etcAtt = parseInt(etcOpts.attack_power || "0");
-        const etcMagic = parseInt(etcOpts.magic_power || "0");
+        const etcAtt = parseInt(item.item_etc_option?.attack_power || "0");
+        const etcMagic = parseInt(item.item_etc_option?.magic_power || "0");
 
         // 직업에 맞는 공격력/마력만 체크
         const currentAtt = isMagic ? etcMagic : etcAtt;
@@ -114,8 +117,7 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
     // 1. 시드링 (Seed Ring)
     const isSeedRing = SPECIAL_RING_KEYWORDS.some(k => itemName.includes(k));
     if (isSeedRing) {
-        const levelMatch = itemName.match(/(\d)레벨/);
-        const level = levelMatch ? parseInt(levelMatch[1]) : 0;
+        const level = getSeedRingLevel(item);
 
         if (itemName.includes("리스트레인트") || itemName.includes("웨폰퍼프") || itemName.includes("컨티뉴어스")) {
             if (level >= 4) comments.push(`[졸업] <b>4레벨</b>(혹은 그 이상) 특수 링입니다. 일반적인 종결 스펙입니다.`);
@@ -191,9 +193,9 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
         if (!isPitch && !isTyrant) { // 칠흑과 타일런트는 위에서 별도 처리
             // 놀장강(Amazing Enhancement) 체크
             // 조건: 12성 이하이면서, 스타포스로 인한 공/마 상승량이 존재할 경우 (일반 장신구는 15성까지 공/마 안 오름)
-            const sfOpts = item.item_starforce_option || {};
-            const sfAtt = parseInt(sfOpts.attack_power || "0");
-            const sfMagic = parseInt(sfOpts.magic_power || "0");
+            const sfOpts = item.item_starforce_option;
+            const sfAtt = sfOpts ? parseInt(sfOpts.attack_power || "0") : 0;
+            const sfMagic = sfOpts ? parseInt(sfOpts.magic_power || "0") : 0;
 
             // 직업에 맞는 공/마 상승 여부 확인
             const hasUsefulSfStat = isMagic ? sfMagic > 0 : sfAtt > 0;
@@ -273,38 +275,30 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
         }
     });
 
-    if (potentialGrade === "레전드리") {
+    if (potentialGrade === "레전드리" || potentialGrade === "유니크" || potentialGrade === "에픽") {
         const itemLevel = item.item_base_option?.base_equipment_level || 0;
 
-        if (itemLevel > 200) {
-            // 201레벨 이상 (칠흑 등)
-            if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.MYTHIC) comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다.`);
-            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.ENDGAME_HIGH) comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션(${MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.ENDGAME_HIGH}% 이상)입니다.`);
-            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.ENDGAME) comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 졸업급 정옵입니다.`);
-            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL.GOOD) comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
-            else if (statPct > 0) comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
-        } else {
-            // 200레벨 이하
-            if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY.MYTHIC) comments.push(`[신화급 잠재] <b>주스탯 ${statPct}%</b>! 올이탈... 이건 기적입니다.`);
-            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY.ENDGAME) comments.push(`[초월급 잠재] <b>주스탯 ${statPct}%</b>! 쌍이탈 옵션(${MAIN_POTENTIAL_STAT.LEGENDARY.ENDGAME}% 이상)입니다.`);
-            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY.ENDGAME) comments.push(`[잠재 졸업] <b>주스탯 ${statPct}%</b>! 완벽한 졸업급 정옵입니다.`);
-            else if (statPct >= 27) comments.push(`[고스펙 잠재] <b>주스탯 ${statPct}%</b>! 상위권 스펙입니다.`);
-            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY.GOOD) comments.push(`[표준 잠재] <b>주스탯 ${statPct}%</b>는 레전드리 표준입니다.`);
-            else if (statPct >= MAIN_POTENTIAL_STAT.LEGENDARY.DECENT_PLUS) comments.push(`[아쉬움] 주스탯 <b>${statPct}%</b>는 유니크 등급 효율입니다. 큐브 작업이 권장됩니다.`);
-            else if (statPct > 0) comments.push(`[잠재 미흡] 레전드리 등급이지만 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
+        // 통합 평가 함수 사용 (제논 자동 처리)
+        const gradeLabel = getMainPotentialGrade(statPct, potentialGrade, itemLevel, job);
+
+        // 제논일 경우 주스탯 대신 올스탯 표기
+        const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+        const statLabel = isXenon ? '올스탯' : '주스탯';
+
+        if (gradeLabel !== '아쉬움' && gradeLabel !== '부족' && gradeLabel !== '보통' && gradeLabel !== '미흡') {
+            comments.push(`[${gradeLabel}] <b>${statLabel} ${statPct}%</b>! ${potentialGrade} 등급에서 훌륭한 수치입니다.`);
+        } else if (statPct > 0) {
+            comments.push(`[${gradeLabel}] ${potentialGrade} 등급이지만 ${statLabel}이 <b>${statPct}%</b>로 낮습니다.`);
+        } else if (potentialGrade === '에픽') {
+            // 에픽인데 스탯이 0인 경우 (잡옵) - 기존 로직 유지
+            const epicComments = diagnoseEpicPotential(potentialGrade, potentials, job);
+            comments.push(...epicComments);
         }
-    } else if (potentialGrade === '유니크') {
-        if (statPct >= MAIN_POTENTIAL_STAT.UNIQUE.DECENT) comments.push(`[유니크 종결] <b>주스탯 ${statPct}%</b>! 유니크 최상급 옵션입니다.`);
-        else if (statPct >= 12) comments.push(`[유니크 준수] <b>주스탯 ${statPct}%</b>는 괜찮은 수치입니다.`);
-        else if (statPct > 0) comments.push(`[유니크 아쉬움] 주스탯이 <b>${statPct}%</b>로 낮습니다.`);
-    } else if (potentialGrade === '에픽') {
-        const epicComments = diagnoseEpicPotential(potentialGrade, potentials, job);
-        comments.push(...epicComments);
     }
 
     // 7. 에디셔널 진단
     const adiGrade = item.additional_potential_option_grade;
-    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3].filter((s): s is string => !!s);
 
     // 에디셔널 공/마 및 주스탯% 수치 계산
     let adiAtt = 0;
@@ -405,26 +399,7 @@ export function diagnoseAccessory(item: any, job?: string): string[] {
 
     // 8. 추옵 진단
     if (!slot.includes("반지") && !slot.includes("견장") && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("엠블렘")) {
-        const addOpts = item.item_add_option || {};
-
-        const str = parseInt(addOpts.str || "0");
-        const dex = parseInt(addOpts.dex || "0");
-        const int = parseInt(addOpts.int || "0");
-        const luk = parseInt(addOpts.luk || "0");
-        const hp = parseInt(addOpts.max_hp || "0"); // HP 추가 (데몬어벤져용)
-        const att = parseInt(addOpts.attack_power || "0");
-        const magic = parseInt(addOpts.magic_power || "0");
-        const allStat = parseInt(addOpts.all_stat || "0");
-
-        // 깡추옵 + 공마*4 + 올스탯*10
-        const scoreSTR = str + (att * 4) + (allStat * 10);
-        const scoreDEX = dex + (att * 4) + (allStat * 10);
-        const scoreINT = int + (magic * 4) + (allStat * 10);
-        const scoreLUK = luk + (att * 4) + (allStat * 10);
-        // HP는 21당 주스탯 1 효율
-        const scoreHP = (hp / 21) + (att * 4) + (allStat * 10);
-
-        const score = Math.max(scoreSTR, scoreDEX, scoreINT, scoreLUK, scoreHP);
+        const score = calculateFlameScore(item, job);
 
         const level = item.item_base_option?.base_equipment_level || 0;
 

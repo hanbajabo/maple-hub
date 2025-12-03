@@ -1,6 +1,7 @@
 import { EquipmentItem, Issue, GRADE_SCORE } from '../types';
 import { getJobInfo } from '../constants';
 import { calcStatScore, getScrollStat } from '../utils';
+import { getStarforce } from '../../../lib/diagnosis/utils';
 
 // UI Stage 7: 18-star Completion
 export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attTypeKor: string) => {
@@ -60,14 +61,12 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
             return;
         }
 
-
-
-        const star = parseInt(item.starforce || "0");
+        const star = getStarforce(item);
         const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스"];
         const isSpecialRing = slot.includes("반지") && specialRingKeywords.some(k => name.includes(k));
 
         // 이벤트 링 (스타포스 불가)
-        const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "플레임"];
+        const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
         const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
 
         // 1. 스타포스 (18성 이상, 타일런트 10성 이상)
@@ -76,7 +75,7 @@ export const evaluateStage5 = (equipment: EquipmentItem[], jobName: string, attT
         let starforceThreshold = isTyrant ? 7 : 18;
         if (isEternal) starforceThreshold = 12;
 
-        const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
+        const isNoStarforce = item.starforce_scroll_flag === "0" && getStarforce(item) === 0;
 
         if (!isNoStarforce && !isEventRing) {
             targetStats.starforce.total++;

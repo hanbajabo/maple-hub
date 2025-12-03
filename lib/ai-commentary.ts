@@ -12,6 +12,7 @@ import {
     CHALLENGER_MESSAGES,
     EVENT_RING_MESSAGES
 } from './config/message_templates';
+import { MAIN_POTENTIAL_STAT } from './config/unified_criteria';
 import { getSpecialItemConfig } from './config/special_items';
 
 // 아이템 데이터를 기반으로 AI 분석 멘트를 생성하는 함수
@@ -19,6 +20,7 @@ export function generateItemCommentary(item: any, job?: string): string {
     if (!item) return "아이템 정보를 분석할 수 없습니다.";
 
     const isMagic = job ? isMagicJob(job) : false;
+    const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
 
     // Helper for random comments
     const pick = (opts: string[]) => opts[Math.floor(Math.random() * opts.length)];
@@ -406,7 +408,11 @@ export function generateItemCommentary(item: any, job?: string): string {
                 if (line.includes('올스탯') && line.includes('%')) allStatTotal += parseInt(line.replace(/[^0-9]/g, '')) || 0;
             });
             // 주스탯은 STR/DEX/INT/LUK/HP 중 가장 높은 값만 선택 (직업의 주스탯이 가장 높게 나올 것)
-            statPct = Math.max(strTotal, dexTotal, intTotal, lukTotal, hpTotal) + allStatTotal;
+            if (isXenon) {
+                statPct = allStatTotal;
+            } else {
+                statPct = Math.max(strTotal, dexTotal, intTotal, lukTotal, hpTotal) + allStatTotal;
+            }
         };
 
         parseOption(potentials);
@@ -462,7 +468,35 @@ export function generateItemCommentary(item: any, job?: string): string {
                     const level = item.item_base_option?.base_equipment_level || 0;
                     const isHighLevel = level > 200; // 201제 이상 (에테르넬 등, 아케인은 제외)
 
-                    if (isHighLevel) {
+                    if (isXenon) {
+                        // 제논 전용 평가 (올스탯 기준)
+                        if (isHighLevel) {
+                            if (statPct >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL.MYTHIC) {
+                                comments.push(`${potPrefix} <b>올스탯 ${statPct}%</b>... <b>'올이탈'</b>급 초월 스펙입니다! 제논의 꿈입니다.`);
+                            } else if (statPct >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL.ENDGAME_HIGH) {
+                                comments.push(`${potPrefix} <b>올스탯 ${statPct}%</b>! 엔드급 스펙입니다. 아주 훌륭합니다.`);
+                            } else if (statPct >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL.ENDGAME) {
+                                comments.push(`${potPrefix} <b>올스탯 ${statPct}%</b>! 최상급 3줄 옵션입니다. 종결하셔도 됩니다.`);
+                            } else if (statPct >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL.GOOD) {
+                                comments.push(`${potPrefix} <b>올스탯 ${statPct}%</b>! 쓸만한 3줄 옵션입니다.`);
+                            } else {
+                                comments.push(`${potPrefix} <b>올스탯 ${statPct}%</b>입니다. 조금 더 높은 수치를 노려보세요.`);
+                            }
+                        } else {
+                            // 200제 미만 (아케인 등)
+                            if (statPct >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY.MYTHIC) {
+                                comments.push(`${potPrefix} <b>올스탯 ${statPct}%</b>... <b>'올이탈'</b>급 초월 스펙입니다! 제논의 꿈입니다.`);
+                            } else if (statPct >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY.ENDGAME_HIGH) {
+                                comments.push(`${potPrefix} <b>올스탯 ${statPct}%</b>! 엔드급 스펙입니다. 아주 훌륭합니다.`);
+                            } else if (statPct >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY.ENDGAME) {
+                                comments.push(`${potPrefix} <b>올스탯 ${statPct}%</b>! 최상급 3줄 옵션입니다. 종결하셔도 됩니다.`);
+                            } else if (statPct >= MAIN_POTENTIAL_STAT.XENON_LEGENDARY.GOOD) {
+                                comments.push(`${potPrefix} <b>올스탯 ${statPct}%</b>! 쓸만한 3줄 옵션입니다.`);
+                            } else {
+                                comments.push(`${potPrefix} <b>올스탯 ${statPct}%</b>입니다. 조금 더 높은 수치를 노려보세요.`);
+                            }
+                        }
+                    } else if (isHighLevel) {
                         // 200제 이상 기준 (정옵 33%, 이탈 13%)
                         if (statPct >= 39) {
                             comments.push(pick([
@@ -634,6 +668,11 @@ export function generateItemCommentary(item: any, job?: string): string {
                             // 직업 주스탯과 일치하는 경우만 카운트
                             const isMainStat = mainStats.some((stat: string) => line.includes(stat));
                             if (isMainStat) isValid = true;
+
+                            // 제논은 STR/DEX/LUK도 에디셔널에서 유효 (단, 효율은 올스탯보다 낮음)
+                            if (isXenon && (line.includes('STR') || line.includes('DEX') || line.includes('LUK'))) {
+                                isValid = true;
+                            }
                         }
 
                         if (isValid) {

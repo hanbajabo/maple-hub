@@ -3,7 +3,7 @@ import { Search } from 'lucide-react';
 import { ItemData } from '../app/page';
 import { DiagnosisGrade } from '../lib/diagnosis/types';
 import { getWeaponTierLabel, getAddOptions, getEtcOptions, getArmorScoreLabel, getGradeColor } from "../lib/item_utils";
-import { getSeedRingLevel } from "../lib/diagnosis/equipment";
+import { getSeedRingLevel } from "../lib/diagnosis/utils";
 
 interface MainEquipmentGridProps {
     equipmentGrid: (ItemData | null)[];

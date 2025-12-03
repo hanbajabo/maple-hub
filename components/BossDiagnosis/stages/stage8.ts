@@ -1,7 +1,7 @@
 import { EquipmentItem, Issue } from '../types';
+import { getStarforce } from '../../../lib/diagnosis/utils';
 
 export const evaluateStage8 = (equipment: EquipmentItem[]) => {
-    const getStarforce = (item: EquipmentItem) => parseInt(item.starforce || "0");
 
     const countValidItems = (keywords: string[], minStar: number) => {
         return equipment.filter(item => {

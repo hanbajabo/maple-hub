@@ -117,7 +117,7 @@ export default function MapleStoryTrivia() {
         "**[단풍이]** 저 '단풍이'는 여러분의 즐거운 메이플 라이프를 돕기 위해 태어난 AI입니다. 앞으로도 잘 부탁드려요! 🍁"
     ];
 
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(() => Math.floor(Math.random() * stories.length));
     const [displayedText, setDisplayedText] = useState("");
     const [isTyping, setIsTyping] = useState(false);
 

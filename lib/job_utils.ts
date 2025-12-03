@@ -37,9 +37,11 @@ export function getJobMainStat(jobName: string): string[] {
 
     const normalized = jobName.replace(/\s/g, "");
 
-    // 데몬어벤져는 HP가 주스탯이지만, 잠재능력에서는 STR % 사용
-    if (normalized.includes('데몬어벤져')) return ['STR'];
-    if (normalized.includes('제논')) return ['STR', 'DEX', 'LUK'];
+    // 데몬어벤져는 HP가 주스탯 (잠재능력에서도 최대 HP % 사용)
+    if (normalized.includes('데몬어벤져')) return ['HP', '최대HP'];
+    // 제논: 올스탯만 주스탯 (STR/DEX/LUK은 부스탯이므로 제외)
+    // 제논의 정옵 기준: 올스탯 9%+6%+6% = 21%
+    if (normalized.includes('제논')) return ['올스탯', '모든 스탯'];
 
     // INT Jobs (Magic jobs)
     if (isMagicJob(jobName)) {
