@@ -415,7 +415,7 @@ export function diagnoseEquipment(items: any[], mainStat: string, attType: strin
             const uniqueKey = `${slot}_${itemName}`;
             result.itemGrades[uniqueKey] = evaluateGradeByScore(item, attType, job);
 
-            comments.forEach(comment => {
+            (comments || []).forEach(comment => {
                 const displayComment = `[${slot}] ${itemName}: ${comment}`;
 
                 if (comment.includes("[미달]") || comment.includes("[경고]") || comment.includes("[치명적]") || comment.includes("[망작]") || comment.includes("[강화 필요]") || comment.includes("[환불 필요]") || comment.includes("[비추천]") || comment.includes("[교체 권장]")) {
