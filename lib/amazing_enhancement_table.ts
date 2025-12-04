@@ -241,16 +241,19 @@ export function isAmazingEnhancementItem(item: any): boolean {
 
     if (!total || !base) return false;
 
-    // 주문서로 강화된 주스탯 합계 계산
-    const scrollStr = (parseInt(total.str || "0") - parseInt(base.str || "0"));
-    const scrollDex = (parseInt(total.dex || "0") - parseInt(base.dex || "0"));
-    const scrollInt = (parseInt(total.int || "0") - parseInt(base.int || "0"));
-    const scrollLuk = (parseInt(total.luk || "0") - parseInt(base.luk || "0"));
+    // 추가옵션(Flame) 제외
+    const add = item.item_add_option || { str: "0", dex: "0", int: "0", luk: "0", attack_power: "0", magic_power: "0" };
+
+    // 순수 강화(주문서+스타포스) 주스탯 합계 계산
+    const scrollStr = (parseInt(total.str || "0") - parseInt(base.str || "0") - parseInt(add.str || "0"));
+    const scrollDex = (parseInt(total.dex || "0") - parseInt(base.dex || "0") - parseInt(add.dex || "0"));
+    const scrollInt = (parseInt(total.int || "0") - parseInt(base.int || "0") - parseInt(add.int || "0"));
+    const scrollLuk = (parseInt(total.luk || "0") - parseInt(base.luk || "0") - parseInt(add.luk || "0"));
     const totalScrollStats = scrollStr + scrollDex + scrollInt + scrollLuk;
 
-    // 주문서로 강화된 공격력 합계
-    const scrollAtt = (parseInt(total.attack_power || "0") - parseInt(base.attack_power || "0"));
-    const scrollMatt = (parseInt(total.magic_power || "0") - parseInt(base.magic_power || "0"));
+    // 순수 강화 공격력 합계
+    const scrollAtt = (parseInt(total.attack_power || "0") - parseInt(base.attack_power || "0") - parseInt(add.attack_power || "0"));
+    const scrollMatt = (parseInt(total.magic_power || "0") - parseInt(base.magic_power || "0") - parseInt(add.magic_power || "0"));
     const totalScrollAtt = scrollAtt + scrollMatt;
 
     // 휴리스틱: 스타포스 5성 이상 + 주문서 스탯 100 이상 = 놀장강
