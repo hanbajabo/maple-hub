@@ -43,6 +43,43 @@ export default function BossBattleModal({
     const [bossDamageText, setBossDamageText] = useState<number | null>(null);
     const [shockwave, setShockwave] = useState<'player' | 'boss' | null>(null);
     const [turn, setTurn] = useState(0);
+    const [isShaking, setIsShaking] = useState(false);
+
+    // 모바일 뒤로가기 처리
+    const onCloseRef = React.useRef(onClose);
+
+    // onClose가 변경되어도 useEffect가 재실행되지 않도록 ref 업데이트
+    useEffect(() => {
+        onCloseRef.current = onClose;
+    }, [onClose]);
+
+    useEffect(() => {
+        if (isOpen) {
+            // 현재 상태가 이미 모달 오픈 상태가 아니면 히스토리 추가
+            if (!window.history.state?.modalOpen) {
+                window.history.pushState({ modalOpen: true }, '', window.location.href);
+            }
+
+            const handlePopState = () => {
+                // 뒤로가기 이벤트가 발생하면 모달 닫기
+                if (onCloseRef.current) {
+                    onCloseRef.current();
+                }
+            };
+
+            window.addEventListener('popstate', handlePopState);
+
+            return () => {
+                window.removeEventListener('popstate', handlePopState);
+                // cleanup 시 history.back()을 호출하지 않음 (자동 닫힘 방지)
+            };
+        }
+    }, [isOpen]);
+
+    // 닫기 버튼 핸들러: 직접 닫는 대신 뒤로가기를 실행하여 popstate 이벤트를 유도하거나 히스토리를 정리함
+    const handleClose = () => {
+        window.history.back();
+    };
 
     useEffect(() => {
         if (isOpen) {
@@ -55,6 +92,7 @@ export default function BossBattleModal({
             setBossDamageText(null);
             setShockwave(null);
             setTurn(0);
+            setIsShaking(false);
 
             // Prevent body scroll
             document.body.style.overflow = 'hidden';
@@ -67,6 +105,15 @@ export default function BossBattleModal({
             document.body.style.overflow = 'unset';
         };
     }, [isOpen, maxPlayerHpValue, maxBossHpValue]);
+
+    // 턴이 바뀔 때마다 부드럽게 흔들림 효과 적용
+    useEffect(() => {
+        if (battleState === 'fighting' && (playerDamageText !== null || bossDamageText !== null)) {
+            setIsShaking(true);
+            const timer = setTimeout(() => setIsShaking(false), 300);
+            return () => clearTimeout(timer);
+        }
+    }, [turn, battleState, playerDamageText, bossDamageText]);
 
     const startBattle = () => {
         setBattleState('fighting');
@@ -109,7 +156,7 @@ export default function BossBattleModal({
                         setBossDamageText(null);
                         setIsPlayerAttacking(false);
                         setShockwave(null);
-                    }, 500);
+                    }, 400); // 타격 후 0.4초 뒤 복귀
 
                     if (currentBossHp <= 0) {
                         setBossHp(0);
@@ -117,7 +164,7 @@ export default function BossBattleModal({
                         clearInterval(battleInterval);
                         return;
                     }
-                }, 200);
+                }, 250); // 0.25초 만에 타격
             } else {
                 setIsBossAttacking(true);
                 setShockwave('boss');
@@ -139,7 +186,7 @@ export default function BossBattleModal({
                         setPlayerDamageText(null);
                         setIsBossAttacking(false);
                         setShockwave(null);
-                    }, 500);
+                    }, 400); // 타격 후 0.4초 뒤 복귀
 
                     if (currentPlayerHp <= 0) {
                         setPlayerHp(0);
@@ -147,7 +194,7 @@ export default function BossBattleModal({
                         clearInterval(battleInterval);
                         return;
                     }
-                }, 200);
+                }, 250); // 0.25초 만에 타격
             }
 
             if (turn >= maxTurns) {
@@ -157,14 +204,16 @@ export default function BossBattleModal({
             }
 
             isPlayerTurn = !isPlayerTurn;
-        }, 600); // 더 빠르게!
+        }, 800); // 0.8초 간격 (적당한 빠름)
     };
 
     if (!isOpen) return null;
 
-    const modalContent = (
+    const modalContent = createPortal(
         <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black p-2 sm:p-4">
-            <div className={`bg-slate-900 border border-slate-700 rounded-xl sm:rounded-2xl w-full max-w-3xl max-h-[95vh] sm:max-h-[90vh] flex flex-col shadow-2xl transition-all ${(isPlayerAttacking || isBossAttacking) ? 'animate-screen-shake scale-105' : 'scale-100'}`}>
+            <div
+                className={`bg-slate-900 border border-slate-700 rounded-xl sm:rounded-2xl w-full max-w-3xl max-h-[95vh] sm:max-h-[90vh] flex flex-col shadow-2xl transition-all ${isShaking ? 'animate-screen-shake scale-105' : 'scale-100'}`}
+            >
                 <div className="flex items-center justify-between p-3 sm:p-6 border-b border-slate-800 bg-gradient-to-r from-red-950/30 to-orange-950/30">
                     <div>
                         <h2 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
@@ -173,7 +222,7 @@ export default function BossBattleModal({
                         </h2>
                         <p className="text-xs sm:text-sm text-slate-400 mt-1">{bossName}</p>
                     </div>
-                    <button onClick={onClose} className="p-1.5 sm:p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
+                    <button onClick={handleClose} className="p-1.5 sm:p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
                         <X size={20} className="sm:w-6 sm:h-6" />
                     </button>
                 </div>
@@ -214,15 +263,15 @@ export default function BossBattleModal({
                         <div className="absolute bottom-12 sm:bottom-20 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent opacity-50"></div>
 
                         {/* Player Character with Varied Attacks */}
-                        <div className={`absolute left-24 bottom-20 transition-all duration-200 ${isPlayerAttacking
+                        <div className={`absolute left-8 sm:left-24 bottom-12 sm:bottom-20 transition-all duration-200 z-20 ${isPlayerAttacking
                             ? turn % 3 === 1
-                                ? 'translate-x-40 -translate-y-10 rotate-8'  // 점프 (낮게)
+                                ? 'translate-x-24 sm:translate-x-40 -translate-y-6 sm:-translate-y-10 rotate-8'
                                 : turn % 3 === 2
-                                    ? 'translate-x-48 translate-y-1 scale-105'   // 빠른 돌진
-                                    : 'translate-x-32 translate-y-2 scale-125 -rotate-2'  // 강타
+                                    ? 'translate-x-28 sm:translate-x-48 translate-y-1 scale-105'
+                                    : 'translate-x-20 sm:translate-x-32 translate-y-2 scale-125 -rotate-2'
                             : 'translate-x-0 translate-y-0 rotate-0 scale-100'
                             } ${isBossAttacking ? 'animate-hit-shake' : ''}`}>
-                            <div className="relative w-56 h-56">
+                            <div className="relative w-32 h-32 sm:w-56 sm:h-56">
                                 {playerImage ? (
                                     <img src={playerImage} alt="Player" className={`w-full h-full object-contain drop-shadow-[0_0_20px_rgba(0,255,255,0.8)] scale-x-[-1] transition-all ${isPlayerAttacking ? 'brightness-150 saturate-150' : ''}`} />
                                 ) : (
@@ -239,15 +288,15 @@ export default function BossBattleModal({
                         </div>
 
                         {/* Boss Monster with Varied Attacks */}
-                        <div className={`absolute right-24 bottom-20 transition-all duration-200 ${isBossAttacking
+                        <div className={`absolute right-8 sm:right-24 bottom-12 sm:bottom-20 transition-all duration-200 ${isBossAttacking
                             ? turn % 3 === 1
-                                ? '-translate-x-40 -translate-y-10 -rotate-8'  // 점프 (낮게)
+                                ? '-translate-x-24 sm:-translate-x-40 -translate-y-6 sm:-translate-y-10 -rotate-8'
                                 : turn % 3 === 2
-                                    ? '-translate-x-48 translate-y-1 scale-105'    // 빠른 돌진
-                                    : '-translate-x-32 translate-y-2 scale-125 rotate-2'  // 강타
+                                    ? '-translate-x-28 sm:-translate-x-48 translate-y-1 scale-105'
+                                    : '-translate-x-20 sm:-translate-x-32 translate-y-2 scale-125 rotate-2'
                             : 'translate-x-0 translate-y-0 rotate-0 scale-100'
                             } ${isPlayerAttacking ? 'animate-hit-shake' : ''} ${battleState === 'victory' ? 'opacity-0 scale-0 rotate-180' : 'opacity-100 scale-100'}`}>
-                            <div className="relative w-56 h-56">
+                            <div className="relative w-32 h-32 sm:w-56 sm:h-56">
                                 {bossImage ? (
                                     <img src={bossImage} alt={bossName} className={`w-full h-full object-contain drop-shadow-[0_0_20px_rgba(255,0,0,0.8)] transition-all ${isBossAttacking ? 'brightness-150 saturate-150' : ''}`} />
                                 ) : (
@@ -279,22 +328,7 @@ export default function BossBattleModal({
                             </div>
                         )}
 
-                        {/* Victory Overlay */}
-                        {battleState === 'victory' && (
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md animate-fade-in z-40">
-                                <div className="text-center animate-victory-bounce">
-                                    <div className="text-8xl font-black text-yellow-400 mb-6 animate-pulse-slow" style={{ textShadow: '0 0 50px rgba(255,215,0,1), -4px -4px 0 black, 4px -4px 0 black, -4px 4px 0 black, 4px 4px 0 black' }}>
-                                        🎉 승리! 🎉
-                                    </div>
-                                    <div className="text-4xl font-bold text-white mb-2" style={{ textShadow: '-3px -3px 0 black, 3px -3px 0 black, -3px 3px 0 black, 3px 3px 0 black' }}>
-                                        모의 전투 승리
-                                    </div>
-                                    <div className="text-xl text-cyan-400" style={{ textShadow: '-2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black' }}>
-                                        완벽한 컨트롤입니다!
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        {/* Victory Overlay Removed - Boss animation is enough */}
 
                         {/* Defeat Overlay */}
                         {battleState === 'defeat' && (
@@ -341,10 +375,10 @@ export default function BossBattleModal({
                     {battleState === 'victory' && (
                         <div className="space-y-2">
                             <div className="flex gap-2">
-                                <button onClick={onClose} className="flex-1 px-6 py-2 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold rounded-lg transition-all hover:scale-105">
+                                <button onClick={handleClose} className="flex-1 px-6 py-2 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold rounded-lg transition-all hover:scale-105">
                                     다른 보스 선택
                                 </button>
-                                <button onClick={onClose} className="flex-1 px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg transition-colors">닫기</button>
+                                <button onClick={handleClose} className="flex-1 px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg transition-colors">닫기</button>
                             </div>
                         </div>
                     )}
@@ -352,11 +386,11 @@ export default function BossBattleModal({
                         <div className="space-y-2">
                             <div className="flex gap-2">
                                 <button onClick={() => { setBattleState('ready'); setPlayerHp(maxPlayerHpValue); setBossHp(maxBossHpValue); }} className="flex-1 px-6 py-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg transition-all hover:scale-105">다시 도전</button>
-                                <button onClick={onClose} className="flex-1 px-6 py-2 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold rounded-lg transition-colors">
+                                <button onClick={handleClose} className="flex-1 px-6 py-2 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold rounded-lg transition-colors">
                                     다른 보스 선택
                                 </button>
                             </div>
-                            <button onClick={onClose} className="w-full px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg transition-colors">닫기</button>
+                            <button onClick={handleClose} className="w-full px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg transition-colors">닫기</button>
                         </div>
                     )}
                 </div>
@@ -365,15 +399,15 @@ export default function BossBattleModal({
             <style jsx>{`
                 @keyframes screen-shake {
                     0%, 100% { transform: translate(0, 0) scale(1.05); }
-                    10% { transform: translate(-8px, 3px) scale(1.05); }
-                    20% { transform: translate(8px, -3px) scale(1.05); }
-                    30% { transform: translate(-8px, -3px) scale(1.05); }
-                    40% { transform: translate(8px, 3px) scale(1.05); }
-                    50% { transform: translate(-8px, 3px) scale(1.05); }
-                    60% { transform: translate(8px, -3px) scale(1.05); }
-                    70% { transform: translate(-8px, -3px) scale(1.05); }
-                    80% { transform: translate(8px, 3px) scale(1.05); }
-                    90% { transform: translate(-8px, 3px) scale(1.05); }
+                    10% { transform: translate(-6px, 2px) scale(1.05); }
+                    20% { transform: translate(6px, -2px) scale(1.05); }
+                    30% { transform: translate(-6px, -2px) scale(1.05); }
+                    40% { transform: translate(6px, 2px) scale(1.05); }
+                    50% { transform: translate(-6px, 2px) scale(1.05); }
+                    60% { transform: translate(6px, -2px) scale(1.05); }
+                    70% { transform: translate(-6px, -2px) scale(1.05); }
+                    80% { transform: translate(6px, 2px) scale(1.05); }
+                    90% { transform: translate(-6px, 2px) scale(1.05); }
                 }
                 @keyframes hit-shake {
                     0%, 100% { transform: translateX(0); }
@@ -462,16 +496,13 @@ export default function BossBattleModal({
                         3px -3px 0 black,
                         -3px 3px 0 black,
                         3px 3px 0 black,
-                        -3px 0 0 black,
-                        3px 0 0 black,
-                        0 -3px 0 black,
-                        0 3px 0 black,
-                        0 0 15px rgba(255,255,255,0.8);
-                    font-family: Arial Black, sans-serif;
+                        -3px -3px 0 black,
+                        3px 3px 0 black;
                 }
             `}</style>
-        </div>
+        </div>,
+        document.body
     );
 
-    return typeof window !== 'undefined' ? createPortal(modalContent, document.body) : null;
+    return modalContent;
 }
