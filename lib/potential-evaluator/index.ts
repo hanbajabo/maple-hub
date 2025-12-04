@@ -166,10 +166,28 @@ export function evaluatePotential(
     if (equipmentType === '엠블렘' || equipmentType === '보조무기') {
         // 엠블렘은 줄 수 기반 평가
         const lineCount = goodOptions.length;
-        if (lineCount >= 3) evaluation = '훌륭';
-        else if (lineCount >= 2) evaluation = '훌륭';
-        else if (lineCount >= 1) evaluation = '준수';
-        else evaluation = '아쉬움';
+        if (lineCount >= 3) {
+            // 3줄일 때 이탈 여부 확인
+            const values = goodOptions.map(opt => {
+                const match = opt.match(/\+(\d+)%/);
+                return match ? parseInt(match[1]) : 0;
+            });
+            const maxCount = values.filter(v => v >= 12).length;
+
+            if (maxCount >= 3) {
+                evaluation = '신화';  // 올이탈
+            } else if (maxCount >= 2) {
+                evaluation = '종결';  // 쌍이탈
+            } else {
+                evaluation = '완벽';  // 3줄 일반
+            }
+        } else if (lineCount >= 2) {
+            evaluation = '훌륭';
+        } else if (lineCount >= 1) {
+            evaluation = '준수';
+        } else {
+            evaluation = '아쉬움';
+        }
     } else {
         evaluation = getEvaluationGrade(optionsScore);  // 일반 장비는 점수 기반
     }
