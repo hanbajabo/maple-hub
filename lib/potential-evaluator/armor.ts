@@ -9,6 +9,7 @@ import {
     CRIT_DAMAGE_LINES,
     STAT_CONVERSION,
 } from '../config/unified_criteria';
+import { getJobMainStat } from '../job_utils';
 
 /**
  * 방어구/장신구 잠재능력 평가
@@ -28,6 +29,9 @@ export function evaluateArmorAccessory(
     const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
     const isDemon = job && (job.includes('데몬어벤져') || job.includes('데몬 어벤져'));
 
+    // 직업의 주스탯 가져오기
+    const mainStats = job ? getJobMainStat(job) : [];
+
     options.forEach(opt => {
         if (!opt) return;
 
@@ -38,11 +42,13 @@ export function evaluateArmorAccessory(
                 statPct += val;
                 goodOptions.push(opt);
             } else if (opt.includes('STR') || opt.includes('DEX') || opt.includes('INT') || opt.includes('LUK')) {
-                // 모든 직업에 대해 STR/DEX/INT/LUK % 계산
-                // (제논은 모든 스탯이 주스탯, 다른 직업은 자기 주스탯만 유효하지만 일단 모두 계산)
-                const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
-                statPct += val;
-                goodOptions.push(opt);
+                // 직업의 주스탯과 일치하는 경우만 계산
+                const isMainStat = mainStats.some(stat => opt.includes(stat));
+                if (isMainStat) {
+                    const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
+                    statPct += val;
+                    goodOptions.push(opt);
+                }
             } else if (opt.includes('HP') && isDemon) {
                 const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
                 statPct += val;
