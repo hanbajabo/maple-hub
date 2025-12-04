@@ -63,7 +63,9 @@ function generateRecommendation(
     itemSlot?: string,
     itemLevel?: number,
     job?: string,
-    statPct?: number  // 주스탯 % 추가
+    statPct?: number,  // 주스탯 %
+    critDamageLines?: number,  // 크뎀 줄 수
+    cooldownSeconds?: number  // 쿨타임 초
 ): string {
     if (equipmentType === '무기' && type === 'additional') {
         return generateWeaponAdditionalRecommendation(grade, score, goodOptions);
@@ -80,7 +82,9 @@ function generateRecommendation(
             itemSlot,
             itemLevel,
             job,
-            statPct  // statPct 전달
+            statPct,  // statPct 전달
+            critDamageLines,  // 크뎀 줄 수
+            cooldownSeconds  // 쿨타임 초
         );
     }
 }
@@ -127,6 +131,8 @@ export function evaluatePotential(
     const goodOptions = evaluationResult.goodOptions;
     const optionsScore = evaluationResult.optionsScore;
     const statPct = evaluationResult.statPct || 0;  // statPct 추출 (없으면 0)
+    const critDamageLines = evaluationResult.critDamageLines || 0;
+    const cooldownSeconds = evaluationResult.cooldownSeconds || 0;
 
     // 큐브 비용 계산
     let targetGrade: '레어' | '에픽' | '유니크' | '레전드리' | '특수' = '레전드리';
@@ -167,7 +173,9 @@ export function evaluatePotential(
         itemSlot,
         itemLevel,
         job,
-        statPct  // statPct 전달
+        statPct,  // statPct 전달
+        critDamageLines,  // 크뎀 줄 수
+        cooldownSeconds  // 쿨타임 초
     );
 
     return {

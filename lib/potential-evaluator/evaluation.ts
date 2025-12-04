@@ -118,7 +118,9 @@ export function generateGeneralRecommendation(
     itemSlot?: string,
     itemLevel?: number,
     job?: string,
-    statPct?: number  // 주스탯 % 추가
+    statPct?: number,  // 주스탯 %
+    critDamageLines?: number,  // 크뎀 줄 수
+    cooldownSeconds?: number  // 쿨타임 초
 ): string {
     const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
     const statLabel = isXenon ? '올스탯' : '주스탯';
@@ -128,6 +130,23 @@ export function generateGeneralRecommendation(
     }
 
     if (grade === '레전드리') {
+        // 장갑 크뎀 특수 메시지
+        if (itemSlot === '장갑' && critDamageLines && critDamageLines >= 3) {
+            return `초월급! 크뎀 3줄입니다. 전서버급 장갑 옵션!`;
+        } else if (itemSlot === '장갑' && critDamageLines && critDamageLines >= 2) {
+            return `종결급! 크뎀 2줄입니다. 최상급 장갑 옵션!`;
+        } else if (itemSlot === '장갑' && critDamageLines && critDamageLines >= 1 && statPct && statPct >= 18) {
+            return `최상급! 크뎀 1줄 + ${statLabel} ${statPct}%입니다.`;
+        }
+
+        // 모자 쿨타임 특수 메시지
+        if (itemSlot === '모자' && cooldownSeconds && cooldownSeconds >= 6) {
+            return `초월급! 쿨타임 -${cooldownSeconds}초입니다. 전서버급 모자 옵션!`;
+        } else if (itemSlot === '모자' && cooldownSeconds && cooldownSeconds >= 4) {
+            return `종결급! 쿨타임 -${cooldownSeconds}초입니다. 최상급 모자 옵션!`;
+        }
+
+        // 일반 주스탯 메시지
         if (type === 'main' && statPct !== undefined && statPct >= 30) {
             return `종결! ${statLabel} ${statPct}% 이상입니다.`;
         } else if (type === 'main' && statPct !== undefined && statPct >= 21) {
