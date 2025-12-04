@@ -172,7 +172,7 @@ export function generateEmblemRecommendation(
             if (lineCount >= 3) {
                 return '공격력/마력 % 3줄! 유니크에서 완벽합니다. 레전드리 급업 전까지 사용하세요.';
             } else if (lineCount >= 2) {
-                return '공/마% 2줄로 통과 기준을 만족합니다. 레전드리 급업을 목표로 하세요.';
+                return '공/마% 2줄로 통과 기준을 만족합니다. 더 높은 스펙업은 공/마% 3줄이나 레전드리 등급업 후 공/마% 2줄을 목표로 하세요.';
             } else if (lineCount >= 1) {
                 return '공/마% 1줄입니다. 괜찮은 수준입니다.';
             } else {
