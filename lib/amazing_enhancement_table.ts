@@ -259,10 +259,13 @@ export function isAmazingEnhancementItem(item: any): boolean {
     const totalAtt = parseInt(etc.attack_power || "0") + parseInt(etc.magic_power || "0");
 
     // 놀장강 이후 추가 주문서를 바를 수 있으므로
-    // 예상 수치와 유사한 범위 내에 있어야 함 (±20 오차 허용)
-    const statMatch = totalStats >= expectedStats.stat && totalStats <= expectedStats.stat + 20;
-    const attMatch = totalAtt >= expectedStats.att && totalAtt <= expectedStats.att + 5;
+    // 예상 수치 이상이면 놀장강으로 판정
+    // 단, 과도하게 높은 경우(예상치의 3배 초과)는 제외
+    const statMatch = totalStats >= expectedStats.stat && totalStats <= expectedStats.stat * 3;
+    const attMatch = totalAtt >= expectedStats.att && totalAtt <= expectedStats.att * 3;
 
-    // 스탯과 공격력이 모두 놀장강 범위 내에 있어야 함
-    return statMatch && attMatch;
+    // 스탯이나 공격력 중 하나라도 놀장강 수치 범위면 놀장강
+    // (단, 둘 다 0이면 제외)
+    if (totalStats === 0 && totalAtt === 0) return false;
+    return statMatch || attMatch;
 }
