@@ -122,6 +122,41 @@ export const SPECIAL_ITEMS: SpecialItemConfig[] = [
             potential: true,
             additionalPotential: false
         }
+    },
+
+    // SS급 마스터 쥬얼링
+    {
+        itemName: 'SS급 마스터 쥬얼링',
+        displayName: 'SS급 마스터 쥬얼링',
+        category: 'special_ring',
+        danpungiComments: [
+            '<b>스타포스가 불가능한</b> 특수 반지입니다. 잠재능력만 설정 가능합니다.',
+            '이벤트로 획득 가능한 특수 반지입니다. 스타포스 강화는 불가능합니다.',
+            '잠재능력 설정이 가능한 특수 반지입니다.'
+        ],
+        hexaComment: '**[특수 링]** 스타포스가 불가능한 이벤트 반지입니다. (잠재능력 설정 가능)',
+        detailedDiagnosis: {
+            potential: {
+                grade: '특수',
+                evaluation: '통과',
+                recommendation: '스타포스가 불가능한 특수 반지입니다. 잠재능력에 집중하세요.',
+                goodOptions: [],
+                score: 100
+            },
+            additionalPotential: {
+                grade: '특수',
+                evaluation: '통과',
+                recommendation: '스타포스가 불가능한 특수 반지입니다. 에디셔널 잠재능력에 집중하세요.',
+                goodOptions: [],
+                score: 100
+            }
+        },
+        skipSections: {
+            starforce: true,
+            flame: true,
+            potential: false,
+            additionalPotential: false
+        }
     }
 
     // 여기에 새로운 특수 아이템 추가 가능
