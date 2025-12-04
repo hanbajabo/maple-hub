@@ -71,16 +71,21 @@ export function evaluateArmorAccessory(
             }
         }
 
-        // 쿨타임 감소
+
+        // 쿨타임 감소 (모자 전용)
         if (itemSlot === '모자' && opt.includes('재사용 대기시간') && opt.includes('초')) {
             const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
             if (val >= COOLDOWN_REDUCTION.GOOD) {
+                // 쿨타임 1초당 15% 주스탯 환산 (매우 강력한 옵션이므로)
+                statPct += val * 15;
                 goodOptions.push(opt);
             }
         }
 
-        // 크리티컬 데미지
+        // 크리티컬 데미지 (장갑 전용)
         if (itemSlot === '장갑' && opt.includes('크리티컬 데미지')) {
+            // 크뎀 1줄당 30% 주스탯 환산
+            statPct += 30;
             goodOptions.push(opt);
         }
     });
