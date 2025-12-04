@@ -157,6 +157,204 @@ export const SPECIAL_ITEMS: SpecialItemConfig[] = [
             potential: false,
             additionalPotential: false
         }
+    },
+
+    // 리스트레인트 링
+    {
+        itemName: '리스트레인트 링',
+        displayName: '리스트레인트 링',
+        category: 'seed_ring',
+        danpungiComments: [
+            '<b>극딜의 핵심</b>, 리스트레인트 링입니다. 레벨이 높을수록 강력한 효율을 냅니다.',
+            '보스전 필수 아이템입니다. 높은 레벨일수록 좋습니다.',
+            '전서버급 스펙을 위한 필수 반지입니다.'
+        ],
+        hexaComment: '**[시드 링]** 극딜 타임의 핵심, 리스트레인트 링입니다. (특수 스킬 반지)',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력 설정 불가', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 설정 불가', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: true, potential: true, additionalPotential: true }
+    },
+
+    // 웨폰퍼프 링
+    {
+        itemName: '웨폰퍼프',
+        displayName: '웨폰퍼프 링',
+        category: 'seed_ring',
+        danpungiComments: [
+            '<b>주스탯을 공격력/마력으로 전환</b>해주는 강력한 반지입니다.',
+            '리레링 다음으로 많이 사용되는 시드링입니다.',
+            '스펙에 따라 리레링보다 효율이 좋을 수도 있습니다.'
+        ],
+        hexaComment: '**[시드 링]** 주스탯 효율을 극대화하는 웨폰퍼프 링입니다. (특수 스킬 반지)',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력 설정 불가', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 설정 불가', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: true, potential: true, additionalPotential: true }
+    },
+
+    // 리스크테이커 링
+    {
+        itemName: '리스크테이커 링',
+        displayName: '리스크테이커 링',
+        category: 'seed_ring',
+        danpungiComments: [
+            '<b>피격되지 않는 조건</b>하에 강력한 공/마 증가 효과를 줍니다.',
+            '무적기가 있거나 컨트롤이 좋은 경우 유용한 반지입니다.',
+            '리스크가 있지만 리턴도 확실한 반지입니다.'
+        ],
+        hexaComment: '**[시드 링]** 하이 리스크 하이 리턴, 리스크테이커 링입니다. (특수 스킬 반지)',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력 설정 불가', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 설정 불가', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: true, potential: true, additionalPotential: true }
+    },
+
+    // 컨티뉴어스 링
+    {
+        itemName: '컨티뉴어스 링',
+        displayName: '컨티뉴어스 링',
+        category: 'seed_ring',
+        danpungiComments: [
+            '<b>지속적인 딜링</b>에 특화된 반지입니다. 보스전에서 꾸준한 딜 상승을 보장합니다.',
+            '평딜 비중이 높은 직업에게 추천하는 반지입니다.',
+            '가동률이 매우 높은 시드링입니다.'
+        ],
+        hexaComment: '**[시드 링]** 지속 딜링의 핵심, 컨티뉴어스 링입니다. (특수 스킬 반지)',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력 설정 불가', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 설정 불가', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: true, potential: true, additionalPotential: true }
+    },
+
+    // 테네브리스 원정대 반지
+    {
+        itemName: '테네브리스 원정대 반지',
+        displayName: '테네브리스 원정대 반지',
+        category: 'event_ring',
+        danpungiComments: [
+            '<b>스타포스가 불가능한</b> 이벤트 반지입니다. 전용 주문서로 강화됩니다.',
+            '최상급 이벤트 반지입니다. 스타포스 강화는 불가능합니다.',
+            '잠재능력 설정이 가능한 1티어 이벤트 반지입니다.'
+        ],
+        hexaComment: '**[이벤트 링]** 스타포스가 불가능한 최상급 이벤트 반지입니다.',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력에 집중하세요.', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 잠재능력에 집중하세요.', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: true, potential: false, additionalPotential: false }
+    },
+
+    // 어웨이크 링
+    {
+        itemName: '어웨이크 링',
+        displayName: '어웨이크 링',
+        category: 'event_ring',
+        danpungiComments: [
+            '<b>스타포스가 불가능한</b> 이벤트 반지입니다. 전용 주문서로 강화됩니다.',
+            '최상급 이벤트 반지입니다. 스타포스 강화는 불가능합니다.',
+            '잠재능력 설정이 가능한 1티어 이벤트 반지입니다.'
+        ],
+        hexaComment: '**[이벤트 링]** 스타포스가 불가능한 최상급 이벤트 반지입니다.',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력에 집중하세요.', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 잠재능력에 집중하세요.', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: true, potential: false, additionalPotential: false }
+    },
+
+    // 글로리온 링
+    {
+        itemName: '글로리온 링',
+        displayName: '글로리온 링',
+        category: 'event_ring',
+        danpungiComments: [
+            '<b>스타포스가 불가능한</b> 이벤트 반지입니다. 전용 주문서로 강화됩니다.',
+            '최상급 이벤트 반지입니다. 스타포스 강화는 불가능합니다.',
+            '잠재능력 설정이 가능한 1티어 이벤트 반지입니다.'
+        ],
+        hexaComment: '**[이벤트 링]** 스타포스가 불가능한 최상급 이벤트 반지입니다.',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력에 집중하세요.', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 잠재능력에 집중하세요.', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: true, potential: false, additionalPotential: false }
+    },
+
+    // 이터널 플레임 링
+    {
+        itemName: '이터널 플레임 링',
+        displayName: '이터널 플레임 링',
+        category: 'event_ring',
+        danpungiComments: [
+            '<b>스타포스가 불가능한</b> 이벤트 반지입니다. 전용 주문서로 강화됩니다.',
+            '최상급 이벤트 반지입니다. 스타포스 강화는 불가능합니다.',
+            '잠재능력 설정이 가능한 1티어 이벤트 반지입니다.'
+        ],
+        hexaComment: '**[이벤트 링]** 스타포스가 불가능한 최상급 이벤트 반지입니다.',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력에 집중하세요.', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 잠재능력에 집중하세요.', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: true, potential: false, additionalPotential: false }
+    },
+
+    // 카오스 링
+    {
+        itemName: '카오스 링',
+        displayName: '카오스 링',
+        category: 'event_ring',
+        danpungiComments: [
+            '<b>스타포스가 불가능한</b> 이벤트 반지입니다. 매주 옵션 재설정이 가능합니다.',
+            '추가옵션과 잠재능력을 재설정할 수 있는 특수 반지입니다.',
+            '잠재능력 설정이 가능한 이벤트 반지입니다.'
+        ],
+        hexaComment: '**[이벤트 링]** 스타포스가 불가능한 이벤트 반지입니다. (옵션 재설정 가능)',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력에 집중하세요.', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 잠재능력에 집중하세요.', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: false, potential: false, additionalPotential: false }
+    },
+
+    // 결속의 반지
+    {
+        itemName: '결속의 반지',
+        displayName: '결속의 반지',
+        category: 'event_ring',
+        danpungiComments: [
+            '<b>스타포스가 불가능한</b> 이벤트 반지입니다. 월드 내 착용 캐릭터 수에 따라 옵션이 증가합니다.',
+            '5캐릭 착용 시 최대 효율을 내는 반지입니다.',
+            '잠재능력 설정이 가능한 이벤트 반지입니다.'
+        ],
+        hexaComment: '**[이벤트 링]** 스타포스가 불가능한 이벤트 반지입니다. (세트 효과 보유)',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력에 집중하세요.', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 잠재능력에 집중하세요.', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: true, potential: false, additionalPotential: false }
+    },
+
+    // 오닉스 링
+    {
+        itemName: '오닉스 링',
+        displayName: '오닉스 링',
+        category: 'event_ring',
+        danpungiComments: [
+            '<b>스타포스가 불가능한</b> 특수 반지입니다. 성장형 반지입니다.',
+            '특정 조건 만족 시 성장하는 반지입니다.',
+            '잠재능력 설정이 불가능한 특수 반지입니다.'
+        ],
+        hexaComment: '**[특수 링]** 스타포스와 잠재능력 설정이 불가능한 특수 반지입니다.',
+        detailedDiagnosis: {
+            potential: { grade: '특수', evaluation: '통과', recommendation: '잠재능력 설정 불가', goodOptions: [], score: 100 },
+            additionalPotential: { grade: '특수', evaluation: '통과', recommendation: '에디셔널 설정 불가', goodOptions: [], score: 100 }
+        },
+        skipSections: { starforce: true, flame: true, potential: true, additionalPotential: true }
     }
 
     // 여기에 새로운 특수 아이템 추가 가능
