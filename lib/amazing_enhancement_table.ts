@@ -256,11 +256,13 @@ export function isAmazingEnhancementItem(item: any): boolean {
     const scrollMatt = (parseInt(total.magic_power || "0") - parseInt(base.magic_power || "0") - parseInt(add.magic_power || "0"));
     const totalScrollAtt = scrollAtt + scrollMatt;
 
-    // 휴리스틱: 스타포스 5성 이상 + 주문서 스탯 200 이상 = 놀장강
-    // (일반 아이템의 고추옵+스타포스 합계가 100~150까지 나올 수 있음)
-    // 놀장강 10성 이상은 보통 300~500대 수치를 가짐
-    if (totalScrollStats >= 200) return true;
-    if (totalScrollAtt >= 50) return true;
+    // 놀장강은 최대 15성까지만 존재 (16성 이상은 절대 아님)
+    if (starforce > 15) return false;
+
+    // 휴리스틱: 스타포스 5성 이상 + 주문서 스탯 300 이상 = 놀장강
+    // (일반 아이템은 절대 도달 불가능한 수치)
+    // 공격력 기준은 놀긍혼(Chaos Scroll) 리턴작으로 달성 가능하므로 제외
+    if (totalScrollStats >= 300) return true;
 
     return false;
 }
