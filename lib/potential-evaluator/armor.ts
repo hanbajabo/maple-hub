@@ -32,6 +32,10 @@ export function evaluateArmorAccessory(
     // 직업의 주스탯 가져오기
     const mainStats = job ? getJobMainStat(job) : [];
 
+    // 특수 옵션 추적
+    let critDamageLines = 0;
+    let cooldownSeconds = 0;
+
     options.forEach(opt => {
         if (!opt) return;
 
@@ -82,6 +86,7 @@ export function evaluateArmorAccessory(
         if (itemSlot === '모자' && opt.includes('재사용 대기시간') && opt.includes('초')) {
             const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
             if (val >= COOLDOWN_REDUCTION.GOOD) {
+                cooldownSeconds += val;  // 쿨타임 초 추적
                 // 쿨타임 1초당 15% 주스탯 환산 (매우 강력한 옵션이므로)
                 statPct += val * 15;
                 goodOptions.push(opt);
@@ -90,17 +95,7 @@ export function evaluateArmorAccessory(
 
         // 크리티컬 데미지 (장갑 전용)
         if (itemSlot === '장갑' && opt.includes('크리티컬 데미지')) {
-            // 크뎀 1줄 = 15%, 2줄 = 30%, 3줄 = 36% 환산
-            // 
-            // 평가 기준:
-            // 크뎀 3줄 (36%) → 신화 (종결급)
-            // 크뎀 2줄 + 주12%/올9% (42%) → 전설 (종결급)
-            // 크뎀 2줄 + 주9%/올6% (39%) → 종결 (종결급)
-            // 크뎀 2줄 단독 (30%) → 종결급
-            // 크뎀 1줄 + 주18% (33%) → 최상급
-            // 크뎀 1줄 + 주12% (27%) → 꽤 좋음
-            // 크뎀 1줄 + 주9% (24%) → 꽤 좋음
-            // 크뎀 1줄 단독 (15%) → 준수
+            critDamageLines++;  // 크뎀 줄 수 추적
             statPct += 15;
             goodOptions.push(opt);
         }
@@ -127,5 +122,11 @@ export function evaluateArmorAccessory(
         }
     }
 
-    return { goodOptions, optionsScore: Math.round(optionsScore), statPct };
+    return {
+        goodOptions,
+        optionsScore: Math.round(optionsScore),
+        statPct,
+        critDamageLines,
+        cooldownSeconds
+    };
 }
