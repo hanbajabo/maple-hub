@@ -62,7 +62,8 @@ function generateRecommendation(
     ceilingCost: number,
     itemSlot?: string,
     itemLevel?: number,
-    job?: string
+    job?: string,
+    statPct?: number  // 주스탯 % 추가
 ): string {
     if (equipmentType === '무기' && type === 'additional') {
         return generateWeaponAdditionalRecommendation(grade, score, goodOptions);
@@ -78,7 +79,8 @@ function generateRecommendation(
             ceilingCost,
             itemSlot,
             itemLevel,
-            job
+            job,
+            statPct  // statPct 전달
         );
     }
 }
@@ -113,7 +115,7 @@ export function evaluatePotential(
     }
 
     // 옵션 평가
-    const { goodOptions, optionsScore } = evaluateOptions(
+    const evaluationResult = evaluateOptions(
         type,
         currentGrade,
         options,
@@ -121,6 +123,10 @@ export function evaluatePotential(
         itemSlot,
         job
     );
+
+    const goodOptions = evaluationResult.goodOptions;
+    const optionsScore = evaluationResult.optionsScore;
+    const statPct = evaluationResult.statPct || 0;  // statPct 추출 (없으면 0)
 
     // 큐브 비용 계산
     let targetGrade: '레어' | '에픽' | '유니크' | '레전드리' | '특수' = '레전드리';
@@ -160,7 +166,8 @@ export function evaluatePotential(
         ceilingCost,
         itemSlot,
         itemLevel,
-        job
+        job,
+        statPct  // statPct 전달
     );
 
     return {

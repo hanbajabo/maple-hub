@@ -117,14 +117,24 @@ export function generateGeneralRecommendation(
     ceilingCost: number,
     itemSlot?: string,
     itemLevel?: number,
-    job?: string
+    job?: string,
+    statPct?: number  // 주스탯 % 추가
 ): string {
-    if (score >= 90) {
+    const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+    const statLabel = isXenon ? '올스탯' : '주스탯';
+
+    if (score >= 100) {
         return `종결급 ${type === 'main' ? '잠재능력' : '에디셔널'}입니다. 더 이상 개선이 필요 없습니다.`;
     }
 
     if (grade === '레전드리') {
-        if (score >= 70) {
+        if (type === 'main' && statPct !== undefined && statPct >= 30) {
+            return `종결! ${statLabel} ${statPct}% 이상입니다.`;
+        } else if (type === 'main' && statPct !== undefined && statPct >= 21) {
+            return `좋음! ${statLabel} 2줄(21% 이상)입니다.`;
+        } else if (type === 'main' && statPct !== undefined && statPct >= 15) {
+            return `준수! ${statLabel} ${statPct}%입니다.`;
+        } else if (score >= 70) {
             return `꽤 좋은 옵션입니다. 만족하셔도 됩니다.`;
         } else if (score >= 50) {
             return `준수한 수준입니다. 여유가 있다면 조금 더 개선해보세요.`;
@@ -132,10 +142,12 @@ export function generateGeneralRecommendation(
             return `레전드리치고는 아쉬운 옵션입니다. 큐브 작업을 추천드립니다.`;
         }
     } else if (grade === '유니크') {
-        if (score >= 70) {
+        if (type === 'main' && statPct !== undefined && statPct >= 15) {
+            return `유효 2줄 이상입니다. 유니크에서 훌륭한 옵션입니다.`;
+        } else if (score >= 70) {
             return `유니크 등급에서 최고 수준입니다. 레전드리 급업을 목표로 하세요.`;
         } else {
-            return `유니크 등급 개선이 필요합니다.`;
+            return `유효 1줄입니다. 유니크 등급에서는 유효 2줄 이상을 목표로 재설정을 권장합니다.`;
         }
     } else if (grade === '에픽') {
         return `에픽 등급입니다. 유니크 이상 등급업을 권장합니다.`;

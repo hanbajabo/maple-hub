@@ -127,5 +127,5 @@ export function evaluateArmorAccessory(
         }
     }
 
-    return { goodOptions, optionsScore: Math.round(optionsScore) };
+    return { goodOptions, optionsScore: Math.round(optionsScore), statPct };
 }
