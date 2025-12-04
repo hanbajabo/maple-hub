@@ -110,7 +110,7 @@ export const Stage4Content: React.FC<Stage4ContentProps> = ({ stage4Stats, rende
                         <div className="flex items-center gap-2">
                             <span>{stage4Stats.armor.potential.current >= stage4Stats.armor.potential.total ? '✅' : '•'}</span>
                             <span>
-                                잠재능력: <strong className="text-white">유니크 이상 & 주스탯 15% 이상</strong>
+                                잠재능력: <strong className="text-white">주스탯 15% 이상 (유니크 권장)</strong>
                                 <span className={`ml-1 text-xs ${stage4Stats.armor.potential.current >= stage4Stats.armor.potential.total ? 'text-green-400' : 'text-red-400'} `}>
                                     ({stage4Stats.armor.potential.current}/{stage4Stats.armor.potential.total})
                                 </span>
@@ -134,7 +134,7 @@ export const Stage4Content: React.FC<Stage4ContentProps> = ({ stage4Stats, rende
                     <span>💍</span> 장신구 진단 기준 (반지, 펜던트, 얼장, 눈장, 귀고리, 벨트)
                 </h4>
                 <ul className="space-y-1 text-slate-300 pl-1">
-                    {renderStatItem("스타포스", stage4Stats.accessory.starforce, "17성 이상 (타일런트는 10성 이상)")}
+                    {renderStatItem("스타포스", stage4Stats.accessory.starforce, "17성 이상 (타일런트는 5성 이상)")}
                     <li className={`flex flex-col items-start gap-1 ${stage4Stats.accessory.scroll.current >= stage4Stats.accessory.scroll.total ? 'text-green-300 font-bold' : ''} `}>
                         <div className="flex items-center gap-2">
                             <span>{stage4Stats.accessory.scroll.current >= stage4Stats.accessory.scroll.total ? '✅' : '•'}</span>
@@ -173,7 +173,7 @@ export const Stage4Content: React.FC<Stage4ContentProps> = ({ stage4Stats, rende
                             </div>
                         )}
                     </li>
-                    {renderStatItem("잠재능력", stage4Stats.accessory.potential, "유니크 이상 & 주스탯 15%~21% 이상")}
+                    {renderStatItem("잠재능력", stage4Stats.accessory.potential, "주스탯 15%~21% 이상 (유니크 권장)")}
                     {renderStatItem("에디셔널", stage4Stats.accessory.additional, "레어 공/마+10 (에픽 이상은 탯% or 공/마+10)")}
                 </ul>
             </div>

@@ -71,12 +71,21 @@ function evaluateGradeByScore(item: any, attType: string = 'attack', job?: strin
 
     // 2-1. 스타포스 (Max 7)
     const sf = parseInt(item.starforce || "0");
-    if (sf >= 25) scoreSF = 7;
-    else if (sf >= 24) scoreSF = 6;
-    else if (sf >= 23) scoreSF = 5;
-    else if (sf >= 22) scoreSF = 4;
-    else if (sf >= 18) scoreSF = 3; // 18성: 3점
-    else if (sf >= 17) scoreSF = 2; // 17성: 2점 (국민셋 인정)
+    const isSuperior = name.includes("타일런트") || name.includes("노바") || name.includes("헬리시움");
+
+    if (isSuperior) {
+        // 타일런트(슈페리얼) 효율 보정
+        if (sf >= 12) scoreSF = 4; // 12성 = 22성급 (4점)
+        else if (sf >= 10) scoreSF = 3; // 10성 = 18성급 (3점)
+        else if (sf >= 5) scoreSF = 2; // 5성 = 17성급 (2점)
+    } else {
+        if (sf >= 25) scoreSF = 7;
+        else if (sf >= 24) scoreSF = 6;
+        else if (sf >= 23) scoreSF = 5;
+        else if (sf >= 22) scoreSF = 4;
+        else if (sf >= 18) scoreSF = 3; // 18성: 3점
+        else if (sf >= 17) scoreSF = 2; // 17성: 2점 (국민셋 인정)
+    }
 
     // 2-2. 잠재능력 (Max 5)
     const potGrade = item.potential_option_grade;
@@ -90,8 +99,16 @@ function evaluateGradeByScore(item: any, attType: string = 'attack', job?: strin
         if (!line || typeof line !== 'string') return;
 
         const m = line.match(/(\d+)%/);
-        if (m && (line.includes('STR') || line.includes('DEX') || line.includes('INT') || line.includes('LUK') || line.includes('올스탯') || line.includes('HP'))) {
-            statPct += parseInt(m[1]);
+        if (m) {
+            const val = parseInt(m[1]);
+            if (line.includes('STR') || line.includes('DEX') || line.includes('INT') || line.includes('LUK') || line.includes('올스탯')) {
+                statPct += val;
+            } else if (line.includes('HP')) {
+                // 데몬어벤져만 HP를 스탯으로 인정
+                if (job && (job.includes('데몬어벤져') || job.replace(/\s/g, '').includes('데몬어벤져'))) {
+                    statPct += val;
+                }
+            }
         }
         if (line.includes('레벨') && line.includes('당')) {
             if (line.includes('+2')) statPct += 6;
@@ -166,7 +183,8 @@ function evaluateGradeByScore(item: any, attType: string = 'attack', job?: strin
                 else scorePot = 1;
             } else {
                 if (statPct >= 27) scorePot = 3;
-                else if (statPct >= 18) scorePot = 2;
+                else if (statPct >= 21) scorePot = 3; // 21% (9/6/6)은 3점 (탈유니크급)
+                else if (statPct >= 15) scorePot = 2; // 15% (9/6)은 2점
                 else scorePot = 1;
             }
         }
@@ -462,6 +480,24 @@ export function diagnoseEquipment(items: any[], mainStat: string, attType: strin
                         result.starforce.push(advice);
                         result.scoreDeduction += 2;
                     }
+                }
+            }
+
+            // 임시 장비(펜살리르, 우트가르드 등) 교체 권장
+            const isTempItem = ["펜살리르", "우트가르드", "네크로", "반레온", "아가레스", "브히제르", "엘리고스", "보라빛", "응축된", "아쿠아틱"].some(k => itemName.includes(k));
+            // 응축/아쿠아틱은 고레벨에서도 쓰이므로 제외해야 할 수도 있지만, 
+            // 여기서는 '저레벨 임시 장비'로 묶어서 판단. 단, 응축/아쿠아틱은 국민셋이므로 제외하는게 나을듯.
+            // 펜살리르/우트가르드/네크로 위주로.
+            const isRealTemp = ["펜살리르", "우트가르드", "네크로", "무스펠", "여제", "이그니스", "반레온"].some(k => itemName.includes(k));
+
+            if (isRealTemp && level <= 150) {
+                // 잠재가 좋아도 교체 권장
+                const advice = `[${slot}] ${itemName}: [교체 권장] 거쳐가는 임시 장비입니다. 상위 장비(카루타/앱솔랩스)로 교체를 권장합니다.`;
+                // 중복 방지
+                if (!result.general.some(c => c.includes(itemName) && c.includes("교체 권장"))) {
+                    result.general.unshift(advice); // 최우선 노출을 위해 unshift? (배열 정렬은 나중에 함)
+                    // 점수 감점 (빨리 바꾸라고)
+                    result.scoreDeduction += 3;
                 }
             }
         } catch (e) {

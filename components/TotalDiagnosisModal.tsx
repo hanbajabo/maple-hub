@@ -66,7 +66,7 @@ const StarforceCommentary = ({ avg, count22, count25Plus }: { avg: number, count
                 ),
                 sub: (
                     <p className="text-yellow-300 font-bold text-lg">
-                        🌟 25성 아이템이 <span className="text-2xl text-yellow-200">{count25Plus}개</span>... 말이 됩니까?!
+                        🌟 평균 스타포스가 <span className="text-2xl text-yellow-200">{avg}성</span>... 말이 됩니까?!
                     </p>
                 ),
                 text: pick([
@@ -318,6 +318,8 @@ const StarforceCommentary = ({ avg, count22, count25Plus }: { avg: number, count
 
 export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, equipment }: TotalDiagnosisModalProps) {
     const [selectedSet, setSelectedSet] = useState<string | null>(null);
+    const [showItems22, setShowItems22] = useState(false);
+    const [showItems17, setShowItems17] = useState(false);
 
     // 뒤로가기 핸들링 및 스크롤 방지
     useEffect(() => {
@@ -392,7 +394,7 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, e
             <div className="bg-slate-900 border border-indigo-500/30 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl shadow-indigo-500/10 relative flex flex-col custom-scrollbar">
 
                 {/* Header */}
-                <div className="p-6 border-b border-white/10 flex justify-between items-center bg-slate-900 sticky top-0 z-20">
+                <div className="p-6 border-b border-white/10 flex justify-between items-center bg-slate-900 sticky top-0 z-[60]">
                     <div className="flex items-center gap-4">
                         <div className="p-2 sm:p-3 bg-indigo-500/20 rounded-xl border border-indigo-500/30 shadow-inner">
                             <ShieldCheck className="w-6 h-6 sm:w-8 sm:h-8 text-indigo-400" />
@@ -416,7 +418,7 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, e
                 <div className="p-6 space-y-6 bg-gradient-to-b from-slate-900 to-slate-950">
 
                     {/* 1. Starforce Section */}
-                    <div className="bg-slate-800/40 rounded-2xl p-6 border border-white/5 relative overflow-hidden group hover:border-yellow-500/30 transition-colors">
+                    <div className="bg-slate-800/40 rounded-2xl p-6 border border-white/5 relative group hover:border-yellow-500/30 transition-colors">
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                             <Star className="w-32 h-32 text-yellow-500" />
                         </div>
@@ -427,12 +429,12 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, e
                             </div>
                             <div>
                                 <h3 className="text-xl font-bold text-yellow-100">스타포스</h3>
-                                <p className="text-xs text-slate-400">대상: 17부위 (무기+방어구+장신구 - 특수반지 자리 1개 제외)</p>
+                                <p className="text-xs text-slate-400">대상: 18부위 (무기+방어구+장신구+심장 - 특수반지 제외)</p>
                                 <p className="text-[10px] text-slate-500 mt-0.5">* 이벤트 링은 스타포스 강화가 불가능합니다.</p>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                        <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 relative ${showItems22 || showItems17 ? 'z-50' : 'z-10'}`}>
                             {/* Average Starforce */}
                             <div className="bg-slate-950/50 p-5 rounded-xl border border-yellow-500/20 flex flex-col justify-between">
                                 <div>
@@ -449,17 +451,61 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, e
                             </div>
 
                             {/* 22 Star Count */}
-                            <div className="bg-slate-950/50 p-5 rounded-xl border border-green-500/20 flex flex-col justify-center items-center text-center">
-                                <div className="text-sm text-slate-400 mb-2">22성 아이템</div>
+                            <div
+                                className={`bg-slate-950/50 p-5 rounded-xl border border-green-500/20 flex flex-col justify-center items-center text-center cursor-pointer hover:bg-slate-900 transition-colors relative ${showItems22 ? 'z-50' : ''}`}
+                                onClick={() => setShowItems22(!showItems22)}
+                            >
+                                <div className="text-sm text-slate-400 mb-2">22성 이상 아이템</div>
                                 <div className="text-4xl font-black text-green-400">{data.starforce.count22}<span className="text-lg font-normal text-green-600 ml-1">개</span></div>
-                                <div className="text-xs text-slate-500 mt-2">졸업급 장비</div>
+                                <div className="text-xs text-slate-500 mt-2">졸업급 장비 (클릭하여 확인)</div>
+
+                                {showItems22 && data.starforce.items22 && (
+                                    <div className="absolute top-full left-0 w-full mt-2 bg-slate-950 border border-green-500/30 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
+                                        <div className="bg-green-500/10 px-3 py-2 border-b border-green-500/20 flex justify-between items-center">
+                                            <span className="text-xs font-bold text-green-300">목록 ({data.starforce.items22.length})</span>
+                                            <button onClick={(e) => { e.stopPropagation(); setShowItems22(false); }} className="text-slate-400 hover:text-white">
+                                                <X className="w-3 h-3" />
+                                            </button>
+                                        </div>
+                                        <ul className="p-2 max-h-40 overflow-y-auto custom-scrollbar text-left">
+                                            {data.starforce.items22.map((item, i) => (
+                                                <li key={i} className="text-xs text-slate-300 py-1.5 px-2 hover:bg-white/5 rounded flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full flex-shrink-0"></span>
+                                                    <span className="truncate">{item}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
 
                             {/* 17 Star Count */}
-                            <div className="bg-slate-950/50 p-5 rounded-xl border border-blue-500/20 flex flex-col justify-center items-center text-center">
+                            <div
+                                className={`bg-slate-950/50 p-5 rounded-xl border border-blue-500/20 flex flex-col justify-center items-center text-center cursor-pointer hover:bg-slate-900 transition-colors relative ${showItems17 ? 'z-50' : ''}`}
+                                onClick={() => setShowItems17(!showItems17)}
+                            >
                                 <div className="text-sm text-slate-400 mb-2">17성 이상 아이템</div>
                                 <div className="text-4xl font-black text-blue-400">{data.starforce.count17}<span className="text-lg font-normal text-blue-600 ml-1">개</span></div>
-                                <div className="text-xs text-slate-500 mt-2">국민 세팅 기준</div>
+                                <div className="text-xs text-slate-500 mt-2">국민 세팅 기준 (클릭하여 확인)</div>
+
+                                {showItems17 && data.starforce.items17 && (
+                                    <div className="absolute top-full left-0 w-full mt-2 bg-slate-950 border border-blue-500/30 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
+                                        <div className="bg-blue-500/10 px-3 py-2 border-b border-blue-500/20 flex justify-between items-center">
+                                            <span className="text-xs font-bold text-blue-300">목록 ({data.starforce.items17.length})</span>
+                                            <button onClick={(e) => { e.stopPropagation(); setShowItems17(false); }} className="text-slate-400 hover:text-white">
+                                                <X className="w-3 h-3" />
+                                            </button>
+                                        </div>
+                                        <ul className="p-2 max-h-40 overflow-y-auto custom-scrollbar text-left">
+                                            {data.starforce.items17.map((item, i) => (
+                                                <li key={i} className="text-xs text-slate-300 py-1.5 px-2 hover:bg-white/5 rounded flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 bg-blue-400 rounded-full flex-shrink-0"></span>
+                                                    <span className="truncate">{item}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -467,7 +513,12 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, e
                             <StarforceCommentary
                                 avg={data.starforce.average}
                                 count22={data.starforce.count22 || 0}
-                                count25Plus={equipment?.filter(item => parseInt(item.starforce || "0") >= 25).length || 0}
+                                count25Plus={equipment?.filter(item => {
+                                    const sf = parseInt(item.starforce || "0");
+                                    const slot = item.item_equipment_slot;
+                                    const isExcluded = slot === '훈장' || slot === '뱃지' || slot === '포켓 아이템';
+                                    return sf >= 25 && !isExcluded;
+                                }).length || 0}
                             />
                         </div>
                     </div>
@@ -670,7 +721,7 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, e
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 border-t border-white/10 bg-slate-900 sticky bottom-0 z-20 flex justify-end rounded-b-2xl">
+                <div className="p-6 border-t border-white/10 bg-slate-900 sticky bottom-0 z-[60] flex justify-end rounded-b-2xl">
                     <button
                         onClick={handleClose}
                         className="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/20"

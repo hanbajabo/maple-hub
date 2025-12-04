@@ -7,16 +7,19 @@ import {
     getPotentialGuaranteeCount,
     getPotentialResetCost,
     POTENTIAL_CEILING_COSTS,
-    getAdditionalPotentialUpgradeRate,
     getAdditionalPotentialResetCost,
     ADDITIONAL_POTENTIAL_CEILING_COSTS,
 } from '../cube_db';
 import { isPensalirItem } from '../utils/item_classifier';
 import {
     WEAPON_ADDITIONAL_SCORE,
-    MAIN_POTENTIAL_STAT,
     ADDITIONAL_POTENTIAL_STAT,
+    COOLDOWN_REDUCTION,
+    CRIT_DAMAGE_LINES,
+    STAT_CONVERSION,
 } from '../config/unified_criteria';
+import { MAIN_POTENTIAL_STAT } from '../config/criteria/potential';
+import { getJobMainStat, isMagicJob } from '../job_utils';
 import { PotentialType, PotentialGrade, EquipmentType } from './types';
 
 /**
@@ -214,13 +217,9 @@ export function generateGeneralRecommendation(
     const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
     const statLabel = isXenon ? '올스탯' : '주스탯';
 
-    if (score >= 100) {
-        if (type === 'main') {
-            return `종결급 잠재능력입니다. 더 이상 개선이 필요 없습니다.`;
-        } else {
-            const equivalentPct = Math.floor(score / 10);
-            return `종결급! 주스탯 ${equivalentPct}%급 에디셔널입니다. 더 이상 개선이 필요 없습니다.`;
-        }
+    if (score >= 100 && type !== 'main') {
+        const equivalentPct = Math.floor(score / 10);
+        return `종결급! 주스탯 ${equivalentPct}%급 에디셔널입니다. 더 이상 개선이 필요 없습니다.`;
     }
 
     if (grade === '레전드리') {
@@ -243,11 +242,58 @@ export function generateGeneralRecommendation(
 
         // 일반 주스탯 메시지
         if (type === 'main') {
-            if (statPct !== undefined && statPct >= 30) {
+            // 이탈 여부 체크
+            let primeLines = 0;
+            // 에테르넬(250제)은 잠재능력 수치가 1% 높음 (12% -> 13%, 9% -> 10%)
+            const isEthernal = itemLevel && itemLevel >= 250;
+
+            goodOptions.forEach(opt => {
+                const match = opt.match(/(\d+)%/);
+                if (match) {
+                    const val = parseInt(match[1]);
+                    // 제논 Prime Line 기준
+                    if (isXenon) {
+                        // 에테르넬(250제): 올스탯 10% 이상
+                        // 일반(200제 이하): 올스탯 9% 이상
+                        const xenonThreshold = isEthernal ? 10 : 9;
+                        if (opt.includes('올스탯') && val >= xenonThreshold) primeLines++;
+                    } else {
+                        // 일반 직업 Prime Line 기준
+                        // 에테르넬(250제): 주스탯 13% 이상
+                        // 일반(200제 이하): 주스탯 12% 이상
+                        const threshold = isEthernal ? 13 : 12;
+                        if (val >= threshold) primeLines++;
+                    }
+                }
+            });
+
+            // 기준값 가져오기
+            // 200제(아케인) 제외, 201~250제(에테르넬) 적용
+            const isHighLevel = itemLevel && itemLevel > 200;
+            const criteria = isXenon
+                ? (isHighLevel ? MAIN_POTENTIAL_STAT.XENON_LEGENDARY_HIGH_LEVEL : MAIN_POTENTIAL_STAT.XENON_LEGENDARY)
+                : (isHighLevel ? MAIN_POTENTIAL_STAT.LEGENDARY_HIGH_LEVEL : MAIN_POTENTIAL_STAT.LEGENDARY);
+
+            // 제논 전용 로직
+            if (isXenon && statPct !== undefined) {
+                if (statPct >= criteria.MYTHIC) { // 30 or 27
+                    return `신화! 올스탯 ${statPct}% (3줄/올이탈)입니다. 제논의 끝판왕 옵션!`;
+                } else if (statPct >= criteria.ENDGAME_HIGH) { // 27 or 24
+                    return `종결! 올스탯 ${statPct}% (3줄)입니다. 제논의 꿈의 옵션!`;
+                } else if (statPct >= criteria.ENDGAME) { // 24 or 21
+                    return `최상급! 올스탯 ${statPct}%입니다. 아주 훌륭합니다.`;
+                }
+            }
+
+            if (statPct !== undefined && statPct >= criteria.ENDGAME) { // 30 or 33
+                if (primeLines >= 3) return `초월! ${statLabel} ${statPct}% (올이탈)입니다. 전서버급 옵션!`;
+                if (primeLines >= 2) return `종결! ${statLabel} ${statPct}% (쌍이탈)입니다.`;
                 return `종결! ${statLabel} ${statPct}% 이상입니다.`;
-            } else if (statPct !== undefined && statPct >= 21) {
-                return `좋음! ${statLabel} 2줄(21% 이상)입니다.`;
-            } else if (statPct !== undefined && statPct >= 15) {
+            } else if (statPct !== undefined && statPct >= 27) {
+                return `최상급! ${statLabel} 3줄(${statPct}%)입니다.`;
+            } else if (statPct !== undefined && statPct >= criteria.GOOD) {
+                return `좋음! ${statLabel} 2줄(${statPct}%)입니다.`;
+            } else if (statPct !== undefined && statPct >= criteria.DECENT) {
                 return `준수! ${statLabel} ${statPct}%입니다.`;
             } else if (score >= 70) {
                 return `꽤 좋은 옵션입니다. 만족하셔도 됩니다.`;
@@ -269,6 +315,21 @@ export function generateGeneralRecommendation(
         }
     } else if (grade === '유니크') {
         if (type === 'main') {
+            // 제논 유니크 전용 로직
+            if (isXenon && statPct !== undefined) {
+                const criteria = MAIN_POTENTIAL_STAT.XENON_UNIQUE;
+                if (statPct >= criteria.LEGENDARY_TIER) { // 18%
+                    return `탈유니크급! 올스탯 ${statPct}%입니다. 레전드리 부럽지 않은 최상급 옵션!`;
+                } else if (statPct >= criteria.TIER1) { // 15%
+                    return `1티어! 올스탯 ${statPct}%입니다. 유니크 졸업급 옵션입니다.`;
+                } else if (statPct >= criteria.STANDARD) { // 12%
+                    return `준수! 올스탯 ${statPct}% (정옵)입니다. 실전에서 충분히 사용 가능합니다.`;
+                } else {
+                    return `아쉬움! 올스탯 ${criteria.STANDARD}% (6/3/3) 이상을 목표로 재설정을 권장합니다.`;
+                }
+            }
+
+            // 일반 유니크 로직
             if (statPct !== undefined && statPct >= 27) {
                 return `유니크 종결! ${statLabel} ${Math.round(statPct)}%입니다. 레전드리 3줄급 옵션으로 쭉 사용하셔도 좋습니다.`;
             } else if (statPct !== undefined && statPct >= 21) {
@@ -279,7 +340,7 @@ export function generateGeneralRecommendation(
                 return `유니크 등급에서는 ${statLabel} 15% 이상을 목표로 재설정을 권장합니다.`;
             }
         } else {
-            // 에디셔널 유니크 (1% = 10점)
+            // 유니크 에디셔널
             const equivalentPct = Math.floor(score / 10);
             if (score >= 130) {
                 return `유니크 종결! 주스탯 ${equivalentPct}%급 에디셔널입니다. 레전드리 부럽지 않은 최상급 옵션입니다.`;
@@ -293,6 +354,29 @@ export function generateGeneralRecommendation(
         }
     } else if (grade === '에픽' || grade === '레어') {
         if (type === 'main') {
+            // 제논 에픽/레어 전용 로직
+            if (isXenon) {
+                // 올스탯% 체크
+                if (statPct !== undefined && statPct >= 6) {
+                    return `에픽 상급! 올스탯 ${statPct}%입니다. 아주 훌륭합니다.`;
+                } else if (statPct !== undefined && statPct >= 3) {
+                    return `에픽 정옵! 올스탯 ${statPct}%입니다. 무난하게 사용 가능합니다.`;
+                }
+                
+                // 올스탯이 낮으면 공격력/마력 체크 (저레벨 구간 대체제)
+                let attCount = 0;
+                goodOptions.forEach(opt => {
+                    if (opt.includes('공격력') || opt.includes('마력')) attCount++;
+                });
+                
+                if (attCount >= 1) {
+                    return `좋음! 제논은 저등급에서 올스탯 수급이 어렵습니다. 공격력/마력 옵션은 훌륭한 대체제입니다.`;
+                }
+                
+                return `아쉬움! 올스탯 3% 이상이나 공격력/마력 옵션을 노려보세요.`;
+            }
+
+            // 일반 에픽/레어 로직
             if (statPct !== undefined && statPct >= 12) {
                 return `${grade} 종결! ${statLabel} ${Math.round(statPct)}%입니다. ${grade} 등급에서 볼 수 있는 최고 수준의 옵션입니다. 더 높은 스펙업을 위해서는 유니크 이상 아이템을 노려보세요.`;
             } else if (statPct !== undefined && statPct >= 9) {
@@ -303,10 +387,8 @@ export function generateGeneralRecommendation(
                 return `${grade} 등급에서는 ${statLabel} 9% 이상을 목표로 하거나, 유니크 이상 등급업을 권장합니다.`;
             }
         } else {
-            // 에디셔널 잠재능력 (점수 기준: 1% = 10점, 공1 = 4점)
+            // 에픽/레어 에디셔널
             const equivalentPct = Math.floor(score / 10);
-
-            // 12%급 = 120점, 8%급 = 80점
             if (score >= 120) {
                 return `최상급! 주스탯 ${equivalentPct}%급 ${grade} 종결 옵션입니다. 이대로 쭉 사용하셔도 좋지만, 더 높은 스펙업을 위해서는 유니크 이상 아이템을 노려보세요.`;
             } else if (score >= 80) {

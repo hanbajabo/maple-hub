@@ -5,7 +5,9 @@ export interface TotalCheckupResult {
     starforce: {
         average: number;
         count22: number;
+        items22: string[];
         count17: number;
+        items17: string[];
         totalSlots: number;
         targetSlots: number; // 17부위
     };
@@ -46,7 +48,7 @@ export interface TotalCheckupResult {
 
 export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupResult {
     const result: TotalCheckupResult = {
-        starforce: { average: 0, count22: 0, count17: 0, totalSlots: 0, targetSlots: 17 },
+        starforce: { average: 0, count22: 0, items22: [], count17: 0, items17: [], totalSlots: 0, targetSlots: 18 },
         wse: {
             potential: { gradeCount: {}, validLines: 0, totalLines: 9 },
             additional: { gradeCount: {}, validLines: 0, totalLines: 9 },
@@ -85,8 +87,14 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
         const isSfTarget =
             slot === '무기' ||
             ['모자', '상의', '하의', '장갑', '신발', '망토'].includes(slot) ||
-            ['어깨장식', '얼굴장식', '눈장식', '귀고리', '벨트', '펜던트'].includes(slot) ||
-            slot === '반지';
+            slot.includes('어깨장식') ||
+            slot.includes('얼굴장식') ||
+            slot.includes('눈장식') ||
+            slot.includes('귀고리') ||
+            slot.includes('벨트') ||
+            slot.includes('펜던트') ||
+            slot.includes('심장') ||
+            slot.includes('반지');
 
         const isSeedRing = item.special_ring_level > 0;
         const isEventRing = [
@@ -101,11 +109,21 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
 
             const isAmazingEnhancement = isAmazingEnhancementItem(item);
             if (isAmazingEnhancement) {
-                if (sf >= 12) result.starforce.count22++; // 놀장 12성 = 22성급
-                else if (sf >= 5) result.starforce.count17++; // 놀장 5성 = 17성급
+                if (sf >= 12) {
+                    result.starforce.count22++;
+                    result.starforce.items22.push(name);
+                } else if (sf >= 5) {
+                    result.starforce.count17++;
+                    result.starforce.items17.push(name);
+                }
             } else {
-                if (sf >= 22) result.starforce.count22++;
-                else if (sf >= 17) result.starforce.count17++;
+                if (sf >= 22) {
+                    result.starforce.count22++;
+                    result.starforce.items22.push(name);
+                } else if (sf >= 17) {
+                    result.starforce.count17++;
+                    result.starforce.items17.push(name);
+                }
             }
         }
 

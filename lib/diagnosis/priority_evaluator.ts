@@ -102,8 +102,8 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
         const slot = item.item_equipment_slot;
         const name = item.item_name;
 
-        // === 펜살리르/우트가르드 장비 교체 권장 ===
-        const isPensalir = name.includes('펜살리르') || name.includes('우트가르드');
+        // === 펜살리르/우트가르드/네크로 등 임시 장비 교체 권장 ===
+        const isPensalir = name.includes('펜살리르') || name.includes('우트가르드') || name.includes('네크로') || name.includes('반레온') || name.includes('여제') || name.includes('무스펠');
         if (isPensalir) {
             let targetEquipment = '';
             if (slot.includes('무기')) {

@@ -50,7 +50,13 @@ export function evaluateArmorAccessory(
                 const isMainStat = mainStats.some(stat => opt.includes(stat));
                 if (isMainStat) {
                     const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
-                    statPct += val;
+
+                    // 제논의 경우 단일 스탯 효율은 올스탯의 약 1/3
+                    if (isXenon) {
+                        statPct += val / 3;
+                    } else {
+                        statPct += val;
+                    }
                     goodOptions.push(opt);
                 }
             } else if (opt.includes('HP') && isDemon) {
@@ -65,7 +71,13 @@ export function evaluateArmorAccessory(
             const valMatch = opt.match(/\+(\d+)/);
             if (valMatch) {
                 const val = parseInt(valMatch[1]);
-                const bonus = val >= 2 ? STAT_CONVERSION.LEVEL_STAT_2_TO_PERCENT : STAT_CONVERSION.LEVEL_STAT_1_TO_PERCENT;
+                let bonus = val >= 2 ? STAT_CONVERSION.LEVEL_STAT_2_TO_PERCENT : STAT_CONVERSION.LEVEL_STAT_1_TO_PERCENT;
+
+                // 제논의 경우 렙당 스탯(단일)은 효율이 떨어짐 (약 1/3)
+                if (isXenon) {
+                    bonus = bonus / 3;
+                }
+
                 statPct += bonus;
                 goodOptions.push(opt);
             }
