@@ -136,7 +136,8 @@ export function generateGeneralRecommendation(
         } else if (itemSlot === '장갑' && critDamageLines && critDamageLines >= 2) {
             return `종결급! 크뎀 2줄입니다. 최상급 장갑 옵션!`;
         } else if (itemSlot === '장갑' && critDamageLines && critDamageLines >= 1 && statPct && statPct >= 18) {
-            return `최상급! 크뎀 1줄 + ${statLabel} ${statPct}%입니다.`;
+            const pureStatPct = statPct - (critDamageLines * 15);
+            return `최상급! 크뎀 ${critDamageLines}줄 + ${statLabel} ${Math.round(pureStatPct)}%입니다.`;
         }
 
         // 모자 쿨타임 특수 메시지
