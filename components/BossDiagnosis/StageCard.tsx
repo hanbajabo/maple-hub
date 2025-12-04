@@ -325,11 +325,15 @@ export const StageCard: React.FC<StageCardProps> = ({
                             if (!hasAtt10 && !hasStatPct) return false;
                         }
                     } else {
-                        // 일반 방어구/장신구: 에픽+ & (공/마+10 or 주스탯%)
+                        // 일반 방어구/장신구: 에픽+ & (공/마+10 or 공/마% or 주스탯%)
                         if (adiGradeScore < 2) return false;
-                        const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                        // 공/마 상수 +10 이상
+                        const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                        // 공/마 % (예: 마력 +3%)
+                        const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
+                        // 주스탯 %
                         const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
-                        if (!hasAtt10 && !hasStatPct) return false;
+                        if (!hasAtt10 && !hasAttPct && !hasStatPct) return false;
                     }
                 }
 
@@ -564,9 +568,13 @@ export const StageCard: React.FC<StageCardProps> = ({
                         }
                     } else {
                         if (adiGradeScore < 2) return true;
-                        const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                        // 공/마 상수 +10 이상
+                        const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                        // 공/마 % (예: 마력 +3%)
+                        const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
+                        // 주스탯 %
                         const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
-                        if (!hasAtt10 && !hasStatPct) return true;
+                        if (!hasAtt10 && !hasAttPct && !hasStatPct) return true;
                     }
                 }
 
