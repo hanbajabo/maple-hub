@@ -189,15 +189,37 @@ export const StageCard: React.FC<StageCardProps> = ({
 
             // Stage 1: Basic Setting
             if (stageId === 0) {
-                if (["뱃지", "포켓 아이템", "훈장", "엠블렘", "보조무기"].includes(slot)) return false;
+                // 뱃지, 포켓, 훈장은 여전히 제외 (엠블렘, 보조무기는 이제 체크함!)
+                if (["뱃지", "포켓 아이템", "훈장"].includes(slot)) return false;
+                if (slot.includes("반지")) return false;
+
                 const isEyeFace = slot === "눈장식" || slot === "얼굴장식";
                 const isFairyHeart = name.includes("페어리 하트");
-                const targetStar = (isEyeFace || isFairyHeart) ? 8 : 12;
+                const isWSE = slot === "무기" || slot === "보조무기" || slot === "엠블렘";
 
-                if (slot.includes("반지")) return false;
-                if (star < targetStar) return false;
+                // 스타포스 체크 (WSE는 스타포스 조건 없음)
+                if (!isWSE) {
+                    const targetStar = (isEyeFace || isFairyHeart) ? 8 : 12;
+                    if (star < targetStar) return false;
+                }
+
+                // 잠재능력 체크
                 if (potScore(potGrade) < 2) return false;
+
+                // 에디셔널 체크
                 if (potScore(adiGrade) < 1) return false;
+
+                // WSE는 에디셔널 옵션도 체크 (공/마 +10 이상 OR 공/마 %)
+                if (isWSE) {
+                    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+                    // 공/마 상수 +10 이상
+                    const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                    // 공/마 % (예: 마력 +3%)
+                    const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
+
+                    if (!hasAtt10 && !hasAttPct) return false;
+                }
+
                 return true;
             }
 
@@ -442,16 +464,37 @@ export const StageCard: React.FC<StageCardProps> = ({
 
             // Stage 1: Basic Setting
             if (stageId === 0) {
-                if (["뱃지", "포켓 아이템", "훈장", "엠블렘", "보조무기"].includes(slot)) return false;
+                // 뱃지, 포켓, 훈장은 여전히 제외 (엠블렘, 보조무기는 이제 체크함!)
+                if (["뱃지", "포켓 아이템", "훈장"].includes(slot)) return false;
                 if (slot.includes("반지")) return false;
 
                 const isEyeFace = slot === "눈장식" || slot === "얼굴장식";
                 const isFairyHeart = name.includes("페어리 하트");
-                const targetStar = (isEyeFace || isFairyHeart) ? 8 : 12;
+                const isWSE = slot === "무기" || slot === "보조무기" || slot === "엠블렘";
 
-                if (star < targetStar) return true;
+                // 스타포스 체크 (WSE는 스타포스 조건 없음)
+                if (!isWSE) {
+                    const targetStar = (isEyeFace || isFairyHeart) ? 8 : 12;
+                    if (star < targetStar) return true;
+                }
+
+                // 잠재능력 체크
                 if (potScore(potGrade) < 2) return true;
+
+                // 에디셔널 체크
                 if (potScore(adiGrade) < 1) return true;
+
+                // WSE는 에디셔널 옵션도 체크 (공/마 +10 이상 OR 공/마 %)
+                if (isWSE) {
+                    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+                    // 공/마 상수 +10 이상
+                    const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                    // 공/마 % (예: 마력 +3%)
+                    const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
+
+                    if (!hasAtt10 && !hasAttPct) return true;
+                }
+
                 return false;
             }
 
