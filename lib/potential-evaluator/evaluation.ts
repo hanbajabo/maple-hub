@@ -247,7 +247,9 @@ export function generateGeneralRecommendation(
             return `레전드리치고는 아쉬운 옵션입니다. 큐브 작업을 추천드립니다.`;
         }
     } else if (grade === '유니크') {
-        if (type === 'main' && statPct !== undefined && statPct >= 21) {
+        if (type === 'main' && statPct !== undefined && statPct >= 27) {
+            return `유니크 종결! ${statLabel} ${Math.round(statPct)}%입니다. 레전드리 3줄급 옵션으로 쭉 사용하셔도 좋습니다.`;
+        } else if (type === 'main' && statPct !== undefined && statPct >= 21) {
             return `우수! ${statLabel} ${Math.round(statPct)}%입니다. 유니크에서 최상급 옵션입니다.`;
         } else if (type === 'main' && statPct !== undefined && statPct >= 15) {
             return `좋음! ${statLabel} ${Math.round(statPct)}%입니다. 유니크에서 훌륭한 옵션입니다.`;
