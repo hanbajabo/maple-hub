@@ -38,7 +38,19 @@ export function getCeilingCost(
 }
 
 /**
- * 평가 메시지 생성
+ * 짧은 평가 등급 생성 (UI 배지용)
+ */
+export function getEvaluationGrade(score: number): string {
+    if (score >= 100) return '종결';
+    if (score >= 90) return '최상급';
+    if (score >= 70) return '좋음';
+    if (score >= 50) return '준수';
+    if (score >= 30) return '보통';
+    return '아쉬움';
+}
+
+/**
+ * 평가 메시지 생성 (구체적 설명용)
  */
 export function generateEvaluation(
     type: PotentialType,
@@ -47,6 +59,7 @@ export function generateEvaluation(
     score: number,
     goodOptions: string[]
 ): string {
+    if (score >= 100) return '완벽한 옵션입니다. 더 이상 개선이 필요 없습니다.';
     if (score >= 90) return '종결급 옵션입니다. 더 이상 큐브를 돌릴 필요가 없습니다.';
     if (score >= 70) return '꽤 좋은 옵션입니다. 실전에서 충분히 사용 가능합니다.';
     if (score >= 50) return '준수한 옵션입니다. 만족하셔도 됩니다.';

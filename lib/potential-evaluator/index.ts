@@ -17,6 +17,7 @@ import { evaluateEmblem } from './emblem';
 import { evaluateArmorAccessory } from './armor';
 import {
     getCeilingCost,
+    getEvaluationGrade,
     generateEvaluation,
     generateWeaponAdditionalRecommendation,
     generateEmblemRecommendation,
@@ -149,7 +150,7 @@ export function evaluatePotential(
     const avgCost = upgradeRate > 0 ? Math.round(ceilingCost / upgradeRate) : 0;
 
     // 평가 및 추천 생성
-    const evaluation = generateEvaluation(type, currentGrade, equipmentType, optionsScore, goodOptions);
+    const evaluation = getEvaluationGrade(optionsScore);  // 짧은 등급 ("준수", "좋음")
     const recommendation = generateRecommendation(
         type,
         currentGrade,
