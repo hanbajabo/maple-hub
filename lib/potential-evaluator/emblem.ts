@@ -22,5 +22,5 @@ export function evaluateEmblem(type: string, options: string[]) {
         optionsScore = (goodOptions.length / 3) * 100;
     }
 
-    return { goodOptions, optionsScore };
+    return { goodOptions, optionsScore, allOptions: options };
 }
