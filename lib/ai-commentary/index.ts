@@ -53,7 +53,7 @@ export function generateItemCommentary(item: any, job?: string): string {
     // 펜살리르 아이템은 교체 권장만 하고 종료
     if (isPensalirItem(itemName)) {
         const deepComments = diagnoseItemDeeply(item, job);
-        if (deepComments.length > 0) {
+        if (deepComments && deepComments.length > 0) {
             return comments.join(" ") + "\n---\n### 🚀 [진화형 AI] 정밀 진단 리포트\n" + deepComments.join("\n\n");
         }
         return comments.join(" ");
@@ -137,7 +137,7 @@ export function generateItemCommentary(item: any, job?: string): string {
 
     // === 7. 진화형 AI 추가 진단 ===
     const deepComments = diagnoseItemDeeply(item, job);
-    if (deepComments.length > 0) {
+    if (deepComments && deepComments.length > 0) {
         return comments.join(" ") + "\n---\n### 🚀 [진화형 AI] 정밀 진단 리포트\n" + deepComments.join("\n\n");
     }
 
