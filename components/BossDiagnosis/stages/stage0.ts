@@ -171,15 +171,19 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                         return false;
                     });
 
-                    if (isWSE && adiScore >= 2 && hasAttPct3) {
-                        // Pass: WSE이고 에픽 이상이며 공/마 3% 이상이면 통과
-                    } else if (adiScore >= 2) { // 에픽 이상
+                    if (isWSE) {
+                        // WSE: 레어 이상이면 공/마 +10 OR 공/마 +3% 통과
+                        if (!hasAtt10 && !hasAttPct3) {
+                            isPassed = false;
+                            issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 또는 공/마 +3% 옵션 없음` });
+                        }
+                    } else if (adiScore >= 2) { // 에픽 이상 (일반 방어구/장신구)
                         // 공/마+10 OR 주스탯%
                         if (!hasAtt10 && !hasStatPct) {
                             isPassed = false;
                             issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 또는 주스탯% 옵션 없음` });
                         }
-                    } else { // 레어
+                    } else { // 레어 (일반 방어구/장신구)
                         // 공/마+10
                         if (!hasAtt10) {
                             isPassed = false;
