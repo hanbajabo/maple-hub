@@ -100,9 +100,30 @@ export function generateEmblemRecommendation(
     score: number,
     goodOptions?: string[]
 ): string {
-    if (score >= 90) return '완벽한 엠블렘 옵션입니다!';
-    if (score >= 60) return '준수한 엠블렘입니다.';
-    return '개선이 필요합니다.';
+    const lineCount = goodOptions ? goodOptions.length : 0;
+
+    if (type === 'main') {
+        if (lineCount >= 3) {
+            return '공격력/마력 % 3줄! 아주 훌륭한 옵션입니다.';
+        } else if (lineCount >= 2) {
+            return '공격력/마력 % 2줄 이상으로 아주 훌륭한 옵션입니다.';
+        } else if (lineCount >= 1) {
+            return '공격력/마력 % 위주의 훌륭한 옵션입니다.';
+        } else {
+            return '개선이 필요합니다. 공격력/마력 %를 목표로 하세요.';
+        }
+    } else {
+        // 에디셔널
+        if (lineCount >= 3) {
+            return '공격력/마력 % 3줄! 완벽한 에디셔널입니다.';
+        } else if (lineCount >= 2) {
+            return '공격력/마력 % 위주의 훌륭한 옵션입니다.';
+        } else if (lineCount >= 1) {
+            return '준수한 에디셔널입니다.';
+        } else {
+            return '개선이 필요합니다.';
+        }
+    }
 }
 
 /**
