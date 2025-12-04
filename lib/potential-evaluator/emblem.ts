@@ -17,6 +17,7 @@ export function evaluateEmblem(type: string, options: string[]) {
         goodOptions = options.filter(opt => {
             if ((opt.includes('공격력 +') || opt.includes('마력 +')) && opt.includes('%')) return true;
             if (opt.includes('몬스터 방어율')) { iedCount++; return iedCount <= 1; }
+            if (opt.includes('보스') && opt.includes('몬스터') && opt.includes('데미지')) return true;
             return false;
         });
         optionsScore = (goodOptions.length / 3) * 100;
