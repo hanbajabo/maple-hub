@@ -1416,7 +1416,7 @@ export default function Home() {
 
                       {/* Rank Component */}
                       <div className="w-full px-0 sm:px-2 relative z-10">
-                        <CombatPowerRank combatPower={combatPower} />
+                        <CombatPowerRank combatPower={combatPower} characterImage={character?.character_image} />
                       </div>
                     </div>
                   );

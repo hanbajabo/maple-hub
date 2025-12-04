@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Trophy, Target, List } from 'lucide-react';
 import { getBossImage } from '@/lib/boss-images';
+import BossBattleModal from './BossBattleModal';
 
 interface TierDef {
     name: string;
@@ -104,9 +105,11 @@ const BOSS_DATA = [
     { name: "최초의 대적자 (EXTREME)", cp: 3000000000 },
 ];
 
-export default function CombatPowerRank({ combatPower }: { combatPower: string | number }) {
+export default function CombatPowerRank({ combatPower, characterImage }: { combatPower: string | number; characterImage?: string }) {
 
     const [greetingIndex, setGreetingIndex] = useState(() => Math.floor(Math.random() * 1000));
+    const [battleModalOpen, setBattleModalOpen] = useState(false);
+    const [selectedBoss, setSelectedBoss] = useState<{ name: string; cp: number } | null>(null);
     const cp = typeof combatPower === 'string' ? parseInt(combatPower.replace(/[^0-9]/g, '')) : combatPower;
 
     if (!cp && cp !== 0) return null;
@@ -621,7 +624,14 @@ export default function CombatPowerRank({ combatPower }: { combatPower: string |
                             const bossImage = getBossImage(bossNameOnly);
 
                             return (
-                                <div key={idx} className="bg-black/40 rounded-lg p-2 flex items-center gap-3 border border-white/10 hover:border-white/20 hover:bg-white/5 transition-all relative overflow-hidden group">
+                                <div
+                                    key={idx}
+                                    onClick={() => {
+                                        setSelectedBoss(boss);
+                                        setBattleModalOpen(true);
+                                    }}
+                                    className="bg-black/40 rounded-lg p-2 flex items-center gap-3 border border-white/10 hover:border-red-500/50 hover:bg-white/5 transition-all relative overflow-hidden group cursor-pointer"
+                                >
                                     {/* 배경 이미지 */}
                                     <div
                                         className="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-[1px]"
@@ -642,12 +652,37 @@ export default function CombatPowerRank({ combatPower }: { combatPower: string |
                                         <span className="text-xs text-slate-200 font-bold truncate group-hover:text-white transition-colors">{boss.name}</span>
                                         <span className="text-[10px] text-slate-500 font-mono">CP {formatNum(boss.cp)}</span>
                                     </div>
+
+                                    {/* 전투 아이콘 (호버시 표시) */}
+                                    <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                        <span className="text-xs text-red-500">⚔️</span>
+                                    </div>
                                 </div>
                             );
                         })}
                     </div>
                 </div>
             </div>
+
+            {/* Boss Battle Modal */}
+            {selectedBoss && (
+                <BossBattleModal
+                    isOpen={battleModalOpen}
+                    onClose={() => {
+                        setBattleModalOpen(false);
+                        setSelectedBoss(null);
+                    }}
+                    bossName={selectedBoss.name}
+                    bossCp={selectedBoss.cp}
+                    playerCp={cp}
+                    playerImage={characterImage}
+                    bossImage={(() => {
+                        // "진 힐라 (HARD)" -> "진 힐라"로 변환
+                        const baseName = selectedBoss.name.split(' (')[0];
+                        return getBossImage(baseName);
+                    })()}
+                />
+            )}
         </>
     );
 }
