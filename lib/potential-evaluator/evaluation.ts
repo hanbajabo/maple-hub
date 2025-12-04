@@ -251,8 +251,8 @@ export function generateGeneralRecommendation(
             return `우수! ${statLabel} ${Math.round(statPct)}%입니다. 유니크에서 최상급 옵션입니다.`;
         } else if (type === 'main' && statPct !== undefined && statPct >= 15) {
             return `좋음! ${statLabel} ${Math.round(statPct)}%입니다. 유니크에서 훌륭한 옵션입니다.`;
-        } else if (type === 'main' && statPct !== undefined && statPct >= 9) {
-            return `준수! ${statLabel} ${Math.round(statPct)}%입니다. 레전드리 급업을 목표로 하세요.`;
+        } else if (type === 'main' && statPct !== undefined) {
+            return `유니크 등급에서는 ${statLabel} 15% 이상을 목표로 재설정을 권장합니다.`;
         } else if (score >= 70) {
             return `유니크 등급에서 최고 수준입니다. 레전드리 급업을 목표로 하세요.`;
         } else {
