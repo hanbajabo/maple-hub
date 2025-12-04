@@ -38,11 +38,11 @@ export function evaluateArmorAccessory(
                 statPct += val;
                 goodOptions.push(opt);
             } else if (opt.includes('STR') || opt.includes('DEX') || opt.includes('INT') || opt.includes('LUK')) {
-                if (isXenon) {
-                    const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
-                    statPct += val;
-                    goodOptions.push(opt);
-                }
+                // 모든 직업에 대해 STR/DEX/INT/LUK % 계산
+                // (제논은 모든 스탯이 주스탯, 다른 직업은 자기 주스탯만 유효하지만 일단 모두 계산)
+                const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
+                statPct += val;
+                goodOptions.push(opt);
             } else if (opt.includes('HP') && isDemon) {
                 const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
                 statPct += val;
