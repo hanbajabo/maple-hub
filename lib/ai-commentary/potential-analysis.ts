@@ -136,7 +136,7 @@ export function analyzePotential(
             } else if (bossCount + attCount + iedCount >= 3) {
                 // 방무 2줄 이상 경고
                 if (iedCount >= 2) {
-                    comments.push(`[3줄 유효 / 최적화 가능] 유효 옵션 3줄을 챙기셨으나, 방어율 무시가 ${iedCount}줄입니다. 방무 1줄을 보공이나 공/마%로 바꾸는 것을 강력 추천합니다.`);
+                    comments.push(`유효 옵션은 3줄이지만... 방무가 ${iedCount}줄이나 되네요! 방무 1줄을 보공이나 공/마%로 바꾸면 훨씬 더 강해지실 거예요.`);
                 } else {
                     comments.push(`유효 옵션 3줄을 꽉 채우셨습니다. 졸업급입니다.`);
                 }
