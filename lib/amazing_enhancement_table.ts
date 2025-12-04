@@ -256,10 +256,11 @@ export function isAmazingEnhancementItem(item: any): boolean {
     const scrollMatt = (parseInt(total.magic_power || "0") - parseInt(base.magic_power || "0") - parseInt(add.magic_power || "0"));
     const totalScrollAtt = scrollAtt + scrollMatt;
 
-    // 휴리스틱: 스타포스 5성 이상 + 주문서 스탯 100 이상 = 놀장강
-    // 또는 스타포스 5성 이상 + 주문서 공격력 40 이상 = 놀장강
-    if (totalScrollStats >= 100) return true;
-    if (totalScrollAtt >= 40) return true;
+    // 휴리스틱: 스타포스 5성 이상 + 주문서 스탯 200 이상 = 놀장강
+    // (일반 아이템의 고추옵+스타포스 합계가 100~150까지 나올 수 있음)
+    // 놀장강 10성 이상은 보통 300~500대 수치를 가짐
+    if (totalScrollStats >= 200) return true;
+    if (totalScrollAtt >= 50) return true;
 
     return false;
 }
