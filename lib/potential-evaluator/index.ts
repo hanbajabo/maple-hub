@@ -162,7 +162,17 @@ export function evaluatePotential(
     const avgCost = upgradeRate > 0 ? Math.round(ceilingCost / upgradeRate) : 0;
 
     // 평가 및 추천 생성
-    const evaluation = getEvaluationGrade(optionsScore);  // 짧은 등급 ("준수", "좋음")
+    let evaluation: string;
+    if (equipmentType === '엠블렘' || equipmentType === '보조무기') {
+        // 엠블렘은 줄 수 기반 평가
+        const lineCount = goodOptions.length;
+        if (lineCount >= 3) evaluation = '훌륭';
+        else if (lineCount >= 2) evaluation = '훌륭';
+        else if (lineCount >= 1) evaluation = '준수';
+        else evaluation = '아쉬움';
+    } else {
+        evaluation = getEvaluationGrade(optionsScore);  // 일반 장비는 점수 기반
+    }
     const recommendation = generateRecommendation(
         type,
         currentGrade,
