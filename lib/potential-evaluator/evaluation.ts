@@ -97,6 +97,7 @@ export function generateWeaponAdditionalRecommendation(
  */
 export function generateEmblemRecommendation(
     type: string,
+    grade: string,
     score: number,
     goodOptions?: string[],
     allOptions?: string[]
@@ -141,30 +142,45 @@ export function generateEmblemRecommendation(
             return '개선이 필요합니다. 공격력/마력 %를 목표로 하세요.';
         }
     } else {
-        // 에디셔널: 이탈 여부도 체크
+        // 에디셔널: 등급별로 다른 메시지
         const lineCount = goodOptions ? goodOptions.length : 0;
 
-        if (lineCount >= 3) {
-            // 이탈 체크
-            const values = goodOptions!.map(opt => {
-                const match = opt.match(/\+(\d+)%/);
-                return match ? parseInt(match[1]) : 0;
-            });
-            const maxCount = values.filter(v => v >= 12).length;
+        if (grade === '레전드리') {
+            if (lineCount >= 3) {
+                // 이탈 체크
+                const values = goodOptions!.map(opt => {
+                    const match = opt.match(/\+(\d+)%/);
+                    return match ? parseInt(match[1]) : 0;
+                });
+                const maxCount = values.filter(v => v >= 12).length;
 
-            if (maxCount >= 3) {
-                return '공격력/마력 % 3줄 올이탈(12%+12%+12%)! 신화급 에디셔널입니다.';
-            } else if (maxCount >= 2) {
-                return '공격력/마력 % 3줄 쌍이탈! 종결급 에디셔널입니다.';
+                if (maxCount >= 3) {
+                    return '공격력/마력 % 3줄 올이탈(12%+12%+12%)! 신화급 에디셔널입니다.';
+                } else if (maxCount >= 2) {
+                    return '공격력/마력 % 3줄 쌍이탈! 종결급 에디셔널입니다.';
+                } else {
+                    return '공격력/마력 % 3줄! 완벽한 에디셔널입니다.';
+                }
+            } else if (lineCount >= 2) {
+                return '공격력/마력 % 2줄! 아주 훌륭한 에디셔널입니다. 충분히 사용 가능합니다.';
+            } else if (lineCount >= 1) {
+                return '공/마% 1줄입니다. 준수한 수준입니다.';
             } else {
-                return '공격력/마력 % 3줄! 완벽한 에디셔널입니다.';
+                return '개선이 필요합니다. 공/마%를 목표로 하세요.';
             }
-        } else if (lineCount >= 2) {
-            return '공격력/마력 % 2줄! 아주 훌륭한 에디셔널입니다. 충분히 사용 가능합니다.';
-        } else if (lineCount >= 1) {
-            return '공/마% 1줄입니다. 준수한 수준입니다.';
+        } else if (grade === '유니크') {
+            if (lineCount >= 3) {
+                return '공격력/마력 % 3줄! 유니크에서 완벽합니다. 레전드리 급업 전까지 사용하세요.';
+            } else if (lineCount >= 2) {
+                return '공/마% 2줄로 통과 기준을 만족합니다. 레전드리 급업을 목표로 하세요.';
+            } else if (lineCount >= 1) {
+                return '공/마% 1줄입니다. 괜찮은 수준입니다.';
+            } else {
+                return '개선이 필요합니다. 공/마% 2줄 이상을 목표로 하세요.';
+            }
         } else {
-            return '개선이 필요합니다. 공/마%를 목표로 하세요.';
+            // 에픽 이하
+            return '에픽 등급입니다. 유니크 이상으로 급업을 권장합니다.';
         }
     }
 }
