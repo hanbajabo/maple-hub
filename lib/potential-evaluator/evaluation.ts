@@ -98,30 +98,73 @@ export function generateWeaponAdditionalRecommendation(
 export function generateEmblemRecommendation(
     type: string,
     score: number,
-    goodOptions?: string[]
+    goodOptions?: string[],
+    allOptions?: string[]
 ): string {
-    const lineCount = goodOptions ? goodOptions.length : 0;
+    const options = allOptions || goodOptions || [];
 
     if (type === 'main') {
-        if (lineCount >= 3) {
+        // 메인 잠재: 공/마%, 방무, 보공 분석
+        let attCount = 0;
+        let iedCount = 0;
+        let bossCount = 0;
+
+        options.forEach(opt => {
+            if ((opt.includes('공격력') || opt.includes('마력')) && opt.includes('%')) {
+                attCount++;
+            } else if (opt.includes('몬스터 방어율') && opt.includes('무시')) {
+                iedCount++;
+            } else if (opt.includes('보스') && opt.includes('데미지')) {
+                bossCount++;
+            }
+        });
+
+        // 방무 과다
+        if (iedCount >= 2) {
+            return '쓸만한 옵션이지만, 더 좋은 옵션을 노려볼 수 있습니다. 방어율 무시 옵션이 과도합니다(2줄 이상). 방무 1줄을 보공이나 공격력%로 바꾸는 것을 강력 추천합니다.';
+        }
+
+        // 이상적인 조합
+        if (attCount >= 2 && bossCount >= 1) {
+            return '공/마% 2줄 + 보공 1줄! 최상급 조합입니다.';
+        } else if (attCount >= 2 && iedCount >= 1) {
+            return '공/마% 2줄 + 방무 1줄! 준수한 조합입니다.';
+        } else if (attCount >= 3) {
             return '공격력/마력 % 3줄! 아주 훌륭한 옵션입니다.';
-        } else if (lineCount >= 2) {
+        } else if (attCount >= 2) {
             return '공격력/마력 % 2줄 이상으로 아주 훌륭한 옵션입니다.';
-        } else if (lineCount >= 1) {
-            return '공격력/마력 % 위주의 훌륭한 옵션입니다.';
+        } else if (attCount >= 1) {
+            return '공/마% 1줄로 준수합니다. 여유가 있다면 2줄 이상을 목표로 하세요.';
+        } else if (bossCount >= 1 || iedCount >= 1) {
+            return '보공/방무만 있습니다. 공격력/마력 %를 최우선으로 목표하세요.';
         } else {
             return '개선이 필요합니다. 공격력/마력 %를 목표로 하세요.';
         }
     } else {
-        // 에디셔널
+        // 에디셔널: 이탈 여부도 체크
+        const lineCount = goodOptions ? goodOptions.length : 0;
+
         if (lineCount >= 3) {
-            return '공격력/마력 % 3줄! 완벽한 에디셔널입니다.';
+            // 이탈 체크
+            const values = goodOptions!.map(opt => {
+                const match = opt.match(/\+(\d+)%/);
+                return match ? parseInt(match[1]) : 0;
+            });
+            const maxCount = values.filter(v => v >= 12).length;
+
+            if (maxCount >= 3) {
+                return '공격력/마력 % 3줄 올이탈(12%+12%+12%)! 신화급 에디셔널입니다.';
+            } else if (maxCount >= 2) {
+                return '공격력/마력 % 3줄 쌍이탈! 종결급 에디셔널입니다.';
+            } else {
+                return '공격력/마력 % 3줄! 완벽한 에디셔널입니다.';
+            }
         } else if (lineCount >= 2) {
-            return '공격력/마력 % 위주의 훌륭한 옵션입니다.';
+            return '공격력/마력 % 2줄! 아주 훌륭한 에디셔널입니다. 충분히 사용 가능합니다.';
         } else if (lineCount >= 1) {
-            return '준수한 에디셔널입니다.';
+            return '공/마% 1줄입니다. 준수한 수준입니다.';
         } else {
-            return '개선이 필요합니다.';
+            return '개선이 필요합니다. 공/마%를 목표로 하세요.';
         }
     }
 }
