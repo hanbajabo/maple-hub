@@ -131,12 +131,16 @@ export function generateEmblemRecommendation(
         }
 
         // 이상적인 조합
-        if (attCount >= 2 && bossCount >= 1) {
-            return '공/마% 2줄 + 보공 1줄! 최상급 조합입니다.';
-        } else if (attCount >= 2 && iedCount >= 1) {
-            return '공/마% 2줄 + 방무 1줄! 준수한 조합입니다.';
+        if (bossCount >= 3) {
+            return '보공 3줄 (보보보)! 전 서버급 매물입니다. (단, 공/마 효율 고려 필요)';
+        } else if (bossCount >= 2 && attCount >= 1) {
+            return '보공 2줄 + 공/마% 1줄 (보보공)! 무기 잠재능력의 정석이자 종결 옵션입니다.';
+        } else if (attCount >= 2 && bossCount >= 1) {
+            return '공/마% 2줄 + 보공 1줄 (공공보)! 최상급 조합입니다.';
         } else if (attCount >= 3) {
-            return '공격력/마력 % 3줄! 아주 훌륭한 옵션입니다.';
+            return '공격력/마력 % 3줄 (공공공)! 보공 효율이 높은 직업에게 최고의 옵션입니다.';
+        } else if (attCount + bossCount + iedCount >= 3) {
+            return '유효 옵션 3줄 (보방공/보보방 등)을 꽉 채우셨습니다. 졸업급입니다.';
         } else if (attCount >= 2) {
             return '공격력/마력 % 2줄 이상으로 아주 훌륭한 옵션입니다.';
         } else if (attCount >= 1) {

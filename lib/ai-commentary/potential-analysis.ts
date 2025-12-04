@@ -121,7 +121,9 @@ export function analyzePotential(
             const attCount = attLines.length;
             const iedCount = iedLines.length;
 
-            if (bossCount >= 2 && attCount >= 1) {
+            if (bossCount >= 3) {
+                comments.push(`<b>보보보</b>! 보공 3줄이라니... 엄청납니다. 다만 공/마 효율도 꼭 체크해보세요.`);
+            } else if (bossCount >= 2 && attCount >= 1) {
                 comments.push(pick([
                     `<b>보보공/보보마</b>! 무기 잠재능력의 정석이자 종결 옵션입니다. 축하드립니다!`,
                     `가장 이상적인 옵션, <b>보보공/보보마</b>를 띄우셨군요. 완벽합니다.`,
@@ -210,6 +212,12 @@ export function analyzePotential(
                 comments.push(`<b>3크뎀</b>...?! 이건 전설이 아니라 <b>신화</b>입니다.`);
             } else if (critDmg >= 16) {
                 comments.push(`<b>쌍크뎀</b> 장갑... 전 서버급 매물입니다.`);
+            } else if (critDmg >= 8) {
+                if (statPct >= 9) {
+                    comments.push(`${potPrefix} <b>크리티컬 데미지 ${critDmg}% + 주스탯 ${statPct}%</b>! 크뎀과 주스탯을 모두 챙긴 알짜배기 옵션입니다.`);
+                } else {
+                    comments.push(`${potPrefix} <b>크리티컬 데미지 ${critDmg}%</b>! 장갑 잠재능력의 핵심인 크뎀을 잘 챙기셨습니다.`);
+                }
             }
         }
         // 유니크
@@ -220,9 +228,19 @@ export function analyzePotential(
                 if (statPct >= 15) {
                     comments.push(pick([
                         `유니크 등급에서 <b>스탯 ${statPct}%</b>면 가성비 구간 종결입니다.`,
-                        `<b>${statPct}%</b>! 유니크에서 뽑을 수 있는 최상의 옵션입니다.`
+                        `${potPrefix} <b>주스탯 ${statPct}%</b>! 유니크에서 뽑을 수 있는 최상의 옵션입니다.`
                     ]));
                 }
+            }
+        }
+        // 에픽
+        else if (potentialGrade === '에픽') {
+            if (statPct >= 12) {
+                comments.push(`${potPrefix} <b>주스탯 ${statPct}%</b>! 에픽 등급 종결 옵션입니다. 유니크 부럽지 않네요.`);
+            } else if (statPct >= 9) {
+                comments.push(`${potPrefix} <b>주스탯 ${statPct}%</b>! 에픽에서 챙길 수 있는 아주 훌륭한 옵션입니다.`);
+            } else if (statPct >= 6) {
+                comments.push(`${potPrefix} <b>주스탯 ${statPct}%</b>입니다. 임시로 쓰기에 적절합니다.`);
             }
         }
     }

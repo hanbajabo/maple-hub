@@ -156,7 +156,7 @@ export function diagnoseArmor(item: any, job?: string): string[] {
 
     if (itemName.includes('펜살리르')) {
         comments.push(`[교체 권장] 펜살리르 장비에 잠재능력 투자는 비효율적입니다. 앱솔랩스/아케인셰이드로 교체하세요.`);
-    } else if (potentialGrade === '레전드리' || potentialGrade === '유니크') {
+    } else if (potentialGrade === '레전드리' || potentialGrade === '유니크' || potentialGrade === '에픽') {
         // 주스탯 % 계산 - 직업 주스탯만 계산
         let statPct = 0;
 

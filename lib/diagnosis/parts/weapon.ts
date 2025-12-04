@@ -2,6 +2,7 @@ import { GENESIS_WEAPON } from '../../../src/data/set_item_data';
 import { diagnoseEpicPotential } from './common';
 import { isMagicJob } from '../../job_utils';
 import { isPensalirItem } from '../../utils/item_classifier';
+import { getWeaponTier } from '../../item_utils';
 import {
     STARFORCE_TIERS,
     WEAPON_FLAME_TIERS,
@@ -109,6 +110,7 @@ export function diagnoseWeapon(item: EquipmentItem, job?: string): string[] {
         const bossCount = bossLines.length;
 
         if (boss40Count >= 3) comments.push(`[기적] 보공 <b>120% (40/40/40)</b>... 전 서버 유일급 매물일 수 있습니다.`);
+        else if (bossCount >= 3) comments.push(`[보보보] 보공 3줄! 엄청난 옵션이지만, 공/마 효율을 고려해보세요.`);
         else if (bossCount >= 2 && attCount >= 1) comments.push(`[종결: 보보공] 보공 2줄 + 공/마 1줄. 무기 잠재능력의 정석이자 종결입니다.`);
         else if (attCount >= 2 && bossCount >= 1) comments.push(`[종결: 공공보] 공/마 2줄 + 보공 1줄. 아주 훌륭한 옵션입니다.`);
         else if (attCount >= 3) comments.push(`[종결: 3공] 공/마 3줄! 보공 효율이 높은 직업에게 최고의 옵션입니다.`);
@@ -164,23 +166,15 @@ export function diagnoseWeapon(item: EquipmentItem, job?: string): string[] {
         } else if (isGenesis) {
             if (mainAddAtt < WEAPON_FLAME_TIERS.GENESIS_MIN) comments.push(`[아쉬움] 제네시스 무기치고는 추옵이 낮습니다. 영환불을 권장합니다.`);
         } else {
-            // 일반 무기 추옵 (1추/2추 판별)
-            let tier1 = 0;
-            let tier2 = 0;
+            // 일반 무기 추옵 (1추/2추 판별) - getWeaponTier 유틸리티 사용
+            const baseAtt = parseInt(item.item_base_option?.attack_power || "0");
+            const baseMagic = parseInt(item.item_base_option?.magic_power || "0");
 
-            if (level >= 200) {
-                tier1 = WEAPON_FLAME_TIERS.ARCANE.TIER1_MIN;
-                tier2 = WEAPON_FLAME_TIERS.ARCANE.TIER2_MIN;
-            } else if (level >= 160) {
-                tier1 = WEAPON_FLAME_TIERS.ABSOLAB.TIER1_MIN;
-                tier2 = WEAPON_FLAME_TIERS.ABSOLAB.TIER2_MIN;
-            } else if (level >= 150) {
-                tier1 = WEAPON_FLAME_TIERS.FAFNIR.TIER1_MIN;
-                tier2 = WEAPON_FLAME_TIERS.FAFNIR.TIER2_MIN;
-            }
+            // getWeaponTier는 1추, 2추 등의 숫자를 반환 (1=1추, 2=2추)
+            const tier = getWeaponTier(level, isMage ? baseMagic : baseAtt, mainAddAtt);
 
-            if (mainAddAtt >= tier1) comments.push(`[1추옵] 무기 추가옵션 <b>1티어</b>! 완벽한 추옵입니다.`);
-            else if (mainAddAtt >= tier2) comments.push(`[2추옵] 무기 추가옵션 <b>2티어</b>! 가성비 좋게 사용하기 충분합니다.`);
+            if (tier === 1) comments.push(`[1추옵] 무기 추가옵션 <b>1티어</b>! 완벽한 추옵입니다.`);
+            else if (tier === 2) comments.push(`[2추옵] 무기 추가옵션 <b>2티어</b>! 가성비 좋게 사용하기 충분합니다.`);
             else if (mainAddAtt > 0) comments.push(`[추옵 아쉬움] <b>1추옵</b>이나 <b>2추옵</b>을 노려보세요. 공격력 차이가 큽니다.`);
             else comments.push(`[치명적] 무기에 추가옵션 공/마가 없습니다. 엔진 없는 자동차와 같습니다.`);
         }

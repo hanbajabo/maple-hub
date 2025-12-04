@@ -142,6 +142,8 @@ export function analyzeAdditionalPotential(
             }
         } else if (validAttFlat >= 10) {
             comments.push(`${adiPrefix} <b>${attType} +${validAttFlat}</b>! 스펙업의 정석입니다.`);
+        } else if (validStatLines === 1) {
+            comments.push(`${adiPrefix} <b>주스탯 1줄</b>을 챙기셨네요. 가성비 좋게 사용하기 적절합니다.`);
         }
     }
 

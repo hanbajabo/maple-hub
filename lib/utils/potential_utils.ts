@@ -196,6 +196,9 @@ export function evaluateCritDamage(critDmg: number, statPct: number, grade: stri
         return `[종결: 쌍크뎀] 크리티컬 데미지 <b>${critDmg}%</b>! 장갑에서 챙길 수 있는 최고의 옵션입니다. 평생 쓰셔도 됩니다.`;
     }
     if (critDmg >= 8) {
+        if (statPct >= 9) {
+            return `[최상급] 크리티컬 데미지 <b>${critDmg}%</b>와 주스탯 <b>${statPct}%</b>를 모두 챙겼습니다! 실전 최강의 효율입니다.`;
+        }
         if (grade === '레전드리') {
             return `[좋음] 크리티컬 데미지 <b>${critDmg}%</b>는 주스탯 30% 이상의 효율을 냅니다. 충분히 훌륭한 옵션입니다.`;
         } else {

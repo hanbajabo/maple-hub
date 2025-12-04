@@ -1,4 +1,5 @@
 import { pick } from './helpers';
+import { getWeaponTier } from '../item_utils';
 
 /**
  * 추가옵션(Flame) 분석 및 코멘트 생성
@@ -21,22 +22,20 @@ export function analyzeFlameOptions(item: any, isMagic: boolean, isEndGameItem: 
 
     // 무기 추옵 분석
     if (slot === '무기') {
-        let tier1 = 0;
-        let tier2 = 0;
-
-        if (level >= 200) { tier1 = 120; tier2 = 90; }
-        else if (level >= 160) { tier1 = 95; tier2 = 74; }
-        else if (level >= 150) { tier1 = 75; tier2 = 58; }
-
+        const baseAtt = parseInt(item.item_base_option?.attack_power || "0");
+        const baseMagic = parseInt(item.item_base_option?.magic_power || "0");
         const mainAddAtt = Math.max(addAtt, addMagic);
 
-        if (mainAddAtt >= tier1) {
+        // getWeaponTier 유틸리티 사용 (1=1추, 2=2추)
+        const tier = getWeaponTier(level, isMagic ? baseMagic : baseAtt, mainAddAtt);
+
+        if (tier === 1) {
             comments.push(pick([
                 `<b>추가옵션 공/마 +${mainAddAtt}</b>는 1티어 극추옵입니다. 환생의 불꽃 대성공이네요!`,
                 `와... <b>1티어 추옵</b>이 떴군요! 무기가 춤을 추고 있습니다.`,
                 `<b>공/마 +${mainAddAtt}</b>... 영롱합니다. 더 이상 바랄 게 없는 종결 추옵입니다.`
             ]));
-        } else if (mainAddAtt >= tier2) {
+        } else if (tier === 2) {
             comments.push(pick([
                 `<b>추가옵션 공/마 +${mainAddAtt}</b>는 2티어 강추옵입니다. 가성비 좋게 사용하기 충분합니다.`,
                 `<b>2티어 추옵</b>, 아주 준수합니다. 실전에서 차고 넘치는 성능이죠.`,
