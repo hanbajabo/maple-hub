@@ -228,44 +228,35 @@ export function getAmazingEnhancementTableKey(level: number): number {
  * @returns 놀장강 아이템 여부
  */
 export function isAmazingEnhancementItem(item: any): boolean {
-    // 스타포스가 없으면 놀장강 아님
+    // 스타포스가 5성 미만이면 놀장강 아님
     const starforce = parseInt(item.starforce || "0");
-    if (starforce === 0) return false;
+    if (starforce < 5) return false;
 
     // 타일런트(슈페리얼) 아이템은 놀장강 아님
     if (item.item_name && (item.item_name.includes("타일런트") || item.item_name.includes("심장") || item.item_name.includes("하트"))) return false;
 
-    // etc_option이 없으면 놀장강 아님
-    if (!item.item_etc_option) return false;
+    // 주문서 강화 스탯 확인 (total_option - base_option)
+    const total = item.item_total_option;
+    const base = item.item_base_option;
 
-    // 장비 레벨 확인
-    const level = item.item_base_option?.base_equipment_level || 0;
-    const tableKey = getAmazingEnhancementTableKey(level);
+    if (!total || !base) return false;
 
-    // 해당 레벨의 테이블이 없으면 false
-    if (!AMAZING_ENHANCEMENT_TABLE[tableKey]) return false;
+    // 주문서로 강화된 주스탯 합계 계산
+    const scrollStr = (parseInt(total.str || "0") - parseInt(base.str || "0"));
+    const scrollDex = (parseInt(total.dex || "0") - parseInt(base.dex || "0"));
+    const scrollInt = (parseInt(total.int || "0") - parseInt(base.int || "0"));
+    const scrollLuk = (parseInt(total.luk || "0") - parseInt(base.luk || "0"));
+    const totalScrollStats = scrollStr + scrollDex + scrollInt + scrollLuk;
 
-    // 스타포스가 15성을 초과하면 놀장강 아님 (놀장강은 최대 15성)
-    if (starforce > 15) return false;
+    // 주문서로 강화된 공격력 합계
+    const scrollAtt = (parseInt(total.attack_power || "0") - parseInt(base.attack_power || "0"));
+    const scrollMatt = (parseInt(total.magic_power || "0") - parseInt(base.magic_power || "0"));
+    const totalScrollAtt = scrollAtt + scrollMatt;
 
-    // 예상 수치 가져오기 (인덱스는 0부터 시작하므로 -1)
-    const expectedStats = AMAZING_ENHANCEMENT_TABLE[tableKey][starforce - 1];
-    if (!expectedStats) return false;
+    // 휴리스틱: 스타포스 5성 이상 + 주문서 스탯 100 이상 = 놀장강
+    // 또는 스타포스 5성 이상 + 주문서 공격력 40 이상 = 놀장강
+    if (totalScrollStats >= 100) return true;
+    if (totalScrollAtt >= 40) return true;
 
-    // etc_option의 스탯 합계 계산
-    const etc = item.item_etc_option;
-    const totalStats = (parseInt(etc.str || "0") + parseInt(etc.dex || "0") +
-        parseInt(etc.int || "0") + parseInt(etc.luk || "0"));
-    const totalAtt = parseInt(etc.attack_power || "0") + parseInt(etc.magic_power || "0");
-
-    // 놀장강 이후 추가 주문서를 바를 수 있으므로
-    // 예상 수치 이상이면 놀장강으로 판정
-    // 단, 과도하게 높은 경우(예상치의 3배 초과)는 제외
-    const statMatch = totalStats >= expectedStats.stat && totalStats <= expectedStats.stat * 3;
-    const attMatch = totalAtt >= expectedStats.att && totalAtt <= expectedStats.att * 3;
-
-    // 스탯이나 공격력 중 하나라도 놀장강 수치 범위면 놀장강
-    // (단, 둘 다 0이면 제외)
-    if (totalStats === 0 && totalAtt === 0) return false;
-    return statMatch || attMatch;
+    return false;
 }
