@@ -13,6 +13,7 @@ import AICommentary from './AICommentary';
 import ItemCard from './ItemCard';
 import { getSpecialItemConfig } from '../lib/config/special_items';
 import { isAmazingEnhancementItem } from '../lib/amazing_enhancement_table';
+import { NO_STARFORCE_SLOTS } from '../lib/config/unified_criteria';
 
 interface WeaponDiagnosisModalProps {
     item: any; // ItemData type
@@ -84,8 +85,24 @@ export default function WeaponDiagnosisModal({ item, onClose, characterClass }: 
         if (type === '무기') {
             sfResult = evaluateStarforce(starforce, 22, item.item_name, item.item_base_option.base_equipment_level, isAmazingEnhancement);
         } else if (type === '방어구' || type === '장신구') {
-            // 방어구/장신구는 별도 평가
-            sfResult = evaluateArmorStarforce(starforce, item.item_base_option.base_equipment_level, item.item_name, isAmazingEnhancement);
+            const slot = item.item_equipment_slot || "";
+            // 포켓 아이템 판별 강화 (슬롯 이름 또는 아이템 이름)
+            const isPocketItem = slot.includes("포켓") || item.item_name.includes("성배");
+            const isNoStarforce = NO_STARFORCE_SLOTS.some(s => slot.includes(s)) || isPocketItem;
+
+            if (isNoStarforce) {
+                sfResult = {
+                    current_star: 0,
+                    target_star: 0,
+                    success_rate: 0,
+                    destroy_risk: 0,
+                    avg_destroy_count: 0,
+                    evaluation: '해당 없음',
+                    recommendation: '해당 아이템은 스타포스 강화 대상이 아닙니다.'
+                };
+            } else {
+                sfResult = evaluateArmorStarforce(starforce, item.item_base_option.base_equipment_level, item.item_name, isAmazingEnhancement);
+            }
         } else {
             sfResult = {
                 current_star: 0,

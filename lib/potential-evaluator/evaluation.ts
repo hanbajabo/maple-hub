@@ -215,7 +215,12 @@ export function generateGeneralRecommendation(
     const statLabel = isXenon ? '올스탯' : '주스탯';
 
     if (score >= 100) {
-        return `종결급 ${type === 'main' ? '잠재능력' : '에디셔널'}입니다. 더 이상 개선이 필요 없습니다.`;
+        if (type === 'main') {
+            return `종결급 잠재능력입니다. 더 이상 개선이 필요 없습니다.`;
+        } else {
+            const equivalentPct = Math.floor(score / 10);
+            return `종결급! 주스탯 ${equivalentPct}%급 에디셔널입니다. 더 이상 개선이 필요 없습니다.`;
+        }
     }
 
     if (grade === '레전드리') {
@@ -237,32 +242,54 @@ export function generateGeneralRecommendation(
         }
 
         // 일반 주스탯 메시지
-        if (type === 'main' && statPct !== undefined && statPct >= 30) {
-            return `종결! ${statLabel} ${statPct}% 이상입니다.`;
-        } else if (type === 'main' && statPct !== undefined && statPct >= 21) {
-            return `좋음! ${statLabel} 2줄(21% 이상)입니다.`;
-        } else if (type === 'main' && statPct !== undefined && statPct >= 15) {
-            return `준수! ${statLabel} ${statPct}%입니다.`;
-        } else if (score >= 70) {
-            return `꽤 좋은 옵션입니다. 만족하셔도 됩니다.`;
-        } else if (score >= 50) {
-            return `준수한 수준입니다. 여유가 있다면 조금 더 개선해보세요.`;
+        if (type === 'main') {
+            if (statPct !== undefined && statPct >= 30) {
+                return `종결! ${statLabel} ${statPct}% 이상입니다.`;
+            } else if (statPct !== undefined && statPct >= 21) {
+                return `좋음! ${statLabel} 2줄(21% 이상)입니다.`;
+            } else if (statPct !== undefined && statPct >= 15) {
+                return `준수! ${statLabel} ${statPct}%입니다.`;
+            } else if (score >= 70) {
+                return `꽤 좋은 옵션입니다. 만족하셔도 됩니다.`;
+            } else if (score >= 50) {
+                return `준수한 수준입니다. 여유가 있다면 조금 더 개선해보세요.`;
+            } else {
+                return `레전드리치고는 아쉬운 옵션입니다. 큐브 작업을 추천드립니다.`;
+            }
         } else {
-            return `레전드리치고는 아쉬운 옵션입니다. 큐브 작업을 추천드립니다.`;
+            // 에디셔널 레전드리
+            const equivalentPct = Math.floor(score / 10);
+            if (score >= 90) {
+                return `최상급! 주스탯 ${equivalentPct}%급 에디셔널입니다. 더 이상 바랄 게 없습니다.`;
+            } else if (score >= 60) {
+                return `좋음! 주스탯 ${equivalentPct}%급입니다. 쓸만한 옵션이지만 조금 더 욕심내볼 만합니다.`;
+            } else {
+                return `아쉬움! 주스탯 ${equivalentPct}%급입니다. 레전드리 등급에서는 10%급 이상을 목표로 해보세요.`;
+            }
         }
     } else if (grade === '유니크') {
-        if (type === 'main' && statPct !== undefined && statPct >= 27) {
-            return `유니크 종결! ${statLabel} ${Math.round(statPct)}%입니다. 레전드리 3줄급 옵션으로 쭉 사용하셔도 좋습니다.`;
-        } else if (type === 'main' && statPct !== undefined && statPct >= 21) {
-            return `우수! ${statLabel} ${Math.round(statPct)}%입니다. 유니크에서 최상급 옵션입니다.`;
-        } else if (type === 'main' && statPct !== undefined && statPct >= 15) {
-            return `좋음! ${statLabel} ${Math.round(statPct)}%입니다. 유니크에서 훌륭한 옵션입니다.`;
-        } else if (type === 'main' && statPct !== undefined) {
-            return `유니크 등급에서는 ${statLabel} 15% 이상을 목표로 재설정을 권장합니다.`;
-        } else if (score >= 70) {
-            return `유니크 등급에서 최고 수준입니다. 레전드리 급업을 목표로 하세요.`;
+        if (type === 'main') {
+            if (statPct !== undefined && statPct >= 27) {
+                return `유니크 종결! ${statLabel} ${Math.round(statPct)}%입니다. 레전드리 3줄급 옵션으로 쭉 사용하셔도 좋습니다.`;
+            } else if (statPct !== undefined && statPct >= 21) {
+                return `우수! ${statLabel} ${Math.round(statPct)}%입니다. 유니크에서 최상급 옵션입니다.`;
+            } else if (statPct !== undefined && statPct >= 15) {
+                return `좋음! ${statLabel} ${Math.round(statPct)}%입니다. 유니크에서 훌륭한 옵션입니다.`;
+            } else {
+                return `유니크 등급에서는 ${statLabel} 15% 이상을 목표로 재설정을 권장합니다.`;
+            }
         } else {
-            return `유효 옵션이 부족합니다. 유니크 등급에서는 ${statLabel} 15% 이상을 목표로 재설정을 권장합니다.`;
+            // 에디셔널 유니크 (1% = 10점)
+            const equivalentPct = Math.floor(score / 10);
+            if (score >= 130) {
+                return `유니크 종결! 주스탯 ${equivalentPct}%급 에디셔널입니다. 레전드리 부럽지 않은 최상급 옵션입니다.`;
+            } else if (score >= 100) {
+                return `좋음! 주스탯 ${equivalentPct}%급입니다. 유니크 등급에서 아주 훌륭한 가성비 옵션입니다.`;
+            } else if (score >= 70) {
+                return `준수! 주스탯 ${equivalentPct}%급입니다. 쓸만한 옵션이지만 조금 더 욕심내볼 만합니다.`;
+            } else {
+                return `아쉬움! 주스탯 ${equivalentPct}%급입니다. 유니크 등급에서는 10%급 이상을 목표로 해보세요.`;
+            }
         }
     } else if (grade === '에픽' || grade === '레어') {
         if (type === 'main') {
@@ -283,7 +310,7 @@ export function generateGeneralRecommendation(
             if (score >= 120) {
                 return `최상급! 주스탯 ${equivalentPct}%급 ${grade} 종결 옵션입니다. 이대로 쭉 사용하셔도 좋지만, 더 높은 스펙업을 위해서는 유니크 이상 아이템을 노려보세요.`;
             } else if (score >= 80) {
-                return `좋음! 주스탯 ${equivalentPct}%급입니다. 가성비 세팅으로 아주 좋습니다. 더 좋은 스펙업을 위해서는 에디에 공/마 1줄이나 스텟% 1줄을 노려보세요.`;
+                return `좋음! 주스탯 ${equivalentPct}%급입니다. 가성비 세팅으로 아주 좋습니다. 더 좋은 스펙업을 위해서는 에디에 공/마 1줄이나 스텟% 1줄을 추가로 노려보세요.`;
             } else if (score >= 40) {
                 return `준수! 주스탯 ${equivalentPct}%급입니다. 유효 옵션이 포함되어 있어 가성비 좋게 사용할 수 있습니다.`;
             } else {

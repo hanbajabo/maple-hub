@@ -190,7 +190,10 @@ export function diagnoseAccessory(item: EquipmentItem, job?: string): string[] {
     }
 
     // 5. 일반 스타포스 진단 (시드링, 뱃지, 훈장, 포켓, 이벤트링, 특수링, 기계심장 제외)
-    if (!isSeedRing && !isEventRing && !isSpecialRing && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !slot.includes("엠블렘") && !slot.includes("기계 심장") && !slot.includes("기계심장")) {
+    // 포켓 아이템 판별 강화 (슬롯 이름 또는 아이템 이름)
+    const isPocketItem = slot.includes("포켓") || itemName.includes("성배");
+
+    if (!isSeedRing && !isEventRing && !isSpecialRing && !slot.includes("뱃지") && !slot.includes("훈장") && !isPocketItem && !slot.includes("엠블렘") && !slot.includes("기계 심장") && !slot.includes("기계심장")) {
         if (!isPitch && !isTyrant) { // 칠흑과 타일런트는 위에서 별도 처리
             // 놀장강(Amazing Enhancement) 정확한 감지
             const isAmazingEnhancement = isAmazingEnhancementItem(item);

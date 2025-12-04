@@ -89,6 +89,20 @@ export function evaluateArmorAccessory(
             }
         }
 
+        // 플랫 스탯 (STR +20 등)
+        if (!opt.includes('%') && !opt.includes('공격력') && !opt.includes('마력') && !opt.includes('기준')) {
+            if (opt.includes('STR') || opt.includes('DEX') || opt.includes('INT') || opt.includes('LUK')) {
+                const isMainStat = mainStats.some(stat => opt.includes(stat));
+                if (isMainStat) {
+                    const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
+                    // 스탯 10 = 1%
+                    const convertedStat = val / STAT_CONVERSION.STAT_TO_PERCENT;
+                    statPct += convertedStat;
+                    goodOptions.push(opt);
+                }
+            }
+        }
+
 
         // 쿨타임 감소 (모자 전용)
         if (itemSlot === '모자' && opt.includes('재사용 대기시간') && opt.includes('초')) {
@@ -123,18 +137,8 @@ export function evaluateArmorAccessory(
             else optionsScore = (statPct / MAIN_POTENTIAL_STAT.UNIQUE.DECENT) * 50;
         }
     } else {
-        if (currentGrade === '레전드리') {
-            if (statPct >= ADDITIONAL_POTENTIAL_STAT.LEGENDARY.EXCELLENT) optionsScore = 90;
-            else if (statPct >= ADDITIONAL_POTENTIAL_STAT.LEGENDARY.DECENT) optionsScore = 60;
-            else optionsScore = (statPct / ADDITIONAL_POTENTIAL_STAT.LEGENDARY.DECENT) * 50;
-        } else if (currentGrade === '유니크') {
-            if (statPct >= ADDITIONAL_POTENTIAL_STAT.UNIQUE.EXCELLENT) optionsScore = 80;
-            else if (statPct >= ADDITIONAL_POTENTIAL_STAT.UNIQUE.DECENT) optionsScore = 50;
-            else optionsScore = (statPct / ADDITIONAL_POTENTIAL_STAT.UNIQUE.DECENT) * 40;
-        } else {
-            // 에픽 이하 등급: 1% = 10점
-            optionsScore = statPct * 10;
-        }
+        // 에디셔널: 등급 무관하게 1% = 10점으로 통일하여 직관적인 %급 표시 보장
+        optionsScore = statPct * 10;
     }
 
     return {
