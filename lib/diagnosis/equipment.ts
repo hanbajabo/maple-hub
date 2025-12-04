@@ -364,7 +364,7 @@ export function diagnoseItemDeeply(item: any, job?: string): string[] {
         return diagnoseArmor(item, job);
     }
 
-    if (["반지", "펜던트", "얼굴장식", "눈장식", "귀고리", "벨트", "기계 심장", "뱃지", "훈장", "포켓"].some(s => slot.includes(s))) {
+    if (["반지", "펜던트", "얼굴장식", "눈장식", "귀고리", "벨트", "기계 심장", "기계심장", "뱃지", "훈장", "포켓"].some(s => slot.includes(s))) {
         return diagnoseAccessory(item, job);
     }
 

@@ -233,7 +233,7 @@ export function isAmazingEnhancementItem(item: any): boolean {
     if (starforce === 0) return false;
 
     // 타일런트(슈페리얼) 아이템은 놀장강 아님
-    if (item.item_name && item.item_name.includes("타일런트")) return false;
+    if (item.item_name && (item.item_name.includes("타일런트") || item.item_name.includes("심장") || item.item_name.includes("하트"))) return false;
 
     // etc_option이 없으면 놀장강 아님
     if (!item.item_etc_option) return false;

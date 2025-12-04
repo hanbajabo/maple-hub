@@ -55,7 +55,7 @@ export function diagnoseAccessory(item: EquipmentItem, job?: string): string[] {
     const isSpecialRing = SPECIAL_NON_UPGRADABLE_RINGS.some(k => itemName.includes(k));
 
     // 0. 주문서 작 진단 (Scroll) - 기계 심장, 뱃지, 훈장, 포켓, 이벤트링, 특수링, 놀장강 제외
-    if (!slot.includes("기계 심장") && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !isEventRing && !isSpecialRing && !isAmazingEnhancementItem(item)) {
+    if (!slot.includes("기계 심장") && !slot.includes("기계심장") && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !isEventRing && !isSpecialRing && !isAmazingEnhancementItem(item)) {
         const scrollComments = diagnoseScroll(item);
         comments.push(...scrollComments);
     }
@@ -80,7 +80,7 @@ export function diagnoseAccessory(item: EquipmentItem, job?: string): string[] {
     }
 
     // 0. 기계 심장 (Mechanical Heart)
-    if (slot.includes("기계 심장")) {
+    if (slot.includes("기계 심장") || slot.includes("기계심장")) {
         if (itemName.includes("컴플리트 언더컨트롤")) {
             comments.push(`[최강의 심장] 현존하는 메이플스토리 최강의 심장입니다. 더 이상 바랄 게 없습니다.`);
         } else if (itemName.includes("플라즈마")) {
@@ -189,8 +189,8 @@ export function diagnoseAccessory(item: EquipmentItem, job?: string): string[] {
         else comments.push(`[강화 필요] 슈페리얼 아이템은 <b>${SUPERIOR_STARFORCE.MINIMUM}성</b> 이상 강화해야 진가를 발휘합니다.`);
     }
 
-    // 5. 일반 스타포스 진단 (시드링, 뱃지, 훈장, 포켓, 이벤트링, 특수링 제외)
-    if (!isSeedRing && !isEventRing && !isSpecialRing && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !slot.includes("엠블렘")) {
+    // 5. 일반 스타포스 진단 (시드링, 뱃지, 훈장, 포켓, 이벤트링, 특수링, 기계심장 제외)
+    if (!isSeedRing && !isEventRing && !isSpecialRing && !slot.includes("뱃지") && !slot.includes("훈장") && !slot.includes("포켓") && !slot.includes("엠블렘") && !slot.includes("기계 심장") && !slot.includes("기계심장")) {
         if (!isPitch && !isTyrant) { // 칠흑과 타일런트는 위에서 별도 처리
             // 놀장강(Amazing Enhancement) 정확한 감지
             const isAmazingEnhancement = isAmazingEnhancementItem(item);
