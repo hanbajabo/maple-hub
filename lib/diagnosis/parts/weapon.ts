@@ -156,7 +156,14 @@ export function diagnoseWeapon(item: EquipmentItem, job?: string): string[] {
         if (attLines >= 3) comments.push(`[에디 신화] 에디셔널 공/마 3줄! 부르는 게 값인 전설적인 아이템입니다.`);
         else if (attLines >= 2) comments.push(`[에디 종결] 에디셔널 공/마 2줄! 더 바랄 게 없는 완벽한 옵션입니다.`);
         else if (attLines >= 1 && bossLines >= 1) comments.push(`[에디 준종결] 공/마와 보공을 섞어 쓰시는군요. 훌륭한 타협점입니다.`);
-        else if (attLines >= 1) comments.push(`[에디 합격] 에디셔널 공/마 1줄, 든든한 허리 라인입니다.`);
+        else if (attLines >= 1) {
+            // 레전드리 잠재인데 에디 공/마 1줄만 있는 경우
+            if (potentialGrade === "레전드리") {
+                comments.push(`[에디 합격] 에디셔널 공/마 1줄, 든든한 허리 라인입니다. 하지만 레전드리 무기라면 공/마% 2~3줄을 목표로 해보세요!`);
+            } else {
+                comments.push(`[에디 합격] 에디셔널 공/마 1줄, 든든한 허리 라인입니다.`);
+            }
+        }
         else if (bossLines >= 2) comments.push(`[에디 가성비] 보공 위주로 세팅하셨군요. 공/마보다는 아쉽지만 실전 성능은 좋습니다.`);
         else if (bossLines >= 1) comments.push(`[에디 입문] 보공 1줄을 챙기셨네요. 추후 공/마 옵션을 노려보세요.`);
     }
