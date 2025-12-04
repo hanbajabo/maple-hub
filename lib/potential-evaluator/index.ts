@@ -71,7 +71,7 @@ function generateRecommendation(
     if (equipmentType === '무기' && type === 'additional') {
         return generateWeaponAdditionalRecommendation(grade, score, goodOptions);
     } else if (equipmentType === '엠블렘' || equipmentType === '보조무기') {
-        return generateEmblemRecommendation(type, grade, score, goodOptions, allOptions);
+        return generateEmblemRecommendation(type, grade, score, goodOptions, allOptions, equipmentType);
     } else {
         return generateGeneralRecommendation(
             grade,

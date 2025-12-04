@@ -100,7 +100,8 @@ export function generateEmblemRecommendation(
     grade: string,
     score: number,
     goodOptions?: string[],
-    allOptions?: string[]
+    allOptions?: string[],
+    equipmentType?: string
 ): string {
     const options = allOptions || goodOptions || [];
 
@@ -120,9 +121,13 @@ export function generateEmblemRecommendation(
             }
         });
 
-        // 방무 과다
+        // 방무 과다 (장비 타입에 따라 다른 메시지)
         if (iedCount >= 2) {
-            return '쓸만한 옵션이지만, 더 좋은 옵션을 노려볼 수 있습니다. 방어율 무시 옵션이 과도합니다(2줄 이상). 방무 1줄을 보공이나 공격력%로 바꾸는 것을 강력 추천합니다.';
+            if (equipmentType === '엠블렘') {
+                return '쓸만한 옵션이지만, 더 좋은 옵션을 노려볼 수 있습니다. 방어율 무시 옵션이 과도합니다(2줄 이상). 방무 1줄을 공격력%로 바꾸는 것을 강력 추천합니다.';
+            } else {
+                return '쓸만한 옵션이지만, 더 좋은 옵션을 노려볼 수 있습니다. 방어율 무시 옵션이 과도합니다(2줄 이상). 방무 1줄을 보공이나 공격력%로 바꾸는 것을 강력 추천합니다.';
+            }
         }
 
         // 이상적인 조합
