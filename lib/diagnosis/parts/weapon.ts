@@ -114,7 +114,15 @@ export function diagnoseWeapon(item: EquipmentItem, job?: string): string[] {
         else if (bossCount >= 2 && attCount >= 1) comments.push(`[종결: 보보공] 보공 2줄 + 공/마 1줄. 무기 잠재능력의 정석이자 종결입니다.`);
         else if (attCount >= 2 && bossCount >= 1) comments.push(`[종결: 공공보] 공/마 2줄 + 보공 1줄. 아주 훌륭한 옵션입니다.`);
         else if (attCount >= 3) comments.push(`[종결: 3공] 공/마 3줄! 보공 효율이 높은 직업에게 최고의 옵션입니다.`);
-        else if (bossCount + attCount + iedLines.length >= 3) comments.push(`[3줄 유효] 유효 옵션 3줄을 꽉 채우셨습니다. 졸업급입니다.`);
+        else if (bossCount + attCount + iedLines.length >= 3) {
+            // 방무 2줄 이상 경고
+            if (iedLines.length >= 2) {
+                const attType = isMage ? "마력" : "공격력";
+                comments.push(`[3줄 유효 / 최적화 가능] 유효 옵션 3줄을 챙기셨으나, 방어율 무시가 ${iedLines.length}줄입니다. 방무 1줄을 보공이나 ${attType}%로 바꾸는 것을 강력 추천합니다.`);
+            } else {
+                comments.push(`[3줄 유효] 유효 옵션 3줄을 꽉 채우셨습니다. 졸업급입니다.`);
+            }
+        }
         else if (bossCount + attCount + iedLines.length === 2) comments.push(`[2줄 유효] 가성비 좋게 2줄을 챙기셨습니다. 추후 3줄을 목표로 해보세요.`);
 
         // 보공 2줄 (공/마 없음) -> 보보잡

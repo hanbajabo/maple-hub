@@ -134,7 +134,12 @@ export function analyzePotential(
             } else if (attCount >= 3) {
                 comments.push(`<b>3공/3마</b>! 보공 효율이 높은 직업에게 최고의 옵션입니다.`);
             } else if (bossCount + attCount + iedCount >= 3) {
-                comments.push(`유효 옵션 3줄을 꽉 채우셨습니다. 졸업급입니다.`);
+                // 방무 2줄 이상 경고
+                if (iedCount >= 2) {
+                    comments.push(`[3줄 유효 / 최적화 가능] 유효 옵션 3줄을 챙기셨으나, 방어율 무시가 ${iedCount}줄입니다. 방무 1줄을 보공이나 공/마%로 바꾸는 것을 강력 추천합니다.`);
+                } else {
+                    comments.push(`유효 옵션 3줄을 꽉 채우셨습니다. 졸업급입니다.`);
+                }
             } else if (bossCount >= 2) {
                 comments.push(`<b>보보잡</b>... 보공 2줄은 좋지만 공/마가 없어 아쉽습니다. 큐브로 '보보공'을 노려보세요.`);
             } else if (bossCount + attCount + iedCount === 2) {
