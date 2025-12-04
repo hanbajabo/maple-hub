@@ -9,7 +9,7 @@ import {
     CRIT_DAMAGE_LINES,
     STAT_CONVERSION,
 } from '../config/unified_criteria';
-import { getJobMainStat } from '../job_utils';
+import { getJobMainStat, isMagicJob } from '../job_utils';
 
 /**
  * 방어구/장신구 잠재능력 평가
@@ -75,9 +75,17 @@ export function evaluateArmorAccessory(
         if (!opt.includes('%') && (opt.includes('공격력') || opt.includes('마력'))) {
             const val = parseInt(opt.replace(/[^0-9]/g, '')) || 0;
             if (val >= 3) {
-                const convertedStat = (val * STAT_CONVERSION.ATT_TO_STAT) / STAT_CONVERSION.STAT_TO_PERCENT;
-                statPct += convertedStat;
-                goodOptions.push(opt);
+                // 직업에 맞는 공/마만 계산
+                const isMagic = job ? isMagicJob(job) : false;
+                const isAtt = opt.includes('공격력');
+                const isMatt = opt.includes('마력');
+
+                // 직업 정보가 없으면 둘 다 유효, 있으면 해당 직업에 맞는 것만 유효
+                if (!job || (isMagic && isMatt) || (!isMagic && isAtt)) {
+                    const convertedStat = (val * STAT_CONVERSION.ATT_TO_STAT) / STAT_CONVERSION.STAT_TO_PERCENT;
+                    statPct += convertedStat;
+                    goodOptions.push(opt);
+                }
             }
         }
 
@@ -119,6 +127,13 @@ export function evaluateArmorAccessory(
             if (statPct >= ADDITIONAL_POTENTIAL_STAT.LEGENDARY.EXCELLENT) optionsScore = 90;
             else if (statPct >= ADDITIONAL_POTENTIAL_STAT.LEGENDARY.DECENT) optionsScore = 60;
             else optionsScore = (statPct / ADDITIONAL_POTENTIAL_STAT.LEGENDARY.DECENT) * 50;
+        } else if (currentGrade === '유니크') {
+            if (statPct >= ADDITIONAL_POTENTIAL_STAT.UNIQUE.EXCELLENT) optionsScore = 80;
+            else if (statPct >= ADDITIONAL_POTENTIAL_STAT.UNIQUE.DECENT) optionsScore = 50;
+            else optionsScore = (statPct / ADDITIONAL_POTENTIAL_STAT.UNIQUE.DECENT) * 40;
+        } else {
+            // 에픽 이하 등급: 1% = 10점
+            optionsScore = statPct * 10;
         }
     }
 

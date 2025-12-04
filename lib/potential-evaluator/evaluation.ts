@@ -260,8 +260,32 @@ export function generateGeneralRecommendation(
         } else {
             return `유효 옵션이 부족합니다. 유니크 등급에서는 ${statLabel} 15% 이상을 목표로 재설정을 권장합니다.`;
         }
-    } else if (grade === '에픽') {
-        return `에픽 등급입니다. 유니크 이상 등급업을 권장합니다.`;
+    } else if (grade === '에픽' || grade === '레어') {
+        if (type === 'main') {
+            if (statPct !== undefined && statPct >= 12) {
+                return `${grade} 종결! ${statLabel} ${Math.round(statPct)}%입니다. ${grade} 등급에서 볼 수 있는 최고 수준의 옵션입니다. 더 높은 스펙업을 위해서는 유니크 이상 아이템을 노려보세요.`;
+            } else if (statPct !== undefined && statPct >= 9) {
+                return `우수! ${statLabel} ${Math.round(statPct)}%입니다. ${grade} 등급에서 아주 훌륭한 옵션입니다. 더 높은 스펙업을 위해서는 유니크 이상 아이템을 노려보세요.`;
+            } else if (statPct !== undefined && statPct >= 6) {
+                return `준수! ${statLabel} ${Math.round(statPct)}%입니다. 임시로 사용하기에 적절합니다.`;
+            } else {
+                return `${grade} 등급에서는 ${statLabel} 9% 이상을 목표로 하거나, 유니크 이상 등급업을 권장합니다.`;
+            }
+        } else {
+            // 에디셔널 잠재능력 (점수 기준: 1% = 10점, 공1 = 4점)
+            const equivalentPct = Math.floor(score / 10);
+
+            // 12%급 = 120점, 8%급 = 80점
+            if (score >= 120) {
+                return `최상급! 주스탯 ${equivalentPct}%급 ${grade} 종결 옵션입니다. 이대로 쭉 사용하셔도 좋지만, 더 높은 스펙업을 위해서는 유니크 이상 아이템을 노려보세요.`;
+            } else if (score >= 80) {
+                return `좋음! 주스탯 ${equivalentPct}%급입니다. 가성비 세팅으로 아주 좋습니다. 더 좋은 스펙업을 위해서는 에디에 공/마 1줄이나 스텟% 1줄을 노려보세요.`;
+            } else if (score >= 40) {
+                return `준수! 주스탯 ${equivalentPct}%급입니다. 유효 옵션이 포함되어 있어 가성비 좋게 사용할 수 있습니다.`;
+            } else {
+                return `아쉬움! 주스탯 ${equivalentPct}%급입니다. 공격력/마력 옵션을 노리거나 유니크 이상 등급업을 권장합니다.`;
+            }
+        }
     }
 
     return `개선이 필요한 옵션입니다.`;
