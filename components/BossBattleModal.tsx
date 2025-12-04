@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Swords, Shield, Zap } from 'lucide-react';
 
 interface BossBattleModalProps {
@@ -40,6 +41,8 @@ export default function BossBattleModal({
     const [isBossAttacking, setIsBossAttacking] = useState(false);
     const [playerDamageText, setPlayerDamageText] = useState<number | null>(null);
     const [bossDamageText, setBossDamageText] = useState<number | null>(null);
+    const [shockwave, setShockwave] = useState<'player' | 'boss' | null>(null);
+    const [turn, setTurn] = useState(0);
 
     useEffect(() => {
         if (isOpen) {
@@ -50,7 +53,19 @@ export default function BossBattleModal({
             setIsBossAttacking(false);
             setPlayerDamageText(null);
             setBossDamageText(null);
+            setShockwave(null);
+            setTurn(0);
+
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Restore body scroll
+            document.body.style.overflow = 'unset';
         }
+
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
     }, [isOpen, maxPlayerHpValue, maxBossHpValue]);
 
     const startBattle = () => {
@@ -70,10 +85,12 @@ export default function BossBattleModal({
         let isPlayerTurn = true;
 
         const battleInterval = setInterval(() => {
-            turn++;
+            setTurn(prev => prev + 1);
+            const currentTurn = turn + 1;
 
             if (isPlayerTurn) {
                 setIsPlayerAttacking(true);
+                setShockwave('player');
 
                 setTimeout(() => {
                     const numHits = Math.floor(Math.random() * 3) + 3;
@@ -91,7 +108,8 @@ export default function BossBattleModal({
                     setTimeout(() => {
                         setBossDamageText(null);
                         setIsPlayerAttacking(false);
-                    }, 800);
+                        setShockwave(null);
+                    }, 500);
 
                     if (currentBossHp <= 0) {
                         setBossHp(0);
@@ -99,12 +117,13 @@ export default function BossBattleModal({
                         clearInterval(battleInterval);
                         return;
                     }
-                }, 300);
+                }, 200);
             } else {
                 setIsBossAttacking(true);
+                setShockwave('boss');
 
                 setTimeout(() => {
-                    const numHits = Math.floor(Math.random() * 3) + 3; // 3-5타 (플레이어와 동일)
+                    const numHits = Math.floor(Math.random() * 3) + 3;
                     let totalDamage = 0;
 
                     for (let i = 0; i < numHits; i++) {
@@ -119,7 +138,8 @@ export default function BossBattleModal({
                     setTimeout(() => {
                         setPlayerDamageText(null);
                         setIsBossAttacking(false);
-                    }, 800);
+                        setShockwave(null);
+                    }, 500);
 
                     if (currentPlayerHp <= 0) {
                         setPlayerHp(0);
@@ -127,7 +147,7 @@ export default function BossBattleModal({
                         clearInterval(battleInterval);
                         return;
                     }
-                }, 300);
+                }, 200);
             }
 
             if (turn >= maxTurns) {
@@ -137,28 +157,28 @@ export default function BossBattleModal({
             }
 
             isPlayerTurn = !isPlayerTurn;
-        }, 1200);
+        }, 600); // 더 빠르게!
     };
 
     if (!isOpen) return null;
 
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-            <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl">
-                <div className="flex items-center justify-between p-6 border-b border-slate-800 bg-gradient-to-r from-red-950/30 to-orange-950/30">
+    const modalContent = (
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black p-2 sm:p-4">
+            <div className={`bg-slate-900 border border-slate-700 rounded-xl sm:rounded-2xl w-full max-w-3xl max-h-[95vh] sm:max-h-[90vh] flex flex-col shadow-2xl transition-all ${(isPlayerAttacking || isBossAttacking) ? 'animate-screen-shake scale-105' : 'scale-100'}`}>
+                <div className="flex items-center justify-between p-3 sm:p-6 border-b border-slate-800 bg-gradient-to-r from-red-950/30 to-orange-950/30">
                     <div>
-                        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                            <Swords className="w-6 h-6 text-red-500" />
+                        <h2 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+                            <Swords className="w-4 h-4 sm:w-6 sm:h-6 text-red-500" />
                             보스 전투
                         </h2>
-                        <p className="text-sm text-slate-400 mt-1">{bossName}</p>
+                        <p className="text-xs sm:text-sm text-slate-400 mt-1">{bossName}</p>
                     </div>
-                    <button onClick={onClose} className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
-                        <X size={24} />
+                    <button onClick={onClose} className="p-1.5 sm:p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
+                        <X size={20} className="sm:w-6 sm:h-6" />
                     </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-3 sm:space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <div className="flex justify-between items-center mb-1">
@@ -180,14 +200,31 @@ export default function BossBattleModal({
                         </div>
                     </div>
 
-                    <div className="relative h-96 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 rounded-xl border-2 border-slate-800 overflow-hidden">
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,0,0,0.1),transparent_70%)]"></div>
-                        <div className="absolute bottom-20 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent opacity-50"></div>
+                    <div className="relative h-64 sm:h-96 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 rounded-xl border-2 border-slate-800 overflow-hidden">
+                        {/* Dynamic Background */}
+                        <div className={`absolute inset-0 transition-all duration-150 ${isPlayerAttacking ? 'bg-gradient-to-r from-cyan-500/40 to-transparent' : isBossAttacking ? 'bg-gradient-to-l from-red-500/40 to-transparent' : 'bg-[radial-gradient(circle_at_50%_50%,rgba(255,0,0,0.1),transparent_70%)]'}`}></div>
 
-                        <div className={`absolute left-24 bottom-20 transition-all duration-300 ${isPlayerAttacking ? 'translate-x-32' : 'translate-x-0'} ${isBossAttacking ? 'animate-shake' : ''}`}>
+                        {/* Shockwave Effect */}
+                        {shockwave && (
+                            <div className={`absolute inset-0 ${shockwave === 'player' ? 'animate-shockwave-right' : 'animate-shockwave-left'}`}>
+                                <div className="absolute inset-0 bg-gradient-radial from-white/30 to-transparent"></div>
+                            </div>
+                        )}
+
+                        <div className="absolute bottom-12 sm:bottom-20 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-slate-700 to-transparent opacity-50"></div>
+
+                        {/* Player Character with Varied Attacks */}
+                        <div className={`absolute left-24 bottom-20 transition-all duration-200 ${isPlayerAttacking
+                            ? turn % 3 === 1
+                                ? 'translate-x-40 -translate-y-10 rotate-8'  // 점프 (낮게)
+                                : turn % 3 === 2
+                                    ? 'translate-x-48 translate-y-1 scale-105'   // 빠른 돌진
+                                    : 'translate-x-32 translate-y-2 scale-125 -rotate-2'  // 강타
+                            : 'translate-x-0 translate-y-0 rotate-0 scale-100'
+                            } ${isBossAttacking ? 'animate-hit-shake' : ''}`}>
                             <div className="relative w-56 h-56">
                                 {playerImage ? (
-                                    <img src={playerImage} alt="Player" className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(0,255,255,0.8)] scale-x-[-1]" />
+                                    <img src={playerImage} alt="Player" className={`w-full h-full object-contain drop-shadow-[0_0_20px_rgba(0,255,255,0.8)] scale-x-[-1] transition-all ${isPlayerAttacking ? 'brightness-150 saturate-150' : ''}`} />
                                 ) : (
                                     <div className="w-full h-full bg-cyan-500/20 border-2 border-cyan-500 rounded-lg flex items-center justify-center">
                                         <Shield className="w-24 h-24 text-cyan-400" />
@@ -201,10 +238,18 @@ export default function BossBattleModal({
                             </div>
                         </div>
 
-                        <div className={`absolute right-24 bottom-20 transition-all duration-300 ${isBossAttacking ? '-translate-x-32' : 'translate-x-0'} ${isPlayerAttacking ? 'animate-shake' : ''}`}>
+                        {/* Boss Monster with Varied Attacks */}
+                        <div className={`absolute right-24 bottom-20 transition-all duration-200 ${isBossAttacking
+                            ? turn % 3 === 1
+                                ? '-translate-x-40 -translate-y-10 -rotate-8'  // 점프 (낮게)
+                                : turn % 3 === 2
+                                    ? '-translate-x-48 translate-y-1 scale-105'    // 빠른 돌진
+                                    : '-translate-x-32 translate-y-2 scale-125 rotate-2'  // 강타
+                            : 'translate-x-0 translate-y-0 rotate-0 scale-100'
+                            } ${isPlayerAttacking ? 'animate-hit-shake' : ''} ${battleState === 'victory' ? 'opacity-0 scale-0 rotate-180' : 'opacity-100 scale-100'}`}>
                             <div className="relative w-56 h-56">
                                 {bossImage ? (
-                                    <img src={bossImage} alt={bossName} className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(255,0,0,0.8)]" />
+                                    <img src={bossImage} alt={bossName} className={`w-full h-full object-contain drop-shadow-[0_0_20px_rgba(255,0,0,0.8)] transition-all ${isBossAttacking ? 'brightness-150 saturate-150' : ''}`} />
                                 ) : (
                                     <div className="w-full h-full bg-red-500/20 border-2 border-red-500 rounded-lg flex items-center justify-center">
                                         <Zap className="w-24 h-24 text-red-400" />
@@ -218,14 +263,53 @@ export default function BossBattleModal({
                             </div>
                         </div>
 
+                        {/* Enhanced Impact Effects */}
                         {isPlayerAttacking && (
-                            <div className="absolute right-1/3 top-1/2 -translate-y-1/2">
-                                <div className="text-6xl animate-ping text-yellow-500 opacity-75">💥</div>
+                            <div className="absolute right-1/3 top-1/2 -translate-y-1/2 z-30">
+                                <div className="animate-impact-burst text-yellow-500" style={{ fontSize: '100px' }}>💥</div>
+                                <div className="absolute inset-0 text-6xl animate-ping text-yellow-400 opacity-60">💥</div>
+                                <div className="absolute inset-0 text-7xl animate-ping-slow text-orange-400 opacity-40">💥</div>
                             </div>
                         )}
                         {isBossAttacking && (
-                            <div className="absolute left-1/3 top-1/2 -translate-y-1/2">
-                                <div className="text-6xl animate-ping text-orange-500 opacity-75">💥</div>
+                            <div className="absolute left-1/3 top-1/2 -translate-y-1/2 z-30">
+                                <div className="animate-impact-burst text-orange-500" style={{ fontSize: '100px' }}>💥</div>
+                                <div className="absolute inset-0 text-6xl animate-ping text-orange-400 opacity-60">💥</div>
+                                <div className="absolute inset-0 text-7xl animate-ping-slow text-red-400 opacity-40">💥</div>
+                            </div>
+                        )}
+
+                        {/* Victory Overlay */}
+                        {battleState === 'victory' && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md animate-fade-in z-40">
+                                <div className="text-center animate-victory-bounce">
+                                    <div className="text-8xl font-black text-yellow-400 mb-6 animate-pulse-slow" style={{ textShadow: '0 0 50px rgba(255,215,0,1), -4px -4px 0 black, 4px -4px 0 black, -4px 4px 0 black, 4px 4px 0 black' }}>
+                                        🎉 승리! 🎉
+                                    </div>
+                                    <div className="text-4xl font-bold text-white mb-2" style={{ textShadow: '-3px -3px 0 black, 3px -3px 0 black, -3px 3px 0 black, 3px 3px 0 black' }}>
+                                        모의 전투 승리
+                                    </div>
+                                    <div className="text-xl text-cyan-400" style={{ textShadow: '-2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black' }}>
+                                        완벽한 컨트롤입니다!
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Defeat Overlay */}
+                        {battleState === 'defeat' && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md animate-fade-in z-40">
+                                <div className="text-center">
+                                    <div className="text-8xl font-black text-red-500 mb-6 animate-shake-continuous" style={{ textShadow: '0 0 50px rgba(255,0,0,1), -4px -4px 0 black, 4px -4px 0 black, -4px 4px 0 black, 4px 4px 0 black' }}>
+                                        💀 패배 💀
+                                    </div>
+                                    <div className="text-4xl font-bold text-white mb-2" style={{ textShadow: '-3px -3px 0 black, 3px -3px 0 black, -3px 3px 0 black, 3px 3px 0 black' }}>
+                                        모의 전투 패배
+                                    </div>
+                                    <div className="text-xl text-red-400" style={{ textShadow: '-2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black' }}>
+                                        더 강해져서 돌아오세요!
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -244,69 +328,150 @@ export default function BossBattleModal({
 
                 <div className="p-4 border-t border-slate-800 bg-slate-950/50">
                     {battleState === 'ready' && (
-                        <button onClick={startBattle} className="w-full px-6 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2">
+                        <button onClick={startBattle} className="w-full px-6 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2 hover:scale-105">
                             <Swords className="w-5 h-5" />
                             전투 시작!
                         </button>
                     )}
                     {battleState === 'fighting' && (
                         <div className="text-center py-2">
-                            <div className="inline-block animate-pulse text-yellow-500 font-bold">⚔️ 전투 중...</div>
+                            <div className="inline-block animate-pulse text-yellow-500 font-bold text-lg">⚔️ 전투 중...</div>
                         </div>
                     )}
                     {battleState === 'victory' && (
                         <div className="space-y-2">
-                            <div className="text-center text-2xl font-bold text-yellow-500 animate-bounce">🎉 승리! 🎉</div>
-                            <button onClick={onClose} className="w-full px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg transition-colors">닫기</button>
+                            <div className="flex gap-2">
+                                <button onClick={onClose} className="flex-1 px-6 py-2 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold rounded-lg transition-all hover:scale-105">
+                                    다른 보스 선택
+                                </button>
+                                <button onClick={onClose} className="flex-1 px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg transition-colors">닫기</button>
+                            </div>
                         </div>
                     )}
                     {battleState === 'defeat' && (
                         <div className="space-y-2">
-                            <div className="text-center text-xl font-bold text-red-500">💀 패배...</div>
                             <div className="flex gap-2">
-                                <button onClick={() => { setBattleState('ready'); setPlayerHp(maxPlayerHpValue); setBossHp(maxBossHpValue); }} className="flex-1 px-6 py-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg transition-colors">다시 도전</button>
-                                <button onClick={onClose} className="flex-1 px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg transition-colors">닫기</button>
+                                <button onClick={() => { setBattleState('ready'); setPlayerHp(maxPlayerHpValue); setBossHp(maxBossHpValue); }} className="flex-1 px-6 py-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg transition-all hover:scale-105">다시 도전</button>
+                                <button onClick={onClose} className="flex-1 px-6 py-2 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold rounded-lg transition-colors">
+                                    다른 보스 선택
+                                </button>
                             </div>
+                            <button onClick={onClose} className="w-full px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-lg transition-colors">닫기</button>
                         </div>
                     )}
                 </div>
             </div>
 
             <style jsx>{`
-                @keyframes shake {
+                @keyframes screen-shake {
+                    0%, 100% { transform: translate(0, 0) scale(1.05); }
+                    10% { transform: translate(-8px, 3px) scale(1.05); }
+                    20% { transform: translate(8px, -3px) scale(1.05); }
+                    30% { transform: translate(-8px, -3px) scale(1.05); }
+                    40% { transform: translate(8px, 3px) scale(1.05); }
+                    50% { transform: translate(-8px, 3px) scale(1.05); }
+                    60% { transform: translate(8px, -3px) scale(1.05); }
+                    70% { transform: translate(-8px, -3px) scale(1.05); }
+                    80% { transform: translate(8px, 3px) scale(1.05); }
+                    90% { transform: translate(-8px, 3px) scale(1.05); }
+                }
+                @keyframes hit-shake {
                     0%, 100% { transform: translateX(0); }
-                    25% { transform: translateX(-10px); }
-                    75% { transform: translateX(10px); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-15px); }
+                    20%, 40%, 60%, 80% { transform: translateX(15px); }
+                }
+                @keyframes shake-continuous {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-5px); }
+                    75% { transform: translateX(5px); }
                 }
                 @keyframes damage-float {
-                    0% { opacity: 1; transform: translateY(0) scale(1); }
-                    50% { opacity: 1; transform: translateY(-30px) scale(1.2); }
-                    100% { opacity: 0; transform: translateY(-80px) scale(0.8); }
+                    0% { opacity: 1; transform: translateY(0) scale(1.5); }
+                    50% { opacity: 1; transform: translateY(-40px) scale(1.8); }
+                    100% { opacity: 0; transform: translateY(-100px) scale(1); }
                 }
-                .animate-shake {
-                    animation: shake 0.3s ease-in-out;
+                @keyframes impact-burst {
+                    0% { transform: scale(0.3) rotate(0deg); opacity: 0; }
+                    50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
+                    100% { transform: scale(1) rotate(360deg); opacity: 0.7; }
+                }
+                @keyframes ping-slow {
+                    75%, 100% { transform: scale(2); opacity: 0; }
+                }
+                @keyframes fade-in {
+                    from { opacity: 0; transform: scale(0.8); }
+                    to { opacity: 1; transform: scale(1); }
+                }
+                @keyframes victory-bounce {
+                    0%, 100% { transform: translateY(0) scale(1); }
+                    50% { transform: translateY(-30px) scale(1.1); }
+                }
+                @keyframes pulse-slow {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.1); }
+                }
+                @keyframes shockwave-right {
+                    0% { transform: scale(0) translateX(-50%); opacity: 1; }
+                    100% { transform: scale(3) translateX(50%); opacity: 0; }
+                }
+                @keyframes shockwave-left {
+                    0% { transform: scale(0) translateX(50%); opacity: 1; }
+                    100% { transform: scale(3) translateX(-50%); opacity: 0; }
+                }
+                
+                .animate-screen-shake {
+                    animation: screen-shake 0.2s ease-in-out;
+                }
+                .animate-hit-shake {
+                    animation: hit-shake 0.3s ease-in-out;
+                }
+                .animate-shake-continuous {
+                    animation: shake-continuous 0.5s ease-in-out infinite;
                 }
                 .animate-damage-float {
                     animation: damage-float 1s ease-out forwards;
                 }
+                .animate-impact-burst {
+                    animation: impact-burst 0.3s ease-out;
+                }
+                .animate-ping-slow {
+                    animation: ping-slow 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+                }
+                .animate-fade-in {
+                    animation: fade-in 0.6s ease-out;
+                }
+                .animate-victory-bounce {
+                    animation: victory-bounce 1.5s ease-in-out infinite;
+                }
+                .animate-pulse-slow {
+                    animation: pulse-slow 2s ease-in-out infinite;
+                }
+                .animate-shockwave-right {
+                    animation: shockwave-right 0.5s ease-out;
+                }
+                .animate-shockwave-left {
+                    animation: shockwave-left 0.5s ease-out;
+                }
                 
-                /* 데미지 숫자 스타일 */
                 .damage-number {
-                    font-size: 2.5rem;
+                    font-size: 2rem;
                     font-weight: 900;
                     color: white;
                     text-shadow: 
-                        -2px -2px 0 black,
-                        2px -2px 0 black,
-                        -2px 2px 0 black,
-                        2px 2px 0 black,
-                        -2px 0 0 black,
-                        2px 0 0 black,
-                        0 -2px 0 black,
-                        0 2px 0 black;
+                        -3px -3px 0 black,
+                        3px -3px 0 black,
+                        -3px 3px 0 black,
+                        3px 3px 0 black,
+                        -3px 0 0 black,
+                        3px 0 0 black,
+                        0 -3px 0 black,
+                        0 3px 0 black,
+                        0 0 15px rgba(255,255,255,0.8);
                     font-family: Arial Black, sans-serif;
                 }
             `}</style>
         </div>
     );
+
+    return typeof window !== 'undefined' ? createPortal(modalContent, document.body) : null;
 }
