@@ -247,12 +247,16 @@ export function generateGeneralRecommendation(
             return `레전드리치고는 아쉬운 옵션입니다. 큐브 작업을 추천드립니다.`;
         }
     } else if (grade === '유니크') {
-        if (type === 'main' && statPct !== undefined && statPct >= 15) {
-            return `유효 2줄 이상입니다. 유니크에서 훌륭한 옵션입니다.`;
+        if (type === 'main' && statPct !== undefined && statPct >= 21) {
+            return `우수! ${statLabel} ${Math.round(statPct)}%입니다. 유니크에서 최상급 옵션입니다.`;
+        } else if (type === 'main' && statPct !== undefined && statPct >= 15) {
+            return `좋음! ${statLabel} ${Math.round(statPct)}%입니다. 유니크에서 훌륭한 옵션입니다.`;
+        } else if (type === 'main' && statPct !== undefined && statPct >= 9) {
+            return `준수! ${statLabel} ${Math.round(statPct)}%입니다. 레전드리 급업을 목표로 하세요.`;
         } else if (score >= 70) {
             return `유니크 등급에서 최고 수준입니다. 레전드리 급업을 목표로 하세요.`;
         } else {
-            return `유효 1줄입니다. 유니크 등급에서는 유효 2줄 이상을 목표로 재설정을 권장합니다.`;
+            return `유효 옵션이 부족합니다. 유니크 등급에서는 ${statLabel} 15% 이상을 목표로 재설정을 권장합니다.`;
         }
     } else if (grade === '에픽') {
         return `에픽 등급입니다. 유니크 이상 등급업을 권장합니다.`;
