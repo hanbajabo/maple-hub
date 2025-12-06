@@ -18,7 +18,7 @@ import ChampionBadge from "../components/ChampionBadge";
 import SymbolBadge from "../components/SymbolBadge";
 import ItemDiagnosis from "../components/ItemDiagnosis";
 import AbilityWidget from "../components/AbilityWidget";
-import MapleNews from "../components/MapleNews";
+
 import RecommendedGuides from "../components/RecommendedGuides";
 import Footer from "../components/Footer";
 import MapleStoryTrivia from "../components/MapleStoryTrivia";
@@ -1274,12 +1274,7 @@ export default function Home() {
         </section>
       )}
 
-      {/* Maple News Section - Moved to bottom, only show when no character */}
-      {!character && !loading && (
-        <section className="w-full sm:max-w-4xl mb-16 px-2">
-          <MapleNews />
-        </section>
-      )}
+
 
       {/* Result Section */}
       <section ref={resultRef} className="w-full xl:max-w-[1920px] px-0 sm:px-4 mb-16 flex flex-col xl:flex-row gap-4 sm:gap-6 items-stretch">
