@@ -133,7 +133,7 @@ export default function GuidePage() {
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
                     <Link
                         href="/"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4"
@@ -141,29 +141,29 @@ export default function GuidePage() {
                         <ArrowLeft className="w-4 h-4" />
                         <span className="text-sm">홈으로 돌아가기</span>
                     </Link>
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-orange-500/20 rounded-xl border border-orange-500/30">
-                            <BookOpen className="w-8 h-8 text-orange-400" />
+                    <div className="flex items-center gap-3 sm:gap-4">
+                        <div className="p-2 sm:p-3 bg-orange-500/20 rounded-xl border border-orange-500/30">
+                            <BookOpen className="w-6 h-6 sm:w-8 sm:h-8 text-orange-400" />
                         </div>
                         <div>
-                            <h1 className="text-3xl sm:text-4xl font-black text-white">메이플 AI 가이드</h1>
-                            <p className="text-slate-400 mt-1">단풍이가 알려주는 메이플스토리 완벽 공략</p>
+                            <h1 className="text-2xl sm:text-4xl font-black text-white">메이플 AI 가이드</h1>
+                            <p className="text-sm sm:text-base text-slate-400 mt-1">단풍이가 알려주는 메이플스토리 완벽 공략</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Content */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
                 {/* Intro */}
-                <div className="bg-slate-800/30 rounded-2xl p-6 sm:p-8 border border-slate-700 mb-12">
+                <div className="bg-slate-800/30 rounded-2xl p-4 sm:p-8 border border-slate-700 mb-8 sm:mb-12">
                     <div className="flex items-start gap-4">
                         <div className="flex-shrink-0">
-                            <img src="/images/maple-ai-logo.jpg" alt="단풍이" className="w-16 h-16 rounded-full object-cover border-2 border-orange-500/30" />
+                            <img src="/images/maple-ai-logo.jpg" alt="단풍이" className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-orange-500/30" />
                         </div>
                         <div className="flex-1">
-                            <h2 className="text-xl font-bold text-white mb-2">단풍이 AI의 가이드에 오신 걸 환영합니다!</h2>
-                            <p className="text-slate-300 leading-relaxed">
+                            <h2 className="text-lg sm:text-xl font-bold text-white mb-2">단풍이 AI의 가이드에 오신 걸 환영합니다!</h2>
+                            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
                                 메이플 AI는 단순히 캐릭터 정보를 보여주는 것을 넘어, 여러분의 성장을 돕는 가이드를 제공합니다.
                                 각 가이드는 실제 데이터 분석을 기반으로 작성되었으며, 초보자부터 고인물까지 모두에게 도움이 될 것입니다.
                             </p>
@@ -172,35 +172,35 @@ export default function GuidePage() {
                 </div>
 
                 {/* Guide Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {guides.map((guide) => (
                         <Link
                             key={guide.id}
-                            href={`/guide/${guide.id}`}
-                            className="group bg-slate-800/40 hover:bg-slate-800/60 border border-slate-700 hover:border-orange-500/50 rounded-2xl p-6 transition-all duration-300 shadow-lg hover:shadow-orange-500/10"
+                            href={guide.id.startsWith('..') ? guide.id : `/guide/${guide.id}`}
+                            className="group bg-slate-800/40 hover:bg-slate-800/60 border border-slate-700 hover:border-orange-500/50 rounded-2xl p-4 sm:p-6 transition-all duration-300 shadow-lg hover:shadow-orange-500/10 flex flex-col h-full"
                         >
                             {/* Icon & Badge */}
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="text-4xl group-hover:scale-110 transition-transform">
+                            <div className="flex items-start justify-between mb-3 sm:mb-4">
+                                <div className="text-3xl sm:text-4xl group-hover:scale-110 transition-transform">
                                     {guide.icon}
                                 </div>
-                                <span className="px-3 py-1 bg-slate-700 text-slate-300 text-xs font-bold rounded-full">
+                                <span className="px-2.5 py-1 bg-slate-700 text-slate-300 text-[10px] sm:text-xs font-bold rounded-full">
                                     {guide.category}
                                 </span>
                             </div>
 
                             {/* Title */}
-                            <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">
+                            <h3 className="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">
                                 {guide.title}
                             </h3>
 
                             {/* Description */}
-                            <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                            <p className="text-slate-400 text-sm leading-relaxed mb-4 flex-grow">
                                 {guide.description}
                             </p>
 
                             {/* Meta */}
-                            <div className="flex items-center gap-4 text-xs text-slate-500">
+                            <div className="flex items-center gap-4 text-xs text-slate-500 mt-auto pt-4 border-t border-slate-700/50">
                                 <span className="flex items-center gap-1">
                                     ⏱️ {guide.readTime}
                                 </span>
@@ -209,20 +209,20 @@ export default function GuidePage() {
                                 </span>
                             </div>
 
-                            {/* Hover Arrow */}
-                            <div className="mt-4 flex items-center gap-2 text-orange-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span className="text-sm font-bold">가이드 보기</span>
-                                <ArrowLeft className="w-4 h-4 rotate-180" />
+                            {/* Hover Arrow (Mobile: Visible, Desktop: Hover) */}
+                            <div className="mt-4 flex items-center justify-end gap-1 text-orange-400 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                                <span className="text-xs sm:text-sm font-bold">가이드 보기</span>
+                                <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 rotate-180" />
                             </div>
                         </Link>
                     ))}
                 </div>
 
                 {/* Coming Soon */}
-                <div className="mt-12 bg-slate-800/20 border border-slate-700 rounded-2xl p-8 text-center">
-                    <div className="text-5xl mb-4">🚧</div>
-                    <h3 className="text-xl font-bold text-white mb-2">더 많은 가이드가 준비 중입니다!</h3>
-                    <p className="text-slate-400">
+                <div className="mt-8 sm:mt-12 bg-slate-800/20 border border-slate-700 rounded-2xl p-6 sm:p-8 text-center">
+                    <div className="text-4xl sm:text-5xl mb-4">🚧</div>
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-2">더 많은 가이드가 준비 중입니다!</h3>
+                    <p className="text-sm sm:text-base text-slate-400">
                         스타포스 효율 계산, 유니온 배치, 링크스킬 우선순위 등<br />
                         다양한 가이드가 곧 공개됩니다. 기대해주세요!
                     </p>

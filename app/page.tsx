@@ -20,6 +20,7 @@ import ItemDiagnosis from "../components/ItemDiagnosis";
 import AbilityWidget from "../components/AbilityWidget";
 
 import RecommendedGuides from "../components/RecommendedGuides";
+import AiNewsCard from "../components/AiNewsCard";
 import Footer from "../components/Footer";
 import MapleStoryTrivia from "../components/MapleStoryTrivia";
 
@@ -838,7 +839,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-0 sm:p-8 overflow-x-hidden w-full">
       {/* Header */}
-      <header className="w-full sm:max-w-5xl flex justify-between items-center mb-4 sm:mb-12 px-4 sm:px-2 mt-4 sm:mt-0">
+      <header className="w-full sm:max-w-5xl flex justify-between items-center mb-6 sm:mb-12 px-4 sm:px-2 pt-4 pb-2 sm:py-0 sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 sm:static sm:bg-transparent sm:border-none">
         <button
           onClick={() => {
             setNickname("");
@@ -853,31 +854,42 @@ export default function Home() {
           }}
           className="flex items-center gap-2 hover:opacity-80 transition-opacity"
         >
-          <img src="/images/maple-ai-logo.jpg" alt="메이플 AI 로고" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
-          <span className="text-lg sm:text-2xl font-bold text-maple-orange">메이플 AI</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/maple-ai-logo.jpg" alt="메이플 AI 로고" className="w-9 h-9 sm:w-10 sm:h-10 object-contain rounded-lg shadow-md border border-slate-700/30" />
+          <span className="text-xl sm:text-2xl font-black tracking-tighter text-maple-orange drop-shadow-sm">
+            메이플 AI
+          </span>
         </button>
 
         {/* Guide Link & Patch Notes */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setIsPatchNotesOpen(true)}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg transition-colors flex items-center gap-2 border border-slate-700"
-          >
-            <span>📢</span>
-            <span className="hidden sm:inline">패치노트</span>
-          </button>
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="relative group">
+            <Link
+              href="/news"
+              className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-slate-900 hover:bg-slate-800 border-2 border-rose-600 text-white font-bold rounded-lg transition-all flex items-center gap-1.5 shadow-[0_0_15px_rgba(225,29,72,0.3)] hover:shadow-[0_0_20px_rgba(225,29,72,0.5)] hover:scale-105"
+              title="소식 요약"
+            >
+              <span className="text-base sm:text-lg">🍁</span>
+              <span className="hidden sm:inline">단풍이 뉴스</span>
+            </Link>
+            <span className="absolute -top-2 -right-2 bg-yellow-400 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(250,204,21,0.8)] animate-pulse border border-yellow-200 pointer-events-none z-10 whitespace-nowrap">
+              NEW!
+            </span>
+          </div>
           <a
             href="/tools/starforce"
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg shadow-indigo-900/20"
+            className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-indigo-900/20"
+            title="스타포스"
           >
-            <span>⭐</span>
+            <span className="text-base sm:text-lg">⭐</span>
             <span className="hidden sm:inline">스타포스</span>
           </a>
           <a
             href="/guide"
-            className="px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-2 shadow-lg"
+            className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-orange-600/90 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg"
+            title="가이드"
           >
-            <span>📚</span>
+            <span className="text-base sm:text-lg">📚</span>
             <span className="hidden sm:inline">가이드</span>
           </a>
         </div>
@@ -1271,6 +1283,8 @@ export default function Home() {
       {!character && !loading && (
         <section className="w-full sm:max-w-5xl mb-16 px-4 sm:px-6">
           <RecommendedGuides />
+
+
         </section>
       )}
 

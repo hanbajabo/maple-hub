@@ -71,13 +71,38 @@ export default function PatchNotesModal({ isOpen, onClose }: PatchNotesModalProp
 
                             <h3 className="text-xl font-bold text-white mb-3">{note.title}</h3>
 
-                            <ul className="space-y-2">
-                                {note.changes.map((change, i) => (
-                                    <li key={i} className="flex items-start gap-2 text-slate-300 text-sm leading-relaxed">
-                                        <span className="text-maple-orange mt-1.5">•</span>
-                                        <span>{change}</span>
-                                    </li>
-                                ))}
+                            <ul className="space-y-1">
+                                {note.changes.map((change, i) => {
+                                    // 빈 줄 처리
+                                    if (!change.trim()) return <li key={i} className="h-2" />;
+
+                                    // 헤더 처리 (##)
+                                    if (change.startsWith('## ')) {
+                                        return (
+                                            <li key={i} className="mt-4 mb-2 first:mt-0">
+                                                <h4 className="text-lg font-bold text-white border-b border-slate-700/50 pb-1">
+                                                    {change.replace(/^##\s+/, '')}
+                                                </h4>
+                                            </li>
+                                        );
+                                    }
+
+                                    // 일반 텍스트 (볼드 처리 포함)
+                                    const parts = change.split(/(\*\*.*?\*\*)/g);
+                                    return (
+                                        <li key={i} className="flex items-start gap-2 text-slate-300 text-sm leading-relaxed ml-1">
+                                            <span className="text-slate-500 mt-1.5 flex-shrink-0">•</span>
+                                            <span>
+                                                {parts.map((part, index) => {
+                                                    if (part.startsWith('**') && part.endsWith('**')) {
+                                                        return <strong key={index} className="text-maple-orange font-bold bg-orange-500/10 px-1 rounded mx-0.5">{part.slice(2, -2)}</strong>;
+                                                    }
+                                                    return part;
+                                                })}
+                                            </span>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
                     ))}

@@ -334,53 +334,53 @@ export default function StarforceSimulator() {
 
     return (
         <div className="min-h-screen bg-[#0f172a] text-slate-100 font-sans selection:bg-indigo-500/30">
-            <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
+            <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-6 sm:space-y-8">
                 {/* Header */}
-                <div className="flex flex-col md:flex-row justify-between items-end gap-4 border-b border-slate-800 pb-6">
+                <div className="flex flex-col md:flex-row justify-between items-end gap-4 border-b border-slate-800 pb-4 sm:pb-6">
                     <div>
-                        <Link href="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4 group">
+                        <Link href="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-3 sm:mb-4 group">
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                            <span className="text-sm font-medium">홈으로 돌아가기</span>
+                            <span className="text-xs sm:text-sm font-medium">홈으로 돌아가기</span>
                         </Link>
-                        <h1 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 flex items-center gap-3">
-                            <Sparkles className="w-8 h-8 text-yellow-400 fill-yellow-400" />
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 flex items-center gap-2 sm:gap-3">
+                            <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 fill-yellow-400" />
                             스타포스 시뮬레이터
                         </h1>
-                        <p className="text-slate-400 mt-2 font-medium">메이플스토리 스타포스 강화 시뮬레이터 (2025 ver)</p>
+                        <p className="text-sm sm:text-base text-slate-400 mt-2 font-medium">메이플스토리 스타포스 강화 시뮬레이터 (2025 ver)</p>
                     </div>
                     <button
                         onClick={resetSimulator}
-                        className="group flex items-center gap-2 px-4 py-2 bg-slate-800/50 hover:bg-slate-800 rounded-full border border-slate-700 hover:border-slate-600 transition-all text-sm font-medium text-slate-300 hover:text-white"
+                        className="group flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-slate-800/50 hover:bg-slate-800 rounded-full border border-slate-700 hover:border-slate-600 transition-all text-xs sm:text-sm font-medium text-slate-300 hover:text-white"
                     >
-                        <RefreshCw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
+                        <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:rotate-180 transition-transform duration-500" />
                         초기화
                     </button>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
                     {/* Left Column: Visualizer & Controls (8 cols) */}
-                    <div className="lg:col-span-7 xl:col-span-8 space-y-6">
+                    <div className="lg:col-span-7 xl:col-span-8 space-y-4 sm:space-y-6">
                         {/* Visualizer Card */}
-                        <div className="relative w-full h-64 md:h-80 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden flex flex-col items-center justify-center group">
+                        <div className="relative w-full h-56 sm:h-64 md:h-80 rounded-2xl sm:rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden flex flex-col items-center justify-center group">
                             {/* Background Effects */}
                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,_rgba(120,119,198,0.3),rgba(255,255,255,0))]" />
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20" />
 
                             {/* Star Display */}
-                            <div className="relative z-10 flex flex-col items-center gap-6 w-full px-8">
+                            <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 w-full px-4 sm:px-8">
                                 <div className="text-center">
-                                    <div className="text-6xl md:text-8xl font-black text-white drop-shadow-[0_0_30px_rgba(250,204,21,0.6)] tracking-tighter">
+                                    <div className="text-5xl sm:text-6xl md:text-8xl font-black text-white drop-shadow-[0_0_30px_rgba(250,204,21,0.6)] tracking-tighter transition-all">
                                         {currentStars}
-                                        <span className="text-2xl md:text-4xl text-slate-600 ml-2 font-bold">/ {maxStars}</span>
+                                        <span className="text-xl sm:text-2xl md:text-4xl text-slate-600 ml-2 font-bold">/ {maxStars}</span>
                                     </div>
-                                    <div className="text-indigo-400 font-medium tracking-widest text-sm mt-2">현재 스타포스</div>
+                                    <div className="text-indigo-400 font-medium tracking-widest text-xs sm:text-sm mt-1 sm:mt-2">현재 스타포스</div>
                                 </div>
 
-                                <div className="flex flex-wrap justify-center gap-1.5 max-w-2xl">
+                                <div className="flex flex-wrap justify-center gap-1 sm:gap-1.5 max-w-2xl">
                                     {Array.from({ length: 25 }).map((_, i) => (
                                         <div key={i} className={`relative transition-all duration-300 ${i < currentStars ? "scale-100" : "scale-90 opacity-20"}`}>
                                             <Star
-                                                className={`w-5 h-5 md:w-6 md:h-6 ${i < currentStars
+                                                className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${i < currentStars
                                                     ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]"
                                                     : "text-slate-600"
                                                     }`}
@@ -390,7 +390,7 @@ export default function StarforceSimulator() {
                                     {maxStars > 25 && Array.from({ length: maxStars - 25 }).map((_, i) => (
                                         <div key={i + 25} className={`relative transition-all duration-300 ${i + 25 < currentStars ? "scale-100" : "scale-90 opacity-20"}`}>
                                             <Star
-                                                className={`w-5 h-5 md:w-6 md:h-6 ${i + 25 < currentStars
+                                                className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${i + 25 < currentStars
                                                     ? "text-purple-400 fill-purple-400 drop-shadow-[0_0_8px_rgba(192,132,252,0.8)]"
                                                     : "text-slate-600"
                                                     }`}
@@ -403,7 +403,7 @@ export default function StarforceSimulator() {
                             {/* Result Overlay */}
                             {lastResult && (
                                 <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-                                    <div className={`text-5xl md:text-6xl font-black uppercase tracking-widest transform scale-100 animate-in zoom-in-50 duration-300 ${lastResult === "success" ? "text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-600 drop-shadow-[0_0_30px_rgba(234,179,8,0.5)]" :
+                                    <div className={`text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-widest transform scale-100 animate-in zoom-in-50 duration-300 ${lastResult === "success" ? "text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-600 drop-shadow-[0_0_30px_rgba(234,179,8,0.5)]" :
                                         lastResult === "destroy" ? "text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(239,68,68,0.5)]" :
                                             "text-slate-400"
                                         }`}>
@@ -414,37 +414,37 @@ export default function StarforceSimulator() {
                         </div>
 
                         {/* Control Panel */}
-                        <div className="bg-slate-900/50 backdrop-blur-md rounded-3xl border border-slate-800 p-6 md:p-8 space-y-8">
+                        <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-800 p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
                             {/* Toggles */}
-                            <div className="flex flex-wrap justify-center gap-4">
+                            <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
                                 {[
                                     { label: "스타캐치", icon: Zap, state: useStarCatch, setter: setUseStarCatch, color: "yellow" },
-                                    { label: "파괴방지 (15~17성)", icon: Shield, state: useSafeguard, setter: setUseSafeguard, color: "green" },
-                                    { label: "PC방 (5%)", icon: Monitor, state: usePCCafe, setter: setUsePCCafe, color: "blue" },
+                                    { label: "파괴방지", icon: Shield, state: useSafeguard, setter: setUseSafeguard, color: "green" },
+                                    { label: "PC방", icon: Monitor, state: usePCCafe, setter: setUsePCCafe, color: "blue" },
                                 ].map((opt, idx) => (
                                     <button
                                         key={idx}
                                         onClick={() => opt.setter(!opt.state)}
-                                        className={`flex items-center gap-2 px-5 py-3 rounded-2xl border font-bold transition-all duration-200 active:scale-95 ${opt.state
+                                        className={`flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-2.5 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl border text-xs sm:text-base font-bold transition-all duration-200 active:scale-95 flex-grow sm:flex-grow-0 ${opt.state
                                             ? `bg-${opt.color}-500/10 border-${opt.color}-500/50 text-${opt.color}-400 shadow-[0_0_15px_rgba(0,0,0,0.3)]`
                                             : "bg-slate-800 border-transparent text-slate-500 hover:bg-slate-750"
                                             }`}
                                     >
-                                        <opt.icon className={`w-5 h-5 ${opt.state ? "fill-current" : ""}`} />
+                                        <opt.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${opt.state ? "fill-current" : ""}`} />
                                         {opt.label}
                                     </button>
                                 ))}
                             </div>
 
                             {/* Dropdowns */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">이벤트</label>
+                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">이벤트</label>
                                     <div className="relative">
                                         <select
                                             value={eventMode}
                                             onChange={(e) => setEventMode(e.target.value)}
-                                            className="w-full appearance-none bg-slate-950 text-white px-5 py-4 rounded-2xl border border-slate-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all font-medium"
+                                            className="w-full appearance-none bg-slate-950 text-white px-4 py-3 sm:px-5 sm:py-4 rounded-xl sm:rounded-2xl border border-slate-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all font-medium text-sm sm:text-base"
                                         >
                                             <option value="none">이벤트 없음</option>
                                             <option value="1+1">1+1 (10성 이하 2업)</option>
@@ -457,12 +457,12 @@ export default function StarforceSimulator() {
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">MVP 등급</label>
+                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">MVP 등급</label>
                                     <div className="relative">
                                         <select
                                             value={mvpRank}
                                             onChange={(e) => setMvpRank(e.target.value as MVP)}
-                                            className="w-full appearance-none bg-slate-950 text-white px-5 py-4 rounded-2xl border border-slate-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all font-medium"
+                                            className="w-full appearance-none bg-slate-950 text-white px-4 py-3 sm:px-5 sm:py-4 rounded-xl sm:rounded-2xl border border-slate-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all font-medium text-sm sm:text-base"
                                         >
                                             <option value="none">없음</option>
                                             <option value="silver">실버 (3%)</option>
@@ -476,40 +476,40 @@ export default function StarforceSimulator() {
                             </div>
 
                             {/* Session Stats */}
-                            <div className="bg-slate-950/50 rounded-2xl border border-slate-800 p-5 flex flex-col md:flex-row justify-between items-center gap-4 px-8">
-                                <div className="text-center md:text-left">
-                                    <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">현재 세션 누적 비용</div>
-                                    <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-yellow-500">
+                            <div className="bg-slate-950/50 rounded-xl sm:rounded-2xl border border-slate-800 p-4 sm:p-5 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 px-4 sm:px-8">
+                                <div className="text-center md:text-left w-full md:w-auto">
+                                    <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">현재 세션 누적 비용</div>
+                                    <div className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-yellow-500 break-keep">
                                         {formatNumber(stats.totalCost)}
                                     </div>
                                 </div>
-                                <div className="flex gap-8">
+                                <div className="flex gap-4 sm:gap-8 w-full md:w-auto justify-center">
                                     <div className="text-center">
-                                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">파괴 횟수</div>
-                                        <div className="text-xl font-bold text-red-400">{stats.destroys}회</div>
+                                        <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">파괴 횟수</div>
+                                        <div className="text-lg sm:text-xl font-bold text-red-400">{stats.destroys}회</div>
                                     </div>
                                     <div className="text-center">
-                                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">총 시도</div>
-                                        <div className="text-xl font-bold text-slate-300">{stats.attempts}회</div>
+                                        <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">총 시도</div>
+                                        <div className="text-lg sm:text-xl font-bold text-slate-300">{stats.attempts}회</div>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Action Area */}
-                            <div className="pt-6 border-t border-slate-800 flex flex-col items-center gap-6">
-                                <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm font-medium">
-                                    <div className="flex items-center gap-2 text-slate-400">
-                                        <Coins className="w-4 h-4 text-yellow-500" />
-                                        예상 비용: <span className="text-white text-lg">{formatNumber(calculateCost(itemLevel, currentStars, eventMode, useSafeguard, mvpRank, usePCCafe))}</span>
+                            <div className="pt-4 sm:pt-6 border-t border-slate-800 flex flex-col items-center gap-4 sm:gap-6">
+                                <div className="flex flex-wrap justify-center gap-x-4 sm:gap-x-8 gap-y-2 text-xs sm:text-sm font-medium">
+                                    <div className="flex items-center gap-1.5 sm:gap-2 text-slate-400">
+                                        <Coins className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-500" />
+                                        <span>예상: <span className="text-white text-base sm:text-lg">{formatNumber(calculateCost(itemLevel, currentStars, eventMode, useSafeguard, mvpRank, usePCCafe))}</span></span>
                                     </div>
-                                    <div className="flex items-center gap-4">
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+                                    <div className="flex items-center gap-3 sm:gap-4">
+                                        <div className="flex items-center gap-1.5 sm:gap-2">
+                                            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
                                             <span className="text-green-400">{(getProbabilities(currentStars, eventMode, useStarCatch, useSafeguard).success * 100).toFixed(1)}%</span>
                                         </div>
                                         {getProbabilities(currentStars, eventMode, useStarCatch, useSafeguard).destroy > 0 && (
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
+                                            <div className="flex items-center gap-1.5 sm:gap-2">
+                                                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
                                                 <span className="text-red-400">{(getProbabilities(currentStars, eventMode, useStarCatch, useSafeguard).destroy * 100).toFixed(1)}%</span>
                                             </div>
                                         )}
@@ -519,13 +519,13 @@ export default function StarforceSimulator() {
                                 <button
                                     onClick={handleEnhance}
                                     disabled={isAnimating || currentStars >= maxStars}
-                                    className="w-full md:w-3/4 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-500 text-white text-xl font-black rounded-2xl shadow-lg shadow-indigo-900/30 transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+                                    className="w-full md:w-3/4 py-4 sm:py-5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-500 text-white text-lg sm:text-xl font-black rounded-xl sm:rounded-2xl shadow-lg shadow-indigo-900/30 transition-all active:scale-[0.98] flex items-center justify-center gap-2 sm:gap-3 touch-manipulation"
                                 >
                                     {isAnimating ? (
-                                        <RefreshCw className="w-6 h-6 animate-spin" />
+                                        <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
                                     ) : (
                                         <>
-                                            <Sparkles className="w-6 h-6 fill-white/20" />
+                                            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 fill-white/20" />
                                             강화 시작
                                         </>
                                     )}
@@ -535,27 +535,27 @@ export default function StarforceSimulator() {
                     </div>
 
                     {/* Right Column: Settings & Stats (4 cols) */}
-                    <div className="lg:col-span-5 xl:col-span-4 space-y-6">
+                    <div className="lg:col-span-5 xl:col-span-4 space-y-4 sm:space-y-6">
                         {/* Settings Panel */}
-                        <div className="bg-slate-900/50 backdrop-blur-md rounded-3xl border border-slate-800 p-6 space-y-6">
-                            <h3 className="text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-4">
-                                <Settings className="w-5 h-5 text-indigo-400" />
+                        <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-800 p-4 sm:p-6 space-y-4 sm:space-y-6">
+                            <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3 sm:pb-4">
+                                <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />
                                 기본 설정
                             </h3>
-                            <div className="space-y-5">
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">장비 레벨</label>
+                            <div className="space-y-3 sm:space-y-5">
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">장비 레벨</label>
                                     <input
                                         type="text"
                                         inputMode="numeric"
                                         value={itemLevel}
                                         onChange={(e) => setItemLevel(Number(e.target.value.replace(/[^0-9]/g, "")))}
                                         onFocus={(e) => e.target.select()}
-                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono"
+                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono text-sm sm:text-base"
                                     />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">현재 스타포스</label>
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">현재 스타포스</label>
                                     <input
                                         type="text"
                                         inputMode="numeric"
@@ -565,22 +565,22 @@ export default function StarforceSimulator() {
                                             if (val <= maxStars) setCurrentStars(val);
                                         }}
                                         onFocus={(e) => e.target.select()}
-                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono"
+                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono text-sm sm:text-base"
                                     />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">목표 스타포스</label>
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">목표 스타포스</label>
                                     <input
                                         type="text"
                                         inputMode="numeric"
                                         value={targetStars}
                                         onChange={(e) => setTargetStars(Number(e.target.value.replace(/[^0-9]/g, "")))}
                                         onFocus={(e) => e.target.select()}
-                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono"
+                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono text-sm sm:text-base"
                                     />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">장비 노작값 (파괴 시 추가)</label>
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">장비 노작값 (파괴 시 추가)</label>
                                     <div className="relative">
                                         <Coins className="absolute left-4 top-3.5 w-4 h-4 text-slate-500" />
                                         <input
@@ -589,37 +589,37 @@ export default function StarforceSimulator() {
                                             value={itemCost.toLocaleString()}
                                             onChange={(e) => setItemCost(Number(e.target.value.replace(/[^0-9]/g, "")))}
                                             onFocus={(e) => e.target.select()}
-                                            className="w-full bg-slate-950 text-white pl-10 pr-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono"
+                                            className="w-full bg-slate-950 text-white pl-10 pr-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono text-sm sm:text-base"
                                             placeholder="0"
                                         />
                                     </div>
-                                    <p className="text-xs text-indigo-400 text-right font-medium">{formatNumber(itemCost)} 메소</p>
+                                    <p className="text-[10px] sm:text-xs text-indigo-400 text-right font-medium">{formatNumber(itemCost)} 메소</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Simulation Panel */}
-                        <div className="bg-slate-900/50 backdrop-blur-md rounded-3xl border border-slate-800 p-6 space-y-6">
-                            <h3 className="text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-4">
-                                <Calculator className="w-5 h-5 text-emerald-400" />
+                        <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-800 p-4 sm:p-6 space-y-4 sm:space-y-6">
+                            <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3 sm:pb-4">
+                                <Calculator className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
                                 대량 시뮬레이션
                             </h3>
-                            <div className="space-y-4">
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">시뮬레이션 횟수</label>
+                            <div className="space-y-3 sm:space-y-4">
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">시뮬레이션 횟수</label>
                                     <input
                                         type="text"
                                         inputMode="numeric"
                                         value={simIterations}
                                         onChange={(e) => setSimIterations(Number(e.target.value.replace(/[^0-9]/g, "")))}
                                         onFocus={(e) => e.target.select()}
-                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-emerald-500 outline-none font-mono"
+                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-emerald-500 outline-none font-mono text-sm sm:text-base"
                                     />
                                 </div>
                                 <button
                                     onClick={runBatchSimulation}
                                     disabled={isSimulating}
-                                    className="w-full py-3 bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/50 hover:border-emerald-500 text-emerald-400 font-bold rounded-xl transition-all flex items-center justify-center gap-2"
+                                    className="w-full py-2.5 sm:py-3 bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/50 hover:border-emerald-500 text-emerald-400 font-bold rounded-xl transition-all flex items-center justify-center gap-2"
                                 >
                                     {isSimulating ? "계산 중..." : "시뮬레이션 시작"}
                                 </button>
@@ -627,38 +627,38 @@ export default function StarforceSimulator() {
 
                             {simResult && (
                                 <div className="space-y-3 pt-2 animate-in slide-in-from-top-2">
-                                    <div className="p-6 bg-gradient-to-br from-indigo-900/30 to-slate-900/50 rounded-2xl border border-indigo-500/30 shadow-lg shadow-indigo-900/20 space-y-2 relative overflow-hidden group">
+                                    <div className="p-4 sm:p-6 bg-gradient-to-br from-indigo-900/30 to-slate-900/50 rounded-2xl border border-indigo-500/30 shadow-lg shadow-indigo-900/20 space-y-2 relative overflow-hidden group">
                                         <div className="absolute inset-0 bg-indigo-500/5 group-hover:bg-indigo-500/10 transition-colors" />
                                         <div className="relative z-10">
-                                            <div className="text-sm font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
-                                                <Coins className="w-4 h-4" />
+                                            <div className="text-xs sm:text-sm font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
+                                                <Coins className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                                 평균 비용 (기대값)
                                             </div>
-                                            <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-100 to-indigo-200 break-keep mt-1 leading-tight">
+                                            <div className="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-100 to-indigo-200 break-keep mt-1 leading-tight">
                                                 {formatNumber(simResult.averageCost)}
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-3">
-                                        <div className="p-3 bg-slate-950/50 rounded-xl border border-slate-800">
+                                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                                        <div className="p-2.5 sm:p-3 bg-slate-950/50 rounded-xl border border-slate-800">
                                             <div className="text-[10px] text-slate-500 uppercase">중위 비용 (50%)</div>
-                                            <div className="text-sm font-medium text-slate-300 break-keep">{formatNumber(simResult.medianCost)}</div>
+                                            <div className="text-xs sm:text-sm font-medium text-slate-300 break-keep">{formatNumber(simResult.medianCost)}</div>
                                         </div>
-                                        <div className="p-3 bg-slate-950/50 rounded-xl border border-slate-800">
+                                        <div className="p-2.5 sm:p-3 bg-slate-950/50 rounded-xl border border-slate-800">
                                             <div className="text-[10px] text-slate-500 uppercase">최대 비용 (100%)</div>
-                                            <div className="text-sm font-medium text-red-400 break-keep">{formatNumber(simResult.maxCost)}</div>
+                                            <div className="text-xs sm:text-sm font-medium text-red-400 break-keep">{formatNumber(simResult.maxCost)}</div>
                                         </div>
                                     </div>
                                     <div className="flex justify-between items-center px-2 pt-2">
-                                        <span className="text-xs text-slate-500">평균 파괴 횟수</span>
-                                        <span className="text-sm font-bold text-white">{simResult.avgDestroys.toFixed(2)}회</span>
+                                        <span className="text-[10px] sm:text-xs text-slate-500">평균 파괴 횟수</span>
+                                        <span className="text-xs sm:text-sm font-bold text-white">{simResult.avgDestroys.toFixed(2)}회</span>
                                     </div>
                                 </div>
                             )}
                         </div>
 
                         {/* Log */}
-                        <div className="bg-black/40 rounded-3xl border border-slate-800 p-4 h-48 overflow-y-auto font-mono text-xs space-y-1.5 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+                        <div className="bg-black/40 rounded-2xl sm:rounded-3xl border border-slate-800 p-4 h-40 sm:h-48 overflow-y-auto font-mono text-[10px] sm:text-xs space-y-1 sm:space-y-1.5 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
                             {log.length === 0 && <div className="text-slate-600 text-center mt-16 italic">시뮬레이션 기록이 여기에 표시됩니다...</div>}
                             {log.map((entry, i) => (
                                 <div key={i} className="text-slate-400 border-b border-white/5 pb-1 last:border-0 break-keep">

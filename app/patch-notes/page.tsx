@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Sparkles, Zap, Smartphone, Bug, ArrowLeft, Swords } from 'lucide-react';
+import { Sparkles, Zap, Smartphone, Bug, ArrowLeft, Swords, Wrench } from 'lucide-react';
 import Link from 'next/link';
 
 export default function PatchNotesPage() {
@@ -24,6 +24,80 @@ export default function PatchNotesPage() {
                 </header>
 
                 <div className="space-y-8">
+                    {/* v1.2.5 */}
+                    <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 sm:p-8 hover:border-orange-500/30 transition-all shadow-lg relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <Sparkles className="w-32 h-32 text-orange-500" />
+                        </div>
+
+                        <div className="relative z-10">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-2 border-b border-slate-800 pb-4">
+                                <div className="flex items-center gap-3">
+                                    <span className="px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-sm font-bold border border-orange-500/30 shadow-[0_0_10px_rgba(249,115,22,0.2)]">v1.2.5</span>
+                                    <h2 className="text-2xl font-bold text-white">편의성 대폭 개선 & 진단 로직 강화</h2>
+                                </div>
+                                <span className="text-slate-500 text-sm font-mono">2025. 12. 06</span>
+                            </div>
+
+                            <div className="space-y-8">
+                                <div>
+                                    <h3 className="flex items-center text-lg font-bold text-yellow-400 mb-3">
+                                        <Sparkles className="w-5 h-5 mr-2" />
+                                        놀장강(Amazing Enhancement) 전용 배지 🌟
+                                    </h3>
+                                    <ul className="space-y-2 text-slate-300 ml-1">
+                                        <li className="flex items-start">
+                                            <span className="mr-2 text-yellow-500/50">•</span>
+                                            <span><span className="font-semibold text-white">하늘색 별 배지:</span> 놀라운 장비 강화 주문서(놀장강)가 적용된 아이템은 이제 영롱한 <span className="text-cyan-300 font-bold">하늘색 별</span> 배지로 표시되어, 장비 리스트와 진단 리포트에서 한눈에 구분할 수 있습니다!</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <h3 className="flex items-center text-lg font-bold text-cyan-400 mb-3">
+                                        <Zap className="w-5 h-5 mr-2" />
+                                        테스트월드 뉴스 & 편의성 고도화 🧪
+                                    </h3>
+                                    <ul className="space-y-2 text-slate-300 ml-1">
+                                        <li className="flex items-start">
+                                            <span className="mr-2 text-cyan-500/50">•</span>
+                                            <span><span className="font-semibold text-white">테스트월드 뉴스 필터링:</span> 본섭 공지와 광고를 걸러내고, 진짜 테스트 서버 소식만 쏙쏙 골라 AI 요약과 함께 제공합니다.</span>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <span className="mr-2 text-cyan-500/50">•</span>
+                                            <span><span className="font-semibold text-white">아코디언 요약:</span> 뉴스 리스트의 제목을 클릭하면 즉시 요약을 볼 수 있습니다.</span>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <span className="mr-2 text-cyan-500/50">•</span>
+                                            <span><span className="font-semibold text-white">갱신 안내 문구 개선:</span> 캐릭터 정보 갱신(핸즈 반영) 타이밍을 "대략 1분 후"로 명확하게 안내합니다.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <h3 className="flex items-center text-lg font-bold text-green-400 mb-3">
+                                        <Smartphone className="w-5 h-5 mr-2" />
+                                        메인 화면 가이드 & 진단 로직 정밀화 📚
+                                    </h3>
+                                    <ul className="space-y-2 text-slate-300 ml-1">
+                                        <li className="flex items-start">
+                                            <span className="mr-2 text-green-500/50">•</span>
+                                            <span><span className="font-semibold text-white">추천 가이드 섹션:</span> 단풍이가 엄선한 13종의 핵심 가이드(헥사, 스타포스 등)를 메인 화면에서 바로 확인하세요.</span>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <span className="mr-2 text-green-500/50">•</span>
+                                            <span><span className="font-semibold text-white">모험가 유니온:</span> 4차 전직 미만의 모험가 직업군도 유니온 공격대원으로 정확히 인식합니다. (자전 코인 대기 중인 분들 환영!)</span>
+                                        </li>
+                                        <li className="flex items-start">
+                                            <span className="mr-2 text-green-500/50">•</span>
+                                            <span><span className="font-semibold text-white">에디셔널 크뎀:</span> 에디셔널 잠재능력의 크리티컬 데미지 옵션을 정밀하게 감지하여 장비 가치 평가에 반영합니다.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* v1.2.3 */}
                     <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 sm:p-8 hover:border-orange-500/30 transition-all shadow-lg relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
