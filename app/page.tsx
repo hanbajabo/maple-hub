@@ -19,6 +19,8 @@ import SymbolBadge from "../components/SymbolBadge";
 import ItemDiagnosis from "../components/ItemDiagnosis";
 import AbilityWidget from "../components/AbilityWidget";
 import MapleNews from "../components/MapleNews";
+import RecommendedGuides from "../components/RecommendedGuides";
+import Footer from "../components/Footer";
 import MapleStoryTrivia from "../components/MapleStoryTrivia";
 
 import CombatPowerRank, { TIERS } from "../components/CombatPowerRank";
@@ -1038,7 +1040,7 @@ export default function Home() {
         <div className="w-full max-w-4xl flex items-center gap-2 bg-orange-950/30 border border-orange-500/30 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3">
           <span className="text-xl sm:text-2xl">💡</span>
           <p className="text-xs sm:text-base text-orange-300 font-medium text-center">
-            인게임에서 <strong className="text-orange-400">[캐시샵 입장]</strong> 또는 <strong className="text-orange-400">[재접속]</strong> 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
+            인게임에서 <strong className="text-orange-400">[캐시샵 입장]</strong> 또는 <strong className="text-orange-400">[재접속]</strong> 후 대략 1분 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
           </p>
         </div>
 
@@ -1262,6 +1264,13 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </section>
+      )}
+
+      {/* Recommended Guides Section - Only show when no character */}
+      {!character && !loading && (
+        <section className="w-full sm:max-w-5xl mb-16 px-4 sm:px-6">
+          <RecommendedGuides />
         </section>
       )}
 
@@ -2044,18 +2053,8 @@ export default function Home() {
       <MapleStoryTrivia />
 
       {/* Footer */}
-      <footer className="w-full py-10 mt-20 border-t border-slate-800/50 flex flex-col items-center justify-center gap-2 text-slate-500 text-sm">
-        <div className="flex gap-4 mb-2">
-          <Link href="/privacy" className="text-slate-400 hover:text-maple-orange transition-colors font-medium">
-            개인정보처리방침
-          </Link>
-        </div>
-        <p className="font-medium">Data by NEXON Open API</p>
-        <p className="font-medium text-slate-400 mt-1 flex items-center gap-2">
-          📧 문의 or 피드백은 <span className="text-orange-400 font-bold select-all hover:text-orange-300 transition-colors cursor-pointer">p6092@naver.com</span> 메일로 보내주세요
-        </p>
-        <p className="mt-2 text-xs text-slate-600">Copyright © 2025. 한자유튜브 - All right reserved</p>
-      </footer>
+      {/* Footer */}
+      <Footer />
       {/* Weapon Diagnosis Modal */}
       {
         selectedWeapon && (

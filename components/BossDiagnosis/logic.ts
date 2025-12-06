@@ -9,6 +9,7 @@ import { evaluateStage5 } from './stages/stage5';
 import { evaluateStage6 } from './stages/stage6'; // New Optimization Stage
 import { evaluateStage7 } from './stages/stage7'; // Old Stage 6
 import { evaluateStage8 } from './stages/stage8'; // Old Stage 7
+import { evaluateStage9 } from './stages/stage9'; // 10단계: 22성급 장신구
 import { EquipmentItem, BossDiagnosisResult } from './types';
 
 export const analyzeEquipment = (equipment: EquipmentItem[], basic: any, manualPassedStages?: Set<number>): BossDiagnosisResult => {
@@ -47,6 +48,9 @@ export const analyzeEquipment = (equipment: EquipmentItem[], basic: any, manualP
     // 8단계: 22성급 방어구 셋팅 (Old 7)
     const result8 = evaluateStage8(equipment);
 
+    // 9단계: 22성급 장신구 셋팅 (10단계)
+    const result9 = evaluateStage9(equipment);
+
     // 단계 결정 로직
     let stage = 0;
 
@@ -76,7 +80,11 @@ export const analyzeEquipment = (equipment: EquipmentItem[], basic: any, manualP
                                     stage = 8; // 8단계 (22성 방어구)
                                     const isStage8Passed = result8.isPassed || manualPassedStages?.has(8);
                                     if (isStage8Passed) {
-                                        stage = 9; // Diagnosis Complete
+                                        stage = 9; // 9단계 (22성 장신구)
+                                        const isStage9Passed = result9.isPassed || manualPassedStages?.has(9);
+                                        if (isStage9Passed) {
+                                            stage = 10; // Diagnosis Complete
+                                        }
                                     }
                                 }
                             }
@@ -99,6 +107,7 @@ export const analyzeEquipment = (equipment: EquipmentItem[], basic: any, manualP
     else if (stage === 6) currentStageIssues = result5.issues; // 7단계 (18성)
     else if (stage === 7) currentStageIssues = result7.issues; // 8단계 (조합)
     else if (stage === 8) currentStageIssues = result8.issues; // 9단계 (방어구)
+    else if (stage === 9) currentStageIssues = result9.issues; // 10단계 (장신구)
 
 
     return {
@@ -122,6 +131,7 @@ export const analyzeEquipment = (equipment: EquipmentItem[], basic: any, manualP
             isCompleted: result7.isCompleted,
             counts: result7.counts
         },
-        stage8Stats: result8.stats // 9단계: 22성 셋팅
+        stage8Stats: result8.stats, // 9단계: 22성 셋팅
+        stage9Stats: result9.stats  // 10단계: 22성 장신구
     };
 };

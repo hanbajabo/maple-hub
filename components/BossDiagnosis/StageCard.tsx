@@ -8,6 +8,7 @@ import { Stage5Content } from './stage_contents/Stage5Content';
 import { Stage6Content } from './stage_contents/Stage6Content';
 import { Stage7Content } from './stage_contents/Stage7Content';
 import { Stage8Content } from './stage_contents/Stage8Content';
+import { Stage9Content } from './stage_contents/Stage9Content';
 import { EquipmentItem } from '../../lib/diagnosis/types';
 import { getStarforce, parseStatPercent, getPotentialGradeScore, calculateFlameScore } from '../../lib/diagnosis/utils';
 import { isAmazingEnhancementItem } from '@/lib/amazing_enhancement_table';
@@ -87,13 +88,24 @@ interface StageCardProps {
         eternal17Count: number;
         satisfiedSetCount: number;
         isEternal4SetSatisfied: boolean;
+        totalPassedPieces: number;
+    };
+    stage9Stats?: {
+        total: number;
+        passed: number;
+        failedItems: string[];
+        dawnSetCount: number;
+        pitchedSetCount: number;
+        brilliantSetCount: number;
+        hasDawn2: boolean;
+        hasPitched4: boolean;
     };
     onPass?: () => void;
     equipment?: EquipmentItem[];
 }
 
 export const StageCard: React.FC<StageCardProps> = ({
-    stageInfo, isCurrent, isPassed, isExpanded, onToggle, attTypeKor, setCounts, passedArmorOption, isGenesisWeapon, stage4Stats, stage5Stats, stage6Stats, stage7Info, stage8Stats, onPass, equipment
+    stageInfo, isCurrent, isPassed, isExpanded, onToggle, attTypeKor, setCounts, passedArmorOption, isGenesisWeapon, stage4Stats, stage5Stats, stage6Stats, stage7Info, stage8Stats, stage9Stats, onPass, equipment
 }) => {
     const [expandedPassedItem, setExpandedPassedItem] = React.useState<EquipmentItem | null>(null);
     const [expandedFailedItem, setExpandedFailedItem] = React.useState<EquipmentItem | null>(null);
@@ -131,16 +143,20 @@ export const StageCard: React.FC<StageCardProps> = ({
         const hasAttOrStatAdd = (lines: string[], minStatPct: number) => {
             return lines.some(l => {
                 if (!l) return false;
+                // 공/마 +10 이상
                 if (l.includes("공격력") || l.includes("마력")) {
                     const m = l.match(/\+(\d+)/);
                     if (m && parseInt(m[1]) >= 10) return true;
                 }
+                // 주스탯 %
                 if (l.includes("%")) {
                     if (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")) {
                         const m = l.match(/(\d+)%/);
                         if (m && parseInt(m[1]) >= minStatPct) return true;
                     }
                 }
+                // 렙당 주스탯 (캐릭터 기준 9레벨 당)
+                if (l.includes("캐릭터 기준 9레벨 당")) return true;
                 return false;
             });
         };
@@ -209,15 +225,29 @@ export const StageCard: React.FC<StageCardProps> = ({
                 // 에디셔널 체크
                 if (potScore(adiGrade) < 1) return false;
 
+                const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+
                 // WSE는 에디셔널 옵션도 체크 (공/마 +10 이상 OR 공/마 %)
                 if (isWSE) {
-                    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
                     // 공/마 상수 +10 이상
                     const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
                     // 공/마 % (예: 마력 +3%)
                     const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
 
                     if (!hasAtt10 && !hasAttPct) return false;
+                } else {
+                    // 일반 방어구/장신구: 크뎀 또는 렙당 주스탯이 있으면 통과
+                    const hasCritDmg = adiLines.some(l => l && l.includes("크리티컬 데미지"));
+                    const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+
+                    // 크뎀이나 렙당 주스탯이 있으면 통과 (stage0.ts와 동일)
+                    if (!hasCritDmg && !hasLevelStat) {
+                        // 공/마 +10 또는 주스탯% 체크
+                        const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                        const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
+
+                        if (!hasAtt10 && !hasStatPct) return false;
+                    }
                 }
 
                 return true;
@@ -334,20 +364,22 @@ export const StageCard: React.FC<StageCardProps> = ({
                         const isEventRing = eventRingKeywords.some(k => name.includes(k));
 
                         if (isEventRing) {
-                            // 이벤트링: 레어+ & (공/마+10 or 주스탯4%)
+                            // 이벤트링: 레어+ & (공/마+10 or 주스탯4% or 렙당 주스탯)
                             if (adiGradeScore < 1) return false;
                             const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
                             const hasStat4 = adiLines.some(l => l && l.includes("%") && l.match(/(\d+)%/) && parseInt(l.match(/(\d+)%/)?.[1] || "0") >= 4);
-                            if (!hasAtt10 && !hasStat4) return false;
+                            const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                            if (!hasAtt10 && !hasStat4 && !hasLevelStat) return false;
                         } else {
-                            // 일반링: 에픽+ & (공/마+10 or 주스탯%)
+                            // 일반링: 에픽+ & (공/마+10 or 주스탯% or 렙당 주스탯)
                             if (adiGradeScore < 2) return false;
                             const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
                             const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
-                            if (!hasAtt10 && !hasStatPct) return false;
+                            const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                            if (!hasAtt10 && !hasStatPct && !hasLevelStat) return false;
                         }
                     } else {
-                        // 일반 방어구/장신구: 에픽+ & (공/마+10 or 공/마% or 주스탯%)
+                        // 일반 방어구/장신구: 에픽+ & (공/마+10 or 공/마% or 주스탯% or 렙당 주스탯)
                         if (adiGradeScore < 2) return false;
                         // 공/마 상수 +10 이상
                         const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
@@ -355,7 +387,9 @@ export const StageCard: React.FC<StageCardProps> = ({
                         const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
                         // 주스탯 %
                         const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
-                        if (!hasAtt10 && !hasAttPct && !hasStatPct) return false;
+                        // 렙당 주스탯
+                        const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                        if (!hasAtt10 && !hasAttPct && !hasStatPct && !hasLevelStat) return false;
                     }
                 }
 
@@ -391,16 +425,17 @@ export const StageCard: React.FC<StageCardProps> = ({
                 const isSpecialRing = slot.includes("반지") && specialRingKeywords.some(k => name.includes(k));
                 if (isSpecialRing) return true;
 
-                // 에테르넬은 12성, 타일런트는 10성, 그 외는 18성
+
+                // 에테르넬은 12성, 타일런트는 10성(또는 놀장강 5성), 그 외는 18성(또는 놀장강 5성)
                 const isEternal = name.includes("에테르넬");
                 const isTyrant = name.includes("타일런트");
-                let threshold = 18;
-                if (isEternal) threshold = 12;
-                if (isTyrant) threshold = 10;
 
-                // 놀장강 처리: 10성 이상이면 20성급이므로 18성 통과
+                // 놀장강 처리
                 const isAmazingEnhancement = isAmazingEnhancementItem(item);
-                if (isAmazingEnhancement) return star >= 10;
+
+                let threshold = 18;
+                if (isTyrant || isAmazingEnhancement) threshold = 5; // stage5.ts와 동일
+                if (isEternal) threshold = 12;
 
                 return star >= threshold;
             }
@@ -439,6 +474,30 @@ export const StageCard: React.FC<StageCardProps> = ({
 
                 if (isEternal) return star >= 17;
                 return star >= 22;
+            }
+
+            // Stage 10: 22-star Accessory Setting
+            if (stageId === 9) {
+                const accessorySlots = ['눈장식', '얼굴장식', '귀고리', '펜던트', '펜던트2', '반지1', '반지2', '반지3', '반지4', '벨트', '기계 심장'];
+                if (!accessorySlots.includes(slot) && !slot.includes('반지')) return false;
+
+                // 특수 반지는 통과
+                const specialRingKeywords = ['리스트레인트', '웨폰퍼프', '리스크테이커', '컨티뉴어스'];
+                const isSpecialRing = specialRingKeywords.some(k => name.includes(k));
+                if (isSpecialRing) return true;
+
+                const isTyrant = name.includes('타일런트');
+                const isAmazingEnhancement = isAmazingEnhancementItem(item);
+
+                if (slot === '기계 심장') {
+                    let threshold = 20;
+                    if (isTyrant || isAmazingEnhancement) threshold = 12;
+                    return star >= threshold;
+                } else {
+                    let threshold = 22;
+                    if (isTyrant || isAmazingEnhancement) threshold = 12;
+                    return star >= threshold;
+                }
             }
 
             return false;
@@ -484,15 +543,28 @@ export const StageCard: React.FC<StageCardProps> = ({
                 // 에디셔널 체크
                 if (potScore(adiGrade) < 1) return true;
 
+                const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
+
                 // WSE는 에디셔널 옵션도 체크 (공/마 +10 이상 OR 공/마 %)
                 if (isWSE) {
-                    const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
                     // 공/마 상수 +10 이상
                     const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
                     // 공/마 % (예: 마력 +3%)
                     const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
 
                     if (!hasAtt10 && !hasAttPct) return true;
+                } else {
+                    // 일반 방어구/장신구: 크뎀 또는 렙당 주스탯이 있으면 통과
+                    const hasCritDmg = adiLines.some(l => l && l.includes("크리티컬 데미지"));
+                    const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+
+                    // 크뎀이나 렙당 주스탯이 없으면 공/마 +10 또는 주스탯% 체크
+                    if (!hasCritDmg && !hasLevelStat) {
+                        const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                        const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
+
+                        if (!hasAtt10 && !hasStatPct) return true;
+                    }
                 }
 
                 return false;
@@ -602,12 +674,14 @@ export const StageCard: React.FC<StageCardProps> = ({
                             if (adiGradeScore < 1) return true;
                             const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
                             const hasStat4 = adiLines.some(l => l && l.includes("%") && l.match(/(\d+)%/) && parseInt(l.match(/(\d+)%/)?.[1] || "0") >= 4);
-                            if (!hasAtt10 && !hasStat4) return true;
+                            const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                            if (!hasAtt10 && !hasStat4 && !hasLevelStat) return true;
                         } else {
                             if (adiGradeScore < 2) return true;
                             const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
                             const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
-                            if (!hasAtt10 && !hasStatPct) return true;
+                            const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                            if (!hasAtt10 && !hasStatPct && !hasLevelStat) return true;
                         }
                     } else {
                         if (adiGradeScore < 2) return true;
@@ -617,7 +691,9 @@ export const StageCard: React.FC<StageCardProps> = ({
                         const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
                         // 주스탯 %
                         const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
-                        if (!hasAtt10 && !hasAttPct && !hasStatPct) return true;
+                        // 렙당 주스탯
+                        const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                        if (!hasAtt10 && !hasAttPct && !hasStatPct && !hasLevelStat) return true;
                     }
                 }
 
@@ -644,16 +720,13 @@ export const StageCard: React.FC<StageCardProps> = ({
 
                 const isEternal = name.includes("에테르넬");
                 const isTyrant = name.includes("타일런트");
-                let threshold = 18;
-                if (isEternal) threshold = 12;
-                if (isTyrant) threshold = 10;
 
-                // 놀장강 처리: 10성 이상이면 20성급이므로 18성 통과
+                // 놀장강 처리
                 const isAmazingEnhancement = isAmazingEnhancementItem(item);
-                if (isAmazingEnhancement) {
-                    if (star < 10) return true;
-                    return false;
-                }
+
+                let threshold = 18;
+                if (isTyrant || isAmazingEnhancement) threshold = 5; // stage5.ts와 동일
+                if (isEternal) threshold = 12;
 
                 if (star < threshold) return true;
                 return false;
@@ -682,6 +755,30 @@ export const StageCard: React.FC<StageCardProps> = ({
                     if (star < 22) return true;
                 }
                 return false;
+            }
+
+            // Stage 10: 22-star Accessory Setting
+            if (stageId === 9) {
+                const accessorySlots = ['눈장식', '얼굴장식', '귀고리', '펜던트', '펜던트2', '반지1', '반지2', '반지3', '반지4', '벨트', '기계 심장'];
+                if (!accessorySlots.includes(slot) && !slot.includes('반지')) return false;
+
+                // 특수 반지는 통과 (실패 아님)
+                const specialRingKeywords = ['리스트레인트', '웨폰퍼프', '리스크테이커', '컨티뉴어스'];
+                const isSpecialRing = specialRingKeywords.some(k => name.includes(k));
+                if (isSpecialRing) return false;
+
+                const isTyrant = name.includes('타일런트');
+                const isAmazingEnhancement = isAmazingEnhancementItem(item);
+
+                if (slot === '기계 심장') {
+                    let threshold = 20;
+                    if (isTyrant || isAmazingEnhancement) threshold = 12;
+                    return star < threshold;
+                } else {
+                    let threshold = 22;
+                    if (isTyrant || isAmazingEnhancement) threshold = 12;
+                    return star < threshold;
+                }
             }
 
             return false;
@@ -753,7 +850,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                 }}
                             />
                             {getStarforce(item) > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-yellow-500 text-black text-[10px] font-bold px-1 rounded-full">
+                                <span className={`absolute -top-1 -right-1 text-[10px] font-bold px-1 rounded-full ${isAmazingEnhancementItem(item) ? 'bg-cyan-400 text-black' : 'bg-yellow-500 text-black'}`}>
                                     ★{item.starforce}
                                 </span>
                             )}
@@ -767,7 +864,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                             <div className="relative">
                                 <img src={expandedPassedItem.item_icon} className="w-16 h-16 rounded bg-slate-800" />
                                 {getStarforce(expandedPassedItem) > 0 && (
-                                    <span className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs font-bold px-1.5 py-0.5 rounded-full">
+                                    <span className={`absolute -top-2 -right-2 text-xs font-bold px-1.5 py-0.5 rounded-full ${isAmazingEnhancementItem(expandedPassedItem) ? 'bg-cyan-400 text-black' : 'bg-yellow-500 text-black'}`}>
                                         ★{expandedPassedItem.starforce}
                                     </span>
                                 )}
@@ -878,7 +975,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                                 }}
                             />
                             {getStarforce(item) > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-slate-700 text-slate-300 text-[10px] font-bold px-1 rounded-full">
+                                <span className={`absolute -top-1 -right-1 text-[10px] font-bold px-1 rounded-full ${isAmazingEnhancementItem(item) ? 'bg-cyan-400 text-black' : 'bg-slate-700 text-slate-300'}`}>
                                     ★{item.starforce}
                                 </span>
                             )}
@@ -892,7 +989,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                             <div className="relative">
                                 <img src={expandedFailedItem.item_icon} className="w-16 h-16 rounded bg-slate-800" />
                                 {getStarforce(expandedFailedItem) > 0 && (
-                                    <span className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs font-bold px-1.5 py-0.5 rounded-full">
+                                    <span className={`absolute -top-2 -right-2 text-xs font-bold px-1.5 py-0.5 rounded-full ${isAmazingEnhancementItem(expandedFailedItem) ? 'bg-cyan-400 text-black' : 'bg-yellow-500 text-black'}`}>
                                         ★{expandedFailedItem.starforce}
                                     </span>
                                 )}
@@ -980,7 +1077,11 @@ export const StageCard: React.FC<StageCardProps> = ({
                         stageInfo.color === 'green' ? 'text-green-400' :
                             stageInfo.color === 'orange' ? 'text-orange-400' :
                                 stageInfo.color === 'purple' ? 'text-purple-400' :
-                                    stageInfo.color === 'red' ? 'text-red-400' : 'text-slate-400'
+                                    stageInfo.color === 'red' ? 'text-red-400' :
+                                        stageInfo.color === 'indigo' ? 'text-indigo-400' :
+                                            stageInfo.color === 'gold' ? 'text-yellow-400' :
+                                                stageInfo.color === 'cyan' ? 'text-cyan-400' :
+                                                    stageInfo.color === 'pink' ? 'text-pink-400' : 'text-slate-400'
                         }`}>
                         {stageInfo.title}
                     </span>
@@ -1062,6 +1163,14 @@ export const StageCard: React.FC<StageCardProps> = ({
                     {stageInfo.id === 8 && stage8Stats && (
                         <Stage8Content
                             stage8Stats={stage8Stats}
+                            renderPassedItemsSection={renderPassedItemsSection}
+                            renderFailedItemsSection={renderFailedItemsSection}
+                        />
+                    )}
+
+                    {stageInfo.id === 9 && stage9Stats && (
+                        <Stage9Content
+                            stage9Stats={stage9Stats}
                             renderPassedItemsSection={renderPassedItemsSection}
                             renderFailedItemsSection={renderFailedItemsSection}
                         />

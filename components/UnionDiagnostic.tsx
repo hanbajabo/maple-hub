@@ -22,7 +22,7 @@ const UNION_EFFECTS: Record<string, { effect: string; tier?: number; type: strin
     "은월": { effect: "크리티컬 데미지 6% 증가", tier: 2, type: "Utility" },
     "와일드헌터": { effect: "공격 시 20% 확률로 데미지 증가", tier: 1, type: "Utility" },
     "메카닉": { effect: "버프 지속시간 25% 증가", tier: 1, type: "Utility" },
-    "캡틴": { effect: "소환수 지속시간 12% 증가", tier: 1, type: "Utility" },
+    "캡틴": { effect: "소환수 지속시간 12% 증가", type: "Utility" },
 
     // 주스텟 대원
     "히어로": { effect: "STR 100 증가", type: "STR" },

@@ -26,7 +26,7 @@ export default function ItemCard({ item }: ItemCardProps) {
             <div className="relative z-10 flex items-start gap-3 border-b border-slate-700/50 pb-4">
                 <div className="w-20 h-20 bg-slate-800 rounded-lg flex items-center justify-center shrink-0 border border-slate-700 relative">
                     <img src={item.item_icon} alt={item.item_name} className="w-16 h-16 object-contain" />
-                    {item.starforce !== "0" && <span className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs font-bold px-2 py-0.5 rounded-full shadow-md">★{item.starforce}</span>}
+                    {item.starforce !== "0" && <span className={`absolute -top-2 -right-2 text-black text-xs font-bold px-2 py-0.5 rounded-full shadow-md ${isAmazingEnhancementItem(item) ? 'bg-cyan-400' : 'bg-yellow-500'}`}>★{item.starforce}</span>}
                 </div>
                 <div>
                     <div className="flex flex-wrap items-center gap-1.5 mb-1">

@@ -45,7 +45,9 @@ export type IssueType =
     | 'growth_potential'
     | 'growth_additional'
     | 'wrong_preset'
-    | 'optimization';
+    | 'optimization'
+    | 'accessory_starforce'
+    | 'set_recommendation';
 
 export interface Issue {
     type: IssueType;
@@ -113,5 +115,16 @@ export interface BossDiagnosisResult {
         eternal17Count: number;
         satisfiedSetCount: number;
         isEternal4SetSatisfied: boolean;
+        totalPassedPieces: number;
+    };
+    stage9Stats?: {
+        total: number;
+        passed: number;
+        failedItems: string[];
+        dawnSetCount: number;
+        pitchedSetCount: number;
+        brilliantSetCount: number;
+        hasDawn2: boolean;
+        hasPitched4: boolean;
     };
 }

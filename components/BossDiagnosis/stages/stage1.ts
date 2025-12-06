@@ -52,7 +52,12 @@ export const evaluateStage1 = (equipment: EquipmentItem[], isGenesisWeapon: bool
     let brilliantSetCount = checkSetItems(equipment, brilliantSetKeywords);
 
     // 마이스터 세트
-    let meisterSetCount = checkSetItems(equipment, ["마이스터"]);
+    const meisterSetKeywords = [
+        "마이스터링", "마이스터 링",
+        "마이스터이어링", "마이스터 이어링",
+        "마이스터숄더", "마이스터 숄더"
+    ];
+    let meisterSetCount = checkSetItems(equipment, meisterSetKeywords);
 
     // 럭키 아이템 (제네시스 무기) 처리
     // * 제네시스 무기는 '무기'가 포함된 세트에만 적용됨 (보스/여명/칠흑은 장신구 세트라 적용 X)

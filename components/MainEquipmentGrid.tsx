@@ -62,7 +62,7 @@ const MainEquipmentGrid: React.FC<MainEquipmentGridProps> = ({
 
                                     {/* Starforce Badge */}
                                     {item.starforce !== "0" && (
-                                        <span className="absolute top-0 right-0 bg-yellow-500 text-black text-xs font-bold px-1.5 py-0.5 rounded-bl-lg rounded-tr-lg shadow-md z-10">
+                                        <span className={`absolute top-0 right-0 text-black text-xs font-bold px-1.5 py-0.5 rounded-bl-lg rounded-tr-lg shadow-md z-10 ${isAmazingEnhancementItem(item) ? 'bg-cyan-400' : 'bg-yellow-500'}`}>
                                             ★{item.starforce}
                                         </span>
                                     )}

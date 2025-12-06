@@ -202,44 +202,42 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
             } else {
                 // 등급이 유니크 이상이거나, 주스탯 합이 15% 이상이면 통과
                 if (potScore >= 3 || totalStatPct >= 15) {
-                    // 단, 유니크 이상인데 15% 미만이면 실패 (옵션 미달)
-                    // 에픽 이하인데 15% 이상이면 통과 (고스펙 에픽)
+                    // 유니크 이상인데 15% 미만이면 실패 (등급은 좋은데 옵션 미달)
                     if (potScore >= 3 && totalStatPct < 15) {
                         stage4Issues++;
                         targetStats.potential.failedItems.push(`${name} (${totalStatPct}%)`);
                         issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 주스탯 15% 미만 (현재 ${totalStatPct}%)` });
-                    } else if (potScore < 3 && totalStatPct < 15) {
-                        stage4Issues++;
-                        targetStats.potential.failedItems.push(`${name} (${potGrade})`);
-                        issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 유니크 등급 미만 & 15% 미만` });
                     } else {
+                        // 에픽 이하인데 15% 이상이면 통과 (고스펙 에픽)
+                        // 유니크 이상이면서 15% 이상이면 통과
                         potPass = true;
                     }
                 } else {
+                    // 유니크 미만이면서 15% 미만 -> 실패
                     stage4Issues++;
                     targetStats.potential.failedItems.push(`${name} (${potGrade})`);
-                    issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 유니크 등급 미만` });
+                    issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 유니크 등급 미만 & 15% 미만` });
                 }
             }
         } else {
             // 일반 방어구/장신구
             // 등급이 유니크 이상이거나, 주스탯 합이 15% 이상이면 통과
             if (potScore >= 3 || totalStatPct >= 15) {
+                // 유니크 이상인데 15% 미만이면 실패 (등급은 좋은데 옵션 미달)
                 if (potScore >= 3 && totalStatPct < 15) {
                     stage4Issues++;
                     targetStats.potential.failedItems.push(`${name} (${totalStatPct}%)`);
                     issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 주스탯 15% 미만 (현재 ${totalStatPct}%)` });
-                } else if (potScore < 3 && totalStatPct < 15) {
-                    stage4Issues++;
-                    targetStats.potential.failedItems.push(`${name} (${potGrade})`);
-                    issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 유니크 등급 미만 & 15% 미만` });
                 } else {
+                    // 에픽 이하인데 15% 이상이면 통과 (고스펙 에픽)
+                    // 유니크 이상이면서 15% 이상이면 통과
                     potPass = true;
                 }
             } else {
+                // 유니크 미만이면서 15% 미만 -> 실패
                 stage4Issues++;
                 targetStats.potential.failedItems.push(`${name} (${potGrade})`);
-                issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 유니크 등급 미만` });
+                issues.push({ type: 'growth_potential', message: `[성장/잠재] ${name}: 유니크 등급 미만 & 15% 미만` });
             }
         }
         if (potPass) targetStats.potential.current++;
@@ -256,6 +254,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         });
         const hasStatPct = adiLines.some((l: string) => targetKeywords.some(k => l.includes(k)) && l.includes("%"));
         const hasStat4 = adiLines.some((l: string) => targetKeywords.some(k => l.includes(k)) && l.includes("%") && (parseInt(l.match(/(\d+)%/)?.[1] || "0") >= 4));
+        const hasLevelStat = adiLines.some((l: string) => l.includes("캐릭터 기준 9레벨 당")); // 렙당 주스탯 옵션
 
         let adiPass = false;
 
@@ -268,13 +267,13 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
             if (isSpecialRing) {
                 adiPass = true;
             } else if (isEventRing) {
-                // 이벤트링: 레어 이상 & (공10 or 탯4%)
+                // 이벤트링: 레어 이상 & (공10 or 탯4% or 렙당 주스탯)
                 if (adiScore >= 1) {
-                    if (hasAtt10 || hasStat4) adiPass = true;
+                    if (hasAtt10 || hasStat4 || hasLevelStat) adiPass = true;
                     else {
                         stage4Issues++;
                         targetStats.additional.failedItems.push(name);
-                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯 4% 미만` });
+                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯 4% 또는 렙당 주스탯 미만` });
                     }
                 } else {
                     stage4Issues++;
@@ -282,13 +281,13 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
                     issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 레어 등급 미만` });
                 }
             } else {
-                // 일반링: 레어 이상 & (공10 or 탯%) - 이벤트링과 동일
+                // 일반링: 레어 이상 & (공10 or 탯% or 렙당 주스탯)
                 if (adiScore >= 2) { // 에픽 이상
-                    if (hasAtt10 || hasStatPct) adiPass = true;
+                    if (hasAtt10 || hasStatPct || hasLevelStat) adiPass = true;
                     else {
                         stage4Issues++;
                         targetStats.additional.failedItems.push(name);
-                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 미만` });
+                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 또는 렙당 주스탯 미만` });
                     }
                 } else if (adiScore >= 1) { // 레어
                     if (hasAtt10) adiPass = true;
@@ -304,14 +303,14 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
                 }
             }
         } else {
-            // 일반 방어구/장신구: 레어 이상 & (공10 or 탯4%)
-            // * 에픽 이상이면 탯% or 공10
+            // 일반 방어구/장신구: 레어 이상 & (공10 or 탯% or 렙당 주스탯)
+            // * 에픽 이상이면 탯% or 공10 or 렙당 주스탯
             if (adiScore >= 2) { // 에픽 이상
-                if (hasAtt10 || hasStatPct) adiPass = true;
+                if (hasAtt10 || hasStatPct || hasLevelStat) adiPass = true;
                 else {
                     stage4Issues++;
                     targetStats.additional.failedItems.push(name);
-                    issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 미만` });
+                    issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 또는 렙당 주스탯 미만` });
                 }
             } else if (adiScore >= 1) { // 레어
                 if (hasAtt10) adiPass = true;

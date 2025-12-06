@@ -9,8 +9,12 @@ const notoSansKR = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "메이플 AI - 메이플스토리 AI 분석 플랫폼",
-  description: "메이플스토리 캐릭터 종합 분석 및 성장 가이드 플랫폼. AI 기반 장비 진단, 보스 템 분석, 헥사 스탯 가이드를 제공합니다.",
+  title: {
+    template: '%s | 메이플 AI',
+    default: '메이플 AI - 메이플스토리 AI 분석 플랫폼',
+  },
+  description: "메이플스토리 닉네임만 입력하면 AI가 장비, 스타포스, 잠재능력, 유니온, 헥사 스탯을 정밀 진단합니다. 22성 세팅, 추옵 계산, 보스 스펙 분석까지 한 번에 확인하세요.",
+  keywords: ["메이플스토리", "메이플 AI", "장비 진단", "스타포스 시뮬레이터", "헥사 스탯 계산기", "메이플 전적 검색", "보스 스펙", "유니온 배치", "링크 스킬", "무자본 가이드"],
   verification: {
     other: {
       'naver-site-verification': '1236df81f3db1fb538a03b7db7db28d746fc78d6',
@@ -23,7 +27,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "메이플 AI - 메이플스토리 AI 분석 플랫폼",
-    description: "메이플스토리 캐릭터 종합 분석 및 성장 가이드 플랫폼. AI 기반 장비 진단, 보스 템 분석, 헥사 스탯 가이드를 제공합니다.",
+    description: "메이플스토리 닉네임만 입력하면 AI가 장비, 스타포스, 잠재능력, 유니온, 헥사 스탯을 정밀 진단합니다. 22성 세팅, 추옵 계산, 보스 스펙 분석까지 한 번에 확인하세요.",
     url: 'https://maple.ai.kr',
     siteName: '메이플 AI',
     images: [

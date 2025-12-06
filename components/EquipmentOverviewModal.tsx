@@ -116,7 +116,7 @@ const EquipmentOverviewModal: React.FC<EquipmentOverviewModalProps> = ({
                                     <div className={`${getZoomTextClass(zoomLevel, 'container')} bg-slate-800 rounded-md flex items-center justify-center shrink-0 border border-slate-700 relative group transition-all`}>
                                         {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img src={item!.item_icon} alt={item!.item_name} className={`${getZoomTextClass(zoomLevel, 'icon')} object-contain transition-all`} referrerPolicy="no-referrer" />
-                                        {item!.starforce !== "0" && <span className={`absolute -top-1 -right-1 bg-yellow-500 text-black ${zoomLevel >= 2 ? 'text-xs px-1.5' : 'text-[9px] px-1'} font-bold rounded-full shadow-sm leading-tight`}>★{item!.starforce}</span>}
+                                        {item!.starforce !== "0" && <span className={`absolute -top-1 -right-1 text-black ${zoomLevel >= 2 ? 'text-xs px-1.5' : 'text-[9px] px-1'} font-bold rounded-full shadow-sm leading-tight ${isAmazingEnhancementItem(item!) ? 'bg-cyan-400' : 'bg-yellow-500'}`}>★{item!.starforce}</span>}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex flex-wrap items-center gap-1.5 mb-1">

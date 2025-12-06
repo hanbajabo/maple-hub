@@ -153,13 +153,15 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                 // 주스탯 % 확인
                 const hasStatPct = adiLines.some(l => targetKeywords.some(k => l.includes(k)) && l.includes("%"));
 
-                // 장갑: 크리티컬 데미지, 렙당 주스탯 확인
+                // 크리티컬 데미지, 렙당 주스탯 확인 (모든 슬롯에 적용)
                 const isGlove = slot === "장갑";
                 const hasCritDmg = adiLines.some(l => l.includes("크리티컬 데미지"));
                 const hasLevelStat = adiLines.some(l => l.includes("캐릭터 기준 9레벨 당"));
 
                 if (isGlove && (hasCritDmg || hasLevelStat)) {
                     // Pass: 장갑이고 크뎀이나 렙당 스탯이 있으면 통과
+                } else if (hasCritDmg) {
+                    // Pass: 크리티컬 데미지가 있으면 통과 (모든 슬롯)
                 } else {
                     // WSE (무기, 보조, 엠블렘) 에디셔널 공/마 % 확인 (에픽 이상, 3% 이상)
                     const isWSE = slot === "무기" || isSubWeapon || slot === "엠블렘";

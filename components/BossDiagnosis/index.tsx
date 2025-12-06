@@ -13,7 +13,7 @@ const BossDiagnosis: React.FC<BossDiagnosisPropsWithCallback> = ({ equipment, st
     const [showIssues, setShowIssues] = useState(false);
     const [manualPassedStages, setManualPassedStages] = useState<Set<number>>(new Set());
 
-    const { stage, issues, attTypeKor, setCounts, passedArmorOption, isGenesisWeapon, stage4Stats, stage5Stats, stage6Stats, stage7Info, stage8Stats } = useMemo(() =>
+    const { stage, issues, attTypeKor, setCounts, passedArmorOption, isGenesisWeapon, stage4Stats, stage5Stats, stage6Stats, stage7Info, stage8Stats, stage9Stats } = useMemo(() =>
         analyzeEquipment(equipment, basic, manualPassedStages),
         [equipment, basic, manualPassedStages]
     );
@@ -28,7 +28,7 @@ const BossDiagnosis: React.FC<BossDiagnosisPropsWithCallback> = ({ equipment, st
 
     // Auto-expand current stage
     useEffect(() => {
-        if (stage >= 0 && stage <= 8) {
+        if (stage >= 0 && stage <= 9) {
             setExpandedStages(new Set([stage]));
         } else {
             setExpandedStages(new Set());
@@ -70,7 +70,8 @@ const BossDiagnosis: React.FC<BossDiagnosisPropsWithCallback> = ({ equipment, st
         { id: 5, title: "⚡ [6단계] 특수 스펙 최적화 (쿨뚝 & 시드링)", description: "직업별 필수 쿨타임 감소 모자와 시드링을 점검합니다.", color: "indigo" },
         { id: 6, title: "💎 [7단계] 최종 완성 (18성+)", description: "스타포스 가능한 전 부위 18성을 달성하여 스펙업을 진행하세요!", color: "gold" },
         { id: 7, title: "🌟 [8단계] 스타포스 22성 조합 선택하기", description: "22성 방어구 방향을 결정하고 스펙업 로드맵을 수립하세요.", color: "cyan" },
-        { id: 8, title: "⚔️ [9단계] 22성급 방어구 셋팅", description: "22성급 방어구 세트 방향을 정했다면 진짜 22성급 템을 맞춰보자!", color: "pink" }
+        { id: 8, title: "⚔️ [9단계] 22성급 방어구 셋팅", description: "22성급 방어구 세트 방향을 정했다면 진짜 22성급 템을 맞춰보자!", color: "pink" },
+        { id: 9, title: "💎 [10단계] 22성급 장신구 셋팅", description: "방어구 22성급 세팅을 완료했다면 장신구 22성급 세팅을 완성해보자!", color: "indigo" }
     ];
 
     const getStageLabel = (s: number) => {
@@ -83,6 +84,7 @@ const BossDiagnosis: React.FC<BossDiagnosisPropsWithCallback> = ({ equipment, st
         if (s === 6) return "7단계 미달";
         if (s === 7) return "8단계 진행중";
         if (s === 8) return "9단계 진행중";
+        if (s === 9) return "10단계 진행중";
         return "진단 완료";
     };
 
@@ -101,10 +103,10 @@ const BossDiagnosis: React.FC<BossDiagnosisPropsWithCallback> = ({ equipment, st
                 <div className="w-full bg-slate-950 h-2 sm:h-3 rounded-full overflow-hidden mb-1 sm:mb-2 relative">
                     <div
                         className="h-full bg-gradient-to-r from-red-600 to-orange-400 transition-all duration-500"
-                        style={{ width: `${(stage / 9) * 100}%` }}
+                        style={{ width: `${(stage / 10) * 100}%` }}
                     ></div>
                     <div className="absolute inset-0 flex justify-between px-1">
-                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(s => (
+                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(s => (
                             <div key={s} className={`w-0.5 h-full ${s <= stage ? 'bg-transparent' : 'bg-slate-800'}`}></div>
                         ))}
                     </div>
@@ -122,7 +124,7 @@ const BossDiagnosis: React.FC<BossDiagnosisPropsWithCallback> = ({ equipment, st
                     <span>완료</span>
                 </div>
 
-                {(stage < 9) && (
+                {(stage < 10) && (
                     <IssueSection
                         issues={issues}
                         show={showIssues}
@@ -151,6 +153,7 @@ const BossDiagnosis: React.FC<BossDiagnosisPropsWithCallback> = ({ equipment, st
                             stage6Stats={stage6Stats}
                             stage7Info={stage7Info}
                             stage8Stats={stage8Stats}
+                            stage9Stats={stage9Stats}
                             onPass={() => handleManualPass(stageInfo.id)}
                             equipment={equipment}
                         />

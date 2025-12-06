@@ -8,6 +8,7 @@ interface Stage8ContentProps {
         eternal17Count: number;
         satisfiedSetCount: number;
         isEternal4SetSatisfied: boolean;
+        totalPassedPieces: number;  // 추가
     };
     renderPassedItemsSection: (stageId: number) => React.ReactNode;
     renderFailedItemsSection: (stageId: number) => React.ReactNode;
@@ -58,13 +59,18 @@ export const Stage8Content: React.FC<Stage8ContentProps> = ({ stage8Stats, rende
                     </ul>
                     <div className="mt-3 pt-3 border-t border-slate-800">
                         <div className="flex items-center gap-2">
-                            <span className={stage8Stats.satisfiedSetCount >= 7 ? 'text-green-400' : 'text-red-400'}>
-                                {stage8Stats.satisfiedSetCount >= 7 ? '✅' : '❌'}
+                            <span className={stage8Stats.satisfiedSetCount >= 2 || stage8Stats.isEternal4SetSatisfied ? 'text-green-400' : 'text-red-400'}>
+                                {stage8Stats.satisfiedSetCount >= 2 || stage8Stats.isEternal4SetSatisfied ? '✅' : '❌'}
                             </span>
                             <span className="text-slate-300">
-                                목표 달성: <strong className="text-white">{stage8Stats.satisfiedSetCount} / 7 부위</strong>
+                                목표 달성: <strong className="text-white">{stage8Stats.totalPassedPieces} / 7 부위</strong>
                             </span>
                         </div>
+                        {(stage8Stats.satisfiedSetCount >= 2 || stage8Stats.isEternal4SetSatisfied) && (
+                            <p className="text-xs text-green-400 mt-2">
+                                ✓ {stage8Stats.satisfiedSetCount >= 2 ? `${stage8Stats.satisfiedSetCount}개 세트 조합 완성` : '에테르넬 4세트 완성'}
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>

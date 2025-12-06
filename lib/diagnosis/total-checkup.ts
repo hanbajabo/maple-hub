@@ -245,7 +245,11 @@ export function diagnoseTotalCheckup(items: any[], job: string): TotalCheckupRes
         if (name.includes('앱솔랩스')) incrementSet(setCounts, setItems, '앱솔랩스', name);
         if (name.includes('아케인셰이드')) incrementSet(setCounts, setItems, '아케인셰이드', name);
         if (name.includes('에테르넬')) incrementSet(setCounts, setItems, '에테르넬', name);
-        if (name.includes('마이스터')) incrementSet(setCounts, setItems, '마이스터', name);
+        // 마이스터 세트 (링, 이어링, 숄더)
+        const meisterItems = ["마이스터링", "마이스터 링", "마이스터이어링", "마이스터 이어링", "마이스터숄더", "마이스터 숄더"];
+        if (meisterItems.some(m => name.includes(m))) {
+            incrementSet(setCounts, setItems, '마이스터', name);
+        }
 
         // 여명 세트
         if (name.includes('트와일라이트 마크') || name.includes('에스텔라 이어링') || name.includes('가디언 엔젤 링') || name.includes('데이브레이크 펜던트')) {

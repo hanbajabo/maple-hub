@@ -84,7 +84,7 @@ const guides = [
     {
         id: 'boss-equipment-progression',
         title: '보스 장비 성장 로드맵',
-        description: '무자본 유저를 위한 보스 장비 세팅 9단계 가이드',
+        description: '무자본 유저를 위한 보스 장비 세팅 10단계 가이드',
         category: '장비',
         readTime: '10분',
         difficulty: '초급',

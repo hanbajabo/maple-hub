@@ -51,6 +51,9 @@ export const evaluateStage8 = (equipment: EquipmentItem[]) => {
         });
     }
 
+    // 총 통과한 부위 수 계산 (22성 또는 에테르넬 17성)
+    const totalPassedPieces = cra22Count + absol22Count + arcane22Count + eternal17Count;
+
     return {
         isPassed,
         issues,
@@ -60,7 +63,8 @@ export const evaluateStage8 = (equipment: EquipmentItem[]) => {
             arcane22Count,
             eternal17Count,
             satisfiedSetCount,
-            isEternal4SetSatisfied
+            isEternal4SetSatisfied,
+            totalPassedPieces  // 추가
         }
     };
 };

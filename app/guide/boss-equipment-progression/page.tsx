@@ -4,7 +4,7 @@ import { ArrowLeft, Target, TrendingUp, Award } from 'lucide-react';
 
 export const metadata: Metadata = {
     title: '보스 장비 성장 로드맵 - 메이플 AI',
-    description: '무자본 유저를 위한 보스 장비 세팅 9단계 가이드. 초보부터 종결까지 단계별 로드맵.',
+    description: '무자본 유저를 위한 보스 장비 세팅 10단계 가이드. 초보부터 종결까지 단계별 로드맵.',
 };
 
 const BOSS_STAGES = [
@@ -102,6 +102,16 @@ const BOSS_STAGES = [
         starforce: '23성+ (신화)',
         potential: '올이탈 / 쌍이탈 (36% 이상)',
         goal: '서버 최상위 랭커 등극'
+    },
+    {
+        stage: 10,
+        title: '최종 완성: 22성급 장신구 세팅',
+        description: '환산주스탯 8만 돌파',
+        longDescription: '방어구까지 22성 세팅을 완료했다면 이제 장신구에서 22성까지 맞춰 환산주스탯 8만 이상의 세팅을 완성할 수 있습니다. 장신구는 방어구보다 스타포스 파괴 확률이 높아 더욱 신중하게 강화해야 하지만, 그만큼 강력한 스펙 상승량을 제공합니다. 2여명 + 4칠흑 이상의 세트 조합을 챙기며, 엔드급 세팅은 칠흑 세트와 광휘 세트를 섮어서 사용합니다.',
+        equipment: ['눈장식, 얼굴장식, 귀고리, 펜던트 22성', '벨트 22성 (타일런트/놀장강 12성)', '기계 심장 20성', '반지 22성 (이벤트링 제외)', '특수링 (리레, 컨티, 웨폰, 리커)'],
+        starforce: '기계심장 20성, 나머지 22성 (타일런트/놀장강 12성)',
+        potential: '레전드리 주스탯 30% 이상',
+        goal: '2여명 + 4칠흑 세트 효과, 환산주스탯 8만 돌파'
     }
 ];
 
@@ -115,7 +125,7 @@ export default function BossEquipmentProgressionPage() {
                         <span className="text-sm">가이드 목록으로</span>
                     </Link>
                     <h1 className="text-3xl sm:text-4xl font-black text-white">보스 장비 성장 로드맵</h1>
-                    <p className="text-slate-400 mt-2">무자본 유저를 위한 9단계 세팅 가이드</p>
+                    <p className="text-slate-400 mt-2">무자본 유저를 위한 10단계 세팅 가이드</p>
                 </div>
             </div>
 
@@ -140,7 +150,7 @@ export default function BossEquipmentProgressionPage() {
                             무자본 유저도 <strong className="text-yellow-400">올바른 로드맵</strong>을 따른다면 충분히 최상위 보스에 도전할 수 있습니다.
                         </p>
                         <p className="text-slate-300 leading-relaxed">
-                            이 가이드는 <strong className="text-green-400">초보부터 종결까지 9단계</strong>로 나누어,
+                            이 가이드는 <strong className="text-green-400">초보부터 종결까지 10단계</strong>로 나누어,
                             각 단계별로 어떤 장비를 착용하고 어느 정도 강화해야 하는지 명확하게 알려드립니다.
                             특히 최근 메타인 <strong className="text-indigo-400">아케인셰이드 직행 빌드</strong>를 중심으로 설명합니다.
                         </p>
@@ -148,7 +158,7 @@ export default function BossEquipmentProgressionPage() {
 
                     <h2 className="text-2xl font-bold text-white mb-6 mt-12 flex items-center gap-2">
                         <TrendingUp className="w-6 h-6 text-indigo-400" />
-                        9단계 성장 로드맵 상세 가이드
+                        10단계 성장 로드맵 상세 가이드
                     </h2>
 
                     <div className="space-y-8">
@@ -170,6 +180,7 @@ export default function BossEquipmentProgressionPage() {
                                             <p className="text-sm text-slate-400">{stage.description}</p>
                                         </div>
                                     </div>
+                                    {stage.stage === 10 && <Award className="w-6 h-6 text-green-400" />}
                                     {stage.stage === 9 && <Award className="w-6 h-6 text-yellow-400" />}
                                 </div>
 
