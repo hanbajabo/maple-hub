@@ -43,7 +43,10 @@ export async function GET(request: Request) {
             // 1. 캐시 확인
             if (SUMMARY_CACHE[targetUrl]) {
                 console.log('[Cache] Hit for specific URL');
-                return NextResponse.json({ success: true, data: { summary: SUMMARY_CACHE[targetUrl].summary } });
+                return NextResponse.json(
+                    { success: true, data: { summary: SUMMARY_CACHE[targetUrl].summary } },
+                    { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } }
+                );
             }
 
             // 2. 스크래핑
@@ -104,7 +107,10 @@ export async function GET(request: Request) {
             SUMMARY_CACHE[targetUrl] = { url: targetUrl, summary };
             console.log(`[Cache] Saved summary for specific URL`);
 
-            return NextResponse.json({ success: true, data: { summary } });
+            return NextResponse.json(
+                { success: true, data: { summary } },
+                { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=3600' } }
+            );
         }
 
         let noticeList: any[] = [];
@@ -215,6 +221,8 @@ export async function GET(request: Request) {
                     },
                     list: otherNotices
                 }
+            }, {
+                headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600' }
             });
         }
 
@@ -315,6 +323,8 @@ export async function GET(request: Request) {
                 },
                 list: otherNotices
             }
+        }, {
+            headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600' }
         });
 
     } catch (error: any) {
