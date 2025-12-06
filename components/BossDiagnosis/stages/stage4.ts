@@ -255,6 +255,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
         const hasStatPct = adiLines.some((l: string) => targetKeywords.some(k => l.includes(k)) && l.includes("%"));
         const hasStat4 = adiLines.some((l: string) => targetKeywords.some(k => l.includes(k)) && l.includes("%") && (parseInt(l.match(/(\d+)%/)?.[1] || "0") >= 4));
         const hasLevelStat = adiLines.some((l: string) => l.includes("캐릭터 기준 9레벨 당")); // 렙당 주스탯 옵션
+        const hasAdiCritDmg = adiLines.some((l: string) => l.includes("크리티컬 데미지")); // 에디셔널 크뎀 
 
         let adiPass = false;
 
@@ -269,7 +270,7 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
             } else if (isEventRing) {
                 // 이벤트링: 레어 이상 & (공10 or 탯4% or 렙당 주스탯)
                 if (adiScore >= 1) {
-                    if (hasAtt10 || hasStat4 || hasLevelStat) adiPass = true;
+                    if (hasAtt10 || hasStat4 || hasLevelStat || hasAdiCritDmg) adiPass = true;
                     else {
                         stage4Issues++;
                         targetStats.additional.failedItems.push(name);
@@ -283,14 +284,14 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
             } else {
                 // 일반링: 레어 이상 & (공10 or 탯% or 렙당 주스탯)
                 if (adiScore >= 2) { // 에픽 이상
-                    if (hasAtt10 || hasStatPct || hasLevelStat) adiPass = true;
+                    if (hasAtt10 || hasStatPct || hasLevelStat || hasAdiCritDmg) adiPass = true;
                     else {
                         stage4Issues++;
                         targetStats.additional.failedItems.push(name);
                         issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 또는 렙당 주스탯 미만` });
                     }
                 } else if (adiScore >= 1) { // 레어
-                    if (hasAtt10) adiPass = true;
+                    if (hasAtt10 || hasAdiCritDmg) adiPass = true;
                     else {
                         stage4Issues++;
                         targetStats.additional.failedItems.push(name);
@@ -306,14 +307,14 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
             // 일반 방어구/장신구: 레어 이상 & (공10 or 탯% or 렙당 주스탯)
             // * 에픽 이상이면 탯% or 공10 or 렙당 주스탯
             if (adiScore >= 2) { // 에픽 이상
-                if (hasAtt10 || hasStatPct || hasLevelStat) adiPass = true;
+                if (hasAtt10 || hasStatPct || hasLevelStat || hasAdiCritDmg) adiPass = true;
                 else {
                     stage4Issues++;
                     targetStats.additional.failedItems.push(name);
                     issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 또는 렙당 주스탯 미만` });
                 }
             } else if (adiScore >= 1) { // 레어
-                if (hasAtt10) adiPass = true;
+                if (hasAtt10 || hasAdiCritDmg) adiPass = true;
                 else {
                     stage4Issues++;
                     targetStats.additional.failedItems.push(name);

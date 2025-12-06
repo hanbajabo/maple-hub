@@ -152,10 +152,17 @@ export async function GET(request: Request) {
                     'x-nxopen-api-key': nexonApiKey,
                     'accept': 'application/json'
                 },
-                timeout: 5000
+                timeout: 10000 // 5초 -> 10초로 증액
             });
 
-            noticeList = listResponse.data.notice || listResponse.data.update_notice || listResponse.data.event_notice;
+            // 타입에 맞는 필드를 명시적으로 선택
+            if (type === 'event') {
+                noticeList = listResponse.data.event_notice;
+            } else if (type === 'update') {
+                noticeList = listResponse.data.update_notice;
+            } else {
+                noticeList = listResponse.data.notice;
+            }
         }
 
         if (!noticeList || noticeList.length === 0) {
