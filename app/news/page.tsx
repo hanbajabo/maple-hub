@@ -37,6 +37,7 @@ export default function NewsPage() {
 
     useEffect(() => {
         const fetchNews = async () => {
+            console.log('Fetching news...');
             try {
                 setLoading(true);
 
