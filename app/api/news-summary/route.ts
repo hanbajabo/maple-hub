@@ -18,8 +18,21 @@ export async function GET(request: Request) {
         const nexonApiKey = process.env.NEXON_API_KEY;
         const geminiApiKey = process.env.GEMINI_API_KEY;
 
-        if (!nexonApiKey || !geminiApiKey) {
-            throw new Error('API keys are missing');
+        if (!nexonApiKey) {
+            throw new Error('NEXON_API_KEY is missing');
+        }
+
+        // GEMINI_API_KEY는 AI 요약이 필요한 경우에만 체크 (이벤트 목록 조회 등에서는 불필요)
+        if (!geminiApiKey && type !== 'event' && !searchParams.get('url')) {
+            // url 파라미터가 있으면(상세 요약) gemini 필요
+            // type=event는 gemini 불필요
+            // type=update/notice/test는 목록 조회 후 요약 필요 -> gemini 필요 (단, 목록만 조회하는 로직이 분리된다면 다를 수 있음)
+        }
+
+        // 상세 구현: 나중에 generateContent 호출 직전에 체크하거나, 여기서 미리 체크
+        const needsGemini = (type !== 'event') || !!searchParams.get('url');
+        if (needsGemini && !geminiApiKey) {
+            throw new Error('GEMINI_API_KEY is missing');
         }
 
         // [New] 특정 URL 요약 요청 처리 (리스트 클릭 시)
@@ -50,7 +63,7 @@ export async function GET(request: Request) {
             if (content.length > 50000) content = content.substring(0, 50000) + '...';
 
             // 3. AI 요약 생성
-            const genAI = new GoogleGenerativeAI(geminiApiKey);
+            const genAI = new GoogleGenerativeAI(geminiApiKey!);
             const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
             let prompt = '';
@@ -232,7 +245,7 @@ export async function GET(request: Request) {
             content = content.substring(0, 50000) + '...';
         }
 
-        const genAI = new GoogleGenerativeAI(geminiApiKey);
+        const genAI = new GoogleGenerativeAI(geminiApiKey!);
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
         let prompt = '';
