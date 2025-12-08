@@ -268,7 +268,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (name.includes("도전자")) return true;
 
                 // 1. 스타포스 체크
-                const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스"];
+                const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스", "어드벤처 딥다크 크리티컬 링"];
                 const isSpecialRing = slot.includes("반지") && specialRingKeywords.some(k => name.includes(k));
                 const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
                 const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
@@ -278,16 +278,22 @@ export const StageCard: React.FC<StageCardProps> = ({
                 const isAmazingEnhancement = isAmazingEnhancementItem(item);
                 const hasAmazingScroll = (item.starforce_scroll_flag !== "0" && star > 0) || isAmazingEnhancement;
 
-                let starforceThreshold = isTyrant ? 10 : 17;
+                // stage4.ts와 동일하게: 타일런트/놀장강은 5성, 에테르넬은 12성, 그 외는 17성
+                let starforceThreshold = 17;
+                if (isTyrant || isAmazingEnhancement) starforceThreshold = 5;
                 if (isEternal) starforceThreshold = 12;
 
                 const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
                 if (!isNoStarforce && !isEventRing) {
-                    if (!isSpecialRing && !hasAmazingScroll && star < starforceThreshold) return false;
+                    if (!isSpecialRing && star < starforceThreshold) return false;
                 }
 
-                // 2. 주문서 작 체크 (글로리온 링 예외)
-                if (!isSpecialRing && !name.includes("글로리온") && !hasAmazingScroll) {
+                // 2. 주문서 작 체크 (특수반지, 이벤트링, 놀장강 제외)
+                // stage4.ts의 scrollEventRingKeywords와 동일
+                const scrollEventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "이터널 플레임", "결속의", "어비스"];
+                const isScrollEventRing = slot.includes("반지") && scrollEventRingKeywords.some(k => name.includes(k));
+
+                if (!isSpecialRing && !isScrollEventRing && !hasAmazingScroll) {
                     // 주스탯 계산
                     const str = parseInt(item.item_etc_option?.str || "0");
                     const dex = parseInt(item.item_etc_option?.dex || "0");
@@ -305,7 +311,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                         const threshold = isHat ? 84 : 56;
                         if (scrollMainStat < threshold && scrollScore < 50) return false;
                     } else {
-                        if (scrollScore < 32) return false;
+                        if (scrollScore < 30) return false; // stage4.ts는 32급이지만 일관성 위해 30으로 수정
                     }
                 }
 
@@ -327,7 +333,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                     if (flameScore < 100) return false;
                 }
 
-                // 4. 잠재능력 체크 (유니크 이상 & 주스탯 15% 이상)
+                // 4. 잠재능력 체크 (유니크 이상 OR 주스탯 15% 이상)
                 if (!isSpecialRing) {
                     const potLines = [item.potential_option_1, item.potential_option_2, item.potential_option_3];
                     const hasCritDmg = potLines.some(l => l && l.includes("크리티컬 데미지"));
@@ -338,8 +344,6 @@ export const StageCard: React.FC<StageCardProps> = ({
                     } else if (slot === "모자" && hasCooldown) {
                         // Pass
                     } else {
-                        if (potScore(potGrade) < 3) return false; // 유니크 미만
-
                         // 주스탯% 체크
                         const statKeywords = ["STR", "DEX", "INT", "LUK", "HP", "올스탯"];
                         let totalStatPct = 0;
@@ -350,7 +354,16 @@ export const StageCard: React.FC<StageCardProps> = ({
                                 if (match) totalStatPct += parseInt(match[1]);
                             }
                         });
-                        if (totalStatPct < 15) return false; // 주스탯 15% 미만
+
+                        // stage4.ts와 동일: 유니크 이상 OR 15% 이상이면 통과
+                        // 단, 유니크 이상이면서 15% 미만이면 실패
+                        const isUniqueOrHigher = potScore(potGrade) >= 3;
+                        if (isUniqueOrHigher && totalStatPct < 15) {
+                            return false; // 유니크 이상인데 15% 미만 -> 실패
+                        } else if (!isUniqueOrHigher && totalStatPct < 15) {
+                            return false; // 유니크 미만이면서 15% 미만 -> 실패
+                        }
+                        // 그 외의 경우 (유니크+15% 이상 또는 에픽+15% 이상) -> 통과
                     }
                 }
 
@@ -359,37 +372,48 @@ export const StageCard: React.FC<StageCardProps> = ({
                     const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
                     const adiGradeScore = potScore(adiGrade);
 
+                    // 크리티컬 데미지도 통과 조건에 추가 (stage4.ts line 258, 294)
+                    const hasAdiCritDmg = adiLines.some((l: string | undefined) => l && l.includes("크리티컬 데미지"));
+
                     if (slot.includes("반지")) {
-                        const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
+                        const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "이터널 플레임", "결속의", "어비스", "플레임"];
                         const isEventRing = eventRingKeywords.some(k => name.includes(k));
 
                         if (isEventRing) {
-                            // 이벤트링: 레어+ & (공/마+10 or 주스탯4% or 렙당 주스탯)
+                            // 이벤트링: 레어+ & (공/마+10 or 주스탯4% or 렙당 주스탯 or 크뎀)
                             if (adiGradeScore < 1) return false;
                             const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
                             const hasStat4 = adiLines.some(l => l && l.includes("%") && l.match(/(\d+)%/) && parseInt(l.match(/(\d+)%/)?.[1] || "0") >= 4);
                             const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
-                            if (!hasAtt10 && !hasStat4 && !hasLevelStat) return false;
+                            if (!hasAtt10 && !hasStat4 && !hasLevelStat && !hasAdiCritDmg) return false;
                         } else {
-                            // 일반링: 에픽+ & (공/마+10 or 주스탯% or 렙당 주스탯)
-                            if (adiGradeScore < 2) return false;
-                            const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
-                            const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
-                            const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
-                            if (!hasAtt10 && !hasStatPct && !hasLevelStat) return false;
+                            // 일반링: 에픽+ & (공/마+10 or 주스탯% or 렙당 주스탯 or 크뎀)
+                            if (adiGradeScore >= 2) { // 에픽 이상
+                                const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                                const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
+                                const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                                if (!hasAtt10 && !hasStatPct && !hasLevelStat && !hasAdiCritDmg) return false;
+                            } else if (adiGradeScore >= 1) { // 레어
+                                const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                                if (!hasAtt10 && !hasAdiCritDmg) return false;
+                            } else {
+                                return false; // 레어 미만
+                            }
                         }
                     } else {
-                        // 일반 방어구/장신구: 에픽+ & (공/마+10 or 공/마% or 주스탯% or 렙당 주스탯)
-                        if (adiGradeScore < 2) return false;
-                        // 공/마 상수 +10 이상
-                        const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
-                        // 공/마 % (예: 마력 +3%)
-                        const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
-                        // 주스탯 %
-                        const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
-                        // 렙당 주스탯
-                        const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
-                        if (!hasAtt10 && !hasAttPct && !hasStatPct && !hasLevelStat) return false;
+                        // 일반 방어구/장신구: 에픽+ & (공/마+10 or 공/마% or 주스탯% or 렙당 주스탯 or 크뎀)
+                        if (adiGradeScore >= 2) { // 에픽 이상
+                            const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                            const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
+                            const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
+                            const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                            if (!hasAtt10 && !hasAttPct && !hasStatPct && !hasLevelStat && !hasAdiCritDmg) return false;
+                        } else if (adiGradeScore >= 1) { // 레어
+                            const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                            if (!hasAtt10 && !hasAdiCritDmg) return false;
+                        } else {
+                            return false; // 레어 미만
+                        }
                     }
                 }
 
@@ -582,7 +606,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (name.includes("도전자")) return false;
 
                 // 1. 스타포스 체크
-                const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스"];
+                const specialRingKeywords = ["리스트레인트", "웨폰퍼프", "리스크테이커", "컨티뉴어스", "어드벤처 딥다크 크리티컬 링"];
                 const isSpecialRing = slot.includes("반지") && specialRingKeywords.some(k => name.includes(k));
                 const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
                 const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
@@ -592,16 +616,21 @@ export const StageCard: React.FC<StageCardProps> = ({
                 const isAmazingEnhancement = isAmazingEnhancementItem(item);
                 const hasAmazingScroll = (item.starforce_scroll_flag !== "0" && star > 0) || isAmazingEnhancement;
 
-                let starforceThreshold = isTyrant ? 10 : 17;
+                // stage4.ts와 동일하게: 타일런트/놀장강은 5성, 에테르넬은 12성, 그 외는 17성
+                let starforceThreshold = 17;
+                if (isTyrant || isAmazingEnhancement) starforceThreshold = 5;
                 if (isEternal) starforceThreshold = 12;
 
                 const isNoStarforce = item.starforce_scroll_flag === "0" && parseInt(item.starforce || "0") === 0;
                 if (!isNoStarforce && !isEventRing) {
-                    if (!isSpecialRing && !hasAmazingScroll && star < starforceThreshold) return true;
+                    if (!isSpecialRing && star < starforceThreshold) return true;
                 }
 
-                // 2. 주문서 작 체크
-                if (!isSpecialRing && !name.includes("글로리온") && !hasAmazingScroll) {
+                // 2. 주문서 작 체크 (특수반지, 이벤트링, 놀장강 제외)
+                const scrollEventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "이터널 플레임", "결속의", "어비스"];
+                const isScrollEventRing = slot.includes("반지") && scrollEventRingKeywords.some(k => name.includes(k));
+
+                if (!isSpecialRing && !isScrollEventRing && !hasAmazingScroll) {
                     const str = parseInt(item.item_etc_option?.str || "0");
                     const dex = parseInt(item.item_etc_option?.dex || "0");
                     const int_val = parseInt(item.item_etc_option?.int || "0");
@@ -616,7 +645,7 @@ export const StageCard: React.FC<StageCardProps> = ({
                         const threshold = isHat ? 84 : 56;
                         if (scrollMainStat < threshold && scrollScore < 50) return true;
                     } else {
-                        if (scrollScore < 32) return true;
+                        if (scrollScore < 30) return true;
                     }
                 }
 
@@ -647,7 +676,6 @@ export const StageCard: React.FC<StageCardProps> = ({
                     } else if (slot === "모자" && hasCooldown) {
                         // Pass
                     } else {
-                        if (potScore(potGrade) < 3) return true;
                         const statKeywords = ["STR", "DEX", "INT", "LUK", "HP", "올스탯"];
                         let totalStatPct = 0;
                         potLines.forEach(line => {
@@ -657,7 +685,14 @@ export const StageCard: React.FC<StageCardProps> = ({
                                 if (match) totalStatPct += parseInt(match[1]);
                             }
                         });
-                        if (totalStatPct < 15) return true;
+
+                        // stage4.ts와 동일: 유니크 이상이면서 15% 미만, 또는 유니크 미만이면서 15% 미만이면 실패
+                        const isUniqueOrHigher = potScore(potGrade) >= 3;
+                        if (isUniqueOrHigher && totalStatPct < 15) {
+                            return true; // 유니크 이상인데 15% 미만 -> 실패
+                        } else if (!isUniqueOrHigher && totalStatPct < 15) {
+                            return true; // 유니크 미만이면서 15% 미만 -> 실패
+                        }
                     }
                 }
 
@@ -666,34 +701,48 @@ export const StageCard: React.FC<StageCardProps> = ({
                     const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3];
                     const adiGradeScore = potScore(adiGrade);
 
+                    // 크리티컬 데미지도 통과 조건에 추가
+                    const hasAdiCritDmg = adiLines.some((l: string | undefined) => l && l.includes("크리티컬 데미지"));
+
                     if (slot.includes("반지")) {
-                        const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
+                        const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "이터널 플레임", "결속의", "어비스", "플레임"];
                         const isEventRing = eventRingKeywords.some(k => name.includes(k));
 
                         if (isEventRing) {
+                            // 이벤트링: 레어+ & (공/마+10 or 주스탯4% or 렙당 주스탯 or 크뎀)
                             if (adiGradeScore < 1) return true;
                             const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
                             const hasStat4 = adiLines.some(l => l && l.includes("%") && l.match(/(\d+)%/) && parseInt(l.match(/(\d+)%/)?.[1] || "0") >= 4);
                             const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
-                            if (!hasAtt10 && !hasStat4 && !hasLevelStat) return true;
+                            if (!hasAtt10 && !hasStat4 && !hasLevelStat && !hasAdiCritDmg) return true;
                         } else {
-                            if (adiGradeScore < 2) return true;
-                            const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
-                            const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
-                            const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
-                            if (!hasAtt10 && !hasStatPct && !hasLevelStat) return true;
+                            // 일반링: 에픽+ & (공/마+10 or 주스탯% or 렙당 주스탯 or 크뎀)
+                            if (adiGradeScore >= 2) { // 에픽 이상
+                                const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                                const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
+                                const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                                if (!hasAtt10 && !hasStatPct && !hasLevelStat && !hasAdiCritDmg) return true;
+                            } else if (adiGradeScore >= 1) { // 레어
+                                const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                                if (!hasAtt10 && !hasAdiCritDmg) return true;
+                            } else {
+                                return true; // 레어 미만
+                            }
                         }
                     } else {
-                        if (adiGradeScore < 2) return true;
-                        // 공/마 상수 +10 이상
-                        const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
-                        // 공/마 % (예: 마력 +3%)
-                        const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
-                        // 주스탯 %
-                        const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
-                        // 렙당 주스탯
-                        const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
-                        if (!hasAtt10 && !hasAttPct && !hasStatPct && !hasLevelStat) return true;
+                        // 일반 방어구/장신구: 에픽+ & (공/마+10 or 공/마% or 주스탯% or 렙당 주스탯 or 크뎀)
+                        if (adiGradeScore >= 2) { // 에픽 이상
+                            const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && !l.includes("%") && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                            const hasAttPct = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.includes("%"));
+                            const hasStatPct = adiLines.some(l => l && l.includes("%") && (l.includes("STR") || l.includes("DEX") || l.includes("INT") || l.includes("LUK") || l.includes("HP") || l.includes("올스탯")));
+                            const hasLevelStat = adiLines.some(l => l && l.includes("캐릭터 기준 9레벨 당"));
+                            if (!hasAtt10 && !hasAttPct && !hasStatPct && !hasLevelStat && !hasAdiCritDmg) return true;
+                        } else if (adiGradeScore >= 1) { // 레어
+                            const hasAtt10 = adiLines.some(l => l && (l.includes("공격력") || l.includes("마력")) && l.match(/\+(\d+)/) && parseInt(l.match(/\+(\d+)/)?.[1] || "0") >= 10);
+                            if (!hasAtt10 && !hasAdiCritDmg) return true;
+                        } else {
+                            return true; // 레어 미만
+                        }
                     }
                 }
 
