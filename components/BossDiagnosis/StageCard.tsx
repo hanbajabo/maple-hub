@@ -437,7 +437,8 @@ export const StageCard: React.FC<StageCardProps> = ({
 
                 if (!isArmor && !isAccessory) return false;
 
-
+                // 어드벤처 딥다크 크리티컬 링은 18성 단계에서 교체 권장 (stage5.ts와 동일)
+                if (name.includes("어드벤처 딥다크 크리티컬 링")) return false;
 
                 // 이벤트링 제외
                 const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
@@ -758,6 +759,9 @@ export const StageCard: React.FC<StageCardProps> = ({
                 if (name.includes("숄더") || name.includes("견장")) { isArmor = false; isAccessory = true; }
 
                 if (!isArmor && !isAccessory) return false;
+
+                // 어드벤처 딥다크 크리티컬 링은 18성 단계에서 교체 권장 (stage5.ts와 동일) - 실패 처리
+                if (name.includes("어드벤처 딥다크 크리티컬 링")) return true;
 
                 const eventRingKeywords = ["테네브리스", "어웨이크", "글로리온", "카오스", "벤젼스", "쥬얼링", "주얼링", "플레임"];
                 const isEventRing = slot.includes("반지") && eventRingKeywords.some(k => name.includes(k));
