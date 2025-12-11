@@ -106,6 +106,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'weekly',
             priority: 0.8,
         },
+        // Blog
+        {
+            url: 'https://maple.ai.kr/blog',
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: 'https://maple.ai.kr/blog/beginner-guide-2025',
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: 'https://maple.ai.kr/blog/free-to-play-guide',
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
         // Legal & Info Pages
         {
             url: 'https://maple.ai.kr/about',

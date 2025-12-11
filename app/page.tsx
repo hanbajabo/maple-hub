@@ -856,7 +856,7 @@ export default function Home() {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/images/maple-ai-logo.jpg" alt="메이플 AI 로고" className="w-9 h-9 sm:w-10 sm:h-10 object-contain rounded-lg shadow-md border border-slate-700/30" />
-          <span className="text-xl sm:text-2xl font-black tracking-tighter text-maple-orange drop-shadow-sm">
+          <span className="text-xl sm:text-2xl font-black tracking-tighter text-maple-orange drop-shadow-sm hidden sm:block">
             메이플 AI
           </span>
         </button>
@@ -876,6 +876,14 @@ export default function Home() {
               NEW!
             </span>
           </div>
+          <Link
+            href="/blog"
+            className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-emerald-900/20"
+            title="블로그"
+          >
+            <span className="text-base sm:text-lg">📝</span>
+            <span className="hidden sm:inline">블로그</span>
+          </Link>
           <a
             href="/tools/starforce"
             className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-indigo-900/20"
@@ -887,7 +895,6 @@ export default function Home() {
           <a
             href="/guide"
             className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-orange-600/90 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg"
-            title="가이드"
           >
             <span className="text-base sm:text-lg">📚</span>
             <span className="hidden sm:inline">가이드</span>
@@ -895,398 +902,400 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Search Section */}
-      <section className={`w-full sm:max-w-4xl flex flex-col items-center mb-6 sm:mb-16 transition-all px-4 sm:px-0 ${character ? 'gap-2 sm:gap-4' : 'gap-6 sm:gap-10'}`}>
-        {/* Title and Description - Hide when character is loaded */}
-        {!character && (
-          <div className="text-center space-y-4 sm:space-y-6 px-4">
-            {/* Main Title with Gradient */}
-            <div className="relative">
-              <h2 className="text-4xl sm:text-7xl font-black bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 bg-clip-text text-transparent drop-shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
-                캐릭터 검색
-              </h2>
-              {/* Glowing effect */}
-              <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 -z-10"></div>
-            </div>
-
-            {/* Subtitle with better styling */}
-            <p className="text-sm sm:text-2xl text-slate-300 font-medium leading-relaxed animate-in fade-in slide-in-from-top-6 duration-700 delay-150">
-              메이플스토리의 캐릭터 정보를 <span className="text-maple-orange font-bold">한 눈에 확인</span>하고,<br className="hidden sm:block" />
-              <span className="text-yellow-400 font-bold">AI 기반 진단</span>까지 받아보세요
-            </p>
+      {/* Title and Description - Hide when character is loaded */}
+      {!character && (
+        <div className="text-center space-y-4 sm:space-y-6 px-4">
+          {/* Main Title with Gradient */}
+          <div className="relative">
+            <h2 className="text-4xl sm:text-7xl font-black bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 bg-clip-text text-transparent drop-shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
+              캐릭터 검색
+            </h2>
+            {/* Glowing effect */}
+            <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 -z-10"></div>
           </div>
-        )}
 
-        {/* Search Input Area with enhanced design */}
-        <div className="w-full max-w-4xl relative">
-          {/* Glow effect behind search bar */}
-          {!character && (
-            <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
-          )}
-
-          <div className="w-full relative flex items-center gap-2 sm:gap-3">
-            <div className="relative w-full group">
-              {/* Animated border gradient */}
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-75 group-focus-within:opacity-100 blur transition duration-500"></div>
-
-              <input
-                type="text"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="캐릭터 닉네임을 입력하세요"
-                className="relative w-full h-12 sm:h-20 pl-5 sm:pl-8 pr-12 sm:pr-16 rounded-xl sm:rounded-2xl bg-slate-900 border-2 border-slate-800 focus:border-maple-orange focus:ring-2 focus:ring-maple-orange/50 outline-none text-base sm:text-2xl placeholder:text-slate-600 transition-all font-medium"
-              />
-              <button
-                onClick={handleSearch}
-                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 text-slate-400 hover:text-maple-orange hover:scale-110 transition-all bg-slate-800 hover:bg-maple-orange/10 rounded-lg"
-              >
-                <Search size={20} className="sm:w-8 sm:h-8" />
-              </button>
-            </div>
-
-            <button
-              onClick={handleRefresh}
-              className="relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 bg-slate-900 border-2 border-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-400 hover:text-maple-orange hover:border-maple-orange transition-all group overflow-hidden"
-              title="실시간 갱신"
-            >
-              {/* Hover effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-maple-orange/0 to-maple-orange/0 group-hover:from-maple-orange/10 group-hover:to-yellow-400/10 transition-all"></div>
-              <RefreshCw size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${loading ? 'animate-spin text-maple-orange' : 'group-hover:rotate-180'}`} />
-            </button>
-
-            {/* Favorites Button with Dropdown */}
-            <div className="relative" ref={favoritesRef}>
-              <button
-                onClick={() => setIsFavoritesOpen(!isFavoritesOpen)}
-                className={`relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 bg-slate-900 border-2 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all group overflow-hidden ${favorites.length > 0 ? 'border-yellow-500/50 hover:border-yellow-400' : 'border-slate-800 hover:border-maple-orange'
-                  }`}
-                title="즐겨찾기"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-500/0 to-slate-500/0 group-hover:from-slate-500/10 group-hover:to-slate-400/10 transition-all"></div>
-                <List size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${favorites.length > 0 ? 'text-yellow-400' : 'text-slate-400 group-hover:text-slate-300'}`} />
-                {favorites.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-yellow-500 text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-900">
-                    {favorites.length}
-                  </span>
-                )}
-              </button>
-
-              {/* Favorites Dropdown */}
-              {isFavoritesOpen && (
-                <div className="absolute right-2 sm:right-0 top-full mt-2 min-w-[280px] max-w-[90vw] sm:w-80 sm:max-w-none bg-slate-900 border-2 border-yellow-500/50 rounded-xl shadow-2xl z-[9999] overflow-hidden">
-
-                  <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 px-4 py-3 border-b border-yellow-500/30">
-                    <h3 className="font-bold text-yellow-400 flex items-center gap-2">
-                      <Star size={16} className="fill-yellow-400" />
-                      즐겨찾기 ({favorites.length})
-                    </h3>
-                  </div>
-                  <div className="max-h-96 overflow-y-auto custom-scrollbar">
-                    {favorites.length === 0 ? (
-                      <div className="p-6 text-center text-slate-500">
-                        <Star size={32} className="mx-auto mb-2 opacity-30" />
-                        <p className="text-sm">즐겨찾기가 비어있습니다</p>
-                        <p className="text-xs mt-1">캐릭터 검색 후 ⭐ 버튼을 눌러보세요</p>
-                      </div>
-                    ) : (
-                      favorites.map((fav, idx) => (
-                        <div
-                          key={idx}
-                          onClick={() => loadFavorite(fav.name)}
-                          className="px-3 sm:px-4 py-3 hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800 last:border-b-0 flex items-start gap-2 group"
-                        >
-                          <div className="flex-1 min-w-0">
-                            <div className="font-bold text-white group-hover:text-yellow-400 transition-colors truncate text-sm sm:text-base">
-                              {fav.name}
-                            </div>
-                            <div className="text-[10px] sm:text-xs text-slate-400 mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
-                              <span>{fav.world}</span>
-                              <span>·</span>
-                              <span>Lv.{fav.level}</span>
-                              <span>·</span>
-                              <span className="truncate">{fav.job}</span>
-                            </div>
-                          </div>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setFavorites(prev => prev.filter((_, i) => i !== idx));
-                            }}
-                            className="text-slate-500 hover:text-red-400 transition-colors p-1 shrink-0"
-                            title="삭제"
-                          >
-                            <X size={16} />
-                          </button>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Add/Remove Favorite Button (shown when character is loaded) */}
-            {character && (
-              <button
-                onClick={isFavorited ? removeFromFavorites : addToFavorites}
-                className={`relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all group overflow-hidden border-2 ${isFavorited
-                  ? 'bg-yellow-500/10 border-yellow-500 hover:bg-yellow-500/20'
-                  : 'bg-slate-900 border-slate-800 hover:border-yellow-400'
-                  }`}
-                title={isFavorited ? "즐겨찾기 해제" : "즐겨찾기 추가"}
-              >
-                <Star
-                  size={20}
-                  className={`sm:w-8 sm:h-8 transition-all relative z-10 ${isFavorited
-                    ? 'fill-yellow-400 text-yellow-400'
-                    : 'text-slate-400 group-hover:text-yellow-400 group-hover:fill-yellow-400/20'
-                    }`}
-                />
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Info text - Enhanced styling */}
-        <div className="w-full max-w-4xl flex items-center gap-2 bg-orange-950/30 border border-orange-500/30 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3">
-          <span className="text-xl sm:text-2xl">💡</span>
-          <p className="text-xs sm:text-base text-orange-300 font-medium text-center">
-            인게임에서 <strong className="text-orange-400">[캐시샵 입장]</strong> 또는 <strong className="text-orange-400">[재접속]</strong> 후 대략 1분 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
+          {/* Subtitle with better styling */}
+          <p className="text-sm sm:text-2xl text-slate-300 font-medium leading-relaxed animate-in fade-in slide-in-from-top-6 duration-700 delay-150">
+            메이플스토리의 캐릭터 정보를 <span className="text-maple-orange font-bold">한 눈에 확인</span>하고,<br className="hidden sm:block" />
+            <span className="text-yellow-400 font-bold">AI 기반 진단</span>까지 받아보세요
           </p>
         </div>
+      )}
 
-        {error && (
-          error === "RATE_LIMIT" ? (
-            <div className="w-full max-w-4xl mt-4 p-6 bg-gradient-to-br from-orange-950/50 to-yellow-950/50 border-2 border-orange-500/50 rounded-2xl animate-in fade-in slide-in-from-top-2 shadow-2xl shadow-orange-900/30">
-              <div className="flex flex-col items-center text-center gap-4">
-                <div className="relative">
-                  <div className="text-6xl animate-bounce">⏱️</div>
-                  <div className="absolute inset-0 blur-xl bg-orange-500/30 animate-pulse"></div>
-                </div>
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-orange-300 mb-2">
-                    현재 너무 많은 요청으로
+      {/* Search Input Area with enhanced design */}
+      <div className="w-full max-w-4xl relative">
+        {/* Glow effect behind search bar */}
+        {!character && (
+          <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
+        )}
+
+        <div className="w-full relative flex items-center gap-2 sm:gap-3">
+          <div className="relative w-full group">
+            {/* Animated border gradient */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-75 group-focus-within:opacity-100 blur transition duration-500"></div>
+
+            <input
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="캐릭터 닉네임을 입력하세요"
+              className="relative w-full h-12 sm:h-20 pl-5 sm:pl-8 pr-12 sm:pr-16 rounded-xl sm:rounded-2xl bg-slate-900 border-2 border-slate-800 focus:border-maple-orange focus:ring-2 focus:ring-maple-orange/50 outline-none text-base sm:text-2xl placeholder:text-slate-600 transition-all font-medium"
+            />
+            <button
+              onClick={handleSearch}
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 text-slate-400 hover:text-maple-orange hover:scale-110 transition-all bg-slate-800 hover:bg-maple-orange/10 rounded-lg"
+            >
+              <Search size={20} className="sm:w-8 sm:h-8" />
+            </button>
+          </div>
+
+          <button
+            onClick={handleRefresh}
+            className="relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 bg-slate-900 border-2 border-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-400 hover:text-maple-orange hover:border-maple-orange transition-all group overflow-hidden"
+            title="실시간 갱신"
+          >
+            {/* Hover effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-maple-orange/0 to-maple-orange/0 group-hover:from-maple-orange/10 group-hover:to-yellow-400/10 transition-all"></div>
+            <RefreshCw size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${loading ? 'animate-spin text-maple-orange' : 'group-hover:rotate-180'}`} />
+          </button>
+
+          {/* Favorites Button with Dropdown */}
+          <div className="relative" ref={favoritesRef}>
+            <button
+              onClick={() => setIsFavoritesOpen(!isFavoritesOpen)}
+              className={`relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 bg-slate-900 border-2 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all group overflow-hidden ${favorites.length > 0 ? 'border-yellow-500/50 hover:border-yellow-400' : 'border-slate-800 hover:border-maple-orange'
+                }`}
+              title="즐겨찾기"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-500/0 to-slate-500/0 group-hover:from-slate-500/10 group-hover:to-slate-400/10 transition-all"></div>
+              <List size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${favorites.length > 0 ? 'text-yellow-400' : 'text-slate-400 group-hover:text-slate-300'}`} />
+              {favorites.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-yellow-500 text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-900">
+                  {favorites.length}
+                </span>
+              )}
+            </button>
+
+            {/* Favorites Dropdown */}
+            {isFavoritesOpen && (
+              <div className="absolute right-2 sm:right-0 top-full mt-2 min-w-[280px] max-w-[90vw] sm:w-80 sm:max-w-none bg-slate-900 border-2 border-yellow-500/50 rounded-xl shadow-2xl z-[9999] overflow-hidden">
+
+                <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 px-4 py-3 border-b border-yellow-500/30">
+                  <h3 className="font-bold text-yellow-400 flex items-center gap-2">
+                    <Star size={16} className="fill-yellow-400" />
+                    즐겨찾기 ({favorites.length})
                   </h3>
-                  <p className="text-base sm:text-lg text-orange-200 font-medium mb-1">
-                    잠시 후 다시 시도해주세요
-                  </p>
-                  <p className="text-sm sm:text-base text-orange-400/80 italic mt-3">
-                    (이용해주셔서 항상 감사합니다 💛)
-                  </p>
                 </div>
-                <button
-                  onClick={() => setError("")}
-                  className="mt-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-orange-500/50 hover:scale-105"
-                >
-                  확인
-                </button>
+                <div className="max-h-96 overflow-y-auto custom-scrollbar">
+                  {favorites.length === 0 ? (
+                    <div className="p-6 text-center text-slate-500">
+                      <Star size={32} className="mx-auto mb-2 opacity-30" />
+                      <p className="text-sm">즐겨찾기가 비어있습니다</p>
+                      <p className="text-xs mt-1">캐릭터 검색 후 ⭐ 버튼을 눌러보세요</p>
+                    </div>
+                  ) : (
+                    favorites.map((fav, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => loadFavorite(fav.name)}
+                        className="px-3 sm:px-4 py-3 hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800 last:border-b-0 flex items-start gap-2 group"
+                      >
+                        <div className="flex-1 min-w-0">
+                          <div className="font-bold text-white group-hover:text-yellow-400 transition-colors truncate text-sm sm:text-base">
+                            {fav.name}
+                          </div>
+                          <div className="text-[10px] sm:text-xs text-slate-400 mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
+                            <span>{fav.world}</span>
+                            <span>·</span>
+                            <span>Lv.{fav.level}</span>
+                            <span>·</span>
+                            <span className="truncate">{fav.job}</span>
+                          </div>
+                        </div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setFavorites(prev => prev.filter((_, i) => i !== idx));
+                          }}
+                          className="text-slate-500 hover:text-red-400 transition-colors p-1 shrink-0"
+                          title="삭제"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))
+                  )}
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="w-full max-w-4xl mt-4 p-4 bg-red-950/50 border border-red-500/50 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 shadow-lg shadow-red-900/20">
-              <span className="text-2xl">🚫</span>
-              <div className="flex flex-col">
-                <p className="text-red-200 font-bold text-lg">검색 실패</p>
-                <p className="text-red-300/90 text-sm">{error}</p>
+            )}
+          </div>
+
+          {/* Add/Remove Favorite Button (shown when character is loaded) */}
+          {character && (
+            <button
+              onClick={isFavorited ? removeFromFavorites : addToFavorites}
+              className={`relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all group overflow-hidden border-2 ${isFavorited
+                ? 'bg-yellow-500/10 border-yellow-500 hover:bg-yellow-500/20'
+                : 'bg-slate-900 border-slate-800 hover:border-yellow-400'
+                }`}
+              title={isFavorited ? "즐겨찾기 해제" : "즐겨찾기 추가"}
+            >
+              <Star
+                size={20}
+                className={`sm:w-8 sm:h-8 transition-all relative z-10 ${isFavorited
+                  ? 'fill-yellow-400 text-yellow-400'
+                  : 'text-slate-400 group-hover:text-yellow-400 group-hover:fill-yellow-400/20'
+                  }`}
+              />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Info text - Enhanced styling */}
+      <div className="w-full max-w-4xl flex items-center gap-2 bg-orange-950/30 border border-orange-500/30 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3">
+        <span className="text-xl sm:text-2xl">💡</span>
+        <p className="text-xs sm:text-base text-orange-300 font-medium text-center">
+          인게임에서 <strong className="text-orange-400">[캐시샵 입장]</strong> 또는 <strong className="text-orange-400">[재접속]</strong> 후 대략 1분 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
+        </p>
+      </div>
+
+      {error && (
+        error === "RATE_LIMIT" ? (
+          <div className="w-full max-w-4xl mt-4 p-6 bg-gradient-to-br from-orange-950/50 to-yellow-950/50 border-2 border-orange-500/50 rounded-2xl animate-in fade-in slide-in-from-top-2 shadow-2xl shadow-orange-900/30">
+            <div className="flex flex-col items-center text-center gap-4">
+              <div className="relative">
+                <div className="text-6xl animate-bounce">⏱️</div>
+                <div className="absolute inset-0 blur-xl bg-orange-500/30 animate-pulse"></div>
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-bold text-orange-300 mb-2">
+                  현재 너무 많은 요청으로
+                </h3>
+                <p className="text-base sm:text-lg text-orange-200 font-medium mb-1">
+                  잠시 후 다시 시도해주세요
+                </p>
+                <p className="text-sm sm:text-base text-orange-400/80 italic mt-3">
+                  (이용해주셔서 항상 감사합니다 💛)
+                </p>
               </div>
               <button
                 onClick={() => setError("")}
-                className="ml-auto p-2 hover:bg-red-500/20 rounded-lg transition-colors text-red-300"
+                className="mt-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-orange-500/50 hover:scale-105"
               >
-                <X size={20} />
+                확인
               </button>
-            </div>
-          )
-        )}
-      </section>
-
-      {/* Site Introduction Section - Only show when no character */}
-      {!character && !loading && (
-        <section className="w-full sm:max-w-5xl mb-16 px-4 sm:px-6">
-          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-6 sm:p-10 border border-slate-700 shadow-2xl">
-            {/* Main Title */}
-            <div className="text-center mb-8 flex flex-col items-center">
-              <img src="/images/maple-ai-logo.jpg" alt="메이플 AI" className="w-24 h-24 sm:w-32 sm:h-32 mb-6 object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.5)]" />
-              <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 bg-gradient-to-r from-maple-orange via-yellow-400 to-maple-orange bg-clip-text text-transparent">
-                메이플 AI
-              </h1>
-              <p className="text-lg sm:text-xl text-slate-300 font-medium">
-                메이플스토리 캐릭터 종합 분석 및 성장 가이드 플랫폼
-              </p>
-              <button
-                onClick={() => setIsPatchNotesOpen(true)}
-                className="mt-4 text-sm text-slate-400 hover:text-maple-orange underline underline-offset-4 transition-colors flex items-center gap-1"
-              >
-                <span>📢</span>
-                단풍이의 메이플 AI 패치내용 보기
-              </button>
-            </div>
-
-            {/* What is this site */}
-            <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
-              <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-4 flex items-center gap-2">
-                <span className="text-3xl">🎮</span>
-                메이플 AI란?
-              </h2>
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
-                메이플 AI는 <strong className="text-white">넥슨 오픈 API</strong>와 <strong className="text-white">AI 기술</strong>을 활용하여 메이플스토리 캐릭터의 장비, 스탯, 심볼, 유니온, 링크스킬 등 모든 정보를 실시간으로 분석하고 진단하는 <strong className="text-white">AI 기반 캐릭터 분석 플랫폼</strong>입니다.
-              </p>
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-                초보자부터 고스펙 유저까지, 모든 메이플 유저가 자신의 캐릭터를 객관적으로 평가하고 효율적인 성장 방향을 찾을 수 있도록 돕는 것이 저희의 목표입니다.
-              </p>
-            </div>
-
-            {/* Main Features */}
-            <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
-              <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-6 flex items-center gap-2">
-                <span className="text-3xl">⚡</span>
-                주요 기능
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
-                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
-                    <span>📊</span> 실시간 캐릭터 정보 조회
-                  </h3>
-                  <p className="text-sm text-slate-400">
-                    닉네임 검색만으로 장비, 스탯, 어빌리티, 유니온, 링크스킬 등 모든 캐릭터 정보를 한눈에 확인할 수 있습니다.
-                  </p>
-                </div>
-
-                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
-                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
-                    <span>🎯</span> 보스 장비 단계별 진단
-                  </h3>
-                  <p className="text-sm text-slate-400">
-                    9단계 세분화된 진단 시스템으로 현재 캐릭터의 보스 장비 수준을 정확히 평가하고, 다음 성장 목표를 제시합니다.
-                  </p>
-                </div>
-
-                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
-                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
-                    <span>🔍</span> 장비 상세 분석
-                  </h3>
-                  <p className="text-sm text-slate-400">
-                    스타포스, 잠재능력, 에디셔널, 추가옵션, 주문서 작업 상태를 종합적으로 분석하여 개선이 필요한 부분을 정확히 알려드립니다.
-                  </p>
-                </div>
-
-                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
-                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
-                    <span>💎</span> 전투력 티어 시스템
-                  </h3>
-                  <p className="text-sm text-slate-400">
-                    전투력을 기반으로 아이언부터 챌린저까지 세분화된 티어로 분류하여 현재 위치와 성장 목표를 명확하게 파악할 수 있습니다.
-                  </p>
-                </div>
-
-                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
-                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
-                    <span>🌟</span> 헥사 스탯 가이드
-                  </h3>
-                  <p className="text-sm text-slate-400">
-                    6차 전직 헥사 스탯의 강화 수준과 직업별 최적화 우선순위를 분석하여 스탯 포인트 투자 방향을 안내합니다.
-                  </p>
-                </div>
-
-                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
-                  <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
-                    <span>🔗</span> 유니온/링크스킬 진단
-                  </h3>
-                  <p className="text-sm text-slate-400">
-                    유니온 배치와 링크스킬 구성을 분석하여 직업에 맞는 최적의 세팅을 추천하고, 부족한 부분을 개선할 수 있도록 돕습니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* How to Use */}
-            <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
-              <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-6 flex items-center gap-2">
-                <span className="text-3xl">📖</span>
-                이용 방법
-              </h2>
-              <div className="space-y-4">
-                <div className="flex gap-4 items-start">
-                  <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
-                    1
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-white mb-1">캐릭터 검색</h3>
-                    <p className="text-sm text-slate-400">
-                      상단 검색창에 분석하고 싶은 <strong className="text-slate-300">메이플스토리 캐릭터 닉네임</strong>을 입력하고 검색합니다. 모든 월드의 캐릭터를 검색할 수 있습니다.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 items-start">
-                  <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
-                    2
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-white mb-1">정보 조회 및 진단</h3>
-                    <p className="text-sm text-slate-400">
-                      검색 결과로 캐릭터의 <strong className="text-slate-300">장비, 스탯, 전투력, 유니온, 링크스킬, 심볼, 헥사 스탯</strong> 등 모든 정보가 자동으로 표시됩니다. 각 항목을 클릭하면 상세 정보를 확인할 수 있습니다.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 items-start">
-                  <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
-                    3
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-white mb-1">보스 템 진단 확인</h3>
-                    <p className="text-sm text-slate-400">
-                      우측 하단의 <strong className="text-slate-300">"보스용 진단" 또는 "사냥용 진단"</strong> 탭에서 캐릭터의 현재 장비 수준을 9단계로 세분화하여 진단받을 수 있습니다. 각 단계별 목표와 개선 사항이 상세히 안내됩니다.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 items-start">
-                  <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
-                    4
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-white mb-1">실시간 갱신</h3>
-                    <p className="text-sm text-slate-400">
-                      <strong className="text-slate-300">게임 내에서 캐시샵에 입장하거나 재접속</strong>한 후, 검색창 옆의 새로고침 버튼을 누르면 최신 정보로 업데이트됩니다.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Purpose */}
-            <div className="bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
-              <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-4 flex items-center gap-2">
-                <span className="text-3xl">🎯</span>
-                서비스 목적
-              </h2>
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
-                메이플스토리는 방대한 콘텐츠와 복잡한 성장 시스템으로 인해 <strong className="text-white">초보자가 진입하기 어렵고, 중급 유저도 다음 성장 방향을 결정하기 힘든</strong> 게임입니다.
-              </p>
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
-                메이플 AI는 이러한 문제를 해결하기 위해 <strong className="text-white">AI 기반의 객관적이고 구체적인 데이터 분석</strong>을 제공하며, 모든 유저가 자신의 캐릭터 상태를 정확히 파악하고 <strong className="text-white">효율적인 투자 우선순위</strong>를 결정할 수 있도록 돕습니다.
-              </p>
-              <div className="bg-maple-orange/10 border border-maple-orange/30 rounded-lg p-4 mt-4">
-                <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
-                  💡 <strong className="text-maple-orange">커뮤니티 기여</strong>: 메이플 AI는 비영리 프로젝트로, 메이플스토리 커뮤니티의 성장과 신규 유저 유입에 기여하는 것을 최우선 목표로 합니다. 모든 기능은 무료로 제공되며, 광고 수익은 서버 유지비와 개선 작업에만 사용됩니다.
-                </p>
-              </div>
             </div>
           </div>
-        </section>
+        ) : (
+          <div className="w-full max-w-4xl mt-4 p-4 bg-red-950/50 border border-red-500/50 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 shadow-lg shadow-red-900/20">
+            <span className="text-2xl">🚫</span>
+            <div className="flex flex-col">
+              <p className="text-red-200 font-bold text-lg">검색 실패</p>
+              <p className="text-red-300/90 text-sm">{error}</p>
+            </div>
+            <button
+              onClick={() => setError("")}
+              className="ml-auto p-2 hover:bg-red-500/20 rounded-lg transition-colors text-red-300"
+            >
+              <X size={20} />
+            </button>
+          </div>
+        )
       )}
+
+
+      {/* Site Introduction Section - Only show when no character */}
+      {
+        !character && !loading && (
+          <section className="w-full sm:max-w-5xl mb-16 px-4 sm:px-6">
+            <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-6 sm:p-10 border border-slate-700 shadow-2xl">
+              {/* Main Title */}
+              <div className="text-center mb-8 flex flex-col items-center">
+                <img src="/images/maple-ai-logo.jpg" alt="메이플 AI" className="w-24 h-24 sm:w-32 sm:h-32 mb-6 object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.5)]" />
+                <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 bg-gradient-to-r from-maple-orange via-yellow-400 to-maple-orange bg-clip-text text-transparent">
+                  메이플 AI
+                </h1>
+                <p className="text-lg sm:text-xl text-slate-300 font-medium">
+                  메이플스토리 캐릭터 종합 분석 및 성장 가이드 플랫폼
+                </p>
+                <button
+                  onClick={() => setIsPatchNotesOpen(true)}
+                  className="mt-4 text-sm text-slate-400 hover:text-maple-orange underline underline-offset-4 transition-colors flex items-center gap-1"
+                >
+                  <span>📢</span>
+                  단풍이의 메이플 AI 패치내용 보기
+                </button>
+              </div>
+
+              {/* What is this site */}
+              <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
+                <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-4 flex items-center gap-2">
+                  <span className="text-3xl">🎮</span>
+                  메이플 AI란?
+                </h2>
+                <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
+                  메이플 AI는 <strong className="text-white">넥슨 오픈 API</strong>와 <strong className="text-white">AI 기술</strong>을 활용하여 메이플스토리 캐릭터의 장비, 스탯, 심볼, 유니온, 링크스킬 등 모든 정보를 실시간으로 분석하고 진단하는 <strong className="text-white">AI 기반 캐릭터 분석 플랫폼</strong>입니다.
+                </p>
+                <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+                  초보자부터 고스펙 유저까지, 모든 메이플 유저가 자신의 캐릭터를 객관적으로 평가하고 효율적인 성장 방향을 찾을 수 있도록 돕는 것이 저희의 목표입니다.
+                </p>
+              </div>
+
+              {/* Main Features */}
+              <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
+                <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-6 flex items-center gap-2">
+                  <span className="text-3xl">⚡</span>
+                  주요 기능
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                    <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                      <span>📊</span> 실시간 캐릭터 정보 조회
+                    </h3>
+                    <p className="text-sm text-slate-400">
+                      닉네임 검색만으로 장비, 스탯, 어빌리티, 유니온, 링크스킬 등 모든 캐릭터 정보를 한눈에 확인할 수 있습니다.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                    <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                      <span>🎯</span> 보스 장비 단계별 진단
+                    </h3>
+                    <p className="text-sm text-slate-400">
+                      9단계 세분화된 진단 시스템으로 현재 캐릭터의 보스 장비 수준을 정확히 평가하고, 다음 성장 목표를 제시합니다.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                    <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                      <span>🔍</span> 장비 상세 분석
+                    </h3>
+                    <p className="text-sm text-slate-400">
+                      스타포스, 잠재능력, 에디셔널, 추가옵션, 주문서 작업 상태를 종합적으로 분석하여 개선이 필요한 부분을 정확히 알려드립니다.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                    <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                      <span>💎</span> 전투력 티어 시스템
+                    </h3>
+                    <p className="text-sm text-slate-400">
+                      전투력을 기반으로 아이언부터 챌린저까지 세분화된 티어로 분류하여 현재 위치와 성장 목표를 명확하게 파악할 수 있습니다.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                    <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                      <span>🌟</span> 헥사 스탯 가이드
+                    </h3>
+                    <p className="text-sm text-slate-400">
+                      6차 전직 헥사 스탯의 강화 수준과 직업별 최적화 우선순위를 분석하여 스탯 포인트 투자 방향을 안내합니다.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+                    <h3 className="text-lg font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                      <span>🔗</span> 유니온/링크스킬 진단
+                    </h3>
+                    <p className="text-sm text-slate-400">
+                      유니온 배치와 링크스킬 구성을 분석하여 직업에 맞는 최적의 세팅을 추천하고, 부족한 부분을 개선할 수 있도록 돕습니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* How to Use */}
+              <div className="mb-8 bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
+                <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-6 flex items-center gap-2">
+                  <span className="text-3xl">📖</span>
+                  이용 방법
+                </h2>
+                <div className="space-y-4">
+                  <div className="flex gap-4 items-start">
+                    <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
+                      1
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white mb-1">캐릭터 검색</h3>
+                      <p className="text-sm text-slate-400">
+                        상단 검색창에 분석하고 싶은 <strong className="text-slate-300">메이플스토리 캐릭터 닉네임</strong>을 입력하고 검색합니다. 모든 월드의 캐릭터를 검색할 수 있습니다.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
+                      2
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white mb-1">정보 조회 및 진단</h3>
+                      <p className="text-sm text-slate-400">
+                        검색 결과로 캐릭터의 <strong className="text-slate-300">장비, 스탯, 전투력, 유니온, 링크스킬, 심볼, 헥사 스탯</strong> 등 모든 정보가 자동으로 표시됩니다. 각 항목을 클릭하면 상세 정보를 확인할 수 있습니다.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
+                      3
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white mb-1">보스 템 진단 확인</h3>
+                      <p className="text-sm text-slate-400">
+                        우측 하단의 <strong className="text-slate-300">"보스용 진단" 또는 "사냥용 진단"</strong> 탭에서 캐릭터의 현재 장비 수준을 9단계로 세분화하여 진단받을 수 있습니다. 각 단계별 목표와 개선 사항이 상세히 안내됩니다.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <div className="flex-shrink-0 w-8 h-8 bg-maple-orange rounded-full flex items-center justify-center text-white font-bold">
+                      4
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white mb-1">실시간 갱신</h3>
+                      <p className="text-sm text-slate-400">
+                        <strong className="text-slate-300">게임 내에서 캐시샵에 입장하거나 재접속</strong>한 후, 검색창 옆의 새로고침 버튼을 누르면 최신 정보로 업데이트됩니다.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Purpose */}
+              <div className="bg-slate-950/50 rounded-xl p-6 border border-slate-700/50">
+                <h2 className="text-2xl sm:text-3xl font-bold text-maple-orange mb-4 flex items-center gap-2">
+                  <span className="text-3xl">🎯</span>
+                  서비스 목적
+                </h2>
+                <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
+                  메이플스토리는 방대한 콘텐츠와 복잡한 성장 시스템으로 인해 <strong className="text-white">초보자가 진입하기 어렵고, 중급 유저도 다음 성장 방향을 결정하기 힘든</strong> 게임입니다.
+                </p>
+                <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
+                  메이플 AI는 이러한 문제를 해결하기 위해 <strong className="text-white">AI 기반의 객관적이고 구체적인 데이터 분석</strong>을 제공하며, 모든 유저가 자신의 캐릭터 상태를 정확히 파악하고 <strong className="text-white">효율적인 투자 우선순위</strong>를 결정할 수 있도록 돕습니다.
+                </p>
+                <div className="bg-maple-orange/10 border border-maple-orange/30 rounded-lg p-4 mt-4">
+                  <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
+                    💡 <strong className="text-maple-orange">커뮤니티 기여</strong>: 메이플 AI는 비영리 프로젝트로, 메이플스토리 커뮤니티의 성장과 신규 유저 유입에 기여하는 것을 최우선 목표로 합니다. 모든 기능은 무료로 제공되며, 광고 수익은 서버 유지비와 개선 작업에만 사용됩니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )
+      }
 
       {/* Recommended Guides Section - Only show when no character */}
-      {!character && !loading && (
-        <section className="w-full sm:max-w-5xl mb-16 px-4 sm:px-6">
-          <RecommendedGuides />
+      {
+        !character && !loading && (
+          <section className="w-full sm:max-w-5xl mb-16 px-4 sm:px-6">
+            <RecommendedGuides />
 
 
-        </section>
-      )}
+          </section>
+        )
+      }
 
 
 
