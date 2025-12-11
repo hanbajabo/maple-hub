@@ -30,10 +30,10 @@ export default function ContactPage() {
                             일반 문의, 제휴 문의, 기능 제안 등 모든 문의를 받습니다.
                         </p>
                         <a
-                            href="mailto:contact@maple.ai.kr"
+                            href="mailto:p6092@Naver.com"
                             className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition-colors"
                         >
-                            contact@maple.ai.kr
+                            p6092@Naver.com
                         </a>
                     </div>
 
@@ -45,10 +45,10 @@ export default function ContactPage() {
                             서비스 이용 중 발견한 버그나 오류를 신속히 처리해드립니다.
                         </p>
                         <a
-                            href="mailto:bug@maple.ai.kr"
+                            href="mailto:p6092@Naver.com"
                             className="inline-block px-6 py-3 bg-red-600 hover:bg-red-500 rounded-lg font-semibold transition-colors"
                         >
-                            bug@maple.ai.kr
+                            p6092@Naver.com
                         </a>
                     </div>
                 </div>
@@ -77,7 +77,7 @@ export default function ContactPage() {
                         <div>
                             <h3 className="text-xl font-bold mb-2 text-blue-400">Q. 새로운 기능을 제안하고 싶어요</h3>
                             <p className="text-slate-300 pl-4">
-                                A. 언제든 환영합니다! 이메일이나 디스코드를 통해 자유롭게 의견을 보내주세요.
+                                A. 언제든 환영합니다! 이메일을 통해 자유롭게 의견을 보내주세요.
                                 좋은 아이디어는 적극 반영하겠습니다.
                             </p>
                         </div>
