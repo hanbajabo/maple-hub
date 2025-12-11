@@ -19,6 +19,16 @@ interface BlogPost {
 const blogPosts: BlogPost[] = [
     // 육성 가이드
     {
+        slug: 'hyperburning-jobs-2025',
+        title: '🎬 유튜버 6명이 입 모아 외친 "그 직업". 2025 겨울 하이퍼버닝 추천 직업 통합 분석 (종결판)',
+        description: '메친놈, 슈크림메이플, 물다이아, 페이지, 글자네 등 유튜버 6명의 분석 종합! 12월 18일 챌린저스 월드 시즌 3, 어떤 직업을 키워야 할까?',
+        category: '육성 가이드',
+        date: '2025년 12월 11일',
+        readTime: '15분',
+        thumbnail: '🔥',
+        featured: true,
+    },
+    {
         slug: 'beginner-guide-2025',
         title: '유니온 + 링크부터 200레벨 초고속 육성까지! 완벽 내실 가이드',
         description: '유니온 6000, 링크스킬, 아티팩트까지! 200레벨 4-6시간 달성하는 초고속 육성법과 내실 완벽 가이드.',
