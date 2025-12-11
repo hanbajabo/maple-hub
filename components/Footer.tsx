@@ -19,15 +19,18 @@ export default function Footer() {
                 </div>
 
                 <div className="flex items-center gap-6">
+                    <Link href="/about" className="hover:text-slate-300 transition-colors">
+                        소개
+                    </Link>
                     <Link href="/privacy" className="hover:text-slate-300 transition-colors">
                         개인정보처리방침
                     </Link>
                     <Link href="/terms" className="hover:text-slate-300 transition-colors">
                         이용약관
                     </Link>
-                    <a href="mailto:contact@maple.ai.kr" className="hover:text-slate-300 transition-colors">
+                    <Link href="/contact" className="hover:text-slate-300 transition-colors">
                         문의하기
-                    </a>
+                    </Link>
                 </div>
             </div>
         </footer>
