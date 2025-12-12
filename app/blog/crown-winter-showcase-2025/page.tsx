@@ -47,6 +47,18 @@ export default function CrownShowcasePage() {
                     </div>
                 </header>
 
+                {/* Crown Showcase Image */}
+                <div className="mb-12">
+                    <div className="relative group">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-yellow-600 via-orange-600 to-yellow-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+                        <img
+                            src="/images/blog/crown-showcase-2025.png"
+                            alt="메이플스토리 크라운 겨울 쇼케이스 2025.12.13"
+                            className="relative w-full h-auto rounded-xl shadow-2xl border border-yellow-500/30"
+                        />
+                    </div>
+                </div>
+
                 {/* Content */}
                 <div className="prose prose-invert prose-lg max-w-none">
                     {/* Introduction */}
@@ -326,6 +338,6 @@ export default function CrownShowcasePage() {
                     </div>
                 </div>
             </article>
-        </div>
+        </div >
     );
 }
