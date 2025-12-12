@@ -223,13 +223,24 @@ export default function JobRankingPage() {
                             <div className="text-[11px] sm:text-xs opacity-80">AI 50% + 고점 50%</div>
                         </button>
                     </div>
-                    {rankingMode !== 'ai' && (
+                    {rankingMode !== 'ai' ? (
                         <div className="mt-4 p-4 bg-black/30 rounded-lg">
-                            <p className="text-yellow-400 font-medium">
+                            <p className="text-yellow-400 font-medium whitespace-pre-line">
                                 {rankingMode === 'youtuber' && HYBRID_MODE_DESCRIPTION.youtuber.detail}
                                 {rankingMode === 'general' && HYBRID_MODE_DESCRIPTION.general.detail}
                                 {rankingMode === 'ceiling' && HYBRID_MODE_DESCRIPTION.ceiling.detail}
                             </p>
+                        </div>
+                    ) : (
+                        <div className="mt-4 p-4 bg-red-900/30 border border-red-500/30 rounded-lg flex items-start gap-3">
+                            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                            <div>
+                                <h3 className="text-red-400 font-bold mb-1">⚠️ AI 순위 확인 시 주의사항</h3>
+                                <p className="text-gray-300 text-sm leading-relaxed">
+                                    현재 모드는 <strong>직업별 체급(데미지/한계치)이 반영되지 않은</strong> 순수 데이터 기반 점수입니다.<br />
+                                    실제 인게임 성능 체감과는 차이가 있을 수 있으므로, 체급이 보정된 <span className="text-yellow-400 font-bold">유튜버 / 일반인 / 고점 체급 혼합 모드</span> 확인을 강력히 권장합니다.
+                                </p>
+                            </div>
                         </div>
                     )}
                 </div>
