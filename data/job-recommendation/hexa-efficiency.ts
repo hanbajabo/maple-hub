@@ -457,7 +457,7 @@ export const HEXA_EFFICIENCY_DATA: HexaEfficiency[] = [
         level20000: { correction: 94.93, fragments: 19785 }
     },
     {
-        job: '캐논슈터',
+        job: '캐논마스터',
         level500: { correction: 58.72, fragments: 510 },
         level1000: { correction: 62.57, fragments: 1049 },
         level2000: { correction: 67.03, fragments: 1971 },

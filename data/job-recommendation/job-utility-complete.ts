@@ -220,9 +220,9 @@ export const JOB_UTILITY_COMPLETE: JobUtility[] = [
     { job: '캡틴', category: '능력치 감소', skillName: '컨티뉴얼 에이밍', effect: '표식이 남은 적에게 캡틴이 입히는 최종 데미지 25% 증가' },
     { job: '캡틴', category: '무적', skillName: '데드아이', effect: '시전 중 2초간 무적' },
     { job: '캡틴', category: '무적', skillName: '노틸러스 어썰트', effect: '시전 중 무적' },
-    { job: '캐논슈터', category: '능력치 감소', skillName: '파이렛 플래그', effect: '깃발 주변 몬스터 방어율 22% 감소' },
-    { job: '캐논슈터', category: '버프 무시', skillName: 'ICBM', effect: '공격 반사로 인한 피해를 입지 않음' },
-    { job: '캐논슈터', category: '무적', skillName: '붐 프루프', effect: '2.5초간 무적' },
+    { job: '캐논마스터', category: '능력치 감소', skillName: '파이렛 플래그', effect: '깃발 주변 몬스터 방어율 22% 감소' },
+    { job: '캐논마스터', category: '버프 무시', skillName: 'ICBM', effect: '공격 반사로 인한 피해를 입지 않음' },
+    { job: '캐논마스터', category: '무적', skillName: '붐 프루프', effect: '2.5초간 무적' },
     { job: '스트라이커', category: '무적', skillName: '해신강림', effect: '시전 중 무적' },
 
     // 기타 - 일리움, 라라, 아크, 호영, 칼리

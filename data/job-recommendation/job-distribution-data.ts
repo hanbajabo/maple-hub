@@ -42,7 +42,7 @@ export const TOP_2000_DISTRIBUTION: Record<string, { count: number; percentage: 
     '소울마스터': { count: 29, percentage: 1.45, rank: 26 },
     '엔젤릭버스터': { count: 29, percentage: 1.45, rank: 27 },
     '카데나': { count: 24, percentage: 1.20, rank: 28 },
-    '캐논슈터': { count: 23, percentage: 1.15, rank: 29 },
+    '캐논마스터': { count: 23, percentage: 1.15, rank: 29 },
     '바이퍼': { count: 23, percentage: 1.15, rank: 30 },
     '카인': { count: 22, percentage: 1.10, rank: 31 },
     '메카닉': { count: 17, percentage: 0.85, rank: 32 },
@@ -111,7 +111,7 @@ export const LEVEL_280_DISTRIBUTION: Record<string, { percentage: number; rank: 
     '아란': { percentage: 0.83, rank: 35 },
     '카인': { percentage: 0.79, rank: 36 },
     '카데나': { percentage: 0.73, rank: 37 },
-    '캐논슈터': { percentage: 0.68, rank: 38 },
+    '캐논마스터': { percentage: 0.68, rank: 38 },
     '데몬슬레이어': { percentage: 0.62, rank: 39 },
 
     // D티어
