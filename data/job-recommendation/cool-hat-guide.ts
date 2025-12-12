@@ -1,6 +1,5 @@
 /**
  * 쿨타임 감소 모자(쿨뚝) 추천 가이드
- * 출처: https://maple.ai.kr/guide/cooltime-hat-guide
  * 
  * 분석 기준: 레벨 280+, 전투력 4억 이상 (초고스펙 유저 데이터)
  * 

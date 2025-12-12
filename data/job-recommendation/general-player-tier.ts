@@ -1,6 +1,5 @@
 /**
  * 일반인 기준 직업 티어표
- * 출처: https://www.inven.co.kr/board/maple/5974/5955516
  * 
  * 평가 기준:
  * 1. 난이도 쉬운가 (고점 저점 차이가 적은가)
@@ -233,8 +232,3 @@ export const GENERAL_TIER_CRITERIA = {
         }
     }
 };
-
-/**
- * 데이터 출처
- * - 일반인 기준 직업 티어표: https://www.inven.co.kr/board/maple/5974/5955516
- */

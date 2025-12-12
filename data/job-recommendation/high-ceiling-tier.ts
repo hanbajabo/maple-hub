@@ -7,8 +7,6 @@
  * - 고점 기준 체급 + 딜효율 고려
  * 
  * 순수하게 최대 스펙을 찍었을 때의 DPM/체급 중심 평가
- * 
- * 출처: https://www.inven.co.kr/board/maple/5974/5954861
  */
 
 export type CeilingTier = 'SS' | 'S' | 'A' | 'B' | 'C' | 'D';
@@ -155,7 +153,7 @@ export function getCeilingTierScore(jobName: string): { score: number; tier: Cei
         case 'B':
             score = 60;
             emoji = '✨';
-            reason: 'B티어 - 고점 체급 중위권. 평균적인 최대 딜량';
+            reason = 'B티어 - 고점 체급 중위권. 평균적인 최대 딜량';
             break;
         case 'C':
             score = 40;
@@ -230,8 +228,3 @@ export const CEILING_TIER_CHARACTERISTICS = {
     description: '순수하게 최대 DPM을 측정하여 이론상 최고점의 화력을 기준으로 평가',
     note: '실제 플레이 시 컨트롤 난이도와 투자효율 등을 별도로 고려해야 함'
 };
-
-/**
- * 데이터 출처
- * - 고점 체급 티어표: https://www.inven.co.kr/board/maple/5974/5954861
- */
