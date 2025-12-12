@@ -208,82 +208,80 @@ export const YOUTUBER_JOB_RANKING: YoutuberJobRanking[] = [
     },
     {
         rank: 27,
-        job: '엔젤릭버스터',
-        score: 4.5,
-        rawScore: '',
-        reason: '유틸 좋고 쉬우나 딜 체급이 너무 낮음.'
-    },
-    {
-        rank: 28,
         job: '아크메이지(불,독)',
         score: 4.5,
         rawScore: '',
         reason: '벞지 이슈는 해결됐으나 쿨뚝 의존도가 여전히 높음.'
     },
     {
-        rank: 29,
+        rank: 28,
         job: '와일드헌터',
         score: 4.5,
         rawScore: '',
         reason: '쉽고 세지만 쿨감 의존도가 매우 높음.'
     },
     {
-        rank: 30,
+        rank: 29,
         job: '팬텀',
         score: 4.5,
         rawScore: '',
         reason: '쿨감 없으면 체급 급락. 고점 플레이 까다로움.'
     },
     {
-        rank: 31,
+        rank: 30,
         job: '카데나',
         score: 4.5,
         rawScore: '',
         reason: '딜은 1등이나 난이도가 메이플 최고 수준 (뉴비 비추).'
     },
     {
-        rank: 32,
+        rank: 31,
         job: '칼리',
         score: 4.5,
         rawScore: '',
         reason: '너프 후 고저점 심하고 피로도 높음.'
     },
     {
-        rank: 33,
+        rank: 32,
         job: '제논',
         score: 4.5,
         rawScore: '',
         reason: '쿨감 의존도 높아졌고 올스탯 매물 구하기 힘듦.'
     },
     {
-        rank: 34,
+        rank: 33,
         job: '신궁',
         score: 4.5,
         rawScore: '',
         reason: '답답한 조작감, 세렌 보스 기록 안 좋음. 쿨감 낮은 것이 장점이나 추천하기 어려움'
     },
     {
-        rank: 35,
+        rank: 34,
         job: '패스파인더',
         score: 4.5,
         rawScore: '',
         reason: '조작감 별로고 쿨감 의존도 꽤 높음.'
     },
     {
-        rank: 36,
+        rank: 35,
         job: '카이저',
         score: 4.5,
         rawScore: '',
         reason: '5초 쿨 없으면 딜 안 나옴. 쿨뚝 필수 직업.'
     },
-
-    // D급 - 비추천 (2-3점)
     {
-        rank: 37,
+        rank: 36,
         job: '아델',
         score: 3.0,
         rawScore: '[원점수 -2점]',
         reason: '쌀피엠(저레벨 헥사) 낮고 2초 뚝 필수. 재사용까지 써야 해서 챌린저스에서 힘듦.'
+    },
+    {
+        rank: 37,
+        job: '엔젤릭버스터',
+        score: 3.0,
+        rawScore: '',
+        reason: '유틸 좋고 쉬우나 딜 체급이 너무 낮음 (최근 평가 하락).'
     },
     {
         rank: 38,
@@ -292,8 +290,6 @@ export const YOUTUBER_JOB_RANKING: YoutuberJobRanking[] = [
         rawScore: '[원점수 -3점]',
         reason: '최소컷이 너무 높고(5.1~5.2), 극딜 비중 낮고, 쿨감 의존도 심함(-2점). 리인카 스킬이 좋지만 비추천'
     },
-
-    // F급 - 강력 비추천 (1-2점)
     {
         rank: 39,
         job: '미하일',
