@@ -402,6 +402,27 @@ export default function JobRankingPage() {
                     <p>※ 본 순위는 헥사 효율, 쿨뚝 필요성, 리레링, 유틸리티, 환산 TOP 2000 인기도, Lv280+ 레벨링 인기도를 종합한 객관적 지표입니다.</p>
                     <p className="mt-2">개인의 플레이 스타일과 선호도에 따라 다를 수 있습니다.</p>
                     <p className="mt-3 text-purple-400">📊 직업 분포 데이터 출처: 메이플스카우터 (2025-12-12)</p>
+
+                    <div className="mt-6 border-t border-white/10 pt-4 flex flex-col gap-2 text-xs text-gray-500">
+                        <div className="font-bold text-gray-400 mb-1">📑 데이터 출처 및 참고자료</div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-left mx-auto max-w-4xl">
+                            <a href="https://www.inven.co.kr/board/maple/5974/5954861?my=chu&name=subjcont&keyword=%EC%B2%B4%EA%B8%89&sterm=4136194" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 transition-colors flex items-center gap-2">
+                                <span>🔥</span> 고점 체급 (인벤)
+                            </a>
+                            <a href="https://www.inven.co.kr/board/maple/5974/5955516?my=chu&name=subjcont&keyword=%EC%B2%B4%EA%B8%89&sterm=4136194" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 transition-colors flex items-center gap-2">
+                                <span>👥</span> 일반인 체급 (인벤)
+                            </a>
+                            <a href="https://www.inven.co.kr/board/maple/2304/46416?my=chu" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 transition-colors flex items-center gap-2">
+                                <span>💎</span> 헥사 강화 효율 (인벤)
+                            </a>
+                            <a href="https://maple.ai.kr/guide/cooltime-hat-guide" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 transition-colors flex items-center gap-2">
+                                <span>🎩</span> 쿨타임 모자 채택률
+                            </a>
+                            <a href="https://maple.ai.kr/guide/seed-ring-guide" target="_blank" rel="noopener noreferrer" className="hover:text-purple-300 transition-colors flex items-center gap-2">
+                                <span>💍</span> 시드링(리레링) 채택률
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
