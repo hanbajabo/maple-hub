@@ -15,33 +15,50 @@ export default function JobRankingPage() {
     const [fragmentLevel, setFragmentLevel] = useState<HexaFragmentLevel>('average');
     const [rankingMode, setRankingMode] = useState<RankingMode>('ai');
 
-    useEffect(() => {
+    const handleRankingModeChange = (mode: RankingMode) => {
+        setRankingMode(mode);
         setLoading(true);
+        setHybridRankings([]); // 상태 초기화로 데이터 섞임 방지
+    };
+
+    useEffect(() => {
+        let isMounted = true;
+        setLoading(true);
+
         try {
             const aiResult = calculateAllJobRankings(fragmentLevel);
-            setAiRankings(aiResult);
 
-            // 하이브리드 모드인 경우 혼합 순위 계산
-            if (rankingMode !== 'ai') {
-                const hybridMode = rankingMode as HybridMode;
-                const hybridResult = calculateHybridRankings(hybridMode, fragmentLevel);
+            if (isMounted) {
+                setAiRankings(aiResult);
 
-                // 중복 데이터 방지: 직업명 기준으로 중복 제거
-                const uniqueResult = Array.from(new Map(hybridResult.map(item => [item.job, item])).values());
+                // 하이브리드 모드인 경우 혼합 순위 계산
+                if (rankingMode !== 'ai') {
+                    const hybridMode = rankingMode as HybridMode;
+                    const hybridResult = calculateHybridRankings(hybridMode, fragmentLevel);
 
-                // 순위 재할당 (안전장치)
-                uniqueResult.sort((a, b) => b.totalScore - a.totalScore);
-                uniqueResult.forEach((item, index) => {
-                    item.rank = index + 1;
-                });
+                    // 중복 데이터 방지: 직업명 기준으로 중복 제거
+                    const uniqueResult = Array.from(new Map(hybridResult.map(item => [item.job, item])).values());
 
-                setHybridRankings(uniqueResult);
+                    // 순위 재할당 (안전장치)
+                    uniqueResult.sort((a, b) => b.totalScore - a.totalScore);
+                    uniqueResult.forEach((item, index) => {
+                        item.rank = index + 1;
+                    });
+
+                    setHybridRankings(uniqueResult);
+                }
             }
         } catch (error) {
             console.error('순위 계산 오류:', error);
         } finally {
-            setLoading(false);
+            if (isMounted) {
+                setLoading(false);
+            }
         }
+
+        return () => {
+            isMounted = false;
+        };
     }, [fragmentLevel, rankingMode]);
 
     if (loading) {
@@ -160,7 +177,7 @@ export default function JobRankingPage() {
                     <h2 className="text-xl font-bold text-white mb-4">📈 순위 모드 선택</h2>
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                         <button
-                            onClick={() => setRankingMode('ai')}
+                            onClick={() => handleRankingModeChange('ai')}
                             className={`p-4 rounded-lg font-medium transition ${rankingMode === 'ai'
                                 ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                                 : 'bg-white/10 text-white hover:bg-white/20'
@@ -170,7 +187,7 @@ export default function JobRankingPage() {
                             <div className="text-xs opacity-80">순수 데이터 기반</div>
                         </button>
                         <button
-                            onClick={() => setRankingMode('youtuber')}
+                            onClick={() => handleRankingModeChange('youtuber')}
                             className={`p-4 rounded-lg font-medium transition ${rankingMode === 'youtuber'
                                 ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                                 : 'bg-white/10 text-white hover:bg-white/20'
@@ -180,7 +197,7 @@ export default function JobRankingPage() {
                             <div className="text-xs opacity-80">AI 50% + 유튜버 50%</div>
                         </button>
                         <button
-                            onClick={() => setRankingMode('general')}
+                            onClick={() => handleRankingModeChange('general')}
                             className={`p-4 rounded-lg font-medium transition ${rankingMode === 'general'
                                 ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                                 : 'bg-white/10 text-white hover:bg-white/20'
@@ -190,7 +207,7 @@ export default function JobRankingPage() {
                             <div className="text-xs opacity-80">AI 50% + 일반인 50%</div>
                         </button>
                         <button
-                            onClick={() => setRankingMode('ceiling')}
+                            onClick={() => handleRankingModeChange('ceiling')}
                             className={`p-4 rounded-lg font-medium transition ${rankingMode === 'ceiling'
                                 ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                                 : 'bg-white/10 text-white hover:bg-white/20'
