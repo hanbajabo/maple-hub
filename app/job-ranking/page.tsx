@@ -245,7 +245,7 @@ export default function JobRankingPage() {
                                         <div className="text-2xl sm:text-4xl min-w-[2rem] sm:min-w-[3rem] text-center">{getTierBadge(job.rank)}</div>
                                         <div className="relative w-10 h-10 sm:w-14 sm:h-14 flex-shrink-0">
                                             <Image
-                                                src={`/images/jobs/${job.job === '듀얼블레이드' ? '듀얼블레이더' : job.job === '캐논슈터' ? '캐논마스터' : job.job}.png`}
+                                                src={`/images/jobs/${job.job === '듀얼블레이드' ? '듀얼블레이더' : job.job === '캐논슈터' || job.job === '캐논마스터' ? '캐논마스터' : job.job}.png`}
                                                 alt={job.job}
                                                 fill
                                                 className="object-contain rounded-lg"
