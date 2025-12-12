@@ -25,7 +25,17 @@ export default function JobRankingPage() {
             if (rankingMode !== 'ai') {
                 const hybridMode = rankingMode as HybridMode;
                 const hybridResult = calculateHybridRankings(hybridMode, fragmentLevel);
-                setHybridRankings(hybridResult);
+
+                // 중복 데이터 방지: 직업명 기준으로 중복 제거
+                const uniqueResult = Array.from(new Map(hybridResult.map(item => [item.job, item])).values());
+
+                // 순위 재할당 (안전장치)
+                uniqueResult.sort((a, b) => b.totalScore - a.totalScore);
+                uniqueResult.forEach((item, index) => {
+                    item.rank = index + 1;
+                });
+
+                setHybridRankings(uniqueResult);
             }
         } catch (error) {
             console.error('순위 계산 오류:', error);
