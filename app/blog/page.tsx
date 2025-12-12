@@ -19,6 +19,16 @@ interface BlogPost {
 const blogPosts: BlogPost[] = [
     // 육성 가이드
     {
+        slug: 'crown-winter-showcase-2025',
+        title: '👑 메이플스토리 겨울 쇼케이스 "크라운" 완벽 예측: 어셈블을 넘어 정점으로',
+        description: '12월 13일 공개되는 겨울 쇼케이스 "크라운"을 심층 분석! Lv.290 시대, 신규 지역, 6차 전직 완성까지 모든 것을 예측합니다.',
+        category: '업데이트 소식',
+        date: '2025년 12월 13일',
+        readTime: '15분',
+        thumbnail: '👑',
+        featured: true,
+    },
+    {
         slug: 'hyperburning-jobs-2025-v2',
         title: '🎮 데이터로 증명된 2025 하이퍼버닝 직업 추천 v2.0 (하이브리드 랭킹)',
         description: 'AI, 유튜버, 일반인 인식, 고점 데이터를 모두 섞었다! 4가지 모드로 분석한 가장 완벽한 직업 추천 가이드.',
@@ -56,7 +66,7 @@ const blogPosts: BlogPost[] = [
         date: '2025년 12월 11일',
         readTime: '15분',
         thumbnail: '💚',
-        featured: true,
+        featured: false,
     },
     // 초보자 가이드
     {
@@ -182,7 +192,7 @@ const blogPosts: BlogPost[] = [
     },
 ];
 
-const categories = ['전체', '육성 가이드', '초보자 가이드', '장비 가이드', '보스 공략', '헥사 가이드', '스탯 가이드'];
+const categories = ['전체', '업데이트 소식', '육성 가이드', '초보자 가이드', '장비 가이드', '보스 공략', '헥사 가이드', '스탯 가이드'];
 
 export default function BlogPage() {
     const [selectedCategory, setSelectedCategory] = useState('전체');
