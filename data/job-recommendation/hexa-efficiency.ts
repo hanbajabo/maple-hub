@@ -543,8 +543,3 @@ export function sortJobsByHexaEfficiency(level: keyof Omit<HexaEfficiency, 'job'
         b[level].correction - a[level].correction
     );
 }
-
-/**
- * 데이터 출처
- * - 전직업 헥사강화 효율표: https://www.inven.co.kr/board/maple/2304/46416
- */
