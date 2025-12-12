@@ -3,7 +3,7 @@
  * AI 순위와 외부 평가를 조합한 하이브리드 순위
  */
 
-import { calculateAllJobRankings, HexaFragmentLevel } from './job-ranking-system';
+import { calculateAllJobRankings, HexaFragmentLevel, RankingWeights, DEFAULT_WEIGHTS } from './job-ranking-system';
 import { getYoutuberRanking, YOUTUBER_JOB_RANKING } from './youtuber-job-ranking';
 import { getGeneralTierScore } from './general-player-tier';
 import { getCeilingTierScore } from './high-ceiling-tier';
@@ -39,10 +39,11 @@ function convertYoutuberScoreToHundred(youtuberScore: number): number {
  */
 export function calculateHybridRankings(
     mode: HybridMode,
-    fragmentLevel: HexaFragmentLevel = 'average'
+    fragmentLevel: HexaFragmentLevel = 'average',
+    weights: RankingWeights = DEFAULT_WEIGHTS
 ): HybridJobScore[] {
     // AI 순위 가져오기
-    const aiRankings = calculateAllJobRankings(fragmentLevel);
+    const aiRankings = calculateAllJobRankings(fragmentLevel, weights);
 
     const hybridScores: HybridJobScore[] = [];
 
@@ -112,9 +113,10 @@ export function calculateHybridRankings(
 export function getHybridJobRanking(
     jobName: string,
     mode: HybridMode,
-    fragmentLevel: HexaFragmentLevel = 'average'
+    fragmentLevel: HexaFragmentLevel = 'average',
+    weights: RankingWeights = DEFAULT_WEIGHTS
 ): HybridJobScore | undefined {
-    const rankings = calculateHybridRankings(mode, fragmentLevel);
+    const rankings = calculateHybridRankings(mode, fragmentLevel, weights);
     return rankings.find(r => r.job === jobName);
 }
 

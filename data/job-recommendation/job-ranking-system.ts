@@ -16,8 +16,17 @@ import { getSeedRingStat, SEED_RING_STATS } from './seed-ring-stats';
 import { getJobUtilities, getUtilityFlags } from './job-utility-complete';
 import { getTop2000Score, getLevel280Score } from './job-distribution-data';
 
-// 가중치 설정
-const WEIGHTS = {
+// 가중치 설정 인터페이스
+export interface RankingWeights {
+    HEXA_EFFICIENCY: number;
+    COOL_HAT: number;
+    RERANGE: number;
+    UTILITY: number;
+    TOP_2000: number;
+    LEVEL_280: number;
+}
+
+export const DEFAULT_WEIGHTS: RankingWeights = {
     HEXA_EFFICIENCY: 0.40,  // 40% - 헥사 효율
     COOL_HAT: 0.15,         // 15% - 쿨뚝 불필요
     RERANGE: 0.05,          // 5% - 리레링(극딜) 여부
@@ -345,9 +354,9 @@ function normalizeJobName(name: string): string {
 }
 
 /**
- * 종합 점수 계산 (조각 레벨 지정 가능)
+ * 종합 점수 계산 (조각 레벨 및 가중치 지정 가능)
  */
-export function calculateJobScore(jobName: string, fragmentLevel: HexaFragmentLevel = 'average'): Omit<JobScore, 'rank'> {
+export function calculateJobScore(jobName: string, fragmentLevel: HexaFragmentLevel = 'average', weights: RankingWeights = DEFAULT_WEIGHTS): Omit<JobScore, 'rank'> {
     // 데이터 조회를 위해 직업명을 표준 이름으로 변환
     const normalizedName = normalizeJobName(jobName);
 
@@ -368,33 +377,33 @@ export function calculateJobScore(jobName: string, fragmentLevel: HexaFragmentLe
 
     // 가중치 적용한 총점
     const totalScore =
-        hexa.score * WEIGHTS.HEXA_EFFICIENCY +
-        coolHat.score * WEIGHTS.COOL_HAT +
-        rerangeCorrected.score * WEIGHTS.RERANGE +
-        utility.score * WEIGHTS.UTILITY +
-        top2000.score * WEIGHTS.TOP_2000 +
-        level280.score * WEIGHTS.LEVEL_280;
+        hexa.score * weights.HEXA_EFFICIENCY +
+        coolHat.score * weights.COOL_HAT +
+        rerangeCorrected.score * weights.RERANGE +
+        utility.score * weights.UTILITY +
+        top2000.score * weights.TOP_2000 +
+        level280.score * weights.LEVEL_280;
 
     // 종합 평가 이유
     const overallReason = `
 📊 종합 점수: ${totalScore.toFixed(1)}점
 
-【성장 효율】 (40% 가중치)
+【성장 효율】 (${(weights.HEXA_EFFICIENCY * 100).toFixed(0)}% 가중치)
 ${hexa.reason}
 
-【장비 접근성】 (15% 가중치)
+【장비 접근성】 (${(weights.COOL_HAT * 100).toFixed(0)}% 가중치)
 ${coolHat.reason}
 
-【화력/극딜】 (5% 가중치)
+【화력/극딜】 (${(weights.RERANGE * 100).toFixed(0)}% 가중치)
 ${rerangeCorrected.reason}
 
-【유틸리티】 (5% 가중치)
+【유틸리티】 (${(weights.UTILITY * 100).toFixed(0)}% 가중치)
 ${utility.reason}
 
-【환산 TOP 2000 인기도】 (20% 가중치)
+【환산 TOP 2000 인기도】 (${(weights.TOP_2000 * 100).toFixed(0)}% 가중치)
 ${top2000.reason}
 
-【Lv280+ 레벨링 인기도】 (15% 가중치)
+【Lv280+ 레벨링 인기도】 (${(weights.LEVEL_280 * 100).toFixed(0)}% 가중치)
 ${level280.reason}
   `.trim();
 
@@ -421,9 +430,9 @@ ${level280.reason}
 /**
  * 전체 직업 순위 계산 (조각 레벨별)
  */
-export function calculateAllJobRankings(fragmentLevel: HexaFragmentLevel = 'average'): JobScore[] {
+export function calculateAllJobRankings(fragmentLevel: HexaFragmentLevel = 'average', weights: RankingWeights = DEFAULT_WEIGHTS): JobScore[] {
     const allScores = SEED_RING_STATS.map(data =>
-        calculateJobScore(data.job, fragmentLevel)
+        calculateJobScore(data.job, fragmentLevel, weights)
     );
 
     allScores.sort((a, b) => b.totalScore - a.totalScore);
