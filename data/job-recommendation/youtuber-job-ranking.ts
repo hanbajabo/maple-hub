@@ -355,7 +355,7 @@ export const YOUTUBER_JOB_RANKING: YoutuberJobRanking[] = [
         job: '에반',
         score: 1.0,
         rawScore: '[최하위]',
-        reason: '쌀피엠 꼴등, 난이도 최상, 극딜 낮음. 블래스터와 양대산맥급으로 하면 안 되는 직업.'
+        reason: '쌀피엠 꼴등, 난이도 최상, 극딜 낮음. 챌린저스 월드에서는 비추천 직업'
     }
 ];
 
