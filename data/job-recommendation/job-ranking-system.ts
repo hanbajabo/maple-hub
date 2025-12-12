@@ -221,8 +221,9 @@ function calculateRerangeScore(jobName: string): { score: number; reason: string
         return { score: 50, reason: '리레링 데이터 없음' };
     }
 
-    // 리레링 사용량 순위를 0-100 점수로 변환 (1위 = 100점, 47위 ≈ 0점)
-    const score = Math.max(0, Math.min(100, ((48 - data.rank) / 47) * 100));
+    // 리레링 사용량 순위를 점수로 변환 (1위 = 100점, 47위 = 40점)
+    // 극딜 메타라 리레링이 중요하지만, 컨티링도 충분히 좋은 선택지(가성비/지속딜)이므로 최하점을 40점으로 보정
+    const score = 40 + ((48 - data.rank) / 47) * 60;
 
     // 순위 구간별 등급 및 설명
     let grade = '';
@@ -232,35 +233,31 @@ function calculateRerangeScore(jobName: string): { score: number; reason: string
     if (data.rank <= 5) {
         grade = 'S급';
         emoji = '🔴🔥';
-        detail = '리레링 최우선 추천. 극딜 점유율 최상위로 리레링 필수';
+        detail = '리레링 최우선. 극딜 압축이 잘 되어 있어 리레링 효율이 극대화됩니다';
     } else if (data.rank <= 14) {
         grade = 'A+급';
         emoji = '🔴';
-        detail = '리레링 강력 추천. 극딜 티어로 리레링 채택률 매우 높음';
-    } else if (data.rank <= 20) {
+        detail = '리레링 강력 추천. 준수한 극딜 능력을 보유했습니다';
+    } else if (data.rank <= 24) {
         grade = 'A급';
         emoji = '🟠';
-        detail = '리레링 추천. 상위 티어로 리레링 선호도 높으나 컨티링 채택률도 있음';
-    } else if (data.rank <= 28) {
+        detail = '리레링 추천. 리레링 효율이 좋지만, 취향에 따라 컨티링 고려 가능';
+    } else if (data.rank <= 32) {
         grade = 'B급';
-        emoji = '🟠';
-        detail = '리레링 선택형. 리레링/컨티링 혼용, 취향에 따라 선택 가능';
-    } else if (data.rank <= 34) {
-        grade = 'C급';
         emoji = '⚪';
-        detail = '컨티링 선호. 중위 티어로 리레링보다 컨티링 채택률 높음';
+        detail = '선택형. 리레링과 컨티링 효율이 비슷하거나 상황에 따라 다릅니다';
     } else if (data.rank <= 40) {
-        grade = 'D급';
-        emoji = '⚪';
-        detail = '컨티링 추천. 리레링 효율 낮아 컨티링 강력 권장';
-    } else {
-        grade = 'F급';
+        grade = 'C급';
         emoji = '🔵';
-        detail = '리레링 비추천. 하위 티어로 리레링 효율 거의 없음, 컨티링 필수';
+        detail = '컨티링 권장. 평딜 비중이 높아 지속 딜링(컨티링) 효율이 더 좋습니다';
+    } else {
+        grade = 'D급';
+        emoji = '🔵💎';
+        detail = '컨티링 고효율. 극딜보다 지속 딜링에 특화되어 컨티링 사용을 강력 추천합니다';
     }
 
     const tierName = getTierName(data.tier);
-    const reason = `${emoji} ${grade} 리레링 [사용량 ${data.rank}위/${tierName}] - ${detail}`;
+    const reason = `${emoji} ${grade} 리레/컨티 [${data.rank}위/${tierName}] - ${detail}`;
 
     return { score, reason };
 }
@@ -349,15 +346,27 @@ function calculateUtilityScore(jobName: string): { score: number; reason: string
 
 
 /**
+ * 직업명 정규화 (데이터 조회용)
+ */
+function normalizeJobName(name: string): string {
+    if (name === '듀얼블레이더') return '듀얼블레이드';
+    if (name === '캐논슈터') return '캐논마스터';
+    return name;
+}
+
+/**
  * 종합 점수 계산 (조각 레벨 지정 가능)
  */
 export function calculateJobScore(jobName: string, fragmentLevel: HexaFragmentLevel = 'average'): Omit<JobScore, 'rank'> {
-    const hexa = calculateHexaScore(jobName, fragmentLevel);
-    const coolHat = calculateCoolHatScore(jobName);
-    const rerange = calculateRerangeScore(jobName);
-    const utility = calculateUtilityScore(jobName);
-    const top2000 = getTop2000Score(jobName);
-    const level280 = getLevel280Score(jobName);
+    // 데이터 조회를 위해 직업명을 표준 이름으로 변환
+    const normalizedName = normalizeJobName(jobName);
+
+    const hexa = calculateHexaScore(normalizedName, fragmentLevel);
+    const coolHat = calculateCoolHatScore(normalizedName);
+    const rerange = calculateRerangeScore(jobName); // 리레링은 dpm-ranking.ts(비표준 이름 사용)를 쓰므로 원본 이름 사용
+    const utility = calculateUtilityScore(normalizedName);
+    const top2000 = getTop2000Score(normalizedName);
+    const level280 = getLevel280Score(normalizedName);
 
     // 가중치 적용한 총점
     const totalScore =

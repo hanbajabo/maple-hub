@@ -19,6 +19,16 @@ interface BlogPost {
 const blogPosts: BlogPost[] = [
     // 육성 가이드
     {
+        slug: 'hyperburning-jobs-2025-v2',
+        title: '🎮 데이터로 증명된 2025 하이퍼버닝 직업 추천 v2.0 (하이브리드 랭킹)',
+        description: 'AI, 유튜버, 일반인 인식, 고점 데이터를 모두 섞었다! 4가지 모드로 분석한 가장 완벽한 직업 추천 가이드.',
+        category: '육성 가이드',
+        date: '2025년 12월 12일',
+        readTime: '10분',
+        thumbnail: '🚀',
+        featured: true,
+    },
+    {
         slug: 'hyperburning-jobs-2025',
         title: '🎬 유튜버 6명이 입 모아 외친 "그 직업". 2025 겨울 하이퍼버닝 추천 직업 통합 분석 (종결판)',
         description: '메친놈, 슈크림메이플, 물다이아, 페이지, 글자네 등 유튜버 6명의 분석 종합! 12월 18일 챌린저스 월드 시즌 3, 어떤 직업을 키워야 할까?',

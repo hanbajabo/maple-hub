@@ -260,7 +260,7 @@ export const YOUTUBER_JOB_RANKING: YoutuberJobRanking[] = [
         job: '신궁',
         score: 4.5,
         rawScore: '',
-        reason: '답답한 조작감, 보스 기록 안 좋음. 쿨감 낮은 거 빼면 장점 없음.'
+        reason: '답답한 조작감, 세렌 보스 기록 안 좋음. 쿨감 낮은 것이 장점이나 추천하기 어려움'
     },
     {
         rank: 35,
@@ -290,7 +290,7 @@ export const YOUTUBER_JOB_RANKING: YoutuberJobRanking[] = [
         job: '다크나이트',
         score: 2.5,
         rawScore: '[원점수 -3점]',
-        reason: '최소컷이 너무 높고(5.1~5.2), 극딜 비중 낮고 쿨감 의존도 심함(-2점). 리인카 원툴의 몰락.'
+        reason: '최소컷이 너무 높고(5.1~5.2), 극딜 비중 낮고, 쿨감 의존도 심함(-2점). 리인카 스킬이 좋지만 비추천'
     },
 
     // F급 - 강력 비추천 (1-2점)
@@ -299,56 +299,56 @@ export const YOUTUBER_JOB_RANKING: YoutuberJobRanking[] = [
         job: '미하일',
         score: 2.0,
         rawScore: '',
-        reason: '인식 매우 낮음. 추천하기 어려움.'
+        reason: '쌀피엠 순위가 낮고, 쿨뚝 의존도가 높고, 리레링(극딜) 사용량도 낮으며 체급도 높지 않아 비추천'
     },
     {
         rank: 40,
         job: '데몬어벤져',
         score: 2.0,
         rawScore: '',
-        reason: '너프 많이 받음. 리스크 대비 리턴 없음.'
+        reason: 'HP 아이템을 사용하는 유일한 직업으로 리스크가 매우 클 수 있음.'
     },
     {
         rank: 41,
         job: '나이트워커',
         score: 2.0,
         rawScore: '',
-        reason: '구조 박살 나고 딜량 떨어짐. 나로 하위 호환 취급.'
+        reason: '체급이 많이 떨어진다는 평가가 많고, 특유의 조작감이 불호가 많음'
     },
     {
         rank: 42,
         job: '데몬슬레이어',
         score: 2.0,
         rawScore: '',
-        reason: '남보다 8% 아프게 맞는데 딜은 약함. 할 이유 없음.'
+        reason: '딜 체급이 엄청 약하다는 평가가 많음. 비추천'
     },
     {
         rank: 43,
         job: '히어로',
         score: 1.5,
         rawScore: '',
-        reason: '커뮤니티 공인 성능 안 좋은 직업. 무조건 거를 것.'
+        reason: '현재 체급이 매우 낮다는 평가가 많고, 고스펙 유저의 이탈이 두드러짐.'
     },
     {
         rank: 44,
         job: '블래스터',
         score: 1.5,
         rawScore: '',
-        reason: '손목 파괴범. 난이도 대비 딜 안 나옴.'
+        reason: '보스/사냥 컨트롤이 최상위권으로 매우 어려움. 블래스터의 조작감 하나만으로도 불호가 매우 많음.'
     },
     {
         rank: 45,
         job: '키네시스',
         score: 1.5,
         rawScore: '',
-        reason: '스펙 높아도 약함. 하지 말라는 데는 이유가 있음.'
+        reason: '스펙 높아도 약하다는 평가가 많음. 체급도 높지 않은 편이라는 평가가 많아서 비추천'
     },
     {
         rank: 46,
         job: '메카닉',
         score: 1.5,
         rawScore: '',
-        reason: '쿨뚝 필수, 딜 낮음, 조작감 이상함. 함정픽.'
+        reason: '쿨뚝 필수, 체급이 낮음, 조작감이 불호가 많은 편. 유저 수도 적어서 비추천'
     },
     {
         rank: 47,

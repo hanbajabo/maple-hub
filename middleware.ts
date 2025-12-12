@@ -7,7 +7,7 @@ import type { NextRequest } from 'next/server';
 // 1분(60초) 동안 한 IP에서 최대 60번의 요청만 허용합니다.
 // (1초에 1번 꼴, 일반적인 사용자는 절대 넘을 수 없는 수치입니다.)
 const LIMIT_WINDOW = 60 * 1000; // 60초
-const MAX_REQUESTS = 60; // 최대 60회
+const MAX_REQUESTS = 300; // 최대 300회 (기존 60회에서 상향 조정)
 
 // 메모리에 IP별 요청 횟수를 저장합니다.
 // 주의: Vercel Edge 환경에서는 이 메모리가 완벽하게 공유되지 않을 수 있지만,
