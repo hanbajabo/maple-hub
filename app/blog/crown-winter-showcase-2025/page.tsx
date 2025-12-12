@@ -220,31 +220,35 @@ export default function CrownShowcasePage() {
                         </h2>
 
                         <p className="text-slate-300 leading-relaxed mb-4">
-                            지난여름, 신규 직업 '린'은 챌린저스 월드 흥행의 일등공신이었습니다. RPG 게임에서 신규 직업만큼 확실한 유입 카드는 없습니다.
+                            지난여름, 신규 직업 '렌'은 챌린저스 월드 흥행의 일등공신이었습니다. RPG 게임에서 신규 직업만큼 확실한 유입 카드는 없습니다.
                             이번 '크라운' 업데이트에서도 새로운 유입을 만들고, 기존 유저들에게 신선함을 주기 위해 신규 직업이 출시될 가능성이 큽니다.
                         </p>
 
                         <div className="bg-cyan-900/20 border border-cyan-500/30 rounded-xl p-6 my-6">
-                            <h4 className="text-cyan-400 font-bold mb-3">유력한 신규 직업 후보</h4>
-                            <div className="grid md:grid-cols-3 gap-4">
-                                <div className="bg-slate-900/50 rounded-lg p-4">
-                                    <p className="text-white font-bold mb-1">노바 마법사</p>
-                                    <p className="text-slate-400 text-sm">노바 종족 확장</p>
+                            <h4 className="text-cyan-400 font-bold mb-3">유력한 신규 직업 후보 (4가지)</h4>
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <div className="bg-slate-900/50 rounded-lg p-4 border border-purple-500/30">
+                                    <p className="text-purple-400 font-bold mb-1">노바 - 마법사</p>
+                                    <p className="text-slate-400 text-sm">노바 종족 최초 마법사</p>
                                 </div>
-                                <div className="bg-slate-900/50 rounded-lg p-4">
-                                    <p className="text-white font-bold mb-1">레프 궁수</p>
-                                    <p className="text-slate-400 text-sm">레프 종족 확장</p>
+                                <div className="bg-slate-900/50 rounded-lg p-4 border border-green-500/30">
+                                    <p className="text-green-400 font-bold mb-1">레프 - 궁수</p>
+                                    <p className="text-slate-400 text-sm">레프 종족 궁수 확장</p>
+                                </div>
+                                <div className="bg-slate-900/50 rounded-lg p-4 border border-blue-500/30">
+                                    <p className="text-blue-400 font-bold mb-1">아니마 - 궁수</p>
+                                    <p className="text-slate-400 text-sm">아니마 종족 신규 궁수</p>
                                 </div>
                                 <div className="bg-slate-900/50 rounded-lg p-4 border border-yellow-500/30">
-                                    <p className="text-yellow-400 font-bold mb-1">해적 (가장 유력)</p>
-                                    <p className="text-slate-400 text-sm">최근 신규 출시 뜸</p>
+                                    <p className="text-yellow-400 font-bold mb-1">아니마 - 해적</p>
+                                    <p className="text-slate-400 text-sm">아니마 종족 신규 해적</p>
                                 </div>
                             </div>
                         </div>
 
                         <p className="text-slate-300 leading-relaxed">
-                            특히 해적 직업군은 최근 신규 캐릭터 출시가 뜸했기에 더욱 가능성이 높습니다.
-                            새로운 캐릭터는 언제나 메이플 월드에 활기를 불어넣는 핵심 키워드입니다.
+                            현재 메이플스토리 직업군의 분포를 고려했을 때, 위 4가지 종족-직업 조합이 가장 유력합니다.
+                            특히 아니마 종족의 확장과 노바 마법사는 많은 유저들이 기대하고 있는 조합입니다.
                         </p>
 
                         <p className="text-blue-300 text-sm mt-4 italic">
