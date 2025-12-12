@@ -16,7 +16,7 @@ export default function JobRankingPage() {
     const [loading, setLoading] = useState(true);
     const [selectedJob, setSelectedJob] = useState<JobScore | HybridJobScore | null>(null);
     const [fragmentLevel, setFragmentLevel] = useState<HexaFragmentLevel>('average');
-    const [rankingMode, setRankingMode] = useState<RankingMode>('ai');
+    const [rankingMode, setRankingMode] = useState<RankingMode>('youtuber');
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleRankingModeChange = (mode: RankingMode) => {
