@@ -401,7 +401,7 @@ export default function JobRankingPage() {
                 <div className="mt-12 text-center text-gray-400 text-sm pb-8">
                     <p>※ 본 순위는 헥사 효율, 쿨뚝 필요성, 리레링, 유틸리티, 환산 TOP 2000 인기도, Lv280+ 레벨링 인기도를 종합한 객관적 지표입니다.</p>
                     <p className="mt-2">개인의 플레이 스타일과 선호도에 따라 다를 수 있습니다.</p>
-                    <p className="mt-3 text-purple-400">📊 직업 분포 데이터 출처: 메이플스카우터 (2025-12-12)</p>
+                    <p className="mt-3 text-purple-400">📊 직업 분포 데이터 출처: 환산 주스텟 사이트 (2025-12-12)</p>
 
                     <div className="mt-6 border-t border-white/10 pt-4 flex flex-col gap-2 text-xs text-gray-500">
                         <div className="font-bold text-gray-400 mb-1">📑 데이터 출처 및 참고자료</div>
