@@ -125,6 +125,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.8,
         },
+        {
+            url: 'https://maple.ai.kr/blog/hyperburning-jobs-2025',
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: 'https://maple.ai.kr/blog/hyperburning-jobs-2025-v2',
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.9,
+        },
         // Legal & Info Pages
         {
             url: 'https://maple.ai.kr/about',
