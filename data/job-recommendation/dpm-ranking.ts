@@ -44,9 +44,9 @@ export const DPM_RANKING_DATA: DPMRanking[] = [
     { rank: 22, tier: '🟠', job: '호영' },
     { rank: 23, tier: '🟠', job: '듀얼블레이드' },
     { rank: 24, tier: '🟠', job: '루미너스' },
-    { rank: 25, tier: '🟠', job: '카인' },
+    { rank: 25, tier: '🟠', job: '히어로' },
     { rank: 26, tier: '🟠', job: '팬텀' },
-    { rank: 27, tier: '🟠', job: '섀도어' },
+    { rank: 27, tier: '🟠', job: '메카닉' },
     { rank: 28, tier: '🟠', job: '라라' },
 
     // 중위 티어 - 선택형 (29-38위)
