@@ -137,6 +137,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.9,
         },
+        {
+            url: 'https://maple.ai.kr/blog/crown-winter-showcase-2025',
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.9,
+        },
         // Legal & Info Pages
         {
             url: 'https://maple.ai.kr/about',
