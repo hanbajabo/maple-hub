@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { calculateAllJobRankings, JobScore, HexaFragmentLevel } from '@/data/job-recommendation/job-ranking-system';
 import { calculateHybridRankings, HybridJobScore, HybridMode, HYBRID_MODE_DESCRIPTION } from '@/data/job-recommendation/hybrid-ranking-system';
-import { DPM_RANKING_DATA, getTierName as getDpmTierName, DPMTier } from '@/data/job-recommendation/dpm-ranking';
+
 import Link from 'next/link';
 
 type RankingMode = 'ai' | 'youtuber' | 'general' | 'ceiling';
@@ -136,7 +136,7 @@ export default function JobRankingPage() {
                         </div>
                         <div className="bg-white/5 rounded-lg p-3">
                             <div className="text-red-400 font-bold text-base mb-1">3️⃣ 리레링 (5%)</div>
-                            <p className="text-gray-300 text-xs">극딜 티어</p>
+                            <p className="text-gray-300 text-xs">극딜형 직업인지 체크</p>
                         </div>
                         <div className="bg-white/5 rounded-lg p-3">
                             <div className="text-blue-400 font-bold text-base mb-1">4️⃣ 유틸 (5%)</div>
@@ -144,11 +144,11 @@ export default function JobRankingPage() {
                         </div>
                         <div className="bg-white/5 rounded-lg p-3">
                             <div className="text-purple-400 font-bold text-base mb-1">5️⃣ 환산 (20%)</div>
-                            <p className="text-gray-300 text-xs">커뮤니티 & 정보</p>
+                            <p className="text-gray-300 text-xs text-nowrap">환산 TOP2000 직업 점유율</p>
                         </div>
                         <div className="bg-white/5 rounded-lg p-3">
                             <div className="text-cyan-400 font-bold text-base mb-1">6️⃣ Lv280+ (15%)</div>
-                            <p className="text-gray-300 text-xs">직업 점유율</p>
+                            <p className="text-gray-300 text-xs">고레벨 직업 점유율</p>
                         </div>
                     </div>
                 </div>
@@ -429,51 +429,7 @@ export default function JobRankingPage() {
                 {/* 데이터 출처 및 참고자료 Footer */}
                 <div className="mt-12 border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
                     {/* 리레링 순위 데이터 테이블 (토글) */}
-                    <details className="mb-8 text-left bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800">
-                        <summary className="cursor-pointer p-4 font-bold text-white flex items-center justify-between hover:bg-gray-800/50 transition-colors">
-                            <div className="flex items-center gap-2">
-                                <span>📊 직업별 극딜/리레링 순위 데이터 (원본)</span>
-                                <span className="text-xs font-normal text-gray-400 bg-gray-800 px-2 py-0.5 rounded-full">클릭하여 펼치기</span>
-                            </div>
-                            <ChevronDown className="w-5 h-5 text-gray-400" />
-                        </summary>
-                        <div className="p-4 sm:p-6 border-t border-gray-800">
-                            <div className="grid gap-6">
-                                {[
-                                    { tier: '🔴', label: '최상위 티어 (1-14위)', desc: '극딜 필수 / 리레링 최우선', color: 'text-red-400', bg: 'bg-red-900/20', border: 'border-red-900/50' },
-                                    { tier: '🟠', label: '상위 티어 (15-28위)', desc: '극딜 추천 / 리레링 선호', color: 'text-orange-400', bg: 'bg-orange-900/20', border: 'border-orange-900/50' },
-                                    { tier: '⚪', label: '중위 티어 (29-38위)', desc: '선택형 / 컨티링 혼용', color: 'text-gray-300', bg: 'bg-gray-800/40', border: 'border-gray-700/50' },
-                                    { tier: '🔵', label: '하위 티어 (39-47위)', desc: '비추천 / 컨티링 필수', color: 'text-blue-400', bg: 'bg-blue-900/20', border: 'border-blue-900/50' }
-                                ].map((group) => (
-                                    <div key={group.tier} className={`rounded-xl border ${group.border} ${group.bg} p-4`}>
-                                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-3">
-                                            <h3 className={`font-bold text-lg ${group.color}`}>{group.label}</h3>
-                                            <span className="text-xs text-gray-400">{group.desc}</span>
-                                        </div>
-                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-                                            {DPM_RANKING_DATA.filter(d => d.tier === group.tier).map((item) => (
-                                                <div key={item.job} className="flex items-center gap-2 bg-black/40 rounded-lg p-2 border border-white/5">
-                                                    <span className={`font-mono font-bold w-6 text-right ${group.color}`}>{item.rank}</span>
-                                                    <div className="relative w-6 h-6 flex-shrink-0">
-                                                        <Image
-                                                            src={`/images/jobs/${item.job === '듀얼블레이드' ? '듀얼블레이더' : item.job === '캐논슈터' ? '캐논마스터' : item.job}.png`}
-                                                            alt={item.job}
-                                                            fill
-                                                            className="object-contain"
-                                                        />
-                                                    </div>
-                                                    <span className="text-sm text-gray-200 truncate">{item.job}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <p className="mt-4 text-xs text-gray-500">
-                                * 해당 데이터는 DPM 및 극딜 점유율을 기반으로 산정되었습니다. 순위가 높을수록 리레링 효율이 좋습니다.
-                            </p>
-                        </div>
-                    </details>
+
 
                     <p className="mb-2">본 랭킹은 2025년 12월 기준 데이터와 유저 피드백을 기반으로 작성되었습니다.</p>
                     <p>※ 본 순위는 헥사 효율, 쿨뚝 필요성, 리레링, 유틸리티, 환산 TOP 2000 인기도, Lv280+ 레벨링 인기도를 종합한 객관적 지표입니다.</p>
