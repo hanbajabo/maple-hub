@@ -75,7 +75,7 @@ export const HIGH_CEILING_TIER: CeilingTierData[] = [
             '패스파인더',
             '카이저',
             '라라',
-            '캐논슈터',
+            '캐논마스터',
             '신궁'
         ]
     },

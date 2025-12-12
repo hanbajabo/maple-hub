@@ -12,7 +12,7 @@
 
 import { getHexaEfficiencyByJob, HEXA_EFFICIENCY_DATA, HexaEfficiency } from './hexa-efficiency';
 import { getCoolHatRecommendation } from './cool-hat-guide';
-import { getDPMRankingByJob, DPM_RANKING_DATA } from './dpm-ranking';
+import { getSeedRingStat, SEED_RING_STATS } from './seed-ring-stats';
 import { getJobUtilities, getUtilityFlags } from './job-utility-complete';
 import { getTop2000Score, getLevel280Score } from './job-distribution-data';
 
@@ -170,94 +170,84 @@ function calculateCoolHatScore(jobName: string): { score: number; reason: string
     // 사용률을 역수로 변환하여 점수 계산 (0% = 100점, 100% = 0점)
     const score = 100 - data.usageRate;
 
-    // 사용률 구간별 등급 및 설명
+    // 사용률 구간별 등급 (이모지와 등급만 결정)
     let grade = '';
-    let detail = '';
     let emoji = '';
 
     if (data.usageRate <= 10) {
         grade = 'S급';
         emoji = '✅✅';
-        detail = '쿨뚝 거의 불필요. 주스탯 모자로 큐브 비용 대폭 절감';
     } else if (data.usageRate <= 25) {
         grade = 'A+급';
         emoji = '✅';
-        detail = '쿨뚝 불필요. 주스탯 모자가 정배로 큐브 비용 절감';
     } else if (data.usageRate <= 40) {
         grade = 'A급';
         emoji = '👍';
-        detail = '쿨뚝 선택형. 주스탯 모자 채용 가능하여 비용 절감 여지 있음';
     } else if (data.usageRate <= 55) {
         grade = 'B급';
         emoji = '△';
-        detail = '쿨뚝/주스탯 반반. 취향에 따라 선택';
     } else if (data.usageRate <= 70) {
         grade = 'C급';
         emoji = '⚠️';
-        detail = '쿨뚝 선호. 고스펙은 쿨뚝 채용률 높음';
     } else if (data.usageRate <= 90) {
         grade = 'D급';
         emoji = '❌';
-        detail = '쿨뚝 필수. 주스탯 모자 사용 시 성능 저하';
     } else {
         grade = 'F급';
         emoji = '❌❌';
-        detail = '쿨뚝 필수. 안 쓰면 간첩 수준으로 큐브 비용 불가피';
     }
 
-    const reason = `${emoji} ${grade} 쿨뚝 [사용률 ${data.usageRate}%] - ${detail}. ${data.note}`;
+    // 상세 코멘트(note)를 설명으로 사용
+    const reason = `${emoji} ${grade} 쿨뚝 [사용률 ${data.usageRate}%] - ${data.note}`;
 
     return { score, reason };
 }
 
 /**
- * 리레링(극딜) 점수 계산 (리레링 사용량 순위 기반)
- * 순위가 높을수록 리레링 가치가 높음
+ * 리레/컨티링 효율 점수 계산 (시드링 통계 기반)
+ * 
+ * 리스트레인트 링(리레링) 채택률을 기준으로 점수 차등 부여
+ * 리레링 사용률이 높을수록 극딜 능력이 좋다고 판단하여 고득점.
  */
 function calculateRerangeScore(jobName: string): { score: number; reason: string } {
-    const data = getDPMRankingByJob(jobName);
+    const data = getSeedRingStat(jobName);
 
     if (!data) {
-        return { score: 50, reason: '리레링 데이터 없음' };
+        return { score: 50, reason: '시드링 데이터 없음' };
     }
 
-    // 리레링 사용량 순위를 점수로 변환 (1위 = 100점, 47위 = 40점)
-    // 극딜 메타라 리레링이 중요하지만, 컨티링도 충분히 좋은 선택지(가성비/지속딜)이므로 최하점을 40점으로 보정
-    const score = 40 + ((48 - data.rank) / 47) * 60;
+    // 리레링 채택률(%)을 그대로 점수로 사용 (0 ~ 100점)
+    const score = data.restraint;
 
-    // 순위 구간별 등급 및 설명
     let grade = '';
-    let detail = '';
     let emoji = '';
+    let detail = '';
 
-    if (data.rank <= 5) {
-        grade = 'S급';
+    if (score >= 90) {
+        grade = 'SS급';
         emoji = '🔴🔥';
-        detail = '리레링 최우선. 극딜 압축이 잘 되어 있어 리레링 효율이 극대화됩니다';
-    } else if (data.rank <= 14) {
-        grade = 'A+급';
+        detail = '리레링 필수 (극딜 메타 최적화)';
+    } else if (score >= 70) {
+        grade = 'S급';
         emoji = '🔴';
-        detail = '리레링 강력 추천. 준수한 극딜 능력을 보유했습니다';
-    } else if (data.rank <= 24) {
+        detail = '리레링 강력 추천 (극딜 우수)';
+    } else if (score >= 50) {
         grade = 'A급';
         emoji = '🟠';
-        detail = '리레링 추천. 리레링 효율이 좋지만, 취향에 따라 컨티링 고려 가능';
-    } else if (data.rank <= 32) {
+        detail = '리레링/컨티링 선택형';
+    } else if (score >= 30) {
         grade = 'B급';
         emoji = '⚪';
-        detail = '선택형. 리레링과 컨티링 효율이 비슷하거나 상황에 따라 다릅니다';
-    } else if (data.rank <= 40) {
+        detail = '컨티링 선호 (지속딜 위주)';
+    } else {
         grade = 'C급';
         emoji = '🔵';
-        detail = '컨티링 권장. 평딜 비중이 높아 지속 딜링(컨티링) 효율이 더 좋습니다';
-    } else {
-        grade = 'D급';
-        emoji = '🔵💎';
-        detail = '컨티링 고효율. 극딜보다 지속 딜링에 특화되어 컨티링 사용을 강력 추천합니다';
+        detail = '리레링 거의 안 씀 (지속딜 특화)';
     }
 
-    const tierName = getTierName(data.tier);
-    const reason = `${emoji} ${grade} 리레/컨티 [${data.rank}위/${tierName}] - ${detail}`;
+    // 통계 요약
+    const statSummary = `리레 ${data.restraint}% / 컨티 ${data.continuous}%`;
+    const reason = `${emoji} ${grade} 리레 채택률 ${data.restraint}% [${statSummary}] - ${data.note}`;
 
     return { score, reason };
 }
@@ -286,7 +276,7 @@ function calculateUtilityScore(jobName: string): { score: number; reason: string
     let score = 0;
     const reasons: string[] = [];
 
-    // 텔레포트: 40점 (최고 가치 - 사냥 효율 및 기동성)
+    // 텔레포트: 40점 
     if (flags.hasTeleport) {
         score += 40;
         reasons.push('텔레포트');
@@ -298,7 +288,7 @@ function calculateUtilityScore(jobName: string): { score: number; reason: string
         reasons.push('부활/사망방지');
     }
 
-    // 무적기: 25점 (상향)
+    // 무적기: 25점
     if (flags.hasInvincible) {
         score += 25;
         reasons.push('무적기');
@@ -310,13 +300,13 @@ function calculateUtilityScore(jobName: string): { score: number; reason: string
         reasons.push('공격반사무시');
     }
 
-    // 바인드: 20점 (상향)
+    // 바인드: 20점
     if (flags.hasBind) {
         score += 20;
         reasons.push('바인드');
     }
 
-    // 파티지원: 15점 (상향)
+    // 파티지원: 15점
     if (flags.hasPartySupport) {
         score += 15;
         reasons.push('파티지원');
@@ -363,7 +353,15 @@ export function calculateJobScore(jobName: string, fragmentLevel: HexaFragmentLe
 
     const hexa = calculateHexaScore(normalizedName, fragmentLevel);
     const coolHat = calculateCoolHatScore(normalizedName);
-    const rerange = calculateRerangeScore(jobName); // 리레링은 dpm-ranking.ts(비표준 이름 사용)를 쓰므로 원본 이름 사용
+    const rerange = calculateRerangeScore(jobName); // 리레링은 seed-ring-stats.ts 비표준 이름인 경우도 매핑 필요.
+    // seed-ring-stats는 이미 위에서 매핑해서 저장했으므로 normalizedName을 쓰는 게 맞지만, 
+    // SEED_RING_STATS 파일 작성 시 '듀얼블레이드', '캐논마스터'로 저장했으므로 normalizedName 사용
+    // 하지만 rerangeScore 함수 내부에서 getSeedRingStat을 호출하므로, 여기서는 normalizedName을 넘겨주는 게 안전함.
+
+    // *수정*: SEED_RING_STATS에는 '듀얼블레이드', '캐논마스터'로 저장되어 있음.
+    // 따라서 calculateRerangeScore(normalizedName) 으로 호출해야 함! (jobName 아님)
+    const rerangeCorrected = calculateRerangeScore(normalizedName);
+
     const utility = calculateUtilityScore(normalizedName);
     const top2000 = getTop2000Score(normalizedName);
     const level280 = getLevel280Score(normalizedName);
@@ -372,7 +370,7 @@ export function calculateJobScore(jobName: string, fragmentLevel: HexaFragmentLe
     const totalScore =
         hexa.score * WEIGHTS.HEXA_EFFICIENCY +
         coolHat.score * WEIGHTS.COOL_HAT +
-        rerange.score * WEIGHTS.RERANGE +
+        rerangeCorrected.score * WEIGHTS.RERANGE +
         utility.score * WEIGHTS.UTILITY +
         top2000.score * WEIGHTS.TOP_2000 +
         level280.score * WEIGHTS.LEVEL_280;
@@ -387,8 +385,8 @@ ${hexa.reason}
 【장비 접근성】 (15% 가중치)
 ${coolHat.reason}
 
-【화력】 (5% 가중치)
-${rerange.reason}
+【화력/극딜】 (5% 가중치)
+${rerangeCorrected.reason}
 
 【유틸리티】 (5% 가중치)
 ${utility.reason}
@@ -405,13 +403,13 @@ ${level280.reason}
         totalScore,
         hexaScore: hexa.score,
         coolHatScore: coolHat.score,
-        rerangeScore: rerange.score,
+        rerangeScore: rerangeCorrected.score,
         utilityScore: utility.score,
         top2000Score: top2000.score,
         level280Score: level280.score,
         hexaReason: hexa.reason,
         coolHatReason: coolHat.reason,
-        rerangeReason: rerange.reason,
+        rerangeReason: rerangeCorrected.reason,
         utilityReason: utility.reason,
         top2000Reason: top2000.reason,
         level280Reason: level280.reason,
@@ -424,7 +422,7 @@ ${level280.reason}
  * 전체 직업 순위 계산 (조각 레벨별)
  */
 export function calculateAllJobRankings(fragmentLevel: HexaFragmentLevel = 'average'): JobScore[] {
-    const allScores = DPM_RANKING_DATA.map(data =>
+    const allScores = SEED_RING_STATS.map(data =>
         calculateJobScore(data.job, fragmentLevel)
     );
 
