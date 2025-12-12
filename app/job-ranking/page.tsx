@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronDown, ChevronUp, AlertCircle, Info } from 'lucide-react';
+import { ChevronDown, ChevronUp, AlertCircle, Info, Search } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { calculateAllJobRankings, JobScore, HexaFragmentLevel } from '@/data/job-recommendation/job-ranking-system';
@@ -17,6 +17,7 @@ export default function JobRankingPage() {
     const [selectedJob, setSelectedJob] = useState<JobScore | HybridJobScore | null>(null);
     const [fragmentLevel, setFragmentLevel] = useState<HexaFragmentLevel>('average');
     const [rankingMode, setRankingMode] = useState<RankingMode>('ai');
+    const [searchQuery, setSearchQuery] = useState('');
 
     const handleRankingModeChange = (mode: RankingMode) => {
         setRankingMode(mode);
@@ -153,6 +154,8 @@ export default function JobRankingPage() {
                     </div>
                 </div>
 
+
+
                 {/* 헥사 조각 필터 */}
                 <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-white/10">
                     <h2 className="text-xl font-bold text-white mb-4">🧩 헥사 조각 단계 선택</h2>
@@ -231,199 +234,215 @@ export default function JobRankingPage() {
                     )}
                 </div>
 
+                {/* 검색바 */}
+                <div className="relative mb-6">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Search className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="직업 이름 검색 (예: 히어로, 비숍)"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    />
+                </div>
+
                 {/* 전체 순위 */}
                 <div className="space-y-3">
-                    {(rankingMode === 'ai' ? aiRankings : hybridRankings).map((job: JobScore | HybridJobScore) => (
-                        <div
-                            key={job.job}
-                            onClick={() => setSelectedJob(selectedJob?.job === job.job ? null : job)}
-                            className={`bg-gradient-to-r ${getTierColor(job.rank)} p-[2px] rounded-xl cursor-pointer transform transition hover:scale-[1.02] hover:shadow-2xl`}
-                        >
-                            <div className="bg-gray-900/95 backdrop-blur-sm rounded-xl p-3 sm:p-6">
-                                <div className="flex items-center justify-between mb-3">
-                                    <div className="flex items-center gap-2 sm:gap-4">
-                                        <div className="text-2xl sm:text-4xl min-w-[2rem] sm:min-w-[3rem] text-center">{getTierBadge(job.rank)}</div>
-                                        <div className="relative w-10 h-10 sm:w-14 sm:h-14 flex-shrink-0">
-                                            <Image
-                                                src={`/images/jobs/${job.job === '듀얼블레이드' ? '듀얼블레이더' : job.job === '캐논슈터' || job.job === '캐논마스터' ? '캐논마스터' : job.job}.png`}
-                                                alt={job.job}
-                                                fill
-                                                className="object-contain rounded-lg"
-                                                sizes="(max-width: 640px) 40px, 56px"
-                                            />
+                    {(rankingMode === 'ai' ? aiRankings : hybridRankings)
+                        .filter((job) => job.job.includes(searchQuery))
+                        .map((job: JobScore | HybridJobScore) => (
+                            <div
+                                key={job.job}
+                                onClick={() => setSelectedJob(selectedJob?.job === job.job ? null : job)}
+                                className={`bg-gradient-to-r ${getTierColor(job.rank)} p-[2px] rounded-xl cursor-pointer transform transition hover:scale-[1.02] hover:shadow-2xl`}
+                            >
+                                <div className="bg-gray-900/95 backdrop-blur-sm rounded-xl p-3 sm:p-6">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <div className="flex items-center gap-2 sm:gap-4">
+                                            <div className="text-2xl sm:text-4xl min-w-[2rem] sm:min-w-[3rem] text-center">{getTierBadge(job.rank)}</div>
+                                            <div className="relative w-10 h-10 sm:w-14 sm:h-14 flex-shrink-0">
+                                                <Image
+                                                    src={`/images/jobs/${job.job === '듀얼블레이드' ? '듀얼블레이더' : job.job === '캐논슈터' || job.job === '캐논마스터' ? '캐논마스터' : job.job}.png`}
+                                                    alt={job.job}
+                                                    fill
+                                                    className="object-contain rounded-lg"
+                                                    sizes="(max-width: 640px) 40px, 56px"
+                                                />
+                                            </div>
+                                            <div>
+                                                <div className="flex items-center gap-2 sm:gap-3">
+                                                    <span className="text-lg sm:text-2xl font-black text-white">
+                                                        {job.rank}위
+                                                    </span>
+                                                    <span className="text-base sm:text-xl font-bold text-white">
+                                                        {job.job}
+                                                    </span>
+                                                </div>
+                                                <div className="text-xs sm:text-sm text-gray-400 mt-0.5 sm:mt-1">
+                                                    클릭하여 상세 정보 보기
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <div className="flex items-center gap-2 sm:gap-3">
-                                                <span className="text-lg sm:text-2xl font-black text-white">
-                                                    {job.rank}위
-                                                </span>
-                                                <span className="text-base sm:text-xl font-bold text-white">
-                                                    {job.job}
-                                                </span>
+                                        <div className="text-right">
+                                            <div className="text-2xl sm:text-3xl font-black text-white">
+                                                {job.totalScore.toFixed(1)}
                                             </div>
-                                            <div className="text-xs sm:text-sm text-gray-400 mt-0.5 sm:mt-1">
-                                                클릭하여 상세 정보 보기
-                                            </div>
+                                            <div className="text-[10px] sm:text-sm text-gray-400">총점</div>
                                         </div>
                                     </div>
-                                    <div className="text-right">
-                                        <div className="text-2xl sm:text-3xl font-black text-white">
-                                            {job.totalScore.toFixed(1)}
+
+                                    {/* 점수 바 - AI 모드 */}
+                                    {'hexaScore' in job && (
+                                        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 gap-y-5 mb-3">
+                                            <div>
+                                                <div className="text-[11px] sm:text-xs text-gray-400 mb-1">헥사</div>
+                                                <div className="bg-gray-800 rounded-full h-2">
+                                                    <div
+                                                        className="bg-yellow-400 rounded-full h-2 transition-all"
+                                                        style={{ width: `${job.hexaScore}%` }}
+                                                    />
+                                                </div>
+                                                <div className="text-xs font-bold text-white mt-1">{job.hexaScore.toFixed(0)}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-[11px] sm:text-xs text-gray-400 mb-1">쿨뚝</div>
+                                                <div className="bg-gray-800 rounded-full h-2">
+                                                    <div
+                                                        className="bg-green-400 rounded-full h-2 transition-all"
+                                                        style={{ width: `${job.coolHatScore}%` }}
+                                                    />
+                                                </div>
+                                                <div className="text-xs font-bold text-white mt-1">{job.coolHatScore.toFixed(0)}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-[11px] sm:text-xs text-gray-400 mb-1">리레링</div>
+                                                <div className="bg-gray-800 rounded-full h-2">
+                                                    <div
+                                                        className="bg-red-400 rounded-full h-2 transition-all"
+                                                        style={{ width: `${job.rerangeScore}%` }}
+                                                    />
+                                                </div>
+                                                <div className="text-xs font-bold text-white mt-1">{job.rerangeScore.toFixed(0)}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-[11px] sm:text-xs text-gray-400 mb-1">유틸</div>
+                                                <div className="bg-gray-800 rounded-full h-2">
+                                                    <div
+                                                        className="bg-blue-400 rounded-full h-2 transition-all"
+                                                        style={{ width: `${job.utilityScore}%` }}
+                                                    />
+                                                </div>
+                                                <div className="text-xs font-bold text-white mt-1">{job.utilityScore.toFixed(0)}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-[11px] sm:text-xs text-gray-400 mb-1">환산</div>
+                                                <div className="bg-gray-800 rounded-full h-2">
+                                                    <div
+                                                        className="bg-purple-400 rounded-full h-2 transition-all"
+                                                        style={{ width: `${job.top2000Score}%` }}
+                                                    />
+                                                </div>
+                                                <div className="text-xs font-bold text-white mt-1">{job.top2000Score.toFixed(0)}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-[11px] sm:text-xs text-gray-400 mb-1">280+</div>
+                                                <div className="bg-gray-800 rounded-full h-2">
+                                                    <div
+                                                        className="bg-cyan-400 rounded-full h-2 transition-all"
+                                                        style={{ width: `${job.level280Score}%` }}
+                                                    />
+                                                </div>
+                                                <div className="text-xs font-bold text-white mt-1">{job.level280Score.toFixed(0)}</div>
+                                            </div>
                                         </div>
-                                        <div className="text-[10px] sm:text-sm text-gray-400">총점</div>
-                                    </div>
+                                    )}
+
+                                    {/* 점수 바 - 하이브리드 모드 */}
+                                    {'aiScore' in job && (
+                                        <div className="grid grid-cols-2 gap-4 mb-3">
+                                            <div>
+                                                <div className="text-xs text-gray-400 mb-1">🤖 AI 평가</div>
+                                                <div className="bg-gray-800 rounded-full h-3">
+                                                    <div
+                                                        className="bg-gradient-to-r from-purple-400 to-pink-400 rounded-full h-3 transition-all"
+                                                        style={{ width: `${job.aiScore}%` }}
+                                                    />
+                                                </div>
+                                                <div className="text-sm text-white mt-1 font-medium">{job.aiScore.toFixed(1)}점</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-xs text-gray-400 mb-1">
+                                                    {rankingMode === 'youtuber' && '🎬 유튜버 평가'}
+                                                    {rankingMode === 'general' && '👥 일반인 평가'}
+                                                    {rankingMode === 'ceiling' && '🔥 고점 체급'}
+                                                </div>
+                                                <div className="bg-gray-800 rounded-full h-3">
+                                                    <div
+                                                        className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full h-3 transition-all"
+                                                        style={{ width: `${job.externalScore}%` }}
+                                                    />
+                                                </div>
+                                                <div className="text-sm text-white mt-1 font-medium">{job.externalScore.toFixed(1)}점</div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* 상세 정보 (펼침) */}
+                                    {selectedJob?.job === job.job && (
+                                        <div className="mt-4 pt-4 border-t border-white/10 space-y-3 animate-fadeIn">
+                                            {/* AI 모드 - 세부 항목 */}
+                                            {'hexaReason' in job && (
+                                                <>
+                                                    <div className="bg-black/30 rounded-lg p-4">
+                                                        <h3 className="text-lg font-bold text-yellow-400 mb-2">📈 헥사 효율</h3>
+                                                        <p className="text-gray-300 text-sm whitespace-pre-line">{job.hexaReason}</p>
+                                                    </div>
+                                                    <div className="bg-black/30 rounded-lg p-4">
+                                                        <h3 className="text-lg font-bold text-green-400 mb-2">🎩 쿨타임 감소 모자</h3>
+                                                        <p className="text-gray-300 text-sm whitespace-pre-line">{job.coolHatReason}</p>
+                                                    </div>
+                                                    <div className="bg-black/30 rounded-lg p-4">
+                                                        <h3 className="text-lg font-bold text-red-400 mb-2">⚔️ 리레링(극딜) 여부</h3>
+                                                        <p className="text-gray-300 text-sm whitespace-pre-line">{job.rerangeReason}</p>
+                                                    </div>
+                                                    <div className="bg-black/30 rounded-lg p-4">
+                                                        <h3 className="text-lg font-bold text-blue-400 mb-2">🛡️ 유틸리티</h3>
+                                                        <p className="text-gray-300 text-sm whitespace-pre-line">{job.utilityReason}</p>
+                                                    </div>
+                                                    <div className="bg-black/30 rounded-lg p-4">
+                                                        <h3 className="text-lg font-bold text-purple-400 mb-2">👥 환산 TOP 2000 직업 분포도</h3>
+                                                        <p className="text-gray-300 text-sm whitespace-pre-line">{job.top2000Reason}</p>
+                                                    </div>
+                                                    <div className="bg-black/30 rounded-lg p-4">
+                                                        <h3 className="text-lg font-bold text-cyan-400 mb-2">🏃 Lv280+ 직업 점유율</h3>
+                                                        <p className="text-gray-300 text-sm whitespace-pre-line">{job.level280Reason}</p>
+                                                    </div>
+                                                </>
+                                            )}
+                                            {/* 하이브리드 모드 - AI + 외부 평가 */}
+                                            {'aiReason' in job && (
+                                                <>
+                                                    <div className="bg-black/30 rounded-lg p-4">
+                                                        <h3 className="text-lg font-bold text-purple-400 mb-2">🤖 AI 종합 평가</h3>
+                                                        <p className="text-gray-300 text-sm whitespace-pre-line">{job.aiReason}</p>
+                                                    </div>
+                                                    <div className="bg-black/30 rounded-lg p-4">
+                                                        <h3 className="text-lg font-bold text-orange-400 mb-2">
+                                                            {rankingMode === 'youtuber' && '🎬 유튜버 평가'}
+                                                            {rankingMode === 'general' && '👥 일반인 평가'}
+                                                            {rankingMode === 'ceiling' && '🔥 고점 체급 평가'}
+                                                        </h3>
+                                                        <p className="text-gray-300 text-sm whitespace-pre-line">{job.externalReason}</p>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
-
-                                {/* 점수 바 - AI 모드 */}
-                                {'hexaScore' in job && (
-                                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 gap-y-5 mb-3">
-                                        <div>
-                                            <div className="text-[11px] sm:text-xs text-gray-400 mb-1">헥사</div>
-                                            <div className="bg-gray-800 rounded-full h-2">
-                                                <div
-                                                    className="bg-yellow-400 rounded-full h-2 transition-all"
-                                                    style={{ width: `${job.hexaScore}%` }}
-                                                />
-                                            </div>
-                                            <div className="text-xs font-bold text-white mt-1">{job.hexaScore.toFixed(0)}</div>
-                                        </div>
-                                        <div>
-                                            <div className="text-[11px] sm:text-xs text-gray-400 mb-1">쿨뚝</div>
-                                            <div className="bg-gray-800 rounded-full h-2">
-                                                <div
-                                                    className="bg-green-400 rounded-full h-2 transition-all"
-                                                    style={{ width: `${job.coolHatScore}%` }}
-                                                />
-                                            </div>
-                                            <div className="text-xs font-bold text-white mt-1">{job.coolHatScore.toFixed(0)}</div>
-                                        </div>
-                                        <div>
-                                            <div className="text-[11px] sm:text-xs text-gray-400 mb-1">리레링</div>
-                                            <div className="bg-gray-800 rounded-full h-2">
-                                                <div
-                                                    className="bg-red-400 rounded-full h-2 transition-all"
-                                                    style={{ width: `${job.rerangeScore}%` }}
-                                                />
-                                            </div>
-                                            <div className="text-xs font-bold text-white mt-1">{job.rerangeScore.toFixed(0)}</div>
-                                        </div>
-                                        <div>
-                                            <div className="text-[11px] sm:text-xs text-gray-400 mb-1">유틸</div>
-                                            <div className="bg-gray-800 rounded-full h-2">
-                                                <div
-                                                    className="bg-blue-400 rounded-full h-2 transition-all"
-                                                    style={{ width: `${job.utilityScore}%` }}
-                                                />
-                                            </div>
-                                            <div className="text-xs font-bold text-white mt-1">{job.utilityScore.toFixed(0)}</div>
-                                        </div>
-                                        <div>
-                                            <div className="text-[11px] sm:text-xs text-gray-400 mb-1">환산</div>
-                                            <div className="bg-gray-800 rounded-full h-2">
-                                                <div
-                                                    className="bg-purple-400 rounded-full h-2 transition-all"
-                                                    style={{ width: `${job.top2000Score}%` }}
-                                                />
-                                            </div>
-                                            <div className="text-xs font-bold text-white mt-1">{job.top2000Score.toFixed(0)}</div>
-                                        </div>
-                                        <div>
-                                            <div className="text-[11px] sm:text-xs text-gray-400 mb-1">280+</div>
-                                            <div className="bg-gray-800 rounded-full h-2">
-                                                <div
-                                                    className="bg-cyan-400 rounded-full h-2 transition-all"
-                                                    style={{ width: `${job.level280Score}%` }}
-                                                />
-                                            </div>
-                                            <div className="text-xs font-bold text-white mt-1">{job.level280Score.toFixed(0)}</div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* 점수 바 - 하이브리드 모드 */}
-                                {'aiScore' in job && (
-                                    <div className="grid grid-cols-2 gap-4 mb-3">
-                                        <div>
-                                            <div className="text-xs text-gray-400 mb-1">🤖 AI 평가</div>
-                                            <div className="bg-gray-800 rounded-full h-3">
-                                                <div
-                                                    className="bg-gradient-to-r from-purple-400 to-pink-400 rounded-full h-3 transition-all"
-                                                    style={{ width: `${job.aiScore}%` }}
-                                                />
-                                            </div>
-                                            <div className="text-sm text-white mt-1 font-medium">{job.aiScore.toFixed(1)}점</div>
-                                        </div>
-                                        <div>
-                                            <div className="text-xs text-gray-400 mb-1">
-                                                {rankingMode === 'youtuber' && '🎬 유튜버 평가'}
-                                                {rankingMode === 'general' && '👥 일반인 평가'}
-                                                {rankingMode === 'ceiling' && '🔥 고점 체급'}
-                                            </div>
-                                            <div className="bg-gray-800 rounded-full h-3">
-                                                <div
-                                                    className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full h-3 transition-all"
-                                                    style={{ width: `${job.externalScore}%` }}
-                                                />
-                                            </div>
-                                            <div className="text-sm text-white mt-1 font-medium">{job.externalScore.toFixed(1)}점</div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* 상세 정보 (펼침) */}
-                                {selectedJob?.job === job.job && (
-                                    <div className="mt-4 pt-4 border-t border-white/10 space-y-3 animate-fadeIn">
-                                        {/* AI 모드 - 세부 항목 */}
-                                        {'hexaReason' in job && (
-                                            <>
-                                                <div className="bg-black/30 rounded-lg p-4">
-                                                    <h3 className="text-lg font-bold text-yellow-400 mb-2">📈 헥사 효율</h3>
-                                                    <p className="text-gray-300 text-sm whitespace-pre-line">{job.hexaReason}</p>
-                                                </div>
-                                                <div className="bg-black/30 rounded-lg p-4">
-                                                    <h3 className="text-lg font-bold text-green-400 mb-2">🎩 쿨타임 감소 모자</h3>
-                                                    <p className="text-gray-300 text-sm whitespace-pre-line">{job.coolHatReason}</p>
-                                                </div>
-                                                <div className="bg-black/30 rounded-lg p-4">
-                                                    <h3 className="text-lg font-bold text-red-400 mb-2">⚔️ 리레링(극딜) 여부</h3>
-                                                    <p className="text-gray-300 text-sm whitespace-pre-line">{job.rerangeReason}</p>
-                                                </div>
-                                                <div className="bg-black/30 rounded-lg p-4">
-                                                    <h3 className="text-lg font-bold text-blue-400 mb-2">🛡️ 유틸리티</h3>
-                                                    <p className="text-gray-300 text-sm whitespace-pre-line">{job.utilityReason}</p>
-                                                </div>
-                                                <div className="bg-black/30 rounded-lg p-4">
-                                                    <h3 className="text-lg font-bold text-purple-400 mb-2">👥 환산 TOP 2000 직업 분포도</h3>
-                                                    <p className="text-gray-300 text-sm whitespace-pre-line">{job.top2000Reason}</p>
-                                                </div>
-                                                <div className="bg-black/30 rounded-lg p-4">
-                                                    <h3 className="text-lg font-bold text-cyan-400 mb-2">🏃 Lv280+ 직업 점유율</h3>
-                                                    <p className="text-gray-300 text-sm whitespace-pre-line">{job.level280Reason}</p>
-                                                </div>
-                                            </>
-                                        )}
-                                        {/* 하이브리드 모드 - AI + 외부 평가 */}
-                                        {'aiReason' in job && (
-                                            <>
-                                                <div className="bg-black/30 rounded-lg p-4">
-                                                    <h3 className="text-lg font-bold text-purple-400 mb-2">🤖 AI 종합 평가</h3>
-                                                    <p className="text-gray-300 text-sm whitespace-pre-line">{job.aiReason}</p>
-                                                </div>
-                                                <div className="bg-black/30 rounded-lg p-4">
-                                                    <h3 className="text-lg font-bold text-orange-400 mb-2">
-                                                        {rankingMode === 'youtuber' && '🎬 유튜버 평가'}
-                                                        {rankingMode === 'general' && '👥 일반인 평가'}
-                                                        {rankingMode === 'ceiling' && '🔥 고점 체급 평가'}
-                                                    </h3>
-                                                    <p className="text-gray-300 text-sm whitespace-pre-line">{job.externalReason}</p>
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                )}
                             </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
 
                 {/* 데이터 출처 및 참고자료 Footer */}
