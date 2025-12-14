@@ -47,7 +47,8 @@ export const HIGH_CEILING_TIER: CeilingTierData[] = [
             '스트라이커',
             '윈드브레이커',
             '팬텀',
-            '다크나이트'
+            '다크나이트',
+            '키네시스'
         ]
     },
     {
@@ -83,7 +84,6 @@ export const HIGH_CEILING_TIER: CeilingTierData[] = [
         tier: 'D',
         jobs: [
             '바이퍼',
-            '키네시스',
             '미하일',
             '메카닉',
             '데몬슬레이어',

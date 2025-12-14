@@ -113,6 +113,13 @@ export const YOUTUBER_JOB_RANKING: YoutuberJobRanking[] = [
     },
     {
         rank: 14,
+        job: '키네시스',
+        score: 7.0,
+        rawScore: '[원점수 3점]',
+        reason: '🔥 리마스터 확정으로 체급이 A급 정도로 상향될 것으로 예상. 기존 D급에서 대폭 개선되어 챌린저스 추천 직업으로 등극.'
+    },
+    {
+        rank: 15,
         job: '팔라딘',
         score: 7.0,
         rawScore: '[원점수 3점]',
@@ -121,49 +128,49 @@ export const YOUTUBER_JOB_RANKING: YoutuberJobRanking[] = [
 
     // B급 - 평균 (5-6점)
     {
-        rank: 15,
+        rank: 16,
         job: '라라',
         score: 6.0,
         rawScore: '[원점수 2점]',
         reason: '쌀피엠(저레벨 헥사)이 42등(-1점)으로 낮게 평가됨. 쿨감 낮고(+1점) 쉬워서(+1점) 뉴비 추천.'
     },
     {
-        rank: 16,
+        rank: 17,
         job: '바이퍼',
         score: 6.0,
         rawScore: '[원점수 2점]',
         reason: '쌀피엠(저레벨 헥사) 43등(-2점). 쿨감 필요 없고(+2점) 쉬운 난이도(+2점)로 기본 점수는 챙김.'
     },
     {
-        rank: 17,
+        rank: 18,
         job: '카인',
         score: 6.0,
         rawScore: '[원점수 2점]',
         reason: '체급은 좋으나(+1점), 딜 사이클이 어렵고(-1점) 쌀피엠(저레벨 헥사)이 나쁨.'
     },
     {
-        rank: 18,
+        rank: 19,
         job: '캐논슈터',
         score: 6.0,
         rawScore: '[원점수 2점]',
         reason: '쌀피엠(저레벨 헥사) 낮음(-2점). 쿨감/난이도 무난함(+1점씩). 하드 세렌 상성은 좋음.'
     },
     {
-        rank: 19,
+        rank: 20,
         job: '플레임위자드',
         score: 6.0,
         rawScore: '[원점수 2점]',
         reason: '쿨감 의존도가 매우 높음(-2점). 기본 성능은 준수하나 쿨뚝 세팅이 필수.'
     },
     {
-        rank: 20,
+        rank: 21,
         job: '스트라이커',
         score: 5.5,
         rawScore: '[원점수 1점]',
         reason: '체급은 좋으나(+2점), 쌀피엠 46등(-2점)에 극딜 비중 꼴등(-2점). 피로도 대비 효율이 너무 나쁨.'
     },
     {
-        rank: 21,
+        rank: 22,
         job: '루미너스',
         score: 5.0,
         rawScore: '[원점수 0점]',
@@ -172,172 +179,165 @@ export const YOUTUBER_JOB_RANKING: YoutuberJobRanking[] = [
 
     // C급 - 평균 이하 (4-5점)
     {
-        rank: 22,
+        rank: 23,
         job: '제로',
         score: 4.5,
         rawScore: '',
         reason: '성능은 좋으나 딜 사이클 어렵고 쿨 의존도 있음.'
     },
     {
-        rank: 23,
+        rank: 24,
         job: '호영',
         score: 4.5,
         rawScore: '',
         reason: '구조 개선됐으나 쌀피엠 순위가 낮음.'
     },
     {
-        rank: 24,
+        rank: 25,
         job: '듀얼블레이드',
         score: 4.5,
         rawScore: '',
         reason: '성능 준수하나 쿨감 의존도가 높은 편.'
     },
     {
-        rank: 25,
+        rank: 26,
         job: '섀도어',
         score: 4.5,
         rawScore: '',
         reason: '딜 좋으나 손목 아픔, 극딜 비중 낮음.'
     },
     {
-        rank: 26,
+        rank: 27,
         job: '나이트로드',
         score: 4.5,
         rawScore: '',
         reason: '극딜 1황이나 저스펙 효율 안 좋고 쌀피엠 순위 낮음.'
     },
     {
-        rank: 27,
+        rank: 28,
         job: '아크메이지(불,독)',
         score: 4.5,
         rawScore: '',
         reason: '벞지 이슈는 해결됐으나 쿨뚝 의존도가 여전히 높음.'
     },
     {
-        rank: 28,
+        rank: 29,
         job: '와일드헌터',
         score: 4.5,
         rawScore: '',
         reason: '쉽고 세지만 쿨감 의존도가 매우 높음.'
     },
     {
-        rank: 29,
+        rank: 30,
         job: '팬텀',
         score: 4.5,
         rawScore: '',
         reason: '쿨감 없으면 체급 급락. 고점 플레이 까다로움.'
     },
     {
-        rank: 30,
+        rank: 31,
         job: '카데나',
         score: 4.5,
         rawScore: '',
         reason: '딜은 1등이나 난이도가 메이플 최고 수준 (뉴비 비추).'
     },
     {
-        rank: 31,
+        rank: 32,
         job: '칼리',
         score: 4.5,
         rawScore: '',
         reason: '너프 후 고저점 심하고 피로도 높음.'
     },
     {
-        rank: 32,
+        rank: 33,
         job: '제논',
         score: 4.5,
         rawScore: '',
         reason: '쿨감 의존도 높아졌고 올스탯 매물 구하기 힘듦.'
     },
     {
-        rank: 33,
+        rank: 34,
         job: '신궁',
         score: 4.5,
         rawScore: '',
         reason: '답답한 조작감, 세렌 보스 기록 안 좋음. 쿨감 낮은 것이 장점이나 추천하기 어려움'
     },
     {
-        rank: 34,
+        rank: 35,
         job: '패스파인더',
         score: 4.5,
         rawScore: '',
         reason: '조작감 별로고 쿨감 의존도 꽤 높음.'
     },
     {
-        rank: 35,
+        rank: 36,
         job: '카이저',
         score: 4.5,
         rawScore: '',
         reason: '5초 쿨 없으면 딜 안 나옴. 쿨뚝 필수 직업.'
     },
     {
-        rank: 36,
+        rank: 37,
         job: '아델',
         score: 3.0,
         rawScore: '[원점수 -2점]',
         reason: '쌀피엠(저레벨 헥사) 낮고 2초 뚝 필수. 재사용까지 써야 해서 챌린저스에서 힘듦.'
     },
     {
-        rank: 37,
+        rank: 38,
         job: '엔젤릭버스터',
         score: 3.0,
         rawScore: '',
         reason: '유틸 좋고 쉬우나 딜 체급이 너무 낮음 (최근 평가 하락).'
     },
     {
-        rank: 38,
+        rank: 39,
         job: '다크나이트',
         score: 2.5,
         rawScore: '[원점수 -3점]',
         reason: '최소컷이 너무 높고(5.1~5.2), 극딜 비중 낮고, 쿨감 의존도 심함(-2점). 리인카 스킬이 좋지만 비추천'
     },
     {
-        rank: 39,
+        rank: 40,
         job: '미하일',
         score: 2.0,
         rawScore: '',
         reason: '쌀피엠 순위가 낮고, 쿨뚝 의존도가 높고, 리레링(극딜) 사용량도 낮으며 체급도 높지 않아 비추천'
     },
     {
-        rank: 40,
+        rank: 41,
         job: '데몬어벤져',
         score: 2.0,
         rawScore: '',
         reason: 'HP 아이템을 사용하는 유일한 직업으로 리스크가 매우 클 수 있음.'
     },
     {
-        rank: 41,
+        rank: 42,
         job: '나이트워커',
         score: 2.0,
         rawScore: '',
         reason: '체급이 많이 떨어진다는 평가가 많고, 특유의 조작감이 불호가 많음'
     },
     {
-        rank: 42,
+        rank: 43,
         job: '데몬슬레이어',
         score: 2.0,
         rawScore: '',
         reason: '딜 체급이 엄청 약하다는 평가가 많음. 비추천'
     },
     {
-        rank: 43,
+        rank: 44,
         job: '히어로',
         score: 1.5,
         rawScore: '',
         reason: '현재 체급이 매우 낮다는 평가가 많고, 고스펙 유저의 이탈이 두드러짐.'
     },
     {
-        rank: 44,
+        rank: 45,
         job: '블래스터',
         score: 1.5,
         rawScore: '',
         reason: '보스/사냥 컨트롤이 최상위권으로 매우 어려움. 블래스터의 조작감 하나만으로도 불호가 매우 많음.'
-    },
-    {
-        rank: 45,
-        job: '키네시스',
-        score: 1.5,
-        rawScore: '',
-        reason: '스펙 높아도 약하다는 평가가 많음. 체급도 높지 않은 편이라는 평가가 많아서 비추천'
     },
     {
         rank: 46,

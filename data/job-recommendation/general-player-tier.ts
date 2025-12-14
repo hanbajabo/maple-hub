@@ -59,7 +59,8 @@ export const GENERAL_PLAYER_TIER: GeneralTierData[] = [
             '라라',
             '메르세데스',
             '카인',
-            '팬텀'
+            '팬텀',
+            '키네시스'
         ]
     },
     {
@@ -96,7 +97,6 @@ export const GENERAL_PLAYER_TIER: GeneralTierData[] = [
             '나이트워커',
             '히어로',
             '데몬슬레이어',
-            '키네시스',
             '미하일'
         ]
     }

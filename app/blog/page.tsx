@@ -29,6 +29,16 @@ const blogPosts: BlogPost[] = [
         featured: true,
     },
     {
+        slug: 'monsterpark-2025',
+        title: '🎮 몬스터파크 극한 효율 가이드 - 레벨별 최적 사냥터 완벽 분석',
+        description: '260~299 레벨 구간별로 몬스터파크에서 얻을 수 있는 경험치 효율을 완벽하게 정리! 당신의 레벨에 맞는 최적의 사냥터를 찾아보세요.',
+        category: '경험치 가이드',
+        date: '2025년 12월 13일',
+        readTime: '12분',
+        thumbnail: '🎯',
+        featured: true,
+    },
+    {
         slug: 'hyperburning-jobs-2025-v2',
         title: '🎮 데이터로 증명된 2025 하이퍼버닝 직업 추천 v2.0 (하이브리드 랭킹)',
         description: 'AI, 유튜버, 일반인 인식, 고점 데이터를 모두 섞었다! 4가지 모드로 분석한 가장 완벽한 직업 추천 가이드.',
@@ -192,7 +202,7 @@ const blogPosts: BlogPost[] = [
     },
 ];
 
-const categories = ['전체', '업데이트 소식', '육성 가이드', '초보자 가이드', '장비 가이드', '보스 공략', '헥사 가이드', '스탯 가이드'];
+const categories = ['전체', '업데이트 소식', '육성 가이드', '경험치 가이드', '초보자 가이드', '장비 가이드', '보스 공략', '헥사 가이드', '스탯 가이드'];
 
 export default function BlogPage() {
     const [selectedCategory, setSelectedCategory] = useState('전체');

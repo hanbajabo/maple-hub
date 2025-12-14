@@ -1,0 +1,82 @@
+
+                {/* EXP Values per Zone */}
+                <section className="mb-12">
+                    <h2 className="text-3xl font-bold mb-6 border-b border-slate-700 pb-3">💰 지역별 몬스터파크 경험치 (1판 기준)</h2>
+                    <p className="text-slate-300 mb-6">
+                        퍼센트 수치도 중요하지만, 실제로 얻을 수 있는 <strong className="text-yellow-400">절대적인 경험치량</strong>도 알아두면 좋습니다.
+                        새로 추가된 고레벨 지역일수록 1판당 경험치가 훨씬 많습니다!
+                    </p>
+                    
+                    <div className="grid md:grid-cols-2 gap-4">
+                        {/* 도원경 */}
+                        <div className="bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border border-yellow-500/30 rounded-xl p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 className="text-2xl font-bold text-yellow-400">도원경</h3>
+                                    <p className="text-slate-400 text-sm">Lv. 275+ 해금</p>
+                                </div>
+                                <div className="text-3xl">🏯</div>
+                            </div>
+                            <div className="bg-slate-900/50 rounded-lg p-4">
+                                <p className="text-slate-400 text-sm mb-1">1판당 경험치</p>
+                                <p className="text-3xl font-black text-white mb-1">766억</p>
+                                <p className="text-slate-500 text-xs font-mono">76,639,838,000</p>
+                            </div>
+                        </div>
+
+                        {/* 아르테리아 */}
+                        <div className="bg-gradient-to-br from-cyan-900/20 to-blue-900/20 border border-cyan-500/30 rounded-xl p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 className="text-2xl font-bold text-cyan-400">아르테리아</h3>
+                                    <p className="text-slate-400 text-sm">Lv. 280+ 해금</p>
+                                </div>
+                                <div className="text-3xl">🌊</div>
+                            </div>
+                            <div className="bg-slate-900/50 rounded-lg p-4">
+                                <p className="text-slate-400 text-sm mb-1">1판당 경험치</p>
+                                <p className="text-3xl font-black text-white mb-1">1,072억</p>
+                                <p className="text-slate-500 text-xs font-mono">107,204,032,000</p>
+                            </div>
+                        </div>
+
+                        {/* 카르시온 */}
+                        <div className="bg-gradient-to-br from-pink-900/20 to-rose-900/20 border border-pink-500/30 rounded-xl p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 className="text-2xl font-bold text-pink-400">카르시온</h3>
+                                    <p className="text-slate-400 text-sm">Lv. 285+ 해금</p>
+                                </div>
+                                <div className="text-3xl">⚡</div>
+                            </div>
+                            <div className="bg-slate-900/50 rounded-lg p-4">
+                                <p className="text-slate-400 text-sm mb-1">1판당 경험치</p>
+                                <p className="text-3xl font-black text-white mb-1">1,560억</p>
+                                <p className="text-slate-500 text-xs font-mono">156,017,856,000</p>
+                            </div>
+                        </div>
+
+                        {/* 탈라하트 */}
+                        <div className="bg-gradient-to-br from-red-900/20 to-orange-900/20 border border-red-500/30 rounded-xl p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 className="text-2xl font-bold text-red-400">탈라하트</h3>
+                                    <p className="text-slate-400 text-sm">Lv. 290+ 해금</p>
+                                </div>
+                                <div className="text-3xl">🔥</div>
+                            </div>
+                            <div className="bg-slate-900/50 rounded-lg p-4">
+                                <p className="text-slate-400 text-sm mb-1">1판당 경험치</p>
+                                <p className="text-3xl font-black text-white mb-1">2,185억</p>
+                                <p className="text-slate-500 text-xs font-mono">218,575,316,000</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-5 mt-6">
+                        <p className="text-blue-300 text-sm">
+                            <strong className="text-blue-400">💡 TIP:</strong> 탈라하트는 도원경 대비 약 2.85배의 경험치를 제공합니다!
+                            레벨이 높아질수록 새로운 지역을 해금하는 것이 훨씬 효율적입니다.
+                        </p>
+                    </div>
+                </section>
