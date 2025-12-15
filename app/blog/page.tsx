@@ -17,6 +17,17 @@ interface BlogPost {
 }
 
 const blogPosts: BlogPost[] = [
+    // 이벤트 가이드
+    {
+        slug: 'challengers-world-calculator',
+        title: '⚔️ 챌린저스 월드 티어 & 코인 계산기 - 나의 티어를 실시간으로 확인하세요!',
+        description: '레벨, 보스, 사냥 미션을 입력하고 챌린저스 포인트와 코인을 자동 계산! 브론즈부터 챌린저까지, 다음 티어까지 얼마나 남았는지 한눈에 확인하세요.',
+        category: '이벤트 가이드',
+        date: '2025년 12월 15일',
+        readTime: '5분',
+        thumbnail: '⚔️',
+        featured: true,
+    },
     // 육성 가이드
     {
         slug: 'crown-hyperburning-guide-2025',
@@ -212,7 +223,7 @@ const blogPosts: BlogPost[] = [
     },
 ];
 
-const categories = ['전체', '업데이트 소식', '육성 가이드', '경험치 가이드', '초보자 가이드', '장비 가이드', '보스 공략', '헥사 가이드', '스탯 가이드'];
+const categories = ['전체', '이벤트 가이드', '업데이트 소식', '육성 가이드', '경험치 가이드', '초보자 가이드', '장비 가이드', '보스 공략', '헥사 가이드', '스탯 가이드'];
 
 export default function BlogPage() {
     const [selectedCategory, setSelectedCategory] = useState('전체');

@@ -884,14 +884,38 @@ export default function Home() {
             <span className="text-base sm:text-lg">📝</span>
             <span className="hidden sm:inline">블로그</span>
           </Link>
-          <a
-            href="/tools/starforce"
-            className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-indigo-900/20"
-            title="스타포스"
-          >
-            <span className="text-base sm:text-lg">⭐</span>
-            <span className="hidden sm:inline">스타포스</span>
-          </a>
+          <div className="relative group">
+            <button
+              className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-indigo-900/20"
+              title="계산기"
+            >
+              <span className="text-base sm:text-lg">🧮</span>
+              <span className="hidden sm:inline">계산기</span>
+            </button>
+
+            {/* Dropdown Menu */}
+            <div className="absolute right-0 top-full mt-2 w-56 bg-slate-900 border-2 border-indigo-500/50 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div className="py-2">
+                <a
+                  href="/tools/starforce"
+                  className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                >
+                  <span className="text-xl">⭐</span>
+                  <span className="font-semibold">스타포스 계산기</span>
+                </a>
+                <a
+                  href="/blog/challengers-world-calculator"
+                  className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                >
+                  <span className="text-xl">⚔️</span>
+                  <div className="flex flex-col">
+                    <span className="font-semibold">챌린저스 월드</span>
+                    <span className="text-xs text-gray-400">시즌 3 계산기</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
           <a
             href="/guide"
             className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-orange-600/90 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg"
