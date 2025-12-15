@@ -23,7 +23,7 @@ export const COOL_HAT_GUIDE_DATA: CoolHatGuide[] = [
     { job: '팔라딘', recommendation: '△', usageRate: 58.4, note: '반반이지만 쿨뚝 채용률이 꽤 높음' },
     { job: '다크나이트', recommendation: 'O', usageRate: 98.7, note: '안 쓰면 간첩 수준' },
     { job: '아크메이지(불,독)', recommendation: 'O', usageRate: 100, note: '데이터상 전원 사용 중' },
-    { job: '아크메이지(썬,콜)', recommendation: '△', usageRate: 52.7, note: '취향의 영역 (인피니티 가동률)' },
+    { job: '아크메이지(썬,콜)', recommendation: '△', usageRate: 52.7, note: '취향의 영역' },
     { job: '비숍', recommendation: 'X', usageRate: 22.0, note: '주스탯 모자가 정배' },
     { job: '보우마스터', recommendation: 'X', usageRate: 5.1, note: '쿨뚝 효율 없음' },
     { job: '신궁', recommendation: 'X', usageRate: 11.1, note: '쿨뚝 효율 없음' },
