@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Calendar, Clock, BookOpen } from 'lucide-react';
 
 interface BlogPost {
@@ -19,13 +20,43 @@ interface BlogPost {
 const blogPosts: BlogPost[] = [
     // 이벤트 가이드
     {
+        slug: 'boss-memory-calculator',
+        title: '⚔️ 보스 코인 계산기 & 코인샵 - 보스 선택부터 쇼핑까지!',
+        description: '13주 동안의 보스 처치 계획을 세우고, 획득한 환영의 기억으로 바로 쇼핑! 주차별 선택, 자동 합산, 장바구니까지 한 페이지에서 모두 해결하세요.',
+        category: '이벤트 가이드',
+        date: '2025년 12월 15일',
+        readTime: '5분',
+        thumbnail: '/images/boss-coin.png',
+        featured: true,
+    },
+    {
+        slug: 'boss-memory-shop',
+        title: '⚔️ 환영의 기억 기록관 - 보스 코인샵 계산기',
+        description: '주간 보스 처치로 획득한 환영의 기억(흐릿한/선명한/온전한)으로 구매 가능한 아이템을 확인하고, 장바구니 기능으로 쇼핑 계획을 세워보세요!',
+        category: '이벤트 가이드',
+        date: '2025년 12월 15일',
+        readTime: '3분',
+        thumbnail: '💎',
+        featured: false,
+    },
+    {
+        slug: 'illusion-coin-shop',
+        title: '👻 일루전 일반 코인샵 - 환영이 내리는 밤',
+        description: '조사 미션으로 획득한 일루전 코인으로 구매 가능한 26가지 아이템(강화/성장)을 확인하고, 필요한 코인을 미리 계획하세요!',
+        category: '이벤트 가이드',
+        date: '2025년 12월 15일',
+        readTime: '3분',
+        thumbnail: '/images/illusion-coin.png',
+        featured: true,
+    },
+    {
         slug: 'challengers-world-calculator',
         title: '⚔️ 챌린저스 월드 티어 & 코인 계산기 - 나의 티어를 실시간으로 확인하세요!',
         description: '레벨, 보스, 사냥 미션을 입력하고 챌린저스 포인트와 코인을 자동 계산! 브론즈부터 챌린저까지, 다음 티어까지 얼마나 남았는지 한눈에 확인하세요.',
         category: '이벤트 가이드',
         date: '2025년 12월 15일',
         readTime: '5분',
-        thumbnail: '⚔️',
+        thumbnail: '/images/challengers-coin.png',
         featured: true,
     },
     // 육성 가이드
@@ -238,29 +269,126 @@ export default function BlogPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
-            {/* Header */}
-            <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+            {/* Global Navigation */}
+            <header className="w-full sm:max-w-7xl flex justify-between items-center px-4 sm:px-6 lg:px-8 py-4 sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 mx-auto">
+                <Link
+                    href="/"
+                    className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/images/maple-ai-logo.jpg" alt="메이플 AI 로고" className="w-9 h-9 sm:w-10 sm:h-10 object-contain rounded-lg shadow-md border border-slate-700/30" />
+                    <span className="text-xl sm:text-2xl font-black tracking-tighter text-maple-orange drop-shadow-sm hidden sm:block">
+                        메이플 AI
+                    </span>
+                </Link>
+
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="relative group">
+                        <Link
+                            href="/news"
+                            className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-slate-900 hover:bg-slate-800 border-2 border-rose-600 text-white font-bold rounded-lg transition-all flex items-center gap-1.5 shadow-[0_0_15px_rgba(225,29,72,0.3)] hover:shadow-[0_0_20px_rgba(225,29,72,0.5)] hover:scale-105"
+                            title="소식 요약"
+                        >
+                            <span className="text-base sm:text-lg">🍁</span>
+                            <span className="hidden sm:inline">단풍이 뉴스</span>
+                        </Link>
+
+                    </div>
                     <Link
-                        href="/"
-                        className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-2 sm:mb-4"
+                        href="/blog"
+                        className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-emerald-900/20"
+                        title="블로그"
                     >
-                        <ArrowLeft className="w-4 h-4" />
-                        <span className="text-sm">홈으로</span>
+                        <span className="text-base sm:text-lg">📝</span>
+                        <span className="hidden sm:inline">블로그</span>
                     </Link>
-                    <h1 className="text-3xl sm:text-5xl font-black text-white mb-2">메이플 AI 블로그</h1>
-                    <p className="text-slate-400 text-sm sm:text-lg">메이플스토리를 더 깊이 이해하고, 더 효율적으로 즐기는 방법</p>
+                    <div className="relative group">
+                        <button
+                            className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-indigo-900/20"
+                            title="계산기"
+                        >
+                            <span className="text-base sm:text-lg">🧮</span>
+                            <span className="hidden sm:inline">계산기</span>
+                        </button>
+                        <span className="absolute -top-2 -right-2 bg-yellow-400 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(250,204,21,0.8)] animate-pulse border border-yellow-200 pointer-events-none z-10 whitespace-nowrap">
+                            NEW!
+                        </span>
+
+                        <div className="absolute right-0 top-full mt-2 w-56 bg-slate-900 border-2 border-indigo-500/50 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div className="py-2">
+                                <a
+                                    href="/tools/starforce"
+                                    className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                                >
+                                    <span className="text-xl">⭐</span>
+                                    <span className="font-semibold">스타포스 계산기</span>
+                                </a>
+                                <a
+                                    href="/blog/challengers-world-calculator"
+                                    className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                                >
+                                    <div className="relative w-6 h-6 flex-shrink-0">
+                                        <Image src="/images/challengers-coin.png" alt="Challenge" fill className="object-contain" />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="font-semibold">챌린저스 월드</span>
+                                        <span className="text-xs text-gray-400">시즌 3 계산기</span>
+                                    </div>
+                                </a>
+                                <a
+                                    href="/blog/boss-memory-calculator"
+                                    className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                                >
+                                    <div className="relative w-6 h-6 flex-shrink-0">
+                                        <Image src="/images/boss-coin.png" alt="Boss" fill className="object-contain" />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="font-semibold">보스 코인</span>
+                                        <span className="text-xs text-gray-400">계산기 & 코인샵</span>
+                                    </div>
+                                </a>
+                                <a
+                                    href="/blog/illusion-coin-shop"
+                                    className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                                >
+                                    <div className="relative w-6 h-6 flex-shrink-0">
+                                        <Image src="/images/illusion-coin.png" alt="Illusion" fill className="object-contain" />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="font-semibold">일루전 코인샵</span>
+                                        <span className="text-xs text-gray-400">일반 코인샵</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <a
+                        href="/guide"
+                        className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-orange-600/90 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg"
+                    >
+                        <span className="text-base sm:text-lg">📚</span>
+                        <span className="hidden sm:inline">가이드</span>
+                    </a>
+                </div>
+            </header>
+
+            {/* Page Title */}
+            <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">
+                <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6">
+
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-1 sm:mb-2">메이플 AI 블로그</h1>
+                    <p className="text-slate-400 text-xs sm:text-sm md:text-base lg:text-lg">메이플스토리를 더 깊이 이해하고, 더 효율적으로 즐기는 방법</p>
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12">
                 {/* Category Filter */}
-                <div className="mb-8 sm:mb-12 flex flex-wrap gap-2 sm:gap-3">
+                <div className="mb-4 sm:mb-6 md:mb-8 lg:mb-12 flex flex-wrap gap-1.5 sm:gap-2 md:gap-3">
                     {categories.map((category) => (
                         <button
                             key={category}
                             onClick={() => setSelectedCategory(category)}
-                            className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg font-semibold transition-all ${category === selectedCategory
+                            className={`px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 text-xs sm:text-sm md:text-base rounded-lg font-semibold transition-all whitespace-nowrap ${category === selectedCategory
                                 ? 'bg-maple-orange text-white shadow-lg'
                                 : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
                                 }`}
@@ -285,7 +413,15 @@ export default function BlogPage() {
                                     className="group bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-maple-orange/30 rounded-2xl p-6 hover:border-maple-orange transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-maple-orange/20"
                                 >
                                     <div className="flex items-start gap-4 mb-4">
-                                        <div className="text-5xl">{post.thumbnail}</div>
+                                        <div className="flex-shrink-0">
+                                            {post.thumbnail.startsWith('/') ? (
+                                                <div className="relative w-12 h-12">
+                                                    <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                                                </div>
+                                            ) : (
+                                                <div className="text-5xl">{post.thumbnail}</div>
+                                            )}
+                                        </div>
                                         <div className="flex-1">
                                             <span className="inline-block px-3 py-1 bg-maple-orange/20 text-maple-orange text-xs font-bold rounded-full mb-2">
                                                 {post.category}
@@ -327,7 +463,15 @@ export default function BlogPage() {
                                 href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
                                 className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-blue-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1"
                             >
-                                <div className="text-4xl mb-4">{post.thumbnail}</div>
+                                <div className="mb-4">
+                                    {post.thumbnail.startsWith('/') ? (
+                                        <div className="relative w-10 h-10">
+                                            <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                                        </div>
+                                    ) : (
+                                        <div className="text-4xl">{post.thumbnail}</div>
+                                    )}
+                                </div>
                                 <span className="inline-block px-2 py-1 bg-slate-700 text-slate-300 text-xs font-semibold rounded mb-3">
                                     {post.category}
                                 </span>

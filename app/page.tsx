@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { JOB_META_DATA } from "@/src/data/diagnosisData";
 import { toPng } from "html-to-image";
 import { Search, RefreshCw, Swords, Camera, X, Star, List } from "lucide-react";
@@ -872,9 +873,7 @@ export default function Home() {
               <span className="text-base sm:text-lg">🍁</span>
               <span className="hidden sm:inline">단풍이 뉴스</span>
             </Link>
-            <span className="absolute -top-2 -right-2 bg-yellow-400 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(250,204,21,0.8)] animate-pulse border border-yellow-200 pointer-events-none z-10 whitespace-nowrap">
-              NEW!
-            </span>
+
           </div>
           <Link
             href="/blog"
@@ -892,6 +891,9 @@ export default function Home() {
               <span className="text-base sm:text-lg">🧮</span>
               <span className="hidden sm:inline">계산기</span>
             </button>
+            <span className="absolute -top-2 -right-2 bg-yellow-400 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(250,204,21,0.8)] animate-pulse border border-yellow-200 pointer-events-none z-10 whitespace-nowrap">
+              NEW!
+            </span>
 
             {/* Dropdown Menu */}
             <div className="absolute right-0 top-full mt-2 w-56 bg-slate-900 border-2 border-indigo-500/50 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -907,10 +909,36 @@ export default function Home() {
                   href="/blog/challengers-world-calculator"
                   className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
                 >
-                  <span className="text-xl">⚔️</span>
+                  <div className="relative w-6 h-6 flex-shrink-0">
+                    <Image src="/images/challengers-coin.png" alt="Challenge" fill className="object-contain" />
+                  </div>
                   <div className="flex flex-col">
                     <span className="font-semibold">챌린저스 월드</span>
                     <span className="text-xs text-gray-400">시즌 3 계산기</span>
+                  </div>
+                </a>
+                <a
+                  href="/blog/boss-memory-calculator"
+                  className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                >
+                  <div className="relative w-6 h-6 flex-shrink-0">
+                    <Image src="/images/boss-coin.png" alt="Boss" fill className="object-contain" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold">보스 코인</span>
+                    <span className="text-xs text-gray-400">계산기 & 코인샵</span>
+                  </div>
+                </a>
+                <a
+                  href="/blog/illusion-coin-shop"
+                  className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                >
+                  <div className="relative w-6 h-6 flex-shrink-0">
+                    <Image src="/images/illusion-coin.png" alt="Illusion" fill className="object-contain" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold">일루전 코인샵</span>
+                    <span className="text-xs text-gray-400">일반 코인샵</span>
                   </div>
                 </a>
               </div>
@@ -927,24 +955,26 @@ export default function Home() {
       </header>
 
       {/* Title and Description - Hide when character is loaded */}
-      {!character && (
-        <div className="text-center space-y-4 sm:space-y-6 px-4">
-          {/* Main Title with Gradient */}
-          <div className="relative">
-            <h2 className="text-4xl sm:text-7xl font-black bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 bg-clip-text text-transparent drop-shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
-              캐릭터 검색
-            </h2>
-            {/* Glowing effect */}
-            <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 -z-10"></div>
-          </div>
+      {
+        !character && (
+          <div className="text-center space-y-4 sm:space-y-6 px-4">
+            {/* Main Title with Gradient */}
+            <div className="relative">
+              <h2 className="text-4xl sm:text-7xl font-black bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 bg-clip-text text-transparent drop-shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
+                캐릭터 검색
+              </h2>
+              {/* Glowing effect */}
+              <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 -z-10"></div>
+            </div>
 
-          {/* Subtitle with better styling */}
-          <p className="text-sm sm:text-2xl text-slate-300 font-medium leading-relaxed animate-in fade-in slide-in-from-top-6 duration-700 delay-150">
-            메이플스토리의 캐릭터 정보를 <span className="text-maple-orange font-bold">한 눈에 확인</span>하고,<br className="hidden sm:block" />
-            <span className="text-yellow-400 font-bold">AI 기반 진단</span>까지 받아보세요
-          </p>
-        </div>
-      )}
+            {/* Subtitle with better styling */}
+            <p className="text-sm sm:text-2xl text-slate-300 font-medium leading-relaxed animate-in fade-in slide-in-from-top-6 duration-700 delay-150">
+              메이플스토리의 캐릭터 정보를 <span className="text-maple-orange font-bold">한 눈에 확인</span>하고,<br className="hidden sm:block" />
+              <span className="text-yellow-400 font-bold">AI 기반 진단</span>까지 받아보세요
+            </p>
+          </div>
+        )
+      }
 
       {/* Search Input Area with enhanced design */}
       <div className="w-full max-w-4xl relative">
@@ -1085,49 +1115,51 @@ export default function Home() {
         </p>
       </div>
 
-      {error && (
-        error === "RATE_LIMIT" ? (
-          <div className="w-full max-w-4xl mt-4 p-6 bg-gradient-to-br from-orange-950/50 to-yellow-950/50 border-2 border-orange-500/50 rounded-2xl animate-in fade-in slide-in-from-top-2 shadow-2xl shadow-orange-900/30">
-            <div className="flex flex-col items-center text-center gap-4">
-              <div className="relative">
-                <div className="text-6xl animate-bounce">⏱️</div>
-                <div className="absolute inset-0 blur-xl bg-orange-500/30 animate-pulse"></div>
+      {
+        error && (
+          error === "RATE_LIMIT" ? (
+            <div className="w-full max-w-4xl mt-4 p-6 bg-gradient-to-br from-orange-950/50 to-yellow-950/50 border-2 border-orange-500/50 rounded-2xl animate-in fade-in slide-in-from-top-2 shadow-2xl shadow-orange-900/30">
+              <div className="flex flex-col items-center text-center gap-4">
+                <div className="relative">
+                  <div className="text-6xl animate-bounce">⏱️</div>
+                  <div className="absolute inset-0 blur-xl bg-orange-500/30 animate-pulse"></div>
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-orange-300 mb-2">
+                    현재 너무 많은 요청으로
+                  </h3>
+                  <p className="text-base sm:text-lg text-orange-200 font-medium mb-1">
+                    잠시 후 다시 시도해주세요
+                  </p>
+                  <p className="text-sm sm:text-base text-orange-400/80 italic mt-3">
+                    (이용해주셔서 항상 감사합니다 💛)
+                  </p>
+                </div>
+                <button
+                  onClick={() => setError("")}
+                  className="mt-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-orange-500/50 hover:scale-105"
+                >
+                  확인
+                </button>
               </div>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-orange-300 mb-2">
-                  현재 너무 많은 요청으로
-                </h3>
-                <p className="text-base sm:text-lg text-orange-200 font-medium mb-1">
-                  잠시 후 다시 시도해주세요
-                </p>
-                <p className="text-sm sm:text-base text-orange-400/80 italic mt-3">
-                  (이용해주셔서 항상 감사합니다 💛)
-                </p>
+            </div>
+          ) : (
+            <div className="w-full max-w-4xl mt-4 p-4 bg-red-950/50 border border-red-500/50 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 shadow-lg shadow-red-900/20">
+              <span className="text-2xl">🚫</span>
+              <div className="flex flex-col">
+                <p className="text-red-200 font-bold text-lg">검색 실패</p>
+                <p className="text-red-300/90 text-sm">{error}</p>
               </div>
               <button
                 onClick={() => setError("")}
-                className="mt-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-orange-500/50 hover:scale-105"
+                className="ml-auto p-2 hover:bg-red-500/20 rounded-lg transition-colors text-red-300"
               >
-                확인
+                <X size={20} />
               </button>
             </div>
-          </div>
-        ) : (
-          <div className="w-full max-w-4xl mt-4 p-4 bg-red-950/50 border border-red-500/50 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 shadow-lg shadow-red-900/20">
-            <span className="text-2xl">🚫</span>
-            <div className="flex flex-col">
-              <p className="text-red-200 font-bold text-lg">검색 실패</p>
-              <p className="text-red-300/90 text-sm">{error}</p>
-            </div>
-            <button
-              onClick={() => setError("")}
-              className="ml-auto p-2 hover:bg-red-500/20 rounded-lg transition-colors text-red-300"
-            >
-              <X size={20} />
-            </button>
-          </div>
+          )
         )
-      )}
+      }
 
 
       {/* Site Introduction Section - Only show when no character */}
