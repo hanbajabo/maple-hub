@@ -19,6 +19,16 @@ interface BlogPost {
 const blogPosts: BlogPost[] = [
     // 육성 가이드
     {
+        slug: 'crown-hyperburning-guide-2025',
+        title: '🔥 [2025 메이플] 크라운 하이퍼버닝 & 아이템 버닝 완벽 가이드: "이 순서 모르면 손해 봅니다!"',
+        description: '정령의 펜던트 순서, 자석펫 사용법, 딸기 농장 활용까지! 260레벨까지 최단 시간 달성을 위한 필수 체크리스트.',
+        category: '육성 가이드',
+        date: '2025년 12월 15일',
+        readTime: '12분',
+        thumbnail: '🔥',
+        featured: true,
+    },
+    {
         slug: 'crown-winter-showcase-2025',
         title: '👑 메이플스토리 겨울 쇼케이스 "크라운" 완벽 예측: 어셈블을 넘어 정점으로',
         description: '12월 13일 공개되는 겨울 쇼케이스 "크라운"을 심층 분석! Lv.290 시대, 신규 지역, 6차 전직 완성까지 모든 것을 예측합니다.',
