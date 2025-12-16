@@ -107,7 +107,7 @@ export default function IllusionCoinShop() {
                         </button>
                     </div>
                     <div className="mt-3 text-yellow-400 text-xs sm:text-sm">
-                        💡 주간 최대 4,000개 | 이벤트 기간(13주) 최대 <span className="font-bold">52,000개</span> 획득 가능!
+                        💡 주간 최대 4,000개 | 이벤트 기간 최대 <span className="font-bold">48,000개</span> 획득 가능! (12주까지 누적)
                     </div>
                 </section>
 
