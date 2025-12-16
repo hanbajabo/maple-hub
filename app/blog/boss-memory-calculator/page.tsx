@@ -119,6 +119,15 @@ export default function BossMemoryCalculator() {
         new Map(Array.from({ length: TOTAL_WEEKS }, (_, i) => [i + 1, new Set()]))
     );
     const [cart, setCart] = useState<Map<string, number>>(new Map());
+    const [showNav, setShowNav] = useState(false);
+
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setShowNav(false);
+        }
+    };
 
     const getCurrentWeekBosses = () => weeklyBosses.get(currentWeek) || new Set();
 
@@ -377,8 +386,62 @@ export default function BossMemoryCalculator() {
                 </div>
             </header>
 
+            {/* 플로팅 네비게이션 버튼 */}
+            <button
+                onClick={() => setShowNav(!showNav)}
+                className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110"
+                aria-label="빠른 이동 메뉴"
+            >
+                <span className="text-2xl">{showNav ? '✕' : '📍'}</span>
+            </button>
+
+            {/* 플로팅 네비게이션 메뉴 */}
+            {showNav && (
+                <div className="fixed bottom-24 right-6 z-40 bg-slate-800/95 backdrop-blur-md rounded-2xl shadow-2xl border border-purple-500/30 p-4 w-64">
+                    <h3 className="text-white font-bold mb-3 text-sm">빠른 이동</h3>
+                    <div className="space-y-2">
+                        <button
+                            onClick={() => scrollToSection('intro')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            ⚔️ 소개
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('summary')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            🏆 전체 획듍
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('weekly')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            📅 주차 선택
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('bosses')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            ⚔️ 보스 선택
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('shop')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            🛒 코인샵
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('tips')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            💡 팁
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <main className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-6">
-                <section className="mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 border border-purple-500/20">
+                <section id="intro" className="mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 border border-purple-500/20">
                     <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white mb-1 sm:mb-2">
                         ⚔️ 보스 코인 계산기
                     </h2>
@@ -399,7 +462,7 @@ export default function BossMemoryCalculator() {
                 </section>
 
                 {/* 전체 합산 요약 */}
-                <section className="mb-6 sm:mb-8 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 border border-yellow-500/30 shadow-xl">
+                <section id="summary" className="mb-6 sm:mb-8 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 border border-yellow-500/30 shadow-xl">
                     <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 sm:mb-4">🏆 전체 기간 획득 환영의 기억 (13주)</h3>
 
                     <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
@@ -428,7 +491,7 @@ export default function BossMemoryCalculator() {
                 </section>
 
                 {/* 주차 선택 탭 */}
-                <section className="mb-3 sm:mb-4 md:mb-6">
+                <section id="weekly" className="mb-3 sm:mb-4 md:mb-6">
                     <div className="flex items-center justify-between mb-2 sm:mb-3">
                         <h3 className="text-xs sm:text-sm md:text-base font-bold text-white">📅 주차</h3>
                         <button
@@ -503,7 +566,7 @@ export default function BossMemoryCalculator() {
                 </section>
 
                 {/* 보스 선택 */}
-                <section className="mb-6 sm:mb-8 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-emerald-500/20">
+                <section id="bosses" className="mb-6 sm:mb-8 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-emerald-500/20">
                     <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 sm:mb-6">⚔️ {currentWeek}주차 주간 보스 선택</h3>
 
                     {Object.entries(CATEGORY_NAMES).map(([category, displayName]) => {
@@ -575,7 +638,7 @@ export default function BossMemoryCalculator() {
                 </section>
 
                 {/* 쇼핑용 전체 합산 표시 */}
-                <section className="mb-3 sm:mb-4 md:mb-6 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 border border-yellow-500/30 shadow-xl">
+                <section id="shop" className="mb-3 sm:mb-4 md:mb-6 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 border border-yellow-500/30 shadow-xl">
                     <h3 className="text-xs sm:text-sm md:text-base font-bold text-white mb-2 sm:mb-3">🏆 전체 획득 (13주)</h3>
 
                     <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
@@ -809,7 +872,7 @@ export default function BossMemoryCalculator() {
                 </section>
 
                 {/* 팁 섹션 */}
-                <section className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-blue-500/20">
+                <section id="tips" className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-blue-500/20">
                     <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3 sm:mb-4">💡 계산기 활용 팁</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 md:gap-4 text-gray-300">
                         <div className="bg-slate-900/30 rounded-lg sm:rounded-xl p-3 sm:p-4">

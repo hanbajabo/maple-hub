@@ -343,10 +343,21 @@ export default function ChallengersWorldCalculator() {
         };
     };
 
+
     const resetAll = () => {
         setTargetLevel(260);
         setHuntingMissions(0);
         setCompletedBosses(new Set());
+    };
+
+    const [showNav, setShowNav] = useState(false);
+
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setShowNav(false);
+        }
     };
 
     const exportToExcel = () => {
@@ -432,9 +443,63 @@ export default function ChallengersWorldCalculator() {
                 </div>
             </header>
 
+            {/* 플로팅 네비게이션 버튼 */}
+            <button
+                onClick={() => setShowNav(!showNav)}
+                className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110"
+                aria-label="빠른 이동 메뉤"
+            >
+                <span className="text-2xl">{showNav ? '✕' : '📍'}</span>
+            </button>
+
+            {/* 플로팅 네비게이션 메뉤 */}
+            {showNav && (
+                <div className="fixed bottom-24 right-6 z-40 bg-slate-800/95 backdrop-blur-md rounded-2xl shadow-2xl border border-purple-500/30 p-4 w-64">
+                    <h3 className="text-white font-bold mb-3 text-sm">빠른 이동</h3>
+                    <div className="space-y-2">
+                        <button
+                            onClick={() => scrollToSection('intro')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            ⚔️ 소개
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('tier')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            🏆 현재 티어
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('missions')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            📋 미션 입력
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('tiers')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            🏆 티어 보상
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('shop')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            🛒 코인샵
+                        </button>
+                        <button
+                            onClick={() => scrollToSection('tips')}
+                            className="w-full text-left px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-all text-sm"
+                        >
+                            💡 팁
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* 소개 섹션 */}
-                <section className="mb-6 sm:mb-8 bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-purple-500/20">
+                <section id="intro" className="mb-6 sm:mb-8 bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-purple-500/20">
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
                         ⚔️ 챌린저스 월드 시즌 3 티어 & 코인 계산기
                     </h2>
@@ -456,7 +521,7 @@ export default function ChallengersWorldCalculator() {
                 </section>
 
                 {/* 현재 티어 & 결과 요약 */}
-                <section className="mb-6 sm:mb-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                <section id="tier" className="mb-6 sm:mb-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                     {/* 현재 티어 */}
                     <div className={`lg:col-span-2 bg-gradient-to-br ${calculations.currentTier.color} rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-8 shadow-2xl border border-white/10`}>
                         <div className="text-white">
@@ -524,7 +589,7 @@ export default function ChallengersWorldCalculator() {
                 </section>
 
                 {/* 세부 계산 섹션 */}
-                <section className="mb-6 sm:mb-8 bg-slate-800/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-700/50">
+                <section id="missions" className="mb-6 sm:mb-8 bg-slate-800/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-700/50">
                     <div className="flex justify-between items-center mb-4 sm:mb-6">
                         <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white">📋 미션 입력</h3>
                         <button
@@ -784,7 +849,7 @@ export default function ChallengersWorldCalculator() {
                 </section>
 
                 {/* 티어 목록 */}
-                <section className="mb-6 sm:mb-8 bg-slate-800/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-700/50">
+                <section id="tiers" className="mb-6 sm:mb-8 bg-slate-800/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-700/50">
                     <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 sm:mb-6">🏆 티어별 보상 정보</h3>
                     <div className="grid grid-cols-1 gap-3 sm:gap-4">
                         {TIERS.slice(1).map((tier) => (
@@ -837,7 +902,7 @@ export default function ChallengersWorldCalculator() {
                 </section>
 
                 {/* 코인샵 계산기 */}
-                <section className="mb-6 sm:mb-8 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-emerald-500/20">
+                <section id="shop" className="mb-6 sm:mb-8 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-emerald-500/20">
                     <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 sm:mb-6">🛒 챌린저스 코인샵 계산기</h3>
 
                     {/* 보유 코인 표시 */}
@@ -1058,7 +1123,7 @@ export default function ChallengersWorldCalculator() {
                 </section>
 
                 {/* 팁 섹션 */}
-                <section className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-blue-500/20">
+                <section id="tips" className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-blue-500/20">
                     <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3 sm:mb-4">💡 계산기 활용 팁</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 md:gap-4 text-gray-300">
                         <div className="bg-slate-900/30 rounded-lg sm:rounded-xl p-3 sm:p-4">
