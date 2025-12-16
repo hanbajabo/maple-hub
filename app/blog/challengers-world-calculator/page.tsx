@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import * as XLSX from 'xlsx';
 
 // 레벨별 보상 데이터
 const LEVEL_REWARDS = [
@@ -346,6 +347,72 @@ export default function ChallengersWorldCalculator() {
         setTargetLevel(260);
         setHuntingMissions(0);
         setCompletedBosses(new Set());
+    };
+
+    const exportToExcel = () => {
+        // 엑셀 데이터 준비
+        const data = [];
+
+        // 헤더
+        data.push(['챌린저스 코인샵 장바구니']);
+        data.push([]);
+        data.push(['아이템명', '분류', '개당 가격', '수량', '총 가격']);
+
+        // 장바구니 아이템
+        let totalNormalCoins = 0;
+        let totalPremiumCoins = 0;
+
+        Array.from(cart.entries()).forEach(([itemName, quantity]) => {
+            const item = COIN_SHOP_ITEMS.find(i => i.name === itemName);
+            if (item) {
+                const totalPrice = item.price * quantity;
+                const currencyName = item.currency === 'normal' ? '일반 코인' : '상급 코인';
+
+                if (item.currency === 'normal') totalNormalCoins += totalPrice;
+                else totalPremiumCoins += totalPrice;
+
+                data.push([
+                    item.name,
+                    currencyName,
+                    item.price,
+                    quantity,
+                    totalPrice
+                ]);
+            }
+        });
+
+        // 합계
+        data.push([]);
+        data.push(['분류별 합계']);
+        if (totalNormalCoins > 0) data.push(['일반 코인', '', '', '', totalNormalCoins]);
+        if (totalPremiumCoins > 0) data.push(['상급 코인', '', '', '', totalPremiumCoins]);
+
+        data.push([]);
+        data.push(['내 획득량']);
+        data.push(['일반 코인', '', '', '', calculations.totalCoins]);
+        data.push(['상급 코인', '', '', '', calculations.totalPremiumCoins]);
+
+        data.push([]);
+        data.push(['남은 코인']);
+        data.push(['일반 코인', '', '', '', calculations.totalCoins - totalNormalCoins]);
+        data.push(['상급 코인', '', '', '', calculations.totalPremiumCoins - totalPremiumCoins]);
+
+        // 워크시트 생성
+        const ws = XLSX.utils.aoa_to_sheet(data);
+
+        // 열 너비 설정
+        ws['!cols'] = [
+            { wch: 45 }, // 아이템명
+            { wch: 12 }, // 분류
+            { wch: 12 }, // 개당 가격
+            { wch: 8 },  // 수량
+            { wch: 12 }  // 총 가격
+        ];
+
+        // 워크북 생성 및 파일 저장
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, '챌린저스 코인샵');
+        XLSX.writeFile(wb, '챌린저스_코인샵_장바구니.xlsx');
     };
 
     return (
@@ -771,7 +838,7 @@ export default function ChallengersWorldCalculator() {
 
                 {/* 코인샵 계산기 */}
                 <section className="mb-6 sm:mb-8 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-emerald-500/20">
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 sm:mb-6">🛒 코인샵 계산기</h3>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 sm:mb-6">🛒 챌린저스 코인샵 계산기</h3>
 
                     {/* 보유 코인 표시 */}
                     <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
@@ -969,12 +1036,20 @@ export default function ChallengersWorldCalculator() {
                                             {canAffordAll ? '✓ 모든 아이템을 구매할 수 있습니다!' : '✗ 코인이 부족합니다'}
                                         </div>
 
-                                        <button
-                                            onClick={() => setCart(new Map())}
-                                            className="mt-3 w-full py-2 sm:py-3 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg border border-red-500/30 transition-all text-sm sm:text-base"
-                                        >
-                                            🗑️ 장바구니 비우기
-                                        </button>
+                                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-3">
+                                            <button
+                                                onClick={exportToExcel}
+                                                className="flex-1 py-2 sm:py-3 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 rounded-lg border border-emerald-500/30 transition-all text-sm sm:text-base font-semibold"
+                                            >
+                                                📊 엑셀로 내보내기
+                                            </button>
+                                            <button
+                                                onClick={() => setCart(new Map())}
+                                                className="flex-1 py-2 sm:py-3 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg border border-red-500/30 transition-all text-sm sm:text-base"
+                                            >
+                                                🗑️ 장바구니 비우기
+                                            </button>
+                                        </div>
                                     </>
                                 );
                             })()}

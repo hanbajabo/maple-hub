@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import * as XLSX from 'xlsx';
 
 // 보스 타입 정의
 type BossReward = {
@@ -191,6 +192,75 @@ export default function BossMemoryCalculator() {
         }
 
         setWeeklyBosses(newWeeklyBosses);
+    };
+
+    const exportToExcel = () => {
+        // 엑셀 데이터 준비
+        const data = [];
+
+        // 헤더
+        data.push(['보스 코인샵 장바구니']);
+        data.push([]);
+        data.push(['아이템명', '분류', '개당 가격', '수량', '총 가격']);
+
+        // 장바구니 아이템
+        let dimTotal = 0, clearTotal = 0, completeTotal = 0;
+
+        Array.from(cart.entries()).forEach(([itemKey, quantity]) => {
+            const item = BOSS_SHOP_ITEMS.find(i => `${i.name}-${i.tier}` === itemKey);
+            if (item) {
+                const totalPrice = item.price * quantity;
+                const currencyName = getCurrencyName(item.currency);
+
+                if (item.currency === 'dim') dimTotal += totalPrice;
+                else if (item.currency === 'clear') clearTotal += totalPrice;
+                else if (item.currency === 'complete') completeTotal += totalPrice;
+
+                data.push([
+                    item.name,
+                    currencyName,
+                    item.price,
+                    quantity,
+                    totalPrice
+                ]);
+            }
+        });
+
+        // 합계
+        data.push([]);
+        data.push(['분류별 합계']);
+        if (dimTotal > 0) data.push(['흐릿한 환영의 기억', '', '', '', dimTotal]);
+        if (clearTotal > 0) data.push(['선명한 환영의 기억', '', '', '', clearTotal]);
+        if (completeTotal > 0) data.push(['온전한 환영의 기억', '', '', '', completeTotal]);
+
+        data.push([]);
+        data.push(['내 획득량']);
+        data.push(['흐릿한 환영의 기억', '', '', '', totalCalculations.totalDim]);
+        data.push(['선명한 환영의 기억', '', '', '', totalCalculations.totalClear]);
+        data.push(['온전한 환영의 기억', '', '', '', totalCalculations.totalComplete]);
+
+        data.push([]);
+        data.push(['남은 환영의 기억']);
+        data.push(['흐릿한 환영의 기억', '', '', '', totalCalculations.totalDim - dimTotal]);
+        data.push(['선명한 환영의 기억', '', '', '', totalCalculations.totalClear - clearTotal]);
+        data.push(['온전한 환영의 기억', '', '', '', totalCalculations.totalComplete - completeTotal]);
+
+        // 워크시트 생성
+        const ws = XLSX.utils.aoa_to_sheet(data);
+
+        // 열 너비 설정
+        ws['!cols'] = [
+            { wch: 45 }, // 아이템명
+            { wch: 20 }, // 분류
+            { wch: 12 }, // 개당 가격
+            { wch: 8 },  // 수량
+            { wch: 12 }  // 총 가격
+        ];
+
+        // 워크북 생성 및 파일 저장
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, '보스 코인샵');
+        XLSX.writeFile(wb, '보스_코인샵_장바구니.xlsx');
     };
 
     // 현재 주차 계산
@@ -719,12 +789,20 @@ export default function BossMemoryCalculator() {
                                     {allAfford ? '✓ 모두 교환 가능!' : '✗ 환영의 기억 부족'}
                                 </div>
 
-                                <button
-                                    onClick={() => setCart(new Map())}
-                                    className="mt-2 w-full py-1.5 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded border border-red-500/30 transition-all text-[10px] sm:text-xs"
-                                >
-                                    🗑️ 장바구니 비우기
-                                </button>
+                                <div className="flex flex-col sm:flex-row gap-2 mt-2">
+                                    <button
+                                        onClick={exportToExcel}
+                                        className="flex-1 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 rounded border border-emerald-500/30 transition-all text-[10px] sm:text-xs font-semibold"
+                                    >
+                                        📊 엑셀로 내보내기
+                                    </button>
+                                    <button
+                                        onClick={() => setCart(new Map())}
+                                        className="flex-1 py-1.5 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded border border-red-500/30 transition-all text-[10px] sm:text-xs"
+                                    >
+                                        🗑️ 장바구니 비우기
+                                    </button>
+                                </div>
                             </div>
                         );
                     })()}

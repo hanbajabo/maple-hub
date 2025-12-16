@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import * as XLSX from 'xlsx';
 
 // 일루전 코인샵 아이템 데이터
 const COIN_SHOP_ITEMS = [
@@ -43,6 +44,54 @@ export default function IllusionCoinShop() {
     const resetAll = () => {
         setOwnedCoins(0);
         setCart(new Map());
+    };
+
+    const exportToExcel = () => {
+        // 엑셀 데이터 준비
+        const data = [];
+
+        // 헤더
+        data.push(['일루전 코인샵 장바구니']);
+        data.push([]);
+        data.push(['아이템명', '개당 가격', '수량', '총 가격']);
+
+        // 장바구니 아이템
+        let totalCoins = 0;
+        Array.from(cart.entries()).forEach(([itemName, quantity]) => {
+            const item = COIN_SHOP_ITEMS.find(i => i.name === itemName);
+            if (item) {
+                const totalPrice = item.price * quantity;
+                totalCoins += totalPrice;
+                data.push([
+                    item.name,
+                    item.price,
+                    quantity,
+                    totalPrice
+                ]);
+            }
+        });
+
+        // 합계
+        data.push([]);
+        data.push(['총 필요 코인', '', '', totalCoins]);
+        data.push(['보유 코인', '', '', ownedCoins]);
+        data.push(['남은 코인', '', '', ownedCoins - totalCoins]);
+
+        // 워크시트 생성
+        const ws = XLSX.utils.aoa_to_sheet(data);
+
+        // 열 너비 설정
+        ws['!cols'] = [
+            { wch: 40 }, // 아이템명
+            { wch: 12 }, // 개당 가격
+            { wch: 8 },  // 수량
+            { wch: 12 }  // 총 가격
+        ];
+
+        // 워크북 생성 및 파일 저장
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, '일루전 코인샵');
+        XLSX.writeFile(wb, '일루전_코인샵_장바구니.xlsx');
     };
 
     return (
@@ -267,12 +316,20 @@ export default function IllusionCoinShop() {
                                             {canAffordAll ? '✓ 모든 아이템을 구매할 수 있습니다!' : '✗ 코인이 부족합니다'}
                                         </div>
 
-                                        <button
-                                            onClick={() => setCart(new Map())}
-                                            className="mt-3 w-full py-2 sm:py-3 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg border border-red-500/30 transition-all text-sm sm:text-base"
-                                        >
-                                            🗑️ 장바구니 비우기
-                                        </button>
+                                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-3">
+                                            <button
+                                                onClick={exportToExcel}
+                                                className="flex-1 py-2 sm:py-3 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 rounded-lg border border-emerald-500/30 transition-all text-sm sm:text-base font-semibold"
+                                            >
+                                                📊 엑셀로 내보내기
+                                            </button>
+                                            <button
+                                                onClick={() => setCart(new Map())}
+                                                className="flex-1 py-2 sm:py-3 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg border border-red-500/30 transition-all text-sm sm:text-base"
+                                            >
+                                                🗑️ 장바구니 비우기
+                                            </button>
+                                        </div>
                                     </>
                                 );
                             })()}
