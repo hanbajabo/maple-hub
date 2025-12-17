@@ -23,8 +23,6 @@ const nextConfig: NextConfig = {
     formats: ['image/webp'],
     minimumCacheTTL: 604800, // 7일
   },
-  // 정적 생성 강화
-  output: 'standalone',
   // 실험적 기능 - 정적 최적화
   experimental: {
     optimizePackageImports: ['lucide-react'],
