@@ -59,6 +59,16 @@ const blogPosts: BlogPost[] = [
         thumbnail: '/images/challengers-coin.png',
         featured: true,
     },
+    {
+        slug: 'genesis-liberation-calculator',
+        title: '⚔️ 제네시스 무기 해방 계산기 - 챌린저스 시즌3 완벽 가이드',
+        description: '주차별 보스 격파 스케줄을 설정하고 17주 안에 제네시스 무기 해방을 완료할 수 있을지 정확하게 계산하세요! 이지부터 하드까지, 월간 보스까지 모두 고려한 정밀 계산.',
+        category: '이벤트 가이드',
+        date: '2025년 12월 17일',
+        readTime: '5분',
+        thumbnail: '/images/genesis-weapon.png',
+        featured: true,
+    },
     // 육성 가이드
     {
         slug: 'crown-hyperburning-guide-2025',
@@ -357,6 +367,18 @@ export default function BlogPage() {
                                     <div className="flex flex-col">
                                         <span className="font-semibold">일루전 코인샵</span>
                                         <span className="text-xs text-gray-400">일반 코인샵</span>
+                                    </div>
+                                </a>
+                                <a
+                                    href="/calculator/genesis-liberation"
+                                    className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                                >
+                                    <div className="relative w-6 h-6 flex-shrink-0">
+                                        <Image src="/images/genesis-weapon.png" alt="Genesis" fill className="object-contain" />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="font-semibold">제네시스 해방</span>
+                                        <span className="text-xs text-gray-400">시즌3 계산기</span>
                                     </div>
                                 </a>
                             </div>

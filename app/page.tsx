@@ -941,6 +941,18 @@ export default function Home() {
                     <span className="text-xs text-gray-400">일반 코인샵</span>
                   </div>
                 </a>
+                <a
+                  href="/calculator/genesis-liberation"
+                  className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                >
+                  <div className="relative w-6 h-6 flex-shrink-0">
+                    <Image src="/images/genesis-weapon.png" alt="Genesis" fill className="object-contain" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold">제네시스 해방</span>
+                    <span className="text-xs text-gray-400">시즌3 계산기</span>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
