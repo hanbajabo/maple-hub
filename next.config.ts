@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    // 이미지 최적화 완전 비활성화 (넥슨 API 이미지는 이미 최적화됨)
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -19,9 +21,6 @@ const nextConfig: NextConfig = {
         hostname: 'rs.nexon.com',
       },
     ],
-    // 이미지 최적화 설정
-    formats: ['image/webp'],
-    minimumCacheTTL: 604800, // 7일
   },
   // 실험적 기능 - 정적 최적화
   experimental: {
