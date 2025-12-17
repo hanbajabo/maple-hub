@@ -864,17 +864,6 @@ export default function Home() {
 
         {/* Guide Link & Patch Notes */}
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <div className="relative group">
-            <Link
-              href="/news"
-              className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-slate-900 hover:bg-slate-800 border-2 border-rose-600 text-white font-bold rounded-lg transition-all flex items-center gap-1.5 shadow-[0_0_15px_rgba(225,29,72,0.3)] hover:shadow-[0_0_20px_rgba(225,29,72,0.5)] hover:scale-105"
-              title="소식 요약"
-            >
-              <span className="text-base sm:text-lg">🍁</span>
-              <span className="hidden sm:inline">단풍이 뉴스</span>
-            </Link>
-
-          </div>
           <Link
             href="/blog"
             className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-emerald-900/20"
