@@ -1,7 +1,5 @@
 "use server";
 
-import { unstable_cache } from 'next/cache';
-
 const API_KEY = process.env.NEXON_API_KEY || '';
 const BASE_URL = process.env.NEXON_API_URL || 'https://open.api.nexon.com';
 
@@ -97,128 +95,74 @@ export const getOcid = async (characterName: string) => {
     return res.data.ocid;
 };
 
-export const getCharacterBasic = unstable_cache(
-    async (ocid: string) => {
-        // 기본 정보는 날짜 없이 조회 (최신 기준)
-        const res = await nexonFetch('/maplestory/v1/character/basic', { ocid });
-        return res.data;
-    },
-    ['character-basic'],
-    { revalidate: 3600 } // 1시간 캐시
-);
+export const getCharacterBasic = async (ocid: string) => {
+    // 기본 정보는 날짜 없이 조회 (최신 기준)
+    const res = await nexonFetch('/maplestory/v1/character/basic', { ocid });
+    return res.data;
+};
 
-export const getCharacterStat = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/character/stat', { ocid });
-        return res.data;
-    },
-    ['character-stat'],
-    { revalidate: 3600 }
-);
+export const getCharacterStat = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/character/stat', { ocid });
+    return res.data;
+};
 
-export const getCharacterItemEquipment = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/character/item-equipment', { ocid });
-        return res.data;
-    },
-    ['character-item-equipment'],
-    { revalidate: 3600 }
-);
+export const getCharacterItemEquipment = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/character/item-equipment', { ocid });
+    return res.data;
+};
 
+export const getCharacterLinkSkill = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/character/link-skill', { ocid });
+    return res.data;
+};
 
+export const getCharacterAbility = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/character/ability', { ocid });
+    return res.data;
+};
 
-export const getCharacterLinkSkill = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/character/link-skill', { ocid });
-        return res.data;
-    },
-    ['character-link-skill'],
-    { revalidate: 3600 }
-);
+export const getCharacterHyperStat = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/character/hyper-stat', { ocid });
+    return res.data;
+};
 
-export const getCharacterAbility = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/character/ability', { ocid });
-        return res.data;
-    },
-    ['character-ability'],
-    { revalidate: 3600 }
-);
+export const getUserUnionRaider = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/user/union-raider', { ocid });
+    return res.data;
+};
 
-export const getCharacterHyperStat = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/character/hyper-stat', { ocid });
-        return res.data;
-    },
-    ['character-hyper-stat'],
-    { revalidate: 3600 }
-);
+export const getCharacterUnion = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/user/union', { ocid });
+    return res.data;
+};
 
-export const getUserUnionRaider = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/user/union-raider', { ocid });
-        return res.data;
-    },
-    ['user-union-raider'],
-    { revalidate: 3600 }
-);
+export const getCharacterHexaMatrix = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/character/hexamatrix', { ocid });
+    return res.data;
+};
 
-export const getCharacterUnion = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/user/union', { ocid });
-        return res.data;
-    },
-    ['character-union'],
-    { revalidate: 3600 }
-);
-
-export const getCharacterHexaMatrix = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/character/hexamatrix', { ocid });
-        return res.data;
-    },
-    ['character-hexamatrix'],
-    { revalidate: 3600 }
-);
-
-export const getCharacterHexaMatrixStat = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/character/hexamatrix-stat', { ocid });
-        return res.data;
-    },
-    ['character-hexamatrix-stat'],
-    { revalidate: 3600 }
-);
+export const getCharacterHexaMatrixStat = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/character/hexamatrix-stat', { ocid });
+    return res.data;
+};
 
 // 유니온 아티팩트 정보 조회
-export const getUserUnionArtifact = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/user/union-artifact', { ocid });
-        return res.data;
-    },
-    ['user-union-artifact'],
-    { revalidate: 3600 }
-);
+export const getUserUnionArtifact = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/user/union-artifact', { ocid });
+    return res.data;
+};
 
 // 유니온 챔피언 정보 조회
-export const getUserUnionChampion = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/user/union-champion', { ocid });
-        return res.data;
-    },
-    ['user-union-champion'],
-    { revalidate: 3600 }
-);
+export const getUserUnionChampion = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/user/union-champion', { ocid });
+    return res.data;
+};
 
 // 심볼 장비 정보 조회
-export const getCharacterSymbolEquipment = unstable_cache(
-    async (ocid: string) => {
-        const res = await nexonFetch('/maplestory/v1/character/symbol-equipment', { ocid });
-        return res.data;
-    },
-    ['character-symbol-equipment'],
-    { revalidate: 3600 }
-);
+export const getCharacterSymbolEquipment = async (ocid: string) => {
+    const res = await nexonFetch('/maplestory/v1/character/symbol-equipment', { ocid });
+    return res.data;
+};
 
 // 공지사항 목록 조회
 export const getNoticeList = async () => {
