@@ -47,7 +47,8 @@ export type IssueType =
     | 'wrong_preset'
     | 'optimization'
     | 'accessory_starforce'
-    | 'set_recommendation';
+    | 'set_recommendation'
+    | 'boss_setting';
 
 export interface Issue {
     type: IssueType;

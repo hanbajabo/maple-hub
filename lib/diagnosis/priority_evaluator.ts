@@ -2,6 +2,7 @@ import { EquipmentItem } from './types';
 import { getStarforce, calculateFlameScore } from './utils';
 import { JOB_RECOMMENDATIONS } from '../job_recommendations';
 import { isAmazingEnhancementItem } from '../amazing_enhancement_table';
+import { getMaxStarforce } from '../config/unified_criteria';
 
 export interface PriorityItem {
     item: EquipmentItem;
@@ -127,6 +128,21 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
             return; // 다른 평가 skip
         }
 
+        // === 어비스 헌터스 링 체크 (보스전 비추천) ===
+        if (name.includes('어비스 헌터스 링')) {
+            priorities.push({
+                item,
+                priorityScore: 900, // 최상위 우선순위
+                type: 'STARFORCE',
+                currentStatus: '사냥용 반지',
+                targetStatus: '보스용 반지로 교체',
+                costEstimate: '교체 필요',
+                efficiencyLabel: '🚨 보스 세팅 확인',
+                rank: 1
+            });
+            return; // 강화/잠재 평가 건너뜀
+        }
+
         // === 특수 아이템 필터링 ===
         if (name.includes('정령의 펜던트')) return;
 
@@ -173,6 +189,9 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
         const isWSE = isWeapon || isEmblem || isSubWeapon;
         const isGlove = slot.includes('장갑');
         const isHat = slot.includes('모자');
+
+        const level = item.item_base_option?.base_equipment_level || 0;
+        const maxSf = getMaxStarforce(level);
 
         // === 1. 스타포스 평가 ===
         // 놀장강 아이템은 더 이상 구할 수 없으므로 스타포스 평가 스킵
@@ -224,11 +243,21 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
                     });
                 } else if (starforce < 17) {
                     if (!name.includes('타일런트')) {
-                        priorities.push({
-                            item, priorityScore: 80 - starforce, type: 'STARFORCE',
-                            currentStatus: `${starforce}성`, targetStatus: '17성',
-                            costEstimate: '보통', efficiencyLabel: '스펙업 필수', rank: 2
-                        });
+                        if (maxSf < 17) {
+                            if (starforce < maxSf) {
+                                priorities.push({
+                                    item, priorityScore: 90 - starforce, type: 'STARFORCE',
+                                    currentStatus: `${starforce}성`, targetStatus: `${maxSf}성 (최대치)`,
+                                    costEstimate: '저렴', efficiencyLabel: '최대 강화 필수', rank: 1
+                                });
+                            }
+                        } else {
+                            priorities.push({
+                                item, priorityScore: 80 - starforce, type: 'STARFORCE',
+                                currentStatus: `${starforce}성`, targetStatus: '17성',
+                                costEstimate: '보통', efficiencyLabel: '스펙업 필수', rank: 2
+                            });
+                        }
                     }
                 } else if (starforce < 18) {
                     if (!name.includes('타일런트')) {

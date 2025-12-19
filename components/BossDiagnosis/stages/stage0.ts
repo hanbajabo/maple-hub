@@ -36,6 +36,16 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
         // 캐시 장비 등 제외
         if (slot.includes("캐시") || slot.includes("치장")) return;
 
+        // 어비스 헌터스 링 등 사냥용 반지 체크
+        if (name.includes("어비스 헌터스 링")) {
+            totalItems++;
+            issues.push({
+                type: 'boss_setting',
+                message: `[보스 세팅 확인] ${name}: 사냥용 반지입니다. 보스용 반지로 교체 권장`
+            });
+            return; // 다른 검사 스킵하고 실패 처리 (totalItems는 증가했으므로 passedItems는 안 올라감 -> 실패)
+        }
+
         totalItems++;
         let isPassed = true;
 

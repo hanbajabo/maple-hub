@@ -79,6 +79,25 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
             return; // 도전자 아이템은 여기서 종료
         }
 
+        // 어비스 헌터스 링 (사냥용) 체크
+        if (name.includes("어비스 헌터스 링")) {
+            // 모든 통계의 total은 증가시키되 current는 증가시키지 않음 (실패 처리)
+            targetStats.starforce.total++;
+            targetStats.scroll.total++;
+            // 반지는 추옵 제외 슬롯인지 확인 필요하지만 보스링 교체 권장이므로 일단 카운트 (숄더/반지는 추옵 제외지만, 여기선 targetStats가 공용이므로..)
+            // 원본 로직: isNoFlame 변수 사용
+            const isNoFlame = slot.includes("반지") || name.includes("숄더") || name.includes("견장");
+            if (!isNoFlame) targetStats.flame.total++;
+
+            targetStats.potential.total++;
+            targetStats.additional.total++;
+
+            // 실패 사유 추가
+            targetStats.potential.failedItems.push(`${name} (사냥용)`);
+            issues.push({ type: 'boss_setting', message: `[보스 세팅 확인] ${name}: 사냥용 반지입니다. 보스용 반지로 교체 권장` });
+            return;
+        }
+
         const star = getStarforce(item);
         const potGrade = item.potential_option_grade;
         const adiGrade = item.additional_potential_option_grade;

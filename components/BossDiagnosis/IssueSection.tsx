@@ -71,6 +71,7 @@ export const IssueSection = ({ issues, show, onToggle, stage }: { issues: Issue[
 
     // 1단계 이슈
     const wrongPresetIssues = issues.filter(i => i.type === 'wrong_preset');
+    const bossSettingIssues = issues.filter(i => i.type === 'boss_setting');
     const starforceIssues = issues.filter(i => i.type === 'starforce');
     const potentialIssues = issues.filter(i => i.type === 'potential');
     const additionalIssues = issues.filter(i => i.type === 'additional');
@@ -97,11 +98,11 @@ export const IssueSection = ({ issues, show, onToggle, stage }: { issues: Issue[
     // 7단계 이슈 (최적화)
     const optimizationIssues = issues.filter(i => i.type === 'optimization');
 
-    const hasStage1Issues = wrongPresetIssues.length > 0 || starforceIssues.length > 0 || potentialIssues.length > 0 || additionalIssues.length > 0;
+    const hasStage1Issues = wrongPresetIssues.length > 0 || bossSettingIssues.length > 0 || starforceIssues.length > 0 || potentialIssues.length > 0 || additionalIssues.length > 0;
     const hasStage2Issues = setEffectIssues.length > 0;
     const hasStage3Issues = emblemIssues.length > 0 || weaponIssues.length > 0 || secondaryIssues.length > 0 || ringIssues.length > 0;
     const hasStage4Issues = armorIssues.length > 0;
-    const hasStage5Issues = growthStarforceIssues.length > 0 || growthScrollIssues.length > 0 || growthFlameIssues.length > 0 || growthPotentialIssues.length > 0 || growthAdditionalIssues.length > 0;
+    const hasStage5Issues = bossSettingIssues.length > 0 || growthStarforceIssues.length > 0 || growthScrollIssues.length > 0 || growthFlameIssues.length > 0 || growthPotentialIssues.length > 0 || growthAdditionalIssues.length > 0;
     const hasStage6Issues = optimizationIssues.length > 0; // 6단계: 특수 스펙 최적화
     const hasStage7Issues = growthStarforceIssues.length > 0; // 7단계: 18성 (스타포스만 체크)
 
@@ -118,7 +119,7 @@ export const IssueSection = ({ issues, show, onToggle, stage }: { issues: Issue[
     let stageTitle = "";
 
     if (stage === 0) {
-        currentIssuesCount = wrongPresetIssues.length + starforceIssues.length + potentialIssues.length + additionalIssues.length;
+        currentIssuesCount = wrongPresetIssues.length + bossSettingIssues.length + starforceIssues.length + potentialIssues.length + additionalIssues.length;
         stageTitle = "1단계";
     } else if (stage === 1) {
         currentIssuesCount = setEffectIssues.length;
@@ -130,7 +131,7 @@ export const IssueSection = ({ issues, show, onToggle, stage }: { issues: Issue[
         currentIssuesCount = armorIssues.length;
         stageTitle = "4단계 (방어구)";
     } else if (stage === 4) {
-        currentIssuesCount = growthStarforceIssues.length + growthScrollIssues.length + growthFlameIssues.length + growthPotentialIssues.length + growthAdditionalIssues.length;
+        currentIssuesCount = bossSettingIssues.length + growthStarforceIssues.length + growthScrollIssues.length + growthFlameIssues.length + growthPotentialIssues.length + growthAdditionalIssues.length;
         stageTitle = "5단계";
     } else if (stage === 5) {
         currentIssuesCount = optimizationIssues.length;
@@ -160,6 +161,7 @@ export const IssueSection = ({ issues, show, onToggle, stage }: { issues: Issue[
                         {stage === 0 && (
                             <>
                                 <IssueGroup title="템셋팅 경고" issues={wrongPresetIssues} colorClass="orange" icon="⚠️" />
+                                <IssueGroup title="보스 세팅 확인" issues={bossSettingIssues} colorClass="red" icon="🚨" />
                                 <IssueGroup title="스타포스 부족" issues={starforceIssues} colorClass="yellow" icon="⭐" />
                                 <IssueGroup title="잠재능력 부족" issues={potentialIssues} colorClass="purple" icon="🔮" />
                                 <IssueGroup title="에디셔널 부족" issues={additionalIssues} colorClass="cyan" icon="💎" />
@@ -181,6 +183,7 @@ export const IssueSection = ({ issues, show, onToggle, stage }: { issues: Issue[
                         )}
                         {stage === 4 && (
                             <>
+                                <IssueGroup title="보스 세팅 확인" issues={bossSettingIssues} colorClass="red" icon="🚨" />
                                 <IssueGroup title="스타포스 미달" issues={growthStarforceIssues} colorClass="yellow" icon="⭐" />
                                 <IssueGroup title="주문서 작 미달" issues={growthScrollIssues} colorClass="green" icon="📜" />
                                 <IssueGroup title="추가 옵션 미달" issues={growthFlameIssues} colorClass="orange" icon="🔥" />
