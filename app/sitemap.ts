@@ -93,6 +93,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'weekly',
             priority: 0.8,
         },
+        {
+            url: 'https://maple.ai.kr/guide/exp-calculator',
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.8,
+        },
         // News & Updates
         {
             url: 'https://maple.ai.kr/news',

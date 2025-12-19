@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { JOB_META_DATA } from "@/src/data/diagnosisData";
 import { toPng } from "html-to-image";
-import { Search, RefreshCw, Swords, Camera, X, Star, List } from "lucide-react";
+import { Search, RefreshCw, Swords, Camera, X, Star, List, TrendingUp } from "lucide-react";
 import { getOcid, getCharacterBasic, getCharacterItemEquipment, getCharacterStat, getCharacterUnion, getCharacterLinkSkill, getUserUnionRaider } from "../lib/nexon";
 import { calculateCumulativeExpectedCost } from "../lib/starforce_db";
 import { diagnoseEquipment } from "../lib/diagnosis/equipment";
@@ -940,6 +940,18 @@ export default function Home() {
                   <div className="flex flex-col">
                     <span className="font-semibold">제네시스 해방</span>
                     <span className="text-xs text-gray-400">시즌3 계산기</span>
+                  </div>
+                </a>
+                <a
+                  href="/guide/exp-calculator"
+                  className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                >
+                  <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center text-orange-400">
+                    <TrendingUp size={20} />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-semibold">경험치 계산기</span>
+                    <span className="text-xs text-gray-400">사냥/일퀘 레벨업 예측</span>
                   </div>
                 </a>
               </div>

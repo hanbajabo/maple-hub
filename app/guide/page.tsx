@@ -126,6 +126,15 @@ const guides = [
         difficulty: '누구나',
         icon: '🎰',
     },
+    {
+        id: 'exp-calculator',
+        title: '경험치 계산기 (Lv.200~300)',
+        description: '목표 레벨까지 필요한 경험치와 예상 소요 시간 계산. 사냥 효율, 일일 퀘스트 포함',
+        category: '도구',
+        readTime: '무제한',
+        difficulty: '누구나',
+        icon: '🧮',
+    },
 ];
 
 export default function GuidePage() {
