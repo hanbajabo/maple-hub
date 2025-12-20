@@ -1,27 +1,5 @@
-/**
- * 메이플스토리 레벨별 사냥 경험치 데이터
- * 출처: 나무위키 메이플스토리/레벨
- * 
- * 기준:
- * - 경험치 풀도핑 (3배 경쿠 기준)
- * - 최적 지형, 최고 경험치 몬스터, 원킬컷/원젠컷
- * - 버닝 1단계 기준
- * - 프리미엄 PC방 아님
- * - 경험치몹 부스터/이벤트 미포함
- */
 
-export interface HuntingExpData {
-    levelRange: string;
-    startLevel: number;
-    endLevel: number;
-    minTimePerLevel: number; // 분 단위
-    maxTimePerLevel: number; // 분 단위
-    huntingGrounds: string[]; // 추천 사냥터
-    expPerHour: number; // 시간당 경험치 (억)
-    specialNote?: string; // 특수 조건 (숨호, 숨M, 숨리 등)
-}
-
-export const HUNTING_EXP_DATA: HuntingExpData[] = [
+const HUNTING_EXP_DATA = [
     {
         levelRange: "200 → 205",
         startLevel: 200,
@@ -231,61 +209,42 @@ export const HUNTING_EXP_DATA: HuntingExpData[] = [
         maxTimePerLevel: 207000, // 3450시간
         huntingGrounds: ["탈라하트"],
         expPerHour: 7875, // 평균 (8400 + 7350) / 2
+        specialNote: "탈라하트 경험치 점진적 감소 (8400억 → 7350억)",
     },
 ];
 
-/**
- * 부스터 및 이벤트 배율 상수
- */
-export const EXP_MULTIPLIERS = {
-    /** 프리미엄 PC방 배율 */
-    PREMIUM_PC_CAFE: 1.05,
-
-    /** 경험치몹 부스터 + 이벤트 효과 배율 */
-    BOOSTER_AND_EVENT: 2.2,
-
-    /** 프리미엄 PC방 + 부스터 + 이벤트 */
-    ALL_BUFFS: 1.05 * 2.2, // 2.31배
-};
-
-/**
- * 레벨 구간에 맞는 사냥 데이터 찾기
- */
-// 레벨 구간에 맞는 사냥 데이터 찾기 (특수 필드 포함)
-export function getHuntingDataForLevel(level: number): HuntingExpData | null {
-    // 특수 필드 우선 검색 (숨호, 숨M, 숨리) - 항상 최우선으로 검색
-    const specialData = HUNTING_EXP_DATA.find(
-        data => level >= data.startLevel && level < data.endLevel && data.specialNote
-    );
-    if (specialData) return specialData;
-
-    // 일반 필드 검색
+function getHuntingDataForLevel(level, useSpecialFields = false) {
+    if (useSpecialFields) {
+        const specialData = HUNTING_EXP_DATA.find(
+            data => level >= data.startLevel && level < data.endLevel && data.specialNote
+        );
+        if (specialData) return specialData;
+    }
     return HUNTING_EXP_DATA.find(
         data => level >= data.startLevel && level < data.endLevel && !data.specialNote
     ) || null;
 }
 
-/**
- * 시간을 읽기 좋은 형식으로 변환
- */
-export function formatHuntingTime(minutes: number): string {
-    if (minutes < 60) {
-        return `${Math.round(minutes)}분`;
+console.log("=== 나무위키 사냥 효율 데이터 검증 시작 (Lv.200 ~ Lv.299) ===");
+let missingLevels = [];
+
+for (let lv = 200; lv < 300; lv++) {
+    const data = getHuntingDataForLevel(lv);
+    if (!data) {
+        missingLevels.push(lv);
     }
-
-    const hours = Math.floor(minutes / 60);
-    const mins = Math.round(minutes % 60);
-
-    if (hours < 24) {
-        return mins > 0 ? `${hours}시간 ${mins}분` : `${hours}시간`;
-    }
-
-    const days = Math.floor(hours / 24);
-    const remainingHours = hours % 24;
-
-    if (remainingHours > 0) {
-        return `${days}일 ${remainingHours}시간`;
-    }
-
-    return `${days}일`;
 }
+
+if (missingLevels.length > 0) {
+    console.error(`❌ 누락된 레벨 구간 발견: ${missingLevels.join(', ')}`);
+} else {
+    console.log("✅ 모든 레벨 구간 데이터 존재 확인 완료!");
+}
+
+console.log("\n=== 주요 레벨 구간 샘플 데이터 ===");
+const samples = [200, 205, 210, 220, 230, 240, 250, 259, 260, 261, 265, 270, 275, 280, 285, 290, 295, 299];
+
+samples.forEach(lv => {
+    const d = getHuntingDataForLevel(lv);
+    console.log(`Lv.${lv}: ${d ? d.huntingGrounds.join(', ') : '데이터 없음'} (${d ? d.expPerHour + '억' : '-'})`);
+});

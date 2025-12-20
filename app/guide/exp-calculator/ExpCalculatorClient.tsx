@@ -197,19 +197,135 @@ const getArcaneDailyQuest = (level: number): { exp: number; areas: string[] } =>
     }
     return { exp: 0, areas: [] };
 };
+// 하이마운틴 경험치 데이터 (레벨별, %)
+const HIGH_MOUNTAIN_EXP = [
+    { level: 260, basic: 15.0700, stage1: 75.3500, stage2: 135.6300 },
+    { level: 261, basic: 15.1323, stage1: 75.6615, stage2: 136.1907 },
+    { level: 262, basic: 15.1976, stage1: 75.9880, stage2: 136.7784 },
+    { level: 263, basic: 15.2544, stage1: 76.2720, stage2: 137.2896 },
+    { level: 264, basic: 15.3420, stage1: 76.7100, stage2: 138.0780 },
+    { level: 265, basic: 13.2783, stage1: 66.3915, stage2: 119.5047 },
+    { level: 266, basic: 13.3286, stage1: 66.6430, stage2: 119.9574 },
+    { level: 267, basic: 13.3765, stage1: 66.8825, stage2: 120.3885 },
+    { level: 268, basic: 13.4429, stage1: 67.2145, stage2: 120.9861 },
+    { level: 269, basic: 13.4862, stage1: 67.4310, stage2: 121.3758 },
+    { level: 270, basic: 6.3557, stage1: 31.7785, stage2: 57.2013 },
+    { level: 271, basic: 6.5909, stage1: 32.9545, stage2: 59.3181 },
+    { level: 272, basic: 6.6090, stage1: 33.0450, stage2: 59.4810 },
+    { level: 273, basic: 6.9004, stage1: 34.5020, stage2: 62.1036 },
+    { level: 274, basic: 6.9351, stage1: 34.6755, stage2: 62.4159 },
+    { level: 275, basic: 3.8586, stage1: 19.2930, stage2: 34.7274 },
+    { level: 276, basic: 3.5518, stage1: 17.7590, stage2: 31.9662 },
+    { level: 277, basic: 3.2761, stage1: 16.3805, stage2: 29.4849 },
+    { level: 278, basic: 3.0146, stage1: 15.0730, stage2: 27.1314 },
+    { level: 279, basic: 2.7772, stage1: 13.8860, stage2: 24.9948 },
+    { level: 280, basic: 1.5442, stage1: 7.7210, stage2: 13.8978 },
+    { level: 281, basic: 1.4230, stage1: 7.1150, stage2: 12.8070 },
+    { level: 282, basic: 1.3091, stage1: 6.5455, stage2: 11.7819 },
+    { level: 283, basic: 1.2062, stage1: 6.0310, stage2: 10.8558 },
+    { level: 284, basic: 1.1095, stage1: 5.5475, stage2: 9.9855 },
+    { level: 285, basic: 0.6174, stage1: 3.0870, stage2: 5.5566 },
+    { level: 286, basic: 0.5679, stage1: 2.8395, stage2: 5.1111 },
+    { level: 287, basic: 0.5229, stage1: 2.6145, stage2: 4.7061 },
+    { level: 288, basic: 0.4815, stage1: 2.4075, stage2: 4.3335 },
+    { level: 289, basic: 0.4427, stage1: 2.2135, stage2: 3.9843 },
+    { level: 290, basic: 0.2463, stage1: 1.2315, stage2: 2.2167 },
+    { level: 291, basic: 0.2264, stage1: 1.1320, stage2: 2.0376 },
+    { level: 292, basic: 0.2084, stage1: 1.0420, stage2: 1.8756 },
+    { level: 293, basic: 0.1917, stage1: 0.9585, stage2: 1.7253 },
+    { level: 294, basic: 0.1763, stage1: 0.8815, stage2: 1.5867 },
+    { level: 295, basic: 0.0873, stage1: 0.4365, stage2: 0.7857 },
+    { level: 296, basic: 0.0793, stage1: 0.3965, stage2: 0.7137 },
+    { level: 297, basic: 0.0721, stage1: 0.3605, stage2: 0.6489 },
+    { level: 298, basic: 0.0656, stage1: 0.3280, stage2: 0.5904 },
+    { level: 299, basic: 0.0437, stage1: 0.2185, stage2: 0.3933 },
+];
+
+// 앵글러 컴퍼니 경험치 데이터 (레벨별, %)
+const ANGLER_COMPANY_EXP = [
+    { level: 270, basic: 9.5335, stage1: 47.6675, stage2: 85.8015 },
+    { level: 271, basic: 9.8864, stage1: 49.4320, stage2: 88.9776 },
+    { level: 272, basic: 9.9135, stage1: 49.5675, stage2: 89.2215 },
+    { level: 273, basic: 10.3506, stage1: 51.7530, stage2: 93.1554 },
+    { level: 274, basic: 10.4026, stage1: 52.0130, stage2: 93.6234 },
+    { level: 275, basic: 5.7879, stage1: 28.9395, stage2: 52.0911 },
+    { level: 276, basic: 5.3277, stage1: 26.6385, stage2: 47.9493 },
+    { level: 277, basic: 4.9142, stage1: 24.5710, stage2: 44.2278 },
+    { level: 278, basic: 4.5219, stage1: 22.6095, stage2: 40.6971 },
+    { level: 279, basic: 4.1658, stage1: 20.8290, stage2: 37.4922 },
+    { level: 280, basic: 2.3164, stage1: 11.5820, stage2: 20.8476 },
+    { level: 281, basic: 2.1346, stage1: 10.6730, stage2: 19.2114 },
+    { level: 282, basic: 1.9637, stage1: 9.8185, stage2: 17.6733 },
+    { level: 283, basic: 1.8093, stage1: 9.0465, stage2: 16.2837 },
+    { level: 284, basic: 1.6643, stage1: 8.3215, stage2: 14.9787 },
+    { level: 285, basic: 0.9261, stage1: 4.6305, stage2: 8.3349 },
+    { level: 286, basic: 0.8518, stage1: 4.2590, stage2: 7.6662 },
+    { level: 287, basic: 0.7843, stage1: 3.9215, stage2: 7.0587 },
+    { level: 288, basic: 0.7223, stage1: 3.6115, stage2: 6.5007 },
+    { level: 289, basic: 0.6641, stage1: 3.3205, stage2: 5.9769 },
+    { level: 290, basic: 0.3694, stage1: 1.8470, stage2: 3.3246 },
+    { level: 291, basic: 0.3396, stage1: 1.6980, stage2: 3.0564 },
+    { level: 292, basic: 0.3126, stage1: 1.5630, stage2: 2.8134 },
+    { level: 293, basic: 0.2875, stage1: 1.4375, stage2: 2.5875 },
+    { level: 294, basic: 0.2644, stage1: 1.3220, stage2: 2.3796 },
+    { level: 295, basic: 0.1309, stage1: 0.6545, stage2: 1.1781 },
+    { level: 296, basic: 0.1190, stage1: 0.5950, stage2: 1.0710 },
+    { level: 297, basic: 0.1082, stage1: 0.5410, stage2: 0.9738 },
+    { level: 298, basic: 0.0984, stage1: 0.4920, stage2: 0.8856 },
+    { level: 299, basic: 0.0656, stage1: 0.3280, stage2: 0.5904 },
+];
+
+// 악몽선경 경험치 데이터 (레벨별, %)
+const NIGHTMARE_GARDEN_EXP = [
+    { level: 280, basic: 3.0885, stage1: 15.4425, stage2: 27.7965 },
+    { level: 281, basic: 2.8461, stage1: 14.2305, stage2: 25.6149 },
+    { level: 282, basic: 2.6183, stage1: 13.0915, stage2: 23.5647 },
+    { level: 283, basic: 2.4124, stage1: 12.0620, stage2: 21.7116 },
+    { level: 284, basic: 2.2191, stage1: 11.0955, stage2: 19.9719 },
+    { level: 285, basic: 1.2348, stage1: 6.1740, stage2: 11.1132 },
+    { level: 286, basic: 1.1357, stage1: 5.6785, stage2: 10.2213 },
+    { level: 287, basic: 1.0458, stage1: 5.2290, stage2: 9.4122 },
+    { level: 288, basic: 0.9631, stage1: 4.8155, stage2: 8.6679 },
+    { level: 289, basic: 0.8854, stage1: 4.4270, stage2: 7.9686 },
+    { level: 290, basic: 0.4925, stage1: 2.4625, stage2: 4.4325 },
+    { level: 291, basic: 0.4528, stage1: 2.2640, stage2: 4.0752 },
+    { level: 292, basic: 0.4168, stage1: 2.0840, stage2: 3.7512 },
+    { level: 293, basic: 0.3833, stage1: 1.9165, stage2: 3.4497 },
+    { level: 294, basic: 0.3526, stage1: 1.7630, stage2: 3.1734 },
+    { level: 295, basic: 0.1745, stage1: 0.8725, stage2: 1.5705 },
+    { level: 296, basic: 0.1587, stage1: 0.7935, stage2: 1.4283 },
+    { level: 297, basic: 0.1442, stage1: 0.7210, stage2: 1.2978 },
+    { level: 298, basic: 0.1311, stage1: 0.6555, stage2: 1.1799 },
+    { level: 299, basic: 0.0874, stage1: 0.4370, stage2: 0.7866 },
+];
+
+// 익스트림 몬스터파크 경험치 데이터 (레벨별, %)
+// 몬파 이벤트 스킬이 적용됨
+// 일주일에 1회 플레이 가능
+const EXTREME_MONSTER_PARK_EXP = [
+    { level: 260, base: 15.31 }, { level: 261, base: 15.22 }, { level: 262, base: 15.13 }, { level: 263, base: 15.03 }, { level: 264, base: 14.94 },
+    { level: 265, base: 15.00 }, { level: 266, base: 14.91 }, { level: 267, base: 14.81 }, { level: 268, base: 14.72 }, { level: 269, base: 14.63 },
+    { level: 270, base: 10.48 }, { level: 271, base: 10.41 }, { level: 272, base: 10.25 }, { level: 273, base: 10.28 }, { level: 274, base: 10.22 },
+    { level: 275, base: 6.66 }, { level: 276, base: 6.08 }, { level: 277, base: 5.55 }, { level: 278, base: 5.05 }, { level: 279, base: 4.61 },
+    { level: 280, base: 2.65 }, { level: 281, base: 2.41 }, { level: 282, base: 2.20 }, { level: 283, base: 2.01 }, { level: 284, base: 1.83 },
+    { level: 285, base: 1.07 }, { level: 286, base: 0.97 }, { level: 287, base: 0.89 }, { level: 288, base: 0.80 }, { level: 289, base: 0.74 },
+    { level: 290, base: 0.31 }, { level: 291, base: 0.28 }, { level: 292, base: 0.26 }, { level: 293, base: 0.24 }, { level: 294, base: 0.22 },
+    { level: 295, base: 0.10 }, { level: 296, base: 0.10 }, { level: 297, base: 0.09 }, { level: 298, base: 0.09 }, { level: 299, base: 0.06 },
+];
 
 export default function ExpCalculatorClient() {
     const [currentLevel, setCurrentLevel] = useState(200);
     const [currentLevelExp, setCurrentLevelExp] = useState(0); // 현재 레벨 진행도 (%)
     const [targetLevel, setTargetLevel] = useState(210);
     const [useHyperBurning, setUseHyperBurning] = useState(false); // 하이퍼버닝 사용 여부
+    const [useBurningBeyond, setUseBurningBeyond] = useState(false); // 버닝 비욘드 (Lv.260~270 1+1) 사용 여부
 
     // 사냥 효율 입력 방식 (3가지 모드)
     const [huntingMode, setHuntingMode] = useState<'percent' | 'manual' | 'namuwiki'>('namuwiki'); // 사냥 모드
     const [dailyLevelPercent, setDailyLevelPercent] = useState(20); // 하루 올릴 경험치 % (0~100)
     const [huntingExpPerHour, setHuntingExpPerHour] = useState(0); // 시간당 사냥 경험치 (직접 입력)
     const [dailyHuntingHours, setDailyHuntingHours] = useState(3); // 하루 사냥 시간
-    const [useSpecialFields, setUseSpecialFields] = useState(false); // 숨호/숨M/숨리 사용 여부
+
 
     const [monsterParkCount, setMonsterParkCount] = useState(2); // 몬스터파크 횟수 (하루 0~7회)
     const [mpEventSkillLevel, setMpEventSkillLevel] = useState(0); // 몬파 이벤트 스킬 레벨 (0~6)
@@ -219,7 +335,22 @@ export default function ExpCalculatorClient() {
     const [useSundayMaple, setUseSundayMaple] = useState(false); // 썬데이 메이플 이벤트 사용 여부
     const [useArcaneQuest, setUseArcaneQuest] = useState(true); // 아케인 일일 퀘스트 사용 여부
     const [useGrandisQuest, setUseGrandisQuest] = useState(true); // 그란디스 일일 퀘스트 사용 여부
+
     const [dailyQuestExp, setDailyQuestExp] = useState(0); // 일일 퀘스트 경험치 (극한의 마수, 우르스 등)
+
+    const [useExtremeMonsterPark, setUseExtremeMonsterPark] = useState(false); // 익스트림 몬스터파크 사용 여부
+
+    // 에픽 던전 (하이마운틴)
+    const [useHighMountain, setUseHighMountain] = useState(false);
+    const [highMountainReward, setHighMountainReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
+
+    // 에픽 던전 (앵글러 컴퍼니)
+    const [useAnglerCompany, setUseAnglerCompany] = useState(false);
+    const [anglerCompanyReward, setAnglerCompanyReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
+
+    // 에픽 던전 (악몽선경)
+    const [useNightmareGarden, setUseNightmareGarden] = useState(false);
+    const [nightmareGardenReward, setNightmareGardenReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
 
     // 현재 레벨의 몬스터파크 경험치 (일요일 보너스 고려)
     const monsterParkData = useMemo(() => getMonsterParkExp(currentLevel), [currentLevel]);
@@ -307,9 +438,10 @@ export default function ExpCalculatorClient() {
         // 일별 시뮬레이션 (레벨별 몬스터파크 변경 반영)
         let daysNeeded = 0;
         let hoursNeeded = 0;
+        let totalHuntingHours = 0;
         const monsterParkBreakdown: Array<{ level: number; area: string; exp: number; days: number }> = [];
 
-        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'namuwiki' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCount > 0 || useArcaneQuest || useGrandisQuest) {
+        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'namuwiki' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCount > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden) {
             let remainingExp = totalExpNeeded;
             let currentSimLevel = currentLevel;
             let currentSimLevelProgress = currentLevelExp; // 현재 레벨 진행도
@@ -329,6 +461,94 @@ export default function ExpCalculatorClient() {
                 // 현재 레벨의 그란디스 퀘스트 가져오기
                 const gqData = getGrandisDailyQuest(currentSimLevel);
                 const dailyGrandisQuestExpSim = useGrandisQuest ? gqData.exp : 0;
+
+                // 에픽 던전 (하이마운틴) 주간 경험치 -> 일일 평균으로 환산
+                let dailyHighMountainExpSim = 0;
+
+                // 데이터 유효성 검사 (0이면 적용 불가)
+                const nightmareData = NIGHTMARE_GARDEN_EXP.find(d => d.level === currentSimLevel);
+                const isNightmareValid = nightmareData && nightmareData.basic > 0;
+
+                // 앵글러 컴퍼니를 사용하고 270레벨 이상이면 하이마운틴 경험치는 제외 (중복 획득 불가)
+                // 악몽선경을 사용하고 280레벨 이상이며 데이터가 유효하면 하이마운틴 경험치는 제외
+                const skipHighMountain = (useAnglerCompany && currentSimLevel >= 270) || (useNightmareGarden && currentSimLevel >= 280 && isNightmareValid);
+
+                if (useHighMountain && currentSimLevel >= 260 && !skipHighMountain) {
+                    const hmData = HIGH_MOUNTAIN_EXP.find(d => d.level === currentSimLevel);
+                    if (hmData) {
+                        const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                        const percent = highMountainReward === 'basic' ? hmData.basic :
+                            highMountainReward === 'stage1' ? hmData.stage1 : hmData.stage2;
+
+                        // 주간 획득 경험치
+                        const weeklyExp = levelTotalExp * (percent / 100);
+                        // 일일 평균
+                        dailyHighMountainExpSim = weeklyExp / 7;
+                    }
+                }
+
+                // 에픽 던전 (앵글러 컴퍼니) 주간 경험치 -> 일일 평균으로 환산
+                let dailyAnglerCompanyExpSim = 0;
+                // 악몽선경을 사용하고 280레벨 이상이며 데이터가 유효하면 앵글러 컴퍼니 경험치는 제외 (중복 획득 불가)
+                const skipAnglerCompany = useNightmareGarden && currentSimLevel >= 280 && isNightmareValid;
+
+                if (useAnglerCompany && currentSimLevel >= 270 && !skipAnglerCompany) {
+                    const acData = ANGLER_COMPANY_EXP.find(d => d.level === currentSimLevel);
+                    if (acData) {
+                        const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                        const percent = anglerCompanyReward === 'basic' ? acData.basic :
+                            anglerCompanyReward === 'stage1' ? acData.stage1 : acData.stage2;
+
+                        // 주간 획득 경험치
+                        const weeklyExp = levelTotalExp * (percent / 100);
+                        // 일일 평균
+                        dailyAnglerCompanyExpSim = weeklyExp / 7;
+                    }
+                }
+
+                // 에픽 던전 (악몽선경) 주간 경험치 -> 일일 평균으로 환산
+                let dailyNightmareGardenExpSim = 0;
+                if (useNightmareGarden && currentSimLevel >= 280) {
+                    const ngData = NIGHTMARE_GARDEN_EXP.find(d => d.level === currentSimLevel);
+                    if (ngData && ngData.basic > 0) { // 데이터가 있는 경우만
+                        const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                        const percent = nightmareGardenReward === 'basic' ? ngData.basic :
+                            nightmareGardenReward === 'stage1' ? ngData.stage1 : ngData.stage2;
+
+                        // 주간 획득 경험치
+                        const weeklyExp = levelTotalExp * (percent / 100);
+                        // 일일 평균
+                        dailyNightmareGardenExpSim = weeklyExp / 7;
+                    }
+                }
+
+                // 익스트림 몬스터파크 (주간 1회) -> 일일 평균으로 환산
+                let dailyExtremeMpExpSim = 0;
+                if (useExtremeMonsterPark && currentSimLevel >= 260 && currentSimLevel < 300) {
+                    const empData = EXTREME_MONSTER_PARK_EXP.find(d => d.level === currentSimLevel);
+                    if (empData) {
+                        const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                        // 이벤트 스킬 보너스 적용 (10/20/40/60/80/100%)
+                        // Note: mpEventSkillLevel은 일반 몬파 로직에서 0.1, 0.2... 로 변환해서 사용중이므로 동일 로직 적용 필요
+                        // mpEventSkillLevel 값을 다시 가져와서 계산
+                        const empBonus = mpEventSkillLevel === 0 ? 0 :
+                            mpEventSkillLevel === 1 ? 0.05 : // 익몬은 1단계가 5%가 아니라 표에 따르면 5% 단위인듯 하지만 유저 요청은 "이벤트 스킬 레벨 적용"
+                                mpEventSkillLevel === 2 ? 0.1 :
+                                    mpEventSkillLevel === 3 ? 0.2 :
+                                        mpEventSkillLevel === 4 ? 0.3 :
+                                            mpEventSkillLevel === 5 ? 0.4 : 0.5;
+                        // 유저가 제공한 표에는 "1레벨 (5%)", "2레벨 (10%)" ... 라고 되어 있음.
+                        // 일반 몬파 스킬 효율(10/20/40..)과 다를 수 있음. 유저 표를 따름.
+
+                        const bonusMultiplier = 1 + empBonus;
+
+                        // 주간 획득 경험치 = 기본경험치 * (1 + 보너스)
+                        // 표의 수치는 "기본 경험치"에 대한 %가 아니라, 레벨업 통에 대한 %임.
+                        const weeklyExp = levelTotalExp * (empData.base / 100) * bonusMultiplier;
+
+                        dailyExtremeMpExpSim = weeklyExp / 7;
+                    }
+                }
 
                 // 몬스터파크 지역이 바뀌면 기록
                 if (mpData.area !== currentMonsterParkArea && monsterParkCount > 0) {
@@ -364,7 +584,7 @@ export default function ExpCalculatorClient() {
                     dailyHuntingExp = huntingExpPerHour * dailyHuntingHours;
                 } else if (huntingMode === 'namuwiki') {
                     // 나무위키 기준 모드: 레벨별 시간당 경험치 자동 계산
-                    const huntingData = getHuntingDataForLevel(currentSimLevel, useSpecialFields);
+                    const huntingData = getHuntingDataForLevel(currentSimLevel);
                     if (huntingData) {
                         // 억 단위를 실제 숫자로 변환 (예: 73억 → 7,300,000,000)
                         const expPerHourInEok = huntingData.expPerHour;
@@ -373,7 +593,7 @@ export default function ExpCalculatorClient() {
                     }
                 }
 
-                const dailyTotalExp = dailyHuntingExp + dailyQuestExp + dailyMonsterParkExpSim + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim;
+                const dailyTotalExp = dailyHuntingExp + dailyQuestExp + dailyMonsterParkExpSim + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim + dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim + dailyExtremeMpExpSim;
 
                 if (dailyTotalExp <= 0) break;
 
@@ -386,11 +606,17 @@ export default function ExpCalculatorClient() {
                 // 이 레벨에서 필요한 일수
                 const daysForThisLevel = expToNextLevel / dailyTotalExp;
                 dayCount += daysForThisLevel;
+                totalHuntingHours += daysForThisLevel * dailyHuntingHours;
                 monsterParkDayCount += daysForThisLevel;
                 remainingExp -= expToNextLevel;
 
-                // 다음 레벨로 (하이퍼버닝 고려)
-                const levelUpBonus = (useHyperBurning && currentSimLevel >= 200 && currentSimLevel < 260) ? 5 : 1;
+                // 다음 레벨로 (하이퍼버닝/버닝 비욘드 고려)
+                let levelUpBonus = 1;
+                if (useHyperBurning && currentSimLevel >= 200 && currentSimLevel < 260) {
+                    levelUpBonus = 5; // 1+4
+                } else if (useBurningBeyond && currentSimLevel >= 260 && currentSimLevel < 270) {
+                    levelUpBonus = 2; // 1+1
+                }
                 currentSimLevel += levelUpBonus;
                 currentSimLevelProgress = 0;
             }
@@ -417,7 +643,7 @@ export default function ExpCalculatorClient() {
                 daysNeeded = dayCount;
             }
 
-            hoursNeeded = huntingExpPerHour > 0 ? totalExpNeeded / huntingExpPerHour : 0;
+            hoursNeeded = totalHuntingHours;
         }
 
         return {
@@ -427,7 +653,7 @@ export default function ExpCalculatorClient() {
             levelBreakdown,
             monsterParkBreakdown,
         };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCount, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useSpecialFields]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCount, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark]);
 
     // 숫자 포맷팅
     const formatNumber = (num: number) => {
@@ -591,7 +817,7 @@ export default function ExpCalculatorClient() {
                                 </div>
 
                                 {/* 하이퍼버닝 */}
-                                {currentLevel >= 200 && currentLevel < 260 && targetLevel <= 260 && (
+                                {currentLevel < 260 && targetLevel > 200 && (
                                     <div>
                                         <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2 cursor-pointer">
                                             <input
@@ -609,6 +835,31 @@ export default function ExpCalculatorClient() {
                                                 </p>
                                                 <p className="text-xs text-red-300 mt-1">
                                                     예: 200→201 달성 시 → 실제 200→205
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* 버닝 비욘드 (Lv.260~270) */}
+                                {currentLevel < 270 && targetLevel >= 260 && (
+                                    <div className="pt-4 border-t border-slate-800">
+                                        <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={useBurningBeyond}
+                                                onChange={(e) => setUseBurningBeyond(e.target.checked)}
+                                                className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-purple-500 focus:ring-offset-slate-900"
+                                            />
+                                            ✨ 버닝 비욘드 (Lv.260~270)
+                                        </label>
+                                        {useBurningBeyond && (
+                                            <div className="mt-2 p-3 bg-purple-500/10 border border-purple-500/30 rounded-lg">
+                                                <p className="text-xs text-purple-300 font-bold">
+                                                    🚀 1레벨업 = 2레벨업! (+1 보너스)
+                                                </p>
+                                                <p className="text-xs text-purple-300 mt-1">
+                                                    예: 260→261 달성 시 → 실제 260→262
                                                 </p>
                                             </div>
                                         )}
@@ -710,23 +961,6 @@ export default function ExpCalculatorClient() {
                                             />
                                         </div>
 
-                                        {/* 특수 필드 옵션 */}
-                                        <div>
-                                            <label className="flex items-center gap-2 text-sm font-medium text-blue-300 cursor-pointer">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={useSpecialFields}
-                                                    onChange={(e) => setUseSpecialFields(e.target.checked)}
-                                                    className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-900"
-                                                />
-                                                🌟 특수 필드 사용 (숨호/숨M/숨리)
-                                            </label>
-                                            {useSpecialFields && (
-                                                <p className="text-xs text-blue-400 mt-2 ml-6">
-                                                    숨호(200~205), 숨M(205~210), 숨리(255~260) 적용
-                                                </p>
-                                            )}
-                                        </div>
                                     </>
                                 ) : (
                                     <>
@@ -908,6 +1142,26 @@ export default function ExpCalculatorClient() {
                                     )}
                                 </div>
 
+                                {/* 익스트림 몬스터파크 */}
+                                {targetLevel >= 260 && (
+                                    <div className="pt-4 border-t border-slate-800">
+                                        <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={useExtremeMonsterPark}
+                                                onChange={(e) => setUseExtremeMonsterPark(e.target.checked)}
+                                                className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-red-500 focus:ring-red-400 focus:ring-offset-slate-900"
+                                            />
+                                            👹 익스트림 몬스터파크 (주간 1회)
+                                        </label>
+                                        {useExtremeMonsterPark && (
+                                            <p className="text-xs text-slate-400 pl-6">
+                                                몬파 이벤트 스킬 보너스가 적용됩니다.
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
+
                                 {/* 아케인 일일 퀘스트 */}
                                 {arcaneQuestData.exp > 0 && (
                                     <div>
@@ -1000,10 +1254,206 @@ export default function ExpCalculatorClient() {
                                     </div>
                                 )}
 
-                                {/* 일일 퀘스트 경험치 */}
+                                {/* 에픽 던전 (하이마운틴) */}
+                                {targetLevel >= 260 && (
+                                    <div className="pt-4 border-t border-slate-800">
+                                        <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={useHighMountain}
+                                                onChange={(e) => setUseHighMountain(e.target.checked)}
+                                                className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-slate-900"
+                                            />
+                                            🏔️ 에픽 던전 : 하이마운틴 (주간)
+                                        </label>
+
+                                        {useHighMountain && (
+                                            <div className="mt-2 pl-6 space-y-2">
+                                                <div className="grid grid-cols-1 gap-2">
+                                                    <button
+                                                        onClick={() => setHighMountainReward('basic')}
+                                                        className={`px-3 py-2 rounded-lg text-xs text-left border transition-all ${highMountainReward === 'basic'
+                                                            ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300'
+                                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                                                            }`}
+                                                    >
+                                                        <div className="font-bold">기본 보상</div>
+                                                        <div className="text-[10px] opacity-70">메이플포인트 0</div>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setHighMountainReward('stage1')}
+                                                        className={`px-3 py-2 rounded-lg text-xs text-left border transition-all ${highMountainReward === 'stage1'
+                                                            ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300'
+                                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                                                            }`}
+                                                    >
+                                                        <div className="font-bold">EXP 1단계 (약 5배)</div>
+                                                        <div className="text-[10px] opacity-70">7,500 메이플포인트</div>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setHighMountainReward('stage2')}
+                                                        className={`px-3 py-2 rounded-lg text-xs text-left border transition-all ${highMountainReward === 'stage2'
+                                                            ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300'
+                                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                                                            }`}
+                                                    >
+                                                        <div className="font-bold">EXP 2단계 (약 9배)</div>
+                                                        <div className="text-[10px] opacity-70">30,000 메이플포인트</div>
+                                                    </button>
+                                                </div>
+                                                <div className="p-2 bg-indigo-500/10 border border-indigo-500/30 rounded text-xs text-indigo-300">
+                                                    <p>주 1회 획득 경험치를 7로 나누어 일일 평균에 반영합니다.</p>
+                                                    {currentLevel >= 260 && (
+                                                        <p className="mt-1 font-bold">
+                                                            현재 레벨 기준 주간 {
+                                                                HIGH_MOUNTAIN_EXP.find(d => d.level === currentLevel)
+                                                                    ? (highMountainReward === 'basic' ? HIGH_MOUNTAIN_EXP.find(d => d.level === currentLevel)?.basic
+                                                                        : highMountainReward === 'stage1' ? HIGH_MOUNTAIN_EXP.find(d => d.level === currentLevel)?.stage1
+                                                                            : HIGH_MOUNTAIN_EXP.find(d => d.level === currentLevel)?.stage2)?.toFixed(2)
+                                                                    : 0
+                                                            }% 획득
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* 에픽 던전 (앵글러 컴퍼니) */}
+                                {targetLevel >= 270 && (
+                                    <div className="pt-4 border-t border-slate-800">
+                                        <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={useAnglerCompany}
+                                                onChange={(e) => setUseAnglerCompany(e.target.checked)}
+                                                className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-rose-600 focus:ring-rose-500 focus:ring-offset-slate-900"
+                                            />
+                                            🏭 에픽 던전 : 앵글러 컴퍼니 (주간)
+                                        </label>
+
+                                        {useAnglerCompany && (
+                                            <div className="mt-2 pl-6 space-y-2">
+                                                <div className="grid grid-cols-1 gap-2">
+                                                    <button
+                                                        onClick={() => setAnglerCompanyReward('basic')}
+                                                        className={`px-3 py-2 rounded-lg text-xs text-left border transition-all ${anglerCompanyReward === 'basic'
+                                                            ? 'bg-rose-600/20 border-rose-500 text-rose-300'
+                                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                                                            }`}
+                                                    >
+                                                        <div className="font-bold">기본 보상</div>
+                                                        <div className="text-[10px] opacity-70">메이플포인트 0</div>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setAnglerCompanyReward('stage1')}
+                                                        className={`px-3 py-2 rounded-lg text-xs text-left border transition-all ${anglerCompanyReward === 'stage1'
+                                                            ? 'bg-rose-600/20 border-rose-500 text-rose-300'
+                                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                                                            }`}
+                                                    >
+                                                        <div className="font-bold">EXP 1단계 (약 5배)</div>
+                                                        <div className="text-[10px] opacity-70">10,000 메이플포인트</div>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setAnglerCompanyReward('stage2')}
+                                                        className={`px-3 py-2 rounded-lg text-xs text-left border transition-all ${anglerCompanyReward === 'stage2'
+                                                            ? 'bg-rose-600/20 border-rose-500 text-rose-300'
+                                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                                                            }`}
+                                                    >
+                                                        <div className="font-bold">EXP 2단계 (약 9배)</div>
+                                                        <div className="text-[10px] opacity-70">40,000 메이플포인트</div>
+                                                    </button>
+                                                </div>
+                                                <div className="p-2 bg-rose-500/10 border border-rose-500/30 rounded text-xs text-rose-300">
+                                                    <p>주 1회 획득 경험치를 7로 나누어 일일 평균에 반영합니다.</p>
+                                                    {currentLevel >= 270 && (
+                                                        <p className="mt-1 font-bold">
+                                                            현재 레벨 기준 주간 {
+                                                                ANGLER_COMPANY_EXP.find(d => d.level === currentLevel)
+                                                                    ? (anglerCompanyReward === 'basic' ? ANGLER_COMPANY_EXP.find(d => d.level === currentLevel)?.basic
+                                                                        : anglerCompanyReward === 'stage1' ? ANGLER_COMPANY_EXP.find(d => d.level === currentLevel)?.stage1
+                                                                            : ANGLER_COMPANY_EXP.find(d => d.level === currentLevel)?.stage2)?.toFixed(2)
+                                                                    : 0
+                                                            }% 획득
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* 에픽 던전 (악몽선경) */}
+                                {targetLevel >= 280 && (
+                                    <div className="pt-4 border-t border-slate-800">
+                                        <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={useNightmareGarden}
+                                                onChange={(e) => setUseNightmareGarden(e.target.checked)}
+                                                className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-purple-500 focus:ring-purple-400 focus:ring-offset-slate-900"
+                                            />
+                                            🌌 에픽 던전 : 악몽선경 (주간)
+                                        </label>
+
+                                        {useNightmareGarden && (
+                                            <div className="mt-2 pl-6 space-y-2">
+                                                <div className="grid grid-cols-1 gap-2">
+                                                    <button
+                                                        onClick={() => setNightmareGardenReward('basic')}
+                                                        className={`px-3 py-2 rounded-lg text-xs text-left border transition-all ${nightmareGardenReward === 'basic'
+                                                            ? 'bg-purple-500/20 border-purple-500 text-purple-300'
+                                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                                                            }`}
+                                                    >
+                                                        <div className="font-bold">기본 보상</div>
+                                                        <div className="text-[10px] opacity-70">메이플포인트 0</div>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setNightmareGardenReward('stage1')}
+                                                        className={`px-3 py-2 rounded-lg text-xs text-left border transition-all ${nightmareGardenReward === 'stage1'
+                                                            ? 'bg-purple-500/20 border-purple-500 text-purple-300'
+                                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                                                            }`}
+                                                    >
+                                                        <div className="font-bold">EXP 1단계 (약 5배)</div>
+                                                        <div className="text-[10px] opacity-70">7,500 메이플포인트</div>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setNightmareGardenReward('stage2')}
+                                                        className={`px-3 py-2 rounded-lg text-xs text-left border transition-all ${nightmareGardenReward === 'stage2'
+                                                            ? 'bg-purple-500/20 border-purple-500 text-purple-300'
+                                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                                                            }`}
+                                                    >
+                                                        <div className="font-bold">EXP 2단계 (약 9배)</div>
+                                                        <div className="text-[10px] opacity-70">30,000 메이플포인트</div>
+                                                    </button>
+                                                </div>
+                                                <div className="p-2 bg-purple-500/10 border border-purple-500/30 rounded text-xs text-purple-300">
+                                                    <p>주 1회 획득 경험치를 7로 나누어 일일 평균에 반영합니다. (Lv.280부터 적용)</p>
+                                                    {currentLevel >= 280 && (
+                                                        <p className="mt-1 font-bold">
+                                                            현재 레벨 기준 주간 {
+                                                                NIGHTMARE_GARDEN_EXP.find(d => d.level === currentLevel)
+                                                                    ? (nightmareGardenReward === 'basic' ? NIGHTMARE_GARDEN_EXP.find(d => d.level === currentLevel)?.basic
+                                                                        : nightmareGardenReward === 'stage1' ? NIGHTMARE_GARDEN_EXP.find(d => d.level === currentLevel)?.stage1
+                                                                            : NIGHTMARE_GARDEN_EXP.find(d => d.level === currentLevel)?.stage2)?.toFixed(4)
+                                                                    : 0
+                                                            }% 획득
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                                 <div>
                                     <label className="text-sm font-medium text-slate-300 mb-2 block">
-                                        기타 일일 경험치 (극한의 마수, 우르스 등)
+                                        기타 일일 경험치
                                     </label>
                                     <input
                                         type="number"
@@ -1012,7 +1462,7 @@ export default function ExpCalculatorClient() {
                                         value={dailyQuestExp}
                                         onChange={(e) => setDailyQuestExp(Number(e.target.value))}
                                         className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors"
-                                        placeholder="예: 5000000000 (50억) - 극한의 마수, 우르스 등"
+                                        placeholder="예: 5000000000 (50억)"
                                     />
                                     {dailyQuestExp > 0 && (
                                         <p className="text-xs text-slate-500 mt-1">
