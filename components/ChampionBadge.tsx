@@ -26,7 +26,7 @@ export default function ChampionBadge({ ocid, refreshKey }: { ocid: string, refr
                 setLoading(true);
                 const res = await getUserUnionChampion(ocid);
                 // 챔피언 리스트 (active인 것만 줄 수도 있으나 전체 리스트일 경우 필터링 필요할 수도 있음. 보통 API는 장착중인걸 줌)
-                setChampions(res.data.union_champion || []);
+                setChampions(res.union_champion || []);
             } catch (err) {
                 console.error(err);
             } finally {

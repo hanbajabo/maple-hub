@@ -25,7 +25,8 @@ export default function ArtifactBadge({ ocid, refreshKey }: { ocid: string, refr
                 setLoading(true);
                 const res = await getUserUnionArtifact(ocid);
                 // 아티팩트 효과 리스트 추출 (없으면 빈 배열)
-                const rawEffects = res.data.union_artifact_effect || [];
+                // res는 이미 API JSON 객체임 (get 함수에서 res.data를 반환하므로)
+                const rawEffects = res.union_artifact_effect || [];
                 setEffects(rawEffects);
 
                 // 아티팩트 레벨 합계 계산 (또는 제공된 레벨 사용)
