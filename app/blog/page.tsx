@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Clock, ArrowRight, Flame, TrendingUp } from 'lucide-react';
 import { InFeedAd } from '@/components/AdSense';
+import CalculatorMenu from "../../components/navigation/CalculatorMenu";
 
 interface BlogPost {
     slug: string;
@@ -194,41 +195,7 @@ export default function BlogPage() {
                         <span className="text-base sm:text-lg">📝</span>
                         <span className="hidden sm:inline">블로그</span>
                     </Link>
-                    <div className="relative group">
-                        <button className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-indigo-900/20">
-                            <span className="text-base sm:text-lg">🧮</span>
-                            <span className="hidden sm:inline">계산기</span>
-                        </button>
-                        <span className="absolute -top-2 -right-2 bg-yellow-400 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(250,204,21,0.8)] animate-pulse border border-yellow-200 pointer-events-none z-10 whitespace-nowrap">
-                            NEW!
-                        </span>
-                        <div className="absolute right-0 top-full mt-2 w-56 bg-slate-900 border-2 border-indigo-500/50 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                            <div className="py-2">
-                                <a href="/tools/starforce" className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors">
-                                    <span className="text-xl">⭐</span>
-                                    <span className="font-semibold">스타포스 계산기</span>
-                                </a>
-                                <a href="/blog/challengers-world-calculator" className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors">
-                                    <div className="relative w-6 h-6 flex-shrink-0">
-                                        <Image src="/images/challengers-coin.png" alt="Challenge" fill className="object-contain" />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold">챌린저스 월드</span>
-                                        <span className="text-xs text-gray-400">시즌 3 계산기</span>
-                                    </div>
-                                </a>
-                                <a href="/guide/exp-calculator" className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors">
-                                    <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center text-orange-400">
-                                        <TrendingUp size={20} />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold">경험치 계산기</span>
-                                        <span className="text-xs text-gray-400">사냥/일퀘 레벨업 예측</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    <CalculatorMenu />
                     <a href="/guide" className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-orange-600/90 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg">
                         <span className="text-base sm:text-lg">📚</span>
                         <span className="hidden sm:inline">가이드</span>

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { InArticleAd } from '@/components/AdSense';
 import { ArrowLeft, Calendar, Clock, Share2 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -185,6 +186,12 @@ export default function BeginnerGuidePage() {
                         </div>
                     </section>
 
+                    {/* AdSense Ad - After Section 2 */}
+                    <InArticleAd
+                        dataAdSlot="8162808816"
+                        className="mb-12"
+                    />
+
                     {/* Section 3: 200레벨 육성 빌드 */}
                     <section className="mb-12">
                         <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-2">
@@ -301,6 +308,12 @@ export default function BeginnerGuidePage() {
                             </div>
                         </div>
                     </section>
+
+                    {/* AdSense Ad - After Section 3 */}
+                    <InArticleAd
+                        dataAdSlot="6849727140"
+                        className="mb-12"
+                    />
 
                     {/* Section 4: 육성 우선순위 */}
                     <section className="mb-12">

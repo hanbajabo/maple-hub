@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { InArticleAd } from '@/components/AdSense';
 import { ArrowLeft, AlertTriangle, CheckCircle, Target, TrendingUp, Zap, Gift, Calendar } from 'lucide-react';
 
 export default function CrownHyperburningGuide2025() {
@@ -60,6 +61,12 @@ export default function CrownHyperburningGuide2025() {
                         </li>
                     </ul>
                 </div>
+
+                {/* AdSense Ad - After Warning */}
+                <InArticleAd
+                    dataAdSlot="8162808816"
+                    className="mb-12"
+                />
 
                 {/* Step 1 */}
                 <section className="mb-12">
@@ -268,6 +275,12 @@ export default function CrownHyperburningGuide2025() {
                         </div>
                     </div>
                 </section>
+
+                {/* AdSense Ad - After Step 2 */}
+                <InArticleAd
+                    dataAdSlot="6849727140"
+                    className="mb-12"
+                />
 
                 {/* Step 3 */}
                 <section className="mb-12">

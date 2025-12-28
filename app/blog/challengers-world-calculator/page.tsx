@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import * as XLSX from 'xlsx';
+import { InArticleAd } from '@/components/AdSense';
 
 // 레벨별 보상 데이터
 const LEVEL_REWARDS = [
@@ -520,6 +521,12 @@ export default function ChallengersWorldCalculator() {
                     </div>
                 </section>
 
+                {/* AdSense Ad - After Intro */}
+                <InArticleAd
+                    dataAdSlot="8162808816"
+                    className="mb-8"
+                />
+
                 {/* 현재 티어 & 결과 요약 */}
                 <section id="tier" className="mb-6 sm:mb-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                     {/* 현재 티어 */}
@@ -900,6 +907,12 @@ export default function ChallengersWorldCalculator() {
                         ))}
                     </div>
                 </section>
+
+                {/* AdSense Ad - Before Shop */}
+                <InArticleAd
+                    dataAdSlot="6849727140"
+                    className="mb-8"
+                />
 
                 {/* 코인샵 계산기 */}
                 <section id="shop" className="mb-6 sm:mb-8 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-emerald-500/20">

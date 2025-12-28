@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { InArticleAd } from '@/components/AdSense';
 import { ArrowLeft, TrendingUp, Shield, DollarSign, Zap, AlertTriangle } from 'lucide-react';
 
 export default function HyperburningJobs2025() {
@@ -83,6 +84,12 @@ export default function HyperburningJobs2025() {
                     </div>
                 </section>
 
+                {/* AdSense Ad - After Introduction */}
+                <InArticleAd
+                    dataAdSlot="8162808816"
+                    className="my-12"
+                />
+
                 {/* Selection Criteria */}
                 <section className="mb-12">
                     <h2 className="text-3xl font-bold mb-6 border-b border-slate-700 pb-3">그들은 왜 이 직업을 골랐나? (선정 기준)</h2>
@@ -136,6 +143,12 @@ export default function HyperburningJobs2025() {
                         </div>
                     </div>
                 </section>
+
+                {/* AdSense Ad - Before TOP 5 */}
+                <InArticleAd
+                    dataAdSlot="6849727140"
+                    className="my-12"
+                />
 
                 {/* TOP 5 Rankings */}
                 <section className="mb-12">
