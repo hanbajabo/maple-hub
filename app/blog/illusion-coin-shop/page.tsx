@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import * as XLSX from 'xlsx';
+import { InArticleAd } from '@/components/AdSense';
 
 // 일루전 코인샵 아이템 데이터
 const COIN_SHOP_ITEMS = [
@@ -183,6 +184,10 @@ export default function IllusionCoinShop() {
                         </span>
                     </div>
                 </section>
+
+                <div className="my-6">
+                    <InArticleAd dataAdSlot="8162808816" />
+                </div>
 
                 {/* 보유 코인 입력 */}
                 <section id="coins" className="mb-6 sm:mb-8 bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 border border-yellow-500/30 shadow-xl">
@@ -387,6 +392,10 @@ export default function IllusionCoinShop() {
                         </div>
                     )}
                 </section>
+
+                <div className="my-6">
+                    <InArticleAd dataAdSlot="6849727140" />
+                </div>
 
                 {/* 팁 섹션 */}
                 <section id="tips" className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 border border-blue-500/20">

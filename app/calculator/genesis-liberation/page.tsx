@@ -14,6 +14,7 @@ import {
     calculateWeeklyLiberationProgress,
     CalculationResult,
 } from '@/lib/genesis-calculator';
+import { InArticleAd } from '@/components/AdSense';
 
 export default function GenesisLiberationPage() {
     const [currentStage, setCurrentStage] = useState(1);
@@ -87,6 +88,10 @@ export default function GenesisLiberationPage() {
                         </p>
                     </div>
                 </div>
+            </div>
+
+            <div className="container mx-auto px-4 mt-6 max-w-7xl">
+                <InArticleAd dataAdSlot="8162808816" />
             </div>
 
             {/* 메인 컨텐츠 */}
@@ -169,6 +174,10 @@ export default function GenesisLiberationPage() {
                             <ResultSummary result={result} season={SEASON_3} />
                         </div>
                     </div>
+                </div>
+
+                <div className="my-8">
+                    <InArticleAd dataAdSlot="6849727140" />
                 </div>
 
                 {/* 안내 사항 */}

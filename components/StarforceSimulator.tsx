@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Star, Shield, RefreshCw, Zap, Settings, Monitor, Calculator, Coins, Sparkles, ArrowLeft } from "lucide-react";
+import { InArticleAd } from "@/components/AdSense";
 
 interface StarforceStats {
     totalCost: number;
@@ -357,6 +358,10 @@ export default function StarforceSimulator() {
                     </button>
                 </div>
 
+                <div className="mb-6">
+                    <InArticleAd dataAdSlot="8162808816" />
+                </div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
                     {/* Left Column: Visualizer & Controls (8 cols) */}
                     <div className="lg:col-span-7 xl:col-span-8 space-y-4 sm:space-y-6">
@@ -669,6 +674,10 @@ export default function StarforceSimulator() {
                             <div ref={logEndRef} />
                         </div>
                     </div>
+                </div>
+
+                <div className="my-8">
+                    <InArticleAd dataAdSlot="6849727140" />
                 </div>
             </div>
         </div>

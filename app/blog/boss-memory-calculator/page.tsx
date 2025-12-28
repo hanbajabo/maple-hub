@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import * as XLSX from 'xlsx';
+import { InArticleAd } from '@/components/AdSense';
 
 // 보스 타입 정의
 type BossReward = {
@@ -461,6 +462,10 @@ export default function BossMemoryCalculator() {
                     </div>
                 </section>
 
+                <div className="my-6">
+                    <InArticleAd dataAdSlot="8162808816" />
+                </div>
+
                 {/* 전체 합산 요약 */}
                 <section id="summary" className="mb-6 sm:mb-8 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 border border-yellow-500/30 shadow-xl">
                     <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 sm:mb-4">🏆 전체 기간 획득 환영의 기억 (13주)</h3>
@@ -636,6 +641,10 @@ export default function BossMemoryCalculator() {
                         );
                     })}
                 </section>
+
+                <div className="my-6">
+                    <InArticleAd dataAdSlot="6849727140" />
+                </div>
 
                 {/* 쇼핑용 전체 합산 표시 */}
                 <section id="shop" className="mb-3 sm:mb-4 md:mb-6 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 border border-yellow-500/30 shadow-xl">

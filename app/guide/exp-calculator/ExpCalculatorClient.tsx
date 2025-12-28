@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft, Calculator, TrendingUp, Clock, Download, Info, Zap, Calendar } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import * as XLSX from 'xlsx';
+import { InArticleAd } from '@/components/AdSense';
 import { HUNTING_EXP_DATA, getHuntingDataForLevel, formatHuntingTime } from '@/data/hunting-exp-rates';
 
 // 경험치 데이터 (레벨 200~260)
@@ -727,6 +728,9 @@ export default function ExpCalculatorClient() {
 
             {/* 메인 컨텐츠 */}
             <main className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="mb-6">
+                    <InArticleAd dataAdSlot="8162808816" />
+                </div>
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                     {/* 좌측: 입력 섹션 */}
                     <div className="space-y-6">
@@ -1668,6 +1672,10 @@ export default function ExpCalculatorClient() {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="my-8">
+                    <InArticleAd dataAdSlot="6849727140" />
                 </div>
 
                 {/* 하단 안내 */}
