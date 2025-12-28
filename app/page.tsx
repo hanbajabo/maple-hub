@@ -887,7 +887,7 @@ export default function Home() {
       {/* Title and Description - Hide when character is loaded */}
       {
         !character && (
-          <div className="text-center space-y-4 sm:space-y-6 px-4">
+          <div className="text-center space-y-4 sm:space-y-6 px-4 mb-8 sm:mb-12">
             {/* Main Title with Gradient */}
             <div className="relative">
               <h2 className="text-4xl sm:text-7xl font-black bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 bg-clip-text text-transparent drop-shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
@@ -907,7 +907,7 @@ export default function Home() {
       }
 
       {/* Search Input Area with enhanced design */}
-      <div className="w-full max-w-4xl relative">
+      <div className="w-full max-w-4xl relative px-4 sm:px-0">
         {/* Glow effect behind search bar */}
         {!character && (
           <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
@@ -924,7 +924,7 @@ export default function Home() {
               onChange={(e) => setNickname(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="캐릭터 닉네임을 입력하세요"
-              className="relative w-full h-12 sm:h-20 pl-5 sm:pl-8 pr-12 sm:pr-16 rounded-xl sm:rounded-2xl bg-slate-900 border-2 border-slate-800 focus:border-maple-orange focus:ring-2 focus:ring-maple-orange/50 outline-none text-base sm:text-2xl placeholder:text-slate-600 transition-all font-medium"
+              className="relative w-full h-12 sm:h-20 pl-5 sm:pl-8 pr-12 sm:pr-16 rounded-xl sm:rounded-2xl bg-slate-900/50 border-2 border-slate-700 focus:border-maple-orange focus:ring-2 focus:ring-maple-orange/50 outline-none text-base sm:text-2xl placeholder:text-slate-400 transition-all font-medium"
             />
             <button
               onClick={handleSearch}
@@ -1038,7 +1038,7 @@ export default function Home() {
       </div>
 
       {/* Info text - Enhanced styling */}
-      <div className="w-full max-w-4xl flex items-center gap-2 bg-orange-950/30 border border-orange-500/30 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3">
+      <div className="w-[calc(100%-2rem)] sm:w-full max-w-4xl flex items-center gap-2 bg-orange-950/30 border border-orange-500/30 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 mt-4 sm:mt-6 mb-8 sm:mb-10 mx-auto">
         <span className="text-xl sm:text-2xl">💡</span>
         <p className="text-xs sm:text-base text-orange-300 font-medium text-center">
           인게임에서 <strong className="text-orange-400">[캐시샵 입장]</strong> 또는 <strong className="text-orange-400">[재접속]</strong> 후 대략 1분 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
