@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, TrendingUp, Info, Clock, Target, Zap, CheckCircle } from 'lucide-react';
+import { InArticleAd } from '@/components/AdSense';
 
 export default function MonsterPark2025() {
     return (
@@ -119,6 +120,12 @@ export default function MonsterPark2025() {
                         </p>
                     </div>
                 </section>
+
+                {/* AdSense Ad - After Introduction */}
+                <InArticleAd
+                    dataAdSlot="8162808816"
+                    className="my-12"
+                />
 
                 {/* Table 1: Lv. 260-279 */}
                 <section className="mb-12">
@@ -283,6 +290,12 @@ export default function MonsterPark2025() {
                         </div>
                     </div>
                 </section>
+
+                {/* AdSense Ad - Mid Article */}
+                <InArticleAd
+                    dataAdSlot="6849727140"
+                    className="my-12"
+                />
 
                 {/* Quick Reference */}
                 <section className="mb-12">

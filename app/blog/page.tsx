@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, Clock, BookOpen, TrendingUp } from 'lucide-react';
+import { InFeedAd } from '@/components/AdSense';
 
 interface BlogPost {
     slug: string;
@@ -421,6 +422,14 @@ export default function BlogPage() {
                     ))}
                 </div>
 
+                {/* AdSense Banner - Top of Blog Page */}
+                <div className="mb-8 sm:mb-12">
+                    <InFeedAd
+                        dataAdSlot="4331375010"
+                        className="max-w-4xl mx-auto"
+                    />
+                </div>
+
                 {/* Featured Posts */}
                 {featuredPosts.length > 0 && (
                     <section className="mb-16">
@@ -480,41 +489,52 @@ export default function BlogPage() {
                         최신 글
                     </h2>
                     <div className="grid md:grid-cols-3 gap-6">
-                        {regularPosts.map((post) => (
-                            <Link
-                                key={post.slug}
-                                href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
-                                className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-blue-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1"
-                            >
-                                <div className="mb-4">
-                                    {post.thumbnail.startsWith('/') ? (
-                                        <div className="relative w-10 h-10">
-                                            <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                        {regularPosts.map((post, index) => (
+                            <>
+                                <Link
+                                    key={post.slug}
+                                    href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
+                                    className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-blue-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1"
+                                >
+                                    <div className="mb-4">
+                                        {post.thumbnail.startsWith('/') ? (
+                                            <div className="relative w-10 h-10">
+                                                <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                                            </div>
+                                        ) : (
+                                            <div className="text-4xl">{post.thumbnail}</div>
+                                        )}
+                                    </div>
+                                    <span className="inline-block px-2 py-1 bg-slate-700 text-slate-300 text-xs font-semibold rounded mb-3">
+                                        {post.category}
+                                    </span>
+                                    <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors mb-2 line-clamp-2">
+                                        {post.title}
+                                    </h3>
+                                    <p className="text-slate-400 text-sm mb-4 line-clamp-3">
+                                        {post.description}
+                                    </p>
+                                    <div className="flex items-center gap-3 text-xs text-slate-500">
+                                        <div className="flex items-center gap-1">
+                                            <Calendar className="w-3 h-3" />
+                                            <span>{post.date}</span>
                                         </div>
-                                    ) : (
-                                        <div className="text-4xl">{post.thumbnail}</div>
-                                    )}
-                                </div>
-                                <span className="inline-block px-2 py-1 bg-slate-700 text-slate-300 text-xs font-semibold rounded mb-3">
-                                    {post.category}
-                                </span>
-                                <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors mb-2 line-clamp-2">
-                                    {post.title}
-                                </h3>
-                                <p className="text-slate-400 text-sm mb-4 line-clamp-3">
-                                    {post.description}
-                                </p>
-                                <div className="flex items-center gap-3 text-xs text-slate-500">
-                                    <div className="flex items-center gap-1">
-                                        <Calendar className="w-3 h-3" />
-                                        <span>{post.date}</span>
+                                        <div className="flex items-center gap-1">
+                                            <Clock className="w-3 h-3" />
+                                            <span>{post.readTime}</span>
+                                        </div>
                                     </div>
-                                    <div className="flex items-center gap-1">
-                                        <Clock className="w-3 h-3" />
-                                        <span>{post.readTime}</span>
+                                </Link>
+                                {/* Insert InFeed Ad every 3 posts */}
+                                {(index + 1) % 3 === 0 && index < regularPosts.length - 1 && (
+                                    <div key={`ad-${index}`} className="md:col-span-3">
+                                        <InFeedAd
+                                            dataAdSlot="4331375010"
+                                            className="max-w-4xl mx-auto"
+                                        />
                                     </div>
-                                </div>
-                            </Link>
+                                )}
+                            </>
                         ))}
                     </div>
                 </section>
