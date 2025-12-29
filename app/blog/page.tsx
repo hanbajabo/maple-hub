@@ -61,6 +61,45 @@ export default function BlogPage() {
             </div>
 
             <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12">
+                {/* 긴급 공지 배너 - 마감 임박 */}
+                <section className="mb-8 relative overflow-hidden rounded-xl bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 border-2 border-red-500 shadow-2xl shadow-red-900/50 animate-pulse">
+                    <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-10" />
+
+                    <Link href="/blog/maple-npc-rewards-2025" className="block">
+                        <div className="relative z-10 p-4 sm:p-6 hover:scale-[1.02] transition-transform cursor-pointer">
+                            <div className="flex items-center justify-between flex-wrap gap-4">
+                                <div className="flex items-center gap-3 sm:gap-4">
+                                    <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center animate-bounce">
+                                        <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" />
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-red-900 text-white text-xs sm:text-sm font-bold rounded-full">
+                                                ⚠️ 긴급 공지
+                                            </span>
+                                            <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-yellow-400 text-black text-xs sm:text-sm font-bold rounded-full">
+                                                12/31 마감
+                                            </span>
+                                        </div>
+                                        <h3 className="text-lg sm:text-2xl md:text-3xl font-black text-white drop-shadow-lg">
+                                            🎁 메이플 운영자 NPC 보상 받으셨나요?
+                                        </h3>
+                                        <p className="text-white/90 text-xs sm:text-sm md:text-base mt-1">
+                                            CROWN 쇼케이스 선물 + 극한 성장의 비약 | 지금 바로 확인하세요!
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex-shrink-0">
+                                    <div className="px-4 py-2 sm:px-6 sm:py-3 bg-white text-red-600 font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-lg flex items-center gap-2 text-sm sm:text-base">
+                                        <span>자세히 보기</span>
+                                        <ArrowRight className="w-4 h-4" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+                </section>
+
                 {/* Hero Section - 컴팩트한 HOT 포스트 */}
                 <section className="mb-12 relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-900/40 via-red-900/40 to-purple-900/40 border border-orange-500/50 shadow-xl">
                     <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5" />

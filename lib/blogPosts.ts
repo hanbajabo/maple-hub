@@ -10,6 +10,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 긴급 공지
+    {
+        slug: 'maple-npc-rewards-2025',
+        title: '⏰ 놓치지 마세요! 메이플 운영자 NPC 보상 마감 임박 (12/31까지)',
+        description: 'CROWN 쇼케이스 선물과 극한 성장의 비약을 받을 수 있는 마지막 기회! 12월 31일까지 꼭 받으세요!',
+        category: '이벤트 가이드',
+        date: '2025년 12월 29일',
+        readTime: '3분',
+        thumbnail: '🎁',
+        featured: true,
+    },
     // 육성 가이드
     {
         slug: 'hyperburning-jobs-2025',
@@ -19,7 +30,7 @@ export const blogPosts: BlogPost[] = [
         date: '2025년 12월 11일',
         readTime: '15분',
         thumbnail: '🔥',
-        featured: true,
+        featured: false,
     },
     {
         slug: 'crown-hyperburning-guide-2025',
