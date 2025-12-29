@@ -237,19 +237,57 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ab
     return (
         <div className="w-full h-full flex flex-col gap-3 sm:gap-4">
             {/* Header Stats */}
-            <div className="grid grid-cols-2 gap-2 sm:gap-4">
-                <div className="bg-slate-950 p-2 sm:p-3 rounded-lg border border-slate-800 flex flex-col items-center justify-center">
-                    <span className="text-[10px] sm:text-xs text-slate-400 mb-0.5 sm:mb-1">아이템 드롭률 합계</span>
-                    <span className={`text-base sm:text-xl font-bold ${itemDrop >= 200 ? 'text-emerald-400' : 'text-white'}`}>
-                        {itemDrop}% <span className="text-[10px] sm:text-xs text-slate-500 font-normal">/ 200% (Max)</span>
-                    </span>
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                {/* Drop Rate */}
+                <div className="bg-gradient-to-br from-emerald-950/50 to-slate-900 p-3 sm:p-4 rounded-xl border-2 border-emerald-500/30 hover:border-emerald-500/50 transition-all shadow-lg shadow-emerald-500/10">
+                    <div className="flex flex-col items-center justify-center gap-1 sm:gap-2">
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-emerald-400 text-lg sm:text-xl">💎</span>
+                            <span className="text-xs sm:text-sm text-emerald-300/90 font-semibold">아이템 드롭률</span>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                            <span className={`text-2xl sm:text-4xl font-black ${itemDrop >= 200 ? 'text-emerald-400 drop-shadow-glow' : itemDrop >= 100 ? 'text-emerald-300' : 'text-white'}`}>
+                                {itemDrop}
+                            </span>
+                            <span className="text-sm sm:text-lg text-emerald-400/70 font-bold">%</span>
+                        </div>
+                        <div className="w-full bg-slate-950/50 rounded-full h-1.5 sm:h-2 overflow-hidden border border-emerald-900/30">
+                            <div
+                                className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500"
+                                style={{ width: `${Math.min(100, (itemDrop / 200) * 100)}%` }}
+                            />
+                        </div>
+                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">목표: 200% (Max)</span>
+                    </div>
                 </div>
-                <div className="bg-slate-950 p-2 sm:p-3 rounded-lg border border-slate-800 flex flex-col items-center justify-center">
-                    <span className="text-[10px] sm:text-xs text-slate-400 mb-0.5 sm:mb-1">아이템 메획 합계</span>
-                    <span className={`text-base sm:text-xl font-bold ${itemMeso >= 100 ? 'text-yellow-400' : 'text-white'}`}>
-                        {itemMeso}% <span className="text-[10px] sm:text-xs text-slate-500 font-normal">/ 100% (Max)</span>
-                    </span>
+
+                {/* Meso Rate */}
+                <div className="bg-gradient-to-br from-yellow-950/50 to-slate-900 p-3 sm:p-4 rounded-xl border-2 border-yellow-500/30 hover:border-yellow-500/50 transition-all shadow-lg shadow-yellow-500/10">
+                    <div className="flex flex-col items-center justify-center gap-1 sm:gap-2">
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-yellow-400 text-lg sm:text-xl">💰</span>
+                            <span className="text-xs sm:text-sm text-yellow-300/90 font-semibold">메소 획득량</span>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                            <span className={`text-2xl sm:text-4xl font-black ${itemMeso >= 100 ? 'text-yellow-400 drop-shadow-glow' : itemMeso >= 60 ? 'text-yellow-300' : 'text-white'}`}>
+                                {itemMeso}
+                            </span>
+                            <span className="text-sm sm:text-lg text-yellow-400/70 font-bold">%</span>
+                        </div>
+                        <div className="w-full bg-slate-950/50 rounded-full h-1.5 sm:h-2 overflow-hidden border border-yellow-900/30">
+                            <div
+                                className="h-full bg-gradient-to-r from-yellow-600 to-yellow-400 transition-all duration-500"
+                                style={{ width: `${Math.min(100, (itemMeso / 100) * 100)}%` }}
+                            />
+                        </div>
+                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">목표: 100% (Max)</span>
+                    </div>
                 </div>
+            </div>
+
+            {/* Disclaimer */}
+            <div className="text-xs sm:text-sm text-amber-400/80 text-center bg-amber-950/20 border border-amber-900/30 rounded-lg px-2 sm:px-3 py-2">
+                * 오직 아이템에서 얻는 잠재능력 합계 기준 (최대치 제한 미적용 수치)
             </div>
 
             {/* Missing Option Guide */}
@@ -349,11 +387,6 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ab
             {/* Guide Content */}
             <div className="flex-1 overflow-y-auto custom-scrollbar">
                 {renderAllStages()}
-            </div>
-
-            {/* Detailed Checklist */}
-            <div className="mt-1 sm:mt-2 text-[8px] sm:text-[10px] text-slate-500 text-center">
-                * 아이템 잠재능력 합계 기준 (최대치 제한 미적용 수치)
             </div>
         </div>
     );

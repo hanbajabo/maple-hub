@@ -183,6 +183,19 @@ export default function PriorityDiagnosisModal({ isOpen, onClose, equipment, job
 
                 </div>
 
+                {/* Ad Section - Above Close Button */}
+                <div className="mt-6 flex justify-center">
+                    <div className="w-full max-w-2xl bg-slate-800/30 border border-slate-700/50 rounded-xl p-4 flex items-center justify-center min-h-[100px]">
+                        {/* Google AdSense Ad - Insert ad code here */}
+                        <ins className="adsbygoogle"
+                            style={{ display: 'block' }}
+                            data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                            data-ad-slot="YOUR_AD_SLOT_ID"
+                            data-ad-format="horizontal"
+                            data-full-width-responsive="true"></ins>
+                    </div>
+                </div>
+
                 <div className="mt-8 pt-6 border-t border-slate-800 text-center">
                     <button
                         onClick={onClose}

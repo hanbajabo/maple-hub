@@ -392,9 +392,24 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey, 
                             </>
                         )}
 
+                        {/* Ad Section - Above Close Button */}
+                        {!loading && !error && report && (
+                            <div className="mt-6 sm:mt-8 mb-4 flex justify-center">
+                                <div className="w-full max-w-2xl bg-slate-800/30 border border-slate-700/50 rounded-xl p-4 flex items-center justify-center min-h-[100px]">
+                                    {/* Google AdSense Ad - Insert ad code here */}
+                                    <ins className="adsbygoogle"
+                                        style={{ display: 'block' }}
+                                        data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                                        data-ad-slot="YOUR_AD_SLOT_ID"
+                                        data-ad-format="horizontal"
+                                        data-full-width-responsive="true"></ins>
+                                </div>
+                            </div>
+                        )}
+
                         <button
                             onClick={handleClose}
-                            className="mt-4 sm:mt-8 w-full bg-slate-800 hover:bg-slate-700 text-slate-300 py-3 sm:py-4 rounded-xl font-bold transition-colors border border-slate-700 text-base sm:text-lg shadow-lg"
+                            className="mt-4 w-full bg-slate-800 hover:bg-slate-700 text-slate-300 py-3 sm:py-4 rounded-xl font-bold transition-colors border border-slate-700 text-base sm:text-lg shadow-lg"
                         >
                             닫기
                         </button>

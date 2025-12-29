@@ -720,6 +720,19 @@ export default function TotalDiagnosisModal({ isOpen, onClose, data, userName, e
 
                 </div>
 
+                {/* Ad Section - Above Footer */}
+                <div className="px-6 pb-4">
+                    <div className="w-full bg-slate-800/30 border border-slate-700/50 rounded-xl p-4 flex items-center justify-center min-h-[100px]">
+                        {/* Google AdSense Ad - Insert ad code here */}
+                        <ins className="adsbygoogle"
+                            style={{ display: 'block' }}
+                            data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+                            data-ad-slot="YOUR_AD_SLOT_ID"
+                            data-ad-format="horizontal"
+                            data-full-width-responsive="true"></ins>
+                    </div>
+                </div>
+
                 {/* Footer */}
                 <div className="p-6 border-t border-white/10 bg-slate-900 sticky bottom-0 z-[60] flex justify-end rounded-b-2xl">
                     <button
