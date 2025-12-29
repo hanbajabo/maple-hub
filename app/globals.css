@@ -25,4 +25,12 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Prevent ads from being inserted in this section */
+  .no-ads-section {
+    isolation: isolate;
+    contain: layout style;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
 }

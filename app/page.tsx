@@ -884,156 +884,159 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Title and Description - Hide when character is loaded */}
-      {
-        !character && (
-          <div className="text-center space-y-4 sm:space-y-6 px-4 mb-8 sm:mb-12">
-            {/* Main Title with Gradient */}
-            <div className="relative">
-              <h2 className="text-4xl sm:text-7xl font-black bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 bg-clip-text text-transparent drop-shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
-                캐릭터 검색
-              </h2>
-              {/* Glowing effect */}
-              <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 -z-10"></div>
+      {/* Character Search Section - Wrapped to prevent ad insertion between title and search */}
+      <div className="no-ads-section w-full flex flex-col items-center">
+        {/* Title and Description - Hide when character is loaded */}
+        {
+          !character && (
+            <div className="text-center space-y-4 sm:space-y-6 px-4 mb-8 sm:mb-12">
+              {/* Main Title with Gradient */}
+              <div className="relative">
+                <h2 className="text-4xl sm:text-7xl font-black bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 bg-clip-text text-transparent drop-shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
+                  캐릭터 검색
+                </h2>
+                {/* Glowing effect */}
+                <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 -z-10"></div>
+              </div>
+
+              {/* Subtitle with better styling */}
+              <p className="text-sm sm:text-2xl text-slate-300 font-medium leading-relaxed animate-in fade-in slide-in-from-top-6 duration-700 delay-150">
+                메이플스토리의 캐릭터 정보를 <span className="text-maple-orange font-bold">한 눈에 확인</span>하고,<br className="hidden sm:block" />
+                <span className="text-yellow-400 font-bold">AI 기반 진단</span>까지 받아보세요
+              </p>
+            </div>
+          )
+        }
+
+        {/* Search Input Area with enhanced design */}
+        <div className="w-full max-w-4xl relative px-4 sm:px-0">
+          {/* Glow effect behind search bar */}
+          {!character && (
+            <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
+          )}
+
+          <div className="w-full relative flex items-center gap-2 sm:gap-3">
+            <div className="relative w-full group">
+              {/* Animated border gradient */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-75 group-focus-within:opacity-100 blur transition duration-500"></div>
+
+              <input
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="캐릭터 닉네임을 입력하세요"
+                className="relative w-full h-12 sm:h-20 pl-5 sm:pl-8 pr-12 sm:pr-16 rounded-xl sm:rounded-2xl bg-slate-900/50 border-2 border-slate-700 focus:border-maple-orange focus:ring-2 focus:ring-maple-orange/50 outline-none text-base sm:text-2xl placeholder:text-slate-400 transition-all font-medium"
+              />
+              <button
+                onClick={handleSearch}
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 text-slate-400 hover:text-maple-orange hover:scale-110 transition-all bg-slate-800 hover:bg-maple-orange/10 rounded-lg"
+              >
+                <Search size={20} className="sm:w-8 sm:h-8" />
+              </button>
             </div>
 
-            {/* Subtitle with better styling */}
-            <p className="text-sm sm:text-2xl text-slate-300 font-medium leading-relaxed animate-in fade-in slide-in-from-top-6 duration-700 delay-150">
-              메이플스토리의 캐릭터 정보를 <span className="text-maple-orange font-bold">한 눈에 확인</span>하고,<br className="hidden sm:block" />
-              <span className="text-yellow-400 font-bold">AI 기반 진단</span>까지 받아보세요
-            </p>
-          </div>
-        )
-      }
-
-      {/* Search Input Area with enhanced design */}
-      <div className="w-full max-w-4xl relative px-4 sm:px-0">
-        {/* Glow effect behind search bar */}
-        {!character && (
-          <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
-        )}
-
-        <div className="w-full relative flex items-center gap-2 sm:gap-3">
-          <div className="relative w-full group">
-            {/* Animated border gradient */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-75 group-focus-within:opacity-100 blur transition duration-500"></div>
-
-            <input
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="캐릭터 닉네임을 입력하세요"
-              className="relative w-full h-12 sm:h-20 pl-5 sm:pl-8 pr-12 sm:pr-16 rounded-xl sm:rounded-2xl bg-slate-900/50 border-2 border-slate-700 focus:border-maple-orange focus:ring-2 focus:ring-maple-orange/50 outline-none text-base sm:text-2xl placeholder:text-slate-400 transition-all font-medium"
-            />
             <button
-              onClick={handleSearch}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 text-slate-400 hover:text-maple-orange hover:scale-110 transition-all bg-slate-800 hover:bg-maple-orange/10 rounded-lg"
+              onClick={handleRefresh}
+              className="relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 bg-slate-900 border-2 border-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-400 hover:text-maple-orange hover:border-maple-orange transition-all group overflow-hidden"
+              title="실시간 갱신"
             >
-              <Search size={20} className="sm:w-8 sm:h-8" />
-            </button>
-          </div>
-
-          <button
-            onClick={handleRefresh}
-            className="relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 bg-slate-900 border-2 border-slate-800 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-400 hover:text-maple-orange hover:border-maple-orange transition-all group overflow-hidden"
-            title="실시간 갱신"
-          >
-            {/* Hover effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-maple-orange/0 to-maple-orange/0 group-hover:from-maple-orange/10 group-hover:to-yellow-400/10 transition-all"></div>
-            <RefreshCw size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${loading ? 'animate-spin text-maple-orange' : 'group-hover:rotate-180'}`} />
-          </button>
-
-          {/* Favorites Button with Dropdown */}
-          <div className="relative" ref={favoritesRef}>
-            <button
-              onClick={() => setIsFavoritesOpen(!isFavoritesOpen)}
-              className={`relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 bg-slate-900 border-2 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all group overflow-hidden ${favorites.length > 0 ? 'border-yellow-500/50 hover:border-yellow-400' : 'border-slate-800 hover:border-maple-orange'
-                }`}
-              title="즐겨찾기"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-500/0 to-slate-500/0 group-hover:from-slate-500/10 group-hover:to-slate-400/10 transition-all"></div>
-              <List size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${favorites.length > 0 ? 'text-yellow-400' : 'text-slate-400 group-hover:text-slate-300'}`} />
-              {favorites.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-yellow-500 text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-900">
-                  {favorites.length}
-                </span>
-              )}
+              {/* Hover effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-maple-orange/0 to-maple-orange/0 group-hover:from-maple-orange/10 group-hover:to-yellow-400/10 transition-all"></div>
+              <RefreshCw size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${loading ? 'animate-spin text-maple-orange' : 'group-hover:rotate-180'}`} />
             </button>
 
-            {/* Favorites Dropdown */}
-            {isFavoritesOpen && (
-              <div className="absolute right-2 sm:right-0 top-full mt-2 min-w-[280px] max-w-[90vw] sm:w-80 sm:max-w-none bg-slate-900 border-2 border-yellow-500/50 rounded-xl shadow-2xl z-[9999] overflow-hidden">
+            {/* Favorites Button with Dropdown */}
+            <div className="relative" ref={favoritesRef}>
+              <button
+                onClick={() => setIsFavoritesOpen(!isFavoritesOpen)}
+                className={`relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 bg-slate-900 border-2 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all group overflow-hidden ${favorites.length > 0 ? 'border-yellow-500/50 hover:border-yellow-400' : 'border-slate-800 hover:border-maple-orange'
+                  }`}
+                title="즐겨찾기"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-500/0 to-slate-500/0 group-hover:from-slate-500/10 group-hover:to-slate-400/10 transition-all"></div>
+                <List size={20} className={`sm:w-8 sm:h-8 transition-all relative z-10 ${favorites.length > 0 ? 'text-yellow-400' : 'text-slate-400 group-hover:text-slate-300'}`} />
+                {favorites.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-yellow-500 text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-900">
+                    {favorites.length}
+                  </span>
+                )}
+              </button>
 
-                <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 px-4 py-3 border-b border-yellow-500/30">
-                  <h3 className="font-bold text-yellow-400 flex items-center gap-2">
-                    <Star size={16} className="fill-yellow-400" />
-                    즐겨찾기 ({favorites.length})
-                  </h3>
-                </div>
-                <div className="max-h-96 overflow-y-auto custom-scrollbar">
-                  {favorites.length === 0 ? (
-                    <div className="p-6 text-center text-slate-500">
-                      <Star size={32} className="mx-auto mb-2 opacity-30" />
-                      <p className="text-sm">즐겨찾기가 비어있습니다</p>
-                      <p className="text-xs mt-1">캐릭터 검색 후 ⭐ 버튼을 눌러보세요</p>
-                    </div>
-                  ) : (
-                    favorites.map((fav, idx) => (
-                      <div
-                        key={idx}
-                        onClick={() => loadFavorite(fav.name)}
-                        className="px-3 sm:px-4 py-3 hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800 last:border-b-0 flex items-start gap-2 group"
-                      >
-                        <div className="flex-1 min-w-0">
-                          <div className="font-bold text-white group-hover:text-yellow-400 transition-colors truncate text-sm sm:text-base">
-                            {fav.name}
-                          </div>
-                          <div className="text-[10px] sm:text-xs text-slate-400 mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
-                            <span>{fav.world}</span>
-                            <span>·</span>
-                            <span>Lv.{fav.level}</span>
-                            <span>·</span>
-                            <span className="truncate">{fav.job}</span>
-                          </div>
-                        </div>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setFavorites(prev => prev.filter((_, i) => i !== idx));
-                          }}
-                          className="text-slate-500 hover:text-red-400 transition-colors p-1 shrink-0"
-                          title="삭제"
-                        >
-                          <X size={16} />
-                        </button>
+              {/* Favorites Dropdown */}
+              {isFavoritesOpen && (
+                <div className="absolute right-2 sm:right-0 top-full mt-2 min-w-[280px] max-w-[90vw] sm:w-80 sm:max-w-none bg-slate-900 border-2 border-yellow-500/50 rounded-xl shadow-2xl z-[9999] overflow-hidden">
+
+                  <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 px-4 py-3 border-b border-yellow-500/30">
+                    <h3 className="font-bold text-yellow-400 flex items-center gap-2">
+                      <Star size={16} className="fill-yellow-400" />
+                      즐겨찾기 ({favorites.length})
+                    </h3>
+                  </div>
+                  <div className="max-h-96 overflow-y-auto custom-scrollbar">
+                    {favorites.length === 0 ? (
+                      <div className="p-6 text-center text-slate-500">
+                        <Star size={32} className="mx-auto mb-2 opacity-30" />
+                        <p className="text-sm">즐겨찾기가 비어있습니다</p>
+                        <p className="text-xs mt-1">캐릭터 검색 후 ⭐ 버튼을 눌러보세요</p>
                       </div>
-                    ))
-                  )}
+                    ) : (
+                      favorites.map((fav, idx) => (
+                        <div
+                          key={idx}
+                          onClick={() => loadFavorite(fav.name)}
+                          className="px-3 sm:px-4 py-3 hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800 last:border-b-0 flex items-start gap-2 group"
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-white group-hover:text-yellow-400 transition-colors truncate text-sm sm:text-base">
+                              {fav.name}
+                            </div>
+                            <div className="text-[10px] sm:text-xs text-slate-400 mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
+                              <span>{fav.world}</span>
+                              <span>·</span>
+                              <span>Lv.{fav.level}</span>
+                              <span>·</span>
+                              <span className="truncate">{fav.job}</span>
+                            </div>
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setFavorites(prev => prev.filter((_, i) => i !== idx));
+                            }}
+                            className="text-slate-500 hover:text-red-400 transition-colors p-1 shrink-0"
+                            title="삭제"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
+            </div>
+
+            {/* Add/Remove Favorite Button (shown when character is loaded) */}
+            {character && (
+              <button
+                onClick={isFavorited ? removeFromFavorites : addToFavorites}
+                className={`relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all group overflow-hidden border-2 ${isFavorited
+                  ? 'bg-yellow-500/10 border-yellow-500 hover:bg-yellow-500/20'
+                  : 'bg-slate-900 border-slate-800 hover:border-yellow-400'
+                  }`}
+                title={isFavorited ? "즐겨찾기 해제" : "즐겨찾기 추가"}
+              >
+                <Star
+                  size={20}
+                  className={`sm:w-8 sm:h-8 transition-all relative z-10 ${isFavorited
+                    ? 'fill-yellow-400 text-yellow-400'
+                    : 'text-slate-400 group-hover:text-yellow-400 group-hover:fill-yellow-400/20'
+                    }`}
+                />
+              </button>
             )}
           </div>
-
-          {/* Add/Remove Favorite Button (shown when character is loaded) */}
-          {character && (
-            <button
-              onClick={isFavorited ? removeFromFavorites : addToFavorites}
-              className={`relative h-12 w-12 sm:h-20 sm:w-20 shrink-0 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all group overflow-hidden border-2 ${isFavorited
-                ? 'bg-yellow-500/10 border-yellow-500 hover:bg-yellow-500/20'
-                : 'bg-slate-900 border-slate-800 hover:border-yellow-400'
-                }`}
-              title={isFavorited ? "즐겨찾기 해제" : "즐겨찾기 추가"}
-            >
-              <Star
-                size={20}
-                className={`sm:w-8 sm:h-8 transition-all relative z-10 ${isFavorited
-                  ? 'fill-yellow-400 text-yellow-400'
-                  : 'text-slate-400 group-hover:text-yellow-400 group-hover:fill-yellow-400/20'
-                  }`}
-              />
-            </button>
-          )}
         </div>
       </div>
 
