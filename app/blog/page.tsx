@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Calendar, Clock, ArrowRight, Flame, TrendingUp } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, Flame, TrendingUp, Gift } from 'lucide-react';
 import { InFeedAd } from '@/components/AdSense';
 import CalculatorMenu from "../../components/navigation/CalculatorMenu";
 
@@ -18,7 +18,8 @@ const categoryIcons: { [key: string]: any } = {
 };
 
 export default function BlogPage() {
-    const heroPost = blogPosts[0]; // 하이퍼버닝 직업 추천 (가장 HOT)
+    // Hero Post는 항상 하이퍼버닝 직업 추천 글
+    const heroPost = blogPosts.find(p => p.slug === 'hyperburning-jobs-2025') || blogPosts[0];
 
     const levelingPosts = blogPosts.filter(p => p.category === '육성 가이드' || p.category === '경험치 가이드').slice(0, 6);
     const eventPosts = blogPosts.filter(p => p.category === '이벤트 가이드' || p.category === '업데이트 소식').slice(0, 6);
@@ -61,36 +62,36 @@ export default function BlogPage() {
             </div>
 
             <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12">
-                {/* 긴급 공지 배너 - 마감 임박 */}
-                <section className="mb-8 relative overflow-hidden rounded-xl bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 border-2 border-red-500 shadow-2xl shadow-red-900/50 animate-pulse">
+                {/* 최신 공지 배너 - 감사의 마음 */}
+                <section className="mb-8 relative overflow-hidden rounded-xl bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 border-2 border-green-500 shadow-2xl shadow-green-900/50">
                     <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-10" />
 
-                    <Link href="/blog/maple-npc-rewards-2025" className="block">
+                    <Link href="/blog/thank-you-gift-2026" className="block">
                         <div className="relative z-10 p-4 sm:p-6 hover:scale-[1.02] transition-transform cursor-pointer">
                             <div className="flex items-center justify-between flex-wrap gap-4">
                                 <div className="flex items-center gap-3 sm:gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center animate-bounce">
-                                        <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" />
+                                    <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center">
+                                        <Gift className="w-6 h-6 sm:w-8 sm:h-8 text-green-600 animate-bounce" />
                                     </div>
                                     <div>
                                         <div className="flex items-center gap-2 mb-1">
-                                            <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-red-900 text-white text-xs sm:text-sm font-bold rounded-full">
-                                                ⚠️ 긴급 공지
+                                            <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-green-900 text-white text-xs sm:text-sm font-bold rounded-full">
+                                                🎁 공식 선물
                                             </span>
                                             <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-yellow-400 text-black text-xs sm:text-sm font-bold rounded-full">
-                                                12/31 마감
+                                                1/14 마감
                                             </span>
                                         </div>
                                         <h3 className="text-lg sm:text-2xl md:text-3xl font-black text-white drop-shadow-lg">
-                                            🎁 메이플 운영자 NPC 보상 받으셨나요?
+                                            용사님들께 드리는 감사의 마음
                                         </h3>
                                         <p className="text-white/90 text-xs sm:text-sm md:text-base mt-1">
-                                            CROWN 쇼케이스 선물 + 극한 성장의 비약 | 지금 바로 확인하세요!
+                                            극한 성장의 비약(200~249) 3개 무료! 버닝 캐릭터도 사용 가능 🔥
                                         </p>
                                     </div>
                                 </div>
                                 <div className="flex-shrink-0">
-                                    <div className="px-4 py-2 sm:px-6 sm:py-3 bg-white text-red-600 font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-lg flex items-center gap-2 text-sm sm:text-base">
+                                    <div className="px-4 py-2 sm:px-6 sm:py-3 bg-white text-green-600 font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-lg flex items-center gap-2 text-sm sm:text-base">
                                         <span>자세히 보기</span>
                                         <ArrowRight className="w-4 h-4" />
                                     </div>

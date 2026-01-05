@@ -10,7 +10,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
-    // 긴급 공지
+    // 최신 공지 - 감사의 마음
+    {
+        slug: 'thank-you-gift-2026',
+        title: '🎁 용사님들께 드리는 감사의 마음 | 극한 성장의 비약 무료 지급 (1/14까지)',
+        description: '넥슨 공식 감사 선물! 극한 성장의 비약(200~249) 3개를 무료로 받으세요. 버닝 캐릭터도 사용 가능!',
+        category: '이벤트 가이드',
+        date: '2026년 1월 6일',
+        readTime: '3분',
+        thumbnail: '🎁',
+        featured: true,
+    },
+    // 긴급 공지 - CROWN 쇼케이스 (12/31 마감)
     {
         slug: 'maple-npc-rewards-2025',
         title: '⏰ 놓치지 마세요! 메이플 운영자 NPC 보상 마감 임박 (12/31까지)',
@@ -19,7 +30,7 @@ export const blogPosts: BlogPost[] = [
         date: '2025년 12월 29일',
         readTime: '3분',
         thumbnail: '🎁',
-        featured: true,
+        featured: false,
     },
     // 육성 가이드
     {
