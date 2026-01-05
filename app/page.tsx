@@ -841,7 +841,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-0 sm:p-8 overflow-x-hidden w-full">
       {/* Header */}
-      <header className="w-full sm:max-w-5xl flex justify-between items-center mb-6 sm:mb-12 px-4 sm:px-2 pt-4 pb-2 sm:py-0 sticky top-0 z-[10000] bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 sm:static sm:bg-transparent sm:border-none">
+      <header className="isolate w-full sm:max-w-5xl flex justify-between items-center mb-6 sm:mb-12 px-4 sm:px-2 pt-4 pb-2 sm:py-0 sticky top-0 z-[10000] bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 sm:static sm:bg-transparent sm:border-none">
         <button
           onClick={() => {
             setNickname("");
