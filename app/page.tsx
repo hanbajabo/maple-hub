@@ -841,7 +841,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-0 sm:p-8 overflow-x-hidden w-full">
       {/* Header */}
-      <header className="isolate w-full sm:max-w-5xl flex justify-between items-center mb-6 sm:mb-12 px-4 sm:px-2 pt-4 pb-2 sm:py-0 sticky top-0 z-[10000] bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 sm:static sm:bg-transparent sm:border-none">
+      <header className="relative w-full sm:max-w-5xl flex justify-between items-center mb-6 sm:mb-12 px-4 sm:px-2 pt-4 pb-2 sm:py-0 sticky top-0 z-[10001] bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 sm:static sm:bg-transparent sm:border-none">
         <button
           onClick={() => {
             setNickname("");
@@ -909,7 +909,7 @@ export default function Home() {
         }
 
         {/* Search Input Area with enhanced design */}
-        <div className="w-full max-w-4xl relative px-4 sm:px-0">
+        <div className="w-full max-w-4xl relative z-[50] px-4 sm:px-0">
           {/* Glow effect behind search bar */}
           {!character && (
             <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
@@ -965,7 +965,7 @@ export default function Home() {
 
               {/* Favorites Dropdown */}
               {isFavoritesOpen && (
-                <div className="absolute right-2 sm:right-0 top-full mt-2 min-w-[280px] max-w-[90vw] sm:w-80 sm:max-w-none bg-slate-900 border-2 border-yellow-500/50 rounded-xl shadow-2xl z-[9999] overflow-hidden">
+                <div className="absolute right-2 sm:right-0 top-full mt-2 min-w-[280px] max-w-[90vw] sm:w-80 sm:max-w-none bg-slate-900 border-2 border-yellow-500/50 rounded-xl shadow-2xl overflow-hidden" style={{ zIndex: 99999 }}>
 
                   <div className="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 px-4 py-3 border-b border-yellow-500/30">
                     <h3 className="font-bold text-yellow-400 flex items-center gap-2">
@@ -1304,7 +1304,7 @@ export default function Home() {
             {/* Left Panel: Character Profile & Equipment */}
             <div className="w-full xl:w-[28%] flex flex-col gap-2 sm:gap-3">
               {/* Character Profile Card */}
-              <div className="relative z-50 rounded-none sm:rounded-3xl shadow-2xl shadow-black/50 mx-0 sm:mx-0">
+              <div className="relative z-0 rounded-none sm:rounded-3xl shadow-2xl shadow-black/50 mx-0 sm:mx-0">
                 {/* Background Container - Handles clipping for background effects */}
                 <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-950 rounded-none sm:rounded-3xl border-y sm:border border-slate-800 overflow-hidden">
                   <div className="absolute inset-0 bg-[url('https://maplestory.io/api/GMS/249/map/100000000/render/0')] bg-cover bg-center opacity-5 blur-sm grayscale"></div>
@@ -1408,7 +1408,7 @@ export default function Home() {
                       }}></div>
 
                       {/* Main Content */}
-                      <div className="relative z-10 flex flex-col items-center">
+                      <div className="relative flex flex-col items-center">
                         <div className="flex items-center gap-1.5 sm:gap-3 flex-wrap justify-center">
                           <Swords className={`w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 ${currentTier.color} drop-shadow-lg`} />
                           <span className="text-lg sm:text-2xl md:text-3xl text-slate-400 font-bold drop-shadow-md">전투력 :</span>
@@ -1431,7 +1431,7 @@ export default function Home() {
                       </div>
 
                       {/* Rank Component */}
-                      <div className="w-full px-0 sm:px-2 relative z-10">
+                      <div className="w-full px-0 sm:px-2 relative">
                         <CombatPowerRank combatPower={combatPower} characterImage={character?.character_image} />
                       </div>
                     </div>

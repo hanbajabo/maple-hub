@@ -28,7 +28,10 @@ body {
 
   /* Prevent ads from being inserted in this section */
   .no-ads-section {
-    isolation: isolate;
+    /* isolation: isolate; */
+    /* Removed: This was preventing dropdown z-index from working */
+    position: relative;
+    z-index: 50;
     contain: layout style;
     break-inside: avoid;
     page-break-inside: avoid;
