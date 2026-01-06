@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Calendar, Clock, ArrowRight, Flame, TrendingUp, Gift } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, Flame, TrendingUp, Gift, Search, X } from 'lucide-react';
 import { InFeedAd } from '@/components/AdSense';
 import CalculatorMenu from "../../components/navigation/CalculatorMenu";
 
-import { blogPosts } from '@/lib/blogPosts';
+import { blogPosts, BlogPost } from '@/lib/blogPosts';
 
 // 카테고리별 아이콘
 const categoryIcons: { [key: string]: any } = {
@@ -18,12 +18,25 @@ const categoryIcons: { [key: string]: any } = {
 };
 
 export default function BlogPage() {
+    const [searchQuery, setSearchQuery] = useState('');
+
     // Hero Post는 항상 하이퍼버닝 직업 추천 글
     const heroPost = blogPosts.find(p => p.slug === 'hyperburning-jobs-2025') || blogPosts[0];
 
-    const levelingPosts = blogPosts.filter(p => p.category === '육성 가이드' || p.category === '경험치 가이드').slice(0, 6);
-    const eventPosts = blogPosts.filter(p => p.category === '이벤트 가이드' || p.category === '업데이트 소식').slice(0, 6);
-    const equipmentPosts = blogPosts.filter(p => p.category === '장비 가이드').slice(0, 4);
+    // 검색 필터 함수
+    const filterBySearch = (posts: BlogPost[]) => {
+        if (!searchQuery.trim()) return posts;
+        const query = searchQuery.toLowerCase();
+        return posts.filter(p =>
+            p.title.toLowerCase().includes(query) ||
+            p.description.toLowerCase().includes(query) ||
+            p.category.toLowerCase().includes(query)
+        );
+    };
+
+    const levelingPosts = filterBySearch(blogPosts.filter(p => p.category === '육성 가이드' || p.category === '경험치 가이드'));
+    const eventPosts = filterBySearch(blogPosts.filter(p => p.category === '이벤트 가이드' || p.category === '업데이트 소식'));
+    const equipmentPosts = filterBySearch(blogPosts.filter(p => p.category === '장비 가이드'));
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
@@ -138,6 +151,35 @@ export default function BlogPage() {
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </button>
                         </Link>
+                    </div>
+                </section>
+
+                {/* 검색바 */}
+                <section className="mb-12">
+                    <div className="max-w-2xl mx-auto">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="제목, 키워드로 검색하세요... (예: 어빌리티, 헥사, 보스)"
+                                className="w-full px-5 py-4 pl-12 bg-slate-800/50 border-2 border-slate-700 rounded-xl text-white placeholder:text-slate-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
+                            />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery('')}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                                >
+                                    <X className="w-5 h-5" />
+                                </button>
+                            )}
+                        </div>
+                        {searchQuery && (
+                            <p className="mt-3 text-sm text-slate-400 text-center">
+                                "{searchQuery}" 검색 결과: {levelingPosts.length + eventPosts.length + equipmentPosts.length}개
+                            </p>
+                        )}
                     </div>
                 </section>
 
