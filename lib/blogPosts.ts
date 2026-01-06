@@ -34,6 +34,16 @@ export const blogPosts: BlogPost[] = [
     },
     // 육성 가이드
     {
+        slug: 'link-union-guide',
+        title: '🌟 링크 & 유니온 육성 가이드 - 효율적인 캐릭터 육성 순서 완벽 정리',
+        description: '경험치 링크 vs 딜 링크, 140레벨 vs 200레벨 목표, 보스용 엔드급 링크 세팅까지! 맨땅 헤딩 없이 효율적으로 링크와 유니온을 완성하는 로드맵을 제시합니다.',
+        category: '육성 가이드',
+        date: '2026년 1월 7일',
+        readTime: '12분',
+        thumbnail: '🌟',
+        featured: true,
+    },
+    {
         slug: 'hyperburning-jobs-2025',
         title: '🎬 유튜버 6명이 입 모아 외친 "그 직업". 2025 겨울 하이퍼버닝 추천 직업 통합 분석 (종결판)',
         description: '메친놈, 슈크림메이플, 물다이아, 페이지, 글자네 등 유튜버 6명의 분석 종합! 12월 18일 챌린저스 월드 시즌 3, 어떤 직업을 키워야 할까?',
