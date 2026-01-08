@@ -35,6 +35,11 @@ export default function TestworldSkillBalancePage() {
             setSearchQuery('');
         }
     };
+
+    const shouldShow = (jobName: string) => {
+        if (!searchQuery) return true;
+        return jobName.includes(searchQuery);
+    };
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
             {/* Header */}
@@ -75,7 +80,7 @@ export default function TestworldSkillBalancePage() {
                 </div>
 
                 {/* Common Skills */}
-                <section className="mb-12">
+                <section className="mb-12" style={{ display: !searchQuery ? 'block' : 'none' }}>
                     <h2 className="text-2xl font-bold mb-6 text-purple-400">🌟 공통</h2>
 
                     <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-2 border-slate-700 rounded-2xl p-6">
@@ -93,7 +98,7 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Search Section */}
                 <section className="mb-12">
@@ -120,32 +125,22 @@ export default function TestworldSkillBalancePage() {
                                 </button>
                             )}
                         </div>
-                        {filteredJobs.length > 0 && (
-                            <div className="mt-4 bg-slate-900/50 border border-purple-500/30 rounded-lg p-4 max-h-60 overflow-y-auto">
-                                <p className="text-sm text-slate-400 mb-2">검색 결과 ({filteredJobs.length}개)</p>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                                    {filteredJobs.map((job) => (
-                                        <button
-                                            key={job}
-                                            onClick={() => scrollToJob(job)}
-                                            className="px-3 py-2 bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 rounded-lg text-sm text-white transition-colors text-left"
-                                        >
-                                            {job}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+                        {/* Remove result list */}
                         {searchQuery && filteredJobs.length === 0 && (
                             <p className="text-sm text-red-400 mt-2">
                                 "{searchQuery}"에 대한 검색 결과가 없습니다.
+                            </p>
+                        )}
+                        {searchQuery && filteredJobs.length > 0 && (
+                            <p className="text-sm text-slate-400 mt-2">
+                                {filteredJobs.length}개의 직업이 검색되었습니다.
                             </p>
                         )}
                     </div>
                 </section>
 
                 {/* Hero */}
-                <section id="히어로" className="mb-12">
+                <section id="히어로" className="mb-12" style={{ display: shouldShow('히어로') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-red-900/30 to-orange-900/30 border-2 border-red-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/히어로.png" alt="히어로" width={64} height={64} className="rounded-lg" />
@@ -162,7 +157,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Paladin */}
-                <section className="mb-12">
+                <section id="팔라딘" className="mb-12" style={{ display: shouldShow('팔라딘') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-blue-900/30 to-white/10 border-2 border-blue-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/팔라딘.png" alt="팔라딘" width={64} height={64} className="rounded-lg" />
@@ -181,7 +176,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Dark Knight */}
-                <section className="mb-12">
+                <section id="다크나이트" className="mb-12" style={{ display: shouldShow('다크나이트') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-purple-900/30 to-black/30 border-2 border-purple-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/다크나이트.png" alt="다크나이트" width={64} height={64} className="rounded-lg" />
@@ -198,10 +193,10 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Fire/Poison Mage */}
-                <section className="mb-12">
+                <section id="아크메이지(불,독)" className="mb-12" style={{ display: shouldShow('아크메이지(불,독)') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-orange-900/30 to-red-900/30 border-2 border-orange-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/아크메이지(불,독).png" alt="아크메이지(불,독)" width={64} height={64} className="rounded-lg" />
@@ -225,7 +220,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Ice/Lightning Mage */}
-                <section className="mb-12">
+                <section id="아크메이지(썬,콜)" className="mb-12" style={{ display: shouldShow('아크메이지(썬,콜)') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 border-2 border-blue-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/아크메이지(썬,콜).png" alt="아크메이지(썬,콜)" width={64} height={64} className="rounded-lg" />
@@ -243,7 +238,7 @@ export default function TestworldSkillBalancePage() {
                 {/* Continue with all other classes... Due to length, I'll create a comprehensive version */}
 
                 {/* Bishop */}
-                <section className="mb-12">
+                <section id="비숍" className="mb-12" style={{ display: shouldShow('비숍') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-yellow-900/30 to-white/10 border-2 border-yellow-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/비숍.png" alt="비숍" width={64} height={64} className="rounded-lg" />
@@ -257,10 +252,10 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Bowmaster */}
-                <section className="mb-12">
+                <section id="보우마스터" className="mb-12" style={{ display: shouldShow('보우마스터') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 border-2 border-green-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/보우마스터.png" alt="보우마스터" width={64} height={64} className="rounded-lg" />
@@ -275,7 +270,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Marksman */}
-                <section className="mb-12">
+                <section id="신궁" className="mb-12" style={{ display: shouldShow('신궁') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-slate-700/30 to-blue-900/30 border-2 border-slate-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/신궁.png" alt="신궁" width={64} height={64} className="rounded-lg" />
@@ -292,7 +287,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Night Lord */}
-                <section className="mb-12">
+                <section id="나이트로드" className="mb-12" style={{ display: shouldShow('나이트로드') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 border-2 border-purple-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/나이트로드.png" alt="나이트로드" width={64} height={64} className="rounded-lg" />
@@ -306,7 +301,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Shadower */}
-                <section className="mb-12">
+                <section id="섀도어" className="mb-12" style={{ display: shouldShow('섀도어') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-gray-900/30 to-slate-900/30 border-2 border-gray-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/섀도어.png" alt="섀도어" width={64} height={64} className="rounded-lg" />
@@ -323,7 +318,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Dual Blade */}
-                <section className="mb-12">
+                <section id="듀얼블레이드" className="mb-12" style={{ display: shouldShow('듀얼블레이드') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-red-900/30 to-black/30 border-2 border-red-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/듀얼블레이더.png" alt="듀얼블레이드" width={64} height={64} className="rounded-lg" />
@@ -345,10 +340,10 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Viper */}
-                <section className="mb-12">
+                <section id="바이퍼" className="mb-12" style={{ display: shouldShow('바이퍼') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-yellow-900/30 to-orange-900/30 border-2 border-yellow-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/바이퍼.png" alt="바이퍼" width={64} height={64} className="rounded-lg" />
@@ -362,7 +357,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Captain */}
-                <section className="mb-12">
+                <section id="캡틴" className="mb-12" style={{ display: shouldShow('캡틴') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 border-2 border-blue-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/캡틴.png" alt="캡틴" width={64} height={64} className="rounded-lg" />
@@ -377,7 +372,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Cannon Shooter */}
-                <section className="mb-12">
+                <section id="캐논슈터" className="mb-12" style={{ display: shouldShow('캐논슈터') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-orange-900/30 to-yellow-900/30 border-2 border-orange-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/캐논마스터.png" alt="캐논슈터" width={64} height={64} className="rounded-lg" />
@@ -394,7 +389,7 @@ export default function TestworldSkillBalancePage() {
                 {/* Continue with remaining jobs... */}
 
                 {/* Mihile */}
-                <section className="mb-12">
+                <section id="미하일" className="mb-12" style={{ display: shouldShow('미하일') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-white/20 to-blue-900/30 border-2 border-white/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/미하일.png" alt="미하일" width={64} height={64} className="rounded-lg" />
@@ -410,7 +405,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Soul Master */}
-                <section className="mb-12">
+                <section id="소울마스터" className="mb-12" style={{ display: shouldShow('소울마스터') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-red-900/30 to-orange-900/30 border-2 border-red-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/소울마스터.png" alt="소울마스터" width={64} height={64} className="rounded-lg" />
@@ -424,7 +419,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Flame Wizard */}
-                <section className="mb-12">
+                <section id="플레임위자드" className="mb-12" style={{ display: shouldShow('플레임위자드') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-orange-900/30 to-red-900/30 border-2 border-orange-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/플레임위자드.png" alt="플레임위자드" width={64} height={64} className="rounded-lg" />
@@ -436,10 +431,10 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Wind Breaker */}
-                <section className="mb-12">
+                <section id="윈드브레이커" className="mb-12" style={{ display: shouldShow('윈드브레이커') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-green-900/30 to-cyan-900/30 border-2 border-green-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/윈드브레이커.png" alt="윈드브레이커" width={64} height={64} className="rounded-lg" />
@@ -454,7 +449,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Night Walker */}
-                <section className="mb-12">
+                <section id="나이트워커" className="mb-12" style={{ display: shouldShow('나이트워커') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-purple-900/30 to-black/30 border-2 border-purple-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/나이트워커.png" alt="나이트워커" width={64} height={64} className="rounded-lg" />
@@ -469,7 +464,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Striker */}
-                <section className="mb-12">
+                <section id="스트라이커" className="mb-12" style={{ display: shouldShow('스트라이커') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 border-2 border-cyan-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/스트라이커.png" alt="스트라이커" width={64} height={64} className="rounded-lg" />
@@ -482,10 +477,10 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Aran */}
-                <section className="mb-12">
+                <section id="아란" className="mb-12" style={{ display: shouldShow('아란') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 border-2 border-blue-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/아란.png" alt="아란" width={64} height={64} className="rounded-lg" />
@@ -500,7 +495,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Evan */}
-                <section className="mb-12">
+                <section id="에반" className="mb-12" style={{ display: shouldShow('에반') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 border-2 border-cyan-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/에반.png" alt="에반" width={64} height={64} className="rounded-lg" />
@@ -514,7 +509,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Luminous */}
-                <section className="mb-12">
+                <section id="루미너스" className="mb-12" style={{ display: shouldShow('루미너스') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-yellow-900/30 to-purple-900/30 border-2 border-yellow-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/루미너스.png" alt="루미너스" width={64} height={64} className="rounded-lg" />
@@ -538,7 +533,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Mercedes */}
-                <section className="mb-12">
+                <section id="메르세데스" className="mb-12" style={{ display: shouldShow('메르세데스') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-green-900/30 to-cyan-900/30 border-2 border-green-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/메르세데스.png" alt="메르세데스" width={64} height={64} className="rounded-lg" />
@@ -561,10 +556,10 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Phantom */}
-                <section className="mb-12">
+                <section id="팬텀" className="mb-12" style={{ display: shouldShow('팬텀') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border-2 border-purple-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/팬텀.png" alt="팬텀" width={64} height={64} className="rounded-lg" />
@@ -587,7 +582,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Eunwol */}
-                <section className="mb-12">
+                <section id="은월" className="mb-12" style={{ display: shouldShow('은월') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-orange-900/30 to-red-900/30 border-2 border-orange-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/은월.png" alt="은월" width={64} height={64} className="rounded-lg" />
@@ -602,10 +597,10 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Demon Slayer */}
-                <section className="mb-12">
+                <section id="데몬 슬레이어" className="mb-12" style={{ display: shouldShow('데몬 슬레이어') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-purple-900/30 to-red-900/30 border-2 border-purple-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/데몬슬레이어.png" alt="데몬 슬레이어" width={64} height={64} className="rounded-lg" />
@@ -619,7 +614,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Blaster */}
-                <section className="mb-12">
+                <section id="블래스터" className="mb-12" style={{ display: shouldShow('블래스터') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-orange-900/30 to-yellow-900/30 border-2 border-orange-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/블래스터.png" alt="블래스터" width={64} height={64} className="rounded-lg" />
@@ -634,7 +629,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Wild Hunter */}
-                <section className="mb-12">
+                <section id="와일드헌터" className="mb-12" style={{ display: shouldShow('와일드헌터') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-green-900/30 to-teal-900/30 border-2 border-green-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/와일드헌터.png" alt="와일드헌터" width={64} height={64} className="rounded-lg" />
@@ -650,7 +645,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Xenon */}
-                <section className="mb-12">
+                <section id="제논" className="mb-12" style={{ display: shouldShow('제논') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-cyan-900/30 to-purple-900/30 border-2 border-cyan-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/제논.png" alt="제논" width={64} height={64} className="rounded-lg" />
@@ -666,7 +661,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Mechanic */}
-                <section className="mb-12">
+                <section id="메카닉" className="mb-12" style={{ display: shouldShow('메카닉') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-gray-900/30 to-blue-900/30 border-2 border-gray-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/메카닉.png" alt="메카닉" width={64} height={64} className="rounded-lg" />
@@ -680,10 +675,10 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Kaiser */}
-                <section className="mb-12">
+                <section id="카이저" className="mb-12" style={{ display: shouldShow('카이저') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-red-900/30 to-orange-900/30 border-2 border-red-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/카이저.png" alt="카이저" width={64} height={64} className="rounded-lg" />
@@ -698,7 +693,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Cadena */}
-                <section className="mb-12">
+                <section id="카데나" className="mb-12" style={{ display: shouldShow('카데나') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 border-2 border-purple-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/카데나.png" alt="카데나" width={64} height={64} className="rounded-lg" />
@@ -715,7 +710,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Angelic Buster */}
-                <section className="mb-12">
+                <section id="엔젤릭버스터" className="mb-12" style={{ display: shouldShow('엔젤릭버스터') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-pink-900/30 to-purple-900/30 border-2 border-pink-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/엔젤릭버스터.png" alt="엔젤릭버스터" width={64} height={64} className="rounded-lg" />
@@ -732,7 +727,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Zero */}
-                <section className="mb-12">
+                <section id="제로" className="mb-12" style={{ display: shouldShow('제로') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-blue-900/30 to-purple-900/30 border-2 border-blue-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/제로.png" alt="제로" width={64} height={64} className="rounded-lg" />
@@ -756,10 +751,10 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Kinesis */}
-                <section className="mb-12">
+                <section id="키네시스" className="mb-12" style={{ display: shouldShow('키네시스') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 border-2 border-purple-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/키네시스.png" alt="키네시스" width={64} height={64} className="rounded-lg" />
@@ -776,7 +771,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Adele */}
-                <section className="mb-12">
+                <section id="아델" className="mb-12" style={{ display: shouldShow('아델') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 border-2 border-blue-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/아델.png" alt="아델" width={64} height={64} className="rounded-lg" />
@@ -793,7 +788,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Illium */}
-                <section className="mb-12">
+                <section id="일리움" className="mb-12" style={{ display: shouldShow('일리움') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 border-2 border-cyan-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/일리움.png" alt="일리움" width={64} height={64} className="rounded-lg" />
@@ -811,7 +806,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Khali */}
-                <section className="mb-12">
+                <section id="칼리" className="mb-12" style={{ display: shouldShow('칼리') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 border-2 border-indigo-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/칼리.png" alt="칼리" width={64} height={64} className="rounded-lg" />
@@ -826,7 +821,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Ark */}
-                <section className="mb-12">
+                <section id="아크" className="mb-12" style={{ display: shouldShow('아크') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-yellow-900/30 to-purple-900/30 border-2 border-yellow-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/아크.png" alt="아크" width={64} height={64} className="rounded-lg" />
@@ -842,10 +837,10 @@ export default function TestworldSkillBalancePage() {
                     </div>
                 </section>
 
-                <InArticleAd dataAdSlot="8162808816" className="my-12" />
+                {!searchQuery && <InArticleAd dataAdSlot="8162808816" className="my-12" />}
 
                 {/* Lara */}
-                <section className="mb-12">
+                <section id="라라" className="mb-12" style={{ display: shouldShow('라라') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-green-900/30 to-cyan-900/30 border-2 border-green-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/라라.png" alt="라라" width={64} height={64} className="rounded-lg" />
@@ -858,7 +853,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Ren */}
-                <section className="mb-12">
+                <section id="렌" className="mb-12" style={{ display: shouldShow('렌') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-red-900/30 to-black/30 border-2 border-red-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/렌.png" alt="렌" width={64} height={64} className="rounded-lg" />
@@ -881,7 +876,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Hoyoung */}
-                <section className="mb-12">
+                <section id="호영" className="mb-12" style={{ display: shouldShow('호영') ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-br from-yellow-900/30 to-red-900/30 border-2 border-yellow-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/호영.png" alt="호영" width={64} height={64} className="rounded-lg" />
@@ -898,7 +893,7 @@ export default function TestworldSkillBalancePage() {
                 </section>
 
                 {/* Summary */}
-                <section className="mb-12">
+                <section className="mb-12" style={{ display: !searchQuery ? 'block' : 'none' }}>
                     <div className="bg-gradient-to-r from-slate-800 to-slate-900 border-2 border-purple-500 rounded-xl p-8">
                         <h2 className="text-2xl font-bold mb-6 text-center flex items-center justify-center gap-2">
                             <AlertCircle className="w-6 h-6 text-purple-400" />
