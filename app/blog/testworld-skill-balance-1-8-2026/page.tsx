@@ -8,6 +8,33 @@ import { InArticleAd } from '@/components/AdSense';
 
 export default function TestworldSkillBalancePage() {
     const [searchQuery, setSearchQuery] = useState('');
+
+    const jobs = [
+        '히어로', '팔라딘', '다크나이트',
+        '아크메이지(불,독)', '아크메이지(썬,콜)', '비숍',
+        '보우마스터', '신궁',
+        '나이트로드', '섀도어', '듀얼블레이드',
+        '바이퍼', '캡틴', '캐논슈터',
+        '미하일', '소울마스터', '플레임위자드', '윈드브레이커', '나이트워커', '스트라이커',
+        '아란', '에반', '루미너스', '메르세데스', '팬텀', '은월',
+        '데몬 슬레이어', '블래스터', '와일드헌터', '제논', '메카닉',
+        '카이저', '카데나', '엔젤릭버스터',
+        '제로', '키네시스',
+        '아델', '일리움', '칼리', '아크',
+        '라라', '렌', '호영'
+    ];
+
+    const filteredJobs = searchQuery
+        ? jobs.filter(job => job.toLowerCase().includes(searchQuery.toLowerCase()))
+        : [];
+
+    const scrollToJob = (job: string) => {
+        const element = document.getElementById(job);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setSearchQuery('');
+        }
+    };
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
             {/* Header */}
@@ -93,16 +120,32 @@ export default function TestworldSkillBalancePage() {
                                 </button>
                             )}
                         </div>
-                        {searchQuery && (
-                            <p className="text-sm text-slate-400 mt-2">
-                                "{searchQuery}" 검색 중... 페이지 내 검색(Ctrl+F)을 사용하거나 아래로 스크롤하여 해당 직업을 찾아보세요.
+                        {filteredJobs.length > 0 && (
+                            <div className="mt-4 bg-slate-900/50 border border-purple-500/30 rounded-lg p-4 max-h-60 overflow-y-auto">
+                                <p className="text-sm text-slate-400 mb-2">검색 결과 ({filteredJobs.length}개)</p>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                                    {filteredJobs.map((job) => (
+                                        <button
+                                            key={job}
+                                            onClick={() => scrollToJob(job)}
+                                            className="px-3 py-2 bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 rounded-lg text-sm text-white transition-colors text-left"
+                                        >
+                                            {job}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        {searchQuery && filteredJobs.length === 0 && (
+                            <p className="text-sm text-red-400 mt-2">
+                                "{searchQuery}"에 대한 검색 결과가 없습니다.
                             </p>
                         )}
                     </div>
                 </section>
 
                 {/* Hero */}
-                <section className="mb-12">
+                <section id="히어로" className="mb-12">
                     <div className="bg-gradient-to-br from-red-900/30 to-orange-900/30 border-2 border-red-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <Image src="/images/jobs/히어로.png" alt="히어로" width={64} height={64} className="rounded-lg" />
