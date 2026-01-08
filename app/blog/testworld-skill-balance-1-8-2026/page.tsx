@@ -109,38 +109,11 @@ export default function TestworldSkillBalancePage() {
                             <h2 className="text-2xl font-bold text-red-400">히어로</h2>
                         </div>
 
-                        <div className="space-y-3">
-                            <div className="bg-slate-900/50 rounded-lg p-4 border border-green-500/30">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <TrendingUp className="w-5 h-5 text-green-400" />
-                                    <h3 className="font-bold text-white">레이징 블로우 🔼</h3>
-                                </div>
-                                <p className="text-slate-300 text-sm">• 강화 데미지: <span className="text-red-400">344%</span> → <span className="text-green-400">387%</span></p>
-                            </div>
-
-                            <div className="bg-slate-900/50 rounded-lg p-4 border border-green-500/30">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <TrendingUp className="w-5 h-5 text-green-400" />
-                                    <h3 className="font-bold text-white">레이징 블로우 VI 🔼</h3>
-                                </div>
-                                <p className="text-slate-300 text-sm">• 강화 데미지: <span className="text-red-400">700%</span> → <span className="text-green-400">721%</span></p>
-                            </div>
-
-                            <div className="bg-slate-900/50 rounded-lg p-4 border border-green-500/30">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <TrendingUp className="w-5 h-5 text-green-400" />
-                                    <h3 className="font-bold text-white">레이징 업라이징 VI 🔼</h3>
-                                </div>
-                                <p className="text-slate-300 text-sm">• 레이징 블로우 VI 데미지 증가: <span className="text-red-400">148%p</span> → <span className="text-green-400">157%p</span></p>
-                            </div>
-
-                            <div className="bg-slate-900/50 rounded-lg p-4 border border-green-500/30">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <TrendingUp className="w-5 h-5 text-green-400" />
-                                    <h3 className="font-bold text-white">파이널 어택 VI 🔼</h3>
-                                </div>
-                                <p className="text-slate-300 text-sm">• 데미지: <span className="text-red-400">266%</span> → <span className="text-green-400">276%</span></p>
-                            </div>
+                        <div className="space-y-2 text-slate-200">
+                            <p className="flex items-center gap-2"><TrendingUp className="w-4 h-4 text-green-400" /><span className="font-semibold">레이징 블로우 🔼</span>: 강화 데미지 <span className="text-red-400">344%</span> → <span className="text-green-400">387%</span></p>
+                            <p className="flex items-center gap-2"><TrendingUp className="w-4 h-4 text-green-400" /><span className="font-semibold">레이징 블로우 VI 🔼</span>: 강화 데미지 <span className="text-red-400">700%</span> → <span className="text-green-400">721%</span></p>
+                            <p className="flex items-center gap-2"><TrendingUp className="w-4 h-4 text-green-400" /><span className="font-semibold">레이징 업라이징 VI 🔼</span>: 레이징 블로우 VI 데미지 증가 <span className="text-red-400">148%p</span> → <span className="text-green-400">157%p</span></p>
+                            <p className="flex items-center gap-2"><TrendingUp className="w-4 h-4 text-green-400" /><span className="font-semibold">파이널 어택 VI 🔼</span>: 데미지 <span className="text-red-400">266%</span> → <span className="text-green-400">276%</span></p>
                         </div>
                     </div>
                 </section>
