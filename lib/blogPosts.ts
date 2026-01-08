@@ -10,6 +10,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 최신 업데이트 - 테스트월드 스킬 밸런스
+    {
+        slug: 'testworld-skill-balance-1-8-2026',
+        title: '⚔️ 테스트월드 클라이언트 1.2.197 릴리즈 - 스킬 조정 총정리',
+        description: '2026년 1월 15일 본섭 적용 예정! 전 직업 스킬 밸런스 패치 상세 분석. 다크나이트 신규 스킬 리인카네이션 알터 추가!',
+        category: '업데이트 소식',
+        date: '2026년 1월 8일',
+        readTime: '15분',
+        thumbnail: '⚔️',
+        featured: true,
+    },
     // 최신 공지 - 감사의 마음
     {
         slug: 'thank-you-gift-2026',
@@ -19,7 +30,7 @@ export const blogPosts: BlogPost[] = [
         date: '2026년 1월 6일',
         readTime: '3분',
         thumbnail: '🎁',
-        featured: true,
+        featured: false,
     },
     // 긴급 공지 - CROWN 쇼케이스 (12/31 마감)
     {

@@ -20,8 +20,8 @@ const categoryIcons: { [key: string]: any } = {
 export default function BlogPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Hero Post는 항상 하이퍼버닝 직업 추천 글
-    const heroPost = blogPosts.find(p => p.slug === 'hyperburning-jobs-2025') || blogPosts[0];
+    // Hero Post는 featured: true인 글
+    const heroPost = blogPosts.find(p => p.featured === true) || blogPosts[0];
 
     // 검색 필터 함수
     const filterBySearch = (posts: BlogPost[]) => {
@@ -126,12 +126,12 @@ export default function BlogPage() {
 
                         <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black leading-tight mb-3 drop-shadow-xl">
                             <span className="bg-gradient-to-r from-yellow-200 via-orange-200 to-red-200 bg-clip-text text-transparent">
-                                2025 하이퍼버닝 직업 추천 종결판
+                                테스트월드 스킬 조정 총정리
                             </span>
                         </h2>
 
                         <p className="text-slate-200 text-sm sm:text-base md:text-lg mb-4 drop-shadow-md">
-                            유튜버 6인 분석 종합! 메친놈, 슈크림메이플, 물다이아 등 전문가 의견 총집합
+                            1월 15일 본섭 적용 예정! 전 직업 밸런스 패치 상세 분석 - 다크나이트 신규 스킬 추가
                         </p>
 
                         <div className="flex items-center gap-4 mb-4">
