@@ -150,28 +150,28 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">레이징 블로우 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">강화 데미지 <span className="text-red-400">344%</span> → <span className="text-green-400">387%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">레이징 블로우 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">강화 데미지 <span className="text-red-400">700%</span> → <span className="text-green-400">721%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">레이징 업라이징 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">레이징 블로우 VI 데미지 증가 <span className="text-red-400">148%p</span> → <span className="text-green-400">157%p</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">파이널 어택 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">266%</span> → <span className="text-green-400">276%</span></div>
@@ -219,7 +219,7 @@ export default function TestworldSkillBalancePage() {
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">도미누스 오브리온 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">충격 <span className="text-red-400">9963%</span> → <span className="text-green-400">10924%</span>, 빛의 심판 <span className="text-red-400">10368%</span> → <span className="text-green-400">10908%</span></div>
@@ -242,21 +242,21 @@ export default function TestworldSkillBalancePage() {
                             <p className="flex items-center gap-2 text-blue-400"><Plus className="w-4 h-4" /><span className="font-semibold">리인카네이션 알터 ✨ 신규!</span>: 원하는 타이밍에 수동으로 리인카네이션 발동 가능</p>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">피어스 사이클론 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">530%</span> → <span className="text-green-400">583%</span>, 마무리 공격 <span className="text-red-400">1140%</span> → <span className="text-green-400">1254%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">다크 신서시스 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">750%</span> → <span className="text-green-400">775%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">비홀더 쇼크 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">1280%</span> → <span className="text-green-400">1344%</span></div>
@@ -277,7 +277,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">익스트림 매직(불,독) 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">상태이상 적 공격 시 최종 데미지 <span className="text-red-400">13%</span> → <span className="text-green-400">15%</span></div>
@@ -293,14 +293,14 @@ export default function TestworldSkillBalancePage() {
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">메테오 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">700%</span> → <span className="text-green-400">758%</span>, 패시브 증가 <span className="text-red-400">383%p</span> → <span className="text-green-400">441%p</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">토렌셜 플레임 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">3885%</span> → <span className="text-green-400">3920%</span></div>
@@ -319,21 +319,21 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">스펠 마스터리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">마력 증가 <span className="text-red-400">10</span> → <span className="text-green-400">30</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">익스트림 매직(썬,콜) 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">상태이상 적 공격 시 최종 데미지 <span className="text-red-400">18%</span> → <span className="text-green-400">20%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">매직 크리티컬 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">크리티컬 데미지 <span className="text-red-400">13%</span> → <span className="text-green-400">15%</span></div>
@@ -361,21 +361,21 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">트라이엄프 페더 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">570%</span> → <span className="text-green-400">684%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">제네시스 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">825%</span> → <span className="text-green-400">990%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">커맨드 오브 헤븐 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">빛의 데미지 <span className="text-red-400">3770%</span> → <span className="text-green-400">3996%</span></div>
@@ -396,14 +396,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">아머 피어싱 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">13%</span> → <span className="text-green-400">16%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">언카운터블 애로우 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">어드밴스드 파이널 어택 데미지 증가 <span className="text-red-400">320%p</span> → <span className="text-green-400">378%p</span></div>
@@ -429,28 +429,28 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">마크맨쉽 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 증가 <span className="text-red-400">15%</span> → <span className="text-green-400">21%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">크로스보우 엑스퍼트 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">공격력 증가 <span className="text-red-400">30</span> → <span className="text-green-400">40</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">라스트맨 스탠딩 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">10%</span> → <span className="text-green-400">13%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">차지드 애로우 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">1870%</span> → <span className="text-green-400">1925%</span></div>
@@ -476,7 +476,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">다크 세레니티 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">14%</span> → <span className="text-green-400">15%</span></div>
@@ -502,28 +502,28 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">대거 마스터리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">6%</span> → <span className="text-green-400">9%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">실드 마스터리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">공격력 <span className="text-red-400">15</span> → <span className="text-green-400">20</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">크리티컬 엣지 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">크리티컬 데미지 <span className="text-red-400">4%</span> → <span className="text-green-400">5%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">플립 더 코인 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 증가 <span className="text-red-400">20%</span> → <span className="text-green-400">24%</span></div>
@@ -549,7 +549,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">섀도우 이베이젼 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">7%</span> → <span className="text-green-400">8%</span></div>
@@ -581,7 +581,7 @@ export default function TestworldSkillBalancePage() {
                             <p className="text-slate-300 text-xs sm:text-sm">• 서펜트 스크류: 에픽 던전 악몽선경 이펙트 출력 수정</p>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">피스트 인레이지 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">420%</span> → <span className="text-green-400">450%</span></div>
@@ -600,14 +600,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">노틸러스 어썰트 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">선체 공격 <span className="text-red-400">1630%</span> → <span className="text-green-400">1776%</span>, 일제 사격 <span className="text-red-400">600%</span> → <span className="text-green-400">654%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">데스 트리거 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">520%</span> → <span className="text-green-400">580%</span></div>
@@ -633,14 +633,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">오버버닝 캐논 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">30%</span> → <span className="text-green-400">32%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">미니 캐논볼 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">1680%</span> → <span className="text-green-400">1738%</span></div>
@@ -668,14 +668,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">소울 레이지 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">23%</span> → <span className="text-green-400">25%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">어드밴스드 소드 마스터리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">크리티컬 데미지 <span className="text-red-400">20%</span> → <span className="text-green-400">22%</span></div>
@@ -702,7 +702,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">소울 블레싱 III 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">16%</span> → <span className="text-green-400">17%</span></div>
@@ -728,7 +728,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">오비탈 플레임 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">760%</span> → <span className="text-green-400">768%</span></div>
@@ -749,14 +749,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">알바트로스 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">9%</span> → <span className="text-green-400">12%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">보우 엑스퍼트 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">크리티컬 데미지 <span className="text-red-400">20%</span> → <span className="text-green-400">21%</span></div>
@@ -782,14 +782,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">다크니스 블레싱 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">10%</span> → <span className="text-green-400">12%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">래버너스 배트 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">980%</span> → <span className="text-green-400">1013%</span></div>
@@ -815,7 +815,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">너클 엑스퍼트 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">17%</span> → <span className="text-green-400">18%</span></div>
@@ -843,14 +843,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">하이 마스터리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">크리티컬 데미지 <span className="text-red-400">7%</span> → <span className="text-green-400">11%</span>, 최종 데미지 <span className="text-red-400">20%</span> → <span className="text-green-400">21%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">아드레날린 맥시멈 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">얼음 폭풍 <span className="text-red-400">1560%</span> → <span className="text-green-400">1705%</span>, 얼음 파동 <span className="text-red-400">897%</span> → <span className="text-green-400">927%</span></div>
@@ -876,7 +876,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">엘리멘탈 리셋 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">17%</span> → <span className="text-green-400">18%</span></div>
@@ -967,7 +967,7 @@ export default function TestworldSkillBalancePage() {
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">엘리멘탈 스피릿 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">8610%</span> → <span className="text-green-400">8785%</span></div>
@@ -1004,7 +1004,7 @@ export default function TestworldSkillBalancePage() {
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">문리트 세레나데 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">참격 <span className="text-red-400">6445%</span> → <span className="text-green-400">6765%</span></div>
@@ -1023,21 +1023,21 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">일치단결 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">크리티컬 데미지 <span className="text-red-400">10%</span> → <span className="text-green-400">14%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">호기서림 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">11%</span> → <span className="text-green-400">14%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">환혼요호진 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">여우볕 <span className="text-red-400">385%</span> → <span className="text-green-400">440%</span></div>
@@ -1065,7 +1065,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">컨센트레이션 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">31%</span> → <span className="text-green-400">32%</span></div>
@@ -1091,14 +1091,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">건틀렛 마스터리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">공격력 증가 <span className="text-red-400">20</span> → <span className="text-green-400">28</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">콤비네이션 트레이닝 II 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">68%</span> → <span className="text-green-400">70%</span></div>
@@ -1124,7 +1124,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">프라이멀 센스 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">10%</span> → <span className="text-green-400">14%</span></div>
@@ -1132,7 +1132,7 @@ export default function TestworldSkillBalancePage() {
                             <p className="flex items-center gap-2 text-blue-400"><Plus className="w-4 h-4" /><span className="font-semibold">익스텐드 매거진 ✨ 신규!</span>: 공격력 63 증가 기능 추가</p>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">와일드 발칸 : 에이펙스 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">지속 공격 <span className="text-red-400">742%</span> → <span className="text-green-400">862%</span>, 유탄 폭발 <span className="text-red-400">612%</span> → <span className="text-green-400">702%</span></div>
@@ -1158,14 +1158,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">오파츠 코드 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">30%</span> → <span className="text-green-400">32%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">멀티래터럴 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">15%</span> → <span className="text-green-400">17%</span></div>
@@ -1192,7 +1192,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">메카닉 마스터리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">크리티컬 데미지 <span className="text-red-400">5%</span> → <span className="text-green-400">8%</span></div>
@@ -1221,14 +1221,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">카탈라이즈 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">30%</span> → <span className="text-green-400">33%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">언플리칭 커리지 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">크리티컬 데미지 <span className="text-red-400">6%</span> → <span className="text-green-400">8%</span></div>
@@ -1262,7 +1262,7 @@ export default function TestworldSkillBalancePage() {
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">체인아츠:퓨리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">990%</span> → <span className="text-green-400">1045%</span></div>
@@ -1295,28 +1295,28 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">콜 오브 에인션트 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">공격력 증가 <span className="text-red-400">40</span> → <span className="text-green-400">45</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">어피니티 III 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">10%</span> → <span className="text-green-400">12%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">샤이닝 로터스 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">민첩성 증가 <span className="text-red-400">20</span> → <span className="text-green-400">40</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">트리니티 퓨전 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">360%</span> → <span className="text-green-400">395%</span></div>
@@ -1342,14 +1342,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">대검 마스터리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">23%</span> → <span className="text-green-400">26%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">태도 마스터리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">23%</span> → <span className="text-green-400">26%</span></div>
@@ -1357,7 +1357,7 @@ export default function TestworldSkillBalancePage() {
                             <p className="text-slate-300 text-xs sm:text-sm">• 아머 스플릿: 보스 체력 UI 디버프 아이콘 깜빡임 수정</p>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">에고 웨폰 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">알파 <span className="text-red-400">500%</span> → <span className="text-green-400">550%</span>, 베타 <span className="text-red-400">500%</span> → <span className="text-green-400">550%</span></div>
@@ -1389,14 +1389,14 @@ export default function TestworldSkillBalancePage() {
                             <p className="text-slate-300 text-xs sm:text-sm">• 싸이킥 불릿: 스킬 이펙트 변경</p>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">텔레키네시스 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">에너지탄 <span className="text-red-400">187%</span> → <span className="text-green-400">208%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">싸이킥 스매싱 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">727%</span> → <span className="text-green-400">785%</span></div>
@@ -1422,28 +1422,28 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">마스터리 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">크리티컬 데미지 <span className="text-red-400">6%</span> → <span className="text-green-400">11%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">어테인 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 증가 <span className="text-red-400">10%</span> → <span className="text-green-400">13%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">게더링 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">1035%</span> → <span className="text-green-400">1190%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">블로섬 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">1100%</span> → <span className="text-green-400">1270%</span></div>
@@ -1505,14 +1505,14 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">인투이션 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">25%</span> → <span className="text-green-400">28%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">보이드 블리츠 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">370%</span> → <span className="text-green-400">399%</span></div>
@@ -1542,7 +1542,7 @@ export default function TestworldSkillBalancePage() {
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">절대 심연의 속삭임 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">심연의 기운 <span className="text-red-400">5355%</span> → <span className="text-green-400">5565%</span>, 심연의 칼날 <span className="text-red-400">6710%</span> → <span className="text-green-400">6965%</span></div>
@@ -1563,7 +1563,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">용맥 흡수 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">용맥 분출 VI 최종 데미지 <span className="text-red-400">20%</span> → <span className="text-green-400">26%</span></div>
@@ -1582,7 +1582,7 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">고급 장검 숙련 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">최종 데미지 <span className="text-red-400">9%</span> → <span className="text-green-400">11%</span></div>
@@ -1611,28 +1611,28 @@ export default function TestworldSkillBalancePage() {
                         <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-200">
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">고급 부채 숙련 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">공격력 <span className="text-red-400">40</span> → <span className="text-green-400">50</span>, 최종 데미지 <span className="text-red-400">31%</span> → <span className="text-green-400">33%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">추적 귀화부 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">410%</span> → <span className="text-green-400">440%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">권술 : 호접지몽 VI 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">826%</span> → <span className="text-green-400">884%</span></div>
                             </div>
                             <div className="leading-relaxed">
                                 <div className="flex items-start gap-1.5 mb-1">
-                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                    <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 mt-0.5 flex-shrink-0" />
                                     <span className="font-semibold">선기 : 천지인 환영 🔼</span>
                                 </div>
                                 <div className="pl-5 sm:pl-5.5">데미지 <span className="text-red-400">1375%</span> → <span className="text-green-400">1540%</span></div>
