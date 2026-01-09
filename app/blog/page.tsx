@@ -34,9 +34,13 @@ export default function BlogPage() {
         );
     };
 
+    const allSearchResults = searchQuery ? filterBySearch(blogPosts) : [];
+
     const levelingPosts = filterBySearch(blogPosts.filter(p => p.category === '육성 가이드' || p.category === '경험치 가이드'));
-    const eventPosts = filterBySearch(blogPosts.filter(p => p.category === '이벤트 가이드' || p.category === '업데이트 소식'));
+    const eventPosts = filterBySearch(blogPosts.filter(p => p.category === '이벤트 가이드'));
     const equipmentPosts = filterBySearch(blogPosts.filter(p => p.category === '장비 가이드'));
+    const testworldPosts = filterBySearch(blogPosts.filter(p => p.category === '업데이트 소식'));
+    const storyPosts = filterBySearch(blogPosts.filter(p => p.category === '메이플 이야기'));
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
@@ -177,206 +181,401 @@ export default function BlogPage() {
                         </div>
                         {searchQuery && (
                             <p className="mt-3 text-sm text-slate-400 text-center">
-                                "{searchQuery}" 검색 결과: {levelingPosts.length + eventPosts.length + equipmentPosts.length}개
+                                "{searchQuery}" 검색 결과: {allSearchResults.length}개
                             </p>
                         )}
                     </div>
                 </section>
 
-                {/* 첫 번째 광고 - Hero 섹션 직후 */}
-                <div className="mb-16">
-                    <InFeedAd
-                        dataAdSlot="4331375010"
-                        className="max-w-4xl mx-auto"
-                    />
-                </div>
+                {/* 검색 결과 뷰 */}
+                {searchQuery ? (
+                    <section className="mb-20 animate-fade-in">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {allSearchResults.map((post) => (
+                                <Link
+                                    key={post.slug}
+                                    href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
+                                    className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-blue-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/20"
+                                >
+                                    <div className="mb-4 flex items-center justify-between">
+                                        {post.thumbnail.startsWith('/') ? (
+                                            <div className="relative w-12 h-12">
+                                                <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                                            </div>
+                                        ) : (
+                                            <div className="text-5xl">{post.thumbnail}</div>
+                                        )}
+                                        <span className="px-2 py-1 bg-slate-700 text-slate-300 text-xs font-semibold rounded">
+                                            {post.category}
+                                        </span>
+                                    </div>
 
-                {/* 육성 가이드 섹션 */}
-                <section className="mb-20">
-                    <div className="flex justify-between items-end mb-8">
-                        <div>
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
-                                <Flame className="w-8 h-8 text-orange-500" />
-                                <span>육성 가이드</span>
-                            </h2>
-                            <p className="text-slate-400 text-sm sm:text-base">레벨업이 막힐 때, 직업 선택이 고민될 때</p>
-                        </div>
-                    </div>
+                                    <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors mb-3 line-clamp-2 leading-snug">
+                                        {post.title}
+                                    </h3>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {levelingPosts.map((post) => (
-                            <Link
-                                key={post.slug}
-                                href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
-                                className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-orange-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-900/20"
-                            >
-                                <div className="mb-4 flex items-center justify-between">
-                                    {post.thumbnail.startsWith('/') ? (
-                                        <div className="relative w-12 h-12">
-                                            <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                                    <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                                        {post.description}
+                                    </p>
+
+                                    <div className="flex flex-wrap items-center text-xs text-slate-500 gap-y-1">
+                                        <div className="flex items-center gap-1">
+                                            <Calendar className="w-3 h-3" />
+                                            <span>{post.date}</span>
                                         </div>
-                                    ) : (
-                                        <div className="text-5xl">{post.thumbnail}</div>
-                                    )}
-                                    <span className="px-2 py-1 bg-orange-500/20 text-orange-300 text-xs font-semibold rounded">
-                                        {post.category}
-                                    </span>
-                                </div>
-
-                                <h3 className="text-lg font-bold text-white group-hover:text-orange-400 transition-colors mb-3 line-clamp-2 leading-snug">
-                                    {post.title}
-                                </h3>
-
-                                <p className="text-slate-400 text-sm mb-4 line-clamp-2">
-                                    {post.description}
-                                </p>
-
-                                <div className="flex items-center gap-3 text-xs text-slate-500">
-                                    <div className="flex items-center gap-1">
-                                        <Calendar className="w-3 h-3" />
-                                        <span>{post.date}</span>
+                                        {post.targetDate ? (
+                                            <div className="flex items-center gap-1 text-green-400 font-bold ml-2">
+                                                <ArrowRight className="w-3 h-3" />
+                                                <span>{post.targetDate} 적용예정</span>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center gap-1 ml-3">
+                                                <Clock className="w-3 h-3" />
+                                                <span>{post.readTime}</span>
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className="flex items-center gap-1">
-                                        <Clock className="w-3 h-3" />
-                                        <span>{post.readTime}</span>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </section>
-
-                {/* 두 번째 광고 - 육성 가이드 후 */}
-                <div className="mb-20">
-                    <InFeedAd
-                        dataAdSlot="4331375010"
-                        className="max-w-4xl mx-auto"
-                    />
-                </div>
-
-                {/* 이벤트 가이드 섹션 */}
-                <section className="mb-20">
-                    <div className="flex justify-between items-end mb-8">
-                        <div>
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
-                                <TrendingUp className="w-8 h-8 text-blue-500" />
-                                <span>이벤트 가이드</span>
-                            </h2>
-                            <p className="text-slate-400 text-sm sm:text-base">최신 이벤트를 100% 활용하는 방법</p>
+                                </Link>
+                            ))}
                         </div>
-                    </div>
+                    </section>
+                ) : (
+                    <>
+                        {/* 첫 번째 광고 - Hero 섹션 직후 */}
+                        <div className="mb-16">
+                            <InFeedAd
+                                dataAdSlot="4331375010"
+                                className="max-w-4xl mx-auto"
+                            />
+                        </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {eventPosts.map((post) => (
-                            <Link
-                                key={post.slug}
-                                href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
-                                className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-blue-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/20"
-                            >
-                                <div className="mb-4 flex items-center justify-between">
-                                    {post.thumbnail.startsWith('/') ? (
-                                        <div className="relative w-12 h-12">
-                                            <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                        {/* 테스트월드 소식 섹션 */}
+                        {testworldPosts.length > 0 && (
+                            <section className="mb-20">
+                                <div className="flex justify-between items-end mb-8">
+                                    <div>
+                                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
+                                            <span className="text-4xl">🧪</span>
+                                            <span>테스트월드 소식</span>
+                                        </h2>
+                                        <p className="text-slate-400 text-sm sm:text-base">본서버 적용 전 미리 보는 업데이트</p>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {testworldPosts.map((post) => (
+                                        <Link
+                                            key={post.slug}
+                                            href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
+                                            className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-cyan-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-900/20"
+                                        >
+                                            <div className="mb-4 flex items-center justify-between">
+                                                {post.thumbnail.startsWith('/') ? (
+                                                    <div className="relative w-12 h-12">
+                                                        <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                                                    </div>
+                                                ) : (
+                                                    <div className="text-5xl">{post.thumbnail}</div>
+                                                )}
+                                                <span className="px-2 py-1 bg-cyan-500/20 text-cyan-300 text-xs font-semibold rounded">
+                                                    {post.category}
+                                                </span>
+                                            </div>
+
+                                            <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors mb-3 line-clamp-2 leading-snug">
+                                                {post.title}
+                                            </h3>
+
+                                            <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                                                {post.description}
+                                            </p>
+
+                                            <div className="flex flex-wrap items-center text-xs text-slate-500 gap-y-1">
+                                                <div className="flex items-center gap-1">
+                                                    <Calendar className="w-3 h-3" />
+                                                    <span>{post.date}</span>
+                                                </div>
+                                                {post.targetDate ? (
+                                                    <div className="flex items-center gap-1 text-green-400 font-bold ml-2">
+                                                        <ArrowRight className="w-3 h-3" />
+                                                        <span>{post.targetDate} 적용예정</span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center gap-1 ml-3">
+                                                        <Clock className="w-3 h-3" />
+                                                        <span>{post.readTime}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {/* 다섯 번째 광고 - 테스트월드 소식 후 */}
+                        <div className="mb-20">
+                            <InFeedAd
+                                dataAdSlot="4331375010"
+                                className="max-w-4xl mx-auto"
+                            />
+                        </div>
+
+                        {/* 육성 가이드 섹션 */}
+                        <section className="mb-20">
+                            <div className="flex justify-between items-end mb-8">
+                                <div>
+                                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
+                                        <Flame className="w-8 h-8 text-orange-500" />
+                                        <span>육성 가이드</span>
+                                    </h2>
+                                    <p className="text-slate-400 text-sm sm:text-base">레벨업이 막힐 때, 직업 선택이 고민될 때</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {levelingPosts.map((post) => (
+                                    <Link
+                                        key={post.slug}
+                                        href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
+                                        className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-orange-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-900/20"
+                                    >
+                                        <div className="mb-4 flex items-center justify-between">
+                                            {post.thumbnail.startsWith('/') ? (
+                                                <div className="relative w-12 h-12">
+                                                    <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                                                </div>
+                                            ) : (
+                                                <div className="text-5xl">{post.thumbnail}</div>
+                                            )}
+                                            <span className="px-2 py-1 bg-orange-500/20 text-orange-300 text-xs font-semibold rounded">
+                                                {post.category}
+                                            </span>
                                         </div>
-                                    ) : (
-                                        <div className="text-5xl">{post.thumbnail}</div>
-                                    )}
-                                    <span className="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs font-semibold rounded">
-                                        {post.category}
-                                    </span>
-                                </div>
 
-                                <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors mb-3 line-clamp-2 leading-snug">
-                                    {post.title}
-                                </h3>
+                                        <h3 className="text-lg font-bold text-white group-hover:text-orange-400 transition-colors mb-3 line-clamp-2 leading-snug">
+                                            {post.title}
+                                        </h3>
 
-                                <p className="text-slate-400 text-sm mb-4 line-clamp-2">
-                                    {post.description}
-                                </p>
+                                        <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                                            {post.description}
+                                        </p>
 
-                                <div className="flex items-center gap-3 text-xs text-slate-500">
-                                    <div className="flex items-center gap-1">
-                                        <Calendar className="w-3 h-3" />
-                                        <span>{post.date}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                        <Clock className="w-3 h-3" />
-                                        <span>{post.readTime}</span>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </section>
+                                        <div className="flex items-center gap-3 text-xs text-slate-500">
+                                            <div className="flex items-center gap-1">
+                                                <Calendar className="w-3 h-3" />
+                                                <span>{post.date}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <Clock className="w-3 h-3" />
+                                                <span>{post.readTime}</span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </section>
 
-                {/* 세 번째 광고 - 이벤트 가이드 후 */}
-                <div className="mb-20">
-                    <InFeedAd
-                        dataAdSlot="4331375010"
-                        className="max-w-4xl mx-auto"
-                    />
-                </div>
-
-                {/* 장비 가이드 섹션 */}
-                <section className="mb-16">
-                    <div className="flex justify-between items-end mb-8">
-                        <div>
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
-                                <span className="text-4xl">🛡️</span>
-                                <span>장비 가이드</span>
-                            </h2>
-                            <p className="text-slate-400 text-sm sm:text-base">스펙업의 시작, 장비 세팅의 모든 것</p>
+                        {/* 두 번째 광고 - 육성 가이드 후 */}
+                        <div className="mb-20">
+                            <InFeedAd
+                                dataAdSlot="4331375010"
+                                className="max-w-4xl mx-auto"
+                            />
                         </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {equipmentPosts.map((post) => (
-                            <Link
-                                key={post.slug}
-                                href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
-                                className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-purple-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-900/20"
-                            >
-                                <div className="mb-4 flex items-center justify-between">
-                                    <div className="text-4xl">{post.thumbnail}</div>
-                                    <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs font-semibold rounded">
-                                        {post.category}
-                                    </span>
+                        {/* 이벤트 가이드 섹션 */}
+                        <section className="mb-20">
+                            <div className="flex justify-between items-end mb-8">
+                                <div>
+                                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
+                                        <TrendingUp className="w-8 h-8 text-blue-500" />
+                                        <span>이벤트 가이드</span>
+                                    </h2>
+                                    <p className="text-slate-400 text-sm sm:text-base">최신 이벤트를 100% 활용하는 방법</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {eventPosts.map((post) => (
+                                    <Link
+                                        key={post.slug}
+                                        href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
+                                        className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-blue-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/20"
+                                    >
+                                        <div className="mb-4 flex items-center justify-between">
+                                            {post.thumbnail.startsWith('/') ? (
+                                                <div className="relative w-12 h-12">
+                                                    <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                                                </div>
+                                            ) : (
+                                                <div className="text-5xl">{post.thumbnail}</div>
+                                            )}
+                                            <span className="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs font-semibold rounded">
+                                                {post.category}
+                                            </span>
+                                        </div>
+
+                                        <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors mb-3 line-clamp-2 leading-snug">
+                                            {post.title}
+                                        </h3>
+
+                                        <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                                            {post.description}
+                                        </p>
+
+                                        <div className="flex items-center gap-3 text-xs text-slate-500">
+                                            <div className="flex items-center gap-1">
+                                                <Calendar className="w-3 h-3" />
+                                                <span>{post.date}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <Clock className="w-3 h-3" />
+                                                <span>{post.readTime}</span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </section>
+
+                        {/* 세 번째 광고 - 이벤트 가이드 후 */}
+                        <div className="mb-20">
+                            <InFeedAd
+                                dataAdSlot="4331375010"
+                                className="max-w-4xl mx-auto"
+                            />
+                        </div>
+
+                        {/* 장비 가이드 섹션 */}
+                        <section className="mb-16">
+                            <div className="flex justify-between items-end mb-8">
+                                <div>
+                                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
+                                        <span className="text-4xl">🛡️</span>
+                                        <span>장비 가이드</span>
+                                    </h2>
+                                    <p className="text-slate-400 text-sm sm:text-base">스펙업의 시작, 장비 세팅의 모든 것</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {equipmentPosts.map((post) => (
+                                    <Link
+                                        key={post.slug}
+                                        href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
+                                        className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-purple-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-900/20"
+                                    >
+                                        <div className="mb-4 flex items-center justify-between">
+                                            <div className="text-4xl">{post.thumbnail}</div>
+                                            <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs font-semibold rounded">
+                                                {post.category}
+                                            </span>
+                                        </div>
+
+                                        <h3 className="text-base font-bold text-white group-hover:text-purple-400 transition-colors mb-3 line-clamp-2 leading-snug">
+                                            {post.title}
+                                        </h3>
+
+                                        <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                                            {post.description}
+                                        </p>
+
+                                        <div className="flex items-center gap-2 text-xs text-slate-500">
+                                            <Clock className="w-3 h-3" />
+                                            <span>{post.readTime}</span>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </section>
+
+                        {/* 네 번째 광고 - 장비 가이드 후 */}
+                        <div className="mb-20">
+                            <InFeedAd
+                                dataAdSlot="4331375010"
+                                className="max-w-4xl mx-auto"
+                            />
+                        </div>
+
+                        {/* 메이플 이야기 섹션 */}
+                        {storyPosts.length > 0 && (
+                            <section className="mb-20">
+                                <div className="flex justify-between items-end mb-8">
+                                    <div>
+                                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
+                                            <span className="text-4xl">🍁</span>
+                                            <span>메이플 이야기</span>
+                                        </h2>
+                                        <p className="text-slate-400 text-sm sm:text-base">깊이 있는 분석, 예측, 그리고 칼럼</p>
+                                    </div>
                                 </div>
 
-                                <h3 className="text-base font-bold text-white group-hover:text-purple-400 transition-colors mb-3 line-clamp-2 leading-snug">
-                                    {post.title}
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {storyPosts.map((post) => (
+                                        <Link
+                                            key={post.slug}
+                                            href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
+                                            className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-red-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/20"
+                                        >
+                                            <div className="mb-4 flex items-center justify-between">
+                                                {post.thumbnail.startsWith('/') ? (
+                                                    <div className="relative w-12 h-12">
+                                                        <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                                                    </div>
+                                                ) : (
+                                                    <div className="text-5xl">{post.thumbnail}</div>
+                                                )}
+                                                <span className="px-2 py-1 bg-red-500/20 text-red-300 text-xs font-semibold rounded">
+                                                    {post.category}
+                                                </span>
+                                            </div>
+
+                                            <h3 className="text-lg font-bold text-white group-hover:text-red-400 transition-colors mb-3 line-clamp-2 leading-snug">
+                                                {post.title}
+                                            </h3>
+
+                                            <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                                                {post.description}
+                                            </p>
+
+                                            <div className="flex items-center gap-3 text-xs text-slate-500">
+                                                <div className="flex items-center gap-1">
+                                                    <Calendar className="w-3 h-3" />
+                                                    <span>{post.date}</span>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    <Clock className="w-3 h-3" />
+                                                    <span>{post.readTime}</span>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {/* CTA Section - 메인 페이지로 */}
+                        {!searchQuery && (
+                            <section className="mt-20 bg-gradient-to-r from-indigo-900/50 to-purple-900/50 border border-indigo-500/50 rounded-2xl p-8 sm:p-12 text-center">
+                                <h3 className="text-2xl sm:text-3xl font-black mb-4">
+                                    💡 지금 바로 내 캐릭터 진단 받기
                                 </h3>
-
-                                <p className="text-slate-400 text-sm mb-4 line-clamp-2">
-                                    {post.description}
+                                <p className="text-slate-300 text-sm sm:text-base mb-8 max-w-2xl mx-auto">
+                                    메이플 AI가 당신의 캐릭터를 정밀 분석해드립니다.<br />
+                                    장비, 스탯, 스킬까지 완벽한 성장 로드맵을 제시합니다.
                                 </p>
-
-                                <div className="flex items-center gap-2 text-xs text-slate-500">
-                                    <Clock className="w-3 h-3" />
-                                    <span>{post.readTime}</span>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </section>
-
-                {/* CTA Section - 메인 페이지로 */}
-                <section className="mt-20 bg-gradient-to-r from-indigo-900/50 to-purple-900/50 border border-indigo-500/50 rounded-2xl p-8 sm:p-12 text-center">
-                    <h3 className="text-2xl sm:text-3xl font-black mb-4">
-                        💡 지금 바로 내 캐릭터 진단 받기
-                    </h3>
-                    <p className="text-slate-300 text-sm sm:text-base mb-8 max-w-2xl mx-auto">
-                        메이플 AI가 당신의 캐릭터를 정밀 분석해드립니다.<br />
-                        장비, 스탯, 스킬까지 완벽한 성장 로드맵을 제시합니다.
-                    </p>
-                    <Link href="/">
-                        <button className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all shadow-xl hover:shadow-2xl flex items-center gap-3 mx-auto group">
-                            <span className="text-lg">무료로 진단 시작</span>
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                    </Link>
-                </section>
+                                <Link href="/">
+                                    <button className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all shadow-xl hover:shadow-2xl flex items-center gap-3 mx-auto group">
+                                        <span className="text-lg">무료로 진단 시작</span>
+                                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    </button>
+                                </Link>
+                            </section>
+                        )}
+                    </>
+                )}
             </main>
-        </div>
+        </div >
     );
 }
