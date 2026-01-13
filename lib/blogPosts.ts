@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 긴급! 이벤트 마감 안내 (1/14)
+    {
+        slug: 'event-ending-jan-14-2026',
+        title: '🚨 내일(1/14) 밤 11시 59분 마감! 놓치면 안 되는 이벤트 총정리',
+        description: '극한 성장의 비약 3개부터 KINETIC 이벤트까지! 1월 14일 종료 이벤트 완벽 정리 + 챌린저스 월드 시즌 3 리프 안내',
+        category: '이벤트 가이드',
+        date: '2026년 1월 13일',
+        readTime: '8분',
+        thumbnail: '🚨',
+        featured: true,
+    },
     // 최신 업데이트 - 테스트월드 스킬 밸런스
     {
         slug: 'testworld-skill-balance-1-8-2026',
@@ -20,7 +31,7 @@ export const blogPosts: BlogPost[] = [
         date: '2026년 1월 8일',
         readTime: '15분',
         thumbnail: '⚔️',
-        featured: true,
+        featured: false,
         targetDate: '2026년 1월 15일',
     },
     // 신규 시스템 - 솔 헤카테
