@@ -35,7 +35,7 @@ export default function EventEndingJan142026() {
                         <span className="text-slate-500 text-sm">2026년 1월 13일</span>
                     </div>
                     <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">
-                        🚨 내일(1/14) 밤 11시 59분 마감! 놓치면 안 되는 이벤트 총정리
+                        🚨 내일(1/14 수요일) 밤 11시 59분 마감! 놓치면 안 되는 이벤트 총정리
                     </h1>
                     <p className="text-lg text-slate-400">
                         극한 성장의 비약 3개부터 KINETIC 이벤트까지! 시간 없으니 지금 바로 확인하세요! ⏰
