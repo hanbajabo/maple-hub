@@ -20,8 +20,8 @@ const categoryIcons: { [key: string]: any } = {
 export default function BlogPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Hero Post는 featured: true인 글
-    const heroPost = blogPosts.find(p => p.featured === true) || blogPosts[0];
+    // Hero Post는 Sol Hecate 포스트
+    const heroPost = blogPosts.find(p => p.slug === 'testworld-sol-hecate') || blogPosts[0];
 
     // 검색 필터 함수
     const filterBySearch = (posts: BlogPost[]) => {
@@ -79,44 +79,6 @@ export default function BlogPage() {
             </div>
 
             <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12">
-                {/* 최신 공지 배너 - 감사의 마음 */}
-                <section className="mb-8 relative overflow-hidden rounded-xl bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 border-2 border-green-500 shadow-2xl shadow-green-900/50">
-                    <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-10" />
-
-                    <Link href="/blog/thank-you-gift-2026" className="block">
-                        <div className="relative z-10 p-4 sm:p-6 hover:scale-[1.02] transition-transform cursor-pointer">
-                            <div className="flex items-center justify-between flex-wrap gap-4">
-                                <div className="flex items-center gap-3 sm:gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center">
-                                        <Gift className="w-6 h-6 sm:w-8 sm:h-8 text-green-600 animate-bounce" />
-                                    </div>
-                                    <div>
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-green-900 text-white text-xs sm:text-sm font-bold rounded-full">
-                                                🎁 공식 선물
-                                            </span>
-                                            <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-yellow-400 text-black text-xs sm:text-sm font-bold rounded-full">
-                                                1/14 마감
-                                            </span>
-                                        </div>
-                                        <h3 className="text-lg sm:text-2xl md:text-3xl font-black text-white drop-shadow-lg">
-                                            용사님들께 드리는 감사의 마음
-                                        </h3>
-                                        <p className="text-white/90 text-xs sm:text-sm md:text-base mt-1">
-                                            극한 성장의 비약(200~249) 3개 무료! 버닝 캐릭터도 사용 가능 🔥
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex-shrink-0">
-                                    <div className="px-4 py-2 sm:px-6 sm:py-3 bg-white text-green-600 font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-lg flex items-center gap-2 text-sm sm:text-base">
-                                        <span>자세히 보기</span>
-                                        <ArrowRight className="w-4 h-4" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </Link>
-                </section>
 
                 {/* Hero Section - 컴팩트한 HOT 포스트 */}
                 <section className="mb-12 relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-900/40 via-red-900/40 to-purple-900/40 border border-orange-500/50 shadow-xl">
