@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 1월 15일 테섭→본섭 업데이트 정리
+    {
+        slug: 'testworld-to-live-jan-15-2026',
+        title: '🔥 1월 15일 테섭→본섭 업데이트 총정리',
+        description: '솔 헤카테 온/오프 기능, 솔 에르다 5배 증가, 유피테르 등장, 윈터 부티크 칭호 수정, 하반기 베스트 헤어/성형, 신규 일러스트 4종, 하드 흉성 리워드 변경까지!',
+        category: '업데이트 소식',
+        date: '2026년 1월 15일',
+        readTime: '10분',
+        thumbnail: '🔥',
+        featured: true,
+    },
     // 긴급! 이벤트 마감 안내 (1/14)
     {
         slug: 'event-ending-jan-14-2026',
