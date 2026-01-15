@@ -82,6 +82,10 @@ export default function TestworldToLiveJan152026() {
                         </li>
                         <li className="flex items-start gap-2">
                             <span className="text-yellow-400 mt-1">▸</span>
+                            <span>노말 흉성 체력 감소 (6200조→4800조)</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                            <span className="text-yellow-400 mt-1">▸</span>
                             <span>하드 흉성 리워드 수정</span>
                         </li>
                     </ul>
@@ -462,7 +466,57 @@ export default function TestworldToLiveJan152026() {
                     </div>
                 </section>
 
-                {/* Update 7: Hard Chosen Seren */}
+                {/* Update 7: Normal Chosen Seren HP */}
+                <section className="mb-12">
+                    <div className="bg-gradient-to-br from-yellow-900/50 to-orange-900/50 border-2 border-yellow-500/50 rounded-2xl p-6 sm:p-8">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
+                                <Zap className="w-6 h-6 text-yellow-400" />
+                            </div>
+                            <div>
+                                <h2 className="text-2xl sm:text-3xl font-black text-yellow-400">
+                                    7. 노말 흉성 체력 감소
+                                </h2>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="flex justify-center mb-6">
+                                <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700 shadow-2xl">
+                                    <Image
+                                        src="/images/blog/chosen_seren_character.png"
+                                        alt="찬란한 흉성 (선택받은 세렌)"
+                                        width={800}
+                                        height={400}
+                                        className="mx-auto rounded-lg"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="bg-slate-900/50 rounded-lg p-5 border border-slate-700">
+                                <h3 className="font-bold text-white mb-3">노말 흉성 체력 감소</h3>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-4">
+                                        <p className="text-red-400 font-bold mb-2">이전</p>
+                                        <p className="text-slate-300"><span className="text-red-400 line-through">6,200조</span></p>
+                                    </div>
+                                    <div className="bg-green-900/20 border border-green-500/50 rounded-lg p-4">
+                                        <p className="text-green-400 font-bold mb-2">변경 후</p>
+                                        <p className="text-slate-300"><span className="text-green-400 font-bold">4,800조</span></p>
+                                        <p className="text-green-400 text-sm mt-1">⬇️ 약 23% 감소!</p>
+                                    </div>
+                                </div>
+                                <div className="mt-4 bg-blue-900/20 border border-blue-500/50 rounded-lg p-3">
+                                    <p className="text-sm text-slate-300">
+                                        노말 난이도가 더 쉬워져 더 많은 유저들이 도전할 수 있게 되었습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Update 8: Hard Chosen Seren Reward */}
                 <section className="mb-12">
                     <div className="bg-gradient-to-br from-red-900/50 to-pink-900/50 border-2 border-red-500/50 rounded-2xl p-6 sm:p-8">
                         <div className="flex items-center gap-3 mb-6">
@@ -471,7 +525,7 @@ export default function TestworldToLiveJan152026() {
                             </div>
                             <div>
                                 <h2 className="text-2xl sm:text-3xl font-black text-red-400">
-                                    7. 하드 흉성 리워드 수정
+                                    8. 하드 흉성 리워드 수정
                                 </h2>
                             </div>
                         </div>
