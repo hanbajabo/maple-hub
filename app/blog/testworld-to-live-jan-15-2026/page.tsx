@@ -328,21 +328,69 @@ export default function TestworldToLiveJan152026() {
                             </div>
                             <div>
                                 <h2 className="text-2xl sm:text-3xl font-black text-pink-400">
-                                    5. 하반기 베스트 헤어/성형 추가 예정
+                                    5. 하반기 베스트 헤어/성형 판매 시작
                                 </h2>
                             </div>
                         </div>
 
-                        <div className="space-y-4">
-                            <div className="flex justify-center mb-6">
-                                <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700 shadow-2xl">
-                                    <Image
-                                        src="/images/blog/best_hair_face_coupon.jpg"
-                                        alt="하반기 BEST 프리미엄 헤어/성형 쿠폰"
-                                        width={700}
-                                        height={250}
-                                        className="mx-auto rounded-lg"
-                                    />
+                        <div className="space-y-6">
+                            {/* 헤어 랭킹 */}
+                            <div>
+                                <h3 className="font-bold text-white mb-4 text-xl flex items-center gap-2">
+                                    <Star className="w-5 h-5 text-yellow-400" />
+                                    💇 헤어 랭킹 TOP 10
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700 shadow-2xl">
+                                        <p className="text-center text-blue-400 font-bold mb-2">남자 헤어</p>
+                                        <Image
+                                            src="/images/blog/hair_male_ranking.png"
+                                            alt="남자 헤어 랭킹 TOP 10"
+                                            width={500}
+                                            height={300}
+                                            className="mx-auto rounded-lg"
+                                        />
+                                    </div>
+                                    <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700 shadow-2xl">
+                                        <p className="text-center text-pink-400 font-bold mb-2">여자 헤어</p>
+                                        <Image
+                                            src="/images/blog/hair_female_ranking.png"
+                                            alt="여자 헤어 랭킹 TOP 10"
+                                            width={500}
+                                            height={300}
+                                            className="mx-auto rounded-lg"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 성형 랭킹 */}
+                            <div>
+                                <h3 className="font-bold text-white mb-4 text-xl flex items-center gap-2">
+                                    <Star className="w-5 h-5 text-yellow-400" />
+                                    ✨ 성형 랭킹 TOP 10
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700 shadow-2xl">
+                                        <p className="text-center text-blue-400 font-bold mb-2">남자 성형</p>
+                                        <Image
+                                            src="/images/blog/face_male_ranking.png"
+                                            alt="남자 성형 랭킹 TOP 10"
+                                            width={500}
+                                            height={300}
+                                            className="mx-auto rounded-lg"
+                                        />
+                                    </div>
+                                    <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700 shadow-2xl">
+                                        <p className="text-center text-pink-400 font-bold mb-2">여자 성형</p>
+                                        <Image
+                                            src="/images/blog/face_female_ranking.png"
+                                            alt="여자 성형 랭킹 TOP 10"
+                                            width={500}
+                                            height={300}
+                                            className="mx-auto rounded-lg"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
@@ -352,12 +400,12 @@ export default function TestworldToLiveJan152026() {
                                     2025 하반기 인기 스타일
                                 </h3>
                                 <p className="text-slate-300 mb-4">
-                                    하반기에 가장 많은 사랑을 받았던 헤어/성형 쿠폰이 판매될 예정입니다.
+                                    하반기에 가장 많은 사랑을 받았던 헤어/성형이 드디어 공개되었습니다!
                                 </p>
-                                <div className="bg-yellow-900/20 border border-yellow-500/50 rounded-lg p-4">
-                                    <p className="text-yellow-300 font-bold mb-2">📋 목록 확인</p>
+                                <div className="bg-green-900/20 border border-green-500/50 rounded-lg p-4">
+                                    <p className="text-green-300 font-bold mb-2">✅ 판매 중</p>
                                     <p className="text-sm text-slate-300">
-                                        정확한 헤어/성형 목록은 <span className="text-pink-400 font-bold">업데이트 후</span> 확인할 수 있습니다.
+                                        위 랭킹의 스타일들을 <span className="text-pink-400 font-bold">프리미엄 헤어/성형 쿠폰</span>으로 캐시샵에서 구매할 수 있습니다.
                                     </p>
                                 </div>
                             </div>
