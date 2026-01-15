@@ -20,8 +20,8 @@ const categoryIcons: { [key: string]: any } = {
 export default function BlogPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Hero Post는 Sol Hecate 포스트
-    const heroPost = blogPosts.find(p => p.slug === 'testworld-sol-hecate') || blogPosts[0];
+    // Hero Post는 최신 업데이트 포스트
+    const heroPost = blogPosts.find(p => p.slug === 'testworld-to-live-jan-15-2026') || blogPosts[0];
 
     // 검색 필터 함수
     const filterBySearch = (posts: BlogPost[]) => {
