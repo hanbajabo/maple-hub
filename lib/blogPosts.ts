@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 익스프레스 부스터 효율 분석
+    {
+        slug: 'express-booster-efficiency-guide',
+        title: '⚡ 익스프레스 부스터 효율 완벽정리 - 레벨별 경험치 최적화 가이드',
+        description: '버닝 익스프레스 이벤트의 핵심! 레벨별 경험치 효율, 사냥터별 최적화 전략, 무과금/과금 보상 총정리까지!',
+        category: '이벤트 가이드',
+        date: '2026년 1월 15일',
+        readTime: '15분',
+        thumbnail: '⚡',
+        featured: true,
+    },
     // 1월 15일 테섭→본섭 업데이트 정리
     {
         slug: 'testworld-to-live-jan-15-2026',
