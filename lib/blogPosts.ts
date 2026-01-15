@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 경험치 상품 효율 분석
+    {
+        slug: 'exp-product-efficiency',
+        title: '💸 메이플 경험치 상품 효율 완벽 분석',
+        description: '챌린저스 EXP 듀오부터 모멘텀 패스까지! 상급 EXP로 환산한 가성비 순위와 레벨대별 최적화 전략, 유저 타입별 추천 루트까지 완벽 정리.',
+        category: '경험치 가이드',
+        date: '2026년 1월 15일',
+        readTime: '20분',
+        thumbnail: '💸',
+        featured: true,
+    },
     // 익스프레스 부스터 효율 분석
     {
         slug: 'express-booster-efficiency-guide',
