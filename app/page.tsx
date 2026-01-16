@@ -22,7 +22,6 @@ import AbilityWidget from "../components/AbilityWidget";
 import CalculatorMenu from "../components/navigation/CalculatorMenu";
 
 import RecommendedGuides from "../components/RecommendedGuides";
-import AiNewsCard from "../components/AiNewsCard";
 import Footer from "../components/Footer";
 import MapleStoryTrivia from "../components/MapleStoryTrivia";
 
