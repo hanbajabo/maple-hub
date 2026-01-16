@@ -1,11 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, TrendingUp, DollarSign, Zap, Target, AlertCircle, CheckCircle, Crown, Calculator, Trophy, Sparkles } from 'lucide-react';
+import { ArrowLeft, TrendingUp, DollarSign, Zap, Target, AlertCircle, CheckCircle, Crown, Calculator, Trophy, Sparkles, ArrowUpDown } from 'lucide-react';
 import { InArticleAd } from '@/components/AdSense';
 
 export default function ExpProductEfficiency() {
+    const [absSortBy, setAbsSortBy] = useState<'280' | '285' | '290' | null>(null);
+    const [effSortBy, setEffSortBy] = useState<'280' | '285' | '290' | null>(null);
+
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
             {/* Header */}
@@ -141,49 +145,86 @@ export default function ExpProductEfficiency() {
                                                 <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-purple-400 font-bold whitespace-nowrap">콘텐츠명</th>
                                                 <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-purple-400 font-bold whitespace-nowrap">상세</th>
                                                 <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-purple-400 font-bold whitespace-nowrap">가격</th>
-                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-purple-400 font-bold whitespace-nowrap">280~284</th>
-                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-purple-400 font-bold whitespace-nowrap">285~289</th>
-                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-purple-400 font-bold whitespace-nowrap">290+</th>
+                                                <th
+                                                    className="px-2 sm:px-3 py-2 sm:py-3 text-center text-purple-400 font-bold whitespace-nowrap cursor-pointer hover:text-purple-300 transition-colors"
+                                                    onClick={() => setAbsSortBy(absSortBy === '280' ? null : '280')}
+                                                >
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <span>280~284</span>
+                                                        <ArrowUpDown className="w-3 h-3" />
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    className="px-2 sm:px-3 py-2 sm:py-3 text-center text-purple-400 font-bold whitespace-nowrap cursor-pointer hover:text-purple-300 transition-colors"
+                                                    onClick={() => setAbsSortBy(absSortBy === '285' ? null : '285')}
+                                                >
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <span>285~289</span>
+                                                        <ArrowUpDown className="w-3 h-3" />
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    className="px-2 sm:px-3 py-2 sm:py-3 text-center text-purple-400 font-bold whitespace-nowrap cursor-pointer hover:text-purple-300 transition-colors"
+                                                    onClick={() => setAbsSortBy(absSortBy === '290' ? null : '290')}
+                                                >
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <span>290+</span>
+                                                        <ArrowUpDown className="w-3 h-3" />
+                                                    </div>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-700/50">
-                                            {[
-                                                { rank: 1, name: '모멘텀 패스', detail: '경쿠 제외', price: '50,000 캐시', abs280: 51240, abs285: 65320, abs290: 70013 },
-                                                { rank: 2, name: '익스프레스 패스', detail: '캐시 구매', price: '30,000 캐시', abs280: 24320, abs285: 24320, abs290: 24320 },
-                                                { rank: 3, name: '챌린저스 EXP 듀오', detail: '64.5만 마리', price: '10,000 캐시', abs280: 16000, abs285: 16000, abs290: 16000 },
-                                                { rank: 4, name: '챌린저스 EXP 듀오', detail: '60만 마리', price: '10,000 캐시', abs280: 15245, abs285: 15245, abs290: 15245 },
-                                                { rank: 5, name: '챌린저스 EXP 듀오', detail: '50만 마리', price: '10,000 캐시', abs280: 13567, abs285: 13567, abs290: 13567 },
-                                                { rank: 6, name: '챌린저스 EXP 듀오', detail: '40만 마리', price: '10,000 캐시', abs280: 11889, abs285: 11889, abs290: 11889 },
-                                                { rank: 7, name: '챌린저스 EXP 듀오', detail: '30만 마리', price: '10,000 캐시', abs280: 10211, abs285: 10211, abs290: 10211 },
-                                                { rank: 8, name: '챌린저스 EXP 듀오', detail: '20만 마리', price: '10,000 캐시', abs280: 8533, abs285: 8533, abs290: 8533 },
-                                                { rank: 9, name: '챌린저스 EXP 듀오', detail: '10만 마리', price: '10,000 캐시', abs280: 6855, abs285: 6855, abs290: 6855 },
-                                                { rank: 10, name: '메카베리 농장', detail: '메소 구매', price: '5억 메소', abs280: 4224, abs285: 5632, abs290: 6101 },
-                                                { rank: 11, name: '악몽선경', detail: '0→1', price: '12,500 메포', abs280: 5376, abs285: 5376, abs290: 5376 },
-                                                { rank: 11, name: '악몽선경', detail: '1→2', price: '37,500 메포', abs280: 5376, abs285: 5376, abs290: 5376 },
-                                                { rank: 13, name: '앵글러 컴퍼니', detail: '0→1', price: '10,000 메포', abs280: 4032, abs285: 4032, abs290: 4032 },
-                                                { rank: 13, name: '앵글러 컴퍼니', detail: '1→2', price: '30,000 메포', abs280: 4032, abs285: 4032, abs290: 4032 },
-                                                { rank: 15, name: '하이마운틴', detail: '0→1', price: '7,500 메포', abs280: 2688, abs285: 2688, abs290: 2688 },
-                                                { rank: 15, name: '하이마운틴', detail: '1→2', price: '22,500 메포', abs280: 2688, abs285: 2688, abs290: 2688 },
-                                                { rank: 17, name: '몬스터 파크', detail: '썬데이메이플(4.8배)', price: '600 메포', abs280: 648, abs285: 816, abs290: 970 },
-                                                { rank: 18, name: '몬스터 파크', detail: '일요일+보약(2.3배)', price: '600 메포', abs280: 310, abs285: 391, abs290: 465 },
-                                                { rank: 19, name: '사우나', detail: '1시간', price: '3,000 메포', abs280: 410, abs285: 410, abs290: 410 },
-                                                { rank: 20, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', abs280: 205, abs285: 205, abs290: 205 },
-                                                { rank: 21, name: '몬스터 파크', detail: '기본배율', price: '600 메포', abs280: 135, abs285: 170, abs290: 202 },
-                                            ].map((item, idx) => (
-                                                <tr key={idx} className="bg-slate-800/30 border border-slate-700/50 hover:bg-slate-800/50 transition-colors">
-                                                    <td className="px-2 sm:px-3 py-2 sm:py-3">
-                                                        <span className="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xs sm:text-sm">
-                                                            {item.rank}
-                                                        </span>
-                                                    </td>
-                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 font-bold text-white text-xs sm:text-sm">{item.name}</td>
-                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 text-slate-300 text-xs sm:text-sm">{item.detail}</td>
-                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 text-green-400 text-xs sm:text-sm whitespace-nowrap">{item.price}</td>
-                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.abs280.toLocaleString()}</td>
-                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.abs285.toLocaleString()}</td>
-                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.abs290.toLocaleString()}</td>
-                                                </tr>
-                                            ))}
+                                            {(() => {
+                                                const data = [
+                                                    { rank: 1, name: '모멘텀 패스', detail: '경쿠 제외', price: '50,000 캐시', abs280: 51240, abs285: 65320, abs290: 70013 },
+                                                    { rank: 2, name: '익스프레스 패스', detail: '캐시 구매', price: '30,000 캐시', abs280: 24320, abs285: 24320, abs290: 24320 },
+                                                    { rank: 3, name: '챌린저스 EXP 듀오', detail: '64.5만 마리', price: '10,000 캐시', abs280: 16000, abs285: 16000, abs290: 16000 },
+                                                    { rank: 4, name: '챌린저스 EXP 듀오', detail: '60만 마리', price: '10,000 캐시', abs280: 15245, abs285: 15245, abs290: 15245 },
+                                                    { rank: 5, name: '챌린저스 EXP 듀오', detail: '50만 마리', price: '10,000 캐시', abs280: 13567, abs285: 13567, abs290: 13567 },
+                                                    { rank: 6, name: '챌린저스 EXP 듀오', detail: '40만 마리', price: '10,000 캐시', abs280: 11889, abs285: 11889, abs290: 11889 },
+                                                    { rank: 7, name: '챌린저스 EXP 듀오', detail: '30만 마리', price: '10,000 캐시', abs280: 10211, abs285: 10211, abs290: 10211 },
+                                                    { rank: 8, name: '챌린저스 EXP 듀오', detail: '20만 마리', price: '10,000 캐시', abs280: 8533, abs285: 8533, abs290: 8533 },
+                                                    { rank: 9, name: '챌린저스 EXP 듀오', detail: '10만 마리', price: '10,000 캐시', abs280: 6855, abs285: 6855, abs290: 6855 },
+                                                    { rank: 10, name: '메카베리 농장', detail: '메소 구매', price: '5억 메소', abs280: 4224, abs285: 5632, abs290: 6101 },
+                                                    { rank: 11, name: '악몽선경', detail: '0→1', price: '12,500 메포', abs280: 5376, abs285: 5376, abs290: 5376 },
+                                                    { rank: 11, name: '악몽선경', detail: '1→2', price: '37,500 메포', abs280: 5376, abs285: 5376, abs290: 5376 },
+                                                    { rank: 13, name: '앵글러 컴퍼니', detail: '0→1', price: '10,000 메포', abs280: 4032, abs285: 4032, abs290: 4032 },
+                                                    { rank: 13, name: '앵글러 컴퍼니', detail: '1→2', price: '30,000 메포', abs280: 4032, abs285: 4032, abs290: 4032 },
+                                                    { rank: 15, name: '하이마운틴', detail: '0→1', price: '7,500 메포', abs280: 2688, abs285: 2688, abs290: 2688 },
+                                                    { rank: 15, name: '하이마운틴', detail: '1→2', price: '22,500 메포', abs280: 2688, abs285: 2688, abs290: 2688 },
+                                                    { rank: 17, name: '몬스터 파크', detail: '썬데이메이플(4.8배)', price: '600 메포', abs280: 648, abs285: 816, abs290: 970 },
+                                                    { rank: 18, name: '몬스터 파크', detail: '일요일+보약(2.3배)', price: '600 메포', abs280: 310, abs285: 391, abs290: 465 },
+                                                    { rank: 19, name: '사우나', detail: '1시간', price: '3,000 메포', abs280: 410, abs285: 410, abs290: 410 },
+                                                    { rank: 20, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', abs280: 205, abs285: 205, abs290: 205 },
+                                                    { rank: 21, name: '몬스터 파크', detail: '기본배율', price: '600 메포', abs280: 135, abs285: 170, abs290: 202 },
+                                                ];
+
+                                                let sortedData = [...data];
+                                                if (absSortBy === '280') {
+                                                    sortedData.sort((a, b) => b.abs280 - a.abs280);
+                                                } else if (absSortBy === '285') {
+                                                    sortedData.sort((a, b) => b.abs285 - a.abs285);
+                                                } else if (absSortBy === '290') {
+                                                    sortedData.sort((a, b) => b.abs290 - a.abs290);
+                                                }
+
+                                                return sortedData.map((item, idx) => (
+                                                    <tr key={idx} className="bg-slate-800/30 border border-slate-700/50 hover:bg-slate-800/50 transition-colors">
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3">
+                                                            <span className="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xs sm:text-sm">
+                                                                {absSortBy ? idx + 1 : item.rank}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 font-bold text-white text-xs sm:text-sm">{item.name}</td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-slate-300 text-xs sm:text-sm">{item.detail}</td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-green-400 text-xs sm:text-sm whitespace-nowrap">{item.price}</td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.abs280.toLocaleString()}</td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.abs285.toLocaleString()}</td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.abs290.toLocaleString()}</td>
+                                                    </tr>
+                                                ));
+                                            })()}
                                         </tbody>
                                     </table>
                                 </div>
@@ -226,35 +267,70 @@ export default function ExpProductEfficiency() {
                                                 <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-yellow-400 font-bold whitespace-nowrap">콘텐츠명</th>
                                                 <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-yellow-400 font-bold whitespace-nowrap">상세</th>
                                                 <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-yellow-400 font-bold whitespace-nowrap">가격</th>
-                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-yellow-400 font-bold whitespace-nowrap">280~284</th>
-                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-yellow-400 font-bold whitespace-nowrap">285~289</th>
-                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-yellow-400 font-bold whitespace-nowrap">290+</th>
+                                                <th
+                                                    className="px-2 sm:px-3 py-2 sm:py-3 text-center text-yellow-400 font-bold whitespace-nowrap cursor-pointer hover:text-yellow-300 transition-colors"
+                                                    onClick={() => setEffSortBy(effSortBy === '280' ? null : '280')}
+                                                >
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <span>280~284</span>
+                                                        <ArrowUpDown className="w-3 h-3" />
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    className="px-2 sm:px-3 py-2 sm:py-3 text-center text-yellow-400 font-bold whitespace-nowrap cursor-pointer hover:text-yellow-300 transition-colors"
+                                                    onClick={() => setEffSortBy(effSortBy === '285' ? null : '285')}
+                                                >
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <span>285~289</span>
+                                                        <ArrowUpDown className="w-3 h-3" />
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    className="px-2 sm:px-3 py-2 sm:py-3 text-center text-yellow-400 font-bold whitespace-nowrap cursor-pointer hover:text-yellow-300 transition-colors"
+                                                    onClick={() => setEffSortBy(effSortBy === '290' ? null : '290')}
+                                                >
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <span>290+</span>
+                                                        <ArrowUpDown className="w-3 h-3" />
+                                                    </div>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-700/50">
-                                            {[
-                                                { rank: 1, name: '몬스터 파크', detail: '썬데이메이플(4.8배)', price: '600 메포', eff280: 14400, eff285: 18134, eff290: 21547, tier: 'S' },
-                                                { rank: 2, name: '챌린저스 EXP 듀오', detail: '64.5만 마리', price: '10,000 캐시', eff280: 16000, eff285: 16000, eff290: 16000, tier: 'S' },
-                                                { rank: 3, name: '챌린저스 EXP 듀오', detail: '60만 마리', price: '10,000 캐시', eff280: 15245, eff285: 15245, eff290: 15245, tier: 'S' },
-                                                { rank: 4, name: '모멘텀 패스', detail: '경쿠 제외', price: '50,000 캐시', eff280: 10248, eff285: 13064, eff290: 14003, tier: 'A' },
-                                                { rank: 5, name: '챌린저스 EXP 듀오', detail: '50만 마리', price: '10,000 캐시', eff280: 13567, eff285: 13567, eff290: 13567, tier: 'A' },
-                                                { rank: 6, name: '챌린저스 EXP 듀오', detail: '40만 마리', price: '10,000 캐시', eff280: 11889, eff285: 11889, eff290: 11889, tier: 'A' },
-                                                { rank: 7, name: '챌린저스 EXP 듀오', detail: '30만 마리', price: '10,000 캐시', eff280: 10211, eff285: 10211, eff290: 10211, tier: 'A' },
-                                                { rank: 8, name: '몬스터 파크', detail: '일요일+보약(2.3배)', price: '600 메포', eff280: 6900, eff285: 8689, eff290: 10325, tier: 'A' },
-                                                { rank: 9, name: '챌린저스 EXP 듀오', detail: '20만 마리', price: '10,000 캐시', eff280: 8533, eff285: 8533, eff290: 8533, tier: 'B' },
-                                                { rank: 10, name: '하이마운틴', detail: '0→1', price: '7,500 메포', eff280: 8335, eff285: 8335, eff290: 8335, tier: 'B' },
-                                                { rank: 11, name: '메카베리 농장', detail: '메소 구매', price: '5억 메소', eff280: 5632, eff285: 7509, eff290: 8135, tier: 'B' },
-                                                { rank: 12, name: '익스프레스 패스', detail: '캐시 구매', price: '30,000 캐시', eff280: 8107, eff285: 8107, eff290: 8107, tier: 'B' },
-                                                { rank: 13, name: '앵글러 컴퍼니', detail: '0→1', price: '10,000 메포', eff280: 7906, eff285: 7906, eff290: 7906, tier: 'B' },
-                                                { rank: 14, name: '악몽선경', detail: '0→1', price: '12,500 메포', eff280: 7708, eff285: 7708, eff290: 7708, tier: 'B' },
-                                                { rank: 15, name: '챌린저스 EXP 듀오', detail: '10만 마리', price: '10,000 캐시', eff280: 6855, eff285: 6855, eff290: 6855, tier: 'C' },
-                                                { rank: 16, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', eff280: 4556, eff285: 4556, eff290: 4556, tier: 'C' },
-                                                { rank: 17, name: '몬스터 파크', detail: '기본배율', price: '600 메포', eff280: 3000, eff285: 3778, eff290: 4489, tier: 'D' },
-                                                { rank: 18, name: '악몽선경', detail: '1→2', price: '37,500 메포', eff280: 2090, eff285: 2090, eff290: 2090, tier: 'F' },
-                                                { rank: 19, name: '앵글러 컴퍼니', detail: '1→2', price: '30,000 메포', eff280: 2006, eff285: 2006, eff290: 2006, tier: 'F' },
-                                                { rank: 20, name: '하이마운틴', detail: '1→2', price: '22,500 메포', eff280: 1857, eff285: 1857, eff290: 1857, tier: 'F' },
-                                                { rank: 21, name: '사우나', detail: '1시간', price: '3,000 메포', eff280: 1822, eff285: 1822, eff290: 1822, tier: 'F' },
-                                            ].map((item) => {
+                                            {(() => {
+                                                const data = [
+                                                    { rank: 1, name: '몬스터 파크', detail: '썬데이메이플(4.8배)', price: '600 메포', eff280: 14400, eff285: 18134, eff290: 21547, tier: 'S' },
+                                                    { rank: 2, name: '챌린저스 EXP 듀오', detail: '64.5만 마리', price: '10,000 캐시', eff280: 16000, eff285: 16000, eff290: 16000, tier: 'S' },
+                                                    { rank: 3, name: '챌린저스 EXP 듀오', detail: '60만 마리', price: '10,000 캐시', eff280: 15245, eff285: 15245, eff290: 15245, tier: 'S' },
+                                                    { rank: 4, name: '모멘텀 패스', detail: '경쿠 제외', price: '50,000 캐시', eff280: 10248, eff285: 13064, eff290: 14003, tier: 'A' },
+                                                    { rank: 5, name: '챌린저스 EXP 듀오', detail: '50만 마리', price: '10,000 캐시', eff280: 13567, eff285: 13567, eff290: 13567, tier: 'A' },
+                                                    { rank: 6, name: '챌린저스 EXP 듀오', detail: '40만 마리', price: '10,000 캐시', eff280: 11889, eff285: 11889, eff290: 11889, tier: 'A' },
+                                                    { rank: 7, name: '챌린저스 EXP 듀오', detail: '30만 마리', price: '10,000 캐시', eff280: 10211, eff285: 10211, eff290: 10211, tier: 'A' },
+                                                    { rank: 8, name: '몬스터 파크', detail: '일요일+보약(2.3배)', price: '600 메포', eff280: 6900, eff285: 8689, eff290: 10325, tier: 'A' },
+                                                    { rank: 9, name: '챌린저스 EXP 듀오', detail: '20만 마리', price: '10,000 캐시', eff280: 8533, eff285: 8533, eff290: 8533, tier: 'B' },
+                                                    { rank: 10, name: '하이마운틴', detail: '0→1', price: '7,500 메포', eff280: 8335, eff285: 8335, eff290: 8335, tier: 'B' },
+                                                    { rank: 11, name: '메카베리 농장', detail: '메소 구매', price: '5억 메소', eff280: 5632, eff285: 7509, eff290: 8135, tier: 'B' },
+                                                    { rank: 12, name: '익스프레스 패스', detail: '캐시 구매', price: '30,000 캐시', eff280: 8107, eff285: 8107, eff290: 8107, tier: 'B' },
+                                                    { rank: 13, name: '앵글러 컴퍼니', detail: '0→1', price: '10,000 메포', eff280: 7906, eff285: 7906, eff290: 7906, tier: 'B' },
+                                                    { rank: 14, name: '악몽선경', detail: '0→1', price: '12,500 메포', eff280: 7708, eff285: 7708, eff290: 7708, tier: 'B' },
+                                                    { rank: 15, name: '챌린저스 EXP 듀오', detail: '10만 마리', price: '10,000 캐시', eff280: 6855, eff285: 6855, eff290: 6855, tier: 'C' },
+                                                    { rank: 16, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', eff280: 4556, eff285: 4556, eff290: 4556, tier: 'C' },
+                                                    { rank: 17, name: '몬스터 파크', detail: '기본배율', price: '600 메포', eff280: 3000, eff285: 3778, eff290: 4489, tier: 'D' },
+                                                    { rank: 18, name: '악몽선경', detail: '1→2', price: '37,500 메포', eff280: 2090, eff285: 2090, eff290: 2090, tier: 'F' },
+                                                    { rank: 19, name: '앵글러 컴퍼니', detail: '1→2', price: '30,000 메포', eff280: 2006, eff285: 2006, eff290: 2006, tier: 'F' },
+                                                    { rank: 20, name: '하이마운틴', detail: '1→2', price: '22,500 메포', eff280: 1857, eff285: 1857, eff290: 1857, tier: 'F' },
+                                                    { rank: 21, name: '사우나', detail: '1시간', price: '3,000 메포', eff280: 1822, eff285: 1822, eff290: 1822, tier: 'F' },
+                                                ];
+
+                                                let sortedData = [...data];
+                                                if (effSortBy === '280') {
+                                                    sortedData.sort((a, b) => b.eff280 - a.eff280);
+                                                } else if (effSortBy === '285') {
+                                                    sortedData.sort((a, b) => b.eff285 - a.eff285);
+                                                } else if (effSortBy === '290') {
+                                                    sortedData.sort((a, b) => b.eff290 - a.eff290);
+                                                }
+
                                                 const getTierColor = (tier: string) => {
                                                     switch (tier) {
                                                         case 'S': return 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-yellow-500/50';
@@ -265,11 +341,11 @@ export default function ExpProductEfficiency() {
                                                     }
                                                 };
 
-                                                return (
-                                                    <tr key={item.rank} className={`border ${getTierColor(item.tier)} hover:bg-slate-800/50 transition-colors`}>
+                                                return sortedData.map((item, idx) => (
+                                                    <tr key={idx} className={`border ${getTierColor(item.tier)} hover:bg-slate-800/50 transition-colors`}>
                                                         <td className="px-2 sm:px-3 py-2 sm:py-3">
                                                             <span className="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-yellow-500/20 text-yellow-400 font-bold text-xs sm:text-sm">
-                                                                {item.rank}
+                                                                {effSortBy ? idx + 1 : item.rank}
                                                             </span>
                                                         </td>
                                                         <td className="px-2 sm:px-3 py-2 sm:py-3 font-bold text-white text-xs sm:text-sm">{item.name}</td>
@@ -279,8 +355,8 @@ export default function ExpProductEfficiency() {
                                                         <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.eff285.toLocaleString()}</td>
                                                         <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.eff290.toLocaleString()}</td>
                                                     </tr>
-                                                );
-                                            })}
+                                                ));
+                                            })()}
                                         </tbody>
                                     </table>
                                 </div>
