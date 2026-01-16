@@ -166,16 +166,16 @@ export default function MonsterPark2025() {
                         <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 border border-purple-500/30 rounded-lg p-5">
                             <h3 className="text-xl font-bold text-purple-400 mb-3 flex items-center gap-2">
                                 <Target className="w-5 h-5" />
-                                Lv. 265 ~ 269: 아르크스 해금, 하지만 여전히 세르니움
+                                Lv. 265 ~ 269: 아르크스 해금, 이제는 아르크스!
                             </h3>
                             <p className="text-slate-300 mb-3">
-                                265부터 <strong className="text-purple-400">아르크스</strong>가 해금되지만,
-                                아직은 <strong className="text-yellow-400">세르니움</strong>이 더 효율적입니다.
+                                265부터 <strong className="text-purple-400">아르크스</strong>가 해금되며,
+                                <strong className="text-yellow-400">세르니움보다 높은 효율</strong>을 보입니다.
                             </p>
                             <div className="bg-slate-900/50 rounded-lg p-4">
                                 <p className="text-sm text-slate-300">
-                                    <span className="text-green-400 font-bold">✅ 1순위:</span> 세르니움 (1.537% ~ 1.599%)<br />
-                                    <span className="text-yellow-400 font-bold">🔶 2순위:</span> 아르크스 (1.823% ~ 1.897%)도 나쁘지 않음
+                                    <span className="text-green-400 font-bold">✅ 1순위:</span> 아르크스 (1.823% ~ 1.897%)<br />
+                                    <span className="text-yellow-400 font-bold">🔶 2순위:</span> 세르니움 (1.537% ~ 1.599%)
                                 </p>
                             </div>
                         </div>
@@ -306,9 +306,9 @@ export default function MonsterPark2025() {
                                 <p className="text-blue-400 font-bold mb-2">📍 Lv. 260-264</p>
                                 <p className="text-2xl font-black text-white">세르니움</p>
                             </div>
-                            <div className="bg-slate-900/50 rounded-lg p-4 border border-blue-500/20">
-                                <p className="text-blue-400 font-bold mb-2">📍 Lv. 265-269</p>
-                                <p className="text-2xl font-black text-white">세르니움</p>
+                            <div className="bg-slate-900/50 rounded-lg p-4 border border-purple-500/20">
+                                <p className="text-purple-400 font-bold mb-2">📍 Lv. 265-269</p>
+                                <p className="text-2xl font-black text-white">아르크스</p>
                             </div>
                             <div className="bg-slate-900/50 rounded-lg p-4 border border-green-500/20">
                                 <p className="text-green-400 font-bold mb-2">📍 Lv. 270-274</p>
