@@ -10,7 +10,7 @@ export default function ExpProductEfficiency() {
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+                <div className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-6">
                     <Link
                         href="/blog"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-2 sm:mb-4"
@@ -22,7 +22,7 @@ export default function ExpProductEfficiency() {
             </div>
 
             {/* Article */}
-            <article className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <article className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8 py-6 sm:py-12">
                 {/* Title Section */}
                 <header className="mb-8">
                     <div className="flex items-center gap-2 mb-4 flex-wrap">
@@ -47,7 +47,7 @@ export default function ExpProductEfficiency() {
 
                 {/* 경험치 상품 소개 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-r from-slate-800 to-slate-900 border-2 border-blue-500/50 rounded-xl p-6 sm:p-8">
+                    <div className="bg-gradient-to-r from-slate-800 to-slate-900 border-2 border-blue-500/50 rounded-xl p-4 sm:p-6 md:p-8">
                         {/* 이미지 */}
                         <div className="mb-6">
                             <Image
@@ -85,7 +85,7 @@ export default function ExpProductEfficiency() {
 
                 {/* 재화 환산 기준 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-blue-900/30 via-purple-900/20 to-green-900/30 border-2 border-blue-500/50 rounded-2xl p-6 sm:p-8">
+                    <div className="bg-gradient-to-br from-blue-900/30 via-purple-900/20 to-green-900/30 border-2 border-blue-500/50 rounded-2xl p-4 sm:p-6 md:p-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
                                 <DollarSign className="w-6 h-6 text-blue-400" />
@@ -115,7 +115,7 @@ export default function ExpProductEfficiency() {
 
                 {/* 경험치 절대량 표 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-purple-900/30 via-pink-900/20 to-blue-900/30 border-2 border-purple-500/50 rounded-2xl p-6 sm:p-8">
+                    <div className="bg-gradient-to-br from-purple-900/30 via-pink-900/20 to-blue-900/30 border-2 border-purple-500/50 rounded-2xl p-4 sm:p-6 md:p-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
                                 <Trophy className="w-6 h-6 text-purple-400" />
@@ -200,7 +200,7 @@ export default function ExpProductEfficiency() {
 
                 {/* 효율 순위표 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-yellow-900/30 via-orange-900/20 to-red-900/30 border-2 border-yellow-500/50 rounded-2xl p-6 sm:p-8">
+                    <div className="bg-gradient-to-br from-yellow-900/30 via-orange-900/20 to-red-900/30 border-2 border-yellow-500/50 rounded-2xl p-4 sm:p-6 md:p-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
                                 <TrendingUp className="w-6 h-6 text-yellow-400" />
@@ -291,7 +291,7 @@ export default function ExpProductEfficiency() {
 
                 {/* 290레벨 이상 고레벨 분석 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-red-900/30 via-orange-900/20 to-yellow-900/30 border-2 border-red-500/50 rounded-2xl p-6 sm:p-8">
+                    <div className="bg-gradient-to-br from-red-900/30 via-orange-900/20 to-yellow-900/30 border-2 border-red-500/50 rounded-2xl p-4 sm:p-6 md:p-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center">
                                 <Crown className="w-6 h-6 text-red-400" />
@@ -454,7 +454,7 @@ export default function ExpProductEfficiency() {
 
                 {/* 280~289 레벨 분석 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-green-900/30 via-emerald-900/20 to-teal-900/30 border-2 border-green-500/50 rounded-2xl p-6 sm:p-8">
+                    <div className="bg-gradient-to-br from-green-900/30 via-emerald-900/20 to-teal-900/30 border-2 border-green-500/50 rounded-2xl p-4 sm:p-6 md:p-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
                                 <Calculator className="w-6 h-6 text-green-400" />
