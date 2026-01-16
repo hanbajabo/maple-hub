@@ -34,13 +34,13 @@ export default function ExpProductEfficiency() {
                         </span>
                         <span className="text-slate-500 text-sm">2026년 1월 15일</span>
                     </div>
-                    <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">
+                    <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-3 sm:mb-4 leading-tight">
                         💸 메이플 경험치 상품 효율 완벽 분석
                     </h1>
-                    <p className="text-lg text-slate-400">
+                    <p className="text-base sm:text-lg text-slate-400">
                         챌린저스 EXP 듀오부터 모멘텀 패스까지! 상급 EXP로 환산한 가성비 순위와 레벨대별 최적화 전략
                     </p>
-                    <p className="text-xs text-slate-500 mt-4">
+                    <p className="text-xs text-slate-500 mt-3 sm:mt-4">
                         ※ 본 글은 메이플 인벤 '콴다'님의 [경험치BM별 상급EXP 효율비교] 게시글을 참고하여 작성되었습니다.
                     </p>
                 </header>
@@ -60,8 +60,8 @@ export default function ExpProductEfficiency() {
                         </div>
 
                         {/* 소개 텍스트 */}
-                        <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <AlertCircle className="w-6 h-6 text-blue-400" />
+                        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                            <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
                             이 가이드는 무엇인가요?
                         </h2>
                         <div className="space-y-3 text-slate-300">
@@ -90,7 +90,7 @@ export default function ExpProductEfficiency() {
                             <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
                                 <DollarSign className="w-6 h-6 text-blue-400" />
                             </div>
-                            <h2 className="text-2xl sm:text-3xl font-black text-blue-400">
+                            <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-blue-400">
                                 💰 재화 환산 기준 (가정)
                             </h2>
                         </div>
@@ -120,7 +120,7 @@ export default function ExpProductEfficiency() {
                             <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
                                 <Trophy className="w-6 h-6 text-purple-400" />
                             </div>
-                            <h2 className="text-2xl sm:text-3xl font-black text-purple-400">
+                            <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-purple-400">
                                 🍁 상급 EXP 환산 절대량 표
                             </h2>
                         </div>
@@ -131,59 +131,63 @@ export default function ExpProductEfficiency() {
                             </p>
                         </div>
 
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
-                                <thead>
-                                    <tr className="bg-slate-800/50 border-b-2 border-purple-500/30">
-                                        <th className="px-3 py-3 text-left text-purple-400 font-bold">순위</th>
-                                        <th className="px-3 py-3 text-left text-purple-400 font-bold">콘텐츠명</th>
-                                        <th className="px-3 py-3 text-left text-purple-400 font-bold">상세 내용</th>
-                                        <th className="px-3 py-3 text-left text-purple-400 font-bold">가격</th>
-                                        <th className="px-3 py-3 text-center text-purple-400 font-bold">280~284</th>
-                                        <th className="px-3 py-3 text-center text-purple-400 font-bold">285~289</th>
-                                        <th className="px-3 py-3 text-center text-purple-400 font-bold">290+</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-700/50">
-                                    {[
-                                        { rank: 1, name: '모멘텀 패스', detail: '경쿠 제외', price: '50,000 캐시', abs280: 51240, abs285: 65320, abs290: 70013 },
-                                        { rank: 2, name: '익스프레스 패스', detail: '캐시 구매', price: '30,000 캐시', abs280: 24320, abs285: 24320, abs290: 24320 },
-                                        { rank: 3, name: '챌린저스 EXP 듀오', detail: '64.5만 마리', price: '10,000 캐시', abs280: 16000, abs285: 16000, abs290: 16000 },
-                                        { rank: 4, name: '챌린저스 EXP 듀오', detail: '60만 마리', price: '10,000 캐시', abs280: 15245, abs285: 15245, abs290: 15245 },
-                                        { rank: 5, name: '챌린저스 EXP 듀오', detail: '50만 마리', price: '10,000 캐시', abs280: 13567, abs285: 13567, abs290: 13567 },
-                                        { rank: 6, name: '챌린저스 EXP 듀오', detail: '40만 마리', price: '10,000 캐시', abs280: 11889, abs285: 11889, abs290: 11889 },
-                                        { rank: 7, name: '챌린저스 EXP 듀오', detail: '30만 마리', price: '10,000 캐시', abs280: 10211, abs285: 10211, abs290: 10211 },
-                                        { rank: 8, name: '챌린저스 EXP 듀오', detail: '20만 마리', price: '10,000 캐시', abs280: 8533, abs285: 8533, abs290: 8533 },
-                                        { rank: 9, name: '챌린저스 EXP 듀오', detail: '10만 마리', price: '10,000 캐시', abs280: 6855, abs285: 6855, abs290: 6855 },
-                                        { rank: 10, name: '메카베리 농장', detail: '메소 구매', price: '5억 메소', abs280: 4224, abs285: 5632, abs290: 6101 },
-                                        { rank: 11, name: '악몽선경', detail: '0→1', price: '12,500 메포', abs280: 5376, abs285: 5376, abs290: 5376 },
-                                        { rank: 11, name: '악몽선경', detail: '1→2', price: '37,500 메포', abs280: 5376, abs285: 5376, abs290: 5376 },
-                                        { rank: 13, name: '앵글러 컴퍼니', detail: '0→1', price: '10,000 메포', abs280: 4032, abs285: 4032, abs290: 4032 },
-                                        { rank: 13, name: '앵글러 컴퍼니', detail: '1→2', price: '30,000 메포', abs280: 4032, abs285: 4032, abs290: 4032 },
-                                        { rank: 15, name: '하이마운틴', detail: '0→1', price: '7,500 메포', abs280: 2688, abs285: 2688, abs290: 2688 },
-                                        { rank: 15, name: '하이마운틴', detail: '1→2', price: '22,500 메포', abs280: 2688, abs285: 2688, abs290: 2688 },
-                                        { rank: 17, name: '몬스터 파크', detail: '썬데이메이플(4.8배)', price: '600 메포', abs280: 648, abs285: 816, abs290: 970 },
-                                        { rank: 18, name: '몬스터 파크', detail: '일요일+보약(2.3배)', price: '600 메포', abs280: 310, abs285: 391, abs290: 465 },
-                                        { rank: 19, name: '사우나', detail: '1시간', price: '3,000 메포', abs280: 410, abs285: 410, abs290: 410 },
-                                        { rank: 20, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', abs280: 205, abs285: 205, abs290: 205 },
-                                        { rank: 21, name: '몬스터 파크', detail: '기본배율', price: '600 메포', abs280: 135, abs285: 170, abs290: 202 },
-                                    ].map((item, idx) => (
-                                        <tr key={idx} className="bg-slate-800/30 border border-slate-700/50 hover:bg-slate-800/50 transition-colors">
-                                            <td className="px-3 py-3">
-                                                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 font-bold text-sm">
-                                                    {item.rank}
-                                                </span>
-                                            </td>
-                                            <td className="px-3 py-3 font-bold text-white">{item.name}</td>
-                                            <td className="px-3 py-3 text-slate-300">{item.detail}</td>
-                                            <td className="px-3 py-3 text-green-400">{item.price}</td>
-                                            <td className="px-3 py-3 text-center text-slate-200 font-mono">{item.abs280.toLocaleString()}</td>
-                                            <td className="px-3 py-3 text-center text-slate-200 font-mono">{item.abs285.toLocaleString()}</td>
-                                            <td className="px-3 py-3 text-center text-slate-200 font-mono">{item.abs290.toLocaleString()}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                        <div className="overflow-x-auto -mx-4 sm:mx-0">
+                            <div className="inline-block min-w-full align-middle">
+                                <div className="overflow-hidden">
+                                    <table className="min-w-full text-xs sm:text-sm">
+                                        <thead>
+                                            <tr className="bg-slate-800/50 border-b-2 border-purple-500/30">
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-purple-400 font-bold whitespace-nowrap">순위</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-purple-400 font-bold whitespace-nowrap">콘텐츠명</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-purple-400 font-bold whitespace-nowrap">상세</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-purple-400 font-bold whitespace-nowrap">가격</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-purple-400 font-bold whitespace-nowrap">280~284</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-purple-400 font-bold whitespace-nowrap">285~289</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-purple-400 font-bold whitespace-nowrap">290+</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-700/50">
+                                            {[
+                                                { rank: 1, name: '모멘텀 패스', detail: '경쿠 제외', price: '50,000 캐시', abs280: 51240, abs285: 65320, abs290: 70013 },
+                                                { rank: 2, name: '익스프레스 패스', detail: '캐시 구매', price: '30,000 캐시', abs280: 24320, abs285: 24320, abs290: 24320 },
+                                                { rank: 3, name: '챌린저스 EXP 듀오', detail: '64.5만 마리', price: '10,000 캐시', abs280: 16000, abs285: 16000, abs290: 16000 },
+                                                { rank: 4, name: '챌린저스 EXP 듀오', detail: '60만 마리', price: '10,000 캐시', abs280: 15245, abs285: 15245, abs290: 15245 },
+                                                { rank: 5, name: '챌린저스 EXP 듀오', detail: '50만 마리', price: '10,000 캐시', abs280: 13567, abs285: 13567, abs290: 13567 },
+                                                { rank: 6, name: '챌린저스 EXP 듀오', detail: '40만 마리', price: '10,000 캐시', abs280: 11889, abs285: 11889, abs290: 11889 },
+                                                { rank: 7, name: '챌린저스 EXP 듀오', detail: '30만 마리', price: '10,000 캐시', abs280: 10211, abs285: 10211, abs290: 10211 },
+                                                { rank: 8, name: '챌린저스 EXP 듀오', detail: '20만 마리', price: '10,000 캐시', abs280: 8533, abs285: 8533, abs290: 8533 },
+                                                { rank: 9, name: '챌린저스 EXP 듀오', detail: '10만 마리', price: '10,000 캐시', abs280: 6855, abs285: 6855, abs290: 6855 },
+                                                { rank: 10, name: '메카베리 농장', detail: '메소 구매', price: '5억 메소', abs280: 4224, abs285: 5632, abs290: 6101 },
+                                                { rank: 11, name: '악몽선경', detail: '0→1', price: '12,500 메포', abs280: 5376, abs285: 5376, abs290: 5376 },
+                                                { rank: 11, name: '악몽선경', detail: '1→2', price: '37,500 메포', abs280: 5376, abs285: 5376, abs290: 5376 },
+                                                { rank: 13, name: '앵글러 컴퍼니', detail: '0→1', price: '10,000 메포', abs280: 4032, abs285: 4032, abs290: 4032 },
+                                                { rank: 13, name: '앵글러 컴퍼니', detail: '1→2', price: '30,000 메포', abs280: 4032, abs285: 4032, abs290: 4032 },
+                                                { rank: 15, name: '하이마운틴', detail: '0→1', price: '7,500 메포', abs280: 2688, abs285: 2688, abs290: 2688 },
+                                                { rank: 15, name: '하이마운틴', detail: '1→2', price: '22,500 메포', abs280: 2688, abs285: 2688, abs290: 2688 },
+                                                { rank: 17, name: '몬스터 파크', detail: '썬데이메이플(4.8배)', price: '600 메포', abs280: 648, abs285: 816, abs290: 970 },
+                                                { rank: 18, name: '몬스터 파크', detail: '일요일+보약(2.3배)', price: '600 메포', abs280: 310, abs285: 391, abs290: 465 },
+                                                { rank: 19, name: '사우나', detail: '1시간', price: '3,000 메포', abs280: 410, abs285: 410, abs290: 410 },
+                                                { rank: 20, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', abs280: 205, abs285: 205, abs290: 205 },
+                                                { rank: 21, name: '몬스터 파크', detail: '기본배율', price: '600 메포', abs280: 135, abs285: 170, abs290: 202 },
+                                            ].map((item, idx) => (
+                                                <tr key={idx} className="bg-slate-800/30 border border-slate-700/50 hover:bg-slate-800/50 transition-colors">
+                                                    <td className="px-2 sm:px-3 py-2 sm:py-3">
+                                                        <span className="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xs sm:text-sm">
+                                                            {item.rank}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 font-bold text-white text-xs sm:text-sm">{item.name}</td>
+                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 text-slate-300 text-xs sm:text-sm">{item.detail}</td>
+                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 text-green-400 text-xs sm:text-sm whitespace-nowrap">{item.price}</td>
+                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.abs280.toLocaleString()}</td>
+                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.abs285.toLocaleString()}</td>
+                                                    <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.abs290.toLocaleString()}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -201,7 +205,7 @@ export default function ExpProductEfficiency() {
                             <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
                                 <TrendingUp className="w-6 h-6 text-yellow-400" />
                             </div>
-                            <h2 className="text-2xl sm:text-3xl font-black text-yellow-400">
+                            <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-yellow-400">
                                 🍁 상급 EXP 환산 효율표
                             </h2>
                         </div>
@@ -212,71 +216,75 @@ export default function ExpProductEfficiency() {
                             </p>
                         </div>
 
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
-                                <thead>
-                                    <tr className="bg-slate-800/50 border-b-2 border-yellow-500/30">
-                                        <th className="px-3 py-3 text-left text-yellow-400 font-bold">순위</th>
-                                        <th className="px-3 py-3 text-left text-yellow-400 font-bold">콘텐츠명</th>
-                                        <th className="px-3 py-3 text-left text-yellow-400 font-bold">상세 내용</th>
-                                        <th className="px-3 py-3 text-left text-yellow-400 font-bold">가격</th>
-                                        <th className="px-3 py-3 text-center text-yellow-400 font-bold">280~284</th>
-                                        <th className="px-3 py-3 text-center text-yellow-400 font-bold">285~289</th>
-                                        <th className="px-3 py-3 text-center text-yellow-400 font-bold">290+</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-700/50">
-                                    {[
-                                        { rank: 1, name: '몬스터 파크', detail: '썬데이메이플(4.8배)', price: '600 메포', eff280: 14400, eff285: 18134, eff290: 21547, tier: 'S' },
-                                        { rank: 2, name: '챌린저스 EXP 듀오', detail: '64.5만 마리', price: '10,000 캐시', eff280: 16000, eff285: 16000, eff290: 16000, tier: 'S' },
-                                        { rank: 3, name: '챌린저스 EXP 듀오', detail: '60만 마리', price: '10,000 캐시', eff280: 15245, eff285: 15245, eff290: 15245, tier: 'S' },
-                                        { rank: 4, name: '모멘텀 패스', detail: '경쿠 제외', price: '50,000 캐시', eff280: 10248, eff285: 13064, eff290: 14003, tier: 'A' },
-                                        { rank: 5, name: '챌린저스 EXP 듀오', detail: '50만 마리', price: '10,000 캐시', eff280: 13567, eff285: 13567, eff290: 13567, tier: 'A' },
-                                        { rank: 6, name: '챌린저스 EXP 듀오', detail: '40만 마리', price: '10,000 캐시', eff280: 11889, eff285: 11889, eff290: 11889, tier: 'A' },
-                                        { rank: 7, name: '챌린저스 EXP 듀오', detail: '30만 마리', price: '10,000 캐시', eff280: 10211, eff285: 10211, eff290: 10211, tier: 'A' },
-                                        { rank: 8, name: '몬스터 파크', detail: '일요일+보약(2.3배)', price: '600 메포', eff280: 6900, eff285: 8689, eff290: 10325, tier: 'A' },
-                                        { rank: 9, name: '챌린저스 EXP 듀오', detail: '20만 마리', price: '10,000 캐시', eff280: 8533, eff285: 8533, eff290: 8533, tier: 'B' },
-                                        { rank: 10, name: '하이마운틴', detail: '0→1', price: '7,500 메포', eff280: 8335, eff285: 8335, eff290: 8335, tier: 'B' },
-                                        { rank: 11, name: '메카베리 농장', detail: '메소 구매', price: '5억 메소', eff280: 5632, eff285: 7509, eff290: 8135, tier: 'B' },
-                                        { rank: 12, name: '익스프레스 패스', detail: '캐시 구매', price: '30,000 캐시', eff280: 8107, eff285: 8107, eff290: 8107, tier: 'B' },
-                                        { rank: 13, name: '앵글러 컴퍼니', detail: '0→1', price: '10,000 메포', eff280: 7906, eff285: 7906, eff290: 7906, tier: 'B' },
-                                        { rank: 14, name: '악몽선경', detail: '0→1', price: '12,500 메포', eff280: 7708, eff285: 7708, eff290: 7708, tier: 'B' },
-                                        { rank: 15, name: '챌린저스 EXP 듀오', detail: '10만 마리', price: '10,000 캐시', eff280: 6855, eff285: 6855, eff290: 6855, tier: 'C' },
-                                        { rank: 16, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', eff280: 4556, eff285: 4556, eff290: 4556, tier: 'C' },
-                                        { rank: 17, name: '몬스터 파크', detail: '기본배율', price: '600 메포', eff280: 3000, eff285: 3778, eff290: 4489, tier: 'D' },
-                                        { rank: 18, name: '악몽선경', detail: '1→2', price: '37,500 메포', eff280: 2090, eff285: 2090, eff290: 2090, tier: 'F' },
-                                        { rank: 19, name: '앵글러 컴퍼니', detail: '1→2', price: '30,000 메포', eff280: 2006, eff285: 2006, eff290: 2006, tier: 'F' },
-                                        { rank: 20, name: '하이마운틴', detail: '1→2', price: '22,500 메포', eff280: 1857, eff285: 1857, eff290: 1857, tier: 'F' },
-                                        { rank: 21, name: '사우나', detail: '1시간', price: '3,000 메포', eff280: 1822, eff285: 1822, eff290: 1822, tier: 'F' },
-                                    ].map((item) => {
-                                        const getTierColor = (tier: string) => {
-                                            switch (tier) {
-                                                case 'S': return 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-yellow-500/50';
-                                                case 'A': return 'bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-green-500/50';
-                                                case 'B': return 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-500/50';
-                                                case 'C': return 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/50';
-                                                default: return 'bg-slate-800/30 border-slate-700/50';
-                                            }
-                                        };
-
-                                        return (
-                                            <tr key={item.rank} className={`border ${getTierColor(item.tier)} hover:bg-slate-800/50 transition-colors`}>
-                                                <td className="px-3 py-3">
-                                                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500/20 text-yellow-400 font-bold text-sm">
-                                                        {item.rank}
-                                                    </span>
-                                                </td>
-                                                <td className="px-3 py-3 font-bold text-white">{item.name}</td>
-                                                <td className="px-3 py-3 text-slate-300">{item.detail}</td>
-                                                <td className="px-3 py-3 text-green-400">{item.price}</td>
-                                                <td className="px-3 py-3 text-center text-slate-200 font-mono">{item.eff280.toLocaleString()}</td>
-                                                <td className="px-3 py-3 text-center text-slate-200 font-mono">{item.eff285.toLocaleString()}</td>
-                                                <td className="px-3 py-3 text-center text-slate-200 font-mono">{item.eff290.toLocaleString()}</td>
+                        <div className="overflow-x-auto -mx-4 sm:mx-0">
+                            <div className="inline-block min-w-full align-middle">
+                                <div className="overflow-hidden">
+                                    <table className="min-w-full text-xs sm:text-sm">
+                                        <thead>
+                                            <tr className="bg-slate-800/50 border-b-2 border-yellow-500/30">
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-yellow-400 font-bold whitespace-nowrap">순위</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-yellow-400 font-bold whitespace-nowrap">콘텐츠명</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-yellow-400 font-bold whitespace-nowrap">상세</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-left text-yellow-400 font-bold whitespace-nowrap">가격</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-yellow-400 font-bold whitespace-nowrap">280~284</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-yellow-400 font-bold whitespace-nowrap">285~289</th>
+                                                <th className="px-2 sm:px-3 py-2 sm:py-3 text-center text-yellow-400 font-bold whitespace-nowrap">290+</th>
                                             </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-700/50">
+                                            {[
+                                                { rank: 1, name: '몬스터 파크', detail: '썬데이메이플(4.8배)', price: '600 메포', eff280: 14400, eff285: 18134, eff290: 21547, tier: 'S' },
+                                                { rank: 2, name: '챌린저스 EXP 듀오', detail: '64.5만 마리', price: '10,000 캐시', eff280: 16000, eff285: 16000, eff290: 16000, tier: 'S' },
+                                                { rank: 3, name: '챌린저스 EXP 듀오', detail: '60만 마리', price: '10,000 캐시', eff280: 15245, eff285: 15245, eff290: 15245, tier: 'S' },
+                                                { rank: 4, name: '모멘텀 패스', detail: '경쿠 제외', price: '50,000 캐시', eff280: 10248, eff285: 13064, eff290: 14003, tier: 'A' },
+                                                { rank: 5, name: '챌린저스 EXP 듀오', detail: '50만 마리', price: '10,000 캐시', eff280: 13567, eff285: 13567, eff290: 13567, tier: 'A' },
+                                                { rank: 6, name: '챌린저스 EXP 듀오', detail: '40만 마리', price: '10,000 캐시', eff280: 11889, eff285: 11889, eff290: 11889, tier: 'A' },
+                                                { rank: 7, name: '챌린저스 EXP 듀오', detail: '30만 마리', price: '10,000 캐시', eff280: 10211, eff285: 10211, eff290: 10211, tier: 'A' },
+                                                { rank: 8, name: '몬스터 파크', detail: '일요일+보약(2.3배)', price: '600 메포', eff280: 6900, eff285: 8689, eff290: 10325, tier: 'A' },
+                                                { rank: 9, name: '챌린저스 EXP 듀오', detail: '20만 마리', price: '10,000 캐시', eff280: 8533, eff285: 8533, eff290: 8533, tier: 'B' },
+                                                { rank: 10, name: '하이마운틴', detail: '0→1', price: '7,500 메포', eff280: 8335, eff285: 8335, eff290: 8335, tier: 'B' },
+                                                { rank: 11, name: '메카베리 농장', detail: '메소 구매', price: '5억 메소', eff280: 5632, eff285: 7509, eff290: 8135, tier: 'B' },
+                                                { rank: 12, name: '익스프레스 패스', detail: '캐시 구매', price: '30,000 캐시', eff280: 8107, eff285: 8107, eff290: 8107, tier: 'B' },
+                                                { rank: 13, name: '앵글러 컴퍼니', detail: '0→1', price: '10,000 메포', eff280: 7906, eff285: 7906, eff290: 7906, tier: 'B' },
+                                                { rank: 14, name: '악몽선경', detail: '0→1', price: '12,500 메포', eff280: 7708, eff285: 7708, eff290: 7708, tier: 'B' },
+                                                { rank: 15, name: '챌린저스 EXP 듀오', detail: '10만 마리', price: '10,000 캐시', eff280: 6855, eff285: 6855, eff290: 6855, tier: 'C' },
+                                                { rank: 16, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', eff280: 4556, eff285: 4556, eff290: 4556, tier: 'C' },
+                                                { rank: 17, name: '몬스터 파크', detail: '기본배율', price: '600 메포', eff280: 3000, eff285: 3778, eff290: 4489, tier: 'D' },
+                                                { rank: 18, name: '악몽선경', detail: '1→2', price: '37,500 메포', eff280: 2090, eff285: 2090, eff290: 2090, tier: 'F' },
+                                                { rank: 19, name: '앵글러 컴퍼니', detail: '1→2', price: '30,000 메포', eff280: 2006, eff285: 2006, eff290: 2006, tier: 'F' },
+                                                { rank: 20, name: '하이마운틴', detail: '1→2', price: '22,500 메포', eff280: 1857, eff285: 1857, eff290: 1857, tier: 'F' },
+                                                { rank: 21, name: '사우나', detail: '1시간', price: '3,000 메포', eff280: 1822, eff285: 1822, eff290: 1822, tier: 'F' },
+                                            ].map((item) => {
+                                                const getTierColor = (tier: string) => {
+                                                    switch (tier) {
+                                                        case 'S': return 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-yellow-500/50';
+                                                        case 'A': return 'bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-green-500/50';
+                                                        case 'B': return 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-500/50';
+                                                        case 'C': return 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/50';
+                                                        default: return 'bg-slate-800/30 border-slate-700/50';
+                                                    }
+                                                };
+
+                                                return (
+                                                    <tr key={item.rank} className={`border ${getTierColor(item.tier)} hover:bg-slate-800/50 transition-colors`}>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3">
+                                                            <span className="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-yellow-500/20 text-yellow-400 font-bold text-xs sm:text-sm">
+                                                                {item.rank}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 font-bold text-white text-xs sm:text-sm">{item.name}</td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-slate-300 text-xs sm:text-sm">{item.detail}</td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-green-400 text-xs sm:text-sm whitespace-nowrap">{item.price}</td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.eff280.toLocaleString()}</td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.eff285.toLocaleString()}</td>
+                                                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-center text-slate-200 font-mono text-xs sm:text-sm">{item.eff290.toLocaleString()}</td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -288,7 +296,7 @@ export default function ExpProductEfficiency() {
                             <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center">
                                 <Crown className="w-6 h-6 text-red-400" />
                             </div>
-                            <h2 className="text-2xl sm:text-3xl font-black text-red-400">
+                            <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-red-400">
                                 290레벨 이상 고레벨 구간 전략
                             </h2>
                         </div>
@@ -296,8 +304,8 @@ export default function ExpProductEfficiency() {
                         <div className="space-y-6">
                             {/* 핵심 요약 */}
                             <div className="bg-gradient-to-r from-yellow-900/50 to-orange-900/50 border-2 border-yellow-400 rounded-xl p-6">
-                                <h3 className="text-xl font-bold text-yellow-400 mb-4 flex items-center gap-2">
-                                    <Zap className="w-6 h-6" />
+                                <h3 className="text-base sm:text-lg md:text-xl font-bold text-yellow-400 mb-3 sm:mb-4 flex items-center gap-2">
+                                    <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
                                     ⚡ 핵심 3줄 요약
                                 </h3>
                                 <div className="space-y-3 text-slate-300">
@@ -318,8 +326,8 @@ export default function ExpProductEfficiency() {
 
                             {/* 상세 분석 */}
                             <div className="bg-slate-900/50 rounded-xl p-6">
-                                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                    <Target className="w-6 h-6 text-blue-400" />
+                                <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                                    <Target className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
                                     📊 상세 데이터 분석
                                 </h3>
 
@@ -406,8 +414,8 @@ export default function ExpProductEfficiency() {
 
                             {/* 유저 타입별 추천 */}
                             <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 border-2 border-purple-400 rounded-xl p-6">
-                                <h3 className="text-xl font-bold text-purple-400 mb-4 flex items-center gap-2">
-                                    <Sparkles className="w-6 h-6" />
+                                <h3 className="text-base sm:text-lg md:text-xl font-bold text-purple-400 mb-3 sm:mb-4 flex items-center gap-2">
+                                    <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
                                     💡 유저 타입별 추천 루트
                                 </h3>
 
@@ -451,7 +459,7 @@ export default function ExpProductEfficiency() {
                             <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
                                 <Calculator className="w-6 h-6 text-green-400" />
                             </div>
-                            <h2 className="text-2xl sm:text-3xl font-black text-green-400">
+                            <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-green-400">
                                 280~289 레벨 구간 전략
                             </h2>
                         </div>
@@ -459,8 +467,8 @@ export default function ExpProductEfficiency() {
                         <div className="space-y-6">
                             {/* 핵심 요약 */}
                             <div className="bg-gradient-to-r from-teal-900/50 to-cyan-900/50 border-2 border-teal-400 rounded-xl p-6">
-                                <h3 className="text-xl font-bold text-teal-400 mb-4 flex items-center gap-2">
-                                    <Zap className="w-6 h-6" />
+                                <h3 className="text-base sm:text-lg md:text-xl font-bold text-teal-400 mb-3 sm:mb-4 flex items-center gap-2">
+                                    <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
                                     ⚡ 280레벨+ 핵심 3줄 요약
                                 </h3>
                                 <div className="space-y-3 text-slate-300">
@@ -481,8 +489,8 @@ export default function ExpProductEfficiency() {
 
                             {/* 상세 분석 */}
                             <div className="bg-slate-900/50 rounded-xl p-6">
-                                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                    <Target className="w-6 h-6 text-emerald-400" />
+                                <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                                    <Target className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
                                     📊 상세 데이터 분석 (280~289 구간)
                                 </h3>
 
@@ -554,8 +562,8 @@ export default function ExpProductEfficiency() {
 
                             {/* 유저 타입별 추천 */}
                             <div className="bg-gradient-to-r from-emerald-900/50 to-teal-900/50 border-2 border-emerald-400 rounded-xl p-6">
-                                <h3 className="text-xl font-bold text-emerald-400 mb-4 flex items-center gap-2">
-                                    <Sparkles className="w-6 h-6" />
+                                <h3 className="text-base sm:text-lg md:text-xl font-bold text-emerald-400 mb-3 sm:mb-4 flex items-center gap-2">
+                                    <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
                                     💡 280레벨대 유저 타입별 추천 루트
                                 </h3>
 
@@ -590,18 +598,18 @@ export default function ExpProductEfficiency() {
                 {/* Summary */}
                 <section className="mb-12">
                     <div className="bg-gradient-to-r from-slate-800 to-slate-900 border border-purple-500 rounded-xl p-8">
-                        <h2 className="text-2xl font-bold mb-6 text-center">📝 마무리</h2>
-                        <p className="text-slate-300 leading-relaxed text-center mb-6">
+                        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">📝 마무리</h2>
+                        <p className="text-sm sm:text-base text-slate-300 leading-relaxed text-center mb-4 sm:mb-6">
                             메이플스토리에서 <strong className="text-yellow-400">"돈을 어디에 써야 가장 빨리, 그리고 싸게 레벨업을 할 수 있는가?"</strong>는 영원한 고민입니다.<br />
                             이 가이드가 여러분의 효율적인 레벨업에 도움이 되길 바랍니다! 🍁
                         </p>
                         <div className="text-center space-y-2">
-                            <p className="text-slate-400 text-lg">
+                            <p className="text-slate-400 text-sm sm:text-base md:text-lg">
                                 본인의 플레이 스타일과 지갑 사정에 맞는 최적의 조합을 찾아보세요!
                             </p>
-                            <p className="text-green-400 font-bold">
-                                💡 핵심은 사냥 할 시간이 많다면 '챌린저스 EXP 듀오로 내가 사냥을 얼마나 할 것인가'이고,<br />
-                                시간이 없다면 모멘텀/익스프레스 패스로 경험치를 캐시로 구매하는 것입니다.
+                            <p className="text-green-400 font-bold text-xs sm:text-sm md:text-base">
+                                💡 핵심은 사냥 할 시간이 많다면 '챌린저스 EXP 듀오로 내가 사냥을 얼마나 할 것인가'이고,<br className="hidden sm:block" />
+                                <span className="sm:hidden"> </span>시간이 없다면 모멘텀/익스프레스 패스로 경험치를 캐시로 구매하는 것입니다.
                             </p>
                         </div>
                     </div>
