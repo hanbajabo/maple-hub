@@ -282,23 +282,29 @@ export default function ItemPriceTrendPage() {
                             여전히 가격 차이가 큰 아이템 (주의)
                         </h3>
                         <p className="text-slate-300 mb-6">
-                            아래 아이템들은 본 서버 대비 챌린저스 서버의 가격이 여전히 매우 높게 형성되어 있습니다.
-                            구매 시 신중한 판단이 필요합니다.
+                            아래 아이템들은 본 서버 대비 챌린저스 서버의 가격이 <strong className="text-red-400">2배에서 최대 5배 이상</strong> 비싸게 형성되어 있습니다.
+                            가격 거품이 빠질 때까지 구매를 미루는 것을 추천합니다.
                         </p>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="bg-slate-900/80 rounded-lg p-4 flex justify-between items-center">
-                                <span className="text-white font-bold">몽환의 벨트</span>
+                                <div>
+                                    <span className="block text-white font-bold">미트라의 분노</span>
+                                    <span className="text-xs text-slate-500">50억 vs 8.8억</span>
+                                </div>
                                 <div className="text-right">
                                     <span className="block text-xs text-slate-400">가격 차이</span>
-                                    <span className="text-red-400 font-bold">+18억 이상</span>
+                                    <span className="text-red-400 font-bold text-lg">+41.2억</span>
                                 </div>
                             </div>
                             <div className="bg-slate-900/80 rounded-lg p-4 flex justify-between items-center">
-                                <span className="text-white font-bold">마력이 깃든 안대</span>
+                                <div>
+                                    <span className="block text-white font-bold">루즈 컨트롤 마크</span>
+                                    <span className="text-xs text-slate-500">24.5억 vs 12.5억</span>
+                                </div>
                                 <div className="text-right">
                                     <span className="block text-xs text-slate-400">가격 차이</span>
-                                    <span className="text-red-400 font-bold">+26억 이상</span>
+                                    <span className="text-red-400 font-bold text-lg">+12억</span>
                                 </div>
                             </div>
                         </div>
@@ -318,15 +324,15 @@ export default function ItemPriceTrendPage() {
                             <ul className="space-y-3 text-sm">
                                 <li className="flex items-start gap-2">
                                     <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                                    <span><strong className="text-white">메소 확보:</strong> 17성 도전 기준 1템당 50~100억 정도 준비</span>
+                                    <span><strong className="text-white">메소 확보:</strong> 목표 강화 단계에 맞춰 충분한 여유 자금 준비</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                                    <span><strong className="text-white">강화 타겟 설정:</strong> 거대한 공포(반지) 및 에테르넬 장비 등 효율 좋은 아이템 우선 고려</span>
+                                    <span><strong className="text-white">강화 타겟 설정:</strong> 거대한 공포(반지) 및 에테르넬(모/상/하) 등 효율 좋은 아이템 우선</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                                    <span><strong className="text-white">안전장치 설정:</strong> 파괴 방지 (21성 이하는 자동 할인/감소 적용 확인)</span>
+                                    <span><strong className="text-white">이벤트 혜택:</strong> 21성 이하 파괴 확률 30% 감소 (자동 적용) 혜택 활용</span>
                                 </li>
                             </ul>
                         </div>
@@ -335,12 +341,12 @@ export default function ItemPriceTrendPage() {
                             <p className="font-bold text-green-400 mb-3 text-lg">🎯 이번 분석 요약</p>
                             <div className="space-y-2 text-sm">
                                 <p className="text-yellow-300 font-bold">거대한 공포: 가격 안정화로 구매 적기 판단</p>
-                                <p className="text-blue-300 font-bold">에테르넬 장비: 큰 변동 없이 안정적인 시세 유지 중</p>
+                                <p className="text-blue-300 font-bold">에테르넬 장비: 가격 대폭 하락으로 직작 효율 최상 (강력 추천)</p>
                             </div>
                         </div>
 
                         <p className="text-slate-400 text-center italic text-lg pt-4">
-                            행운을 빕니다! 모두 17성 한방에 성공하시길! 🍀✨
+                            행운을 빕니다! 목표하신 스타포스 단계까지 스트레이트 성공하시길! 🍀✨
                         </p>
                     </div>
                 </div>
