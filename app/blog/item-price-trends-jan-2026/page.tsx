@@ -213,7 +213,7 @@ export default function ItemPriceTrendPage() {
                         </div>
                     </div>
 
-                    {/* 2. 에테르넬 (모자/상/하의) */}
+                    {/* 2. 에테르넬 가성비 4종 */}
                     <div className="bg-slate-900/50 border border-slate-700 rounded-2xl overflow-hidden hover:border-slate-500 transition-all">
                         <div className="p-6 sm:p-8">
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
@@ -225,7 +225,7 @@ export default function ItemPriceTrendPage() {
                                         <span className="text-slate-500 text-sm">에테르넬 세트</span>
                                     </div>
                                     <h3 className="text-2xl font-bold text-white">
-                                        에테르넬 (모자/상/하의)
+                                        에테르넬 (모자/상/하의/견장)
                                     </h3>
                                 </div>
                                 <div className="text-right">
@@ -243,14 +243,14 @@ export default function ItemPriceTrendPage() {
                                     <div className="space-y-4">
                                         <div className="flex justify-between items-center border-b border-slate-700 pb-2">
                                             <span className="text-slate-400">1월 1일 (초기)</span>
-                                            <span className="text-white font-bold">8.8억</span>
+                                            <span className="text-white font-bold">8.7억</span>
                                         </div>
                                         <div className="flex justify-between items-center">
                                             <span className="text-slate-400">1월 17일 (현재)</span>
                                             <span className="text-purple-400 font-bold">4.5억</span>
                                         </div>
                                         <div className="text-right text-sm text-green-400 font-bold">
-                                            ▼ 48.9% 대폭 하락
+                                            ▼ 48.3% 대폭 하락
                                         </div>
                                     </div>
                                 </div>
@@ -263,11 +263,73 @@ export default function ItemPriceTrendPage() {
                                     <ul className="space-y-2 text-sm text-slate-300">
                                         <li className="flex items-start gap-2">
                                             <span className="text-purple-400 mt-1">•</span>
-                                            <span>에테르넬 <strong className="text-white">모자, 상의, 하의</strong>의 가격이 보름 만에 반토막 났습니다.</span>
+                                            <span>4부위 모두 가격이 보름 만에 반토막 났습니다. 특히 <strong className="text-white">견장</strong>까지 저렴해진 것이 특징입니다.</span>
                                         </li>
                                         <li className="flex items-start gap-2">
                                             <span className="text-purple-400 mt-1">•</span>
-                                            <span>노작 가격이 매우 저렴해져서, 노작 구매 후 <strong className="text-blue-400">12~17성 직작</strong>을 하기에 좋은 시기입니다.</span>
+                                            <span>노작 가격이 매우 저렴해져서, 노작 구매 후 <strong className="text-blue-400">12~17성 직작</strong>을 하기에 가장 좋은 시기입니다.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 3. 에테르넬 고가 3종 */}
+                    <div className="bg-slate-900/50 border border-slate-700 rounded-2xl overflow-hidden hover:border-slate-500 transition-all">
+                        <div className="p-6 sm:p-8">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                                <div>
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="px-3 py-1 bg-indigo-500/20 text-indigo-400 text-xs font-bold rounded-full">
+                                            완만한 하락세
+                                        </span>
+                                        <span className="text-slate-500 text-sm">에테르넬 세트</span>
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-white">
+                                        에테르넬 (신발/장갑/망토)
+                                    </h3>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm text-slate-400 mb-1">현재 평균 (1/17)</p>
+                                    <p className="text-3xl font-black text-indigo-400">29.2억</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="bg-slate-800/50 rounded-xl p-5">
+                                    <h4 className="flex items-center gap-2 text-slate-300 font-bold mb-4">
+                                        <TrendingDown className="w-5 h-5 text-indigo-400" />
+                                        시세 변화 추이
+                                    </h4>
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between items-center border-b border-slate-700 pb-2">
+                                            <span className="text-slate-400">1월 1일 (초기)</span>
+                                            <span className="text-white font-bold">35.7억</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-slate-400">1월 17일 (현재)</span>
+                                            <span className="text-indigo-400 font-bold">29.2억</span>
+                                        </div>
+                                        <div className="text-right text-sm text-green-400 font-bold">
+                                            ▼ 18.2% 하락
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-slate-800/50 rounded-xl p-5">
+                                    <h4 className="flex items-center gap-2 text-slate-300 font-bold mb-3">
+                                        <CheckCircle className="w-5 h-5 text-indigo-400" />
+                                        분석 코멘트
+                                    </h4>
+                                    <ul className="space-y-2 text-sm text-slate-300">
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-indigo-400 mt-1">•</span>
+                                            <span>공급이 적은 신발, 장갑, 망토는 여전히 가격대가 높습니다.</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <span className="text-indigo-400 mt-1">•</span>
+                                            <span>하락세이긴 하나 가성비 4종에 비해 낙폭이 작으므로, <strong className="text-white">무리한 직작보다는 완제품 구매</strong>를 고려해보거나 가볍게 12성 이상 강화하여 사용하는 것도 괜찮아 보입니다.</span>
                                         </li>
                                     </ul>
                                 </div>
