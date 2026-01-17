@@ -14,11 +14,11 @@ export const blogPosts: BlogPost[] = [
     // 1월 챌린저스 시세 분석
     {
         slug: 'item-price-trends-jan-2026',
-        title: '📉 1월 챌린저스 vs 본섭 시세 대격변 - 거품 붕괴와 가격 수렴의 현장',
-        description: '미트라 177억→50억, 거공 90억→50억! 1월 1일부터 17일까지의 챌린저스 서버 시세 데이터를 분석하여 거품 붕괴의 순간을 포착했습니다.',
+        title: '썬데이 메이플 [샤타포스 타임] 기념 | 최근 1월 강화 아이템 가격 확인하기',
+        description: '거대한 공포 90억→50억, 에테르넬 가격 반토막! 1월 18일 샤타포스 타임을 위한 최신 1월 시세 분석 리포트.',
         category: '메이플 이야기',
         date: '2026년 1월 17일',
-        readTime: '5분',
+        readTime: '7분',
         thumbnail: '📉',
         featured: true,
     },
