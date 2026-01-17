@@ -69,6 +69,28 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
 
     const isEthernel = selectedItem.startsWith('에테르넬');
 
+    const itemDisplayName: Record<string, string> = {
+        '거공': '거대한 공포',
+        '고근': '고통의 근원',
+        '커포': '커맨더 포스 이어링',
+        '루컨마': '루즈 컨트롤 머신 마크',
+        '마깃안': '마력이 깃든 안대',
+        '몽벨': '몽환의 벨트',
+        '마도서': '저주받은 마도서',
+        '미트라': '미트라의 분노',
+        '창뱃': '창세의 뱃지',
+        '가엔링': '가디언 엔젤 링',
+        '데브팬': '데이브레이크 펜던트',
+        '블빈마': '블랙빈 마크',
+        '파풀마': '파풀라투스 마크',
+        '분자벨': '분노한 자쿰의 벨트',
+        '리4': '리스트레인트 링 4레벨',
+        '컨4': '컨티뉴어스 링 4레벨',
+        '트왈마': '트와일라이트 마크',
+        '에스텔라': '에스텔라 이어링',
+        '도미': '도미네이터 펜던트',
+    };
+
     return (
         <div className="w-full bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-2xl border border-slate-700 p-6 sm:p-8 my-8 shadow-2xl">
             {/* 헤더 */}
@@ -88,7 +110,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                 >
                     {allItems.map((item) => (
                         <option key={item} value={item}>
-                            {item}
+                            {itemDisplayName[item] || item}
                         </option>
                     ))}
                 </select>
