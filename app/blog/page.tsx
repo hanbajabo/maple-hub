@@ -21,7 +21,7 @@ export default function BlogPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
     // Hero Post는 최신 업데이트 포스트
-    const heroPost = blogPosts.find(p => p.slug === 'testworld-to-live-jan-15-2026') || blogPosts[0];
+    const heroPost = blogPosts.find(p => p.slug === 'item-price-trends-jan-2026') || blogPosts[0];
 
     // 검색 필터 함수
     const filterBySearch = (posts: BlogPost[]) => {
