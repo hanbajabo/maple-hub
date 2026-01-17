@@ -53,7 +53,7 @@ export default function ItemPriceTrendPage() {
                         </span>
                         <span className="text-slate-500 text-sm">2026년 1월 17일</span>
                     </div>
-                    <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">
+                    <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
                         썬데이 메이플 [샤타포스 타임] 기념
                         <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400">
@@ -67,7 +67,7 @@ export default function ItemPriceTrendPage() {
                 </header>
 
                 {/* 썬데이 메이플 안내 */}
-                <div className="mb-12 bg-gradient-to-br from-yellow-900/30 via-orange-900/20 to-red-900/30 border-2 border-yellow-500/50 rounded-2xl p-8 relative overflow-hidden">
+                <div className="mb-12 bg-gradient-to-br from-yellow-900/30 via-orange-900/20 to-red-900/30 border-2 border-yellow-500/50 rounded-2xl p-5 sm:p-8 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl animate-pulse"></div>
                     <div className="absolute bottom-0 left-0 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl animate-pulse delay-75"></div>
 
@@ -377,7 +377,7 @@ export default function ItemPriceTrendPage() {
                 </div>
 
                 {/* 결론 */}
-                <div className="mb-12 bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-2 border-yellow-500/50 rounded-2xl p-8">
+                <div className="mb-12 bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-2 border-yellow-500/50 rounded-2xl p-5 sm:p-8">
                     <h2 className="text-2xl sm:text-3xl font-black mb-6 text-yellow-400 flex items-center gap-2">
                         <Zap className="w-8 h-8" />
                         마무리: 썬데이 메이플 체크리스트

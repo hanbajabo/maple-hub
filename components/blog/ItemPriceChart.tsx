@@ -92,7 +92,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
     };
 
     return (
-        <div className="w-full bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-2xl border border-slate-700 p-6 sm:p-8 my-8 shadow-2xl">
+        <div className="w-full bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-2xl border border-slate-700 p-4 sm:p-6 md:p-8 my-4 sm:my-8 shadow-2xl">
             {/* 헤더 */}
             <div className="mb-6">
                 <h3 className="text-2xl font-black text-white mb-2">
@@ -119,18 +119,18 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
             {/* 가격 데이터 테이블 */}
             <div className="overflow-x-auto">
                 <div className="bg-slate-900/50 rounded-xl border border-slate-700 overflow-hidden">
-                    <table className="w-full">
+                    <table className="w-full text-xs sm:text-sm">
                         <thead>
                             <tr className="bg-slate-800/50 border-b border-slate-700">
-                                <th className="text-left p-4 text-white font-bold">날짜</th>
+                                <th className="text-left p-2 sm:p-4 text-white font-bold">날짜</th>
                                 {!isEthernel && (
-                                    <th className="text-right p-4 text-red-400 font-bold">챌린저스</th>
+                                    <th className="text-right p-2 sm:p-4 text-red-400 font-bold">챌린저스</th>
                                 )}
-                                <th className="text-right p-4 text-blue-400 font-bold">
-                                    {isEthernel ? '본섭 평균 가격' : '본섭'}
+                                <th className="text-right p-2 sm:p-4 text-blue-400 font-bold">
+                                    {isEthernel ? '본섭 평균' : '본섭'}
                                 </th>
                                 {!isEthernel && (
-                                    <th className="text-right p-4 text-yellow-400 font-bold">차이</th>
+                                    <th className="text-right p-2 sm:p-4 text-yellow-400 font-bold">차이</th>
                                 )}
                             </tr>
                         </thead>
@@ -150,28 +150,28 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     className={`border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors ${index === itemData.length - 1 ? 'bg-blue-900/10' : ''
                                         }`}
                                 >
-                                    <td className="p-4 text-slate-300 font-medium">
+                                    <td className="p-2 sm:p-4 text-slate-300 font-medium whitespace-nowrap">
                                         {row.displayDate}
                                         {index === itemData.length - 1 && (
-                                            <span className="ml-2 text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">최신</span>
+                                            <span className="ml-1 sm:ml-2 text-[10px] sm:text-xs bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded">최신</span>
                                         )}
                                     </td>
                                     {!isEthernel && (
-                                        <td className="p-4 text-right text-red-400 font-bold">
+                                        <td className="p-2 sm:p-4 text-right text-red-400 font-bold whitespace-nowrap">
                                             {row.challenger ? `${row.challenger}억` : '-'}
                                         </td>
                                     )}
-                                    <td className="p-4 text-right text-blue-400 font-bold">
+                                    <td className="p-2 sm:p-4 text-right text-blue-400 font-bold whitespace-nowrap">
                                         {row.main ? `${row.main}억` : '-'}
                                     </td>
                                     {!isEthernel && (
-                                        <td className="p-4 text-right">
+                                        <td className="p-2 sm:p-4 text-right whitespace-nowrap">
                                             {row.challenger && row.main ? (
                                                 <div className="flex flex-col items-end">
                                                     <span className={`font-bold ${diff > 0 ? 'text-red-400' : diff < 0 ? 'text-green-400' : 'text-slate-400'}`}>
                                                         {diff > 0 ? '+' : ''}{diff}억
                                                     </span>
-                                                    <span className="text-xs text-slate-500">
+                                                    <span className="text-[10px] sm:text-xs text-slate-500">
                                                         ({diffPercent}%)
                                                     </span>
                                                 </div>
