@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 1월 챌린저스 시세 분석
+    {
+        slug: 'item-price-trends-jan-2026',
+        title: '📉 1월 챌린저스 vs 본섭 시세 대격변 - 거품 붕괴와 가격 수렴의 현장',
+        description: '미트라 177억→50억, 거공 90억→50억! 1월 1일부터 17일까지의 챌린저스 서버 시세 데이터를 분석하여 거품 붕괴의 순간을 포착했습니다.',
+        category: '메이플 이야기',
+        date: '2026년 1월 17일',
+        readTime: '5분',
+        thumbnail: '📉',
+        featured: true,
+    },
     // 경험치 상품 효율 분석
     {
         slug: 'exp-product-efficiency',
