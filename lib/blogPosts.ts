@@ -358,6 +358,16 @@ export const blogPosts: BlogPost[] = [
     },
     // 메이플 이야기 - 분석/예측/칼럼
     {
+        slug: 'new-name-auction-season-analysis',
+        title: '💰 뉴네임 옥션 시즌별 낙찰가 총정리 - 가격 트렌드와 인기 닉네임 분석',
+        description: '시즌1부터 시즌5까지 뉴네임 옥션의 모든 낙찰가 데이터를 분석! 시즌별 최고가/최저가 비교, 고가 닉네임의 등락, 인기 유형 7가지, 가격대별 추천까지 완벽 정리.',
+        category: '메이플 이야기',
+        date: '2026년 1월 17일',
+        readTime: '20분',
+        thumbnail: '💰',
+        featured: true,
+    },
+    {
         slug: 'crown-winter-showcase-2025',
         title: '👑 메이플스토리 겨울 쇼케이스 "크라운" 완벽 예측: 어셈블을 넘어 정점으로',
         description: '다가오는 12월 13일 오후 4시, 메이플스토리의 운명을 가를 겨울 쇼케이스 "크라운(Crown)"이 개최됩니다. 김창섭 디렉터 체제의 메이플스토리가 이번 겨울, 유저들에게 어떤 왕관을 씌워줄지 기대감이 고조되고 있습니다.',
