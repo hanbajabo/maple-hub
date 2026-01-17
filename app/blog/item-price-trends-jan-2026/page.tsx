@@ -279,7 +279,7 @@ export default function ItemPriceTrendPage() {
                     <div className="bg-red-900/10 border border-red-500/30 rounded-2xl p-6 sm:p-8">
                         <h3 className="text-xl font-bold text-red-400 mb-4 flex items-center gap-2">
                             <AlertTriangle className="w-6 h-6" />
-                            여전히 가격 차이가 큰 아이템 (주의)
+                            여전히 가격 차이가 큰 아이템 (스타포스 가능 기준)
                         </h3>
                         <p className="text-slate-300 mb-6">
                             아래 아이템들은 본 서버 대비 챌린저스 서버의 가격이 <strong className="text-red-400">2배에서 최대 5배 이상</strong> 비싸게 형성되어 있습니다.
@@ -287,7 +287,10 @@ export default function ItemPriceTrendPage() {
                         </p>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="bg-slate-900/80 rounded-lg p-4 flex justify-between items-center">
+                            <div className="bg-slate-900/80 rounded-lg p-4 flex justify-between items-center relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-bl-lg font-bold">
+                                    압도적 1위
+                                </div>
                                 <div>
                                     <span className="block text-white font-bold">미트라의 분노</span>
                                     <span className="text-xs text-slate-500">50억 vs 8.8억</span>
