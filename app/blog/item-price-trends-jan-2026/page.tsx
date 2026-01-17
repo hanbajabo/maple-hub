@@ -132,7 +132,8 @@ export default function ItemPriceTrendPage() {
                         </h2>
                         <p className="text-slate-400">
                             아래 그래프에서 원하는 아이템을 선택하여 최근 17일간의 가격 변화를 확인하세요.
-                            하락 추세인 템은 지금이 구매/강화 적기입니다!
+                            <br className="hidden sm:block" />
+                            1월 17일 데이터는 <strong className="text-slate-300">오전 9시 기준</strong>이며, 정확한 현재 시세는 인게임 경매장을 확인하시기 바랍니다.
                         </p>
                     </div>
                     <ItemPriceChart data={priceData} />
