@@ -152,28 +152,30 @@ export default function DuplicateNicknamesTable() {
     };
 
     return (
-        <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-6 mb-6">
-            <h3 className="text-xl font-bold text-cyan-400 mb-4 flex items-center gap-2">
+        <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-3 sm:p-6 mb-6">
+            <h3 className="text-lg sm:text-xl font-bold text-cyan-400 mb-3 sm:mb-4 flex items-center gap-2">
                 📊 TOP 100 내 중복 등장 닉네임
             </h3>
-            <p className="text-slate-400 text-sm mb-4">
+            <p className="text-slate-400 text-xs sm:text-sm mb-3 sm:mb-4">
                 위에서 상세히 분석한 닉네임 외에도 시즌별 TOP 100 순위 내에서 2회 이상 등장한 닉네임들입니다.
             </p>
 
-            <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+            <div className="overflow-x-auto -mx-3 sm:mx-0">
+                <table className="w-full text-xs sm:text-sm min-w-[500px]">
                     <thead className="bg-slate-900/50 border-b border-slate-600">
                         <tr>
-                            <th className="p-3 text-left text-cyan-400 font-bold">닉네임</th>
-                            <th className="p-3 text-center text-cyan-400 font-bold">시즌별 가격</th>
+                            <th className="p-2 sm:p-3 text-left text-cyan-400 font-bold">닉네임</th>
+                            <th className="p-2 sm:p-3 text-center text-cyan-400 font-bold">시즌별 가격</th>
                             <th
-                                className="p-3 text-right text-cyan-400 font-bold cursor-pointer hover:bg-slate-800/50 transition-colors flex justify-end items-center gap-1 group"
+                                className="p-2 sm:p-3 text-right text-cyan-400 font-bold cursor-pointer hover:bg-slate-800/50 transition-colors"
                                 onClick={() => requestSort('changeRate')}
                             >
-                                변동률
-                                <div className="flex flex-col">
-                                    <ArrowUp className={`w-3 h-3 ${sortConfig?.key === 'changeRate' && sortConfig.direction === 'asc' ? 'text-cyan-400' : 'text-slate-600 group-hover:text-slate-400'}`} />
-                                    <ArrowDown className={`w-3 h-3 ${sortConfig?.key === 'changeRate' && sortConfig.direction === 'desc' ? 'text-cyan-400' : 'text-slate-600 group-hover:text-slate-400'}`} />
+                                <div className="flex justify-end items-center gap-1 group">
+                                    변동률
+                                    <div className="flex flex-col">
+                                        <ArrowUp className={`w-3 h-3 ${sortConfig?.key === 'changeRate' && sortConfig.direction === 'asc' ? 'text-cyan-400' : 'text-slate-600 group-hover:text-slate-400'}`} />
+                                        <ArrowDown className={`w-3 h-3 ${sortConfig?.key === 'changeRate' && sortConfig.direction === 'desc' ? 'text-cyan-400' : 'text-slate-600 group-hover:text-slate-400'}`} />
+                                    </div>
                                 </div>
                             </th>
                         </tr>
@@ -181,16 +183,20 @@ export default function DuplicateNicknamesTable() {
                     <tbody className="divide-y divide-slate-800">
                         {sortedData.map((item) => (
                             <tr key={item.id} className="hover:bg-slate-700/20 transition-colors">
-                                <td className="p-3 text-white font-semibold">{item.nickname}</td>
-                                <td className="p-3 text-center text-slate-300">
-                                    {item.history.map((h: any, idx) => (
-                                        <React.Fragment key={idx}>
-                                            <span className={`font-bold ${getSeasonColor(h.s)}`}>{h.s}</span> {h.p}
-                                            {idx < item.history.length - 1 && ' → '}
-                                        </React.Fragment>
-                                    ))}
+                                <td className="p-2 sm:p-3 text-white font-semibold whitespace-nowrap">{item.nickname}</td>
+                                <td className="p-2 sm:p-3 text-center text-slate-300">
+                                    <div className="flex flex-wrap justify-center gap-x-1 gap-y-1">
+                                        {item.history.map((h: any, idx) => (
+                                            <React.Fragment key={idx}>
+                                                <span className="whitespace-nowrap">
+                                                    <span className={`font-bold ${getSeasonColor(h.s)}`}>{h.s}</span> {h.p}
+                                                </span>
+                                                {idx < item.history.length - 1 && <span className="text-slate-600">→</span>}
+                                            </React.Fragment>
+                                        ))}
+                                    </div>
                                 </td>
-                                <td className="p-3 text-right font-bold">
+                                <td className="p-2 sm:p-3 text-right font-bold whitespace-nowrap">
                                     <span className={getChangeColor(item.changeRate)}>
                                         {item.changeRate > 0 ? '+' : ''}{item.changeRate}%
                                     </span>

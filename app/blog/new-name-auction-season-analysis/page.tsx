@@ -588,9 +588,9 @@ export default function NewNameAuctionAnalysisPage() {
                         {/* 기타 등락 닉네임 종합 테이블 (Sortable) */}
                         <DuplicateNicknamesTable />
 
-                        <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6">
-                            <p className="text-orange-300 font-bold mb-2">💡 인사이트</p>
-                            <p className="text-slate-300 mb-0">
+                        <div className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 sm:p-6">
+                            <p className="text-orange-300 font-bold mb-2 text-sm sm:text-base">💡 인사이트</p>
+                            <p className="text-slate-300 mb-0 text-xs sm:text-sm">
                                 고가 닉네임은 <strong className="text-yellow-400">시즌1에서 가장 높았던 경향</strong>이 있으나,
                                 "토끼", "여름", "아이" 등 일부 닉네임은 후속 시즌에서 <strong className="text-green-400">가격이 상승</strong>하기도 했습니다.
                                 이는 특정 테마나 감성이 시간이 지나며 재평가받는 현상으로 해석됩니다.
