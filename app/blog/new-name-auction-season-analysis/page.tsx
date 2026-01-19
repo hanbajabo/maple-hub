@@ -260,7 +260,7 @@ export default function NewNameAuctionAnalysisPage() {
                                 </div>
                             </div>
                             <p className="text-slate-400 text-sm mt-4 mb-0">
-                                💬 메이플 직업명인 "해적"은 시즌별로 등락을 반복하며 1,000~2,400만 메소 사이에서 거래되고 있습니다.
+                                💬 메이플 직업명인 "해적"은 시즌별로 등락을 반복하며 1,000~2,400만 메이플포인트 사이에서 거래되고 있습니다.
                             </p>
                         </div>
 
@@ -308,7 +308,7 @@ export default function NewNameAuctionAnalysisPage() {
                                 </div>
                             </div>
                             <p className="text-slate-400 text-sm mt-4 mb-0">
-                                💬 감성 닉네임 "메리"는 시즌4에서 크게 반등하며 1,000만 메소 돌파!
+                                💬 감성 닉네임 "메리"는 시즌4에서 크게 반등하며 1,000만 메이플포인트 돌파!
                             </p>
                         </div>
 
@@ -542,7 +542,7 @@ export default function NewNameAuctionAnalysisPage() {
                                 </div>
                             </div>
                             <p className="text-slate-400 text-sm mt-4 mb-0">
-                                💬 개성 있는 "귀신"은 시즌별로 등락을 반복하며 400~680만 메소 사이에서 거래되었습니다.
+                                💬 개성 있는 "귀신"은 시즌별로 등락을 반복하며 400~680만 메이플포인트 사이에서 거래되었습니다.
                             </p>
                         </div>
 
@@ -1590,9 +1590,9 @@ export default function NewNameAuctionAnalysisPage() {
                         <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-6">
                             <p className="text-purple-300 font-bold mb-2">🎯 추천 전략</p>
                             <p className="text-slate-300 mb-0">
-                                <strong className="text-yellow-400">1,000만 메소 이상</strong> 투자 가능: 메이플 캐릭터명, 인기 아이돌, 동물 이름<br />
-                                <strong className="text-blue-400">300~1,000만 메소</strong>: 감성 단어, 음식/과일, 짧은 귀여운 이름<br />
-                                <strong className="text-green-400">300만 메소 이하</strong>: 다양한 2~3글자 조합, 개성있는 단어
+                                <strong className="text-yellow-400">1,000만 메이플포인트 이상</strong> 투자 가능: 메이플 캐릭터명, 인기 아이돌, 동물 이름<br />
+                                <strong className="text-blue-400">300~1,000만 메이플포인트</strong>: 감성 단어, 음식/과일, 짧은 귀여운 이름<br />
+                                <strong className="text-green-400">300만 메이플포인트 이하</strong>: 다양한 2~3글자 조합, 개성있는 단어
                             </p>
                         </div>
                     </section>
