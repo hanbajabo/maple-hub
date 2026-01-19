@@ -1597,6 +1597,9 @@ export default function NewNameAuctionAnalysisPage() {
                         </div>
                     </section>
 
+                    {/* Section: TOP 500 Rankings */}
+                    <TopRankingTable />
+
                     {/* Ad Placement 4: Before Price Recommendation */}
                     <InArticleAd dataAdSlot="6849727140" className="my-8 sm:my-12" />
 
@@ -1756,8 +1759,7 @@ export default function NewNameAuctionAnalysisPage() {
                         </div>
                     </section>
 
-                    {/* Section 6: TOP 100 Rankings */}
-                    <TopRankingTable />
+
 
                     {/* Ad Placement 5: Before Conclusion */}
                     <AdBanner dataAdSlot="8162808816" className="mb-12" />
