@@ -402,15 +402,16 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                         최근 업데이트: <span className="text-blue-400 font-bold">{data[data.length - 1].date}</span> - 각 직업군별 에테르넬 장비 가격을 한눈에 확인하세요
                     </p>
 
-                    <div className="overflow-x-auto -mx-4 px-4">
-                        {/* 모바일 스크롤 힌트 */}
-                        <div className="md:hidden text-center mb-2">
-                            <p className="text-xs text-slate-500">
-                                ← 좌우로 스크롤하여 모든 직업 확인 →
-                            </p>
-                        </div>
-                        <div className="bg-slate-900/50 rounded-xl border border-slate-700 overflow-hidden">
-                            <table className="w-full text-xs sm:text-sm min-w-[600px]">
+                    {/* 모바일 스크롤 힌트 */}
+                    <div className="md:hidden text-center mb-2">
+                        <p className="text-xs text-slate-500">
+                            ← 좌우로 스크롤하여 모든 직업 확인 →
+                        </p>
+                    </div>
+
+                    <div className="overflow-x-auto overflow-y-visible" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x' }}>
+                        <div className="bg-slate-900/50 rounded-xl border border-slate-700 overflow-hidden inline-block min-w-full">
+                            <table className="w-full text-xs sm:text-sm" style={{ minWidth: '600px' }}>
                                 <thead>
                                     <tr className="bg-slate-800/50 border-b border-slate-700">
                                         <th className="text-left p-3 sm:p-4 text-white font-bold sticky left-0 bg-slate-800/50">아이템</th>
