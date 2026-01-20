@@ -24,6 +24,14 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
     console.log(data.map(d => d.date).join(', '));
     console.log('전체 데이터 개수:', data.length);
 
+    // 아이템 카테고리 정의
+    const itemCategories = {
+        '칠흑 세트': ['거공', '고근', '커포', '루컨마', '마깃안', '몽벨', '마도서', '미트라', '창뱃'],
+        '에테르넬': ['에테르넬 모자', '에테르넬 상의', '에테르넬 하의', '에테르넬 견장', '에테르넬 신발', '에테르넬 장갑', '에테르넬 망토'],
+        '장신구': ['가엔링', '데브팬', '블빈마', '파풀마', '분자벨', '트왈마', '에스텔라', '도미'],
+        '기타 아이템': ['컨4', '리4', '자석펫'],
+    };
+
     // 모든 아이템 목록
     const allItems = useMemo(() => {
         const items = new Set<string>();
@@ -44,9 +52,19 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
         return Array.from(items).sort();
     }, [data]);
 
+    const [selectedCategory, setSelectedCategory] = useState<string>('전체');
     const [selectedItem, setSelectedItem] = useState(
         allItems.includes('거공') ? '거공' : allItems[0]
     );
+
+    // 현재 카테고리에 맞는 아이템 목록
+    const filteredItems = useMemo(() => {
+        if (selectedCategory === '전체') {
+            return allItems;
+        }
+        const categoryItems = itemCategories[selectedCategory as keyof typeof itemCategories] || [];
+        return allItems.filter(item => categoryItems.includes(item));
+    }, [selectedCategory, allItems]);
 
     // 선택된 아이템의 데이터
     const itemData = useMemo(() => {
@@ -99,8 +117,38 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                     📊 아이템 시세 추적
                 </h3>
                 <p className="text-sm text-slate-400 mb-4">
-                    {isEthernel ? '에테르넬 평균 가격' : '챌린저스 vs 본섭 가격 비교'}
+                    {isEthernel
+                        ? '에테르넬 평균 가격 (5개 직업군 평균) - 하단 표에서 직업별 상세 가격 확인'
+                        : '챌린저스 vs 본섭 가격 비교'
+                    }
                 </p>
+
+                {/* 카테고리 필터 */}
+                <div className="mb-4 flex flex-wrap gap-2">
+                    {['전체', '칠흑 세트', '에테르넬', '장신구', '기타 아이템'].map((category) => (
+                        <button
+                            key={category}
+                            onClick={() => {
+                                setSelectedCategory(category);
+                                // 카테고리 변경 시 첫 번째 아이템으로 자동 선택
+                                const newFilteredItems = category === '전체'
+                                    ? allItems
+                                    : allItems.filter(item =>
+                                        (itemCategories[category as keyof typeof itemCategories] || []).includes(item)
+                                    );
+                                if (newFilteredItems.length > 0) {
+                                    setSelectedItem(newFilteredItems[0]);
+                                }
+                            }}
+                            className={`px-4 py-2 rounded-lg font-bold transition-all ${selectedCategory === category
+                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50'
+                                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                                }`}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
 
                 {/* 아이템 선택 */}
                 <select
@@ -108,7 +156,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                     onChange={(e) => setSelectedItem(e.target.value)}
                     className="w-full sm:w-auto bg-slate-700 border-2 border-slate-600 text-white py-2 px-4 rounded-lg font-bold cursor-pointer hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    {allItems.map((item) => (
+                    {filteredItems.map((item) => (
                         <option key={item} value={item}>
                             {itemDisplayName[item] || item}
                         </option>
@@ -343,6 +391,167 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                     💡 위 표의 행을 클릭하거나 차트에 마우스를 올려 상세 정보를 확인하세요
                 </p>
             </div>
+
+            {/* 에테르넬 직업별 가격표 (최신 데이터만) */}
+            {data.length > 0 && data[data.length - 1].ethernelByJob && data[data.length - 1].ethernelByJob!.length > 0 && (
+                <div className="mt-12 pt-8 border-t border-slate-700">
+                    <h4 className="text-2xl font-black text-white mb-4 flex items-center gap-2">
+                        ⚔️ 에테르넬 장비 직업별 가격 (본섭)
+                    </h4>
+                    <p className="text-sm text-slate-300 mb-6">
+                        최근 업데이트: <span className="text-blue-400 font-bold">{data[data.length - 1].date}</span> - 각 직업군별 에테르넬 장비 가격을 한눈에 확인하세요
+                    </p>
+
+                    <div className="overflow-x-auto -mx-4 px-4">
+                        {/* 모바일 스크롤 힌트 */}
+                        <div className="md:hidden text-center mb-2">
+                            <p className="text-xs text-slate-500">
+                                ← 좌우로 스크롤하여 모든 직업 확인 →
+                            </p>
+                        </div>
+                        <div className="bg-slate-900/50 rounded-xl border border-slate-700 overflow-hidden">
+                            <table className="w-full text-xs sm:text-sm min-w-[600px]">
+                                <thead>
+                                    <tr className="bg-slate-800/50 border-b border-slate-700">
+                                        <th className="text-left p-3 sm:p-4 text-white font-bold sticky left-0 bg-slate-800/50">아이템</th>
+                                        <th className="text-right p-3 sm:p-4 text-red-400 font-bold whitespace-nowrap">전사</th>
+                                        <th className="text-right p-3 sm:p-4 text-blue-400 font-bold whitespace-nowrap">마법사</th>
+                                        <th className="text-right p-3 sm:p-4 text-green-400 font-bold whitespace-nowrap">궁수</th>
+                                        <th className="text-right p-3 sm:p-4 text-purple-400 font-bold whitespace-nowrap">도적</th>
+                                        <th className="text-right p-3 sm:p-4 text-orange-400 font-bold whitespace-nowrap">해적</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {data[data.length - 1].ethernelByJob!.map((item, index) => (
+                                        <tr
+                                            key={item.item}
+                                            className={`border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors ${index % 2 === 0 ? 'bg-slate-900/20' : ''
+                                                }`}
+                                        >
+                                            <td className="p-3 sm:p-4 text-white font-semibold sticky left-0 bg-slate-900/90 whitespace-nowrap">
+                                                에테르넬 {item.item}
+                                            </td>
+                                            <td className="p-3 sm:p-4 text-right text-red-300 font-bold whitespace-nowrap">
+                                                {item.warrior}억
+                                            </td>
+                                            <td className="p-3 sm:p-4 text-right text-blue-300 font-bold whitespace-nowrap">
+                                                {item.mage}억
+                                            </td>
+                                            <td className="p-3 sm:p-4 text-right text-green-300 font-bold whitespace-nowrap">
+                                                {item.archer}억
+                                            </td>
+                                            <td className="p-3 sm:p-4 text-right text-purple-300 font-bold whitespace-nowrap">
+                                                {item.thief}억
+                                            </td>
+                                            <td className="p-3 sm:p-4 text-right text-orange-300 font-bold whitespace-nowrap">
+                                                {item.pirate}억
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {/* 가격대별 색상 안내 */}
+                    <div className="mt-6 bg-purple-900/20 border border-purple-500/30 rounded-lg p-4">
+                        <p className="text-sm text-purple-200/90 text-center">
+                            💡 직업에 따라 에테르넬 장비 가격이 다릅니다. 내 직업에 맞는 가격을 확인하세요!
+                        </p>
+                    </div>
+
+                    {/* 에테르넬 가격 변화 통계 */}
+                    {data.length > 0 && data[0].ethernelByJob && data[data.length - 1].ethernelByJob && (
+                        <div className="mt-8 pt-6 border-t border-slate-700">
+                            <h5 className="text-lg font-bold text-white mb-4">
+                                📈 에테르넬 평균 가격 변화 (1/1 → {data[data.length - 1].date.slice(5).replace('-', '/')})
+                            </h5>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {(() => {
+                                    const firstDay = data[0].ethernelByJob!;
+                                    const lastDay = data[data.length - 1].ethernelByJob!;
+
+                                    // 그룹1: 모자, 상의, 하의, 견장 (방어구)
+                                    const armorItems = ['모자', '상의', '하의', '견장'];
+                                    // 그룹2: 신발, 장갑, 망토 (고가 장비)
+                                    const expensiveItems = ['신발', '장갑', '망토'];
+
+                                    const calculateGroupAverage = (items: typeof firstDay, group: string[]) => {
+                                        const filtered = items.filter(item => group.includes(item.item));
+                                        if (filtered.length === 0) return 0;
+
+                                        const total = filtered.reduce((sum, item) => {
+                                            const jobAvg = (item.warrior + item.mage + item.archer + item.thief + item.pirate) / 5;
+                                            return sum + jobAvg;
+                                        }, 0);
+
+                                        return parseFloat((total / filtered.length).toFixed(2));
+                                    };
+
+                                    const armorStart = calculateGroupAverage(firstDay, armorItems);
+                                    const armorEnd = calculateGroupAverage(lastDay, armorItems);
+                                    const armorChange = armorStart > 0 ? ((armorEnd - armorStart) / armorStart * 100).toFixed(1) : '0';
+
+                                    const expensiveStart = calculateGroupAverage(firstDay, expensiveItems);
+                                    const expensiveEnd = calculateGroupAverage(lastDay, expensiveItems);
+                                    const expensiveChange = expensiveStart > 0 ? ((expensiveEnd - expensiveStart) / expensiveStart * 100).toFixed(1) : '0';
+
+                                    return (
+                                        <>
+                                            {/* 방어구 그룹 */}
+                                            <div className="bg-slate-800/40 rounded-lg border border-blue-500/30 p-4">
+                                                <h6 className="text-sm font-bold text-blue-400 mb-3">
+                                                    🛡️ 방어구 (모자/상의/하의/견장)
+                                                </h6>
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-xs text-slate-400">시작 (1/1)</span>
+                                                        <span className="text-base font-bold text-white">{armorStart}억</span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-xs text-slate-400">현재 ({data[data.length - 1].date.slice(5).replace('-', '/')})</span>
+                                                        <span className="text-base font-bold text-white">{armorEnd}억</span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center pt-2 border-t border-slate-700">
+                                                        <span className="text-xs text-slate-400">변화율</span>
+                                                        <span className={`text-lg font-bold ${parseFloat(armorChange) > 0 ? 'text-red-400' : parseFloat(armorChange) < 0 ? 'text-green-400' : 'text-slate-400'}`}>
+                                                            {parseFloat(armorChange) > 0 ? '+' : ''}{armorChange}%
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* 고가 장비 그룹 */}
+                                            <div className="bg-slate-800/40 rounded-lg border border-yellow-500/30 p-4">
+                                                <h6 className="text-sm font-bold text-yellow-400 mb-3">
+                                                    💎 고가 장비 (신발/장갑/망토)
+                                                </h6>
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-xs text-slate-400">시작 (1/1)</span>
+                                                        <span className="text-base font-bold text-white">{expensiveStart}억</span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-xs text-slate-400">현재 ({data[data.length - 1].date.slice(5).replace('-', '/')})</span>
+                                                        <span className="text-base font-bold text-white">{expensiveEnd}억</span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center pt-2 border-t border-slate-700">
+                                                        <span className="text-xs text-slate-400">변화율</span>
+                                                        <span className={`text-lg font-bold ${parseFloat(expensiveChange) > 0 ? 'text-red-400' : parseFloat(expensiveChange) < 0 ? 'text-green-400' : 'text-slate-400'}`}>
+                                                            {parseFloat(expensiveChange) > 0 ? '+' : ''}{expensiveChange}%
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    );
+                                })()}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

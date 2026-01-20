@@ -21,6 +21,18 @@ export default function CalculatorMenu() {
             {/* Dropdown Menu */}
             <div className="absolute right-0 top-full mt-2 w-56 bg-slate-900 border-2 border-indigo-500/50 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[9999]">
                 <div className="py-2">
+                    {/* 0. Price Tracker - NEW! */}
+                    <Link
+                        href="/blog/item-price-tracker-2026"
+                        className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                    >
+                        <span className="text-xl">📊</span>
+                        <div className="flex flex-col">
+                            <span className="font-semibold">아이템 시세 추적</span>
+                            <span className="text-xs text-slate-400">매일 업데이트</span>
+                        </div>
+                    </Link>
+
                     {/* 1. Starforce */}
                     <Link
                         href="/tools/starforce"
