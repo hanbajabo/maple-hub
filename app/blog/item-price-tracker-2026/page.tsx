@@ -6,10 +6,10 @@ import { AdBanner, InArticleAd } from '@/components/AdSense';
 import { ArrowLeft, TrendingUp, TrendingDown, Calendar, LineChart, RefreshCw, Star } from 'lucide-react';
 
 export const metadata: Metadata = {
-    title: '2026년 메이플스토리 아이템 시세 추적 | 챌린저스 vs 본섭 가격 비교',
+    title: '2026년 메이플스토리 아이템 시세 추적 (물욕템 시세) | 챌린저스 vs 본섭 가격 비교',
     description: '2026년 메이플스토리 주요 아이템 시세를 매일 업데이트합니다. 챌린저스 서버와 본 서버의 가격을 비교하고, 에테르넬 장비 가격 추이를 확인하세요.',
     openGraph: {
-        title: '2026년 메이플스토리 아이템 시세 추적',
+        title: '2026년 메이플스토리 아이템 시세 추적 (물욕템 시세)',
         description: '매일 업데이트되는 메이플스토리 아이템 시세 데이터. 챌린저스 vs 본섭 가격 비교',
         images: [
             {
@@ -63,7 +63,7 @@ export default function ItemPriceTrackerPage() {
                         2026년 메이플스토리
                         <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-                            아이템 시세 추적
+                            아이템 시세 추적 (물욕템 시세)
                         </span>
                     </h1>
                     <p className="text-lg text-slate-400">
