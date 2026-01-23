@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 스페셜 썬데이 메이플 - 솔 에르다 타임 (1월 25일)
+    {
+        slug: 'sunday-maple-sol-erda-time-jan-25-2026',
+        title: '⚡ 1월 25일 \'솔 에르다 타임\' 완벽 가이드! | 보상 수령기간 연장',
+        description: '역대급 혜자 이벤트! 접속만 해도 솔 에르다 조각 100개 + 솔 에르다 1개! 보상 수령은 1월 28일까지 가능합니다.',
+        category: '이벤트 가이드',
+        date: '2026년 1월 23일',
+        readTime: '8분',
+        thumbnail: '⚡',
+        featured: true,
+    },
     // 2026년 아이템 시세 추적 (매일 업데이트)
     {
         slug: 'item-price-tracker-2026',
