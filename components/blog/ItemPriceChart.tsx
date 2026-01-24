@@ -56,6 +56,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
     const [selectedItem, setSelectedItem] = useState(
         allItems.includes('거공') ? '거공' : allItems[0]
     );
+    const [baselineDateIndex, setBaselineDateIndex] = useState(0); // 기준 날짜 인덱스 (0 = 첫 번째 날짜)
 
     // 현재 카테고리에 맞는 아이템 목록
     const filteredItems = useMemo(() => {
@@ -237,95 +238,120 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
             </div>
 
             {/* 요약 통계 */}
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {itemData.length > 0 && (
-                    <>
-                        <div key="stat-start" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                            <p className="text-xs text-slate-400 mb-2">시작 가격 (1/1)</p>
-                            {!isEthernel ? (
-                                <div className="space-y-1">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-sm text-red-400 font-bold">챌린저스</span>
-                                        <span className="text-lg font-bold text-white">{itemData[0].challenger || '-'}억</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-sm text-blue-400 font-bold">본섭</span>
-                                        <span className="text-lg font-bold text-white">{itemData[0].main || '-'}억</span>
-                                    </div>
-                                </div>
-                            ) : (
-                                <p className="text-lg font-bold text-white">
-                                    {itemData[0].main}억
-                                </p>
-                            )}
-                        </div>
-
-                        <div key="stat-current" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                            <p className="text-xs text-slate-400 mb-2">현재 가격 ({itemData[itemData.length - 1].displayDate})</p>
-                            {!isEthernel ? (
-                                <div className="space-y-1">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-sm text-red-400 font-bold">챌린저스</span>
-                                        <span className="text-lg font-bold text-white">{itemData[itemData.length - 1].challenger || '-'}억</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-sm text-blue-400 font-bold">본섭</span>
-                                        <span className="text-lg font-bold text-white">{itemData[itemData.length - 1].main || '-'}억</span>
-                                    </div>
-                                </div>
-                            ) : (
-                                <p className="text-lg font-bold text-white">
-                                    {itemData[itemData.length - 1].main}억
-                                </p>
-                            )}
-                        </div>
-
-                        <div key="stat-change" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                            <p className="text-xs text-slate-400 mb-2">변화율</p>
-                            {!isEthernel ? (
-                                <div className="space-y-1">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-sm text-red-400 font-bold">챌린저스</span>
-                                        <span className={`text-lg font-bold ${((itemData[itemData.length - 1].challenger || 0) - (itemData[0].challenger || 0)) > 0
-                                            ? 'text-red-400' : 'text-green-400'
-                                            }`}>
-                                            {(() => {
-                                                const start = itemData[0].challenger || 0;
-                                                const end = itemData[itemData.length - 1].challenger || 0;
-                                                const change = start > 0 ? ((end - start) / start * 100).toFixed(1) : '0';
-                                                return `${parseFloat(change) > 0 ? '+' : ''}${change}%`;
-                                            })()}
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-sm text-blue-400 font-bold">본섭</span>
-                                        <span className={`text-lg font-bold ${((itemData[itemData.length - 1].main || 0) - (itemData[0].main || 0)) > 0
-                                            ? 'text-red-400' : 'text-green-400'
-                                            }`}>
-                                            {(() => {
-                                                const start = itemData[0].main || 0;
-                                                const end = itemData[itemData.length - 1].main || 0;
-                                                const change = start > 0 ? ((end - start) / start * 100).toFixed(1) : '0';
-                                                return `${parseFloat(change) > 0 ? '+' : ''}${change}%`;
-                                            })()}
-                                        </span>
-                                    </div>
-                                </div>
-                            ) : (
-                                <p className={`text-lg font-bold ${((itemData[itemData.length - 1].main || 0) - (itemData[0].main || 0)) > 0
-                                    ? 'text-red-400' : 'text-green-400'
-                                    }`}>
-                                    {(() => {
-                                        const start = itemData[0].main || 0;
-                                        const end = itemData[itemData.length - 1].main || 0;
-                                        const change = start > 0 ? ((end - start) / start * 100).toFixed(1) : '0';
-                                        return `${parseFloat(change) > 0 ? '+' : ''}${change}%`;
-                                    })()}
-                                </p>
-                            )}
-                        </div>
-                    </>
+            <div className="mt-6 space-y-4">
+                {/* 기준 날짜 선택 */}
+                {itemData.length > 1 && (
+                    <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 border border-purple-500/50 rounded-xl p-4">
+                        <label className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                            <span className="text-sm font-bold text-purple-300 whitespace-nowrap">📅 기준 날짜 선택:</span>
+                            <select
+                                value={baselineDateIndex}
+                                onChange={(e) => setBaselineDateIndex(Number(e.target.value))}
+                                className="w-full sm:flex-1 bg-slate-700 border-2 border-purple-500/50 text-white py-2 px-3 rounded-lg font-bold cursor-pointer hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
+                            >
+                                {itemData.map((item, index) => (
+                                    <option key={item.date} value={index}>
+                                        {item.displayDate} {index === 0 && '(추적 시작일)'} {index === itemData.length - 1 && '(최신)'}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <p className="text-xs text-purple-200/70 mt-2">
+                            💡 선택한 날짜를 기준으로 현재 가격과 변화율이 계산됩니다
+                        </p>
+                    </div>
                 )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {itemData.length > 0 && (
+                        <>
+                            <div key="stat-start" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                                <p className="text-xs text-slate-400 mb-2">기준 가격 ({itemData[baselineDateIndex].displayDate})</p>
+                                {!isEthernel ? (
+                                    <div className="space-y-1">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-sm text-red-400 font-bold">챌린저스</span>
+                                            <span className="text-lg font-bold text-white">{itemData[baselineDateIndex].challenger || '-'}억</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-sm text-blue-400 font-bold">본섭</span>
+                                            <span className="text-lg font-bold text-white">{itemData[baselineDateIndex].main || '-'}억</span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className="text-lg font-bold text-white">
+                                        {itemData[baselineDateIndex].main}억
+                                    </p>
+                                )}
+                            </div>
+
+                            <div key="stat-current" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                                <p className="text-xs text-slate-400 mb-2">현재 가격 ({itemData[itemData.length - 1].displayDate})</p>
+                                {!isEthernel ? (
+                                    <div className="space-y-1">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-sm text-red-400 font-bold">챌린저스</span>
+                                            <span className="text-lg font-bold text-white">{itemData[itemData.length - 1].challenger || '-'}억</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-sm text-blue-400 font-bold">본섭</span>
+                                            <span className="text-lg font-bold text-white">{itemData[itemData.length - 1].main || '-'}억</span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className="text-lg font-bold text-white">
+                                        {itemData[itemData.length - 1].main}억
+                                    </p>
+                                )}
+                            </div>
+
+                            <div key="stat-change" className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                                <p className="text-xs text-slate-400 mb-2">변화율</p>
+                                {!isEthernel ? (
+                                    <div className="space-y-1">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-sm text-red-400 font-bold">챌린저스</span>
+                                            <span className={`text-lg font-bold ${((itemData[itemData.length - 1].challenger || 0) - (itemData[baselineDateIndex].challenger || 0)) > 0
+                                                ? 'text-red-400' : 'text-green-400'
+                                                }`}>
+                                                {(() => {
+                                                    const start = itemData[baselineDateIndex].challenger || 0;
+                                                    const end = itemData[itemData.length - 1].challenger || 0;
+                                                    const change = start > 0 ? ((end - start) / start * 100).toFixed(1) : '0';
+                                                    return `${parseFloat(change) > 0 ? '+' : ''}${change}%`;
+                                                })()}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-sm text-blue-400 font-bold">본섭</span>
+                                            <span className={`text-lg font-bold ${((itemData[itemData.length - 1].main || 0) - (itemData[baselineDateIndex].main || 0)) > 0
+                                                ? 'text-red-400' : 'text-green-400'
+                                                }`}>
+                                                {(() => {
+                                                    const start = itemData[baselineDateIndex].main || 0;
+                                                    const end = itemData[itemData.length - 1].main || 0;
+                                                    const change = start > 0 ? ((end - start) / start * 100).toFixed(1) : '0';
+                                                    return `${parseFloat(change) > 0 ? '+' : ''}${change}%`;
+                                                })()}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className={`text-lg font-bold ${((itemData[itemData.length - 1].main || 0) - (itemData[baselineDateIndex].main || 0)) > 0
+                                        ? 'text-red-400' : 'text-green-400'
+                                        }`}>
+                                        {(() => {
+                                            const start = itemData[baselineDateIndex].main || 0;
+                                            const end = itemData[itemData.length - 1].main || 0;
+                                            const change = start > 0 ? ((end - start) / start * 100).toFixed(1) : '0';
+                                            return `${parseFloat(change) > 0 ? '+' : ''}${change}%`;
+                                        })()}
+                                    </p>
+                                )}
+                            </div>
+                        </>
+                    )}
+                </div>
             </div>
 
             {/* 시각화 차트 추가 */}
@@ -462,15 +488,27 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                     </div>
 
                     {/* 에테르넬 가격 변화 통계 */}
-                    {data.length > 0 && data[0].ethernelByJob && data[data.length - 1].ethernelByJob && (
+                    {data.length > 0 && data[baselineDateIndex].ethernelByJob && data[data.length - 1].ethernelByJob && (
                         <div className="mt-8 pt-6 border-t border-slate-700">
-                            <h5 className="text-lg font-bold text-white mb-4">
-                                📈 에테르넬 평균 가격 변화 (1/1 → {data[data.length - 1].date.slice(5).replace('-', '/')})
-                            </h5>
+                            <div className="flex items-start justify-between gap-4 mb-4 flex-wrap">
+                                <h5 className="text-lg font-bold text-white">
+                                    📈 에테르넬 평균 가격 변화 ({data[baselineDateIndex].date.slice(5).replace('-', '/')} → {data[data.length - 1].date.slice(5).replace('-', '/')})
+                                </h5>
+                                {baselineDateIndex !== 0 && (
+                                    <span className="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full border border-purple-500/50">
+                                        📅 기준: {data[baselineDateIndex].date.slice(5).replace('-', '/')}
+                                    </span>
+                                )}
+                            </div>
+                            {baselineDateIndex === 0 && itemData.length > 1 && (
+                                <p className="text-xs text-slate-400 mb-4 bg-blue-900/20 border border-blue-500/30 rounded-lg p-3">
+                                    💡 <strong className="text-blue-300">위쪽의 "📅 기준 날짜 선택"</strong>을 사용하면 원하는 날짜 기준으로 가격 변화를 확인할 수 있습니다
+                                </p>
+                            )}
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {(() => {
-                                    const firstDay = data[0].ethernelByJob!;
+                                    const firstDay = data[baselineDateIndex].ethernelByJob!;
                                     const lastDay = data[data.length - 1].ethernelByJob!;
 
                                     // 그룹1: 모자, 상의, 하의, 견장 (방어구)
@@ -507,7 +545,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                                 </h6>
                                                 <div className="space-y-2">
                                                     <div className="flex justify-between items-center">
-                                                        <span className="text-xs text-slate-400">시작 (1/1)</span>
+                                                        <span className="text-xs text-slate-400">시작 ({data[baselineDateIndex].date.slice(5).replace('-', '/')})</span>
                                                         <span className="text-base font-bold text-white">{armorStart}억</span>
                                                     </div>
                                                     <div className="flex justify-between items-center">
@@ -530,7 +568,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                                 </h6>
                                                 <div className="space-y-2">
                                                     <div className="flex justify-between items-center">
-                                                        <span className="text-xs text-slate-400">시작 (1/1)</span>
+                                                        <span className="text-xs text-slate-400">시작 ({data[baselineDateIndex].date.slice(5).replace('-', '/')})</span>
                                                         <span className="text-base font-bold text-white">{expensiveStart}억</span>
                                                     </div>
                                                     <div className="flex justify-between items-center">
