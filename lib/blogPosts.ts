@@ -402,6 +402,16 @@ export const blogPosts: BlogPost[] = [
     },
     // 메이플 이야기 - 분석/예측/칼럼
     {
+        slug: 'top-10-expensive-nicknames',
+        title: '👑 메이플스토리 역대 가장 비싸게 팔린 닉네임 TOP 10',
+        description: '3천만 메이플포인트 라라부터 1,800만 여름까지! 뉴네임 옥션 역사상 최고가 닉네임 TOP 10과 현재 예상 가격을 완벽 공개합니다.',
+        category: '메이플 이야기',
+        date: '2026년 1월 24일',
+        readTime: '12분',
+        thumbnail: '👑',
+        featured: true,
+    },
+    {
         slug: 'new-name-auction-season-analysis',
         title: '💰 뉴네임 옥션 시즌별 낙찰가 총정리 - 가격 트렌드와 인기 닉네임 분석',
         description: '시즌1부터 시즌5까지 뉴네임 옥션의 모든 낙찰가 데이터를 분석! 시즌별 최고가/최저가 비교, 고가 닉네임의 등락, 인기 유형 7가지, 가격대별 추천까지 완벽 정리.',
