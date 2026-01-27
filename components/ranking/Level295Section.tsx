@@ -16,11 +16,25 @@ interface RankingPlayer {
 export default function Level295Section() {
     const [loading, setLoading] = useState(true);
     const [allPlayers, setAllPlayers] = useState<RankingPlayer[]>([]);
+    const [filteredPlayers, setFilteredPlayers] = useState<RankingPlayer[]>([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [displayCount, setDisplayCount] = useState(50); // 처음에 50명만 보여줌
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        if (!searchTerm) {
+            setFilteredPlayers(allPlayers);
+        } else {
+            const lower = searchTerm.toLowerCase();
+            setFilteredPlayers(allPlayers.filter(p =>
+                p.character_name.toLowerCase().includes(lower)
+            ));
+        }
+        setDisplayCount(50); // 검색 시 목록 초기화
+    }, [searchTerm, allPlayers]);
 
     const fetchData = async () => {
         setLoading(true);
@@ -105,13 +119,28 @@ export default function Level295Section() {
 
             {/* 랭킹 리스트 */}
             <div className="bg-purple-900/20 backdrop-blur-sm rounded-xl overflow-hidden border border-purple-500/20">
-                <div className="p-4 sm:p-6 border-b border-purple-500/20 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0">
+                <div className="p-4 sm:p-6 border-b border-purple-500/20 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
                     <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
                         <span>📊</span> 전체 랭킹
                     </h3>
-                    <span className="text-xs sm:text-sm text-purple-300">
-                        총 {allPlayers.length}명의 워너비들
-                    </span>
+
+                    <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                        <div className="relative w-full sm:w-64">
+                            <input
+                                type="text"
+                                placeholder="닉네임 검색..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full bg-slate-900/50 border border-purple-500/30 rounded-lg py-2 px-4 pl-10 text-sm text-purple-100 placeholder-purple-400/50 focus:outline-none focus:border-purple-400 transition-colors"
+                            />
+                            <svg className="w-4 h-4 text-purple-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <span className="text-xs sm:text-sm text-purple-300 whitespace-nowrap">
+                            총 {filteredPlayers.length}명
+                        </span>
+                    </div>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -126,44 +155,52 @@ export default function Level295Section() {
                             </tr>
                         </thead>
                         <tbody>
-                            {allPlayers.slice(0, displayCount).map((player, index) => (
-                                <tr key={index} className="border-b border-purple-700/30 hover:bg-purple-500/10 transition-colors">
-                                    <td className="px-3 py-2 sm:px-6 sm:py-3 font-bold text-purple-400 text-xs sm:text-base whitespace-nowrap">
-                                        {player.ranking}
-                                    </td>
-                                    <td className="px-3 py-2 sm:px-6 sm:py-3 font-semibold text-white text-xs sm:text-base whitespace-nowrap">
-                                        <Link href={`/?name=${player.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
-                                            {player.character_name}
-                                        </Link>
-                                    </td>
-                                    <td className="px-3 py-2 sm:px-6 sm:py-3 text-center text-purple-200 text-xs sm:text-base whitespace-nowrap">
-                                        {player.world_name}
-                                    </td>
-                                    <td className="px-3 py-2 sm:px-6 sm:py-3 text-center text-purple-200 text-xs sm:text-base whitespace-nowrap">
-                                        {player.sub_class_name || player.class_name}
-                                    </td>
-                                    <td className="px-3 py-2 sm:px-6 sm:py-3 text-center">
-                                        <span className={`font-bold px-2 py-1 rounded text-xs sm:text-base ${player.character_level === 300 ? 'bg-yellow-500/20 text-yellow-400' :
-                                            player.character_level === 299 ? 'bg-red-500/20 text-red-400' :
-                                                'text-blue-400'
-                                            }`}>
-                                            Lv.{player.character_level}
-                                        </span>
+                            {filteredPlayers.length > 0 ? (
+                                filteredPlayers.slice(0, displayCount).map((player, index) => (
+                                    <tr key={index} className="border-b border-purple-700/30 hover:bg-purple-500/10 transition-colors">
+                                        <td className="px-3 py-2 sm:px-6 sm:py-3 font-bold text-purple-400 text-xs sm:text-base whitespace-nowrap">
+                                            {player.ranking}
+                                        </td>
+                                        <td className="px-3 py-2 sm:px-6 sm:py-3 font-semibold text-white text-xs sm:text-base whitespace-nowrap">
+                                            <Link href={`/?name=${player.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                                                {player.character_name}
+                                            </Link>
+                                        </td>
+                                        <td className="px-3 py-2 sm:px-6 sm:py-3 text-center text-purple-200 text-xs sm:text-base whitespace-nowrap">
+                                            {player.world_name}
+                                        </td>
+                                        <td className="px-3 py-2 sm:px-6 sm:py-3 text-center text-purple-200 text-xs sm:text-base whitespace-nowrap">
+                                            {player.sub_class_name || player.class_name}
+                                        </td>
+                                        <td className="px-3 py-2 sm:px-6 sm:py-3 text-center">
+                                            <span className={`font-bold px-2 py-1 rounded text-xs sm:text-base ${player.character_level === 300 ? 'bg-yellow-500/20 text-yellow-400' :
+                                                player.character_level === 299 ? 'bg-red-500/20 text-red-400' :
+                                                    'text-blue-400'
+                                                }`}>
+                                                Lv.{player.character_level}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={5} className="py-12 text-center text-purple-300">
+                                        검색 결과가 없습니다.
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>
 
                 {/* 더 보기 버튼 */}
-                {displayCount < allPlayers.length && (
+                {displayCount < filteredPlayers.length && (
                     <div className="p-4 text-center border-t border-purple-500/20">
                         <button
                             onClick={handleLoadMore}
                             className="px-6 py-2 bg-purple-600/50 hover:bg-purple-600 text-white rounded-lg transition-all text-sm sm:text-base font-semibold"
                         >
-                            더 보기 ({Math.min(displayCount + 50, allPlayers.length)} / {allPlayers.length})
+                            더 보기 ({Math.min(displayCount + 50, filteredPlayers.length)} / {filteredPlayers.length})
                         </button>
                     </div>
                 )}
