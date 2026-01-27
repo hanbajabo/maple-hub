@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { JOB_META_DATA } from "@/src/data/diagnosisData";
+import { useSearchParams } from "next/navigation";
 import { toPng } from "html-to-image";
 import { Search, RefreshCw, Swords, Camera, X, Star, List, TrendingUp } from "lucide-react";
 import { getOcid, getCharacterBasic, getCharacterItemEquipment, getCharacterStat, getCharacterUnion, getCharacterLinkSkill, getUserUnionRaider } from "../lib/nexon";
@@ -19,7 +20,7 @@ import ChampionBadge from "../components/ChampionBadge";
 import SymbolBadge from "../components/SymbolBadge";
 import ItemDiagnosis from "../components/ItemDiagnosis";
 import AbilityWidget from "../components/AbilityWidget";
-import CalculatorMenu from "../components/navigation/CalculatorMenu";
+
 
 import RecommendedGuides from "../components/RecommendedGuides";
 import Footer from "../components/Footer";
@@ -139,6 +140,7 @@ interface UnionData {
 
 
 export default function Home() {
+  const searchParams = useSearchParams();
   const [nickname, setNickname] = useState("");
   const [character, setCharacter] = useState<CharacterData | null>(null);
   const [equipment, setEquipment] = useState<ItemData[]>([]);
@@ -342,8 +344,20 @@ export default function Home() {
 
 
 
-  const handleSearch = async () => {
-    if (!nickname.trim()) return;
+  /* URL 파라미터로 검색어 감지 */
+  useEffect(() => {
+    const nameParam = searchParams.get("name");
+    // 랭킹 페이지 등에서 넘어왔을 때만 검색 실행 (현재 닉네임과 다를 때만)
+    if (nameParam && nameParam !== nickname) {
+      setNickname(nameParam);
+      // 상태 업데이트 후 실행을 보장하기 위해 약간의 지연 또는 직접 인자 전달
+      handleSearch(nameParam);
+    }
+  }, [searchParams]);
+
+  const handleSearch = async (targetName?: string | unknown) => {
+    const searchName = typeof targetName === 'string' ? targetName : nickname;
+    if (!searchName.trim()) return;
 
     setLoading(true);
     setError("");
@@ -355,7 +369,7 @@ export default function Home() {
     setUnionRaiderData(null);
 
     try {
-      const ocid = await getOcid(nickname);
+      const ocid = await getOcid(searchName);
       setOcid(ocid);
 
       // 모든 데이터를 병렬로 동시에 요청하여 속도 최적화
@@ -840,48 +854,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-0 sm:p-8 overflow-x-hidden w-full">
       {/* Header */}
-      <header className="relative w-full sm:max-w-5xl flex justify-between items-center mb-6 sm:mb-12 px-4 sm:px-2 pt-4 pb-2 sm:py-0 sticky top-0 z-[10001] bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 sm:static sm:bg-transparent sm:border-none">
-        <button
-          onClick={() => {
-            setNickname("");
-            setCharacter(null);
-            setEquipment([]);
-            setStats(null);
-            setUnion(null);
-            setOcid("");
-            setError("");
-            setLinkSkillData(null);
-            setUnionRaiderData(null);
-          }}
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/maple-ai-logo.jpg" alt="메이플 AI 로고" className="w-9 h-9 sm:w-10 sm:h-10 object-contain rounded-lg shadow-md border border-slate-700/30" />
-          <span className="text-xl sm:text-2xl font-black tracking-tighter text-maple-orange drop-shadow-sm hidden sm:block">
-            메이플 AI
-          </span>
-        </button>
 
-        {/* Guide Link & Patch Notes */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <Link
-            href="/blog"
-            className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-emerald-900/20"
-            title="블로그"
-          >
-            <span className="text-base sm:text-lg">📝</span>
-            <span className="hidden sm:inline">블로그</span>
-          </Link>
-          <CalculatorMenu />
-          <a
-            href="/guide"
-            className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-orange-600/90 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg"
-          >
-            <span className="text-base sm:text-lg">📚</span>
-            <span className="hidden sm:inline">가이드</span>
-          </a>
-        </div>
-      </header>
 
       {/* Character Search Section - Wrapped to prevent ad insertion between title and search */}
       <div className="no-ads-section w-full flex flex-col items-center">

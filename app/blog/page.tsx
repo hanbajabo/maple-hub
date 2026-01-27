@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Clock, ArrowRight, Flame, TrendingUp, Gift, Search, X } from 'lucide-react';
 import { InFeedAd } from '@/components/AdSense';
-import CalculatorMenu from "../../components/navigation/CalculatorMenu";
+
 
 import { blogPosts, BlogPost } from '@/lib/blogPosts';
 
@@ -44,31 +44,7 @@ export default function BlogPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
-            {/* Global Navigation */}
-            <header className="w-full sm:max-w-7xl flex justify-between items-center px-4 sm:px-6 lg:px-8 py-4 sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 mx-auto">
-                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/images/maple-ai-logo.jpg" alt="메이플 AI 로고" className="w-9 h-9 sm:w-10 sm:h-10 object-contain rounded-lg shadow-md border border-slate-700/30" />
-                    <span className="text-xl sm:text-2xl font-black tracking-tighter text-maple-orange drop-shadow-sm hidden sm:block">
-                        메이플 AI
-                    </span>
-                </Link>
 
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                    <Link
-                        href="/blog"
-                        className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-emerald-900/20"
-                    >
-                        <span className="text-base sm:text-lg">📝</span>
-                        <span className="hidden sm:inline">블로그</span>
-                    </Link>
-                    <CalculatorMenu />
-                    <a href="/guide" className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-orange-600/90 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg">
-                        <span className="text-base sm:text-lg">📚</span>
-                        <span className="hidden sm:inline">가이드</span>
-                    </a>
-                </div>
-            </header>
 
             {/* Page Title */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">

@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 300레벨 만렙 달성 현황 (1월 27일)
+    // 300레벨 만렙 달성 현황 (1월 27일) -> 랭킹 페이지로 리다이렉트
+    {
+        slug: '/ranking',
+        title: '🏆 메이플스토리 전체 월드 랭킹 | 만렙(300) 달성 & 유니온 랭킹',
+        description: '실시간 업데이트! 전체 월드 300레벨 만렙 달성자 현황, 월드별/직업별 랭킹, 그리고 유니온 랭킹까지 한눈에 확인하세요.',
+        category: '메이플 이야기',
+        date: '2026년 1월 27일',
+        readTime: '0분',
+        thumbnail: '🏆',
+        featured: true,
+    },
     // 스페셜 썬데이 메이플 - 솔 에르다 타임 (1월 25일)
     {
         slug: 'sunday-maple-sol-erda-time-jan-25-2026',

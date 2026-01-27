@@ -14,9 +14,7 @@ export default function CalculatorMenu() {
                 <span className="text-base sm:text-lg">🧮</span>
                 <span className="hidden sm:inline">계산기</span>
             </button>
-            <span className="absolute -top-2 -right-2 bg-yellow-400 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(250,204,21,0.8)] animate-pulse border border-yellow-200 pointer-events-none z-10 whitespace-nowrap">
-                NEW!
-            </span>
+
 
             {/* Dropdown Menu */}
             <div className="absolute right-0 top-full mt-2 w-56 bg-slate-900 border-2 border-indigo-500/50 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[9999]">
