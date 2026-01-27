@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { AdBanner, InArticleAd } from '../AdSense';
 
 // Server Action imports removed in favor of API Route for caching
 import Level300Section from './Level300Section';
@@ -536,6 +537,11 @@ export default function RankingClient() {
                 ))}
             </div>
 
+            {/* 광고 영역 (탭 아래) */}
+            <div className="w-full">
+                <InArticleAd dataAdSlot="6849727140" />
+            </div>
+
             {/* 필터 섹션 */}
             {activeTab !== 'achievement' && activeTab !== 'level300' && activeTab !== 'level295' && (
                 <div className="bg-purple-800/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-purple-500/20">
@@ -714,6 +720,11 @@ export default function RankingClient() {
                             </button>
                         </div>
                     )}
+
+                    {/* 하단 광고 영역 */}
+                    <div className="mt-8">
+                        <AdBanner dataAdSlot="8162808816" />
+                    </div>
                 </>
             )}
         </div>
