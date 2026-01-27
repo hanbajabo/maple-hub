@@ -2,9 +2,7 @@ import type { NextConfig } from "next";
 
 // @ts-ignore - Next.js 설정 타입 확장
 const nextConfig: NextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+
   typescript: {
     ignoreBuildErrors: true,
   },
