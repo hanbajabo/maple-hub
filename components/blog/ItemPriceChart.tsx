@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ChevronDown, TrendingDown, TrendingUp, Minus } from 'lucide-react';
 import {
     LineChart,
@@ -19,6 +19,12 @@ interface ItemPriceChartProps {
 }
 
 export default function ItemPriceChart({ data }: ItemPriceChartProps) {
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     // 데이터 구조 확인
     console.log('=== 파싱된 날짜 목록 ===');
     console.log(data.map(d => d.date).join(', '));
@@ -358,56 +364,62 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
             <div className="mt-8 pt-8 border-t border-slate-700">
                 <h4 className="text-lg font-bold text-white mb-4">📈 가격 추이 그래프</h4>
                 <div className="h-[300px] w-full bg-slate-900/50 rounded-xl p-4 border border-slate-700">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={itemData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.3} />
-                            <XAxis
-                                dataKey="displayDate"
-                                tick={{ fill: '#94a3b8', fontSize: 12 }}
-                                stroke="#475569"
-                                tickMargin={10}
-                            />
-                            <YAxis
-                                tick={{ fill: '#94a3b8', fontSize: 12 }}
-                                stroke="#475569"
-                                tickFormatter={(value) => `${value}억`}
-                                domain={['auto', 'auto']}
-                            />
-                            <Tooltip
-                                contentStyle={{
-                                    backgroundColor: '#0f172a',
-                                    border: '1px solid #334155',
-                                    borderRadius: '8px',
-                                    color: '#f1f5f9'
-                                }}
-                                formatter={(value: any) => [`${value}억`, '']}
-                                labelStyle={{ color: '#94a3b8', marginBottom: '4px' }}
-                            />
-                            <Legend wrapperStyle={{ paddingTop: '10px' }} />
-                            {!isEthernel && (
+                    {isMounted ? (
+                        <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={itemData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.3} />
+                                <XAxis
+                                    dataKey="displayDate"
+                                    tick={{ fill: '#94a3b8', fontSize: 12 }}
+                                    stroke="#475569"
+                                    tickMargin={10}
+                                />
+                                <YAxis
+                                    tick={{ fill: '#94a3b8', fontSize: 12 }}
+                                    stroke="#475569"
+                                    tickFormatter={(value) => `${value}억`}
+                                    domain={['auto', 'auto']}
+                                />
+                                <Tooltip
+                                    contentStyle={{
+                                        backgroundColor: '#0f172a',
+                                        border: '1px solid #334155',
+                                        borderRadius: '8px',
+                                        color: '#f1f5f9'
+                                    }}
+                                    formatter={(value: any) => [`${value}억`, '']}
+                                    labelStyle={{ color: '#94a3b8', marginBottom: '4px' }}
+                                />
+                                <Legend wrapperStyle={{ paddingTop: '10px' }} />
+                                {!isEthernel && (
+                                    <Line
+                                        type="monotone"
+                                        dataKey="challenger"
+                                        name="챌린저스"
+                                        stroke="#ef4444"
+                                        strokeWidth={3}
+                                        dot={{ fill: '#ef4444', r: 3 }}
+                                        activeDot={{ r: 5 }}
+                                        connectNulls
+                                    />
+                                )}
                                 <Line
                                     type="monotone"
-                                    dataKey="challenger"
-                                    name="챌린저스"
-                                    stroke="#ef4444"
+                                    dataKey="main"
+                                    name={isEthernel ? "본섭 평균 가격" : "본섭"}
+                                    stroke="#3b82f6"
                                     strokeWidth={3}
-                                    dot={{ fill: '#ef4444', r: 3 }}
+                                    dot={{ fill: '#3b82f6', r: 3 }}
                                     activeDot={{ r: 5 }}
                                     connectNulls
                                 />
-                            )}
-                            <Line
-                                type="monotone"
-                                dataKey="main"
-                                name={isEthernel ? "본섭 평균 가격" : "본섭"}
-                                stroke="#3b82f6"
-                                strokeWidth={3}
-                                dot={{ fill: '#3b82f6', r: 3 }}
-                                activeDot={{ r: 5 }}
-                                connectNulls
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
+                            </LineChart>
+                        </ResponsiveContainer>
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-500">
+                            Loading Chart...
+                        </div>
+                    )}
                 </div>
             </div>
 
