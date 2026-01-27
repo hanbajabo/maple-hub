@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { JOB_META_DATA } from "@/src/data/diagnosisData";
@@ -139,8 +139,26 @@ interface UnionData {
 
 
 
-export default function Home() {
+interface SearchParamHandlerProps {
+  onSearch: (name: string) => void;
+  currentNickname: string;
+}
+
+function SearchParamHandler({ onSearch, currentNickname }: SearchParamHandlerProps) {
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const nameParam = searchParams.get("name");
+    if (nameParam && nameParam !== currentNickname) {
+      onSearch(nameParam);
+    }
+  }, [searchParams, currentNickname, onSearch]);
+
+  return null;
+}
+
+export default function Home() {
+
   const [nickname, setNickname] = useState("");
   const [character, setCharacter] = useState<CharacterData | null>(null);
   const [equipment, setEquipment] = useState<ItemData[]>([]);
@@ -344,16 +362,7 @@ export default function Home() {
 
 
 
-  /* URL 파라미터로 검색어 감지 */
-  useEffect(() => {
-    const nameParam = searchParams.get("name");
-    // 랭킹 페이지 등에서 넘어왔을 때만 검색 실행 (현재 닉네임과 다를 때만)
-    if (nameParam && nameParam !== nickname) {
-      setNickname(nameParam);
-      // 상태 업데이트 후 실행을 보장하기 위해 약간의 지연 또는 직접 인자 전달
-      handleSearch(nameParam);
-    }
-  }, [searchParams]);
+
 
   const handleSearch = async (targetName?: string | unknown) => {
     const searchName = typeof targetName === 'string' ? targetName : nickname;
@@ -853,6 +862,15 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-white flex flex-col items-center p-0 sm:p-8 overflow-x-hidden w-full">
+      <Suspense fallback={null}>
+        <SearchParamHandler
+          onSearch={(name) => {
+            setNickname(name);
+            handleSearch(name);
+          }}
+          currentNickname={nickname}
+        />
+      </Suspense>
       {/* Header */}
 
 
