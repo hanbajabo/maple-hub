@@ -215,15 +215,47 @@ export default function Level300Section() {
             const className = player.sub_class_name || player.class_name;
             const existingPlayer = classMap.get(className);
 
-            // 기존 플레이어가 없거나, 현재 플레이어의 레벨/경험치가 더 높으면 교체
-            if (!existingPlayer) {
-                classMap.set(className, player);
-            } else {
-                if (player.character_level > existingPlayer.character_level) {
+            // 만렙(300) 달성자인 경우, 달성 날짜 기준으로 비교
+            if (player.character_level === 300) {
+                const currentAchievement = level300Achievements.find(a => a.character_name === player.character_name);
+                const existingAchievement = existingPlayer
+                    ? level300Achievements.find(a => a.character_name === existingPlayer.character_name)
+                    : null;
+
+                if (!existingPlayer) {
                     classMap.set(className, player);
-                } else if (player.character_level === existingPlayer.character_level) {
-                    if ((player.character_exp || 0) > (existingPlayer.character_exp || 0)) {
+                } else if (existingPlayer.character_level === 300) {
+                    // 둘 다 300레벨인 경우, 달성 날짜가 빠른 플레이어를 선택
+                    if (currentAchievement && existingAchievement) {
+                        const currentDate = new Date(currentAchievement.achievement_date);
+                        const existingDate = new Date(existingAchievement.achievement_date);
+                        if (currentDate < existingDate) {
+                            classMap.set(className, player);
+                        }
+                    } else if (currentAchievement && !existingAchievement) {
+                        // 현재 플레이어만 달성 날짜가 있는 경우
                         classMap.set(className, player);
+                    } else if (!currentAchievement && !existingAchievement) {
+                        // 둘 다 달성 날짜가 없는 경우, 랭킹 순으로
+                        if (player.ranking < existingPlayer.ranking) {
+                            classMap.set(className, player);
+                        }
+                    }
+                } else {
+                    // 기존 플레이어가 300이 아니면 현재 300레벨 플레이어로 교체
+                    classMap.set(className, player);
+                }
+            } else {
+                // 300레벨이 아닌 경우, 기존 로직 (레벨/경험치 기준)
+                if (!existingPlayer) {
+                    classMap.set(className, player);
+                } else if (existingPlayer.character_level !== 300) { // 기존이 300이 아닐 때만 비교
+                    if (player.character_level > existingPlayer.character_level) {
+                        classMap.set(className, player);
+                    } else if (player.character_level === existingPlayer.character_level) {
+                        if ((player.character_exp || 0) > (existingPlayer.character_exp || 0)) {
+                            classMap.set(className, player);
+                        }
                     }
                 }
             }
