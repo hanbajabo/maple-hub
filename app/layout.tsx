@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import GlobalHeader from "@/components/navigation/GlobalHeader";
+import AdSenseScript from "@/components/AdSenseScript";
 
 const notoSansKR = Noto_Sans_KR({
   variable: "--font-noto-sans-kr",
@@ -51,13 +52,8 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
-        {/* Google AdSense Script */}
-        {/* Google AdSense Script */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6144208174617294"
-          crossOrigin="anonymous"
-        />
+        {/* Google AdSense Script (Conditional) */}
+        <AdSenseScript />
       </head>
       <body
         className={`${notoSansKR.variable} antialiased bg-slate-950 text-white`}
