@@ -416,54 +416,74 @@ export default function PortfolioPage() {
 
             {/* ==================== PAGE 5: KEY FEATURES III - ECONOMY ==================== */}
             <div className="a4-page">
-                <div className="border-b-2 border-gray-900 pb-4 mb-4 flex justify-between items-end">
+                <div className="border-b-2 border-gray-900 pb-2 mb-2 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">Key Features: Economy</h2>
                     <span className="text-gray-500 text-sm">04 / 06</span>
                 </div>
 
                 {/* 경제 모니터링 */}
                 <div className="flex-1 flex flex-col h-full">
-                    <h4 className="font-bold text-2xl mb-2 text-black">💰 경제 모니터링 시스템</h4>
-                    <p className="text-lg text-blue-600 font-semibold mb-4">서버 간 시세 격차(Price Gap) 분석 및 시장 왜곡 탐지</p>
+                    <h4 className="font-bold text-xl mb-1 text-black">💰 경제 정보 시각화 시스템</h4>
+                    <p className="text-sm text-blue-600 font-semibold mb-2">서버 간 시세 비교 및 유저 의사결정 지원 정보 제공</p>
 
-                    {/* 이미지 크기를 85%로 줄여서 세로 공간 확보 */}
-                    <div className="w-[85%] mx-auto bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mb-4">
+                    {/* Pain Point 추가 */}
+                    <div className="bg-gray-50 border border-gray-300 rounded p-2 mb-2">
+                        <p className="text-xs text-black leading-tight">
+                            <strong className="text-red-600">Problem:</strong> 기존 메이플 내 경제 정보는 월드 단위로 파편화되어 있어, 서버 간 경제 상황을 직관적으로 비교하기 어려운 문제가 존재함.
+                        </p>
+                    </div>
+
+                    {/* 이미지 크기를 80%로 줄여서 세로 공간 확보 */}
+                    <div className="w-[70%] mx-auto bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mb-2">
                         <img src="/portfolio-images/economy-monitoring.png" className="w-full h-auto object-cover" alt="경제 모니터링 그래프" />
-                        <div className="bg-gray-50 p-2 text-center border-t border-gray-100">
-                            <p className="text-xs text-gray-500">📸 챌린저스 월드(시즌 서버) vs 일반 월드 에테르넬 장비 시세 추이 비교 그래프</p>
+                        <div className="bg-gray-50 p-1 text-center border-t border-gray-100">
+                            <p className="text-xs text-gray-500">📸챌린저스 월드 vs 일반 월드 거대한 공포 장비 시세 추이</p>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                            <h5 className="font-bold text-blue-900 mb-1 text-base">📊 분석 로직 (Gap Analysis)</h5>
-                            <ul className="text-sm text-black space-y-1 leading-relaxed">
-                                <li>• <strong>Target:</strong> 고가치 물욕템 (칠흑/에테르넬)</li>
-                                <li>• <strong>Metric:</strong> 기준일(Season Open) 대비 등락률 추적</li>
-                                <li>• <strong>Monitoring:</strong> 서버 간 괴리율 모니터링 (30% 이상 시 주요 변동 구간)</li>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 mb-2">
+                        <div className="bg-blue-50 p-2.5 rounded-xl border border-blue-200">
+                            <h5 className="font-bold text-blue-900 mb-1 text-xs">📊 데이터 수집 및 시각화</h5>
+                            <ul className="text-xs text-black space-y-0.5 leading-tight">
+                                <li>• <strong>Target:</strong> 고가치 물욕템</li>
+                                <li>• <strong>Update:</strong> 일일 수동 큐레이션</li>
+                                <li>• <strong>Visualization:</strong> 등락률 시계열 그래프</li>
                             </ul>
                         </div>
-                        <div className="bg-green-50 p-4 rounded-xl border border-green-200">
-                            <h5 className="font-bold text-green-900 mb-1 text-base">💡 인사이트 (Insight)</h5>
-                            <ul className="text-sm text-black space-y-1 leading-relaxed">
-                                <li>• 이벤트 예고 시점의 <strong>선행 매매 패턴</strong> 포착</li>
-                                <li>• "지금이 살 때/팔 때" <strong>의사결정 가이드</strong> 제공</li>
-                                <li>• 비정상 거래 패턴 및 시장 왜곡 요인 탐지</li>
+                        <div className="bg-green-50 p-2.5 rounded-xl border border-green-200">
+                            <h5 className="font-bold text-green-900 mb-1 text-xs">💡 유저 가치</h5>
+                            <ul className="text-xs text-black space-y-0.5 leading-tight">
+                                <li>• 서버 간 <strong>시세 격차</strong> 비교</li>
+                                <li>• <strong>의사결정 지원</strong> 정보</li>
+                                <li>• 신뢰성 높은 <strong>큐레이션</strong></li>
                             </ul>
                         </div>
                     </div>
 
-                    <div className="mt-auto">
-                        <h5 className="font-bold text-sm text-gray-500 mb-2 border-b border-gray-200 pb-2">Tech Stack for Economy System</h5>
-                        <div className="flex gap-3">
+                    {/* 책임 선 긋기 추가 */}
+                    <div className="bg-purple-50 border border-purple-300 rounded p-2 mb-2">
+                        <p className="text-xs text-black leading-tight">
+                            <strong className="text-purple-700">⚠️ 책임 고지:</strong> 본 정보는 참고 자료이며, 실제 거래 판단 책임은 사용자에게 있음.
+                        </p>
+                    </div>
+
+                    <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-1.5 mb-2">
+                        <p className="text-xs text-black leading-tight">
+                            <strong className="text-yellow-800">💡 수동 큐레이션:</strong> NEXON API는 시세 미제공. 실거래 수집·검증하여 DB 저장. 자동 크롤링 대비 <strong>정확도와 신뢰성 높음</strong>, 안정적 서비스 제공.
+                        </p>
+                    </div>
+
+                    <div className="mt-2">
+                        <h5 className="font-bold text-xs text-gray-500 mb-1 border-b border-gray-200 pb-1">Tech Stack</h5>
+                        <div className="flex gap-1.5">
                             {[
                                 { name: 'Vercel Postgres', desc: '시세 데이터 적재' },
-                                { name: 'Cron Job', desc: '매일 10시 데이터 수집' },
+                                { name: 'Daily Manual Update Cycle', desc: '큐레이션 기반 시세 데이터 갱신 프로세스' },
                                 { name: 'Chart.js', desc: '시계열 데이터 시각화' },
                                 { name: 'Server Actions', desc: 'Secure Data Fetching' }
                             ].map(t => (
-                                <div key={t.name} className="flex-1 bg-gray-50 border border-gray-300 p-2 rounded-lg text-center shadow-sm">
-                                    <div className="font-bold text-xs text-black mb-1">{t.name}</div>
+                                <div key={t.name} className="flex-1 bg-gray-50 border border-gray-300 p-1.5 rounded-lg text-center shadow-sm">
+                                    <div className="font-bold text-xs text-black mb-0.5">{t.name}</div>
                                     <div className="text-xs text-black font-medium leading-tight">{t.desc}</div>
                                 </div>
                             ))}

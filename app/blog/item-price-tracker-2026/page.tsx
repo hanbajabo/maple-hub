@@ -192,15 +192,15 @@ export default function ItemPriceTrackerPage() {
                             <ul className="space-y-3 text-sm">
                                 <li className="flex items-start gap-2">
                                     <span className="text-purple-400 font-bold">•</span>
-                                    <span>시세는 <strong className="text-white">참고용</strong>이며, 실제 거래 가격과 다를 수 있습니다.</span>
+                                    <span><strong className="text-yellow-400">책임 고지:</strong> 본 정보는 시장 상황 이해를 돕기 위한 <strong className="text-white">참고 자료</strong>이며, 실제 거래 판단에 대한 책임은 사용자에게 있습니다.</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <span className="text-purple-400 font-bold">•</span>
-                                    <span>패치, 이벤트 등으로 급격한 시세 변동이 발생할 수 있습니다.</span>
+                                    <span>패치, 이벤트 등으로 <strong className="text-white">급격한 시세 변동</strong>이 발생할 수 있습니다.</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <span className="text-purple-400 font-bold">•</span>
-                                    <span>최종 구매 결정은 인게임 경매장에서 직접 확인 후 진행하세요.</span>
+                                    <span>최종 구매 결정은 <strong className="text-white">인게임 경매장</strong>에서 직접 확인 후 진행하세요.</span>
                                 </li>
                             </ul>
                         </div>

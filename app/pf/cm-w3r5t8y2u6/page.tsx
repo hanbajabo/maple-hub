@@ -216,11 +216,93 @@ export default function CommunityPortfolioPage() {
             </div>
 
 
-            {/* ==================== PAGE 2: 업데이트 역기획 ==================== */}
+            {/* ==================== EXECUTIVE SUMMARY ==================== */}
+            <div className="a4-page">
+                <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
+                    <h2 className="text-3xl font-bold text-black">Executive Summary</h2>
+                    <span className="text-gray-500 text-sm">00 / 07</span>
+                </div>
+
+                {/* Who I am */}
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-400 rounded-xl p-5 mb-5">
+                    <h3 className="text-xl font-bold text-blue-900 mb-3 text-center">Who I am</h3>
+                    <p className="text-base text-black text-center leading-relaxed">
+                        <strong className="text-blue-700">9년 메이플 유저 분석</strong> + <strong className="text-blue-700">AI 기반 실 서비스 개발 경험</strong>을 가진<br />
+                        메이플스토리 라이브 기획자 <strong className="text-blue-900">이경준</strong>
+                    </p>
+                </div>
+
+                {/* Key Strengths */}
+                <div className="mb-5">
+                    <h3 className="text-lg font-bold text-black mb-3 flex items-center gap-2">
+                        <span className="text-2xl">💎</span>
+                        Key Strengths
+                    </h3>
+                    <div className="space-y-3">
+                        <div className="bg-white border-l-4 border-purple-500 p-4 rounded-r-lg shadow-sm">
+                            <h4 className="font-bold text-purple-700 mb-1">Insight</h4>
+                            <p className="text-sm text-black">채널 '한자' 9년 운영으로 <strong>업데이트 의도·유저 피로도·경제 흐름 실시간 분석</strong></p>
+                        </div>
+                        <div className="bg-white border-l-4 border-green-500 p-4 rounded-r-lg shadow-sm">
+                            <h4 className="font-bold text-green-700 mb-1">Implementation</h4>
+                            <p className="text-sm text-black"><strong>maple.ai.kr</strong> (Next.js + NEXON Open API) 실시간 성장 진단 & 경제 모니터링 시스템 직접 개발·서비스 중</p>
+                        </div>
+                        <div className="bg-white border-l-4 border-blue-500 p-4 rounded-r-lg shadow-sm">
+                            <h4 className="font-bold text-blue-700 mb-1">Logic</h4>
+                            <p className="text-sm text-black">데이터 기반 Gap Analysis → <strong>UX Bridge & Nudge 전략</strong> → 운영 리스크까지 고려한 제언</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Featured Projects */}
+                <div className="mb-5">
+                    <h3 className="text-lg font-bold text-black mb-3 flex items-center gap-2">
+                        <span className="text-2xl">📁</span>
+                        Featured Projects
+                    </h3>
+                    <div className="grid grid-cols-1 gap-3">
+                        <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-300 rounded-lg p-4">
+                            <h4 className="font-bold text-orange-800 mb-2">📊 라이브 서비스 역분석 제언서</h4>
+                            <p className="text-sm text-black">2024~2025 업데이트 역기획 + Lv.280~285 성장 병목 해소 전략 (로아 슈모익 벤치마킹 포함)</p>
+                        </div>
+                        <div className="bg-gradient-to-r from-green-50 to-teal-50 border border-green-300 rounded-lg p-4">
+                            <h4 className="font-bold text-green-800 mb-2">🤖 메이플 AI 진단 시스템 기획서</h4>
+                            <p className="text-sm text-black">NEXON API 활용 실시간 전투력/보스/사냥 진단 + 경제 괴리율 모니터링 (운영 안정성 로직 포함)</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Value Proposition */}
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg p-5 text-center">
+                    <p className="text-lg font-bold leading-relaxed">
+                        데이터로 증명하는 기획,<br />
+                        운영까지 책임지겠습니다.
+                    </p>
+                </div>
+
+                {/* Contact */}
+                <div className="mt-5 flex justify-between items-center border-t border-gray-300 pt-4">
+                    <div>
+                        <p className="text-sm font-bold text-black">📧 p6092@naver.com</p>
+                        <p className="text-xs text-gray-600 mt-1">🌐 maple.ai.kr (실제 운영 중인 시스템)</p>
+                    </div>
+                    <div className="text-center">
+                        <img
+                            src="/qr_maple_site.png"
+                            alt="Portfolio QR"
+                            className="w-20 h-20 border border-gray-300 rounded"
+                        />
+                        <p className="text-xs text-gray-600 mt-1">QR 스캔</p>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* ==================== PAGE 1: 업데이트 역기획 ==================== */}
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">1. 업데이트 역기획</h2>
-                    <span className="text-gray-500 text-sm">01 / 05</span>
+                    <span className="text-gray-500 text-sm">01 / 07</span>
                 </div>
 
                 <h3 className="text-xl font-bold text-black mb-2">의도와 경험의 괴리 분석 (Reverse Engineering)</h3>
@@ -293,7 +375,7 @@ export default function CommunityPortfolioPage() {
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">2. 인게임 경제 분석</h2>
-                    <span className="text-gray-500 text-sm">02 / 05</span>
+                    <span className="text-gray-500 text-sm">02 / 07</span>
                 </div>
 
                 <h3 className="text-xl font-bold text-black mb-6">가치 보존의 딜레마 (Economy Balance)</h3>
@@ -371,7 +453,7 @@ export default function CommunityPortfolioPage() {
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">3. 리스크 매니지먼트</h2>
-                    <span className="text-gray-500 text-sm">03 / 05</span>
+                    <span className="text-gray-500 text-sm">03 / 07</span>
                 </div>
 
                 <h3 className="text-xl font-bold text-black mb-6">데이터 기반 소통 전략 (Risk Management)</h3>
@@ -437,7 +519,7 @@ export default function CommunityPortfolioPage() {
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-3 mb-3 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">4. UX 개선 제언 (1/2)</h2>
-                    <span className="text-gray-500 text-sm">04-1 / 06</span>
+                    <span className="text-gray-500 text-sm">04-1 / 07</span>
                 </div>
 
                 <h3 className="text-lg font-bold text-black mb-1">성장 병목 해소와 BM 효율 유도 구조 재설계</h3>
@@ -461,18 +543,18 @@ export default function CommunityPortfolioPage() {
                         </div>
 
                         <div className="bg-white border border-red-200 rounded p-2 mt-1">
-                            <p className="text-xs font-semibold text-red-800 mb-1">Context (The Bottleneck Shift):</p>
+                            <p className="text-xs font-semibold text-red-800 mb-1">Context:</p>
                             <p className="text-xs text-black mb-1">
-                                • '버닝 익스프레스' 도입으로 Lv.270~280 구간 돌파가 가속화되었으나, 이에 따라 <strong>성장 병목 구간이 Lv.280~285로 압축/이동</strong>함.
+                                • '버닝 익스프레스' 도입으로 Lv.270~280 돌파 가속 → <strong>성장 병목이 Lv.280~285로 압축/이동</strong>
                             </p>
                             <p className="text-xs text-black mb-1">
-                                • <strong className="text-orange-600">User Behavior:</strong> 유저들이 <strong>'모멘텀 패스'</strong>를 본래 의도(Lv.285+ 엔드게임 가속)가 아닌, Lv.280 구간의 고통을 회피하기 위한 <strong>'병목 회피 수단'</strong>으로 조기 소모하는 비효율 발생.
+                                • <strong className="text-orange-600">User Behavior:</strong> '모멘텀 패스'를 본래 의도(엔드게임 가속)가 아닌 <strong>'병목 회피 수단'으로 조기 사용</strong> → 비효율
                             </p>
                             <p className="text-xs text-black mb-1">
-                                • <strong className="text-purple-600">Data Inference:</strong> Lv.280~285 구간 <strong>일 평균 플레이타임 감소 추정</strong> 및 <strong>모멘텀 패스 조기 사용 비율 증가 가설</strong> 확인 필요.
+                                • <strong className="text-purple-600">Data Inference:</strong> Lv.280~285 구간 <strong>플레이타임 감소 추정</strong>, <strong>모멘텀 패스 조기 사용↑</strong>
                             </p>
                             <p className="text-xs text-black">
-                                • <strong className="text-red-600">Risk:</strong> BM 구매 만족도 저하(효율 차이 감수) + 비BM 유저의 박탈감 및 이탈 심화.
+                                • <strong className="text-red-600">Risk:</strong> BM 만족도↓ + 비BM 유저 박탈감 및 이탈 심화
                             </p>
                         </div>
                     </div>
@@ -490,42 +572,46 @@ export default function CommunityPortfolioPage() {
 
                     <div className="space-y-2">
                         <div className="bg-white border border-green-200 rounded-lg p-3">
-                            <h5 className="font-bold text-sm text-black mb-1">Sol 1. [완충] 계단식 성장 보조 (Step-up Support)</h5>
+                            <h5 className="font-bold text-sm text-black mb-1">Sol 1. [완충] 계단식 성장 보조</h5>
                             <p className="text-xs text-black mb-1">
-                                <strong>내용:</strong> Lv.280 / 282 / 284 달성 시 [계정 귀속 성장 지원 상자] 지급.
+                                <strong>내용:</strong> Lv.280/282/284 달성 시 [계정 귀속 성장 지원 상자] 지급 (경험치 비약 + 사냥 버프 + 솔 에르다 조각)
                             </p>
                             <p className="text-xs text-black mb-1">
-                                <strong>구성:</strong> 제한적 경험치 비약 + 사냥 효율 버프 + 솔 에르다 조각(소량).
+                                <strong className="text-green-600">효과:</strong> "버티면 뚫린다"는 메시지로 BM 없이도 Lv.285까지 생존 유도
                             </p>
-                            <p className="text-xs text-black mb-1">
-                                <strong className="text-green-600">효과:</strong> "이 구간은 버티면 뚫린다"는 메시지를 주어 BM 없이도 Lv.285까지 생존 유도.
+                            <p className="text-xs text-blue-700 italic mt-1 bg-blue-50 p-2 rounded">
+                                <strong>※ 벤치마킹:</strong> 로아 '슈퍼 모코코 익스프레스' 1520~1600 구간 재련 지원처럼 구간별 안착감 제공. 중간 이탈↓
                             </p>
-                            <p className="text-xs text-gray-600 italic">
-                                *※ 본 보상은 BM을 대체하는 것이 아닌, BM 효율이 극대화되는 Lv.285까지의 <strong>UX 완충(Buffering)</strong>을 목적으로 함.
+                            <p className="text-xs text-gray-600 italic mt-1">
+                                *※ BM 효율 극대화 Lv.285까지의 <strong>UX 완충(Buffering)</strong> 목적
                             </p>
                         </div>
 
                         <div className="bg-white border border-green-200 rounded-lg p-3">
-                            <h5 className="font-bold text-sm text-black mb-1">Sol 2. [유도] BM 효율 가시화 UX (Efficiency Nudge)</h5>
+                            <h5 className="font-bold text-sm text-black mb-1">Sol 2. [유도] BM 효율 가시화 UX</h5>
                             <p className="text-xs text-black mb-1">
-                                <strong>내용:</strong> 모멘텀 패스 구매/사용 UI에 "적정 사용 효율 가이드" 도입.
+                                <strong>내용:</strong> 모멘텀 패스 UI에 "적정 사용 효율 가이드" 도입
                             </p>
-                            <div className="bg-gray-50 border border-gray-300 rounded p-2 mb-1 text-center">
-                                <p className="text-xs text-red-600 font-semibold">⚠️ "현재 레벨 사용 시 효율: 70%"</p>
-                                <p className="text-xs text-blue-600 font-semibold">vs Lv.285 사용 시: 100% (MAX)</p>
+                            <div className="bg-gray-50 border border-gray-300 rounded p-1 mb-1 text-center">
+                                <p className="text-xs font-semibold leading-tight">
+                                    <span className="text-red-600">⚠️ 현 효율: 70%</span> <span className="text-gray-400">|</span> <span className="text-blue-600">Lv.285 효율: 100% (MAX)</span>
+                                </p>
                             </div>
-                            <p className="text-xs text-black">
-                                <strong className="text-green-600">효과:</strong> 유저 스스로 <strong>Lv.285 이후 사용 시 효율 극대화가 가능함을 인지</strong>하도록 유도하여, 최적 시점 구매/사용을 자연스럽게 촉진.
+                            <p className="text-xs text-black mb-1 leading-tight">
+                                <strong className="text-green-600">효과:</strong> 유저 스스로 <strong>효율 극대화 시점 인지</strong> 유도 → 최적 소비 촉진
+                            </p>
+                            <p className="text-xs text-blue-700 italic mt-0.5 bg-blue-50 p-1.5 rounded leading-tight">
+                                <strong>※ 벤치마킹:</strong> 로아 슈모익 '스타일 설정'의 자율 선택 유도와 같이, 효율 수치화로 유저의 최적 시점 결정 지원.
                             </p>
                         </div>
 
-                        <div className="bg-white border border-green-200 rounded-lg p-3">
-                            <h5 className="font-bold text-sm text-black mb-1">Sol 3. [비전] Lv.295 로드맵 제시 (Next Goal)</h5>
-                            <p className="text-xs text-black mb-1">
-                                <strong>내용:</strong> Lv.285 달성 시, [Lv.295 도전 로드맵] 팝업 노출 (BM 사용 시 단축 기간 시각화).
+                        <div className="bg-white border border-green-200 rounded-lg p-2">
+                            <h5 className="font-bold text-sm text-black mb-1">Sol 3. [비전] Lv.295 로드맵 제시</h5>
+                            <p className="text-xs text-black mb-0.5 leading-tight">
+                                <strong>내용:</strong> Lv.285 달성 시 [도전 로드맵] 팝업 (BM 사용 시 단축 기간 시각화)
                             </p>
-                            <p className="text-xs text-black">
-                                <strong className="text-green-600">강조:</strong> Lv.295 도달 시 해금되는 <strong>신규 사냥터/콘텐츠의 진입 메리트(Merit)</strong>를 명시하여 도전 동기 부여.
+                            <p className="text-xs text-black leading-tight">
+                                <strong className="text-green-600">강조:</strong> Lv.295 해금 <strong>신규 콘텐츠 메리트</strong> 명시 → 도전 동기 부여
                             </p>
                         </div>
                     </div>
@@ -537,7 +623,7 @@ export default function CommunityPortfolioPage() {
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">4. UX 개선 제언 (2/2)</h2>
-                    <span className="text-gray-500 text-sm">04-2 / 06</span>
+                    <span className="text-gray-500 text-sm">04-2 / 07</span>
                 </div>
 
                 {/* The Growth Bridge Strategy 다이어그램 */}
@@ -635,7 +721,7 @@ export default function CommunityPortfolioPage() {
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">5. 결론</h2>
-                    <span className="text-gray-500 text-sm">05 / 06</span>
+                    <span className="text-gray-500 text-sm">05 / 07</span>
                 </div>
 
                 <h3 className="text-lg font-bold text-black mb-3 text-center">
