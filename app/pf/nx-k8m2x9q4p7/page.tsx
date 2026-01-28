@@ -280,7 +280,7 @@ export default function PortfolioPage() {
                     </div>
                     <div className="grid grid-cols-4 gap-2 text-xs">
                         <div className="bg-blue-50 p-2 rounded text-center border border-blue-100">
-                            <span className="font-bold text-blue-800">정보 통합</span><br />
+                            <span className="font-bold text-blue-800">데이터 연동</span><br />
                             <span className="text-black">10개 API 통합</span>
                         </div>
                         <div className="bg-blue-50 p-2 rounded text-center border border-blue-100">
@@ -289,7 +289,7 @@ export default function PortfolioPage() {
                         </div>
                         <div className="bg-blue-50 p-2 rounded text-center border border-blue-100">
                             <span className="font-bold text-blue-800">즉시성</span><br />
-                            <span className="text-black">3초 로딩</span>
+                            <span className="text-black">3초 이내 로딩</span>
                         </div>
                         <div className="bg-blue-50 p-2 rounded text-center border border-blue-100">
                             <span className="font-bold text-blue-800">반응형</span><br />
@@ -315,7 +315,7 @@ export default function PortfolioPage() {
                         <div className="w-full md:w-1/2 flex flex-col justify-center space-y-3">
                             <div className="bg-white p-3 rounded border border-gray-200">
                                 <h5 className="font-bold text-sm text-black mb-1">Division System</h5>
-                                <p className="text-xs text-black">Diamond~Iron 티어에 5단계 세부 등급 적용 (Div 5→1). 작은 성취감 반복 제공.</p>
+                                <p className="text-xs text-black">Diamond~Iron 티어에 5단계 세부 등급 적용 (Div 5→Div 1). 작은 성취감 반복 제공.</p>
                             </div>
                             <div className="bg-white p-3 rounded border border-gray-200">
                                 <h5 className="font-bold text-sm text-black mb-1">AI 환영 메시지</h5>
@@ -351,7 +351,7 @@ export default function PortfolioPage() {
                                 <img src="/portfolio-images/boss-diagnosis.png" className="w-full h-full object-cover" alt="보스 진단" />
                             </div>
                             <ul className="text-xs text-black space-y-1">
-                                <li>• 보공/방무/크뎀 등 <strong>핵심 스탯 점유율</strong> 정밀 분석</li>
+                                <li>• 보스 난이도 10단계별 <strong>맞춤형 템셋팅 가이드</strong> 제공</li>
                                 <li>• 필수 링크/유니온 누락 시 <span className="text-red-500 font-bold">Red Alert</span> 경고</li>
                             </ul>
                         </div>
@@ -363,7 +363,7 @@ export default function PortfolioPage() {
                                 <img src="/portfolio-images/hunting-diagnosis.png" className="w-full h-full object-cover" alt="사냥 진단" />
                             </div>
                             <ul className="text-xs text-black space-y-1">
-                                <li>• 원킬 컷 및 도핑(재획비) 효율 기반 <strong>기대 수익 산출</strong></li>
+                                <li>• 성장 단계별 <strong>최적의 드롭/메획 세팅</strong> 로드맵 제안</li>
                                 <li>• 드롭률/메획 달성도(Max 200/100%) <strong>그래프 시각화</strong></li>
                             </ul>
                         </div>
@@ -375,7 +375,7 @@ export default function PortfolioPage() {
                                 <img src="/portfolio-images/spec-priority.png" className="w-full h-full object-cover" alt="우선순위" />
                             </div>
                             <ul className="text-xs text-black space-y-1">
-                                <li>• 최소 비용 최대 효율(ROI) 기반 <strong>성장 경로 제안</strong></li>
+                                <li>• 현재 착용 장비 기준 <strong>최우선 스펙업 아이템</strong> 자동 추천</li>
                                 <li>• <span className="text-red-500 font-bold">Must Do</span> vs <span className="text-yellow-500 font-bold">Recommended</span> 자동 분류</li>
                             </ul>
                         </div>
@@ -387,8 +387,8 @@ export default function PortfolioPage() {
                                 <img src="/portfolio-images/comprehensive-diagnosis.png" className="w-full h-full object-cover" alt="정밀 진단" />
                             </div>
                             <ul className="text-xs text-black space-y-1">
-                                <li>• 6차 전직(헥사) 및 아티팩트 등 <strong>7대 요소 심층 분석</strong></li>
-                                <li>• "국민 세팅(17성/유니크)" 대비 <span className="text-indigo-600 font-bold">Relative Position</span> 평가</li>
+                                <li>• 스타포스/잠재능력(WSE)/세트효과 등 <strong>장비/스펙 통합 정량 분석</strong></li>
+                                <li>• 국민 세팅(17~18성) 기준 <span className="text-indigo-600 font-bold">스펙 안정성 평가</span> 및 유효 옵션 정밀 진단</li>
                             </ul>
                         </div>
                     </div>
@@ -437,7 +437,7 @@ export default function PortfolioPage() {
                     <div className="w-[70%] mx-auto bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mb-2">
                         <img src="/portfolio-images/economy-monitoring.png" className="w-full h-auto object-cover" alt="경제 모니터링 그래프" />
                         <div className="bg-gray-50 p-1 text-center border-t border-gray-100">
-                            <p className="text-xs text-gray-500">📸챌린저스 월드 vs 일반 월드 거대한 공포 장비 시세 추이</p>
+                            <p className="text-xs text-gray-500">📸챌린저스 월드 vs 일반 월드 ‘거대한 공포’ 장비 시세 추이</p>
                         </div>
                     </div>
 
@@ -515,7 +515,7 @@ export default function PortfolioPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div className="text-center p-6 bg-gray-50 rounded-xl border border-gray-200">
                         <p className="text-4xl font-bold text-blue-600 mb-2">3일</p>
-                        <p className="text-sm font-bold text-black">프로토타입 제작</p>
+                        <p className="text-sm font-bold text-black">만에 프로토타입 제작</p>
                         <p className="text-xs text-gray-500 mt-2">아이디어→실행 단축</p>
                     </div>
                     <div className="text-center p-6 bg-gray-50 rounded-xl border border-gray-200">
@@ -590,7 +590,7 @@ export default function PortfolioPage() {
                         <div className="mb-6">
                             <h4 className="font-bold text-sm text-purple-700 mb-3">✨ AI Orchestration</h4>
                             <div className="space-y-3 text-sm">
-                                <div className="flex justify-between"><span className="text-gray-700">AI 에이전트 협업</span><span className="font-bold text-purple-600">95%</span></div>
+                                <div className="flex justify-between"><span className="text-gray-700">AI 에이전트 협업 (30+ Projects)</span><span className="font-bold text-purple-600">95%</span></div>
                                 <div className="w-full h-1.5 bg-gray-200 rounded-full"><div className="h-full bg-purple-500 w-[95%] rounded-full"></div></div>
 
                                 <div className="flex justify-between"><span className="text-gray-700">Architecture Prompting</span><span className="font-bold text-purple-600">90%</span></div>
@@ -636,7 +636,7 @@ export default function PortfolioPage() {
                 <div className="border-t-2 border-gray-100 pt-8 mt-12">
                     <h3 className="font-bold text-xl mb-4 text-black">About Me</h3>
                     <p className="text-black text-sm leading-relaxed mb-6">
-                        저는 <strong className="text-blue-600">"개발 지식을 기반으로 논리적인 시스템을 설계하는 기획자"</strong>입니다.
+                        저는 <strong className="text-blue-600">"데이터 기반의 명확한 근거로 논리적인 시스템을 설계하는 기획자"</strong>입니다.
                         단순히 문서를 작성하는 것을 넘어, AI 기술을 활용해 직접 프로토타입을 구현하고 검증하며,
                         개발팀과 가장 효율적인 언어로 소통합니다. 데이터에 기반한 의사결정과 논리적인 구조 설계를 통해
                         유저에게 최상의 경험을 제공하는 것을 목표로 합니다.

@@ -187,7 +187,7 @@ export default function CommunityPortfolioPage() {
                         <div className="flex-1">
                             <h3 className="text-lg font-bold text-gray-900 mb-2">About Me</h3>
                             <p className="text-sm text-gray-700 leading-relaxed mb-4 text-justify">
-                                저는 <strong>"개발 지식을 기반으로 논리적인 시스템을 설계하는 기획자"</strong>입니다.
+                                저는 <strong>"데이터 기반의 명확한 근거로 논리적인 시스템을 설계하는 기획자"</strong>입니다.
                                 단순히 문서를 작성하는 것을 넘어, AI 기술을 활용해 직접 프로토타입을 구현하고 검증하며,
                                 개발팀과 가장 효율적인 언어로 소통합니다. 데이터에 기반한 의사결정과 논리적인 구조 설계를 통해
                                 유저에게 최상의 경험을 제공하는 것을 목표로 합니다.
@@ -228,7 +228,7 @@ export default function CommunityPortfolioPage() {
                     <h3 className="text-xl font-bold text-blue-900 mb-3 text-center">Who I am</h3>
                     <p className="text-base text-black text-center leading-relaxed">
                         <strong className="text-blue-700">9년 메이플 유저 분석</strong> + <strong className="text-blue-700">AI 기반 실 서비스 개발 경험</strong>을 가진<br />
-                        메이플스토리 라이브 기획자 <strong className="text-blue-900">이경준</strong>
+                        메이플스토리 라이브 서비스 기획자 <strong className="text-blue-900">이경준</strong>
                     </p>
                 </div>
 
@@ -301,7 +301,7 @@ export default function CommunityPortfolioPage() {
             {/* ==================== PAGE 1: 업데이트 역기획 ==================== */}
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
-                    <h2 className="text-3xl font-bold text-black">1. 업데이트 역기획</h2>
+                    <h2 className="text-3xl font-bold text-black">1. 업데이트 역분석</h2>
                     <span className="text-gray-500 text-sm">01 / 07</span>
                 </div>
 
