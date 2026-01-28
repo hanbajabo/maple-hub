@@ -16,6 +16,19 @@ export default function PortfolioPage() {
             display: none !important;
         }
 
+        /* 구글 광고 강제 숨김 */
+        .adsbygoogle, 
+        .google-auto-placed, 
+        iframe[id^="google_ads_iframe"],
+        div[id^="google_ads_iframe"] {
+            display: none !important;
+            height: 0 !important;
+            width: 0 !important;
+            overflow: hidden !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }
+
         body {
             background-color: #f3f4f6; /* 화면에서는 회색 배경 */
         }
