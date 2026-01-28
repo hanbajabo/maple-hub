@@ -143,7 +143,7 @@ export default function PortfolioIndexPage() {
                             </div>
 
                             <div className="mt-6 pt-6 border-t border-white/10">
-                                <span className="text-xs text-gray-400">A4 5 pages · PDF Ready</span>
+                                <span className="text-xs text-gray-400">A4 7 pages · PDF Ready</span>
                             </div>
                         </div>
                     </Link>
