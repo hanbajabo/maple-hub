@@ -86,7 +86,7 @@ export default function PortfolioIndexPage() {
                             <div className="space-y-2 text-sm">
                                 <div className="flex items-center gap-2 text-gray-400">
                                     <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                                    <span>7년 채널 운영 경험</span>
+                                    <span>9년 채널 운영 경험</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-400">
                                     <span className="w-2 h-2 bg-green-400 rounded-full"></span>
@@ -99,7 +99,7 @@ export default function PortfolioIndexPage() {
                             </div>
 
                             <div className="mt-6 pt-6 border-t border-white/10">
-                                <span className="text-xs text-gray-400">Coming Soon</span>
+                                <span className="text-xs text-gray-400">A4 5 pages · PDF Ready</span>
                             </div>
                         </div>
                     </Link>
