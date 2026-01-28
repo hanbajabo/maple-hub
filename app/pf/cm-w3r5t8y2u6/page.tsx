@@ -1,9 +1,40 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TrendingDown, AlertTriangle, Shield, Lightbulb, BarChart3, Printer } from 'lucide-react';
 
 export default function CommunityPortfolioPage() {
+    // 구글 광고 완전 차단 (Auto Ads 포함)
+    useEffect(() => {
+        const removeAds = () => {
+            // 모든 구글 광고 관련 요소 찾기 및 제거
+            const adSelectors = [
+                '.adsbygoogle',
+                '.google-auto-placed',
+                'iframe[id^="google_ads_iframe"]',
+                'div[id^="google_ads_iframe"]',
+                'ins.adsbygoogle',
+                '[data-ad-client]',
+                '[data-google-query-id]'
+            ];
+
+            adSelectors.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(el => {
+                    el.remove();
+                });
+            });
+        };
+
+        // 초기 실행
+        removeAds();
+
+        // 1초마다 체크 (Auto Ads가 동적으로 삽입되는 경우 대비)
+        const interval = setInterval(removeAds, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className="portfolio-viewer bg-gray-100 min-h-screen py-8 print:py-0 print:bg-white">
             {/* 인쇄 및 A4 미리보기 스타일 */}
