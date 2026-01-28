@@ -27,7 +27,7 @@ export default function CommunityPortfolioPage() {
             gap: 2rem;
         }
 
-        /* A4 용지 규격 박스 (화면용) */
+        /* A4 용지 규격 박스 (화면용 - PC) */
         .a4-page {
             width: 210mm;
             height: 297mm;
@@ -39,6 +39,37 @@ export default function CommunityPortfolioPage() {
             display: flex;
             flex-direction: column;
             position: relative;
+        }
+
+        /* 모바일 최적화 (화면 폭 768px 이하) */
+        @media screen and (max-width: 768px) {
+            .portfolio-viewer {
+                gap: 1rem;
+                padding: 1rem;
+                background-color: #f3f4f6;
+            }
+
+            .a4-page {
+                width: 100% !important;
+                height: auto !important;
+                min-height: auto !important;
+                padding: 20px !important;
+                margin-bottom: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                overflow: visible !important;
+            }
+
+            /* 모바일에서 폰트 및 요소 크기 조정 */
+            h1 { font-size: 1.75rem !important; }
+            h2 { font-size: 1.5rem !important; }
+            h3 { font-size: 1.25rem !important; }
+            
+            /* 인쇄 고정 버튼 모바일 위치 조정 */
+            .fixed-print-btn {
+                bottom: 20px !important;
+                right: 20px !important;
+                padding: 10px 20px !important;
+            }
         }
 
         /* 인쇄 시 적용 스타일 */
@@ -121,7 +152,7 @@ export default function CommunityPortfolioPage() {
                 </div>
 
                 <div className="w-full text-left border-t border-gray-200 pt-8 mt-auto">
-                    <div className="flex justify-between items-start gap-6">
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-6">
                         <div className="flex-1">
                             <h3 className="text-lg font-bold text-gray-900 mb-2">About Me</h3>
                             <p className="text-sm text-gray-700 leading-relaxed mb-4 text-justify">
@@ -134,7 +165,7 @@ export default function CommunityPortfolioPage() {
                             <p className="text-sm font-medium text-gray-500 mt-1">작성일: 2026.01</p>
                         </div>
 
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col items-center w-full md:w-auto">
                             <img
                                 src="/qr_maple_site.png"
                                 alt="Portfolio QR"
@@ -236,7 +267,7 @@ export default function CommunityPortfolioPage() {
 
                 <h3 className="text-xl font-bold text-black mb-6">가치 보존의 딜레마 (Economy Balance)</h3>
 
-                <div className="grid grid-cols-2 gap-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     {/* 좌측: 분석 */}
                     <div className="space-y-6">
                         <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
@@ -459,7 +490,7 @@ export default function CommunityPortfolioPage() {
                     데이터 기반의 지속 가능한 라이브 서비스 전략
                 </h3>
 
-                <div className="grid grid-cols-3 gap-3 mb-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                     <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-3 text-center">
                         <div className="text-2xl mb-1">⚖️</div>
                         <h4 className="font-bold text-base text-blue-900 mb-1">Balance</h4>
@@ -567,7 +598,7 @@ export default function CommunityPortfolioPage() {
             {/* 고정 인쇄 버튼 */}
             <button
                 onClick={() => window.print()}
-                className="fixed bottom-8 right-8 bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 transition-all transform hover:-translate-y-1 z-50 animate-bounce print:hidden border border-gray-700"
+                className="fixed-print-btn fixed bottom-8 right-8 bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 transition-all transform hover:-translate-y-1 z-50 animate-bounce print:hidden border border-gray-700"
             >
                 <Printer size={20} />
                 <span className="font-semibold">PDF로 저장 (A4)</span>

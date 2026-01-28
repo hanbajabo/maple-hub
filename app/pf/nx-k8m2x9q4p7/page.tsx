@@ -41,7 +41,7 @@ export default function PortfolioPage() {
             gap: 2rem;
         }
 
-        /* A4 용지 규격 박스 (화면용) */
+        /* A4 용지 규격 박스 (화면용 - PC) */
         .a4-page {
             width: 210mm;
             height: 297mm;
@@ -49,10 +49,39 @@ export default function PortfolioPage() {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             padding: 15mm;
             box-sizing: border-box;
-            overflow: hidden; /* 내용이 넘치면 안됨 */
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             position: relative;
+        }
+
+        /* 모바일 최적화 */
+        @media screen and (max-width: 768px) {
+            .portfolio-viewer {
+                gap: 1rem;
+                padding: 1rem;
+                background-color: #f3f4f6;
+            }
+
+            .a4-page {
+                width: 100% !important;
+                height: auto !important;
+                min-height: auto !important;
+                padding: 20px !important;
+                margin-bottom: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                overflow: visible !important;
+            }
+
+            h1 { font-size: 1.75rem !important; }
+            h2 { font-size: 1.5rem !important; }
+            
+            .fixed-print-btn {
+                bottom: 20px !important;
+                right: 20px !important;
+                padding: 10px 20px !important;
+                position: fixed !important;
+            }
         }
 
         /* 인쇄 시 적용 스타일 */
@@ -154,7 +183,7 @@ export default function PortfolioPage() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-8 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                     <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
                         <h4 className="font-bold text-lg mb-4 text-black">🎯 기획 배경 (Background)</h4>
                         <ul className="space-y-3 text-sm text-black">
@@ -245,14 +274,14 @@ export default function PortfolioPage() {
                         추상적인 전투력을 <strong>10개 대분류 티어</strong>와 <strong>5단계 세부 등급(Division)</strong>으로 구조화. 구간별 체감 성장을 강조하기 위한 세분화 실험.
                     </p>
 
-                    <div className="flex gap-6 mb-4">
-                        <div className="w-1/2">
+                    <div className="flex flex-col md:flex-row gap-6 mb-4">
+                        <div className="w-full md:w-1/2">
                             <div className="rounded-lg shadow-md border border-gray-200 overflow-hidden mb-2">
                                 <Image src="/portfolio-images/tier-system.png" alt="티어 시스템" width={400} height={300} className="w-full h-auto" />
                             </div>
                             <p className="text-xs text-center text-black">실시간 티어 진행도 & AI 환영 메시지</p>
                         </div>
-                        <div className="w-1/2 flex flex-col justify-center space-y-3">
+                        <div className="w-full md:w-1/2 flex flex-col justify-center space-y-3">
                             <div className="bg-white p-3 rounded border border-gray-200">
                                 <h5 className="font-bold text-sm text-black mb-1">Division System</h5>
                                 <p className="text-xs text-black">Diamond~Iron 티어에 5단계 세부 등급 적용 (Div 5→1). 작은 성취감 반복 제공.</p>
@@ -283,7 +312,7 @@ export default function PortfolioPage() {
                         유저의 목적(보스/사냥)과 스펙 상태를 다각도로 분석하여, <strong className="text-red-600">직관적인 시각 자료(Chart/Image)</strong>로 솔루션 제공.
                     </p>
 
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* 1. 보스 세팅 */}
                         <div className="border border-gray-200 rounded-xl p-4 bg-white shadow-sm">
                             <h5 className="font-bold text-sm text-orange-600 mb-2 flex items-center gap-2">⚔️ 보스 세팅 진단</h5>
@@ -374,7 +403,7 @@ export default function PortfolioPage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
                             <h5 className="font-bold text-blue-900 mb-1 text-base">📊 분석 로직 (Gap Analysis)</h5>
                             <ul className="text-sm text-black space-y-1 leading-relaxed">
@@ -432,7 +461,7 @@ export default function PortfolioPage() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div className="text-center p-6 bg-gray-50 rounded-xl border border-gray-200">
                         <p className="text-4xl font-bold text-blue-600 mb-2">3일</p>
                         <p className="text-sm font-bold text-black">프로토타입 제작</p>
@@ -503,7 +532,7 @@ export default function PortfolioPage() {
                     <span className="text-gray-500 text-sm">06 / 06</span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-12 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
                     <div>
                         <h3 className="font-bold text-xl mb-6 text-black border-b border-gray-200 pb-2">Skills</h3>
 
@@ -601,11 +630,11 @@ export default function PortfolioPage() {
             {/* 고정 인쇄 버튼 */}
             <button
                 onClick={() => window.print()}
-                className="fixed bottom-8 right-8 bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 transition-all transform hover:-translate-y-1 z-50 animate-bounce print:hidden border border-gray-700"
+                className="fixed-print-btn fixed bottom-8 right-8 bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 transition-all transform hover:-translate-y-1 z-50 animate-bounce print:hidden border border-gray-700"
             >
                 <Printer size={20} />
                 <span className="font-semibold">PDF로 저장 (A4)</span>
             </button>
-        </div>
+        </div >
     );
 }
