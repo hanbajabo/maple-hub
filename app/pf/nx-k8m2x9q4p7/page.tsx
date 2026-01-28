@@ -542,16 +542,45 @@ export default function PortfolioPage() {
 
                 <div className="border-t-2 border-gray-100 pt-8 mt-12">
                     <h3 className="font-bold text-xl mb-4 text-black">About Me</h3>
-                    <p className="text-black text-sm leading-relaxed mb-4">
+                    <p className="text-black text-sm leading-relaxed mb-6">
                         저는 <strong className="text-blue-600">"개발 지식을 기반으로 논리적인 시스템을 설계하는 기획자"</strong>입니다.
                         단순히 문서를 작성하는 것을 넘어, AI 기술을 활용해 직접 프로토타입을 구현하고 검증하며,
                         개발팀과 가장 효율적인 언어로 소통합니다. 데이터에 기반한 의사결정과 논리적인 구조 설계를 통해
                         유저에게 최상의 경험을 제공하는 것을 목표로 합니다.
                     </p>
-                    <div className="flex gap-4 mt-8">
-                        <a href="mailto:p6092@naver.com" className="flex items-center gap-2 text-gray-600 hover:text-blue-600 text-sm font-semibold">
+
+                    <div className="flex justify-between items-end">
+                        <a href="mailto:p6092@naver.com" className="flex items-center gap-2 text-gray-600 hover:text-blue-600 text-sm font-semibold mb-4">
                             <Mail size={16} /> p6092@naver.com
                         </a>
+
+                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-400 rounded-lg p-3 inline-block">
+                            <p className="text-xs text-black font-semibold mb-2 text-center">🌐 포트폴리오 실제 시스템</p>
+
+                            <div className="flex items-center gap-3">
+                                {/* QR 코드 */}
+                                <div className="text-center">
+                                    <img
+                                        src="/qr_maple_site.png"
+                                        alt="QR Code"
+                                        className="w-16 h-16 border-2 border-gray-300 rounded bg-white"
+                                    />
+                                    <p className="text-xs text-gray-600 mt-1">QR 스캔</p>
+                                </div>
+
+                                {/* URL */}
+                                <div className="text-left">
+                                    <a
+                                        href="https://maple.ai.kr"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-sm font-bold text-blue-600 hover:text-blue-800 underline break-all"
+                                    >
+                                        https://maple.ai.kr
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
