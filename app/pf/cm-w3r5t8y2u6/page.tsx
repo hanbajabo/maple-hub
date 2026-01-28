@@ -107,13 +107,34 @@ export default function CommunityPortfolioPage() {
                     </div>
                 </div>
 
-                <div className="w-full text-right border-t border-gray-200 pt-4 mt-2 pb-4">
-                    <p className="text-2xl font-bold text-gray-900 mb-2">기획자 이경준</p>
-                    <p className="text-md font-medium text-gray-500 mb-6">작성일: 2026.01</p>
+                <div className="w-full text-left border-t border-gray-200 pt-8 mt-auto">
+                    <div className="flex justify-between items-start gap-6">
+                        <div className="flex-1">
+                            <h3 className="text-lg font-bold text-gray-900 mb-2">About Me</h3>
+                            <p className="text-sm text-gray-700 leading-relaxed mb-4 text-justify">
+                                저는 <strong>"개발 지식을 기반으로 논리적인 시스템을 설계하는 기획자"</strong>입니다.
+                                단순히 문서를 작성하는 것을 넘어, AI 기술을 활용해 직접 프로토타입을 구현하고 검증하며,
+                                개발팀과 가장 효율적인 언어로 소통합니다. 데이터에 기반한 의사결정과 논리적인 구조 설계를 통해
+                                유저에게 최상의 경험을 제공하는 것을 목표로 합니다.
+                            </p>
+                            <p className="text-sm font-bold text-gray-900">p6092@naver.com</p>
+                            <p className="text-sm font-medium text-gray-500 mt-1">작성일: 2026.01</p>
+                        </div>
 
-                    <div className="bg-gray-50 border border-gray-300 rounded-lg p-4 mt-6">
-                        <p className="text-xs text-gray-600 leading-relaxed text-left">
-                            <strong className="text-gray-800">※ 디스클레이머:</strong> 본 문서는 외부 데이터(NEXON Open API)와 공개된 패치 정보를 기반으로 개인 기획자가 분석·재구성한 기획 제언 자료입니다. 회사 내부 정보는 포함되지 않았습니다.
+                        <div className="flex flex-col items-center">
+                            <img
+                                src="/qr_maple_site.png"
+                                alt="Portfolio QR"
+                                className="w-24 h-24 border border-gray-200 rounded p-1 bg-white mb-2"
+                            />
+                            <p className="text-xs font-semibold text-blue-600">Actual System</p>
+                            <a href="https://maple.ai.kr" target="_blank" className="text-xs text-gray-500 underline">maple.ai.kr</a>
+                        </div>
+                    </div>
+
+                    <div className="bg-gray-50 border border-gray-300 rounded-lg p-3 mt-6">
+                        <p className="text-xs text-gray-500 leading-tight">
+                            <strong className="text-gray-700">※ 디스클레이머:</strong> 본 문서는 외부 데이터(NEXON Open API)와 공개된 패치 정보를 기반으로 개인 기획자가 분석·재구성한 기획 제언 자료입니다. 회사 내부 정보는 포함되지 않았습니다.
                         </p>
                     </div>
                 </div>
