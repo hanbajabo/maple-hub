@@ -433,78 +433,199 @@ export default function CommunityPortfolioPage() {
             </div>
 
 
-            {/* ==================== PAGE 5: UX 개선 제언 ==================== */}
+            {/* ==================== PAGE 5a: UX 개선 제언 (Part 1) ==================== */}
+            <div className="a4-page">
+                <div className="border-b-2 border-gray-900 pb-3 mb-3 flex justify-between items-end">
+                    <h2 className="text-3xl font-bold text-black">4. UX 개선 제언 (1/2)</h2>
+                    <span className="text-gray-500 text-sm">04-1 / 06</span>
+                </div>
+
+                <h3 className="text-lg font-bold text-black mb-1">성장 병목 해소와 BM 효율 유도 구조 재설계</h3>
+                <p className="text-xs text-gray-600 italic mb-3">
+                    Growth Experience & BM Optimization: '병목 회피 수단'으로 소비되는 BM을 '엔드게임 가속 수단'으로 재정렬
+                </p>
+
+                {/* 문제 정의 */}
+                <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg mb-4">
+                    <h4 className="font-bold text-black mb-2 flex items-center gap-2">
+                        <AlertTriangle className="text-red-600" size={18} />
+                        1. 문제 정의 (Diagnosis : UX Distortion)
+                    </h4>
+                    <div className="space-y-1 text-sm text-black">
+                        <p><strong>Target:</strong> Lv.270 ~ Lv.285 (그란디스 중·후반 성장 구간)</p>
+
+                        <div className="bg-blue-50 border border-blue-300 rounded p-2 mt-2 mb-2">
+                            <p className="text-xs text-blue-900 italic">
+                                <strong>※ 분석 근거:</strong> 실제 Lv.280~285 구간 유저 분포 및 공개 커뮤니티 반응 데이터를 기준으로, 해당 구간을 <strong>'성장 병목 + BM 사용 왜곡이 동시에 발생하는 UX 왜곡 지점'</strong>으로 정의함.
+                            </p>
+                        </div>
+
+                        <div className="bg-white border border-red-200 rounded p-2 mt-1">
+                            <p className="text-xs font-semibold text-red-800 mb-1">Context (The Bottleneck Shift):</p>
+                            <p className="text-xs text-black mb-1">
+                                • '버닝 익스프레스' 도입으로 Lv.270~280 구간 돌파가 가속화되었으나, 이에 따라 <strong>성장 병목 구간이 Lv.280~285로 압축/이동</strong>함.
+                            </p>
+                            <p className="text-xs text-black mb-1">
+                                • <strong className="text-orange-600">User Behavior:</strong> 유저들이 <strong>'모멘텀 패스'</strong>를 본래 의도(Lv.285+ 엔드게임 가속)가 아닌, Lv.280 구간의 고통을 회피하기 위한 <strong>'병목 회피 수단'</strong>으로 조기 소모하는 비효율 발생.
+                            </p>
+                            <p className="text-xs text-black mb-1">
+                                • <strong className="text-purple-600">Data Inference:</strong> Lv.280~285 구간 <strong>일 평균 플레이타임 감소 추정</strong> 및 <strong>모멘텀 패스 조기 사용 비율 증가 가설</strong> 확인 필요.
+                            </p>
+                            <p className="text-xs text-black">
+                                • <strong className="text-red-600">Risk:</strong> BM 구매 만족도 저하(효율 차이 감수) + 비BM 유저의 박탈감 및 이탈 심화.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 개선 제언 */}
+                <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+                    <h4 className="font-bold text-black mb-2 flex items-center gap-2">
+                        <Lightbulb className="text-green-600" size={18} />
+                        2. 개선 제언 (Solution : Bridge & Nudge)
+                    </h4>
+                    <p className="text-sm font-semibold text-green-800 mb-3 text-center italic">
+                        "비BM 유저에게는 '도달 가능성'을, BM 유저에게는 '최적 효율'을 설계한다."
+                    </p>
+
+                    <div className="space-y-2">
+                        <div className="bg-white border border-green-200 rounded-lg p-3">
+                            <h5 className="font-bold text-sm text-black mb-1">Sol 1. [완충] 계단식 성장 보조 (Step-up Support)</h5>
+                            <p className="text-xs text-black mb-1">
+                                <strong>내용:</strong> Lv.280 / 282 / 284 달성 시 [계정 귀속 성장 지원 상자] 지급.
+                            </p>
+                            <p className="text-xs text-black mb-1">
+                                <strong>구성:</strong> 제한적 경험치 비약 + 사냥 효율 버프 + 솔 에르다 조각(소량).
+                            </p>
+                            <p className="text-xs text-black mb-1">
+                                <strong className="text-green-600">효과:</strong> "이 구간은 버티면 뚫린다"는 메시지를 주어 BM 없이도 Lv.285까지 생존 유도.
+                            </p>
+                            <p className="text-xs text-gray-600 italic">
+                                *※ 본 보상은 BM을 대체하는 것이 아닌, BM 효율이 극대화되는 Lv.285까지의 <strong>UX 완충(Buffering)</strong>을 목적으로 함.
+                            </p>
+                        </div>
+
+                        <div className="bg-white border border-green-200 rounded-lg p-3">
+                            <h5 className="font-bold text-sm text-black mb-1">Sol 2. [유도] BM 효율 가시화 UX (Efficiency Nudge)</h5>
+                            <p className="text-xs text-black mb-1">
+                                <strong>내용:</strong> 모멘텀 패스 구매/사용 UI에 "적정 사용 효율 가이드" 도입.
+                            </p>
+                            <div className="bg-gray-50 border border-gray-300 rounded p-2 mb-1 text-center">
+                                <p className="text-xs text-red-600 font-semibold">⚠️ "현재 레벨 사용 시 효율: 70%"</p>
+                                <p className="text-xs text-blue-600 font-semibold">vs Lv.285 사용 시: 100% (MAX)</p>
+                            </div>
+                            <p className="text-xs text-black">
+                                <strong className="text-green-600">효과:</strong> 유저 스스로 <strong>Lv.285 이후 사용 시 효율 극대화가 가능함을 인지</strong>하도록 유도하여, 최적 시점 구매/사용을 자연스럽게 촉진.
+                            </p>
+                        </div>
+
+                        <div className="bg-white border border-green-200 rounded-lg p-3">
+                            <h5 className="font-bold text-sm text-black mb-1">Sol 3. [비전] Lv.295 로드맵 제시 (Next Goal)</h5>
+                            <p className="text-xs text-black mb-1">
+                                <strong>내용:</strong> Lv.285 달성 시, [Lv.295 도전 로드맵] 팝업 노출 (BM 사용 시 단축 기간 시각화).
+                            </p>
+                            <p className="text-xs text-black">
+                                <strong className="text-green-600">강조:</strong> Lv.295 도달 시 해금되는 <strong>신규 사냥터/콘텐츠의 진입 메리트(Merit)</strong>를 명시하여 도전 동기 부여.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* ==================== PAGE 5b: UX 개선 제언 (Part 2) ==================== */}
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
-                    <h2 className="text-3xl font-bold text-black">4. UX 개선 제언</h2>
-                    <span className="text-gray-500 text-sm">04 / 05</span>
+                    <h2 className="text-3xl font-bold text-black">4. UX 개선 제언 (2/2)</h2>
+                    <span className="text-gray-500 text-sm">04-2 / 06</span>
                 </div>
 
-                <h3 className="text-xl font-bold text-black mb-6">성장 병목(Bottleneck) 해소</h3>
+                {/* The Growth Bridge Strategy 다이어그램 */}
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-400 rounded-xl p-6 mb-6">
+                    <h5 className="text-lg font-bold text-center text-blue-900 mb-5">📈 The Growth Bridge Strategy</h5>
 
-                <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded-r-lg mb-6">
-                    <h4 className="font-bold text-black mb-3 flex items-center gap-2">
-                        <AlertTriangle className="text-red-600" size={20} />
-                        문제 정의 (Problem)
-                    </h4>
-                    <div className="space-y-2 text-sm text-black">
-                        <p><strong>Target:</strong> 270~285 레벨 구간 (그란디스 중후반부)</p>
-                        <p><strong className="text-red-600">Diagnosis:</strong> 하이퍼버닝+버닝비욘드 효과 종료 후, 요구 경험치 급증 및 성장 체감 부재로 인한 <strong>'성장 정체 위험 구간'</strong> 형성</p>
-                    </div>
-                </div>
-
-                <div className="bg-green-50 border-l-4 border-green-500 p-5 rounded-r-lg mb-6">
-                    <h4 className="font-bold text-black mb-4 flex items-center gap-2">
-                        <Lightbulb className="text-green-600" size={20} />
-                        개선 제언 (Solution)
-                    </h4>
-
-                    <div className="space-y-4">
-                        <div className="bg-white border border-green-200 rounded-lg p-4">
-                            <h5 className="font-bold text-black mb-2">1. 보상 분산 구조 (Interval Rewards)</h5>
-                            <p className="text-sm text-black mb-2">
-                                5레벨 단위 '구간 돌파 보상' 배치
-                            </p>
-                            <div className="bg-gray-50 border border-gray-200 rounded p-2">
-                                <p className="text-xs text-black">
-                                    <strong>핵심 보상:</strong> 경험치 비약, 솔 에르다 조각, 지역별 심볼 등
-                                </p>
-                            </div>
+                    <div className="relative h-40 mb-4">
+                        {/* 배경 곡선 - 성장 곡선 */}
+                        <div className="absolute inset-0 flex items-end">
+                            {/* Lv.270-280: 평탄한 구간 */}
+                            <div className="flex-1 bg-gray-300 h-12 rounded-l-lg border-r-2 border-gray-400"></div>
+                            {/* Lv.280-285: 병목 구간 (낮음) */}
+                            <div className="flex-1 bg-red-200 h-10 border-r-2 border-red-400"></div>
+                            {/* Lv.285: 분기점 */}
+                            <div className="w-2 bg-green-600 h-full"></div>
+                            {/* Lv.285+: 가속 구간 */}
+                            <div className="flex-1 bg-gradient-to-t from-green-300 to-blue-400" style={{ height: '100%', clipPath: 'polygon(0 100%, 0 50%, 100% 0, 100% 100%)' }}></div>
                         </div>
 
-                        <div className="bg-white border border-green-200 rounded-lg p-4">
-                            <h5 className="font-bold text-black mb-2">2. 선택형 보상 설계 (Selective Option)</h5>
-                            <p className="text-sm text-black mb-3">
-                                유저 상황(본캐/부캐)에 따라 선택 가능한 보상 구조 도입
-                            </p>
-                            <div className="flex gap-3 justify-center">
-                                <div className="bg-blue-100 border-2 border-blue-400 rounded-lg p-3 flex-1 text-center">
-                                    <p className="text-sm font-bold text-blue-800">성장 재화 패키지</p>
-                                    <p className="text-xs text-black mt-1">경험치/심볼/솔조각</p>
+                        {/* 레이블 - 개선된 가시성 */}
+                        <div className="absolute inset-0 flex items-center justify-around text-sm font-bold">
+                            <div className="text-center z-20">
+                                <div className="bg-white border-2 border-gray-500 rounded px-3 py-2 shadow-lg">
+                                    <span className="text-gray-800">Lv.270</span>
                                 </div>
-                                <div className="flex items-center text-lg font-bold text-gray-600">vs</div>
-                                <div className="bg-purple-100 border-2 border-purple-400 rounded-lg p-3 flex-1 text-center">
-                                    <p className="text-sm font-bold text-purple-800">치장 아이템 팩</p>
-                                    <p className="text-xs text-black mt-1">코디/칭호/이펙트</p>
+                            </div>
+                            <div className="text-center z-20">
+                                <div className="bg-red-50 border-2 border-red-600 rounded px-3 py-2 shadow-lg">
+                                    <span className="text-red-800">Lv.280-284</span>
                                 </div>
+                                <div className="text-xs text-red-700 font-bold mt-1 bg-white/90 px-2 rounded">⚠️ 병목</div>
+                            </div>
+                            <div className="text-center z-20">
+                                <div className="bg-green-50 border-2 border-green-700 rounded px-3 py-2 shadow-lg">
+                                    <span className="text-green-900">Lv.285 🚩</span>
+                                </div>
+                                <div className="text-xs text-green-800 font-bold mt-1 bg-white/90 px-2 rounded">분기점</div>
+                            </div>
+                            <div className="text-center z-20">
+                                <div className="bg-blue-50 border-2 border-blue-600 rounded px-3 py-2 shadow-lg">
+                                    <span className="text-blue-900">Lv.295+ 🚀</span>
+                                </div>
+                                <div className="text-xs text-blue-800 font-bold mt-1 bg-white/90 px-2 rounded">가속</div>
                             </div>
                         </div>
                     </div>
+
+                    {/* 설명 */}
+                    <div className="grid grid-cols-3 gap-3 text-sm">
+                        <div className="bg-white border-2 border-orange-400 rounded p-3 shadow-sm">
+                            <p className="font-bold text-orange-700 mb-2">Step 1. 완충 (Bridge)</p>
+                            <p className="text-black text-xs">Lv.280/282/284 계단식 보상으로 비BM 유저 생존 지원</p>
+                        </div>
+                        <div className="bg-white border-2 border-blue-400 rounded p-3 shadow-sm">
+                            <p className="font-bold text-blue-700 mb-2">Step 2. 유도 (Nudge)</p>
+                            <p className="text-black text-xs">효율 가시화로 Lv.285 이후 BM 사용 유도</p>
+                        </div>
+                        <div className="bg-white border-2 border-green-400 rounded p-3 shadow-sm">
+                            <p className="font-bold text-green-700 mb-2">Step 3. 가속 (Boost)</p>
+                            <p className="text-black text-xs">Lv.295 로드맵으로 최종 목표 제시</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h4 className="font-bold text-black mb-2">📈 기대 효과 (Expected Effect)</h4>
-                    <ul className="text-sm text-black space-y-1 list-disc list-inside mb-3">
-                        <li>해당 구간 <strong className="text-blue-600">잔존율(Retention) 유의미한 개선</strong></li>
-                        <li>6차 전직 이후 270~285 레벨 구간 안착률 상승</li>
-                        <li>유니온(부캐) 육성 동기 강화</li>
-                    </ul>
-                    <div className="border-t border-blue-300 pt-3 mt-3">
-                        <p className="text-xs font-semibold text-blue-800 mb-1">예상 KPI:</p>
-                        <ul className="text-xs text-black space-y-1">
-                            <li>• 270~285 구간 평균 체류 시간 개선</li>
-                            <li>• 일일 접속 유지율(D1/D7 Retention) 회복</li>
-                        </ul>
+                {/* 기대 효과 */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-5">
+                    <h4 className="font-bold text-lg text-black mb-4">3. 기대 효과 (Expected Effect & KPI)</h4>
+                    <div className="grid grid-cols-2 gap-4 text-sm mb-4">
+                        <div>
+                            <p className="font-semibold text-blue-800 mb-2">User Experience:</p>
+                            <p className="text-black mb-2">• <strong>비BM 유저:</strong> Lv.280~285 구간 성장 단절감 해소 및 이탈률 감소.</p>
+                            <p className="text-black">• <strong>BM 유저:</strong> 패스 효율 극대화 경험을 통한 상품 만족도 및 재구매 의향 상승.</p>
+                        </div>
+                        <div>
+                            <p className="font-semibold text-purple-800 mb-2">Business Impact:</p>
+                            <p className="text-black mb-2">• <strong>'모멘텀 패스'</strong>의 사용 시점이 Lv.285 이후로 이동하며, Lv.295+ 구간의 유저 풀(Pool) 확대 가속화.</p>
+                        </div>
+                    </div>
+                    <div className="border-t border-blue-300 pt-4">
+                        <p className="text-sm font-semibold text-blue-800 mb-3">Key Performance Indicator (KPI):</p>
+                        <div className="flex gap-4 justify-center">
+                            <div className="bg-white border border-blue-300 rounded px-4 py-2">
+                                <p className="text-sm text-black">모멘텀 패스 평균 사용 레벨 상승 <span className="text-blue-600 font-bold text-lg">↑</span></p>
+                            </div>
+                            <div className="bg-white border border-blue-300 rounded px-4 py-2">
+                                <p className="text-sm text-black">Lv.280~285 구간 이탈률 <span className="text-green-600 font-bold text-lg">↓</span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -514,7 +635,7 @@ export default function CommunityPortfolioPage() {
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">5. 결론</h2>
-                    <span className="text-gray-500 text-sm">05 / 05</span>
+                    <span className="text-gray-500 text-sm">05 / 06</span>
                 </div>
 
                 <h3 className="text-lg font-bold text-black mb-3 text-center">

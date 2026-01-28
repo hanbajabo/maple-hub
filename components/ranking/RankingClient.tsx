@@ -7,8 +7,9 @@ import { AdBanner, InArticleAd } from '../AdSense';
 // Server Action imports removed in favor of API Route for caching
 import Level300Section from './Level300Section';
 import Level295Section from './Level295Section';
+import Level285Section from './Level285Section';
 
-type RankingType = 'overall' | 'union' | 'guild' | 'dojang' | 'theseed' | 'achievement' | 'level300' | 'level295';
+type RankingType = 'overall' | 'union' | 'guild' | 'dojang' | 'theseed' | 'achievement' | 'level300' | 'level295' | 'level285';
 
 interface RankingData {
     ranking: number;
@@ -65,6 +66,7 @@ const TAB_CONFIGS = [
     { id: 'overall', label: '🎯 종합', icon: '⚔️' },
     { id: 'level300', label: '👑 만렙 현황', icon: '🎖️' },
     { id: 'level295', label: '🔥 295+ 현황', icon: '📈' },
+    { id: 'level285', label: '⚡ 285+ 현황', icon: '💎' },
     { id: 'union', label: '🏅 유니온', icon: '👥' },
     { id: 'guild', label: '🏰 길드', icon: '🛡️' },
     { id: 'dojang', label: '🥋 무릉도장', icon: '🗻' },
@@ -144,7 +146,7 @@ export default function RankingClient() {
     };
 
     const fetchRanking = async () => {
-        if (activeTab === 'level300' || activeTab === 'level295') return;
+        if (activeTab === 'level300' || activeTab === 'level295' || activeTab === 'level285') return;
 
         const cacheKey = getCacheKey();
 
@@ -543,7 +545,7 @@ export default function RankingClient() {
             </div>
 
             {/* 필터 섹션 */}
-            {activeTab !== 'achievement' && activeTab !== 'level300' && activeTab !== 'level295' && (
+            {activeTab !== 'achievement' && activeTab !== 'level300' && activeTab !== 'level295' && activeTab !== 'level285' && (
                 <div className="bg-purple-800/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-purple-500/20">
                     <div className="flex flex-col sm:flex-row flex-wrap gap-4 items-stretch sm:items-center">
                         <label className="text-purple-200 font-semibold hidden sm:inline">🌍 월드 선택:</label>
@@ -614,7 +616,7 @@ export default function RankingClient() {
             )}
 
             {/* 검색 결과 표시 */}
-            {searchResult && activeTab !== 'level300' && activeTab !== 'level295' && (
+            {searchResult && activeTab !== 'level300' && activeTab !== 'level295' && activeTab !== 'level285' && (
                 <div className="bg-purple-900/50 backdrop-blur-md rounded-xl p-4 sm:p-6 border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.3)] relative animate-fade-in-up">
                     <button
                         onClick={() => {
@@ -661,8 +663,13 @@ export default function RankingClient() {
                 <Level295Section />
             </div>
 
+            {/* 285+ 현황 탭 (항상 렌더링하되 CSS로 숨김 처리하여 재로딩 방지) */}
+            <div className={activeTab === 'level285' ? 'block' : 'hidden'}>
+                <Level285Section />
+            </div>
+
             {/* 나머지 탭 컨텐츠 */}
-            {activeTab !== 'level300' && activeTab !== 'level295' && (
+            {activeTab !== 'level300' && activeTab !== 'level295' && activeTab !== 'level285' && (
                 <>
                     {/* 랭킹 테이블 */}
                     <div className="bg-purple-900/20 backdrop-blur-sm rounded-xl overflow-hidden border border-purple-500/20 shadow-2xl">
