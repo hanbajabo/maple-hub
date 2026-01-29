@@ -110,8 +110,12 @@ export default function PortfolioPage() {
             h4 { font-size: 1rem !important; }
             .aspect-video { aspect-ratio: 16 / 10 !important; height: auto !important; }
             .grid { grid-template-columns: 1fr !important; }
-            .text-xs { font-size: 0.8rem !important; line-height: 1.4 !important; }
-            .text-sm { font-size: 0.875rem !important; line-height: 1.5 !important; }
+            .text-xs { font-size: 0.75rem !important; line-height: 1.3 !important; }
+            .text-sm { font-size: 0.85rem !important; line-height: 1.4 !important; }
+            .whitespace-nowrap { white-space: normal !important; }
+            .flex-shrink-0 { flex-shrink: 1 !important; }
+            .p-8 { padding: 1.5rem !important; }
+            .gap-4 { gap: 0.5rem !important; }
             
             .fixed-print-btn {
                 bottom: 20px !important;
