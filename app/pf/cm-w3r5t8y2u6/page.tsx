@@ -93,13 +93,24 @@ export default function CommunityPortfolioPage() {
             /* 모바일에서 폰트 및 요소 크기 조정 */
             h1 { font-size: 1.75rem !important; }
             h2 { font-size: 1.5rem !important; }
-            h3 { font-size: 1.25rem !important; }
+            h3 { font-size: 1.125rem !important; }
+            h4 { font-size: 1rem !important; }
+            .aspect-video { aspect-ratio: 16 / 10 !important; height: auto !important; }
+            .grid { grid-template-columns: 1fr !important; }
+            .text-xs { font-size: 0.8rem !important; line-height: 1.4 !important; }
+            .text-sm { font-size: 0.875rem !important; line-height: 1.5 !important; }
+            p, li { line-height: 1.6 !important; }
             
+            /* 커버 페이지 아이콘 박스 조정 */
+            .cover-icon-box { padding: 2rem !important; }
+            .cover-icon { font-size: 3rem !important; }
+
             /* 인쇄 고정 버튼 모바일 위치 조정 */
             .fixed-print-btn {
                 bottom: 20px !important;
                 right: 20px !important;
                 padding: 10px 20px !important;
+                position: fixed !important;
             }
         }
 
@@ -175,8 +186,8 @@ export default function CommunityPortfolioPage() {
                         — Live Service Risk & UX Perspective
                     </p>
 
-                    <div className="w-full max-w-lg mx-auto rounded-2xl shadow-xl overflow-hidden border border-gray-200 mb-8 bg-gradient-to-br from-blue-50 to-indigo-50 p-12">
-                        <div className="text-6xl mb-4">🍁</div>
+                    <div className="w-full max-w-lg mx-auto rounded-2xl shadow-xl overflow-hidden border border-gray-200 mb-8 bg-gradient-to-br from-blue-50 to-indigo-50 p-12 cover-icon-box">
+                        <div className="text-6xl mb-4 cover-icon">🍁</div>
                         <p className="text-2xl font-bold text-gray-800">MapleStory</p>
                         <p className="text-sm text-gray-600 mt-2">Live Service Analysis</p>
                     </div>
@@ -630,49 +641,51 @@ export default function CommunityPortfolioPage() {
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-400 rounded-xl p-6 mb-6">
                     <h5 className="text-lg font-bold text-center text-blue-900 mb-5">📈 The Growth Bridge Strategy</h5>
 
-                    <div className="relative h-40 mb-4">
+                    <div className="relative h-40 mb-4 overflow-x-auto pb-2">
                         {/* 배경 곡선 - 성장 곡선 */}
-                        <div className="absolute inset-0 flex items-end">
-                            {/* Lv.270-280: 평탄한 구간 */}
-                            <div className="flex-1 bg-gray-300 h-12 rounded-l-lg border-r-2 border-gray-400"></div>
-                            {/* Lv.280-285: 병목 구간 (낮음) */}
-                            <div className="flex-1 bg-red-200 h-10 border-r-2 border-red-400"></div>
-                            {/* Lv.285: 분기점 */}
-                            <div className="w-2 bg-green-600 h-full"></div>
-                            {/* Lv.285+: 가속 구간 */}
-                            <div className="flex-1 bg-gradient-to-t from-green-300 to-blue-400" style={{ height: '100%', clipPath: 'polygon(0 100%, 0 50%, 100% 0, 100% 100%)' }}></div>
-                        </div>
+                        <div className="min-w-[500px] h-full relative">
+                            <div className="absolute inset-0 flex items-end">
+                                {/* Lv.270-280: 평탄한 구간 */}
+                                <div className="flex-1 bg-gray-300 h-12 rounded-l-lg border-r-2 border-gray-400"></div>
+                                {/* Lv.280-285: 병목 구간 (낮음) */}
+                                <div className="flex-1 bg-red-200 h-10 border-r-2 border-red-400"></div>
+                                {/* Lv.285: 분기점 */}
+                                <div className="w-2 bg-green-600 h-full"></div>
+                                {/* Lv.285+: 가속 구간 */}
+                                <div className="flex-1 bg-gradient-to-t from-green-300 to-blue-400" style={{ height: '100%', clipPath: 'polygon(0 100%, 0 50%, 100% 0, 100% 100%)' }}></div>
+                            </div>
 
-                        {/* 레이블 - 개선된 가시성 */}
-                        <div className="absolute inset-0 flex items-center justify-around text-sm font-bold">
-                            <div className="text-center z-20">
-                                <div className="bg-white border-2 border-gray-500 rounded px-3 py-2 shadow-lg">
-                                    <span className="text-gray-800">Lv.270</span>
+                            {/* 레이블 - 개선된 가시성 */}
+                            <div className="absolute inset-0 flex items-center justify-around text-sm font-bold">
+                                <div className="text-center z-20">
+                                    <div className="bg-white border-2 border-gray-500 rounded px-3 py-2 shadow-lg">
+                                        <span className="text-gray-800">Lv.270</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="text-center z-20">
-                                <div className="bg-red-50 border-2 border-red-600 rounded px-3 py-2 shadow-lg">
-                                    <span className="text-red-800">Lv.280-284</span>
+                                <div className="text-center z-20">
+                                    <div className="bg-red-50 border-2 border-red-600 rounded px-3 py-2 shadow-lg">
+                                        <span className="text-red-800">Lv.280-284</span>
+                                    </div>
+                                    <div className="text-xs text-red-700 font-bold mt-1 bg-white/90 px-2 rounded">⚠️ 병목</div>
                                 </div>
-                                <div className="text-xs text-red-700 font-bold mt-1 bg-white/90 px-2 rounded">⚠️ 병목</div>
-                            </div>
-                            <div className="text-center z-20">
-                                <div className="bg-green-50 border-2 border-green-700 rounded px-3 py-2 shadow-lg">
-                                    <span className="text-green-900">Lv.285 🚩</span>
+                                <div className="text-center z-20">
+                                    <div className="bg-green-50 border-2 border-green-700 rounded px-3 py-2 shadow-lg">
+                                        <span className="text-green-900">Lv.285 🚩</span>
+                                    </div>
+                                    <div className="text-xs text-green-800 font-bold mt-1 bg-white/90 px-2 rounded">분기점</div>
                                 </div>
-                                <div className="text-xs text-green-800 font-bold mt-1 bg-white/90 px-2 rounded">분기점</div>
-                            </div>
-                            <div className="text-center z-20">
-                                <div className="bg-blue-50 border-2 border-blue-600 rounded px-3 py-2 shadow-lg">
-                                    <span className="text-blue-900">Lv.295+ 🚀</span>
+                                <div className="text-center z-20">
+                                    <div className="bg-blue-50 border-2 border-blue-600 rounded px-3 py-2 shadow-lg">
+                                        <span className="text-blue-900">Lv.295+ 🚀</span>
+                                    </div>
+                                    <div className="text-xs text-blue-800 font-bold mt-1 bg-white/90 px-2 rounded">가속</div>
                                 </div>
-                                <div className="text-xs text-blue-800 font-bold mt-1 bg-white/90 px-2 rounded">가속</div>
                             </div>
                         </div>
                     </div>
 
                     {/* 설명 */}
-                    <div className="grid grid-cols-3 gap-3 text-sm">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
                         <div className="bg-white border-2 border-orange-400 rounded p-3 shadow-sm">
                             <p className="font-bold text-orange-700 mb-2">Step 1. 완충 (Bridge)</p>
                             <p className="text-black text-xs">Lv.280/282/284 계단식 보상으로 비BM 유저 생존 지원</p>
@@ -691,7 +704,7 @@ export default function CommunityPortfolioPage() {
                 {/* 기대 효과 */}
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-5">
                     <h4 className="font-bold text-lg text-black mb-4">3. 기대 효과 (Expected Effect & KPI)</h4>
-                    <div className="grid grid-cols-2 gap-4 text-sm mb-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4">
                         <div>
                             <p className="font-semibold text-blue-800 mb-2">User Experience:</p>
                             <p className="text-black mb-2">• <strong>비BM 유저:</strong> Lv.280~285 구간 성장 단절감 해소 및 이탈률 감소.</p>
@@ -704,7 +717,7 @@ export default function CommunityPortfolioPage() {
                     </div>
                     <div className="border-t border-blue-300 pt-4">
                         <p className="text-sm font-semibold text-blue-800 mb-3">Key Performance Indicator (KPI):</p>
-                        <div className="flex gap-4 justify-center">
+                        <div className="flex flex-col md:flex-row gap-4 justify-center">
                             <div className="bg-white border border-blue-300 rounded px-4 py-2">
                                 <p className="text-sm text-black">모멘텀 패스 평균 사용 레벨 상승 <span className="text-blue-600 font-bold text-lg">↑</span></p>
                             </div>

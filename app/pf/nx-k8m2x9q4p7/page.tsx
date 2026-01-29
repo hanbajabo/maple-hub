@@ -106,6 +106,12 @@ export default function PortfolioPage() {
 
             h1 { font-size: 1.75rem !important; }
             h2 { font-size: 1.5rem !important; }
+            h3 { font-size: 1.125rem !important; }
+            h4 { font-size: 1rem !important; }
+            .aspect-video { aspect-ratio: 16 / 10 !important; height: auto !important; }
+            .grid { grid-template-columns: 1fr !important; }
+            .text-xs { font-size: 0.8rem !important; line-height: 1.4 !important; }
+            .text-sm { font-size: 0.875rem !important; line-height: 1.5 !important; }
             
             .fixed-print-btn {
                 bottom: 20px !important;
@@ -233,23 +239,23 @@ export default function PortfolioPage() {
 
                 <div className="flex-1 bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
                     <h4 className="font-bold text-lg mb-6 text-black">🏗️ 시스템 아키텍처 (System Architecture)</h4>
-                    <div className="flex items-center justify-between gap-2 text-center my-8 text-black">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-center my-8 text-black">
                         {/* 구조도 Simple Version */}
                         <div className="flex-1 p-4 bg-gray-50 rounded border border-gray-200">
                             <p className="font-bold text-sm text-gray-900">User Input</p>
                             <p className="text-xs text-gray-900 font-medium">닉네임</p>
                         </div>
-                        <div className="text-blue-600 font-bold text-xl">→</div>
+                        <div className="text-blue-600 font-bold text-xl md:rotate-0 rotate-90">→</div>
                         <div className="flex-1 p-4 bg-blue-50 rounded border border-blue-200">
                             <p className="font-bold text-sm text-blue-900">NEXON API</p>
                             <p className="text-xs text-blue-800 font-medium">데이터 수집</p>
                         </div>
-                        <div className="text-blue-600 font-bold text-xl">→</div>
+                        <div className="text-blue-600 font-bold text-xl md:rotate-0 rotate-90">→</div>
                         <div className="flex-1 p-4 bg-blue-50 rounded border border-blue-200">
                             <p className="font-bold text-sm text-blue-900">Logic Processing</p>
                             <p className="text-xs text-blue-800 font-medium">진단/지표화</p>
                         </div>
-                        <div className="text-blue-600 font-bold text-xl">→</div>
+                        <div className="text-blue-600 font-bold text-xl md:rotate-0 rotate-90">→</div>
                         <div className="flex-1 p-4 bg-gray-50 rounded border border-gray-200">
                             <p className="font-bold text-sm text-gray-900">Visualization</p>
                             <p className="text-xs text-gray-900 font-medium">Web/Mobile</p>
@@ -278,7 +284,7 @@ export default function PortfolioPage() {
                     <div className="w-full h-48 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 mb-4 relative">
                         <img src="/portfolio-images/character-dashboard.png" className="absolute top-0 w-full object-cover object-top" alt="대시보드" />
                     </div>
-                    <div className="grid grid-cols-4 gap-2 text-xs">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                         <div className="bg-blue-50 p-2 rounded text-center border border-blue-100">
                             <span className="font-bold text-blue-800">데이터 연동</span><br />
                             <span className="text-black">10개 API 통합</span>
@@ -396,16 +402,16 @@ export default function PortfolioPage() {
 
                 <div className="bg-gray-50 p-5 rounded-xl border border-gray-200 mt-6">
                     <h5 className="font-bold text-sm text-black mb-3">💡 진단 로직 설계 핵심 (Logic Architecture)</h5>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="text-center">
                             <div className="font-bold text-red-600 text-sm mb-1">🔴 Pain Point 가시화</div>
                             <div className="text-xs text-black font-medium">부족한 점 즉시 강조</div>
                         </div>
-                        <div className="text-center border-l border-gray-300">
+                        <div className="text-center md:border-l border-gray-300">
                             <div className="font-bold text-blue-600 text-sm mb-1">📊 정량적 기준</div>
                             <div className="text-xs text-black font-medium">객관적 수치(Threshold) 비교</div>
                         </div>
-                        <div className="text-center border-l border-gray-300">
+                        <div className="text-center md:border-l border-gray-300">
                             <div className="font-bold text-purple-600 text-sm mb-1">🎯 Actionable Item</div>
                             <div className="text-xs text-black font-medium">구체적인 개선 행동 유도</div>
                         </div>
@@ -475,7 +481,7 @@ export default function PortfolioPage() {
 
                     <div className="mt-2">
                         <h5 className="font-bold text-xs text-gray-500 mb-1 border-b border-gray-200 pb-1">Tech Stack</h5>
-                        <div className="flex gap-1.5">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                             {[
                                 { name: 'Vercel Postgres', desc: '시세 데이터 적재' },
                                 { name: 'Daily Manual Update Cycle', desc: '큐레이션 기반 시세 데이터 갱신 프로세스' },
@@ -534,9 +540,9 @@ export default function PortfolioPage() {
                     <h4 className="font-bold text-lg mb-6 text-black">🛠️ 주요 로직 구조화 사례 (Logic Architecture Cases)</h4>
                     <div className="space-y-5">
                         <div className="pb-4 border-b border-gray-100">
-                            <div className="flex items-start justify-between gap-4 mb-2">
+                            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-2">
                                 <h5 className="font-bold text-black">AI 코멘터리 시스템</h5>
-                                <div className="flex items-center gap-2 flex-shrink-0">
+                                <div className="flex items-center gap-2 md:flex-shrink-0">
                                     <span className="px-2 py-1 bg-red-50 text-red-600 text-xs rounded whitespace-nowrap">Complex Case</span>
                                     <span className="text-gray-400 text-sm">→</span>
                                     <span className="px-2 py-1 bg-green-50 text-green-600 text-xs rounded font-bold whitespace-nowrap">Standardized Module</span>
@@ -545,9 +551,9 @@ export default function PortfolioPage() {
                             <p className="text-xs text-black">복잡한 조건 분기를 체계적으로 정리하여 유지보수성 확보</p>
                         </div>
                         <div className="pb-4 border-b border-gray-100">
-                            <div className="flex items-start justify-between gap-4 mb-2">
+                            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-2">
                                 <h5 className="font-bold text-black">통합 평가 기준 로직</h5>
-                                <div className="flex items-center gap-2 flex-shrink-0">
+                                <div className="flex items-center gap-2 md:flex-shrink-0">
                                     <span className="px-2 py-1 bg-red-50 text-red-600 text-xs rounded whitespace-nowrap">Hard-Coding</span>
                                     <span className="text-gray-400 text-sm">→</span>
                                     <span className="px-2 py-1 bg-green-50 text-green-600 text-xs rounded font-bold whitespace-nowrap">Table Driven</span>
@@ -556,9 +562,9 @@ export default function PortfolioPage() {
                             <p className="text-xs text-black">하드코딩된 기준치를 상수 모듈로 분리하여 관리 용이성 증대</p>
                         </div>
                         <div className="pb-4">
-                            <div className="flex items-start justify-between gap-4 mb-2">
+                            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-2">
                                 <h5 className="font-bold text-black">잠재능력 평가 알고리즘</h5>
-                                <div className="flex items-center gap-2 flex-shrink-0">
+                                <div className="flex items-center gap-2 md:flex-shrink-0">
                                     <span className="px-2 py-1 bg-red-50 text-red-600 text-xs rounded whitespace-nowrap">Manual Logic</span>
                                     <span className="text-gray-400 text-sm">→</span>
                                     <span className="px-2 py-1 bg-green-50 text-green-600 text-xs rounded font-bold whitespace-nowrap">Auto-Calculation</span>
@@ -642,7 +648,7 @@ export default function PortfolioPage() {
                         유저에게 최상의 경험을 제공하는 것을 목표로 합니다.
                     </p>
 
-                    <div className="flex justify-between items-end">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
                         <a href="mailto:p6092@naver.com" className="flex items-center gap-2 text-gray-600 hover:text-blue-600 text-sm font-semibold mb-4">
                             <Mail size={16} /> p6092@naver.com
                         </a>

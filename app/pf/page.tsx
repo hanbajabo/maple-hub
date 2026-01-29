@@ -4,6 +4,30 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { FileText, Users, ChevronRight, Lock } from 'lucide-react';
 
+const mobileStyles = `
+  @media (max-width: 768px) {
+    .pf-container {
+      padding: 1rem !important;
+    }
+    .pf-header {
+      margin-bottom: 2rem !important;
+    }
+    .pf-header h1 {
+      font-size: 2rem !important;
+    }
+    .portfolio-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
+    }
+    .portfolio-card {
+      padding: 1.5rem !important;
+    }
+    .card-icon-container {
+      padding: 1rem !important;
+    }
+  }
+`;
+
 export default function PortfolioIndexPage() {
     // 구글 광고 완전 차단 (Auto Ads 포함)
     useEffect(() => {
@@ -62,10 +86,11 @@ export default function PortfolioIndexPage() {
                     pointer-events: none !important;
                 }
             `}</style>
+            <style dangerouslySetInnerHTML={{ __html: mobileStyles }} />
 
-            <div className="max-w-5xl w-full">
+            <div className="max-w-5xl w-full pf-container">
                 {/* 헤더 */}
-                <div className="text-center mb-12">
+                <div className="text-center mb-12 pf-header">
                     <div className="flex items-center justify-center gap-2 mb-4">
                         <Lock className="text-blue-400" size={24} />
                         <h1 className="text-4xl font-bold text-white">Portfolio Collection</h1>
@@ -75,12 +100,12 @@ export default function PortfolioIndexPage() {
                 </div>
 
                 {/* 포트폴리오 카드 그리드 */}
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid md:grid-cols-2 gap-8 portfolio-grid">
                     {/* 포트폴리오 1: 넥슨 (기술/시스템) */}
                     <Link href="/pf/nx-k8m2x9q4p7" className="group">
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card">
                             <div className="flex items-start justify-between mb-6">
-                                <div className="bg-blue-500/20 p-4 rounded-xl">
+                                <div className="bg-blue-500/20 p-4 rounded-xl card-icon-container">
                                     <FileText className="text-blue-400" size={32} />
                                 </div>
                                 <ChevronRight className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" size={24} />
@@ -114,9 +139,9 @@ export default function PortfolioIndexPage() {
 
                     {/* 포트폴리오 2: 커뮤니티/운영 */}
                     <Link href="/pf/cm-w3r5t8y2u6" className="group">
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card">
                             <div className="flex items-start justify-between mb-6">
-                                <div className="bg-green-500/20 p-4 rounded-xl">
+                                <div className="bg-green-500/20 p-4 rounded-xl card-icon-container">
                                     <Users className="text-green-400" size={32} />
                                 </div>
                                 <ChevronRight className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" size={24} />
