@@ -42,7 +42,7 @@ export default function ExpProductEfficiency() {
                         💸 메이플 경험치 상품 효율 완벽 분석
                     </h1>
                     <p className="text-base sm:text-lg text-slate-400">
-                        챌린저스 EXP 듀오부터 모멘텀 패스까지! 상급 EXP로 환산한 가성비 순위와 레벨대별 최적화 전략
+                        모멘텀 패스 효율, 챌린저스 듀오 효율, 익스프레스 패스 효율 완벽 비교! 상급 EXP로 환산한 가성비 순위와 레벨대별 최적화 전략
                     </p>
                     <p className="text-xs text-slate-500 mt-3 sm:mt-4">
                         ※ 본 글은 메이플 인벤 '콴다'님의 [경험치BM별 상급EXP 효율비교] 게시글을 참고하여 작성되었습니다.
@@ -73,10 +73,13 @@ export default function ExpProductEfficiency() {
                                 메이플스토리에서 <strong className="text-yellow-400">"돈을 어디에 써야 가장 빨리, 그리고 싸게 레벨업을 할 수 있는가?"</strong>는 모든 유저의 고민입니다.
                             </p>
                             <p className="leading-relaxed">
-                                이 가이드는 <strong className="text-green-400">챌린저스 EXP 듀오, 모멘텀 패스, 익스프레스 패스, 에픽 던전 리워드, 메카베리 농장</strong> 등 메이플스토리의 모든 경험치 상품을 <strong className="text-purple-400">상급 EXP로 환산</strong>하여 가성비를 비교합니다.
+                                이 가이드는 <strong className="text-green-400">챌린저스 EXP 듀오, 모멘텀 패스, 익스프레스 패스, 에픽 던전 리워드, 메카베리 농장, 몬스터파크</strong> 등 메이플스토리의 모든 경험치 상품을 <strong className="text-purple-400">상급 EXP로 환산</strong>하여 가성비를 비교합니다.
                             </p>
                             <p className="leading-relaxed">
-                                <strong className="text-blue-400">280~284, 285~289, 290+ 레벨 구간별</strong>로 달라지는 효율을 분석하고, <strong className="text-orange-400">사냥 광, 가성비 유저, 지갑전사</strong> 등 유저 타입별 최적 전략까지 제시합니다.
+                                특히 <strong className="text-yellow-400">모멘텀 패스 효율</strong>, <strong className="text-cyan-400">챌린저스 듀오 효율</strong>, <strong className="text-pink-400">익스프레스 패스 효율(익부 효율)</strong>, <strong className="text-orange-400">에픽 던전 효율(악몽선경 효율)</strong>, <strong className="text-emerald-400">메카베리 효율</strong>, <strong className="text-blue-400">몬스터파크 효율(몬파 효율)</strong>을 정확히 분석하여, <strong className="text-indigo-400">280~284, 285~289, 290+ 레벨 구간별</strong>로 달라지는 효율을 상세히 제시합니다.
+                            </p>
+                            <p className="leading-relaxed">
+                                <strong className="text-red-400">사냥 광, 가성비 유저, 지갑전사</strong> 등 유저 타입별 최적 전략까지 제시하여, 본인에게 딱 맞는 경험치 상품 조합을 찾을 수 있습니다.
                             </p>
                             <div className="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4 mt-4">
                                 <p className="text-sm">
@@ -687,6 +690,51 @@ export default function ExpProductEfficiency() {
                                 💡 핵심은 사냥 할 시간이 많다면 '챌린저스 EXP 듀오로 내가 사냥을 얼마나 할 것인가'이고,<br className="hidden sm:block" />
                                 <span className="sm:hidden"> </span>시간이 없다면 모멘텀/익스프레스 패스로 경험치를 캐시로 구매하는 것입니다.
                             </p>
+                        </div>
+
+                        {/* Keyword Tags for SEO */}
+                        <div className="mt-8 pt-6 border-t border-slate-700">
+                            <div className="flex flex-wrap gap-2 justify-center">
+                                <span className="px-3 py-1.5 bg-yellow-500/10 text-yellow-400 text-xs sm:text-sm rounded-full border border-yellow-500/30 hover:bg-yellow-500/20 transition-colors">
+                                    #모멘텀패스효율
+                                </span>
+                                <span className="px-3 py-1.5 bg-cyan-500/10 text-cyan-400 text-xs sm:text-sm rounded-full border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors">
+                                    #챌린저스듀오효율
+                                </span>
+                                <span className="px-3 py-1.5 bg-pink-500/10 text-pink-400 text-xs sm:text-sm rounded-full border border-pink-500/30 hover:bg-pink-500/20 transition-colors">
+                                    #익스프레스패스효율
+                                </span>
+                                <span className="px-3 py-1.5 bg-pink-500/10 text-pink-400 text-xs sm:text-sm rounded-full border border-pink-500/30 hover:bg-pink-500/20 transition-colors">
+                                    #익부효율
+                                </span>
+                                <span className="px-3 py-1.5 bg-orange-500/10 text-orange-400 text-xs sm:text-sm rounded-full border border-orange-500/30 hover:bg-orange-500/20 transition-colors">
+                                    #에픽던전효율
+                                </span>
+                                <span className="px-3 py-1.5 bg-orange-500/10 text-orange-400 text-xs sm:text-sm rounded-full border border-orange-500/30 hover:bg-orange-500/20 transition-colors">
+                                    #악몽선경효율
+                                </span>
+                                <span className="px-3 py-1.5 bg-emerald-500/10 text-emerald-400 text-xs sm:text-sm rounded-full border border-emerald-500/30 hover:bg-emerald-500/20 transition-colors">
+                                    #메카베리효율
+                                </span>
+                                <span className="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs sm:text-sm rounded-full border border-blue-500/30 hover:bg-blue-500/20 transition-colors">
+                                    #몬스터파크효율
+                                </span>
+                                <span className="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs sm:text-sm rounded-full border border-blue-500/30 hover:bg-blue-500/20 transition-colors">
+                                    #몬파효율
+                                </span>
+                                <span className="px-3 py-1.5 bg-purple-500/10 text-purple-400 text-xs sm:text-sm rounded-full border border-purple-500/30 hover:bg-purple-500/20 transition-colors">
+                                    #경험치효율
+                                </span>
+                                <span className="px-3 py-1.5 bg-purple-500/10 text-purple-400 text-xs sm:text-sm rounded-full border border-purple-500/30 hover:bg-purple-500/20 transition-colors">
+                                    #상급EXP
+                                </span>
+                                <span className="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs sm:text-sm rounded-full border border-green-500/30 hover:bg-green-500/20 transition-colors">
+                                    #메이플가성비
+                                </span>
+                                <span className="px-3 py-1.5 bg-red-500/10 text-red-400 text-xs sm:text-sm rounded-full border border-red-500/30 hover:bg-red-500/20 transition-colors">
+                                    #레벨업가이드
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </section>
