@@ -57,7 +57,7 @@ export default function February2026UpdateSummary() {
                 </div>
 
                 {/* Introduction */}
-                <div className="mb-12 bg-gradient-to-br from-purple-900/30 via-blue-900/20 to-pink-900/30 border-2 border-purple-500/50 rounded-2xl p-8 relative overflow-hidden">
+                <div className="mb-12 bg-gradient-to-br from-purple-900/30 via-blue-900/20 to-pink-900/30 border-2 border-purple-500/50 rounded-2xl p-5 sm:p-8 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
                     <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-75"></div>
 
@@ -67,7 +67,7 @@ export default function February2026UpdateSummary() {
                             📝 2월 업데이트 개요
                         </h2>
 
-                        <div className="bg-slate-900/70 rounded-xl p-6 space-y-4 text-slate-300 leading-relaxed">
+                        <div className="bg-slate-900/70 rounded-xl p-4 sm:p-6 space-y-4 text-slate-300 leading-relaxed">
                             <p className="font-bold text-white text-lg">안녕하세요! 메이플 용사님들!</p>
 
                             <p>2월에는 <strong className="text-purple-400">재화 밸런스 조정 마무리</strong>와 함께
@@ -76,7 +76,7 @@ export default function February2026UpdateSummary() {
                             <p>2월 1일부터 <strong className="text-green-400">데일리 기프트와 마일리지 샵이 개편</strong>되며,
                                 2월 12일 정식 서버 패치에서는 <strong className="text-blue-400">신규 지역 기어드락</strong>이 공개됩니다.</p>
 
-                            <div className="bg-yellow-900/30 border-2 border-yellow-500/50 rounded-lg p-5 mt-6">
+                            <div className="bg-yellow-900/30 border-2 border-yellow-500/50 rounded-lg p-4 sm:p-5 mt-6">
                                 <p className="font-bold text-yellow-400 flex items-center gap-2 mb-3">
                                     <Gift className="w-5 h-5" />
                                     핵심 요약
@@ -106,7 +106,7 @@ export default function February2026UpdateSummary() {
 
                 {/* 1. 시스템 개편 (재화 밸런스) */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-blue-900/50 to-purple-900/50 border-2 border-blue-500/50 rounded-2xl p-6 sm:p-8">
+                    <div className="bg-gradient-to-br from-blue-900/50 to-purple-900/50 border-2 border-blue-500/50 rounded-2xl p-4 sm:p-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
                                 <Coins className="w-6 h-6 text-blue-400" />
@@ -136,7 +136,7 @@ export default function February2026UpdateSummary() {
 
                             <div className="space-y-4">
                                 {/* 주화 삭제 */}
-                                <div className="bg-slate-900/70 rounded-xl p-5 border border-red-500/50">
+                                <div className="bg-slate-900/70 rounded-xl p-4 sm:p-5 border border-red-500/50">
                                     <p className="font-bold text-red-400 mb-3">🗑️ 변경 1: 실버 주화 삭제 → 카르마 큐브 대체</p>
                                     <div className="space-y-2 text-sm text-slate-300">
                                         <div className="flex items-start gap-2">
@@ -151,37 +151,37 @@ export default function February2026UpdateSummary() {
                                 </div>
 
                                 {/* 기존 보상 상향 */}
-                                <div className="bg-slate-900/70 rounded-xl p-5 border border-green-500/50">
+                                <div className="bg-slate-900/70 rounded-xl p-4 sm:p-5 border border-green-500/50">
                                     <p className="font-bold text-green-400 mb-3">✨ 변경 2: 기존 보상 상향 (MVP 등급별 추가 지급 수량 동일)</p>
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-sm">
                                             <thead>
                                                 <tr className="border-b border-slate-700">
-                                                    <th className="text-left py-2 px-3 text-yellow-400">일 차</th>
-                                                    <th className="text-left py-2 px-3 text-blue-400">기존 보상</th>
-                                                    <th className="text-left py-2 px-3 text-green-400">개선 보상</th>
+                                                    <th className="text-left py-2 px-2 sm:px-3 text-yellow-400">일 차</th>
+                                                    <th className="text-left py-2 px-2 sm:px-3 text-blue-400">기존 보상</th>
+                                                    <th className="text-left py-2 px-2 sm:px-3 text-green-400">개선 보상</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="text-slate-300">
                                                 <tr className="border-b border-slate-800">
-                                                    <td className="py-2 px-3 font-bold">5/10/19/24</td>
-                                                    <td className="py-2 px-3">2배 경쿠(30분) 2개</td>
-                                                    <td className="py-2 px-3 text-green-300 font-bold">3배 경쿠(30분) 1개</td>
+                                                    <td className="py-2 px-2 sm:px-3 font-bold">5/10/19/24</td>
+                                                    <td className="py-2 px-2 sm:px-3">2배 경쿠(30분) 2개</td>
+                                                    <td className="py-2 px-2 sm:px-3 text-green-300 font-bold">3배 경쿠(30분) 1개</td>
                                                 </tr>
                                                 <tr className="border-b border-slate-800">
-                                                    <td className="py-2 px-3 font-bold">9/23</td>
-                                                    <td className="py-2 px-3">스페셜 명예의 훈장 1개</td>
-                                                    <td className="py-2 px-3 text-green-300 font-bold">스페셜 명예의 훈장 10개</td>
+                                                    <td className="py-2 px-2 sm:px-3 font-bold">9/23</td>
+                                                    <td className="py-2 px-2 sm:px-3">스페셜 명예의 훈장 1개</td>
+                                                    <td className="py-2 px-2 sm:px-3 text-green-300 font-bold">스페셜 명예의 훈장 10개</td>
                                                 </tr>
                                                 <tr className="border-b border-slate-800">
-                                                    <td className="py-2 px-3 font-bold">18</td>
-                                                    <td className="py-2 px-3">카르마 영환불 1개</td>
-                                                    <td className="py-2 px-3 text-green-300 font-bold">카르마 영원한 환생의 불꽃 10개</td>
+                                                    <td className="py-2 px-2 sm:px-3 font-bold">18</td>
+                                                    <td className="py-2 px-2 sm:px-3">카르마 영환불 1개</td>
+                                                    <td className="py-2 px-2 sm:px-3 text-green-300 font-bold">카르마 영원한 환생의 불꽃 10개</td>
                                                 </tr>
                                                 <tr>
-                                                    <td className="py-2 px-3 font-bold">25</td>
-                                                    <td className="py-2 px-3">카르마 검환불 1개</td>
-                                                    <td className="py-2 px-3 text-green-300 font-bold">카르마 검은 환생의 불꽃 10개</td>
+                                                    <td className="py-2 px-2 sm:px-3 font-bold">25</td>
+                                                    <td className="py-2 px-2 sm:px-3">카르마 검환불 1개</td>
+                                                    <td className="py-2 px-2 sm:px-3 text-green-300 font-bold">카르마 검은 환생의 불꽃 10개</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -205,7 +205,7 @@ export default function February2026UpdateSummary() {
                                 마일리지 샵 (2/1 오전 6시 월간 초기화 후 갱신)
                             </h3>
 
-                            <div className="bg-slate-900/70 rounded-xl p-5 border border-purple-500/50">
+                            <div className="bg-slate-900/70 rounded-xl p-4 sm:p-5 border border-purple-500/50">
                                 <p className="font-bold text-red-400 mb-3">🗑️ 변경: 골드 주화 판매 중단 → 카르마 큐브 2종 추가</p>
                                 <p className="text-slate-400 text-sm mb-4">넥슨 ID당 월 7개 구매 가능 (교환권 유효 7일 / 큐브 유효 7일)</p>
 
@@ -224,21 +224,21 @@ export default function February2026UpdateSummary() {
                                     <table className="w-full text-sm">
                                         <thead>
                                             <tr className="border-b border-slate-700">
-                                                <th className="text-left py-2 px-3 text-yellow-400">아이템</th>
-                                                <th className="text-left py-2 px-3 text-blue-400">가격 (마일리지)</th>
-                                                <th className="text-left py-2 px-3 text-green-400">월 총 소비</th>
+                                                <th className="text-left py-2 px-2 sm:px-3 text-yellow-400">아이템</th>
+                                                <th className="text-left py-2 px-2 sm:px-3 text-blue-400">가격 (마일리지)</th>
+                                                <th className="text-left py-2 px-2 sm:px-3 text-green-400">월 총 소비</th>
                                             </tr>
                                         </thead>
                                         <tbody className="text-slate-300">
                                             <tr className="border-b border-slate-800">
-                                                <td className="py-2 px-3">카르마 블랙 큐브 교환권</td>
-                                                <td className="py-2 px-3 font-bold">1,500</td>
-                                                <td className="py-2 px-3 font-bold text-yellow-300">10,500</td>
+                                                <td className="py-2 px-2 sm:px-3">카르마 블랙 큐브 교환권</td>
+                                                <td className="py-2 px-2 sm:px-3 font-bold">1,500</td>
+                                                <td className="py-2 px-2 sm:px-3 font-bold text-yellow-300">10,500</td>
                                             </tr>
                                             <tr>
-                                                <td className="py-2 px-3">카르마 화이트 에디셔널 큐브 교환권</td>
-                                                <td className="py-2 px-3 font-bold">3,000</td>
-                                                <td className="py-2 px-3 font-bold text-yellow-300">21,000</td>
+                                                <td className="py-2 px-2 sm:px-3">카르마 화이트 에디셔널 큐브 교환권</td>
+                                                <td className="py-2 px-2 sm:px-3 font-bold">3,000</td>
+                                                <td className="py-2 px-2 sm:px-3 font-bold text-yellow-300">21,000</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -250,7 +250,7 @@ export default function February2026UpdateSummary() {
 
                 {/* 2. 2월 썬데이 메이플 혜택 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-yellow-900/50 to-orange-900/50 border-2 border-yellow-500/50 rounded-2xl p-6 sm:p-8">
+                    <div className="bg-gradient-to-br from-yellow-900/50 to-orange-900/50 border-2 border-yellow-500/50 rounded-2xl p-4 sm:p-8">
                         {/* 썬데이 메이플 배너 이미지 */}
                         <div className="relative w-full aspect-[3/1] mb-6 rounded-xl overflow-hidden shadow-lg border border-yellow-500/30">
                             <Image
@@ -279,7 +279,7 @@ export default function February2026UpdateSummary() {
                                 <h3 className="text-xl font-bold text-white">경험치 종합세트 🎁</h3>
                             </div>
 
-                            <div className="bg-slate-900/70 rounded-xl p-6 border border-yellow-500/30">
+                            <div className="bg-slate-900/70 rounded-xl p-4 sm:p-6 border border-yellow-500/30">
                                 <p className="text-slate-300 mb-4">
                                     일명 <strong className="text-yellow-400">'경험치 폭탄'</strong> 날입니다! 레벨업이 필요하다면 절대 놓치지 마세요.
                                 </p>
@@ -353,13 +353,13 @@ export default function February2026UpdateSummary() {
                                 <h3 className="text-xl font-bold text-white">스페셜 썬데이: 솔 에르다 타임 ⚡</h3>
                             </div>
 
-                            <div className="bg-slate-900/70 rounded-xl p-6 border border-orange-500/30">
+                            <div className="bg-slate-900/70 rounded-xl p-4 sm:p-6 border border-orange-500/30">
                                 <p className="text-slate-300 mb-4">
                                     접속만 해도 6차 전직 재료를 퍼주는 <strong className="text-orange-400">혜자 이벤트</strong>가 돌아옵니다!
                                 </p>
 
                                 <div className="space-y-3">
-                                    <div className="bg-blue-900/30 border border-blue-500/50 rounded-lg p-5">
+                                    <div className="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4 sm:p-5">
                                         <div className="flex items-start gap-3 mb-4">
                                             <Zap className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
                                             <div>
@@ -432,7 +432,7 @@ export default function February2026UpdateSummary() {
 
                         <div className="grid md:grid-cols-2 gap-4">
                             {/* 메이플 나우 */}
-                            <div className="md:col-span-2 bg-gradient-to-r from-purple-900/40 to-cyan-900/40 rounded-xl p-5 border border-purple-500/50">
+                            <div className="md:col-span-2 bg-gradient-to-r from-purple-900/40 to-cyan-900/40 rounded-xl p-4 sm:p-5 border border-purple-500/50">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center flex-shrink-0">
                                         <span className="text-xl">📺</span>
@@ -445,7 +445,7 @@ export default function February2026UpdateSummary() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-slate-900/70 rounded-lg p-5 border border-blue-500/50">
+                            <div className="bg-slate-900/70 rounded-lg p-4 sm:p-5 border border-blue-500/50">
                                 <div className="flex items-start gap-3">
                                     <Clock className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
                                     <div>
@@ -457,7 +457,7 @@ export default function February2026UpdateSummary() {
                                 </div>
                             </div>
 
-                            <div className="bg-slate-900/70 rounded-lg p-5 border border-green-500/50">
+                            <div className="bg-slate-900/70 rounded-lg p-4 sm:p-5 border border-green-500/50">
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                                     <div>
@@ -474,7 +474,7 @@ export default function February2026UpdateSummary() {
 
                 {/* 4. 이벤트 종료 일정 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-red-900/50 to-orange-900/50 border-2 border-red-500/50 rounded-2xl p-6 sm:p-8">
+                    <div className="bg-gradient-to-br from-red-900/50 to-orange-900/50 border-2 border-red-500/50 rounded-2xl p-4 sm:p-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center">
                                 <AlertCircle className="w-6 h-6 text-red-400" />
@@ -488,7 +488,7 @@ export default function February2026UpdateSummary() {
 
                         {/* 2/11 종료 */}
                         <div className="mb-6">
-                            <div className="bg-red-900/30 border-2 border-red-500/50 rounded-xl p-6 mb-4">
+                            <div className="bg-red-900/30 border-2 border-red-500/50 rounded-xl p-4 sm:p-6 mb-4">
                                 <h3 className="text-xl font-bold text-red-400 mb-4">
                                     🚨 2월 11일(수) 23:59 종료 (가장 시급!)
                                 </h3>
@@ -576,7 +576,7 @@ export default function February2026UpdateSummary() {
 
                         {/* 3/18 종료 */}
                         <div className="mb-6">
-                            <div className="bg-orange-900/30 border-2 border-orange-500/50 rounded-xl p-6">
+                            <div className="bg-orange-900/30 border-2 border-orange-500/50 rounded-xl p-4 sm:p-6">
                                 <h3 className="text-xl font-bold text-orange-400 mb-4">
                                     📅 3월 18일(수) 종료 (여유 있음)
                                 </h3>
@@ -707,7 +707,7 @@ export default function February2026UpdateSummary() {
 
                         {/* 4월 & 6월 종료 */}
                         <div>
-                            <div className="bg-blue-900/30 border-2 border-blue-500/50 rounded-xl p-6">
+                            <div className="bg-blue-900/30 border-2 border-blue-500/50 rounded-xl p-4 sm:p-6">
                                 <h3 className="text-xl font-bold text-blue-400 mb-4">
                                     📆 4월 & 6월 종료
                                 </h3>
@@ -729,7 +729,7 @@ export default function February2026UpdateSummary() {
 
                 {/* 5. 2월 업데이트 미리보기 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 border-2 border-purple-500/50 rounded-2xl p-6 sm:p-8">
+                    <div className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 border-2 border-purple-500/50 rounded-2xl p-4 sm:p-8">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
                                 <Sparkles className="w-6 h-6 text-purple-400" />
@@ -744,7 +744,7 @@ export default function February2026UpdateSummary() {
 
                         <div className="space-y-4">
                             {/* 신규 보스 유피테르 */}
-                            <div className="bg-gradient-to-br from-red-900/50 to-orange-900/50 border-2 border-red-500/50 rounded-xl p-6">
+                            <div className="bg-gradient-to-br from-red-900/50 to-orange-900/50 border-2 border-red-500/50 rounded-xl p-4 sm:p-6">
                                 <div className="relative w-full aspect-[2/1] mb-6 rounded-lg overflow-hidden shadow-lg border border-red-500/30 bg-slate-900">
                                     <Image
                                         src="/images/blog/boss-jupiter.png"
@@ -810,7 +810,7 @@ export default function February2026UpdateSummary() {
                             </div>
 
                             {/* 데스티니 무기 2차 해방 */}
-                            <div className="bg-slate-900/70 rounded-xl p-5 border border-blue-500/50">
+                            <div className="bg-slate-900/70 rounded-xl p-4 sm:p-5 border border-blue-500/50">
                                 <div className="relative w-full aspect-[3/1] mb-4 bg-slate-800 rounded-lg overflow-hidden border border-blue-500/30">
                                     <Image
                                         src="/images/blog/destiny-weapon-2nd.png"
@@ -847,7 +847,7 @@ export default function February2026UpdateSummary() {
                             </div>
 
                             {/* 길드 캐슬 */}
-                            <div className="bg-slate-900/70 rounded-xl p-5 border border-green-500/50">
+                            <div className="bg-slate-900/70 rounded-xl p-4 sm:p-5 border border-green-500/50">
                                 <div className="relative w-full aspect-[3/1] mb-4 bg-slate-800 rounded-lg overflow-hidden border border-green-500/30">
                                     <Image
                                         src="/images/blog/guild-castle-logo.png"
@@ -907,7 +907,7 @@ export default function February2026UpdateSummary() {
                             </div>
 
                             {/* 신규 지역 기어드락 */}
-                            <div className="bg-slate-900/70 rounded-xl p-5 border border-cyan-500/50">
+                            <div className="bg-slate-900/70 rounded-xl p-4 sm:p-5 border border-cyan-500/50">
                                 <div className="relative w-full aspect-[2/1] mb-6 rounded-lg overflow-hidden shadow-lg border border-cyan-500/30">
                                     <Image
                                         src="/images/blog/new-area-gearedrock.png"
@@ -937,7 +937,7 @@ export default function February2026UpdateSummary() {
 
                 {/* 6. 특별 소식 - 롯데월드 콜라보 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-pink-900/50 via-rose-900/50 to-red-900/50 border-2 border-pink-500/50 rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+                    <div className="bg-gradient-to-br from-pink-900/50 via-rose-900/50 to-red-900/50 border-2 border-pink-500/50 rounded-2xl p-4 sm:p-8 relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl animate-pulse"></div>
                         <div className="absolute bottom-0 left-0 w-40 h-40 bg-rose-500/10 rounded-full blur-3xl animate-pulse delay-75"></div>
 
@@ -964,7 +964,7 @@ export default function February2026UpdateSummary() {
                                 </div>
                             </div>
 
-                            <div className="bg-gradient-to-br from-slate-900/90 to-slate-800/90 rounded-2xl p-6 sm:p-8 border-2 border-pink-500/30">
+                            <div className="bg-gradient-to-br from-slate-900/90 to-slate-800/90 rounded-2xl p-4 sm:p-8 border-2 border-pink-500/30">
                                 <div className="text-center mb-6">
                                     <div className="inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white px-6 py-3 rounded-full font-black text-lg mb-4">
                                         🎉 메이플 아일랜드 🎉
@@ -978,7 +978,7 @@ export default function February2026UpdateSummary() {
                                 </div>
 
                                 <div className="space-y-4">
-                                    <div className="bg-pink-900/30 border-2 border-pink-500/50 rounded-xl p-5">
+                                    <div className="bg-pink-900/30 border-2 border-pink-500/50 rounded-xl p-4 sm:p-5">
                                         <div className="flex items-start gap-3 mb-4">
                                             <Sparkles className="w-6 h-6 text-pink-400 flex-shrink-0" />
                                             <div>
@@ -1000,7 +1000,7 @@ export default function February2026UpdateSummary() {
                                     </div>
 
                                     <div className="grid md:grid-cols-2 gap-4">
-                                        <div className="bg-slate-900/70 rounded-xl p-5 border border-yellow-500/50">
+                                        <div className="bg-slate-900/70 rounded-xl p-4 sm:p-5 border border-yellow-500/50">
                                             <div className="flex items-start gap-3">
                                                 <Gift className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
                                                 <div>
@@ -1016,7 +1016,7 @@ export default function February2026UpdateSummary() {
                                             </div>
                                         </div>
 
-                                        <div className="bg-slate-900/70 rounded-xl p-5 border border-purple-500/50">
+                                        <div className="bg-slate-900/70 rounded-xl p-4 sm:p-5 border border-purple-500/50">
                                             <div className="flex items-start gap-3">
                                                 <ShoppingBag className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
                                                 <div>
@@ -1033,7 +1033,7 @@ export default function February2026UpdateSummary() {
                                         </div>
                                     </div>
 
-                                    <div className="bg-gradient-to-r from-blue-900/50 to-cyan-900/50 border-2 border-blue-500/50 rounded-xl p-5 text-center mt-4">
+                                    <div className="bg-gradient-to-r from-blue-900/50 to-cyan-900/50 border-2 border-blue-500/50 rounded-xl p-4 sm:p-5 text-center mt-4">
                                         <p className="text-blue-300 font-bold mb-2">
                                             🗓️ 오픈 일정
                                         </p>
@@ -1062,7 +1062,7 @@ export default function February2026UpdateSummary() {
 
                 {/* Conclusion */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-r from-slate-800 to-slate-900 border border-purple-500 rounded-xl p-8">
+                    <div className="bg-gradient-to-r from-slate-800 to-slate-900 border border-purple-500 rounded-xl p-5 sm:p-8">
                         <h2 className="text-2xl font-bold mb-6 text-center">📝 마무리</h2>
                         <p className="text-slate-300 leading-relaxed text-center mb-6">
                             2월은 <strong className="text-yellow-400">재화 밸런스 조정 마무리</strong>와 함께<br />
@@ -1083,7 +1083,7 @@ export default function February2026UpdateSummary() {
 
                 {/* SEO Keywords */}
                 <section className="mb-12">
-                    <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+                    <div className="bg-slate-900/50 border border-slate-700 rounded-xl p-4 sm:p-6">
                         <p className="text-slate-400 text-sm leading-relaxed">
                             <span className="text-blue-400 font-bold">#메이플스토리</span> <span className="text-purple-400 font-bold">#메이플2월업데이트</span> <span className="text-yellow-400 font-bold">#유피테르</span> <span className="text-green-400 font-bold">#데스티니무기2차해방</span> <span className="text-pink-400 font-bold">#길드캐슬</span> <span className="text-orange-400 font-bold">#기어드락</span> <span className="text-cyan-400 font-bold">#솔에르다타임</span> <span className="text-red-400 font-bold">#챌린저스패스종료</span> <span className="text-indigo-400 font-bold">#버닝익스프레스</span> <span className="text-teal-400 font-bold">#재화밸런스조정</span> <span className="text-lime-400 font-bold">#데일리기프트개편</span> <span className="text-rose-400 font-bold">#마일리지샵</span> <span className="text-pink-400 font-bold">#메이플아일랜드</span> <span className="text-blue-400 font-bold">#롯데월드메이플</span> <span className="text-yellow-400 font-bold">#메이플굿즈</span> <span className="text-green-400 font-bold">#메이플먹거리</span> <span className="text-yellow-400 font-bold">#경험치3배</span> <span className="text-cyan-400 font-bold">#룬경험치</span> <span className="text-red-400 font-bold">#몬스터파크250%</span> <span className="text-blue-400 font-bold">#콤보킬300%</span> <span className="text-purple-400 font-bold">#메이플이벤트</span> <span className="text-green-400 font-bold">#메이플소식</span> <span className="text-yellow-400 font-bold">#썬데이메이플혜택</span> <span className="text-blue-400 font-bold">#메이플스토리2026</span> <span className="text-pink-400 font-bold">#2월업데이트</span> <span className="text-cyan-400 font-bold">#신규지역기어드락</span> <span className="text-indigo-400 font-bold">#그란디스</span> <span className="text-red-400 font-bold">#메이플보스</span> <span className="text-lime-400 font-bold">#이벤트링</span> <span className="text-orange-400 font-bold">#메이플로드맵</span> <span className="text-teal-400 font-bold">#업데이트미리보기</span> <span className="text-rose-400 font-bold">#폭업</span> <span className="text-blue-400 font-bold">#메이플팁</span> <span className="text-purple-400 font-bold">#메이플가이드</span>
                         </p>
