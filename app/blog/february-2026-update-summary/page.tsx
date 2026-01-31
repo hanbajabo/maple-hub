@@ -490,7 +490,7 @@ export default function February2026UpdateSummary() {
                         <div className="mb-6">
                             <div className="bg-red-900/30 border-2 border-red-500/50 rounded-xl p-6 mb-4">
                                 <h3 className="text-xl font-bold text-red-400 mb-4">
-                                    🚨 2월 11일(화) 23:59 종료 (가장 시급!)
+                                    🚨 2월 11일(수) 23:59 종료 (가장 시급!)
                                 </h3>
 
                                 <div className="space-y-3">
@@ -500,7 +500,7 @@ export default function February2026UpdateSummary() {
                                             <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded border border-red-500/30 font-bold">종료 임박 🚨</span>
                                         </div>
                                         <p className="text-slate-300 text-sm mb-3">
-                                            2월 11일(화) 23:59 종료
+                                            2월 11일(수) 23:59 종료
                                         </p>
                                         <div className="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-3">
                                             <p className="text-yellow-300 text-sm font-bold mb-1">
@@ -516,7 +516,7 @@ export default function February2026UpdateSummary() {
                                     <div className="bg-slate-900/70 rounded-lg p-4">
                                         <p className="font-bold text-blue-400 mb-2">버닝 익스프레스</p>
                                         <p className="text-slate-300 text-sm mb-2">
-                                            보상 수령/사용: <strong className="text-white">2월 12일(수) 오전 2시까지</strong>
+                                            보상 수령/사용: <strong className="text-white">2월 12일(목) 오전 2시까지</strong>
                                         </p>
                                         <div className="bg-orange-900/30 border border-orange-500/50 rounded-lg p-3">
                                             <p className="text-orange-300 text-sm">
@@ -528,7 +528,7 @@ export default function February2026UpdateSummary() {
                                     <div className="bg-slate-900/70 rounded-lg p-4">
                                         <p className="font-bold text-green-400 mb-2">미혹의 부름</p>
                                         <p className="text-slate-300 text-sm mb-3">
-                                            보상 수령: <strong className="text-white">2월 12일(수) 오전 2시까지</strong>
+                                            보상 수령: <strong className="text-white">2월 12일(목) 오전 2시까지</strong>
                                         </p>
                                         <div className="bg-cyan-900/30 border border-cyan-500/50 rounded-lg p-3">
                                             <p className="text-cyan-300 text-sm font-bold mb-2">💡 히든 미션 (놓치지 마세요!):</p>
@@ -578,7 +578,7 @@ export default function February2026UpdateSummary() {
                         <div className="mb-6">
                             <div className="bg-orange-900/30 border-2 border-orange-500/50 rounded-xl p-6">
                                 <h3 className="text-xl font-bold text-orange-400 mb-4">
-                                    📅 3월 18일(화) 종료 (여유 있음)
+                                    📅 3월 18일(수) 종료 (여유 있음)
                                 </h3>
 
                                 <div className="space-y-3">
