@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 메이플 2월 업데이트 정리 (1월 31일)
+    {
+        slug: 'february-2026-update-summary',
+        title: "메이플 2월 업데이트/일정 완벽 정리",
+        description: '신규 보스 유피테르, 데스티니 무기 2차 해방, 길드 캐슬 시스템 개선, 재화 밸런스 조정까지! 2월 업데이트의 모든 것을 한눈에 확인하세요.',
+        category: '업데이트 소식',
+        date: '2026년 1월 31일',
+        readTime: '20분',
+        thumbnail: '🔥',
+        featured: true,
+        targetDate: '2026년 2월 12일',
+    },
     // 300레벨 만렙 달성 현황 (1월 27일)
     // 300레벨 만렙 달성 현황 (1월 27일) -> 랭킹 페이지로 리다이렉트
     {

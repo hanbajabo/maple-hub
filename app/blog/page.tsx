@@ -21,7 +21,7 @@ export default function BlogPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
     // Hero Post는 최신 업데이트 포스트
-    const heroPost = blogPosts.find(p => p.slug === 'sunday-maple-sol-erda-time-jan-25-2026') || blogPosts[0];
+    const heroPost = blogPosts.find(p => p.slug === 'february-2026-update-summary') || blogPosts[0];
 
     // 검색 필터 함수
     const filterBySearch = (posts: BlogPost[]) => {
@@ -57,17 +57,22 @@ export default function BlogPage() {
             <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12">
 
                 {/* Hero Section - 컴팩트한 HOT 포스트 */}
-                <section className="mb-12 relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-900/40 via-red-900/40 to-purple-900/40 border border-orange-500/50 shadow-xl">
+                <section className="mb-12 relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-900/40 via-blue-900/40 to-indigo-900/40 border border-purple-500/50 shadow-xl">
                     <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5" />
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
 
                     <div className="relative z-10 p-4 sm:p-6 md:p-8">
-                        <span className="inline-block px-3 py-1 mb-3 text-xs font-bold bg-red-600 text-white rounded-full animate-pulse shadow-lg shadow-red-900/50">
-                            🔥 지금 가장 HOT한 글
-                        </span>
+                        <div className="flex items-center gap-2 mb-3">
+                            <span className="inline-block px-3 py-1 text-xs font-bold bg-red-600 text-white rounded-full animate-pulse shadow-lg shadow-red-900/50">
+                                🔥 지금 가장 HOT한 글
+                            </span>
+                            <span className="inline-block px-3 py-1 text-xs font-bold bg-slate-700 text-slate-200 rounded-full border border-slate-600">
+                                {heroPost.category}
+                            </span>
+                        </div>
 
                         <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black leading-tight mb-3 drop-shadow-xl">
-                            <span className="bg-gradient-to-r from-yellow-200 via-orange-200 to-red-200 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-purple-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
                                 {heroPost.title}
                             </span>
                         </h2>
@@ -81,10 +86,17 @@ export default function BlogPage() {
                                 <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                                 <span>{heroPost.date}</span>
                             </div>
-                            <div className="flex items-center gap-1.5 text-xs sm:text-sm text-slate-300">
-                                <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                                <span>{heroPost.readTime}</span>
-                            </div>
+                            {heroPost.targetDate ? (
+                                <div className="flex items-center gap-1.5 text-xs sm:text-sm text-green-400 font-bold">
+                                    <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                                    <span>{heroPost.targetDate} 적용예정</span>
+                                </div>
+                            ) : (
+                                <div className="flex items-center gap-1.5 text-xs sm:text-sm text-slate-300">
+                                    <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
+                                    <span>{heroPost.readTime}</span>
+                                </div>
+                            )}
                         </div>
 
                         <Link href={`/blog/${heroPost.slug}`}>
