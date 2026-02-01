@@ -1,9 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import CalculatorMenu from "./CalculatorMenu";
 
 export default function GlobalHeader() {
+    const pathname = usePathname();
+
+    // 포트폴리오 페이지에서는 헤더 숨김
+    if (pathname?.startsWith('/pf')) {
+        return null;
+    }
+
     return (
         <header className="w-full sticky top-0 z-[9999] bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex justify-between items-center">
