@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import { FileText, Users, ChevronRight, Lock } from 'lucide-react';
+import { FileText, Users, ChevronRight, Lock, Lightbulb } from 'lucide-react';
 
 const mobileStyles = `
   @media (max-width: 768px) {
@@ -100,7 +100,7 @@ export default function PortfolioIndexPage() {
                 </div>
 
                 {/* 포트폴리오 카드 그리드 */}
-                <div className="grid md:grid-cols-2 gap-8 portfolio-grid">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 portfolio-grid">
                     {/* 포트폴리오 1: 넥슨 (기술/시스템) */}
                     <Link href="/pf/nx-k8m2x9q4p7" className="group">
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card">
@@ -169,6 +169,42 @@ export default function PortfolioIndexPage() {
 
                             <div className="mt-6 pt-6 border-t border-white/10">
                                 <span className="text-xs text-gray-400">A4 7 pages · PDF Ready</span>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* 포트폴리오 3: 시스템 디자인 */}
+                    <Link href="/pf/ob-g5h6i7j8k9" className="group">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card">
+                            <div className="flex items-start justify-between mb-6">
+                                <div className="bg-purple-500/20 p-4 rounded-xl card-icon-container">
+                                    <Lightbulb className="text-purple-400" size={32} />
+                                </div>
+                                <ChevronRight className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" size={24} />
+                            </div>
+
+                            <h2 className="text-2xl font-bold text-white mb-3">System Design Portfolio</h2>
+                            <p className="text-gray-300 mb-4 leading-relaxed">
+                                능동형 온보딩 시스템 기획
+                            </p>
+
+                            <div className="space-y-2 text-sm">
+                                <div className="flex items-center gap-2 text-gray-400">
+                                    <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                                    <span>Context-Aware Guide</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-400">
+                                    <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                                    <span>UX/UI 연출 전략</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-400">
+                                    <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                                    <span>신규 유저 경험 개선</span>
+                                </div>
+                            </div>
+
+                            <div className="mt-6 pt-6 border-t border-white/10">
+                                <span className="text-xs text-gray-400">A4 6 pages · PDF Ready</span>
                             </div>
                         </div>
                     </Link>
