@@ -603,25 +603,7 @@ export default function ExpCalculatorClient() {
                                 )}
                             </div>
                         </div>
-                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-6 shadow-lg">
-                            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><TrendingUp className="w-5 h-5 text-green-500" />레벨별 상세 내역</h2>
-                            <div className="max-h-[500px] overflow-y-auto space-y-2 pr-2">
-                                {calculatedData.levelBreakdown.length > 0 ? calculatedData.levelBreakdown.map((item, index) => {
-                                    const d = Math.floor(item.daysNeeded);
-                                    const h = dailyHuntingHours > 0 ? Math.round((item.daysNeeded - d) * dailyHuntingHours) : 0;
-                                    const timeText = item.note ? item.note : item.daysNeeded > 0 ? `${d > 0 ? `${d}일 ` : ''}${h > 0 ? `${h}시간` : ''} 예상` : (d === 0 && h === 0 && item.daysNeeded > 0) ? "1시간 미만 예상" : "시간 계산 불가";
-                                    return (
-                                        <div key={index} className="bg-slate-800 border border-slate-700 rounded-lg p-3">
-                                            <div className="flex items-center justify-between mb-1"><span className="text-sm font-bold text-white">Lv.{item.level} → {item.level + 1}</span><span className="text-xs text-slate-400">{item.percentage.toFixed(1)}%</span></div>
-                                            <div className="flex items-center justify-between mb-1"><span className="text-xs text-slate-400">{formatExpInEok(item.expNeeded)}</span><span className="text-xs text-slate-500">{formatNumber(item.expNeeded)}</span></div>
-                                            <div className="text-right border-t border-slate-700/50 mt-1 pt-1"><span className={`text-xs font-medium flex items-center justify-end gap-1 ${item.note ? 'text-pink-400' : 'text-emerald-400'}`}>{!item.note && <Clock className="w-3 h-3" />} {timeText}</span></div>
-                                        </div>
-                                    );
-                                }) : <div className="text-center py-10 text-slate-500">레벨 설정을 확인해주세요.</div>}
-                            </div>
-                        </div>
-
-                        {/* New Source Analysis Card */}
+                        {/* Source Analysis Card */}
                         <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-lg">
                             <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><Zap className="w-5 h-5 text-purple-500" />총 획득 경험치 분석 <span className="text-xs text-slate-400 font-normal ml-1">(Lv.{currentLevel} → Lv.{targetLevel})</span></h2>
                             <div className="space-y-3">
@@ -639,6 +621,25 @@ export default function ExpCalculatorClient() {
                                         </div>
                                     </div>
                                 )) : <p className="text-slate-500 text-sm text-center py-4">획득 가능한 경험치가 없습니다.</p>}
+                            </div>
+                        </div>
+
+                        {/* Level Breakdown Card */}
+                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-6 shadow-lg">
+                            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><TrendingUp className="w-5 h-5 text-green-500" />레벨별 상세 내역</h2>
+                            <div className="max-h-[500px] overflow-y-auto space-y-2 pr-2">
+                                {calculatedData.levelBreakdown.length > 0 ? calculatedData.levelBreakdown.map((item, index) => {
+                                    const d = Math.floor(item.daysNeeded);
+                                    const h = dailyHuntingHours > 0 ? Math.round((item.daysNeeded - d) * dailyHuntingHours) : 0;
+                                    const timeText = item.note ? item.note : item.daysNeeded > 0 ? `${d > 0 ? `${d}일 ` : ''}${h > 0 ? `${h}시간` : ''} 예상` : (d === 0 && h === 0 && item.daysNeeded > 0) ? "1시간 미만 예상" : "시간 계산 불가";
+                                    return (
+                                        <div key={index} className="bg-slate-800 border border-slate-700 rounded-lg p-3">
+                                            <div className="flex items-center justify-between mb-1"><span className="text-sm font-bold text-white">Lv.{item.level} → {item.level + 1}</span><span className="text-xs text-slate-400">{item.percentage.toFixed(1)}%</span></div>
+                                            <div className="flex items-center justify-between mb-1"><span className="text-xs text-slate-400">{formatExpInEok(item.expNeeded)}</span><span className="text-xs text-slate-500">{formatNumber(item.expNeeded)}</span></div>
+                                            <div className="text-right border-t border-slate-700/50 mt-1 pt-1"><span className={`text-xs font-medium flex items-center justify-end gap-1 ${item.note ? 'text-pink-400' : 'text-emerald-400'}`}>{!item.note && <Clock className="w-3 h-3" />} {timeText}</span></div>
+                                        </div>
+                                    );
+                                }) : <div className="text-center py-10 text-slate-500">레벨 설정을 확인해주세요.</div>}
                             </div>
                         </div>
                     </div>
