@@ -1,0 +1,42 @@
+export interface ExpressBoosterExp {
+    level: number;
+    exp: number;
+}
+
+export const EXPRESS_BOOSTER_EXP: ExpressBoosterExp[] = [
+    { level: 260, exp: 331288512 },
+    { level: 261, exp: 336055680 },
+    { level: 262, exp: 340830528 },
+    { level: 263, exp: 345638976 },
+    { level: 264, exp: 351054528 },
+    { level: 265, exp: 454179859 },
+    { level: 266, exp: 460416355 },
+    { level: 267, exp: 466676698 },
+    { level: 268, exp: 473747597 },
+    { level: 269, exp: 480079699 },
+    { level: 270, exp: 657274330 },
+    { level: 271, exp: 666983386 },
+    { level: 272, exp: 675664819 },
+    { level: 273, exp: 684404851 },
+    { level: 274, exp: 694285133 },
+    { level: 275, exp: 780332851 },
+    { level: 276, exp: 790168781 },
+    { level: 277, exp: 801295488 },
+    { level: 278, exp: 811235174 },
+    { level: 279, exp: 822451661 },
+    { level: 280, exp: 824646480 },
+    { level: 281, exp: 835899360 },
+    { level: 282, exp: 845944320 },
+    { level: 283, exp: 857282400 },
+    { level: 284, exp: 867426720 },
+    { level: 285, exp: 975111600 },
+    { level: 286, exp: 986472960 },
+    { level: 287, exp: 999300240 },
+    { level: 288, exp: 1012206240 },
+    { level: 289, exp: 1023717360 },
+    { level: 290, exp: 1058364614 },
+    { level: 291, exp: 1070220250 },
+    { level: 292, exp: 1083644890 },
+    { level: 293, exp: 1097150122 },
+    { level: 294, exp: 1109186813 },
+];
