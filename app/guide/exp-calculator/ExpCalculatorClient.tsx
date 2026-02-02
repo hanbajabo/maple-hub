@@ -67,6 +67,7 @@ export default function ExpCalculatorClient() {
     const [vipBoosterCount, setVipBoosterCount] = useState(1);
     const [useElanos, setUseElanos] = useState(false);
     const [useRune, setUseRune] = useState(false);
+    const [burningFieldStage, setBurningFieldStage] = useState(0);
 
     const monsterParkData = useMemo(() => getMonsterParkExp(currentLevel), [currentLevel]);
     const monsterParkEventBonus = mpEventSkillLevel > 0 ? (mpEventSkillLevel / 100) : 0;
@@ -127,6 +128,8 @@ export default function ExpCalculatorClient() {
 
             while (remainingExp > 0 && currentSimLevel < targetLevel) {
                 // Check if any consumables can be used at this level
+                const burningBonus = burningFieldStage * 10;
+
                 if (inventory.booster > 0) {
                     const d = EXPRESS_BOOSTER_EXP.find(x => x.level === Math.min(currentSimLevel, 294));
                     if (d) {
@@ -150,8 +153,8 @@ export default function ExpCalculatorClient() {
                     if (monsterData) {
                         // VIP Booster: 10x Mob EXP, 190 mobs
                         // Rune Bonus applied: Avg 125% (Sync with Rune)
-                        // Formula: Base * 10 (VIP) * 190 * (1 + (Add% + 125%)/100)
-                        const oneMobVipExp = monsterData.exp * 10 * ((100 + additionalExpRate + 125) / 100);
+                        // Formula: Base * 10 (VIP) * 190 * (1 + (Add% + 125% + Burning%)/100)
+                        const oneMobVipExp = monsterData.exp * 10 * ((100 + additionalExpRate + 125 + burningBonus) / 100);
                         const amount = oneMobVipExp * 190 * inventory.vipBooster;
                         carriedOverExp += amount;
                         totalExpSources.vipBooster += amount;
@@ -241,14 +244,15 @@ export default function ExpCalculatorClient() {
                         // Blessed Rune: +200% EXP for 180s * 1 time
                         // Avg Bonus = ((4 * 180 * 100) + (1 * 180 * 200)) / 4500 = 108000 / 4500 = 24%
                         const runeBonus = useRune ? 24 : 0;
+                        // burningBonus is defined at top of loop
 
-                        // Normal Hunting: Base + Additional + Rune
-                        const oneMobExp = monsterData.exp * 1.2 * ((100 + additionalExpRate + runeBonus) / 100);
+                        // Normal Hunting: Base + Additional + Rune + Burning
+                        const oneMobExp = monsterData.exp * 1.2 * ((100 + additionalExpRate + runeBonus + burningBonus) / 100);
                         dailyHuntingExp = oneMobExp * mobsPerHour * dailyHuntingHours;
 
                         if (useElanos) {
-                            // Elanos: Base + Additional (NO Rune)
-                            const oneMobElanosExp = monsterData.exp * 1.2 * ((100 + additionalExpRate) / 100);
+                            // Elanos: Base + Additional + Burning (NO Rune)
+                            const oneMobElanosExp = monsterData.exp * 1.2 * ((100 + additionalExpRate + burningBonus) / 100);
                             dailyHuntingExp += oneMobElanosExp * 10000;
                         }
                     }
@@ -332,7 +336,7 @@ export default function ExpCalculatorClient() {
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCount, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, useMechaberryFarm, mechaberryFarmCount, epicDungeonBonus15, epicDungeonBonus20, epicDungeonBonus25, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCount, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, useMechaberryFarm, mechaberryFarmCount, epicDungeonBonus15, epicDungeonBonus20, epicDungeonBonus25, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -351,6 +355,7 @@ export default function ExpCalculatorClient() {
             ['추가 경험치 (%)', `${additionalExpRate}%`],
             ['룬 해방', useRune ? 'O (4+1 사이클)' : 'X'],
             ['엘라노스', useElanos ? 'O' : 'X'],
+            ['버닝 필드', burningFieldStage > 0 ? `${burningFieldStage}단계 (+${burningFieldStage * 10}%)` : '0단계'],
             [],
             ['[일일 컨텐츠]'],
             ['몬스터 파크', `${monsterParkCount}회 (이벤트 +${mpEventSkillLevel}%)`],
@@ -485,8 +490,22 @@ export default function ExpCalculatorClient() {
                                                 </label>
                                                 <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer p-2 bg-slate-800 border border-slate-700 rounded-lg hover:border-green-500 transition-colors">
                                                     <input type="checkbox" checked={useElanos} onChange={(e) => setUseElanos(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-green-600 focus:ring-green-500" />
-                                                    <span>🦁 엘라노스 추가 경험치 (하루 20번) <span className="text-slate-500 text-[10px] ml-1">약 10,000마리분</span></span>
+                                                    <span>🦁 엘라노스 추가 경험치 (하루 20번) <span className="text-slate-500 text-xs ml-1">약 10,000마리분</span></span>
                                                 </label>
+                                                <div className="flex items-center justify-between p-2 bg-slate-800 border border-slate-700 rounded-lg">
+                                                    <label className="flex items-center gap-2 text-xs text-slate-300">
+                                                        <span>🔥 버닝 필드 (단계별 +10%)</span>
+                                                    </label>
+                                                    <select
+                                                        value={burningFieldStage}
+                                                        onChange={(e) => setBurningFieldStage(Number(e.target.value))}
+                                                        className="h-6 bg-slate-700 border border-slate-600 rounded text-xs px-2 text-white outline-none focus:border-red-500"
+                                                    >
+                                                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(v => (
+                                                            <option key={v} value={v}>{v}단계 ({v * 10}%)</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
