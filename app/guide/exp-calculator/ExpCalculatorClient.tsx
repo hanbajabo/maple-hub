@@ -234,13 +234,13 @@ export default function ExpCalculatorClient() {
                     const monsterData = MONSTER_EXP.find(d => d.level === currentSimLevel);
                     if (monsterData) {
                         // Rune Logic:
-                        // 1 Cycle = 4 Runes (3 Regular + 1 Blessed)
-                        // Cooldown: 15 min (900s) -> Total Cycle Time: 4 * 900s = 3600s
+                        // 1 Cycle = 5 Runes (4 Regular + 1 Blessed)
+                        // Cooldown: 15 min (900s) -> Total Cycle Time: 5 * 900s = 4500s
                         // Duration: 180s per rune
-                        // Regular Rune: +100% EXP for 180s * 3 times
+                        // Regular Rune: +100% EXP for 180s * 4 times
                         // Blessed Rune: +200% EXP for 180s * 1 time
-                        // Avg Bonus = ((3 * 180 * 100) + (1 * 180 * 200)) / 3600 = 90000 / 3600 = 25%
-                        const runeBonus = useRune ? 25 : 0;
+                        // Avg Bonus = ((4 * 180 * 100) + (1 * 180 * 200)) / 4500 = 108000 / 4500 = 24%
+                        const runeBonus = useRune ? 24 : 0;
 
                         // Normal Hunting: Base + Additional + Rune
                         const oneMobExp = monsterData.exp * 1.2 * ((100 + additionalExpRate + runeBonus) / 100);
@@ -337,16 +337,83 @@ export default function ExpCalculatorClient() {
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
     const exportToExcel = () => {
-        const worksheetData = [['레벨 구간', '필요 경험치', '진행률 (%)', '예상 소요 시간'], ...calculatedData.levelBreakdown.map(item => {
-            const d = Math.floor(item.daysNeeded);
-            const h = dailyHuntingHours > 0 ? Math.round((item.daysNeeded - d) * dailyHuntingHours) : 0;
-            const timeText = item.note ? item.note : item.daysNeeded > 0 ? `${d > 0 ? `${d}일 ` : ''}${h > 0 ? `${h}시간` : ''}` : '-';
-            return [`Lv.${item.level} → ${item.level + 1}`, item.expNeeded, `${item.percentage.toFixed(1)}%`, timeText];
-        }), [], ['총 필요 경험치', calculatedData.totalExpNeeded], ['예상 소요 일수', calculatedData.daysNeeded > 0 ? `${calculatedData.daysNeeded.toFixed(1)}일` : '-'], ['예상 소요 시간', calculatedData.hoursNeeded > 0 ? `${calculatedData.hoursNeeded.toFixed(1)}시간` : '-']];
-        const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, '경험치 계산');
-        XLSX.writeFile(workbook, `메이플_경험치계산_Lv${currentLevel}to${targetLevel}.xlsx`);
+        // Sheet 1: 기본 설정 및 입력 정보
+        const settingsData = [
+            ['[기본 설정 및 사냥 정보]'],
+            ['현재 레벨', currentLevel, '목표 레벨', targetLevel],
+            ['현재 경험치 (%)', `${currentLevelExp}%`],
+            ['하이퍼 버닝 여부', useHyperBurning ? 'O' : 'X', '버닝 비욘드 여부', useBurningBeyond ? 'O' : 'X'],
+            [],
+            ['[사냥 설정]'],
+            ['모드', huntingMode === 'calculate' ? '자동 계산' : huntingMode === 'manual' ? '직접 입력' : '퍼센트 입력'],
+            ['하루 사냥 시간', `${dailyHuntingHours}시간`],
+            ['시간당 마릿수', `${formatNumber(mobsPerHour)}마리`],
+            ['추가 경험치 (%)', `${additionalExpRate}%`],
+            ['룬 해방', useRune ? 'O (4+1 사이클)' : 'X'],
+            ['엘라노스', useElanos ? 'O' : 'X'],
+            [],
+            ['[일일 컨텐츠]'],
+            ['몬스터 파크', `${monsterParkCount}회 (이벤트 +${mpEventSkillLevel}%)`],
+            ['일요일 보너스', useSundayMPBonus ? 'O' : 'X'],
+            ['익스트림 몬파', useExtremeMonsterPark ? 'O (주간)' : 'X'],
+            ['아케인 일퀘', useArcaneQuest ? `O (이벤트 +${arcaneEventSkillLevel}%)` : 'X'],
+            ['그란디스 일퀘', useGrandisQuest ? `O (이벤트 +${grandisEventSkillLevel}%)` : 'X'],
+            [],
+            ['[주간/에픽 컨텐츠]'],
+            ['에픽던전 보너스', `1.5배: ${epicDungeonBonus15 ? 'O' : 'X'} / 2배: ${epicDungeonBonus20 ? 'O' : 'X'} / 2.5배: ${epicDungeonBonus25 ? 'O' : 'X'}`],
+            ['하이마운틴', useHighMountain ? `O (${highMountainReward === 'basic' ? '기본' : highMountainReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
+            ['앵글러 컴퍼니', useAnglerCompany ? `O (${anglerCompanyReward === 'basic' ? '기본' : anglerCompanyReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
+            ['악몽선경', useNightmareGarden ? `O (${nightmareGardenReward === 'basic' ? '기본' : nightmareGardenReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
+            [],
+            ['[소비 아이템]'],
+            ['VIP 사우나', useVipSauna ? `${vipSaunaCount}장` : 'X'],
+            ['상급 EXP 쿠폰', useAdvancedExpCoupon ? `${advancedExpCouponCount}개` : 'X'],
+            ['메카베리 농장', useMechaberryFarm ? `${mechaberryFarmCount}회` : 'X'],
+            ['익스프레스 부스터', useExpressBooster ? `${expressBoosterCount}개` : 'X'],
+            ['VIP/헥사 부스터', useVipBooster ? `${vipBoosterCount}개` : 'X']
+        ];
+
+        // Sheet 2: 결과 요약 및 경험치 분석
+        const summaryData = [
+            ['[결과 요약]'],
+            ['총 필요 경험치', formatNumber(calculatedData.totalExpNeeded), formatExpInEok(calculatedData.totalExpNeeded)],
+            ['예상 소요 일수', `${calculatedData.daysNeeded.toFixed(1)}일`],
+            ['순수 사냥 시간', `${calculatedData.hoursNeeded.toFixed(1)}시간`],
+            [],
+            ['[경험치 획득원 분석]'],
+            ['항목', '획득 경험치', '비중 (%)'],
+            ...calculatedData.sourceBreakdown.map(item => [item.name, formatNumber(item.value), `${item.percent.toFixed(2)}%`])
+        ];
+
+        // Sheet 3: 레벨별 상세 내역
+        const levelData = [
+            ['구간', '필요 경험치', '진행률 (%)', '예상 소요 시간', '비고'],
+            ...calculatedData.levelBreakdown.map(item => {
+                const d = Math.floor(item.daysNeeded);
+                const h = dailyHuntingHours > 0 ? Math.round((item.daysNeeded - d) * dailyHuntingHours) : 0;
+                const timeText = item.daysNeeded > 0 ? `${d}일 ${h}시간` : '-';
+                return [`Lv.${item.level} → ${item.level + 1}`, formatNumber(item.expNeeded), `${item.percentage.toFixed(2)}%`, timeText, item.note || ''];
+            })
+        ];
+
+        const wb = XLSX.utils.book_new();
+
+        const wsSettings = XLSX.utils.aoa_to_sheet(settingsData);
+        XLSX.utils.book_append_sheet(wb, wsSettings, '입력 설정');
+
+        const wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
+        XLSX.utils.book_append_sheet(wb, wsSummary, '결과 분석');
+
+        const wsLevel = XLSX.utils.aoa_to_sheet(levelData);
+        XLSX.utils.book_append_sheet(wb, wsLevel, '레벨별 상세');
+
+        // 컬럼 너비 조정 (간단히)
+        const wscols = [{ wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 30 }, { wch: 30 }];
+        wsSettings['!cols'] = wscols;
+        wsSummary['!cols'] = wscols;
+        wsLevel['!cols'] = wscols;
+
+        XLSX.writeFile(wb, `메이플_경험치계산_Lv${currentLevel}to${targetLevel}.xlsx`);
     };
 
     return (
@@ -412,8 +479,8 @@ export default function ExpCalculatorClient() {
                                                 <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer p-2 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 transition-colors">
                                                     <input type="checkbox" checked={useRune} onChange={(e) => setUseRune(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-blue-600 focus:ring-blue-500" />
                                                     <div className="flex flex-col">
-                                                        <span>💎 룬 해방 (15분 주기/3번 일반, 1번 축복)</span>
-                                                        <span className="text-[10px] text-slate-500">지속적인 해방 시 평균 +25% 효율로 계산됨</span>
+                                                        <span>💎 룬 해방 (15분 주기/4번 일반, 1번 축복)</span>
+                                                        <span className="text-[10px] text-slate-500">지속적인 해방 시 평균 +24% 효율로 계산됨</span>
                                                     </div>
                                                 </label>
                                                 <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer p-2 bg-slate-800 border border-slate-700 rounded-lg hover:border-green-500 transition-colors">
