@@ -320,14 +320,14 @@ export default function DimensionInvaderPortfolio() {
                         </div>
                         <div className="flex-1 bg-purple-50 p-3 rounded-lg border border-purple-200 text-center">
                             <div className="font-extrabold text-purple-700 mb-1 text-base">Hard</div>
-                            <div className="text-xs text-gray-600">하드 스우</div>
-                            <div className="text-[10px] text-gray-400 mt-1">(본캐 숙제)</div>
+                            <div className="text-xs text-gray-600">하드 스우급</div>
+                            <div className="text-[10px] text-gray-400 mt-1">(중스펙)</div>
                         </div>
                         <div className="flex-1 bg-red-50 p-3 rounded-lg border border-red-200 text-center relative overflow-hidden">
                             <div className="absolute top-0 right-0 bg-red-600 text-white text-[9px] px-1.5 py-0.5 rounded-bl">RANK</div>
                             <div className="font-extrabold text-red-700 mb-1 text-base">Extreme</div>
                             <div className="text-xs text-gray-600">명예 경쟁</div>
-                            <div className="text-[10px] text-gray-400 mt-1">(Time Attack)</div>
+                            <div className="text-[10px] text-gray-400 mt-1">(Tactical Score)</div>
                         </div>
                     </div>
                 </div>
@@ -392,7 +392,7 @@ export default function DimensionInvaderPortfolio() {
                             <span className="block text-base font-bold text-gray-900 mb-1 mt-1">1. 성장 보상</span>
                             <p className="text-sm text-gray-700 leading-snug">
                                 기간 내 <span className="font-bold text-red-600 border-b-2 border-red-100">계정당 1회</span>만 지급.<br />
-                                <span className="text-xs text-gray-500">('균열의 주인' 클리어 시 획득)</span>
+                                <span className="text-xs text-gray-500">('균열의 주인' 클리어 시 '차원의 전리품' 획득)</span>
                             </p>
                         </div>
                         <div className="bg-white p-4 rounded-lg border border-amber-200 shadow-sm relative">
@@ -400,7 +400,7 @@ export default function DimensionInvaderPortfolio() {
                             <span className="block text-base font-bold text-gray-900 mb-1 mt-1">2. 도전 보상</span>
                             <p className="text-sm text-gray-700 leading-snug">
                                 횟수 제한 없이 <span className="font-bold text-blue-600 border-b-2 border-blue-100">무한 도전</span> 가능.<br />
-                                <span className="text-xs text-gray-500">(치장 아이템 드랍)</span>
+                                <span className="text-xs text-gray-500">(치장 아이템 '이계의 유물' 드랍)</span>
                             </p>
                         </div>
                     </div>
