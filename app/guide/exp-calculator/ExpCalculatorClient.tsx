@@ -33,7 +33,8 @@ export default function ExpCalculatorClient() {
     const [mobsPerHour, setMobsPerHour] = useState(14000);
     const [additionalExpRate, setAdditionalExpRate] = useState(0);
 
-    const [monsterParkCount, setMonsterParkCount] = useState(2);
+    const [monsterParkCountWeek, setMonsterParkCountWeek] = useState(2);
+    const [monsterParkCountSun, setMonsterParkCountSun] = useState(7);
     const [mpEventSkillLevel, setMpEventSkillLevel] = useState(0);
     const [arcaneEventSkillLevel, setArcaneEventSkillLevel] = useState(0);
     const [grandisEventSkillLevel, setGrandisEventSkillLevel] = useState(0);
@@ -73,8 +74,7 @@ export default function ExpCalculatorClient() {
     const monsterParkEventBonus = mpEventSkillLevel > 0 ? (mpEventSkillLevel / 100) : 0;
     const mondayToSaturdayMultiplier = 1.0 + monsterParkEventBonus;
     const sundayMultiplier = (useSundayMPBonus ? 1.5 : 1.0) + monsterParkEventBonus;
-    const baseAverageWeeklyMultiplier = (mondayToSaturdayMultiplier * 6 + sundayMultiplier) / 7;
-    const dailyMonsterParkExp = monsterParkData.exp * monsterParkCount * baseAverageWeeklyMultiplier;
+    const dailyMonsterParkExp = (monsterParkData.exp * monsterParkCountWeek * mondayToSaturdayMultiplier * 6 + monsterParkData.exp * monsterParkCountSun * sundayMultiplier) / 7;
 
     const arcaneQuestEventBonus = arcaneEventSkillLevel > 0 ? (arcaneEventSkillLevel / 100) : 0;
     const grandisQuestEventBonus = grandisEventSkillLevel > 0 ? (grandisEventSkillLevel / 100) : 0;
@@ -109,7 +109,7 @@ export default function ExpCalculatorClient() {
         const monsterParkBreakdown: Array<{ level: number; area: string; exp: number; days: number }> = [];
         let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0 };
 
-        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCount > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm) {
+        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm) {
             let remainingExp = totalExpNeeded;
             let currentSimLevel = currentLevel;
             let currentSimLevelProgress = currentLevelExp;
@@ -184,7 +184,7 @@ export default function ExpCalculatorClient() {
                 const grandisBonus = grandisEventSkillLevel > 0 ? (grandisEventSkillLevel / 100) : 0;
 
                 const mpData = getMonsterParkExp(currentSimLevel);
-                const dailyMonsterParkExpSim = mpData.exp * monsterParkCount * baseAverageWeeklyMultiplier;
+                const dailyMonsterParkExpSim = (mpData.exp * monsterParkCountWeek * mondayToSaturdayMultiplier * 6 + mpData.exp * monsterParkCountSun * sundayMultiplier) / 7;
                 const dailyArcaneQuestExpSim = useArcaneQuest ? getArcaneDailyQuest(currentSimLevel).exp * (1 + arcaneBonus) : 0;
                 const dailyGrandisQuestExpSim = useGrandisQuest ? getGrandisDailyQuest(currentSimLevel).exp * (1 + grandisBonus) : 0;
 
@@ -220,7 +220,7 @@ export default function ExpCalculatorClient() {
                     }
                 }
 
-                if (mpData.area !== currentMonsterParkArea && monsterParkCount > 0) {
+                if (mpData.area !== currentMonsterParkArea && (monsterParkCountWeek > 0 || monsterParkCountSun > 0)) {
                     if (currentMonsterParkArea && monsterParkDayCount > 0) monsterParkBreakdown[monsterParkBreakdown.length - 1].days = monsterParkDayCount;
                     monsterParkBreakdown.push({ level: currentSimLevel, area: mpData.area, exp: mpData.exp, days: 0 });
                     currentMonsterParkArea = mpData.area;
@@ -310,8 +310,8 @@ export default function ExpCalculatorClient() {
             }
             if (monsterParkBreakdown.length > 0 && monsterParkDayCount > 0) monsterParkBreakdown[monsterParkBreakdown.length - 1].days = monsterParkDayCount;
 
-            if (useSundayMaple && monsterParkCount > 0) {
-                const sundayMapleExtraExp = monsterParkData.exp * monsterParkCount * 2.5;
+            if (useSundayMaple && monsterParkCountSun > 0) {
+                const sundayMapleExtraExp = monsterParkData.exp * monsterParkCountSun * 2.5;
                 const dailyAvgExp = (huntingExpPerHour * dailyHuntingHours) + dailyQuestExp + dailyMonsterParkExp + dailyArcaneQuestExp + dailyGrandisQuestExp;
                 daysNeeded = dailyAvgExp > 0 ? Math.max(0, dayCount - (sundayMapleExtraExp / dailyAvgExp)) : dayCount;
             } else {
@@ -336,7 +336,7 @@ export default function ExpCalculatorClient() {
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCount, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, useMechaberryFarm, mechaberryFarmCount, epicDungeonBonus15, epicDungeonBonus20, epicDungeonBonus25, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, useMechaberryFarm, mechaberryFarmCount, epicDungeonBonus15, epicDungeonBonus20, epicDungeonBonus25, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -358,7 +358,7 @@ export default function ExpCalculatorClient() {
             ['버닝 필드', burningFieldStage > 0 ? `${burningFieldStage}단계 (+${burningFieldStage * 10}%)` : '0단계'],
             [],
             ['[일일 컨텐츠]'],
-            ['몬스터 파크', `${monsterParkCount}회 (이벤트 +${mpEventSkillLevel}%)`],
+            ['몬스터 파크', `평일 ${monsterParkCountWeek}회 / 일요일 ${monsterParkCountSun}회 (이벤트 +${mpEventSkillLevel}%)`],
             ['일요일 보너스', useSundayMPBonus ? 'O' : 'X'],
             ['익스트림 몬파', useExtremeMonsterPark ? 'O (주간)' : 'X'],
             ['아케인 일퀘', useArcaneQuest ? `O (이벤트 +${arcaneEventSkillLevel}%)` : 'X'],
@@ -544,9 +544,21 @@ export default function ExpCalculatorClient() {
                                             <span className="text-xs text-slate-500">%</span>
                                         </div>
                                     </div>
-                                    <select value={monsterParkCount} onChange={(e) => setMonsterParkCount(Number(e.target.value))} className="w-full bg-slate-800 border border-slate-700 rounded text-sm px-2 py-1 text-white mb-2">
-                                        {[0, 1, 2, 3, 4, 5, 6, 7].map(c => <option key={c} value={c}>{c}회 {c === 2 ? '(무료)' : ''}</option>)}
-                                    </select>
+
+                                    <div className="grid grid-cols-2 gap-2 mb-2">
+                                        <div>
+                                            <label className="text-[10px] text-slate-500 block mb-1">평일 (월~토)</label>
+                                            <select value={monsterParkCountWeek} onChange={(e) => setMonsterParkCountWeek(Number(e.target.value))} className="w-full bg-slate-800 border border-slate-700 rounded text-sm px-2 py-1 text-white">
+                                                {[0, 1, 2, 3, 4, 5, 6, 7].map(c => <option key={c} value={c}>{c}회 {c === 2 ? '(무료)' : ''}</option>)}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="text-[10px] text-slate-500 block mb-1">일요일</label>
+                                            <select value={monsterParkCountSun} onChange={(e) => setMonsterParkCountSun(Number(e.target.value))} className="w-full bg-slate-800 border border-slate-700 rounded text-sm px-2 py-1 text-white">
+                                                {[0, 1, 2, 3, 4, 5, 6, 7].map(c => <option key={c} value={c}>{c}회 {c === 2 ? '(무료)' : ''}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div className="text-xs flex items-center gap-2">
                                         <input type="checkbox" id="sunday" checked={useSundayMPBonus} onChange={(e) => setUseSundayMPBonus(e.target.checked)} />
                                         <label htmlFor="sunday" className="cursor-pointer text-slate-300">일요일 보너스 (1.5배)</label>
