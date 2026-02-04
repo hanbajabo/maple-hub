@@ -199,8 +199,9 @@ export default function ExpProductEfficiency() {
                                                     { rank: 17, name: '몬스터 파크', detail: '썬데이메이플(4.8배)', price: '600 메포', abs280: 648, abs285: 816, abs290: 970 },
                                                     { rank: 18, name: '몬스터 파크', detail: '일요일+보약(2.3배)', price: '600 메포', abs280: 310, abs285: 391, abs290: 465 },
                                                     { rank: 19, name: '사우나', detail: '1시간', price: '3,000 메포', abs280: 410, abs285: 410, abs290: 410 },
-                                                    { rank: 20, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', abs280: 205, abs285: 205, abs290: 205 },
-                                                    { rank: 21, name: '몬스터 파크', detail: '기본배율', price: '600 메포', abs280: 135, abs285: 170, abs290: 202 },
+                                                    { rank: 20, name: '몬스터 파크', detail: '평일 보약(1.7배)', price: '600 메포', abs280: 230, abs285: 289, abs290: 343 },
+                                                    { rank: 21, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', abs280: 205, abs285: 205, abs290: 205 },
+                                                    { rank: 22, name: '몬스터 파크', detail: '기본배율', price: '600 메포', abs280: 135, abs285: 170, abs290: 202 },
                                                 ];
 
                                                 let sortedData = [...data];
@@ -315,14 +316,15 @@ export default function ExpProductEfficiency() {
                                                     { rank: 11, name: '메카베리 농장', detail: '메소 구매', price: '5억 메소', eff280: 5632, eff285: 7509, eff290: 8135, tier: 'B' },
                                                     { rank: 12, name: '익스프레스 패스', detail: '캐시 구매', price: '30,000 캐시', eff280: 8107, eff285: 8107, eff290: 8107, tier: 'B' },
                                                     { rank: 13, name: '앵글러 컴퍼니', detail: '0→1', price: '10,000 메포', eff280: 7906, eff285: 7906, eff290: 7906, tier: 'B' },
-                                                    { rank: 14, name: '악몽선경', detail: '0→1', price: '12,500 메포', eff280: 7708, eff285: 7708, eff290: 7708, tier: 'B' },
-                                                    { rank: 15, name: '챌린저스 EXP 듀오', detail: '10만 마리', price: '10,000 캐시', eff280: 6855, eff285: 6855, eff290: 6855, tier: 'C' },
-                                                    { rank: 16, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', eff280: 4556, eff285: 4556, eff290: 4556, tier: 'C' },
-                                                    { rank: 17, name: '몬스터 파크', detail: '기본배율', price: '600 메포', eff280: 3000, eff285: 3778, eff290: 4489, tier: 'D' },
-                                                    { rank: 18, name: '악몽선경', detail: '1→2', price: '37,500 메포', eff280: 2090, eff285: 2090, eff290: 2090, tier: 'F' },
-                                                    { rank: 19, name: '앵글러 컴퍼니', detail: '1→2', price: '30,000 메포', eff280: 2006, eff285: 2006, eff290: 2006, tier: 'F' },
-                                                    { rank: 20, name: '하이마운틴', detail: '1→2', price: '22,500 메포', eff280: 1857, eff285: 1857, eff290: 1857, tier: 'F' },
-                                                    { rank: 21, name: '사우나', detail: '1시간', price: '3,000 메포', eff280: 1822, eff285: 1822, eff290: 1822, tier: 'F' },
+                                                    { rank: 14, name: '몬스터 파크', detail: '평일 보약(1.7배)', price: '600 메포', eff280: 5111, eff285: 6422, eff290: 7621, tier: 'B' },
+                                                    { rank: 15, name: '악몽선경', detail: '0→1', price: '12,500 메포', eff280: 7708, eff285: 7708, eff290: 7708, tier: 'B' },
+                                                    { rank: 16, name: '챌린저스 EXP 듀오', detail: '10만 마리', price: '10,000 캐시', eff280: 6855, eff285: 6855, eff290: 6855, tier: 'C' },
+                                                    { rank: 17, name: '익스프레스 부스터', detail: '메소 구매', price: '3,000만 메소', eff280: 4556, eff285: 4556, eff290: 4556, tier: 'C' },
+                                                    { rank: 18, name: '몬스터 파크', detail: '기본배율', price: '600 메포', eff280: 3000, eff285: 3778, eff290: 4489, tier: 'D' },
+                                                    { rank: 19, name: '악몽선경', detail: '1→2', price: '37,500 메포', eff280: 2090, eff285: 2090, eff290: 2090, tier: 'F' },
+                                                    { rank: 20, name: '앵글러 컴퍼니', detail: '1→2', price: '30,000 메포', eff280: 2006, eff285: 2006, eff290: 2006, tier: 'F' },
+                                                    { rank: 21, name: '하이마운틴', detail: '1→2', price: '22,500 메포', eff280: 1857, eff285: 1857, eff290: 1857, tier: 'F' },
+                                                    { rank: 22, name: '사우나', detail: '1시간', price: '3,000 메포', eff280: 1822, eff285: 1822, eff290: 1822, tier: 'F' },
                                                 ];
 
                                                 let sortedData = [...data];
@@ -416,18 +418,21 @@ export default function ExpProductEfficiency() {
                                         <h4 className="font-bold text-yellow-400 mb-3">0. '몬스터파크' - 일요일의 숨은 보석</h4>
                                         <div className="space-y-2 text-sm text-slate-300">
                                             <p><strong className="text-white">기본 효율 (평일): 4,489</strong> - 하위권 효율</p>
+                                            <p><strong className="text-white">평일 보약(1.7배): 7,621</strong> - B티어 효율</p>
                                             <p><strong className="text-white">일요일 + 보약버프 (2.3배): 10,325</strong> - A티어 효율!</p>
                                             <p><strong className="text-white">썬데이메이플 (4.8배): 21,547</strong> - <strong className="text-red-400">압도적 1위!</strong></p>
                                             <div className="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-3 mt-3">
                                                 <p className="text-yellow-400 font-bold mb-2">💡 일요일 활용 팁:</p>
                                                 <ul className="list-disc list-inside space-y-1">
                                                     <li>일요일에는 기본 50%p 추가 경험치가 제공됩니다</li>
+                                                    <li>평일에도 보약 버프(70%p 추가)로 1.7배 효율 가능</li>
                                                     <li>이벤트 보약 버프(80%p)와 함께 사용하면 2.3배 효율</li>
                                                     <li>스페셜 선데이 메이플 이벤트 시 250%p 추가로 4.8배!</li>
                                                     <li>썬데이메이플 이벤트가 있다면 모든 유저 필수!</li>
                                                 </ul>
                                             </div>
-                                            <p className="text-green-400 font-bold">결론: 평일엔 건너뛰고, 일요일에만 집중하는 것이 효율적입니다.</p>
+                                            <p className="text-green-400 font-bold">결론: 평일에는 보약 버프가 있을 때만, 일요일에는 무조건 집중하는 것이 효율적입니다.</p>
+
                                         </div>
                                     </div>
 
@@ -579,6 +584,7 @@ export default function ExpProductEfficiency() {
                                         <h4 className="font-bold text-yellow-400 mb-3">0. '몬스터파크' - 280~289 구간에서도 일요일은 필수</h4>
                                         <div className="space-y-2 text-sm text-slate-300">
                                             <p><strong className="text-white">기본 효율 (평일): 3,000~3,778</strong> - 최하위권</p>
+                                            <p><strong className="text-white">평일 보약(1.7배): 5,111~6,422</strong> - C~B티어 효율</p>
                                             <p><strong className="text-white">일요일 + 보약버프 (2.3배): 6,900~8,689</strong> - B~A티어 효율</p>
                                             <p><strong className="text-white">썬데이메이플 (4.8배): 14,400~18,134</strong> - <strong className="text-red-400">전체 1~2위권!</strong></p>
                                             <div className="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-3 mt-3">
@@ -586,11 +592,12 @@ export default function ExpProductEfficiency() {
                                                 <ul className="list-disc list-inside space-y-1">
                                                     <li>280~289 구간에서도 일요일 효율은 동일하게 적용됩니다</li>
                                                     <li>평일 효율(3,000~3,778)은 매우 낮으니 건너뛰세요</li>
+                                                    <li>평일 보약 버프(70%p)만으로도 C~B티어 효율 가능</li>
                                                     <li>일요일+보약만으로도 B~A티어 효율 달성</li>
                                                     <li>썬데이메이플 이벤트 시 챌린저스 EXP 듀오 64.5만마리 잡는 것보다 효율 좋음!</li>
                                                 </ul>
                                             </div>
-                                            <p className="text-green-400 font-bold">결론: 280~289 구간에서도 평일 몬파는 스킵, 일요일에만 집중!</p>
+                                            <p className="text-green-400 font-bold">결론: 280~289 구간에서도 평일에는 보약 버프가 있을 때만, 일요일에는 무조건 집중!</p>
                                         </div>
                                     </div>
 
