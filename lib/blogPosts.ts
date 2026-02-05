@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 메이플 키우기 환불 안내 (2월 5일)
+    {
+        slug: 'maple-idle-refund-guide',
+        title: "메이플 키우기 전액 환불 신청 시작",
+        description: '2월 5일부터 환불 접수가 시작되었습니다. 신청 기간(2/5~2/15), 대상, 주의사항을 꼼꼼히 확인하세요. 환불 신청 즉시 영구 이용 제한!',
+        category: '메이플 이야기',
+        date: '2026년 2월 5일',
+        readTime: '10분',
+        thumbnail: '⚠️',
+        featured: true,
+    },
     // 메이플 2월 업데이트 정리 (1월 31일)
     {
         slug: 'february-2026-update-summary',
