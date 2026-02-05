@@ -33,6 +33,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
     // 아이템 카테고리 정의
     const itemCategories = {
         '칠흑 세트': ['거공', '고근', '커포', '루컨마', '마깃안', '몽벨', '마도서', '미트라', '창뱃'],
+        '광휘 세트': ['근원의 속삭임', '죽음의 맹세', '불멸의 유산', '황홀한 악몽'],
         '에테르넬': ['에테르넬 모자', '에테르넬 상의', '에테르넬 하의', '에테르넬 견장', '에테르넬 신발', '에테르넬 장갑', '에테르넬 망토'],
         '장신구': ['가엔링', '데브팬', '블빈마', '파풀마', '분자벨', '트왈마', '에스텔라', '도미'],
         '기타 아이템': ['컨4', '리4', '자석펫'],
@@ -131,8 +132,8 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                 </p>
 
                 {/* 카테고리 필터 */}
-                <div className="mb-4 flex flex-wrap gap-2">
-                    {['전체', '칠흑 세트', '에테르넬', '장신구', '기타 아이템'].map((category) => (
+                <div className="mb-4 flex flex-wrap gap-1.5 sm:gap-2">
+                    {['전체', '칠흑 세트', '광휘 세트', '에테르넬', '장신구', '기타 아이템'].map((category) => (
                         <button
                             key={category}
                             onClick={() => {
@@ -147,7 +148,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     setSelectedItem(newFilteredItems[0]);
                                 }
                             }}
-                            className={`px-4 py-2 rounded-lg font-bold transition-all ${selectedCategory === category
+                            className={`px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-bold transition-all ${selectedCategory === category
                                 ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50'
                                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                                 }`}

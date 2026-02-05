@@ -47,7 +47,7 @@ export function getPriceData() {
 
             const itemMap: Record<string, ItemPriceInfo> = {};
             const ethernelByJob: EthernelByJob[] = [];
-            let currentSection: 'challenger' | 'main' | 'ethernel' | null = null;
+            let currentSection: 'challenger' | 'main' | 'ethernel' | 'radiant' | null = null;
 
             lines.forEach((line) => {
                 const trimmed = line.trim();
@@ -60,6 +60,8 @@ export function getPriceData() {
                         currentSection = 'main';
                     } else if (trimmed.includes('3. 에테르넬')) {
                         currentSection = 'ethernel';
+                    } else if (trimmed.includes('4. 광휘의 보스 세트')) {
+                        currentSection = 'radiant';
                     }
                     return;
                 }
@@ -80,7 +82,7 @@ export function getPriceData() {
                                 itemMap[itemName] = {};
                             }
 
-                            if (currentSection === 'ethernel' || currentSection === 'main') {
+                            if (currentSection === 'ethernel' || currentSection === 'main' || currentSection === 'radiant') {
                                 itemMap[itemName].main = price;
                             }
                             if (currentSection === 'challenger') {
