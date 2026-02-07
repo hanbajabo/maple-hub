@@ -47,14 +47,14 @@ export default function MTCPortfolio() {
                     <div className="mb-6">
                         <p className="text-base font-bold text-red-600 tracking-[0.3em] uppercase mb-3">2026 Game System Design Portfolio</p>
                         <h1 className="text-6xl font-extrabold text-gray-900 mb-4 tracking-tight">메이플 전술 훈련소</h1>
-                        <p className="text-2xl font-medium text-gray-600">
+                        <p className="text-2xl font-medium text-gray-900">
                             '스펙과 실력의 간극'을 메우는 <span className="text-red-600 font-bold">실전 시뮬레이션 DLC</span>
                         </p>
                     </div>
                     <div className="w-[600px] mx-auto flex flex-col shadow-2xl rounded-2xl overflow-hidden mb-6">
                         <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-7 text-white border-b-4 border-red-600 z-20 relative text-center">
                             <h2 className="text-3xl font-bold tracking-tight mb-3">Maple Tactical Training Center</h2>
-                            <p className="text-gray-300 text-lg font-medium">High Spec, Low Skill 문제 해결을 위한 Premium Solution</p>
+                            <p className="text-gray-500 text-lg font-medium">High Spec, Low Skill 문제 해결을 위한 Premium Solution</p>
                             <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-red-600 rotate-45 border-r border-b border-red-700 shadow-md"></div>
                         </div>
                         <div className="bg-gray-100 p-2 border-x border-b border-gray-200 flex items-center justify-center">
@@ -65,12 +65,12 @@ export default function MTCPortfolio() {
                 <div className="w-full text-right border-t border-gray-100 pt-3 mt-auto z-10 bg-white">
                     <div className="flex justify-end gap-x-8 items-baseline">
                         <div className="text-right">
-                            <p className="text-xs font-bold text-gray-400 mb-0.5 uppercase tracking-wider">Designed By</p>
+                            <p className="text-xs font-bold text-gray-600 mb-0.5 uppercase tracking-wider">Designed By</p>
                             <p className="text-2xl font-bold text-gray-900">이경준</p>
                         </div>
                         <div className="text-right">
-                            <p className="text-xs font-bold text-gray-400 mb-0.5 uppercase tracking-wider">Date</p>
-                            <p className="text-lg font-medium text-gray-700">2026. 02</p>
+                            <p className="text-xs font-bold text-gray-600 mb-0.5 uppercase tracking-wider">Date</p>
+                            <p className="text-lg font-medium text-black">2026. 02</p>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@ export default function MTCPortfolio() {
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">기획 배경 및 문제 정의</h2>
-                    <span className="text-gray-500 text-sm">01 / 07</span>
+                    <span className="text-gray-800 text-sm">01 / 07</span>
                 </div>
                 <div className="bg-red-50 border-l-4 border-red-500 p-6 mb-6 rounded-r-lg">
                     <h3 className="text-xl font-bold text-red-900 mb-3">Core Problem Statement</h3>
@@ -90,7 +90,7 @@ export default function MTCPortfolio() {
                     <div className="bg-orange-50 p-6 rounded-xl border border-orange-200">
                         <h4 className="font-bold text-lg mb-3 text-orange-600">📈 High Spec</h4>
                         <p className="text-sm text-gray-800 mb-3"><strong>스펙 상향 평준화</strong></p>
-                        <ul className="text-sm space-y-2 text-gray-700">
+                        <ul className="text-sm space-y-2 text-black">
                             <li>• 제네시스 패스 등 완화 패치</li>
                             <li>• 무기/장비 획득 난이도 하락</li>
                             <li>• 충분한 데미지 확보</li>
@@ -99,7 +99,7 @@ export default function MTCPortfolio() {
                     <div className="bg-red-50 p-6 rounded-xl border border-red-200">
                         <h4 className="font-bold text-lg mb-3 text-red-600">📉 Low Skill</h4>
                         <p className="text-sm text-gray-800 mb-3"><strong>실력 부족 문제</strong></p>
-                        <ul className="text-sm space-y-2 text-gray-700">
+                        <ul className="text-sm space-y-2 text-black">
                             <li>• 복잡해진 보스 패턴</li>
                             <li>• 유튜브 공략과 실전의 괴리</li>
                             <li>• 데스카운트 아웃 반복</li>
@@ -118,7 +118,7 @@ export default function MTCPortfolio() {
                                 <p className="text-3xl mb-1">👀</p>
                                 <p className="text-xs font-bold text-gray-900">유튜브 공략</p>
                             </div>
-                            <p className="text-xs text-gray-700">이론적 이해</p>
+                            <p className="text-xs text-black">이론적 이해</p>
                         </div>
                         <div className="text-center flex items-center justify-center">
                             <div className="text-6xl font-bold text-red-500">≠</div>
@@ -128,12 +128,12 @@ export default function MTCPortfolio() {
                                 <p className="text-3xl mb-1">🎮</p>
                                 <p className="text-xs font-bold text-gray-900">실전 플레이</p>
                             </div>
-                            <p className="text-xs text-gray-700">실제 대응력</p>
+                            <p className="text-xs text-black">실제 대응력</p>
                         </div>
                     </div>
                     <div className="bg-white p-4 rounded-lg border-2 border-red-300">
                         <p className="text-sm font-bold text-red-900 mb-2">현재 연습 모드의 한계</p>
-                        <ul className="text-xs space-y-1.5 text-gray-700">
+                        <ul className="text-xs space-y-1.5 text-black">
                             <li>• ❌ 인게임 내 패턴별 공략 가이드 부재</li>
                             <li>• ❌ 초심자에게 불친절한 높은 진입장벽</li>
                             <li>• ❌ 특정 페이즈/패턴만 반복 연습 불가</li>
@@ -146,7 +146,7 @@ export default function MTCPortfolio() {
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-3 mb-5 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">핵심 기술: 팬텀 리플레이 엔진</h2>
-                    <span className="text-gray-500 text-sm">02 / 07</span>
+                    <span className="text-gray-800 text-sm">02 / 07</span>
                 </div>
                 <div className="bg-gradient-to-r from-purple-500 to-blue-500 text-white p-6 rounded-2xl mb-5">
                     <h3 className="text-3xl font-bold mb-3">🎬 Phantom Replay Engine</h3>
@@ -159,15 +159,15 @@ export default function MTCPortfolio() {
                         <div className="space-y-2 text-sm">
                             <div className="bg-white p-2.5 rounded border-l-4 border-red-400">
                                 <p className="font-bold text-red-600 mb-0.5">AI 인스턴스 생성</p>
-                                <p className="text-xs text-gray-700">매 입장마다 보스 AI 연산</p>
+                                <p className="text-xs text-black">매 입장마다 보스 AI 연산</p>
                             </div>
                             <div className="bg-white p-2.5 rounded border-l-4 border-red-400">
                                 <p className="font-bold text-red-600 mb-0.5">서버 부하 증가</p>
-                                <p className="text-xs text-gray-700">동시 접속자↑ = 렉 발생</p>
+                                <p className="text-xs text-black">동시 접속자↑ = 렉 발생</p>
                             </div>
                             <div className="bg-white p-2.5 rounded border-l-4 border-red-400">
                                 <p className="font-bold text-red-600 mb-0.5">안정성 리스크</p>
-                                <p className="text-xs text-gray-700">라이브 서버 영향</p>
+                                <p className="text-xs text-black">라이브 서버 영향</p>
                             </div>
                         </div>
                     </div>
@@ -176,15 +176,15 @@ export default function MTCPortfolio() {
                         <div className="space-y-2 text-sm">
                             <div className="bg-white p-2.5 rounded border-l-4 border-blue-400">
                                 <p className="font-bold text-blue-600 mb-0.5">로그 재생 방식</p>
-                                <p className="text-xs text-gray-700">AI 연산 제거</p>
+                                <p className="text-xs text-black">AI 연산 제거</p>
                             </div>
                             <div className="bg-white p-2.5 rounded border-l-4 border-blue-400">
                                 <p className="font-bold text-blue-600 mb-0.5">서버 부하 Zero</p>
-                                <p className="text-xs text-gray-700">단순 데이터 스트리밍</p>
+                                <p className="text-xs text-black">단순 데이터 스트리밍</p>
                             </div>
                             <div className="bg-white p-2.5 rounded border-l-4 border-blue-400">
                                 <p className="font-bold text-blue-600 mb-0.5">100% 재현</p>
-                                <p className="text-xs text-gray-700">실전과 동일한 경험</p>
+                                <p className="text-xs text-black">실전과 동일한 경험</p>
                             </div>
                         </div>
                     </div>
@@ -194,17 +194,17 @@ export default function MTCPortfolio() {
                     <div className="flex items-center justify-between gap-2">
                         <div className="flex-1 bg-white p-2.5 rounded-lg border-2 border-gray-300 text-center">
                             <p className="font-bold text-sm mb-1 text-gray-900">1️⃣ 로그 수집</p>
-                            <p className="text-xs text-gray-700">실제 클리어 영상의<br />보스 행동 기록</p>
+                            <p className="text-xs text-black">실제 클리어 영상의<br />보스 행동 기록</p>
                         </div>
                         <span className="text-xl text-indigo-600">→</span>
                         <div className="flex-1 bg-white p-2.5 rounded-lg border-2 border-gray-300 text-center">
                             <p className="font-bold text-sm mb-1 text-gray-900">2️⃣ 데이터 변환</p>
-                            <p className="text-xs text-gray-700">움직임/판정/이펙트<br />타임스탬프화</p>
+                            <p className="text-xs text-black">움직임/판정/이펙트<br />타임스탬프화</p>
                         </div>
                         <span className="text-xl text-indigo-600">→</span>
                         <div className="flex-1 bg-white p-2.5 rounded-lg border-2 border-gray-300 text-center">
                             <p className="font-bold text-sm mb-1 text-gray-900">3️⃣ 재생</p>
-                            <p className="text-xs text-gray-700">AI 없이<br />로그만 스트리밍</p>
+                            <p className="text-xs text-black">AI 없이<br />로그만 스트리밍</p>
                         </div>
                     </div>
                 </div>
@@ -227,7 +227,7 @@ export default function MTCPortfolio() {
             <div className="a4-page flex flex-col">
                 <div className="border-b-2 border-gray-900 pb-3 mb-4 flex justify-between items-end shrink-0">
                     <h2 className="text-3xl font-bold text-black leading-none">핵심 학습 시스템 (Core Learning System)</h2>
-                    <span className="text-gray-500 text-sm">03 / 07</span>
+                    <span className="text-gray-800 text-sm">03 / 07</span>
                 </div>
 
                 <div className="bg-orange-50 border-l-4 border-orange-500 p-3 rounded-r mb-3 shrink-0">
@@ -327,7 +327,7 @@ export default function MTCPortfolio() {
                 <div>
                     <div className="border-b-2 border-gray-900 pb-3 mb-6 flex justify-between items-end shrink-0">
                         <h2 className="text-3xl font-bold text-black leading-none">콘텐츠 구조 설계 (Tiered Structure)</h2>
-                        <span className="text-gray-500 text-sm">04 / 07</span>
+                        <span className="text-gray-800 text-sm">04 / 07</span>
                     </div>
                     <div className="bg-indigo-50 border-l-4 border-indigo-600 p-5 rounded-r mb-8 shrink-0 shadow-sm">
                         <h3 className="text-xl font-bold text-indigo-900 mb-2">🎯 설계 목표: "넓은 보스 풀, 깊이 있는 학습 경험"</h3>
@@ -399,12 +399,12 @@ export default function MTCPortfolio() {
                         </div>
                         <div className="p-4 flex-1 grid grid-cols-[1fr_1.5fr] gap-4 items-center">
                             <div>
-                                <p className="text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Target Boss</p>
+                                <p className="text-xs font-bold text-gray-600 mb-1 uppercase tracking-wider">Target Boss</p>
                                 <p className="font-bold text-white text-lg break-keep leading-snug">이지 칼로스, 카링 등</p>
-                                <p className="text-xs text-gray-300 mt-1 break-keep font-medium opacity-80">최신 보스 및 신규 패턴 실험</p>
+                                <p className="text-xs text-gray-500 mt-1 break-keep font-medium opacity-80">최신 보스 및 신규 패턴 실험</p>
                             </div>
                             <div>
-                                <p className="text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Key Features</p>
+                                <p className="text-xs font-bold text-gray-600 mb-1 uppercase tracking-wider">Key Features</p>
                                 <ul className="text-sm text-white list-disc list-inside font-medium space-y-1">
                                     <li>랜덤 팬텀 리플레이(3~5종)</li>
                                     <li>직업별 무브먼트 매칭</li>
@@ -421,15 +421,15 @@ export default function MTCPortfolio() {
                     {/* Tier 4 (New) */}
                     <div className="flex-1 flex bg-white rounded-xl border-2 border-dashed border-gray-400 overflow-hidden shadow-sm opacity-90">
                         <div className="bg-gray-50 p-4 w-32 flex flex-col justify-center items-center text-center border-r border-dashed border-gray-300 shrink-0">
-                            <h4 className="text-2xl font-bold text-gray-500 mb-1">Tier 4+</h4>
-                            <span className="text-xs bg-gray-200 text-gray-500 px-2 py-1 rounded-full font-bold">확장 가능성</span>
+                            <h4 className="text-2xl font-bold text-gray-800 mb-1">Tier 4+</h4>
+                            <span className="text-xs bg-gray-200 text-gray-800 px-2 py-1 rounded-full font-bold">확장 가능성</span>
                         </div>
                         <div className="p-4 flex-1 flex flex-col justify-center gap-2">
                             <p className="font-bold text-gray-800 text-base">"점진적으로 필요 할 때 마다 추가 가능성 열어둠"</p>
-                            <p className="text-sm text-gray-600 leading-snug">기획 의도: 유저들이 일정 보스 이상 잡기를 원할 때마다<br />유동적으로 Tier를 확장하여 대응</p>
+                            <p className="text-sm text-gray-900 leading-snug">기획 의도: 유저들이 일정 보스 이상 잡기를 원할 때마다<br />유동적으로 Tier를 확장하여 대응</p>
                         </div>
                         <div className="bg-gray-50 p-4 w-28 flex justify-center items-center text-center border-l border-dashed border-gray-300 shrink-0">
-                            <p className="text-xs font-bold text-gray-500 break-keep leading-relaxed">"지속 가능한<br />서비스 확장"</p>
+                            <p className="text-xs font-bold text-gray-800 break-keep leading-relaxed">"지속 가능한<br />서비스 확장"</p>
                         </div>
                     </div>
                 </div>
@@ -439,7 +439,7 @@ export default function MTCPortfolio() {
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end">
                     <h2 className="text-3xl font-bold text-black">BM 전략 및 가격 정책</h2>
-                    <span className="text-gray-500 text-sm">05 / 07</span>
+                    <span className="text-gray-800 text-sm">05 / 07</span>
                 </div>
                 <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-6 rounded-2xl mb-6">
                     <h3 className="text-2xl font-bold mb-3">💰 메이플 시뮬레이션 패스 (MSP)</h3>
@@ -483,29 +483,29 @@ export default function MTCPortfolio() {
                                 <td className="p-2"><span className="px-2 py-1 bg-blue-200 rounded text-blue-900 font-bold">체험형</span></td>
                                 <td className="p-2 font-bold text-gray-900">1 Day 티켓</td>
                                 <td className="p-2 text-center"><span className="font-bold text-blue-600">1,900 메포</span></td>
-                                <td className="p-2 text-gray-700">M.T.C 24시간 무제한 이용</td>
-                                <td className="p-2 text-gray-700">단기 집중 연습</td>
+                                <td className="p-2 text-black">M.T.C 24시간 무제한 이용</td>
+                                <td className="p-2 text-black">단기 집중 연습</td>
                             </tr>
                             <tr className="border-b border-gray-200 bg-green-50">
                                 <td className="p-2"><span className="px-2 py-1 bg-green-200 rounded text-green-900 font-bold">실속형</span></td>
                                 <td className="p-2 font-bold text-gray-900">위클리 패스</td>
                                 <td className="p-2 text-center"><span className="font-bold text-green-600">9,900원</span></td>
-                                <td className="p-2 text-gray-700">7일 무제한 + 칭호 [전술 훈련생]</td>
-                                <td className="p-2 text-gray-700">주말 보스 트라이</td>
+                                <td className="p-2 text-black">7일 무제한 + 칭호 [전술 훈련생]</td>
+                                <td className="p-2 text-black">주말 보스 트라이</td>
                             </tr>
                             <tr className="border-b border-gray-200 bg-purple-50">
                                 <td className="p-2"><span className="px-2 py-1 bg-purple-200 rounded text-purple-900 font-bold">구독형</span></td>
                                 <td className="p-2 font-bold text-gray-900">월간 마스터</td>
                                 <td className="p-2 text-center"><span className="font-bold text-purple-600">19,900원</span></td>
-                                <td className="p-2 text-gray-700">30일 무제한 + 전용 코디 세트</td>
-                                <td className="p-2 text-gray-700">전 보스 마스터</td>
+                                <td className="p-2 text-black">30일 무제한 + 전용 코디 세트</td>
+                                <td className="p-2 text-black">전 보스 마스터</td>
                             </tr>
                             <tr className="bg-yellow-50">
                                 <td className="p-2"><span className="px-2 py-1 bg-yellow-200 rounded text-yellow-900 font-bold">옵션</span></td>
                                 <td className="p-2 font-bold text-gray-900">훈련 지원 상자</td>
                                 <td className="p-2 text-center"><span className="font-bold text-yellow-600">5,000원</span></td>
-                                <td className="p-2 text-gray-700">고효율 EXP 쿠폰 1,000장</td>
-                                <td className="p-2 text-gray-700">패스 구매자만</td>
+                                <td className="p-2 text-black">고효율 EXP 쿠폰 1,000장</td>
+                                <td className="p-2 text-black">패스 구매자만</td>
                             </tr>
                         </tbody>
                     </table>
@@ -518,143 +518,223 @@ export default function MTCPortfolio() {
                                 <p className="text-2xl font-bold text-blue-600">40%</p>
                             </div>
                             <p className="font-bold text-gray-900">체험형 (1Day)</p>
-                            <p className="text-xs text-gray-700">진입장벽↓</p>
+                            <p className="text-xs text-black">진입장벽↓</p>
                         </div>
                         <div className="text-center">
                             <div className="bg-white p-3 rounded-lg border border-green-200 mb-2">
                                 <p className="text-2xl font-bold text-green-600">35%</p>
                             </div>
                             <p className="font-bold text-gray-900">실속형 (위클리)</p>
-                            <p className="text-xs text-gray-700">주력 상품</p>
+                            <p className="text-xs text-black">주력 상품</p>
                         </div>
                         <div className="text-center">
                             <div className="bg-white p-3 rounded-lg border border-purple-200 mb-2">
                                 <p className="text-2xl font-bold text-purple-600">25%</p>
                             </div>
                             <p className="font-bold text-gray-900">구독형 (월간)</p>
-                            <p className="text-xs text-gray-700">헤비 유저</p>
+                            <p className="text-xs text-black">헤비 유저</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* PAGE 6: 운영 전략 */}
-            <div className="a4-page">
-                <div className="border-b-2 border-gray-900 pb-3 mb-4 flex justify-between items-end">
-                    <h2 className="text-3xl font-bold text-black">운영 및 업데이트 전략</h2>
-                    <span className="text-gray-500 text-sm">06 / 07</span>
+            {/* PAGE 6: 운영 및 업데이트 전략 */}
+            <div className="a4-page flex flex-col relative overflow-hidden">
+                {/* 배경 데코레이션 */}
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-gray-100 to-transparent rounded-bl-full -z-10"></div>
+
+                <div className="border-b-2 border-gray-900 pb-4 mb-6 flex justify-between items-end shrink-0">
+                    <h2 className="text-3xl font-extrabold text-gray-900 leading-none tracking-tight">운영 및 업데이트 전략</h2>
+                    <span className="text-gray-800 text-sm font-bold tracking-widest">06 / 07</span>
                 </div>
-                <div className="bg-indigo-50 border-l-4 border-indigo-500 p-3.5 rounded-r mb-4">
-                    <h3 className="text-xl font-bold text-indigo-900 mb-1">📈 전략 핵심</h3>
-                    <p className="text-sm text-indigo-800">"데이터에 기반하여, 유저들이 가장 고통받는 구간부터 순차적으로 개방합니다."</p>
+                
+                {/* 전략 핵심 메시지 */}
+                <div className="bg-gray-900 rounded-xl p-5 mb-8 text-white shadow-lg shrink-0 flex flex-col justify-center relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+                    <h3 className="text-sm font-bold text-indigo-400 mb-2 uppercase tracking-wider flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                        Strategic Core
+                    </h3>
+                    <p className="text-xl font-medium leading-relaxed relative z-10">
+                        "콘텐츠의 <span className="text-yellow-400 font-bold border-b-2 border-yellow-400">수명 주기(Lifecycle)</span>를 관리하고,<br/>
+                        주간 로테이션으로 <span className="text-yellow-400 font-bold">지속적인 방문</span>을 유도합니다."
+                    </p>
                 </div>
-                {/* 순차적 업데이트 */}
-                <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-300 mb-4">
-                    <h4 className="font-bold text-lg text-blue-900 mb-3">🎯 순차적 업데이트 (Staged Release)</h4>
-                    <div className="bg-white p-3 rounded-lg mb-3 border border-blue-200">
-                        <p className="font-bold text-sm text-blue-800 mb-1.5">Phase 1: 초기 오픈 (통곡의 벽 3종)</p>
-                        <div className="grid grid-cols-3 gap-2">
-                            <div className="bg-red-50 p-2 rounded text-center border border-red-200">
-                                <p className="text-xs font-bold text-red-800">하드 진 힐라</p>
-                            </div>
-                            <div className="bg-red-50 p-2 rounded text-center border border-red-200">
-                                <p className="text-xs font-bold text-red-800">하드 세렌</p>
-                            </div>
-                            <div className="bg-red-50 p-2 rounded text-center border border-red-200">
-                                <p className="text-xs font-bold text-red-800">카오스 칼로스</p>
-                            </div>
+
+                <div className="flex-1 flex flex-col gap-8">
+
+                    {/* 1. 콘텐츠 라이프사이클 (Timeline) */}
+                    <div>
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-blue-100 text-blue-700 font-extrabold text-sm shadow-sm">1</span>
+                            <h4 className="text-xl font-bold text-gray-900">콘텐츠 라이프사이클 (Content Lifecycle)</h4>
                         </div>
-                    </div>
-                    <div className="space-y-1.5 text-sm">
-                        <div className="flex items-start gap-2">
-                            <span className="font-bold text-blue-600">•</span>
-                            <p className="text-gray-800"><strong>확장 계획:</strong> 클리어율 저조 또는 트라이 수요 폭발 시점에 상위 보스 추가</p>
-                        </div>
-                        <div className="flex items-start gap-2">
-                            <span className="font-bold text-blue-600">•</span>
-                            <p className="text-gray-800"><strong>효과:</strong> 콘텐츠 소모 속도 조절 및 기대감(Hype) 유지</p>
-                        </div>
-                    </div>
-                </div>
-                {/* 최신 보스 유예 정책 */}
-                <div className="bg-yellow-50 p-4 rounded-xl border-2 border-yellow-300 mb-4">
-                    <h4 className="font-bold text-lg text-yellow-900 mb-3">🔒 최신 보스 유예 정책 (Spoiler Protection)</h4>
-                    <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-3 rounded-lg mb-2.5 border border-yellow-200">
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="text-center flex-1">
-                                <p className="text-sm font-bold text-gray-900 mb-1">신규 보스 출시</p>
-                                <div className="inline-block bg-red-500 text-white font-black text-2xl px-4 py-2 rounded-lg border-2 border-red-600">
-                                    NEW
+                        <p className="text-sm text-gray-900 mb-4 pl-10 leading-snug font-medium">
+                            "보스의 위상 변화에 따라 M.T.C Tier를 유동적으로 조정하여 가치를 보존합니다."
+                        </p>
+                        
+                        <div className="relative pl-2 pr-2">
+                             {/* 연결선 */}
+                             <div className="absolute top-1/2 left-4 right-4 h-1 bg-gray-100 -translate-y-1/2 -z-10 rounded-full"></div>
+
+                            <div className="grid grid-cols-4 gap-4">
+                                {/* 1단계: 유예 */}
+                                <div className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm relative hover:-translate-y-1 transition-transform">
+                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gray-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Step 1</div>
+                                    <div className="text-center mb-2 mt-2">
+                                        <span className="text-2xl grayscale opacity-50">🔒</span>
+                                        <p className="font-bold text-gray-900 text-sm">유예 (Locked)</p>
+                                    </div>
+                                    <ul className="text-[10px] text-gray-900 space-y-1 leading-tight">
+                                        <li><span className="font-bold text-gray-800">대상:</span> 신규 보스</li>
+                                        <li><span className="font-bold text-red-600">기간:</span> <span className="bg-red-50 px-1 rounded">3~6개월 미포함</span></li>
+                                        <li><span className="font-bold text-gray-800">목적:</span> 선발대 성취감 보존</li>
+                                    </ul>
+                                </div>
+
+                                {/* 2단계: 시범 */}
+                                <div className="bg-white p-3 rounded-xl border border-blue-200 shadow-sm relative hover:-translate-y-1 transition-transform">
+                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Step 2</div>
+                                    <div className="text-center mb-2 mt-2">
+                                        <span className="text-2xl">✈️</span>
+                                        <p className="font-bold text-blue-900 text-sm">시범 (Pilot)</p>
+                                    </div>
+                                    <ul className="text-[10px] text-gray-900 space-y-1 leading-tight">
+                                        <li><span className="font-bold text-gray-800">대상:</span> 정체 구간 확인 시</li>
+                                        <li><span className="font-bold text-blue-600">액션:</span> '시범 훈련존' 도입</li>
+                                        <li><span className="font-bold text-gray-800">목적:</span> 메타 학습 수요 대응</li>
+                                    </ul>
+                                </div>
+
+                                {/* 3단계: 숙련 */}
+                                <div className="bg-indigo-50 p-3 rounded-xl border-2 border-indigo-400 shadow-md relative hover:-translate-y-1 transition-transform transform scale-105 z-10">
+                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">CORE</div>
+                                    <div className="text-center mb-2 mt-2">
+                                        <span className="text-2xl">⭐</span>
+                                        <p className="font-bold text-indigo-900 text-sm">숙련 (Core)</p>
+                                    </div>
+                                    <ul className="text-[10px] text-indigo-800 space-y-1 leading-tight font-medium">
+                                        <li><span className="font-bold">대상:</span> 대중적 공략 필요</li>
+                                        <li><span className="font-bold text-indigo-600">액션:</span> '숙련 훈련존' 전환</li>
+                                        <li><span className="font-bold">목적:</span> BM 주력 상품화</li>
+                                    </ul>
+                                </div>
+
+                                {/* 4단계: 보급 */}
+                                <div className="bg-white p-3 rounded-xl border border-green-200 shadow-sm relative hover:-translate-y-1 transition-transform">
+                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Step 4</div>
+                                    <div className="text-center mb-2 mt-2">
+                                        <span className="text-2xl">🎁</span>
+                                        <p className="font-bold text-green-900 text-sm">보급 (Basic)</p>
+                                    </div>
+                                    <ul className="text-[10px] text-gray-900 space-y-1 leading-tight">
+                                        <li><span className="font-bold text-gray-800">대상:</span> 숙련도 평준화</li>
+                                        <li><span className="font-bold text-green-600">액션:</span> '기본 훈련존' 편입</li>
+                                        <li><span className="font-bold text-gray-800">목적:</span> 진입장벽 제거</li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div className="text-2xl text-yellow-600">→</div>
-                            <div className="text-center flex-1">
-                                <p className="text-sm font-bold text-gray-900 mb-1">3~6개월 유예</p>
-                                <div className="inline-block bg-orange-200 rounded-full p-2 border-2 border-orange-400">
-                                    <div className="text-3xl">⏳</div>
+                        </div>
+                    </div>
+
+                    {/* 2. 주간 무료 로테이션 */}
+                    <div className="flex-1 flex flex-col min-h-0">
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-purple-100 text-purple-700 font-extrabold text-sm shadow-sm">2</span>
+                            <h4 className="text-xl font-bold text-gray-900">주간 무료 로테이션 (Weekly Free Rotation)</h4>
+                        </div>
+                        <p className="text-sm text-gray-900 mb-4 pl-10 leading-snug font-medium">
+                            "유료 결제의 심리적 진입 장벽을 낮추는 핵심 <span className="text-purple-700 font-bold">가교</span>"
+                        </p>
+
+                        <div className="grid grid-cols-5 gap-6 h-full">
+                            {/* 좌측: 캘린더 예시 (2/5 비중) */}
+                            <div className="col-span-2 bg-white rounded-xl border border-gray-200 p-4 shadow-sm flex flex-col">
+                                <div className="mb-3 border-b border-gray-100 pb-2">
+                                    <span className="text-[10px] font-bold text-gray-800 uppercase">Operating System</span>
+                                    <p className="text-xs text-gray-800 font-medium">매주 <span className="font-bold text-purple-600">Tier 1~2</span> 보스 1종 무료 개방<br/><span className="text-gray-600 text-[10px]">(목요일 00시 초기화)</span></p>
+                                </div>
+                                <div className="bg-purple-50 rounded-lg p-3 flex-1">
+                                    <p className="text-[11px] font-bold text-purple-900 mb-2 text-center">📅 2월 로테이션 예시</p>
+                                    <ul className="space-y-2">
+                                        <li className="flex items-center justify-between text-xs bg-white p-1.5 rounded border border-purple-100 shadow-sm">
+                                            <span className="text-gray-800 text-[10px] font-bold">1주차</span>
+                                            <span className="font-bold text-gray-800">하드 진 힐라</span>
+                                        </li>
+                                        <li className="flex items-center justify-between text-xs bg-white p-1.5 rounded border border-purple-100 shadow-sm">
+                                            <span className="text-gray-800 text-[10px] font-bold">2주차</span>
+                                            <span className="text-gray-800">노멀 세렌</span>
+                                        </li>
+                                        <li className="flex items-center justify-between text-xs bg-white p-1.5 rounded border border-purple-100 shadow-sm">
+                                            <span className="text-gray-800 text-[10px] font-bold">3주차</span>
+                                            <span className="text-gray-800">하드 스우</span>
+                                        </li>
+                                        <li className="flex items-center justify-between text-xs bg-white p-1.5 rounded border border-purple-100 shadow-sm">
+                                            <span className="text-gray-800 text-[10px] font-bold">4주차</span>
+                                            <span className="text-gray-800">하드 윌</span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div className="text-2xl text-yellow-600">→</div>
-                            <div className="text-center flex-1">
-                                <p className="text-sm font-bold text-gray-900 mb-1">M.T.C 도입</p>
-                                <div className="inline-block bg-green-200 rounded-full p-2 border-2 border-green-400">
-                                    <div className="text-3xl">✅</div>
+
+                            {/* 우측: 선순환 사이클 (3/5 비중) */}
+                            <div className="col-span-3 bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-100 p-4 shadow-sm flex flex-col justify-center relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-100 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2"></div>
+                                
+                                <p className="text-xs text-center text-gray-800 font-bold mb-4 uppercase tracking-widest z-10">Virtuous Cycle Effect</p>
+                                
+                                <div className="flex items-center justify-between z-10 relative">
+                                    <div className="flex flex-col items-center w-1/3 text-center group">
+                                        <div className="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center text-xl mb-2 shadow-sm group-hover:border-purple-400 group-hover:text-purple-600 transition-colors">🎮</div>
+                                        <p className="text-xs font-bold text-gray-800 mb-1">체험 (Entry)</p>
+                                        <p className="text-xs font-bold text-gray-800 leading-tight">"무료니까<br/>한번 해볼까?"</p>
+                                    </div>
+                                    <div className="text-gray-500">➜</div>
+                                    <div className="flex flex-col items-center w-1/3 text-center group">
+                                        <div className="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center text-xl mb-2 shadow-sm group-hover:border-blue-400 group-hover:text-blue-600 transition-colors">💪</div>
+                                        <p className="text-xs font-bold text-gray-800 mb-1">효능감 (Confidence)</p>
+                                        <p className="text-xs font-bold text-gray-800 leading-tight">"가이드대로 하니까<br/>피해지네?"</p>
+                                    </div>
+                                    <div className="text-gray-500">➜</div>
+                                    <div className="flex flex-col items-center w-1/3 text-center group">
+                                        <div className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center text-xl mb-2 shadow-md hover:scale-110 transition-transform">🛒</div>
+                                        <p className="text-xs font-bold text-purple-700 mb-1">전환 (Lock-in)</p>
+                                        <p className="text-xs font-bold text-gray-900 leading-tight">"위클리 패스<br/>구매하자!"</p>
+                                    </div>
+                                </div>
+                                
+                                <div className="mt-4 bg-white/60 p-2 rounded-lg text-xs font-bold text-center text-gray-900 border border-purple-100 z-10">
+                                    🚀 <b>활성화:</b> 주간 패스 매출 증가 + 보스 도전 문화 확산 <br/>(Boom-up)
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="bg-green-100 p-2.5 rounded border-l-4 border-green-500">
-                        <p className="text-xs font-bold text-green-900">✨ 선발대의 성취감 보존 + 후발 주자의 사다리 역할</p>
-                    </div>
-                </div>
-                {/* 무료 로테이션 */}
-                <div className="bg-purple-50 p-4 rounded-xl border-2 border-purple-300">
-                    <h4 className="font-bold text-lg text-purple-900 mb-3">🎁 주간 무료 로테이션 전략</h4>
-                    <div className="bg-white p-3 rounded-lg mb-2.5 border border-purple-200">
-                        <p className="font-bold text-sm text-purple-800 mb-1.5">🔄 매주 1종 보스 무료 개방</p>
-                        <p className="text-xs text-gray-700 mb-2">트라이 수요가 높은 구간을 선정하여 모든 유저에게 체험 기회 제공</p>
-                        <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-2.5 rounded">
-                            <p className="text-xs font-bold text-purple-900 mb-0.5">예시: 2월 1주차</p>
-                            <p className="text-sm text-purple-800">📍 금주의 무료 보스: <span className="font-bold">하드 진 힐라</span></p>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2.5 text-xs">
-                        <div className="bg-white p-2.5 rounded border border-purple-200">
-                            <p className="font-bold text-purple-700 mb-0.5">✅ 체험 마케팅</p>
-                            <p className="text-gray-700">유료 결제 전 효능감 확인</p>
-                        </div>
-                        <div className="bg-white p-2.5 rounded border border-purple-200">
-                            <p className="font-bold text-purple-700 mb-0.5">✅ 커뮤니티 활성화</p>
-                            <p className="text-gray-700">해당 주간 파티 모집↑</p>
                         </div>
                     </div>
                 </div>
             </div>
-
             {/* PAGE 7: 기대 효과 */}
             <div className="a4-page">
                 <div className="border-b-2 border-gray-900 pb-3 mb-4 flex justify-between items-end">
                     <div>
                         <h2 className="text-3xl font-bold text-black">기대 효과 및 리스크 관리</h2>
-                        <p className="text-xs text-gray-500 mt-1">* 본 수치는 기획 의도에 따른 가설(Hypothesis) 및 목표치입니다.</p>
+                        <p className="text-xs text-gray-800 mt-1">* 본 수치는 기획 의도에 따른 가설(Hypothesis) 및 목표치입니다.</p>
                     </div>
-                    <span className="text-gray-500 text-sm">07 / 07</span>
+                    <span className="text-gray-800 text-sm">07 / 07</span>
                 </div>
                 <div className="grid grid-cols-3 gap-3 mb-4">
                     <div className="text-center p-2.5 bg-blue-50 rounded-xl border-2 border-blue-300">
                         <p className="text-4xl font-bold text-blue-600 mb-1">↑25%</p>
                         <p className="font-bold text-gray-900 mb-0.5 text-sm">Clear Rate</p>
-                        <p className="text-xs text-gray-600">보스 클리어율 증가 <span className="font-bold text-blue-600">(목표)</span></p>
+                        <p className="text-xs text-gray-900">보스 클리어율 증가 <span className="font-bold text-blue-600">(목표)</span></p>
                     </div>
                     <div className="text-center p-2.5 bg-green-50 rounded-xl border-2 border-green-300">
                         <p className="text-4xl font-bold text-green-600 mb-1">+40%</p>
                         <p className="font-bold text-gray-900 mb-0.5 text-sm">Training Hours</p>
-                        <p className="text-xs text-gray-600">평균 훈련 시간 <span className="font-bold text-green-600">(예상)</span></p>
+                        <p className="text-xs text-gray-900">평균 훈련 시간 <span className="font-bold text-green-600">(예상)</span></p>
                     </div>
                     <div className="text-center p-2.5 bg-purple-50 rounded-xl border-2 border-purple-300">
                         <p className="text-4xl font-bold text-purple-600 mb-1">↑30%</p>
                         <p className="font-bold text-gray-900 mb-0.5 text-sm">Revenue</p>
-                        <p className="text-xs text-gray-600">구독형 매출 증대 <span className="font-bold text-purple-600">(가설)</span></p>
+                        <p className="text-xs text-gray-900">구독형 매출 증대 <span className="font-bold text-purple-600">(가설)</span></p>
                     </div>
                 </div>
                 <div className="bg-red-50 p-4 rounded-xl border-2 border-red-300 mb-4">
@@ -694,10 +774,10 @@ export default function MTCPortfolio() {
                 </div>
                 <div className="bg-gray-900 text-white p-4 rounded-2xl flex flex-col justify-center items-center text-center shadow-lg">
                     <h3 className="text-base font-bold mb-1.5 flex items-center gap-2 text-yellow-300">💡 Conclusion</h3>
-                    <p className="text-sm text-gray-300 mb-1.5 opacity-80">
+                    <p className="text-base text-gray-200 mb-3 font-medium">
                         M.T.C는 단순한 '연습 모드'가 아닌, <span className="font-bold text-yellow-300">'실력 성장의 가속기'</span>입니다.
                     </p>
-                    <p className="text-base leading-relaxed font-light opacity-90">
+                    <p className="text-xl leading-relaxed font-bold text-white">
                         "스펙은 준비되었는데 보스를 못 깨는 유저들에게,<br />
                         <span className="font-bold text-yellow-300">'아, 이제 될 것 같아'</span>라는 희망을 선물합니다."
                     </p>
