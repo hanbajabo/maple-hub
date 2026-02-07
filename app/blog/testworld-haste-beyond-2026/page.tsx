@@ -710,7 +710,7 @@ export default function TestworldHasteBeyond2026() {
                             <div className="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-3 sm:p-4">
                                 <p className="text-sm sm:text-base md:text-lg">
                                     <span className="text-yellow-400 font-bold">3️⃣ 30만 마리</span>를 채워서 <span className="text-green-400 font-bold">솔 에르다 2배</span>와
-                                    <span className="text-red-400 font-bold"> 마약 칭호(보공/방무 30%)</span>를 꼭 챙기세요!
+                                    <span className="text-red-400 font-bold"> 보약 칭호(보공/방무 30%)</span>를 꼭 챙기세요!
                                 </p>
                             </div>
                             <div className="bg-blue-900/30 border border-blue-500/50 rounded-lg p-3 sm:p-4">
@@ -722,6 +722,24 @@ export default function TestworldHasteBeyond2026() {
                         <div className="text-center mt-6">
                             <p className="text-slate-400 text-lg">
                                 이번 헤이스트 기간, 다들 폭업하시길 바랍니다! 🔥
+                            </p>
+                        </div>
+
+                        {/* SEO Keywords */}
+                        <div className="mt-8 pt-6 border-t border-slate-700">
+                            <p className="text-slate-500 text-sm text-center leading-relaxed">
+                                <span className="text-slate-600">#</span>메이플스토리 <span className="text-slate-600">#</span>헤이스트비욘드
+                                <span className="text-slate-600"> #</span>헤이스트BEYOND <span className="text-slate-600">#</span>사냥이벤트
+                                <span className="text-slate-600"> #</span>피버타임 <span className="text-slate-600">#</span>트레져박스
+                                <span className="text-slate-600"> #</span>솔에르다2배 <span className="text-slate-600">#</span>경험치이벤트
+                                <span className="text-slate-600"> #</span>레벨업 <span className="text-slate-600">#</span>폭업
+                                <span className="text-slate-600"> #</span>메이플이벤트 <span className="text-slate-600">#</span>30만마리
+                                <span className="text-slate-600"> #</span>헤이스트칭호 <span className="text-slate-600">#</span>보약칭호
+                                <span className="text-slate-600"> #</span>보스칭호 <span className="text-slate-600">#</span>방무칭호
+                                <span className="text-slate-600"> #</span>카산드라수정구슬 <span className="text-slate-600">#</span>헤이스트인페르노
+                                <span className="text-slate-600"> #</span>헤이스트효율 <span className="text-slate-600">#</span>트레져박스효율
+                                <span className="text-slate-600"> #</span>헤이스트피버타임효율 <span className="text-slate-600">#</span>메이플가이드
+                                <span className="text-slate-600"> #</span>2026년2월이벤트
                             </p>
                         </div>
                     </div>
