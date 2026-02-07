@@ -311,11 +311,8 @@ export default function PortfolioIndexPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 pt-6 border-t border-white/10 flex justify-between items-center">
+                            <div className="mt-6 pt-6 border-t border-white/10">
                                 <span className="text-xs text-gray-400">A4 7 pages · PDF Ready</span>
-                                <span className="text-xs bg-orange-500/20 text-orange-300 px-2 py-1 rounded border border-orange-500/30 flex items-center gap-1.5 font-bold animate-pulse">
-                                    ✎ 현재 작성중
-                                </span>
                             </div>
                         </div>
                     </Link>
