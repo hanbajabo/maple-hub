@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 헤이스트 BEYOND 이벤트 (2월 7일)
+    {
+        slug: 'testworld-haste-beyond-2026',
+        title: "⚡ 사냥 가속! 헤이스트 BEYOND 완벽 정리 (2026)",
+        description: '드디어 사냥의 계절이 돌아왔습니다! VIP 부스터급 경험치 혜택과 솔 에르다 2배 등 역대급 혜택으로 무장한 헤이스트 BEYOND의 모든 것을 알려드립니다.',
+        category: '업데이트 소식',
+        date: '2026년 2월 7일',
+        readTime: '20분',
+        thumbnail: '⚡',
+        featured: true,
+        targetDate: '2026년 2월 12일',
+    },
     // 메이플 키우기 환불 안내 (2월 5일)
     {
         slug: 'maple-idle-refund-guide',

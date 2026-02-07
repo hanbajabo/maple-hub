@@ -1,0 +1,13 @@
+@echo off
+echo Downloading from MapleStory official server...
+curl -L -o "c:\Users\USER\Desktop\maple-colosseum\maple-hub\public\images\blog\haste_beyond_banner.jpg" "https://ssl.nexon.com/s2/game/maplestory/renewal/common/event_img_bnr_230209.jpg"
+if %errorlevel% neq 0 (
+    echo First attempt failed, trying alternative URL...
+    curl -L -o "c:\Users\USER\Desktop\maple-colosseum\maple-hub\public\images\blog\haste_beyond_banner.jpg" "https://maplestory.nexon.com/Common/Event/EventThumbnail/haste_beyond_2026.jpg"
+)
+if %errorlevel% neq 0 (
+    echo Second attempt failed, trying CDN...
+    curl -L -o "c:\Users\USER\Desktop\maple-colosseum\maple-hub\public\images\blog\haste_beyond_banner.jpg" "https://cdn.maplestory.nexon.com/news/event/haste_beyond.jpg"
+)
+echo Download completed! Checking file size...
+dir "c:\Users\USER\Desktop\maple-colosseum\maple-hub\public\images\blog\haste_beyond_banner.jpg"

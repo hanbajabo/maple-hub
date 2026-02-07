@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
+[
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,9 +9,16 @@
   <link rel="stylesheet" href="hexa6.css" />
   <style>
     /* Fallback minimal styling if CSS fails */
-    body { font-family: 'Inter', sans-serif; background: #111; color: #eee; margin:0; padding:0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #111;
+      color: #eee;
+      margin: 0;
+      padding: 0;
+    }
   </style>
 </head>
+
 <body>
   <header class="header">
     <h1>6차(헥사) 스킬 우선 강화 가이드</h1>
@@ -40,7 +49,7 @@
           section.appendChild(title);
           const ul = document.createElement('ul');
           ul.className = 'skill-list';
-          const top = skills.slice(0,7);
+          const top = skills.slice(0, 7);
           top.forEach(sk => {
             const li = document.createElement('li');
             li.textContent = `${sk.name} (평균 레벨: ${sk.averageLevel})`;
@@ -56,4 +65,5 @@
       });
   </script>
 </body>
+
 </html>
