@@ -88,7 +88,7 @@ export default function PortfolioIndexPage() {
             `}</style>
             <style dangerouslySetInnerHTML={{ __html: mobileStyles }} />
 
-            <div className="max-w-5xl w-full pf-container">
+            <div className="max-w-7xl w-full pf-container">
                 {/* 헤더 */}
                 <div className="text-center mb-12 pf-header">
                     <div className="flex items-center justify-center gap-2 mb-4">
@@ -100,10 +100,10 @@ export default function PortfolioIndexPage() {
                 </div>
 
                 {/* 포트폴리오 카드 그리드 */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 portfolio-grid">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 portfolio-grid">
                     {/* 포트폴리오 1: 넥슨 (기술/시스템) */}
-                    <Link href="/pf/nx-k8m2x9q4p7" className="group">
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card">
+                    <Link href="/pf/nx-k8m2x9q4p7" className="group h-full">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-blue-500/20 p-4 rounded-xl card-icon-container">
                                     <FileText className="text-blue-400" size={32} />
@@ -116,7 +116,7 @@ export default function PortfolioIndexPage() {
                                 데이터 기반 시스템 설계 및 기술 기획
                             </p>
 
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-2 text-sm mb-6">
                                 <div className="flex items-center gap-2 text-gray-400">
                                     <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
                                     <span>NEXON Open API 활용</span>
@@ -131,15 +131,15 @@ export default function PortfolioIndexPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 pt-6 border-t border-white/10">
+                            <div className="mt-auto pt-6 border-t border-white/10">
                                 <span className="text-xs text-gray-400">A4 6 pages · PDF Ready</span>
                             </div>
                         </div>
                     </Link>
 
                     {/* 포트폴리오 2: 커뮤니티/운영 */}
-                    <Link href="/pf/cm-w3r5t8y2u6" className="group">
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card">
+                    <Link href="/pf/cm-w3r5t8y2u6" className="group h-full">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-green-500/20 p-4 rounded-xl card-icon-container">
                                     <Users className="text-green-400" size={32} />
@@ -152,7 +152,7 @@ export default function PortfolioIndexPage() {
                                 커뮤니티 운영 및 라이브 서비스 분석
                             </p>
 
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-2 text-sm mb-6">
                                 <div className="flex items-center gap-2 text-gray-400">
                                     <span className="w-2 h-2 bg-green-400 rounded-full"></span>
                                     <span>9년 채널 운영 경험</span>
@@ -167,15 +167,15 @@ export default function PortfolioIndexPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 pt-6 border-t border-white/10">
+                            <div className="mt-auto pt-6 border-t border-white/10">
                                 <span className="text-xs text-gray-400">A4 7 pages · PDF Ready</span>
                             </div>
                         </div>
                     </Link>
 
                     {/* 포트폴리오 3: 시스템 디자인 */}
-                    <Link href="/pf/ob-g5h6i7j8k9" className="group">
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card">
+                    <Link href="/pf/ob-g5h6i7j8k9" className="group h-full">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-purple-500/20 p-4 rounded-xl card-icon-container">
                                     <Lightbulb className="text-purple-400" size={32} />
@@ -188,7 +188,7 @@ export default function PortfolioIndexPage() {
                                 능동형 온보딩 시스템 기획
                             </p>
 
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-2 text-sm mb-6">
                                 <div className="flex items-center gap-2 text-gray-400">
                                     <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
                                     <span>Context-Aware Guide</span>
@@ -203,15 +203,15 @@ export default function PortfolioIndexPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 pt-6 border-t border-white/10">
+                            <div className="mt-auto pt-6 border-t border-white/10">
                                 <span className="text-xs text-gray-400">A4 6 pages · PDF Ready</span>
                             </div>
                         </div>
                     </Link>
 
                     {/* 포트폴리오 4: 신규 컨텐츠 제안 (Limited World) */}
-                    <Link href="/pf/lw-j7k2l5m9" className="group">
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card">
+                    <Link href="/pf/lw-j7k2l5m9" className="group h-full">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-red-500/20 p-4 rounded-xl card-icon-container">
                                     <Shield className="text-red-400" size={32} />
@@ -224,7 +224,7 @@ export default function PortfolioIndexPage() {
                                 리미티드 월드: 그레이 더스트<br />시즌제 하드코어 서버 기획
                             </p>
 
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-2 text-sm mb-6">
                                 <div className="flex items-center gap-2 text-gray-400">
                                     <span className="w-2 h-2 bg-red-400 rounded-full"></span>
                                     <span>Anti-Inflation (스펙 압축)</span>
@@ -239,15 +239,15 @@ export default function PortfolioIndexPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 pt-6 border-t border-white/10">
+                            <div className="mt-auto pt-6 border-t border-white/10">
                                 <span className="text-xs text-gray-400">A4 7 pages · PDF Ready</span>
                             </div>
                         </div>
                     </Link>
 
                     {/* 포트폴리오 5: 신규 이벤트 제안 (Dimension Invader) */}
-                    <Link href="/pf/di-x9y8z7w6" className="group">
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card">
+                    <Link href="/pf/di-x9y8z7w6" className="group h-full">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-indigo-500/20 p-4 rounded-xl card-icon-container">
                                     <Globe className="text-indigo-400" size={32} />
@@ -260,7 +260,7 @@ export default function PortfolioIndexPage() {
                                 디멘션 인베이더: 크로스 월드<br />이계의 강적 토벌 레이드
                             </p>
 
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-2 text-sm mb-6">
                                 <div className="flex items-center gap-2 text-gray-400">
                                     <span className="w-2 h-2 bg-indigo-400 rounded-full"></span>
                                     <span>Global Integration (해외 보스)</span>
@@ -275,15 +275,15 @@ export default function PortfolioIndexPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 pt-6 border-t border-white/10">
+                            <div className="mt-auto pt-6 border-t border-white/10">
                                 <span className="text-xs text-gray-400">A4 6 pages · PDF Ready</span>
                             </div>
                         </div>
                     </Link>
 
                     {/* 포트폴리오 6: M.T.C (전술 훈련소) */}
-                    <Link href="/pf/mtc-a1b2c3d4e5" className="group">
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card">
+                    <Link href="/pf/mtc-a1b2c3d4e5" className="group h-full">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-orange-500/20 p-4 rounded-xl card-icon-container">
                                     <Target className="text-orange-400" size={32} />
@@ -296,7 +296,7 @@ export default function PortfolioIndexPage() {
                                 메이플 전술 훈련소 (M.T.C)<br />실전 시뮬레이션 DLC
                             </p>
 
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-2 text-sm mb-6">
                                 <div className="flex items-center gap-2 text-gray-400">
                                     <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
                                     <span>Phantom Replay Engine</span>
@@ -311,8 +311,44 @@ export default function PortfolioIndexPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 pt-6 border-t border-white/10">
+                            <div className="mt-auto pt-6 border-t border-white/10">
                                 <span className="text-xs text-gray-400">A4 7 pages · PDF Ready</span>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* 포트폴리오 7: MATRIX PATHFINDER */}
+                    <Link href="/pf/mp-h3x4m5a6t7" className="group h-full">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
+                            <div className="flex items-start justify-between mb-6">
+                                <div className="bg-emerald-500/20 p-4 rounded-xl card-icon-container">
+                                    <Globe className="text-emerald-400" size={32} />
+                                </div>
+                                <ChevronRight className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" size={24} />
+                            </div>
+
+                            <h2 className="text-2xl font-bold text-white mb-3">System Optimization</h2>
+                            <p className="text-gray-300 mb-4 leading-relaxed">
+                                매트릭스 패스파인더<br />전투 효율 기반 스펙업 가이드
+                            </p>
+
+                            <div className="space-y-2 text-sm mb-6">
+                                <div className="flex items-center gap-2 text-gray-400">
+                                    <span className="w-2 h-2 bg-emerald-400 rounded-full"></span>
+                                    <span>Battle Efficiency 지표</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-400">
+                                    <span className="w-2 h-2 bg-emerald-400 rounded-full"></span>
+                                    <span>표준 DPM 사이클 분석</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-400">
+                                    <span className="w-2 h-2 bg-emerald-400 rounded-full"></span>
+                                    <span>강화 불확실성 해소</span>
+                                </div>
+                            </div>
+
+                            <div className="mt-auto pt-6 border-t border-white/10">
+                                <span className="text-xs text-gray-400">A4 6 pages · PDF Ready</span>
                             </div>
                         </div>
                     </Link>

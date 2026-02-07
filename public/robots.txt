@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /pf/
+Disallow: /pf
+Disallow: /api/
+Allow: /
+
+Sitemap: https://maple-hub.vercel.app/sitemap.xml
