@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 헤이스트 BEYOND x 챌린저스 듀오 가이드 (2월 8일)
+    {
+        slug: 'haste-beyond-challengers-duo-guide',
+        title: "[메이플] 헤이스트 BEYOND x 챌린저스 듀오 완벽 공략",
+        description: '하루 5분으로 끝내는 숙제? 이번엔 진짜입니다. 피버 타임 5분의 기적부터 유형별 최적 루트까지! 챌린저스 듀오와 헤이스트의 역대급 시너지를 완벽 분석합니다.',
+        category: '경험치 가이드',
+        date: '2026년 2월 8일',
+        readTime: '15분',
+        thumbnail: '💎',
+        featured: true,
+        targetDate: '2026년 2월 12일',
+    },
     // 헤이스트 BEYOND 이벤트 (2월 7일)
     {
         slug: 'testworld-haste-beyond-2026',
