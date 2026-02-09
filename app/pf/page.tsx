@@ -352,6 +352,42 @@ export default function PortfolioIndexPage() {
                             </div>
                         </div>
                     </Link>
+
+                    {/* 포트폴리오 8: 주간 보스 수배 */}
+                    <Link href="/pf/bw-w4n5t6e7d8" className="group h-full">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
+                            <div className="flex items-start justify-between mb-6">
+                                <div className="bg-amber-500/20 p-4 rounded-xl card-icon-container">
+                                    <Target className="text-amber-400" size={32} />
+                                </div>
+                                <ChevronRight className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" size={24} />
+                            </div>
+
+                            <h2 className="text-2xl font-bold text-white mb-3">Event Proposal</h2>
+                            <p className="text-gray-300 mb-4 leading-relaxed">
+                                주간 보스 수배<br />사냥 피로도 완화를 위한 전투 중심 성장
+                            </p>
+
+                            <div className="space-y-2 text-sm mb-6">
+                                <div className="flex items-center gap-2 text-gray-400">
+                                    <span className="w-2 h-2 bg-amber-400 rounded-full"></span>
+                                    <span>4-Week Pilot Event</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-400">
+                                    <span className="w-2 h-2 bg-amber-400 rounded-full"></span>
+                                    <span>티어별 성장 보상 설계</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-400">
+                                    <span className="w-2 h-2 bg-amber-400 rounded-full"></span>
+                                    <span>보스 중심 성장 루틴 실험</span>
+                                </div>
+                            </div>
+
+                            <div className="mt-auto pt-6 border-t border-white/10">
+                                <span className="text-xs text-gray-400">A4 6 pages · PDF Ready</span>
+                            </div>
+                        </div>
+                    </Link>
                 </div>
 
                 {/* 푸터 */}
