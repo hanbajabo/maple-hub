@@ -104,45 +104,45 @@ export default function OnboardingPortfolio() {
                     <h4 className="text-center text-lg font-bold text-blue-900 mb-3">빙산의 일각 (Iceberg Effect)</h4>
 
                     {/* 수면 위 - 작은 부분 */}
-                    <div className="relative">
-                        <div className="bg-gradient-to-br from-blue-100 to-blue-200 p-3 rounded-t-xl border-2 border-blue-400 shadow-lg mx-16">
+                    <div className="relative" style={{ WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}>
+                        <div style={{ background: '#dbeafe', border: '2px solid #60a5fa', padding: '12px', borderRadius: '12px 12px 0 0', marginLeft: '64px', marginRight: '64px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                             <div className="text-center">
-                                <p className="font-bold text-blue-900 mb-1 text-sm">💎 수면 위</p>
-                                <p className="text-xs text-blue-700 mb-1">(유저가 보는 것)</p>
-                                <div className="bg-white/80 backdrop-blur-sm p-2 rounded">
-                                    <p className="text-xs font-medium text-gray-900">화려한 스킬, 사냥터, 보스전</p>
+                                <p style={{ fontWeight: 'bold', color: '#1e3a5f', marginBottom: '4px', fontSize: '14px' }}>💎 수면 위</p>
+                                <p style={{ fontSize: '12px', color: '#1d4ed8', marginBottom: '4px' }}>(유저가 보는 것)</p>
+                                <div style={{ background: '#ffffff', padding: '8px', borderRadius: '6px' }}>
+                                    <p style={{ fontSize: '12px', fontWeight: '500', color: '#111827' }}>화려한 스킬, 사냥터, 보스전</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* 수면선 */}
-                        <div className="relative flex items-center my-2">
-                            <div className="flex-1 h-0.5 bg-blue-400"></div>
-                            <span className="px-3 text-xs font-bold text-blue-600">━━  수 면  ━━</span>
-                            <div className="flex-1 h-0.5 bg-blue-400"></div>
+                        <div style={{ display: 'flex', alignItems: 'center', margin: '8px 0' }}>
+                            <div style={{ flex: 1, height: '2px', background: '#60a5fa' }}></div>
+                            <span style={{ padding: '0 12px', fontSize: '12px', fontWeight: 'bold', color: '#2563eb' }}>━━  수 면  ━━</span>
+                            <div style={{ flex: 1, height: '2px', background: '#60a5fa' }}></div>
                         </div>
 
                         {/* 수면 아래 - 큰 부분 */}
-                        <div className="bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 p-4 rounded-b-xl border-2 border-blue-600 shadow-2xl">
-                            <div className="text-center mb-2">
-                                <p className="font-bold text-white mb-1 text-sm">🔧 수면 아래</p>
-                                <p className="text-xs text-blue-200 mb-2">(숨겨진 편의 기능)</p>
+                        <div style={{ background: '#1e3a5f', padding: '16px', borderRadius: '0 0 12px 12px', border: '2px solid #2563eb', boxShadow: '0 10px 15px rgba(0,0,0,0.2)', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' }}>
+                            <div style={{ textAlign: 'center', marginBottom: '8px' }}>
+                                <p style={{ fontWeight: 'bold', color: '#ffffff', marginBottom: '4px', fontSize: '14px' }}>🔧 수면 아래</p>
+                                <p style={{ fontSize: '12px', color: '#93c5fd', marginBottom: '8px' }}>(숨겨진 편의 기능)</p>
                             </div>
-                            <div className="bg-blue-950/50 backdrop-blur-sm p-2 rounded-lg border border-blue-400/30">
-                                <div className="grid grid-cols-3 gap-1.5 text-white text-xs">
-                                    <div className="bg-blue-800/50 p-1.5 rounded text-center">✨ 길라잡이</div>
-                                    <div className="bg-blue-800/50 p-1.5 rounded text-center">📅 스케줄러</div>
-                                    <div className="bg-blue-800/50 p-1.5 rounded text-center">📦 원격창고</div>
-                                    <div className="bg-blue-800/50 p-1.5 rounded text-center">⚡ 퀵슬롯</div>
-                                    <div className="bg-blue-800/50 p-1.5 rounded text-center">🎨 이펙트</div>
-                                    <div className="bg-blue-800/50 p-1.5 rounded text-center">🏠 즉시귀환</div>
+                            <div style={{ background: '#172554', padding: '8px', borderRadius: '8px', border: '1px solid #3b82f6' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', color: '#ffffff', fontSize: '12px' }}>
+                                    <div style={{ background: '#1e40af', padding: '6px', borderRadius: '4px', textAlign: 'center' }}>✨ 길라잡이</div>
+                                    <div style={{ background: '#1e40af', padding: '6px', borderRadius: '4px', textAlign: 'center' }}>📅 스케줄러</div>
+                                    <div style={{ background: '#1e40af', padding: '6px', borderRadius: '4px', textAlign: 'center' }}>📦 원격창고</div>
+                                    <div style={{ background: '#1e40af', padding: '6px', borderRadius: '4px', textAlign: 'center' }}>⚡ 퀵슬롯</div>
+                                    <div style={{ background: '#1e40af', padding: '6px', borderRadius: '4px', textAlign: 'center' }}>🎨 이펙트</div>
+                                    <div style={{ background: '#1e40af', padding: '6px', borderRadius: '4px', textAlign: 'center' }}>🏠 즉시귀환</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="mt-3 bg-red-100 border-l-4 border-red-500 p-2 rounded-r">
-                        <p className="text-center text-xs font-bold text-red-800">→ 신규 유저에게 핵심 기능이 수면 아래 잠겨있음</p>
+                    <div style={{ marginTop: '12px', background: '#fee2e2', borderLeft: '4px solid #ef4444', padding: '8px', borderRadius: '0 4px 4px 0' }}>
+                        <p style={{ textAlign: 'center', fontSize: '12px', fontWeight: 'bold', color: '#991b1b' }}>→ 신규 유저에게 핵심 기능이 수면 아래 잠겨있음</p>
                     </div>
                 </div>
             </div>

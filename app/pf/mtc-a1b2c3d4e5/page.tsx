@@ -58,7 +58,7 @@ export default function MTCPortfolio() {
                             <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-red-600 rotate-45 border-r border-b border-red-700 shadow-md"></div>
                         </div>
                         <div className="bg-gray-100 p-2 border-x border-b border-gray-200 flex items-center justify-center">
-                            <Image src="/images/pf/mtc-menu.jpg" alt="MTC 메뉴 화면" width={550} height={330} className="rounded-lg shadow-inner z-10" style={{ maxWidth: '100%', objectFit: 'contain' }} />
+                            <img src="/images/pf/mtc-menu.jpg" alt="MTC 메뉴 화면" style={{ maxWidth: '100%', objectFit: 'contain', borderRadius: '8px', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)' }} />
                         </div>
                     </div>
                 </div>
@@ -271,19 +271,19 @@ export default function MTCPortfolio() {
                         <p className="text-sm text-black mb-3 font-bold shrink-0">"내 직업과 이동 메커니즘이 가장 유사한 '선생님(Ghost)'을 자동으로 매칭합니다."</p>
                         <div className="grid grid-cols-3 gap-3 flex-1">
                             <div className="bg-white p-3 rounded-lg border border-purple-100 flex flex-col items-center text-center justify-center h-full">
-                                <Image src="/images/pf/teleport.png" alt="텔레포트" width={44} height={44} className="pixelated mb-2 bg-purple-50 rounded p-1" />
+                                <img src="/images/pf/teleport.png" alt="텔레포트" style={{ width: '44px', height: '44px', imageRendering: 'pixelated', marginBottom: '8px', background: '#faf5ff', borderRadius: '4px', padding: '4px' }} />
                                 <span className="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full font-bold mb-1">Type A</span>
                                 <h4 className="font-bold text-gray-900 text-sm">텔레포트</h4>
                                 <p className="text-[11px] text-black mt-1 font-medium">마법사 직업군 등<br />짧은 거리 즉시 이동</p>
                             </div>
                             <div className="bg-white p-3 rounded-lg border border-purple-100 flex flex-col items-center text-center justify-center h-full">
-                                <Image src="/images/pf/flash-jump.png" alt="플점" width={44} height={44} className="pixelated mb-2 bg-purple-50 rounded p-1" />
+                                <img src="/images/pf/flash-jump.png" alt="플점" style={{ width: '44px', height: '44px', imageRendering: 'pixelated', marginBottom: '8px', background: '#faf5ff', borderRadius: '4px', padding: '4px' }} />
                                 <span className="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full font-bold mb-1">Type B</span>
                                 <h4 className="font-bold text-gray-900 text-sm">플래시 점프</h4>
                                 <p className="text-[11px] text-black mt-1 font-medium">도적/궁수/해적 등<br />포물선 운동 기동</p>
                             </div>
                             <div className="bg-white p-3 rounded-lg border border-purple-100 flex flex-col items-center text-center justify-center h-full">
-                                <Image src="/images/pf/burst-step.png" alt="특수" width={44} height={44} className="pixelated mb-2 bg-purple-50 rounded p-1" />
+                                <img src="/images/pf/burst-step.png" alt="특수" style={{ width: '44px', height: '44px', imageRendering: 'pixelated', marginBottom: '8px', background: '#faf5ff', borderRadius: '4px', padding: '4px' }} />
                                 <span className="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full font-bold mb-1">Type C</span>
                                 <h4 className="font-bold text-gray-900 text-sm">특수 이동</h4>
                                 <p className="text-[11px] text-black mt-1 font-medium">제로/호영/아란 등<br />돌진 및 캔슬 기동</p>
@@ -547,7 +547,7 @@ export default function MTCPortfolio() {
                     <h2 className="text-3xl font-extrabold text-gray-900 leading-none tracking-tight">운영 및 업데이트 전략</h2>
                     <span className="text-gray-800 text-sm font-bold tracking-widest">06 / 07</span>
                 </div>
-                
+
                 {/* 전략 핵심 메시지 */}
                 <div className="bg-gray-900 rounded-xl p-5 mb-8 text-white shadow-lg shrink-0 flex flex-col justify-center relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
@@ -556,7 +556,7 @@ export default function MTCPortfolio() {
                         Strategic Core
                     </h3>
                     <p className="text-xl font-medium leading-relaxed relative z-10">
-                        "콘텐츠의 <span className="text-yellow-400 font-bold border-b-2 border-yellow-400">수명 주기(Lifecycle)</span>를 관리하고,<br/>
+                        "콘텐츠의 <span className="text-yellow-400 font-bold border-b-2 border-yellow-400">수명 주기(Lifecycle)</span>를 관리하고,<br />
                         주간 로테이션으로 <span className="text-yellow-400 font-bold">지속적인 방문</span>을 유도합니다."
                     </p>
                 </div>
@@ -572,10 +572,10 @@ export default function MTCPortfolio() {
                         <p className="text-sm text-gray-900 mb-4 pl-10 leading-snug font-medium">
                             "보스의 위상 변화에 따라 M.T.C Tier를 유동적으로 조정하여 가치를 보존합니다."
                         </p>
-                        
+
                         <div className="relative pl-2 pr-2">
-                             {/* 연결선 */}
-                             <div className="absolute top-1/2 left-4 right-4 h-1 bg-gray-100 -translate-y-1/2 -z-10 rounded-full"></div>
+                            {/* 연결선 */}
+                            <div className="absolute top-1/2 left-4 right-4 h-1 bg-gray-100 -translate-y-1/2 -z-10 rounded-full"></div>
 
                             <div className="grid grid-cols-4 gap-4">
                                 {/* 1단계: 유예 */}
@@ -652,7 +652,7 @@ export default function MTCPortfolio() {
                             <div className="col-span-2 bg-white rounded-xl border border-gray-200 p-4 shadow-sm flex flex-col">
                                 <div className="mb-3 border-b border-gray-100 pb-2">
                                     <span className="text-[10px] font-bold text-gray-800 uppercase">Operating System</span>
-                                    <p className="text-xs text-gray-800 font-medium">매주 <span className="font-bold text-purple-600">Tier 1~2</span> 보스 1종 무료 개방<br/><span className="text-gray-600 text-[10px]">(목요일 00시 초기화)</span></p>
+                                    <p className="text-xs text-gray-800 font-medium">매주 <span className="font-bold text-purple-600">Tier 1~2</span> 보스 1종 무료 개방<br /><span className="text-gray-600 text-[10px]">(목요일 00시 초기화)</span></p>
                                 </div>
                                 <div className="bg-purple-50 rounded-lg p-3 flex-1">
                                     <p className="text-[11px] font-bold text-purple-900 mb-2 text-center">📅 2월 로테이션 예시</p>
@@ -680,31 +680,31 @@ export default function MTCPortfolio() {
                             {/* 우측: 선순환 사이클 (3/5 비중) */}
                             <div className="col-span-3 bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-100 p-4 shadow-sm flex flex-col justify-center relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-purple-100 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2"></div>
-                                
+
                                 <p className="text-xs text-center text-gray-800 font-bold mb-4 uppercase tracking-widest z-10">Virtuous Cycle Effect</p>
-                                
+
                                 <div className="flex items-center justify-between z-10 relative">
                                     <div className="flex flex-col items-center w-1/3 text-center group">
                                         <div className="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center text-xl mb-2 shadow-sm group-hover:border-purple-400 group-hover:text-purple-600 transition-colors">🎮</div>
                                         <p className="text-xs font-bold text-gray-800 mb-1">체험 (Entry)</p>
-                                        <p className="text-xs font-bold text-gray-800 leading-tight">"무료니까<br/>한번 해볼까?"</p>
+                                        <p className="text-xs font-bold text-gray-800 leading-tight">"무료니까<br />한번 해볼까?"</p>
                                     </div>
                                     <div className="text-gray-500">➜</div>
                                     <div className="flex flex-col items-center w-1/3 text-center group">
                                         <div className="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center text-xl mb-2 shadow-sm group-hover:border-blue-400 group-hover:text-blue-600 transition-colors">💪</div>
                                         <p className="text-xs font-bold text-gray-800 mb-1">효능감 (Confidence)</p>
-                                        <p className="text-xs font-bold text-gray-800 leading-tight">"가이드대로 하니까<br/>피해지네?"</p>
+                                        <p className="text-xs font-bold text-gray-800 leading-tight">"가이드대로 하니까<br />피해지네?"</p>
                                     </div>
                                     <div className="text-gray-500">➜</div>
                                     <div className="flex flex-col items-center w-1/3 text-center group">
                                         <div className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center text-xl mb-2 shadow-md hover:scale-110 transition-transform">🛒</div>
                                         <p className="text-xs font-bold text-purple-700 mb-1">전환 (Lock-in)</p>
-                                        <p className="text-xs font-bold text-gray-900 leading-tight">"위클리 패스<br/>구매하자!"</p>
+                                        <p className="text-xs font-bold text-gray-900 leading-tight">"위클리 패스<br />구매하자!"</p>
                                     </div>
                                 </div>
-                                
+
                                 <div className="mt-4 bg-white/60 p-2 rounded-lg text-xs font-bold text-center text-gray-900 border border-purple-100 z-10">
-                                    🚀 <b>활성화:</b> 주간 패스 매출 증가 + 보스 도전 문화 확산 <br/>(Boom-up)
+                                    🚀 <b>활성화:</b> 주간 패스 매출 증가 + 보스 도전 문화 확산 <br />(Boom-up)
                                 </div>
                             </div>
                         </div>

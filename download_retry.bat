@@ -1,4 +1,4 @@
-@echo off
+https://maple.ai.kr/blog/item-price-tracker-2026@echo off
 echo Downloading high quality banner...
 curl -L -o "c:\Users\USER\Desktop\maple-colosseum\maple-hub\public\images\blog\haste_beyond_banner.jpg" "https://maplestory.nexon.com/Content/img/haste_beyond_banner.jpg"
 if %errorlevel% neq 0 (
