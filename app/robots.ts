@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: ['/pf/', '/admin/'],
+            disallow: ['/pf/', '/admin/', '/book/'],
         },
         sitemap: 'https://maple.ai.kr/sitemap.xml',
     };
