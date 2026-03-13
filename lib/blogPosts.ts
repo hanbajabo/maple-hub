@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 이번 주말 ~ 3/18 일정 총정리 (3월 13일)
+    {
+        slug: 'weekend-march-schedule-2026',
+        title: '🎡 이번 주말 3/14(토) ~ 3/19(목) 메이플 일정 완벽 총정리 | 23주년 롯데월드 랜선투어 & 썬데이 메이플',
+        description: '3/14 롯데월드 랜선투어(메이플 아일랜드 최초 공개!), 3/15 역대급 썬데이 메이플(황금 딸기 농장 5개!), 3/18 이벤트 마감 코인샵 결산까지! 이번 주 절대 놓치면 안 되는 일정 총정리.',
+        category: '이벤트 가이드',
+        date: '2026년 3월 13일',
+        readTime: '10분',
+        thumbnail: '🎡',
+        featured: true,
+    },
     // 헤이스트 BEYOND x 챌린저스 듀오 가이드 (2월 8일)
     {
         slug: 'haste-beyond-challengers-duo-guide',
