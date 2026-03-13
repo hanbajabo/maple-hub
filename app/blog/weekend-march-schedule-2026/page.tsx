@@ -444,6 +444,25 @@ export default function WeekendMarchSchedule2026() {
                                     </div>
                                 </div>
 
+                                {/* 프리렌 콜라보 판매 종료 */}
+                                <div className="bg-slate-900/60 border border-indigo-500/40 rounded-xl p-5">
+                                    <p className="text-indigo-400 font-black text-lg mb-3 flex items-center gap-2">
+                                        <span>🪄</span> 장송의 프리렌 콜라보 캐시템 판매 종료
+                                    </p>
+                                    <p className="text-slate-300 text-sm mb-4 leading-relaxed">
+                                        2월부터 판매했던 <span className="text-white font-bold">'장송의 프리렌 코디 및 굿즈 컬렉션'</span> 캐시 아이템 판매도 3월 18일(수) 완전히 종료됩니다. 아직 못 구매하셨다면 마감 전에 확인하세요!
+                                    </p>
+                                    <div className="rounded-lg overflow-hidden border border-indigo-500/30 bg-white">
+                                        <Image
+                                            src="/images/blog/frieren-collab-end.png"
+                                            alt="장송의 프리렌 콜라보 캐시아이템 업데이트 안내"
+                                            width={1200}
+                                            height={400}
+                                            className="w-full h-auto object-contain"
+                                        />
+                                    </div>
+                                </div>
+
                                 {/* 하드 유피테르 기념 선물 */}
                                 <div className="bg-gradient-to-br from-yellow-900/40 to-amber-900/40 border-2 border-yellow-500/60 rounded-xl p-5">
                                     <p className="text-yellow-400 font-black text-lg mb-3 flex items-center gap-2">
