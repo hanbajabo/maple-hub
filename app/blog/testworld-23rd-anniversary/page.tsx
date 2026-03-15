@@ -47,7 +47,7 @@ export default function Testworld23rdAnniversaryPage() {
                             <tbody>
                                 <tr className="border-b border-slate-700/50">
                                     <th className="px-4 py-3 font-medium text-slate-400">테스트월드</th>
-                                    <td className="px-4 py-3">2026년 3월 12일 (목)</td>
+                                    <td className="px-4 py-3">2026년 3월 14일 (토)</td>
                                 </tr>
                                 <tr>
                                     <th className="px-4 py-3 font-medium text-orange-400">본서버 적용 예정</th>
