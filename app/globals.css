@@ -36,4 +36,27 @@ body {
     break-inside: avoid;
     page-break-inside: avoid;
   }
+
+  /* Custom scrollbar for mobile tables */
+  .override-scrollbar::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+  .override-scrollbar::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.1);
+  }
+  .override-scrollbar::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 10px;
+  }
+  .override-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+  }
+}
+
+@layer base {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }

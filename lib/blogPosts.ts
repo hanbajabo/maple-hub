@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 메이플 23주년 업데이트 정리 (3월 15일)
+    {
+        slug: 'testworld-23rd-anniversary',
+        title: '🧪 [테스트월드] 23주년 업데이트 총정리 & 보상 최단기 스케줄 완벽 가이드',
+        description: '3월 19일 본섭 적용 예정! 하이퍼 버닝 부스터 1+4, 마스코트 퍼레이드, 루시드 체인지 버닝 등 역대급 23주년 업데이트의 보상 획득 최단기 일정 완벽 정리.',
+        category: '업데이트 소식',
+        date: '2026년 3월 15일',
+        readTime: '15분',
+        thumbnail: '🧪',
+        featured: true,
+        targetDate: '2026년 3월 19일',
+    },
     // 이번 주말 ~ 3/18 일정 총정리 (3월 13일)
     {
         slug: 'weekend-march-schedule-2026',
