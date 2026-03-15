@@ -205,10 +205,10 @@ export default function BlogPage() {
                                 <div className="flex justify-between items-end mb-8">
                                     <div>
                                         <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
-                                            <span className="text-4xl">🧪</span>
-                                            <span>테스트월드 소식</span>
+                                            <span className="text-4xl text-orange-500">🍁</span>
+                                            <span>메이플 업데이트 소식</span>
                                         </h2>
-                                        <p className="text-slate-400 text-sm sm:text-base">본서버 적용 전 미리 보는 업데이트</p>
+                                        <p className="text-slate-400 text-sm sm:text-base">패치노트부터 미리 보는 이벤트까지</p>
                                     </div>
                                 </div>
 

@@ -27,7 +27,7 @@ export default function Testworld23rdAnniversaryPage() {
                     <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4 sm:mb-6 leading-tight">
                         <span className="text-4xl mr-2">🍁</span>
                         <span className="bg-gradient-to-r from-orange-400 via-yellow-400 to-red-400 bg-clip-text text-transparent">
-                            23주년 이벤트 상세 총정리 & 보상 가이드
+                            메이플 23주년 이벤트 상세 총정리 & 보상 가이드
                         </span>
                     </h1>
 
