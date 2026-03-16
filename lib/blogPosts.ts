@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 체인지 버닝: 루시드 완전 공략 (3월 16일)
+    {
+        slug: 'change-burning-lucid-guide',
+        title: '🦋 체인지 버닝: 루시드 완전 공략 | 악몽의 숲부터 드림 샤드샵까지',
+        description: '23주년 신규 이벤트! 루시드로 변신해 경험치를 획득하는 체인지 버닝: 루시드의 모든 것. 악몽 제어, 악몽의 숲, 몽환의 장비, 드림 샤드샵까지 완벽 정리.',
+        category: '이벤트 가이드',
+        date: '2026년 3월 16일',
+        readTime: '15분',
+        thumbnail: '🦋',
+        featured: true,
+    },
     // 메이플 23주년 업데이트 정리 (3월 15일)
     {
         slug: 'testworld-23rd-anniversary',
