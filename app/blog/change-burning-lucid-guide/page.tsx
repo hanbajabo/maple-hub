@@ -1427,7 +1427,7 @@ export default function ChangeBurningLucidGuide() {
                                             루시드로 변신한 상태에서 <span className="text-white font-bold">일반 필드 몬스터</span>를 사냥하면 경험치 도핑이 그대로 적용됩니다.
                                             <div className="mt-2.5 bg-green-500/20 border border-green-500/40 rounded-lg p-3 text-center shadow-lg shadow-green-900/20">
                                                 <p className="text-sm font-black text-green-300">본캐 레벨업을 더 빨리 하고 싶다면</p>
-                                                <p className="text-sm font-bold text-green-100 mt-1">경험치 3배 쿠폰·정령의 펜던트·쓸만한 홀리심볼 등 <span className="text-yellow-300">모든 버프를 챙기고 사냥하세요!</span></p>
+                                                <p className="text-sm font-bold text-green-100 mt-1">경험치 3배 쿠폰·정령의 펜던트·VIP경험치 버프 등 <span className="text-yellow-300">모든 버프를 챙기고 사냥하세요!</span></p>
                                             </div>
                                         </div>
                                     </div>
