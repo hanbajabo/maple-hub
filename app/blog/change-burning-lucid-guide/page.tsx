@@ -255,6 +255,18 @@ export default function ChangeBurningLucidGuide() {
                         {/* 악몽 침식 흐름 */}
                         <div className="bg-slate-900/60 border border-indigo-500/30 rounded-xl p-4 sm:p-5 mb-4">
                             <p className="text-indigo-200 font-black mb-3">🌀 악몽 침식 발동 순서</p>
+
+                            {/* 침식 몬스터 이미지 추가 */}
+                            <div className="mb-4 rounded-xl overflow-hidden border border-indigo-500/20 shadow-lg">
+                                <Image
+                                    src="/images/blog/testworld-23rd-anniversary/nightmare-monsters.png"
+                                    alt="드림 이터, 악몽 끄나풀, 악몽의 근원"
+                                    width={1200}
+                                    height={400}
+                                    className="w-full h-auto"
+                                />
+                            </div>
+
                             {/* 모바일: 2열 그리드, sm 이상: 가로 흐름 */}
                             <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 items-center justify-center text-center text-sm">
                                 {[
