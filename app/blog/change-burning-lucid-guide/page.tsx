@@ -51,10 +51,10 @@ export default function ChangeBurningLucidGuide() {
                             priority
                         />
                     </div>
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 leading-tight text-balance">
                         🦋 체인지 버닝: 루시드<br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-violet-400">
-                            완전 공략 가이드
+                            효율 완전 분석 공략 가이드
                         </span>
                     </h1>
                     <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
