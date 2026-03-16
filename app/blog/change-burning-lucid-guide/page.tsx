@@ -275,27 +275,14 @@ export default function ChangeBurningLucidGuide() {
                             <p className="text-slate-500 text-xs mt-2 text-center">순서대로 반복됩니다</p>
                         </div>
 
-                        {/* 누적 경험치 정산 시스템 설명 추가 */}
-                        <div className="mb-5 overflow-hidden rounded-xl border border-blue-500/30">
-                            <Image
-                                src="/images/blog/testworld-23rd-anniversary/exp-transfer.png"
-                                alt="루시드 누적 경험치 획득 시스템 설명"
-                                width={1200}
-                                height={300}
-                                className="w-full h-auto object-cover"
-                            />
-                            <div className="bg-blue-900/20 p-4 border-t border-blue-500/30">
-                                <p className="text-blue-300 font-black text-sm mb-2 flex items-center gap-1.5">
-                                    <Star className="w-4 h-4" /> 누적 경험치 정산 시스템
-                                </p>
-                                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                                    루시드로 드림 이터 및 악몽 침식(근원, 끄나풀)을 사냥하여 획득한 <span className="text-white font-bold">대량의 캐릭터 경험치</span>는 <span className="text-yellow-400 font-bold">CHANGE STATUS 창 하단</span>에 실시간으로 누적됩니다.<br />
-                                    이렇게 누적된 폭풍 경험치는 <span className="text-cyan-300 font-bold">루시드 상태를 해제하고 본캐(내 캐릭터)로 돌아갈 때 한 번에 결산되어 실제 경험치 바에 적용</span>됩니다! 잠시 마을로 돌아가 폭업의 뽕맛을 느껴보세요! 🚀
-                                </p>
-                            </div>
+                        {/* 끄나풀 효율 팁 추가 */}
+                        <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4 mb-4">
+                            <p className="text-slate-200 text-xs sm:text-sm leading-relaxed">
+                                💡 <span className="text-orange-300 font-bold">악몽의 끄나풀</span>은 드림 이터보다 <span className="text-yellow-400 font-bold">마리당 EXP가 2.6배</span> 높습니다. 침식 발동 즉시 전원 처치를 해야 최대 효율이며, 침식 중 맵을 이동하거나 변신이 해제되면 침식이 중단됩니다.
+                            </p>
                         </div>
 
-                        {/* 루시드 드림 이터 사냥 소요 시간 */}
+                        {/* 루시드 드림 이터 사냥 소요 시간 (이동됨) */}
                         <div className="bg-slate-900/60 border border-indigo-500/30 rounded-xl p-4 mb-6">
                             <p className="text-indigo-200 font-black mb-3 text-sm flex items-center gap-1.5">
                                 <Clock className="w-4 h-4" /> 루시드 드림 이터 사냥 소요 시간 분석
@@ -344,6 +331,28 @@ export default function ChangeBurningLucidGuide() {
                                 </p>
                             </div>
                         </div>
+
+                        {/* 누적 경험치 정산 시스템 설명 추가 */}
+                        <div className="mb-5 overflow-hidden rounded-xl border border-blue-500/30">
+                            <Image
+                                src="/images/blog/testworld-23rd-anniversary/exp-transfer.png"
+                                alt="루시드 누적 경험치 획득 시스템 설명"
+                                width={1200}
+                                height={300}
+                                className="w-full h-auto object-cover"
+                            />
+                            <div className="bg-blue-900/20 p-4 border-t border-blue-500/30">
+                                <p className="text-blue-300 font-black text-sm mb-2 flex items-center gap-1.5">
+                                    <Star className="w-4 h-4" /> 누적 경험치 정산 시스템
+                                </p>
+                                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                                    루시드로 드림 이터 및 악몽 침식(근원, 끄나풀)을 사냥하여 획득한 <span className="text-white font-bold">대량의 캐릭터 경험치</span>는 <span className="text-yellow-400 font-bold">CHANGE STATUS 창 하단</span>에 실시간으로 누적됩니다.<br />
+                                    이렇게 누적된 폭풍 경험치는 <span className="text-cyan-300 font-bold">루시드 상태를 해제하고 본캐(내 캐릭터)로 돌아갈 때 한 번에 결산되어 실제 경험치 바에 적용</span>됩니다! 잠시 마을로 돌아가 폭업의 뽕맛을 느껴보세요! 🚀
+                                </p>
+                            </div>
+                        </div>
+
+
 
                         <div className="bg-yellow-900/20 border border-yellow-500/40 rounded-xl p-4">
                             <p className="text-yellow-300 font-bold text-sm flex items-center gap-1 mb-1">
