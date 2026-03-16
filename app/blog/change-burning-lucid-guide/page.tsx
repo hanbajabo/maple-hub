@@ -324,23 +324,23 @@ export default function ChangeBurningLucidGuide() {
                             </div>
                             <div className="space-y-3">
                                 <p className="text-white font-bold text-xs sm:text-sm">⏱️ 주간 숙제(25,000마리) 완료 시간 계산</p>
-                                <div className="bg-indigo-900/20 border border-indigo-500/20 rounded-lg p-3 space-y-2">
+                                <div className="bg-indigo-900/40 border border-indigo-500/30 rounded-lg p-3 space-y-2">
                                     <div className="flex justify-between text-xs sm:text-sm">
-                                        <span className="text-slate-400">1,000마리당 소요 시간</span>
-                                        <span className="text-indigo-300 font-bold">약 4분</span>
+                                        <span className="text-slate-200">1,000마리당 소요 시간</span>
+                                        <span className="text-cyan-400 font-bold underline underline-offset-4 decoration-cyan-500/30">약 4분</span>
                                     </div>
                                     <div className="flex justify-between text-xs sm:text-sm">
-                                        <span className="text-slate-400">25,000마리 산출식</span>
-                                        <span className="text-slate-300">25 × 4분 = 100분</span>
+                                        <span className="text-slate-200">25,000마리 산출식</span>
+                                        <span className="text-white font-medium italic">25 × 4분 = 100분</span>
                                     </div>
-                                    <div className="border-t border-indigo-500/20 pt-2 flex justify-between items-center text-sm sm:text-base">
+                                    <div className="border-t border-indigo-500/40 pt-2 flex justify-between items-center text-sm sm:text-base">
                                         <span className="text-white font-black">최종 소요 시간</span>
-                                        <span className="text-yellow-400 font-black">1시간 40분</span>
+                                        <span className="text-yellow-300 font-black drop-shadow-[0_0_5px_rgba(253,224,71,0.3)]">1시간 40분</span>
                                     </div>
                                 </div>
-                                <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed">
-                                    • 악몽의 근원 처치 및 침식 발동 대기 시간까지 포함하면 대략 <span className="text-white font-bold">1재획(2시간)</span> 정도 소요될 것으로 예상됩니다.<br />
-                                    • <span className="text-slate-500 italic">(기준 : 카르시온 사냥터 숨이 멎는 소리 동굴 4)</span>
+                                <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+                                    • 악몽의 근원 처치 및 침식 발동 대기 시간까지 포함하면 대략 <span className="text-white font-black">1재획(2시간)</span> 정도 소요될 것으로 예상됩니다.<br />
+                                    • <span className="text-slate-400 italic">(기준 : 카르시온 사냥터 숨이 멎는 소리 동굴 4)</span>
                                 </p>
                             </div>
                         </div>
