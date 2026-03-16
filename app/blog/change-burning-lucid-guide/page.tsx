@@ -238,55 +238,7 @@ export default function ChangeBurningLucidGuide() {
                             드림 이터를 처치하면 루시드 EXP + <span className="text-green-400 font-bold">내 캐릭터 레벨에 맞는 경험치</span>가 함께 지급됩니다!
                         </p>
 
-                        {/* 루시드 드림 이터 사냥 소요 시간 */}
-                        <div className="bg-slate-900/60 border border-indigo-500/30 rounded-xl p-4 mb-6">
-                            <p className="text-indigo-200 font-black mb-3 text-sm flex items-center gap-1.5">
-                                <Clock className="w-4 h-4" /> 루시드 드림 이터 사냥 소요 시간 분석
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                                <div className="rounded-lg overflow-hidden border border-indigo-500/20">
-                                    <Image
-                                        src="/images/blog/testworld-23rd-anniversary/hunt-time-1.png"
-                                        alt="드림 이터 사냥 측정 시작"
-                                        width={600}
-                                        height={300}
-                                        className="w-full h-auto"
-                                    />
-                                    <p className="text-[10px] text-slate-500 text-center py-1 bg-slate-900">▲ 전투 측정 시작 (250/1,250)</p>
-                                </div>
-                                <div className="rounded-lg overflow-hidden border border-indigo-500/20">
-                                    <Image
-                                        src="/images/blog/testworld-23rd-anniversary/hunt-time-2.png"
-                                        alt="드림 이터 1,250마리(침식 1회) 측정 완료"
-                                        width={600}
-                                        height={300}
-                                        className="w-full h-auto"
-                                    />
-                                    <p className="text-[10px] text-slate-500 text-center py-1 bg-slate-900">▲ 드림 이터 1,250마리(침식 1회분) 소요: 약 4분</p>
-                                </div>
-                            </div>
-                            <div className="space-y-3">
-                                <p className="text-white font-bold text-xs sm:text-sm">⏱️ 주간 숙제(25,000마리) 완료 시간 계산</p>
-                                <div className="bg-indigo-900/20 border border-indigo-500/20 rounded-lg p-3 space-y-2">
-                                    <div className="flex justify-between text-xs sm:text-sm">
-                                        <span className="text-slate-400">1,000마리당 소요 시간</span>
-                                        <span className="text-indigo-300 font-bold">약 4분</span>
-                                    </div>
-                                    <div className="flex justify-between text-xs sm:text-sm">
-                                        <span className="text-slate-400">25,000마리 산출식</span>
-                                        <span className="text-slate-300">25 × 4분 = 100분</span>
-                                    </div>
-                                    <div className="border-t border-indigo-500/20 pt-2 flex justify-between items-center text-sm sm:text-base">
-                                        <span className="text-white font-black">최종 소요 시간</span>
-                                        <span className="text-yellow-400 font-black">1시간 40분</span>
-                                    </div>
-                                </div>
-                                <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed">
-                                    • 악몽의 근원 처치 및 침식 발동 대기 시간까지 포함하면 대략 <span className="text-white font-bold">1재획(2시간)</span> 정도 소요될 것으로 예상됩니다.<br />
-                                    • <span className="text-slate-500 italic">(기준 : 카르시온 사냥터 숨이 멎는 소리 동굴 4)</span>
-                                </p>
-                            </div>
-                        </div>
+
 
                         {/* 악몽 제어 실제 화면 */}
                         <div className="mb-5 rounded-xl overflow-hidden border border-indigo-500/30">
@@ -339,6 +291,56 @@ export default function ChangeBurningLucidGuide() {
                                 <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
                                     루시드로 드림 이터 및 악몽 침식(근원, 끄나풀)을 사냥하여 획득한 <span className="text-white font-bold">대량의 캐릭터 경험치</span>는 <span className="text-yellow-400 font-bold">CHANGE STATUS 창 하단</span>에 실시간으로 누적됩니다.<br />
                                     이렇게 누적된 폭풍 경험치는 <span className="text-cyan-300 font-bold">루시드 상태를 해제하고 본캐(내 캐릭터)로 돌아갈 때 한 번에 결산되어 실제 경험치 바에 적용</span>됩니다! 잠시 마을로 돌아가 폭업의 뽕맛을 느껴보세요! 🚀
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* 루시드 드림 이터 사냥 소요 시간 */}
+                        <div className="bg-slate-900/60 border border-indigo-500/30 rounded-xl p-4 mb-6">
+                            <p className="text-indigo-200 font-black mb-3 text-sm flex items-center gap-1.5">
+                                <Clock className="w-4 h-4" /> 루시드 드림 이터 사냥 소요 시간 분석
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                <div className="rounded-lg overflow-hidden border border-indigo-500/20">
+                                    <Image
+                                        src="/images/blog/testworld-23rd-anniversary/hunt-time-1.png"
+                                        alt="드림 이터 사냥 측정 시작"
+                                        width={600}
+                                        height={300}
+                                        className="w-full h-auto"
+                                    />
+                                    <p className="text-[10px] text-slate-500 text-center py-1 bg-slate-900">▲ 전투 측정 시작 (250/1,250)</p>
+                                </div>
+                                <div className="rounded-lg overflow-hidden border border-indigo-500/20">
+                                    <Image
+                                        src="/images/blog/testworld-23rd-anniversary/hunt-time-2.png"
+                                        alt="드림 이터 1,250마리(침식 1회) 측정 완료"
+                                        width={600}
+                                        height={300}
+                                        className="w-full h-auto"
+                                    />
+                                    <p className="text-[10px] text-slate-500 text-center py-1 bg-slate-900">▲ 드림 이터 1,250마리(침식 1회분) 소요: 약 4분</p>
+                                </div>
+                            </div>
+                            <div className="space-y-3">
+                                <p className="text-white font-bold text-xs sm:text-sm">⏱️ 주간 숙제(25,000마리) 완료 시간 계산</p>
+                                <div className="bg-indigo-900/20 border border-indigo-500/20 rounded-lg p-3 space-y-2">
+                                    <div className="flex justify-between text-xs sm:text-sm">
+                                        <span className="text-slate-400">1,000마리당 소요 시간</span>
+                                        <span className="text-indigo-300 font-bold">약 4분</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs sm:text-sm">
+                                        <span className="text-slate-400">25,000마리 산출식</span>
+                                        <span className="text-slate-300">25 × 4분 = 100분</span>
+                                    </div>
+                                    <div className="border-t border-indigo-500/20 pt-2 flex justify-between items-center text-sm sm:text-base">
+                                        <span className="text-white font-black">최종 소요 시간</span>
+                                        <span className="text-yellow-400 font-black">1시간 40분</span>
+                                    </div>
+                                </div>
+                                <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed">
+                                    • 악몽의 근원 처치 및 침식 발동 대기 시간까지 포함하면 대략 <span className="text-white font-bold">1재획(2시간)</span> 정도 소요될 것으로 예상됩니다.<br />
+                                    • <span className="text-slate-500 italic">(기준 : 카르시온 사냥터 숨이 멎는 소리 동굴 4)</span>
                                 </p>
                             </div>
                         </div>
