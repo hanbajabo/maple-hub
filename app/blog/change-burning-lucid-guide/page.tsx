@@ -252,7 +252,7 @@ export default function ChangeBurningLucidGuide() {
                                         height={300}
                                         className="w-full h-auto"
                                     />
-                                    <p className="text-[10px] text-slate-500 text-center py-1 bg-slate-900">▲ 전투 측정 시작 (0/1,250)</p>
+                                    <p className="text-[10px] text-slate-500 text-center py-1 bg-slate-900">▲ 전투 측정 시작 (250/1,250)</p>
                                 </div>
                                 <div className="rounded-lg overflow-hidden border border-indigo-500/20">
                                     <Image
