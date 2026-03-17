@@ -43,7 +43,10 @@ export default function CalculatorMenu() {
                         </div>
                         <div className="flex flex-col">
                             <span className="font-semibold text-sm">경험치 계산기</span>
-                            <span className="text-[10px] text-slate-400">사냥/일퀘 레벨업 예측</span>
+                            <div className="flex items-center gap-1 mt-0.5">
+                                <span className="text-[10px] text-orange-400 font-medium">루시드 버닝 업데이트!</span>
+                                <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm">NEW</span>
+                            </div>
                         </div>
                     </Link>
 
