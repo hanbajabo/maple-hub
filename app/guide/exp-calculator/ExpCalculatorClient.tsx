@@ -12,6 +12,8 @@ import { ADVANCED_EXP_COUPON } from '@/data/advanced-exp-coupon';
 import { MECHABERRY_FARM_EXP } from '@/data/mechaberry-farm-exp';
 import { EXPRESS_BOOSTER_EXP } from '@/data/express-booster-exp';
 import { MONSTER_EXP, MonsterExp } from '@/data/monster-exp';
+import { getLucidBurningExp, calcLucidBurningTotal } from '@/data/lucid-burning-exp';
+import { calcGoldenFarmTotal, getGoldenFarmExp } from '@/data/golden-farm-exp';
 import {
     EXP_DATA, getMonsterParkExp, getGrandisDailyQuest, getArcaneDailyQuest,
     EXTREME_MONSTER_PARK_EXP, MONSTER_PARK_EXP, ARCANE_DAILY_QUEST, GRANDIS_DAILY_QUEST
@@ -22,26 +24,26 @@ interface LevelData { level: number; requiredExp: number; cumulativeExp: number;
 export default function ExpCalculatorClient() {
     const [currentLevel, setCurrentLevel] = useState(200);
     const [currentLevelExp, setCurrentLevelExp] = useState(0);
-    const [targetLevel, setTargetLevel] = useState(210);
+    const [targetLevel, setTargetLevel] = useState(285);
     const [useHyperBurning, setUseHyperBurning] = useState(false);
     const [useBurningBeyond, setUseBurningBeyond] = useState(false);
 
     const [huntingMode, setHuntingMode] = useState<'percent' | 'manual' | 'calculate'>('calculate');
-    const [dailyLevelPercent, setDailyLevelPercent] = useState(20);
+    const [dailyLevelPercent, setDailyLevelPercent] = useState(0);
     const [huntingExpPerHour, setHuntingExpPerHour] = useState(0);
-    const [dailyHuntingHours, setDailyHuntingHours] = useState(3);
-    const [mobsPerHour, setMobsPerHour] = useState(14000);
+    const [dailyHuntingHours, setDailyHuntingHours] = useState(0);
+    const [mobsPerHour, setMobsPerHour] = useState(0);
     const [additionalExpRate, setAdditionalExpRate] = useState(0);
 
-    const [monsterParkCountWeek, setMonsterParkCountWeek] = useState(2);
-    const [monsterParkCountSun, setMonsterParkCountSun] = useState(7);
+    const [monsterParkCountWeek, setMonsterParkCountWeek] = useState(0);
+    const [monsterParkCountSun, setMonsterParkCountSun] = useState(0);
     const [mpEventSkillLevel, setMpEventSkillLevel] = useState(0);
     const [arcaneEventSkillLevel, setArcaneEventSkillLevel] = useState(0);
     const [grandisEventSkillLevel, setGrandisEventSkillLevel] = useState(0);
-    const [useSundayMPBonus, setUseSundayMPBonus] = useState(true);
+    const [useSundayMPBonus, setUseSundayMPBonus] = useState(false);
     const [useSundayMaple, setUseSundayMaple] = useState(false);
-    const [useArcaneQuest, setUseArcaneQuest] = useState(true);
-    const [useGrandisQuest, setUseGrandisQuest] = useState(true);
+    const [useArcaneQuest, setUseArcaneQuest] = useState(false);
+    const [useGrandisQuest, setUseGrandisQuest] = useState(false);
     const [dailyQuestExp, setDailyQuestExp] = useState(0);
     const [useExtremeMonsterPark, setUseExtremeMonsterPark] = useState(false);
 
@@ -69,6 +71,105 @@ export default function ExpCalculatorClient() {
     const [useElanos, setUseElanos] = useState(false);
     const [useRune, setUseRune] = useState(false);
     const [burningFieldStage, setBurningFieldStage] = useState(0);
+
+    // 체인지 버닝: 루시드
+    const [useLucidBurning, setUseLucidBurning] = useState(false);
+    const [lucidBurningHunting, setLucidBurningHunting] = useState(true);
+    const [lucidBurningWeeklyMission, setLucidBurningWeeklyMission] = useState(true);
+    const [lucidBurningSeasonMission, setLucidBurningSeasonMission] = useState(true);
+
+    // 황금 딸기 농장 이용권
+    const [useGoldenFarm, setUseGoldenFarm] = useState(false);
+    const [goldenFarmCount, setGoldenFarmCount] = useState(1);
+    const [goldenFarmBonusRate, setGoldenFarmBonusRate] = useState(400);
+
+    // 체인지 버닝: 루시드 UI 프리뷰용 계산
+    const lucidEntryForPreview = (currentLevel >= 260 || targetLevel > 260) ? getLucidBurningExp(Math.min(currentLevel, 295)) : null;
+    const lucidTotalPreview = (useLucidBurning && lucidEntryForPreview) ? calcLucidBurningTotal(lucidEntryForPreview, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission) : 0;
+
+    // 루시드 버닝 EXP만으로 달성 가능한 레벨 시뮬레이션
+    const lucidOnlyResult = (useLucidBurning && lucidTotalPreview > 0) ? (() => {
+        let rem = lucidTotalPreview;
+        let lv = currentLevel;
+        const startData = EXP_DATA.find(d => d.level === lv);
+        if (!startData) return null;
+        let needed = startData.requiredExp * (100 - currentLevelExp) / 100;
+        
+        while (rem >= needed && lv < 299) {
+            rem -= needed;
+            lv++;
+            
+            // 하이퍼 버닝 추가 레벨업 (200~259 구간에서 1업 시 +4업)
+            // 사실 루시드는 260부터 적용이라 하이퍼 버닝과 겹칠 일은 없지만 범용성/정확도를 위해 추가
+            if (useHyperBurning && lv >= 200 && lv < 260) {
+                lv = Math.min(lv + 4, 260); // 260까지만 적용
+            } else if (useBurningBeyond && lv >= 260 && lv <= 269) {
+                // 버닝 비욘드 추가 레벨업 (260~269 구간에서 1업 시 +1업)
+                // 269에서 레벨업하면 270이 되고 +1업 해서 271이 되는 것이 아님 (최대 적용은 269렙에서 업할때이므로 도달렙 270까지만.)
+                lv++; // 1+1 이므로 1업 추가
+                if (lv > 270) lv = 270; // 제한
+            }
+
+            const next = EXP_DATA.find(d => d.level === lv);
+            if (!next) break;
+            needed = next.requiredExp;
+        }
+        const curData = EXP_DATA.find(d => d.level === lv);
+        const pct = curData ? (rem / curData.requiredExp) * 100 : 0;
+        return { level: lv, pct, gained: lv - currentLevel };
+    })() : null;
+    // 황금 딸기 농장 이용권만으로 달성 가능한 레벨 시뮬레이션 및 정확한 총 획득 경험치 계산
+    const goldenFarmExactResult = useMemo(() => {
+        if (!useGoldenFarm || currentLevel < 200 || currentLevel > 259 || goldenFarmCount <= 0) return null;
+        
+        let lv = currentLevel;
+        const startData = EXP_DATA.find(d => d.level === lv);
+        let rem = startData ? startData.requiredExp : 0;
+        let curExp = rem * (currentLevelExp / 100);
+        let totalGain = 0;
+        
+        // 입력값은 추가 경험치(400%). 총 경험치는 기본 100% + 추가(400%) = 500%.
+        // 따라서 multiplier = (100 + 추가경험치) / 500
+        const effectiveRate = Math.max(400, goldenFarmBonusRate);
+        const mult = (100 + effectiveRate) / 500;
+        
+        for (let i = 0; i < goldenFarmCount; i++) {
+            if (lv >= 299) break; // 만렙 방지
+            
+            // 현재 레벨 기준 티켓 1장(500마리) 가치
+            const baseTicket = getGoldenFarmExp(Math.min(259, lv));
+            const gain = Math.floor(baseTicket * mult);
+            totalGain += gain;
+            curExp += gain;
+            
+            // 레벨업 처리: 티켓 1장으로 여러번 레벨업 가능
+            while (lv < 299) {
+                const req = EXP_DATA.find(d => d.level === lv)?.requiredExp || Number.MAX_SAFE_INTEGER;
+                if (curExp >= req) {
+                    curExp -= req;
+                    lv++;
+                    
+                    // 버닝 효과 적용
+                    if (useHyperBurning && lv >= 200 && lv < 260) {
+                        lv = Math.min(lv + 4, 260); // 260까지만 적용
+                    } else if (useBurningBeyond && lv >= 260 && lv <= 269) {
+                        lv++;
+                        if (lv > 270) lv = 270;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        
+        const curReq = EXP_DATA.find(d => d.level === lv)?.requiredExp || 1;
+        const pct = (curExp / curReq) * 100;
+        return { totalExp: totalGain, level: lv, pct, gained: lv - currentLevel };
+    }, [useGoldenFarm, currentLevel, currentLevelExp, goldenFarmCount, goldenFarmBonusRate, useHyperBurning, useBurningBeyond]);
+
+    // UI 프리뷰
+    const goldenFarmPreview = goldenFarmExactResult ? goldenFarmExactResult.totalExp : 0;
+    const goldenFarmOnlyResult = goldenFarmExactResult;
 
     const monsterParkData = useMemo(() => getMonsterParkExp(currentLevel), [currentLevel]);
     const monsterParkEventBonus = mpEventSkillLevel > 0 ? (mpEventSkillLevel / 100) : 0;
@@ -107,9 +208,9 @@ export default function ExpCalculatorClient() {
 
         let daysNeeded = 0, hoursNeeded = 0, totalHuntingHours = 0;
         const monsterParkBreakdown: Array<{ level: number; area: string; exp: number; days: number }> = [];
-        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0 };
+        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0 };
 
-        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm) {
+        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useLucidBurning || useGoldenFarm) {
             let remainingExp = totalExpNeeded;
             let currentSimLevel = currentLevel;
             let currentSimLevelProgress = currentLevelExp;
@@ -125,6 +226,23 @@ export default function ExpCalculatorClient() {
                 farm: useMechaberryFarm ? mechaberryFarmCount : 0
             };
             let carriedOverExp = 0;
+
+            // 체인지 버닝: 루시드 — 이벤트 총 경험치 일괄 선반영
+            if (useLucidBurning && currentLevel >= 260) {
+                const lucidEntry = getLucidBurningExp(Math.min(currentLevel, 295));
+                if (lucidEntry) {
+                    const lucidTotal = calcLucidBurningTotal(lucidEntry, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission);
+                    carriedOverExp += lucidTotal;
+                    totalExpSources.lucidBurning += lucidTotal;
+                }
+            }
+
+            // 황금 딸기 농장 이용권 — 총 경험치 일괄 선반영
+            if (useGoldenFarm && currentLevel >= 200 && currentLevel <= 259) {
+                const farmTotal = goldenFarmPreview;
+                carriedOverExp += farmTotal;
+                totalExpSources.goldenFarm += farmTotal;
+            }
 
             while (remainingExp > 0 && currentSimLevel < targetLevel) {
                 // Check if any consumables can be used at this level
@@ -329,14 +447,16 @@ export default function ExpCalculatorClient() {
             { name: '상급 EXP 쿠폰', value: totalExpSources.expCoupon, textClass: 'text-teal-400', bgClass: 'bg-teal-400' },
             { name: '메카베리 농장', value: totalExpSources.farm, textClass: 'text-pink-400', bgClass: 'bg-pink-400' },
             { name: '익스프레스 부스터', value: totalExpSources.booster, textClass: 'text-green-400', bgClass: 'bg-green-400' },
-            { name: 'VIP/헥사 부스터', value: totalExpSources.vipBooster, textClass: 'text-indigo-300', bgClass: 'bg-indigo-300' }
+            { name: 'VIP/헥사 부스터', value: totalExpSources.vipBooster, textClass: 'text-indigo-300', bgClass: 'bg-indigo-300' },
+            { name: '🦋 체인지 버닝: 루시드', value: totalExpSources.lucidBurning, textClass: 'text-purple-400', bgClass: 'bg-purple-400' },
+            { name: '🍓 황금 딸기 농장', value: totalExpSources.goldenFarm, textClass: 'text-yellow-300', bgClass: 'bg-yellow-300' }
         ];
 
         const totalAccumulated = breakdownList.reduce((acc, item) => acc + item.value, 0);
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, useMechaberryFarm, mechaberryFarmCount, epicDungeonBonus15, epicDungeonBonus20, epicDungeonBonus25, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, useMechaberryFarm, mechaberryFarmCount, epicDungeonBonus15, epicDungeonBonus20, epicDungeonBonus25, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -347,6 +467,7 @@ export default function ExpCalculatorClient() {
             ['현재 레벨', currentLevel, '목표 레벨', targetLevel],
             ['현재 경험치 (%)', `${currentLevelExp}%`],
             ['하이퍼 버닝 여부', useHyperBurning ? 'O' : 'X', '버닝 비욘드 여부', useBurningBeyond ? 'O' : 'X'],
+            ['🦋 체인지 버닝: 루시드', useLucidBurning ? `O (사냥:${lucidBurningHunting?'O':'X'} / 주간미션:${lucidBurningWeeklyMission?'O':'X'} / 시즌미션:${lucidBurningSeasonMission?'O':'X'})` : 'X'],
             [],
             ['[사냥 설정]'],
             ['모드', huntingMode === 'calculate' ? '자동 계산' : huntingMode === 'manual' ? '직접 입력' : '퍼센트 입력'],
@@ -375,7 +496,8 @@ export default function ExpCalculatorClient() {
             ['상급 EXP 쿠폰', useAdvancedExpCoupon ? `${advancedExpCouponCount}개` : 'X'],
             ['메카베리 농장', useMechaberryFarm ? `${mechaberryFarmCount}회` : 'X'],
             ['익스프레스 부스터', useExpressBooster ? `${expressBoosterCount}개` : 'X'],
-            ['VIP/헥사 부스터', useVipBooster ? `${vipBoosterCount}개` : 'X']
+            ['VIP/헥사 부스터', useVipBooster ? `${vipBoosterCount}개` : 'X'],
+            ['🍓 황금 딸기 농장', useGoldenFarm ? `${goldenFarmCount}회 (${goldenFarmBonusRate}% 추가경험치)` : 'X']
         ];
 
         // Sheet 2: 결과 요약 및 경험치 분석
@@ -384,6 +506,10 @@ export default function ExpCalculatorClient() {
             ['총 필요 경험치', formatNumber(calculatedData.totalExpNeeded), formatExpInEok(calculatedData.totalExpNeeded)],
             ['예상 소요 일수', `${calculatedData.daysNeeded.toFixed(1)}일`],
             ['순수 사냥 시간', `${calculatedData.hoursNeeded.toFixed(1)}시간`],
+            [],
+            ['[이벤트 시뮬레이션 예상 레벨 (단일 적용 시)]'],
+            ['🦋 체인지 버닝: 루시드', lucidOnlyResult ? `Lv.${lucidOnlyResult.level} (+${lucidOnlyResult.pct.toFixed(2)}%) / 총 +${lucidOnlyResult.gained}업 예상` : '미적용'],
+            ['🍓 황금 딸기 농장', goldenFarmOnlyResult ? `Lv.${goldenFarmOnlyResult.level} (+${goldenFarmOnlyResult.pct.toFixed(2)}%) / 총 +${goldenFarmOnlyResult.gained}업 예상` : '미적용'],
             [],
             ['[경험치 획득원 분석]'],
             ['항목', '획득 경험치', '비중 (%)'],
@@ -430,8 +556,8 @@ export default function ExpCalculatorClient() {
                         <button onClick={exportToExcel} disabled={calculatedData.totalExpNeeded === 0} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 disabled:text-slate-500 rounded-lg transition-colors text-sm font-medium"><Download className="w-4 h-4" />엑셀 내보내기</button>
                     </div>
                     <div className="flex flex-col gap-2">
-                        <h1 className="text-3xl font-bold text-white flex items-center gap-2"><Calculator className="w-8 h-8 text-blue-500" />경험치 계산기</h1>
-                        <p className="text-slate-400 text-sm">Lv.200~300 구간 목표 레벨까지 필요한 경험치와 예상 소요 시간을 계산하세요.</p>
+                        <h1 className="text-3xl font-bold text-white flex items-center gap-2"><Calculator className="w-8 h-8 text-blue-500" />메이플스토리 경험치 계산기</h1>
+                        <p className="text-slate-400 text-sm">메이플 Lv.200~300 구간 목표 레벨까지 필요한 경험치와 예상 소요 시간을 계산하세요.</p>
                     </div>
                 </div>
             </div>
@@ -461,6 +587,101 @@ export default function ExpCalculatorClient() {
                                 )}
                                 {currentLevel < 270 && targetLevel >= 260 && (
                                     <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer"><input type="checkbox" checked={useBurningBeyond} onChange={(e) => setUseBurningBeyond(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-purple-500" />✨ 버닝 비욘드 (Lv.260~270)</label>
+                                )}
+                                {(currentLevel >= 260 || targetLevel > 260) && (
+                                    <div className="space-y-1">
+                                        <div className="flex items-center justify-between">
+                                            <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer">
+                                                <input type="checkbox" checked={useLucidBurning} onChange={(e) => setUseLucidBurning(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-purple-500" />
+                                                🦋 체인지 버닝: 루시드
+                                            </label>
+                                            <span className="text-[10px] text-purple-400 bg-purple-900/30 border border-purple-700/30 px-2 py-0.5 rounded-full">3/19 ~ 6/17</span>
+                                        </div>
+                                        <p className="text-[10px] text-slate-500 ml-6">루시드로 변신해 드림 이터를 처치 — 본캐 레벨에 맞는 경험치 획득</p>
+                                        <p className="text-[10px] text-amber-500/80 ml-6">※ 경험치 계산은 <span className="font-semibold">Lv.260 이상</span>부터 적용됩니다</p>
+                                        {useLucidBurning && (
+                                            <div className="ml-6 mt-2 p-3 rounded-lg bg-slate-800/50 border border-purple-800/30 space-y-1.5">
+                                                <p className="text-[10px] text-slate-400 mb-1">참여 내용 선택 (복수 선택 가능)</p>
+                                                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer hover:text-white transition-colors">
+                                                    <input type="checkbox" checked={lucidBurningHunting} onChange={(e) => setLucidBurningHunting(e.target.checked)} className="w-3.5 h-3.5 rounded" />
+                                                    🐛 드림 이터 사냥 (주간 25,000마리 × 13주)
+                                                </label>
+                                                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer hover:text-white transition-colors">
+                                                    <input type="checkbox" checked={lucidBurningWeeklyMission} onChange={(e) => setLucidBurningWeeklyMission(e.target.checked)} className="w-3.5 h-3.5 rounded" />
+                                                    📋 주간 미션 올클리어 (매주 × 13주)
+                                                </label>
+                                                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer hover:text-white transition-colors">
+                                                    <input type="checkbox" checked={lucidBurningSeasonMission} onChange={(e) => setLucidBurningSeasonMission(e.target.checked)} className="w-3.5 h-3.5 rounded" />
+                                                    🏆 시즌 미션 올클리어 (이벤트 기간 1회)
+                                                </label>
+                                                <div className="flex items-center justify-between pt-2 border-t border-slate-700/60">
+                                                    <span className="text-[10px] text-purple-400">→ 계산에 포함될 총 경험치</span>
+                                                    <span className="text-xs font-bold text-purple-300">{lucidTotalPreview > 0 ? lucidTotalPreview >= 1e12 ? `약 ${(lucidTotalPreview / 1e12).toFixed(1)}조` : `약 ${(lucidTotalPreview / 1e8).toFixed(0)}억` : '-'}</span>
+                                                </div>
+                                                {lucidOnlyResult && (
+                                                    <div className="mt-2 rounded-lg p-3 bg-purple-950/50 border border-purple-700/40">
+                                                        <p className="text-xs text-purple-400 font-medium mb-2">🦋 루시드 버닝만으로 달성 가능 (사냥 제외)</p>
+                                                        <div className="flex items-center justify-between gap-2">
+                                                            <span className="text-xs text-slate-300">현재 Lv.{currentLevel} ({currentLevelExp}%)</span>
+                                                            <span className="text-sm text-slate-400">→</span>
+                                                            <span className="text-base font-bold text-purple-200">Lv.{lucidOnlyResult.level} <span className="text-xs font-normal text-purple-400">+ {lucidOnlyResult.pct.toFixed(1)}%</span></span>
+                                                        </div>
+                                                        {lucidOnlyResult.gained > 0 ? (
+                                                            <p className="text-sm font-semibold text-emerald-400 mt-2 text-center">✨ +{lucidOnlyResult.gained}레벨 상승 예상</p>
+                                                        ) : (
+                                                            <p className="text-xs text-slate-500 mt-2 text-center">레벨업에는 부족한 경험치입니다</p>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                                {currentLevel <= 259 && (
+                                    <div className="space-y-1">
+                                        <div className="flex items-center justify-between">
+                                            <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer">
+                                                <input type="checkbox" checked={useGoldenFarm} onChange={(e) => setUseGoldenFarm(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-yellow-500 focus:ring-yellow-400" />
+                                                🍓 황금 딸기 농장 이용권
+                                            </label>
+                                            <span className="text-[10px] text-yellow-500 bg-yellow-900/30 border border-yellow-700/30 px-2 py-0.5 rounded-full">Lv.200~259</span>
+                                        </div>
+                                        <p className="text-[10px] text-slate-500 ml-6">이용권 1회당 경험치 획득 (딸농은 기본 400% 추가 경험치 버프 적용)</p>
+                                        <p className="text-[10px] text-amber-500/80 ml-6">💡 딸농 입장 후 쓸만한 홀리심볼 사용 → 상태창에서 추가 경험치 %를 확인 후 입력하세요</p>
+                                        {useGoldenFarm && (
+                                            <div className="ml-6 mt-2 p-3 rounded-lg bg-slate-800/50 border border-yellow-800/30 space-y-2">
+                                                <div className="flex items-center gap-3">
+                                                    <label className="text-xs text-slate-400 whitespace-nowrap">이용권 회수</label>
+                                                    <input type="number" min="1" value={goldenFarmCount} onFocus={(e) => e.target.select()} onChange={(e) => setGoldenFarmCount(Math.max(1, Number(e.target.value)))} className="w-20 bg-slate-700 border border-slate-600 rounded text-xs px-2 py-1.5 text-white focus:border-yellow-500" />
+                                                    <span className="text-xs text-slate-500">회</span>
+                                                </div>
+                                                <div className="flex items-center gap-3">
+                                                    <label className="text-xs text-slate-400 whitespace-nowrap">추가 경험치</label>
+                                                    <input type="number" min="400" step="10" value={goldenFarmBonusRate} onFocus={(e) => e.target.select()} onChange={(e) => setGoldenFarmBonusRate(Number(e.target.value))} onBlur={(e) => setGoldenFarmBonusRate(Math.max(400, Number(e.target.value)))} className="w-20 bg-slate-700 border border-slate-600 rounded text-xs px-2 py-1.5 text-white focus:border-yellow-500" />
+                                                    <span className="text-xs text-slate-500">% <span className="text-yellow-600/70">(min 400%)</span></span>
+                                                </div>
+                                                <div className="flex items-center justify-between pt-2 border-t border-slate-700/60">
+                                                    <span className="text-[10px] text-yellow-500">→ 계산에 포함될 총 경험치</span>
+                                                    <span className="text-xs font-bold text-yellow-300">{goldenFarmPreview > 0 ? goldenFarmPreview >= 1e12 ? `약 ${(goldenFarmPreview/1e12).toFixed(1)}조` : goldenFarmPreview >= 1e8 ? `약 ${(goldenFarmPreview/1e8).toFixed(1)}억` : `${Math.round(goldenFarmPreview).toLocaleString('ko-KR')}` : '-'}</span>
+                                                </div>
+                                                {goldenFarmOnlyResult && (
+                                                    <div className="mt-2 rounded-lg p-3 bg-yellow-950/50 border border-yellow-700/40">
+                                                        <p className="text-xs text-yellow-400 font-medium mb-2">🍓 딸기 농장만으로 달성 가능 (사냥 제외)</p>
+                                                        <div className="flex items-center justify-between gap-2">
+                                                            <span className="text-xs text-slate-300">현재 Lv.{currentLevel} ({currentLevelExp}%)</span>
+                                                            <span className="text-sm text-slate-400">→</span>
+                                                            <span className="text-base font-bold text-yellow-200">Lv.{goldenFarmOnlyResult.level} <span className="text-xs font-normal text-yellow-400">+ {goldenFarmOnlyResult.pct.toFixed(1)}%</span></span>
+                                                        </div>
+                                                        {goldenFarmOnlyResult.gained > 0 ? (
+                                                            <p className="text-sm font-semibold text-emerald-400 mt-2 text-center">✨ +{goldenFarmOnlyResult.gained}레벨 상승 예상</p>
+                                                        ) : (
+                                                            <p className="text-xs text-slate-500 mt-2 text-center">레벨업에는 부족한 경험치입니다</p>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -682,6 +903,7 @@ export default function ExpCalculatorClient() {
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     {/* Right: Results */}
@@ -743,6 +965,39 @@ export default function ExpCalculatorClient() {
                     </div>
                 </div>
             </main>
+
+            {/* SEO 콘텐츠 섹션 */}
+            <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pb-40 xl:pb-16">
+                <div className="border-t border-slate-800 pt-10">
+                    <h2 className="text-lg font-bold text-slate-300 mb-6">메이플스토리 경험치 계산기 가이드</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-500 leading-relaxed">
+                        <div>
+                            <h3 className="text-slate-400 font-semibold mb-2">📌 이 계산기로 무엇을 알 수 있나요?</h3>
+                            <p>메이플스토리 경험치 계산기는 현재 레벨에서 목표 레벨까지 필요한 총 경험치와 예상 소요 일수를 계산합니다. Lv.200부터 Lv.300 구간의 레벨별 필요 경험치를 기반으로, 사냥 효율·몬스터파크·일일퀘스트·이벤트까지 반영한 정확한 레벨업 계획을 세울 수 있습니다.</p>
+                        </div>
+                        <div>
+                            <h3 className="text-slate-400 font-semibold mb-2">🔥 하이퍼버닝 & 버닝비욘드 경험치 반영</h3>
+                            <p>하이퍼버닝(Lv.200~260, 1레벨업 시 5레벨 보너스)과 버닝비욘드(Lv.260~270, 2레벨 보너스)를 선택하면 레벨 구간별 소요 일수가 자동으로 단축됩니다. 버닝 이벤트 기간에 최적화된 레벨업 계획을 바로 확인하세요.</p>
+                        </div>
+                        <div>
+                            <h3 className="text-slate-400 font-semibold mb-2">🦋 체인지버닝 루시드 경험치 계산</h3>
+                            <p>2026년 3월 19일부터 6월 17일까지 진행되는 체인지버닝: 루시드 이벤트의 경험치를 반영할 수 있습니다. 드림 이터 사냥(주간 25,000마리), 주간 미션, 시즌 미션 경험치를 선택 적용하여 레벨업 소요 일수를 확인하세요. Lv.260 이상 캐릭터에 적용됩니다.</p>
+                        </div>
+                        <div>
+                            <h3 className="text-slate-400 font-semibold mb-2">📊 레벨별 필요 경험치 (주요 구간)</h3>
+                            <p>Lv.200~210 구간은 약 22~80억, Lv.220~230 구간은 약 288억~840억, Lv.260~270 구간은 약 1.7조~5.4조, Lv.280~290 구간은 약 33조~294조, Lv.295~299 구간은 약 870조~1,737조의 경험치가 필요합니다. 상위 레벨로 갈수록 필요 경험치가 급격히 증가합니다.</p>
+                        </div>
+                        <div>
+                            <h3 className="text-slate-400 font-semibold mb-2">🗺️ 몬스터파크 & 일일퀘스트 경험치</h3>
+                            <p>아케인리버(소멸의 여로~리멘)와 그란디스(세르니움~탈라하트) 지역의 일일퀘스트 및 몬스터파크 경험치를 레벨에 맞게 자동 적용합니다. 평일·일요일 몬파 횟수, 이벤트 보너스(%)까지 세밀하게 설정할 수 있습니다.</p>
+                        </div>
+                        <div>
+                            <h3 className="text-slate-400 font-semibold mb-2">📥 엑셀로 저장하는 레벨업 계획표</h3>
+                            <p>계산 결과를 엑셀 파일로 저장할 수 있습니다. 입력 설정, 결과 요약, 레벨별 상세 내역이 각 시트로 구분되어 저장되어 메이플스토리 레벨업 계획을 체계적으로 관리할 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             {/* Mobile Sticky Footer Result */}
             <div className="fixed bottom-0 left-0 right-0 bg-[#1a1b1e] border-t border-slate-800 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-2xl z-50 xl:hidden">
