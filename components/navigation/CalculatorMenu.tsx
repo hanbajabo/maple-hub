@@ -34,13 +34,18 @@ export default function CalculatorMenu() {
                         </div>
                     </Link>
 
-                    {/* 1. Starforce */}
+                    {/* 1. EXP Calculator */}
                     <Link
-                        href="/tools/starforce"
+                        href="/guide/exp-calculator"
                         className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
                     >
-                        <span className="text-xl">⭐</span>
-                        <span className="font-semibold">스타포스 계산기</span>
+                        <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center text-orange-400">
+                            <TrendingUp size={20} />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="font-semibold text-sm">경험치 계산기</span>
+                            <span className="text-[10px] text-slate-400">사냥/일퀘 레벨업 예측</span>
+                        </div>
                     </Link>
 
                     {/* 2. Challengers World */}
@@ -99,18 +104,13 @@ export default function CalculatorMenu() {
                         </div>
                     </Link>
 
-                    {/* 6. EXP Calculator */}
+                    {/* 6. Starforce */}
                     <Link
-                        href="/guide/exp-calculator"
+                        href="/tools/starforce"
                         className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
                     >
-                        <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center text-orange-400">
-                            <TrendingUp size={20} />
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-sm">경험치 계산기</span>
-                            <span className="text-[10px] text-slate-400">사냥/일퀘 레벨업 예측</span>
-                        </div>
+                        <span className="text-xl">⭐</span>
+                        <span className="font-semibold">스타포스 계산기</span>
                     </Link>
                 </div>
             </div>
