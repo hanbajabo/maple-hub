@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { TrendingUp } from "lucide-react";
 
 export default function CalculatorMenu() {
     return (
@@ -39,8 +38,8 @@ export default function CalculatorMenu() {
                         href="/guide/exp-calculator"
                         className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
                     >
-                        <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center text-orange-400">
-                            <TrendingUp size={20} />
+                        <div className="relative w-6 h-6 flex-shrink-0">
+                            <Image src="/images/exp-calculator-icon.png" alt="EXP Calc" fill className="object-contain" />
                         </div>
                         <div className="flex flex-col">
                             <span className="font-semibold text-sm">경험치 계산기</span>
