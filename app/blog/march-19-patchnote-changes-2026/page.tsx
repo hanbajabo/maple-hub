@@ -202,58 +202,58 @@ export default function March19PatchnoteChanges2026Page() {
                                     <span className="text-slate-300">보스 드랍 메멘토 큐브는 <span className="font-bold text-red-300">착용 레벨 200 이하 아이템에만 사용 가능</span>합니다.</span>
                                 </div>
                             </div>
-                            <div className="overflow-x-auto rounded-xl border border-slate-700">
-                                <table className="w-full text-xs sm:text-sm text-left min-w-[420px]">
+                            <div className="overflow-x-auto rounded-xl border border-slate-700 -mx-4 sm:mx-0">
+                                <table className="w-full text-xs sm:text-sm text-left min-w-[340px] sm:min-w-[420px]">
                                     <thead className="bg-slate-800 text-slate-200">
                                         <tr>
-                                            <th className="px-4 py-3">보스 난이도</th>
-                                            <th className="px-3 py-3 text-center text-yellow-300 whitespace-nowrap">🥇 골드</th>
-                                            <th className="px-3 py-3 text-center text-slate-300 whitespace-nowrap">🥈 실버</th>
-                                            <th className="px-3 py-3 text-center text-orange-300 whitespace-nowrap">🥉 브론즈</th>
+                                            <th className="px-3 py-2 sm:px-4 sm:py-3">보스 난이도</th>
+                                            <th className="px-2 py-2 sm:px-3 sm:py-3 text-center text-yellow-300 whitespace-nowrap">🥇 골드</th>
+                                            <th className="px-2 py-2 sm:px-3 sm:py-3 text-center text-slate-300 whitespace-nowrap">🥈 실버</th>
+                                            <th className="px-2 py-2 sm:px-3 sm:py-3 text-center text-orange-300 whitespace-nowrap">🥉 브론즈</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-700/50 bg-slate-900/40 text-slate-300">
                                         <tr>
-                                            <td className="px-4 py-2.5 text-xs sm:text-sm">카루타, 하드 매그너스, 카오스 파풀라투스</td>
-                                            <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                            <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                            <td className="px-3 py-2.5 text-center font-bold text-orange-300">1</td>
+                                            <td className="px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm">카루타, 하드 매그너스, 카오스 파풀라투스</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">1</td>
                                         </tr>
                                         <tr className="bg-slate-800/20">
-                                            <td className="px-4 py-2.5 text-xs sm:text-sm">노말 스우, 노말 데미안, 노말 가엔슬, 이지 루시드, 이지 윌</td>
-                                            <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                            <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                            <td className="px-3 py-2.5 text-center font-bold text-orange-300">3</td>
+                                            <td className="px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm">노말 스우, 노말 데미안, 노말 가엔슬, 이지 루시드, 이지 윌</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">3</td>
                                         </tr>
                                         <tr>
-                                            <td className="px-4 py-2.5 text-xs sm:text-sm">노말 루시드, 노말 윌, 노말 더스크, 노말 듄켈, 노말 진힐라</td>
-                                            <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                            <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                            <td className="px-3 py-2.5 text-center font-bold text-orange-300">5</td>
+                                            <td className="px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm">노말 루시드, 노말 윌, 노말 더스크, 노말 듄켈, 노말 진힐라</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">5</td>
                                         </tr>
                                         <tr className="bg-slate-800/20">
-                                            <td className="px-4 py-2.5 text-xs sm:text-sm">하드 스우, 하드 데미안</td>
-                                            <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                            <td className="px-3 py-2.5 text-center font-bold text-slate-300">1</td>
-                                            <td className="px-3 py-2.5 text-center font-bold text-orange-300">6</td>
+                                            <td className="px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm">하드 스우, 하드 데미안</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-slate-300">1</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">6</td>
                                         </tr>
                                         <tr>
-                                            <td className="px-4 py-2.5 text-xs sm:text-sm">하드 루시드, 하드 윌, 카오스 더스크, 하드 듄켈, 하드 진힐라, 카오스 가엔슬</td>
-                                            <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                            <td className="px-3 py-2.5 text-center font-bold text-slate-300">2</td>
-                                            <td className="px-3 py-2.5 text-center font-bold text-orange-300">8</td>
+                                            <td className="px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm">하드 루시드, 하드 윌, 카오스 더스크, 하드 듄켈, 하드 진힐라, 카오스 가엔슬</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-slate-300">2</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">8</td>
                                         </tr>
                                         <tr className="bg-yellow-900/10">
-                                            <td className="px-4 py-2.5 font-bold text-white text-xs sm:text-sm">노말 세렌</td>
-                                            <td className="px-3 py-2.5 text-center font-bold text-yellow-300">1</td>
-                                            <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                            <td className="px-3 py-2.5 text-center font-bold text-orange-300">5</td>
+                                            <td className="px-3 py-2 sm:px-4 sm:py-2.5 font-bold text-white text-xs sm:text-sm">노말 세렌</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-yellow-300">1</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">5</td>
                                         </tr>
                                         <tr className="bg-yellow-900/15">
-                                            <td className="px-4 py-3 font-bold text-white text-xs sm:text-sm">하드 세렌, 이지 칼로스, 이지 대적자, 이지 카링</td>
-                                            <td className="px-3 py-3 text-center font-bold text-yellow-300 text-base">2</td>
-                                            <td className="px-3 py-3 text-center text-slate-500">0</td>
-                                            <td className="px-3 py-3 text-center font-bold text-orange-300 text-base">8</td>
+                                            <td className="px-3 py-2 sm:px-4 sm:py-3 font-bold text-white text-xs sm:text-sm">하드 세렌, 이지 칼로스, 이지 대적자, 이지 카링</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-3 text-center font-bold text-yellow-300 text-sm sm:text-base">2</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-3 text-center text-slate-500">0</td>
+                                            <td className="px-2 py-2 sm:px-3 sm:py-3 text-center font-bold text-orange-300 text-sm sm:text-base">8</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -267,52 +267,52 @@ export default function March19PatchnoteChanges2026Page() {
                             📅 주간 보스돌이 루트별 누적 획득량
                         </h3>
                         <p className="text-xs text-slate-400 mb-3">주간 보스를 모두 클리어했을 때 해당 루트에서 얻을 수 있는 메멘토 큐브 총량입니다.</p>
-                        <div className="overflow-x-auto rounded-xl border border-slate-700">
-                            <table className="w-full text-xs sm:text-sm text-left min-w-[400px]">
+                        <div className="overflow-x-auto rounded-xl border border-slate-700 -mx-4 sm:mx-0">
+                            <table className="w-full text-xs sm:text-sm text-left min-w-[320px] sm:min-w-[400px]">
                                 <thead className="bg-slate-800 text-slate-200">
                                     <tr>
-                                        <th className="px-4 py-3">보스돌이 루트</th>
-                                        <th className="px-3 py-3 text-center text-yellow-300 whitespace-nowrap">🥇 골드</th>
-                                        <th className="px-3 py-3 text-center text-slate-300 whitespace-nowrap">🥈 실버</th>
-                                        <th className="px-3 py-3 text-center text-orange-300 whitespace-nowrap">🥉 브론즈</th>
+                                        <th className="px-3 py-2 sm:px-4 sm:py-3">보스돌이 루트</th>
+                                        <th className="px-2 py-2 sm:px-3 sm:py-3 text-center text-yellow-300 whitespace-nowrap">🥇 골드</th>
+                                        <th className="px-2 py-2 sm:px-3 sm:py-3 text-center text-slate-300 whitespace-nowrap">🥈 실버</th>
+                                        <th className="px-2 py-2 sm:px-3 sm:py-3 text-center text-orange-300 whitespace-nowrap">🥉 브론즈</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-700/50 bg-slate-900/40 text-slate-300">
                                     <tr>
-                                        <td className="px-4 py-2.5 font-medium">이지루시드돌이</td>
-                                        <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                        <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-orange-300">18</td>
+                                        <td className="px-3 py-2 sm:px-4 sm:py-2.5 font-medium">이지루시드돌이</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">18</td>
                                     </tr>
                                     <tr className="bg-slate-800/20">
-                                        <td className="px-4 py-2.5 font-medium">하스데돌이 <span className="text-slate-500 text-xs">(노말 진힐라 제외)</span></td>
-                                        <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-slate-300">2</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-orange-300">40</td>
+                                        <td className="px-3 py-2 sm:px-4 sm:py-2.5 font-medium">하스데돌이 <span className="text-slate-500 text-[10px] sm:text-xs block sm:inline">(진힐라 제외)</span></td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-slate-300">2</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">40</td>
                                     </tr>
                                     <tr>
-                                        <td className="px-4 py-2.5 font-medium">하드검밑솔돌이</td>
-                                        <td className="px-3 py-2.5 text-center text-slate-500">0</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-slate-300">14</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-orange-300">64</td>
+                                        <td className="px-3 py-2 sm:px-4 sm:py-2.5 font-medium">하드검밑솔돌이</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center text-slate-500">0</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-slate-300">14</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">64</td>
                                     </tr>
                                     <tr className="bg-slate-800/20">
-                                        <td className="px-4 py-2.5 font-medium">이지대적자돌이</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-yellow-300">5</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-slate-300">14</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-orange-300">81</td>
+                                        <td className="px-3 py-2 sm:px-4 sm:py-2.5 font-medium">이지대적자돌이</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-yellow-300">5</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-slate-300">14</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">81</td>
                                     </tr>
                                     <tr className="bg-yellow-900/10">
-                                        <td className="px-4 py-2.5 font-bold text-white">하드세렌돌이</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-yellow-300">6</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-slate-300">14</td>
-                                        <td className="px-3 py-2.5 text-center font-bold text-orange-300">85</td>
+                                        <td className="px-3 py-2 sm:px-4 sm:py-2.5 font-bold text-white">하드세렌돌이</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-yellow-300">6</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-slate-300">14</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-center font-bold text-orange-300">85</td>
                                     </tr>
                                     <tr className="bg-yellow-900/15">
-                                        <td className="px-4 py-3 font-black text-yellow-300">이지카링돌이</td>
-                                        <td className="px-3 py-3 text-center font-black text-yellow-300 text-base">8</td>
-                                        <td className="px-3 py-3 text-center font-bold text-slate-300 text-base">14</td>
-                                        <td className="px-3 py-3 text-center font-black text-orange-300 text-base">90</td>
+                                        <td className="px-3 py-2 sm:px-4 sm:py-3 font-black text-yellow-300">이지카링돌이</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-3 text-center font-black text-yellow-300 text-sm sm:text-base">8</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-3 text-center font-bold text-slate-300 text-sm sm:text-base">14</td>
+                                        <td className="px-2 py-2 sm:px-3 sm:py-3 text-center font-black text-orange-300 text-sm sm:text-base">90</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -364,40 +364,40 @@ export default function March19PatchnoteChanges2026Page() {
                         <h3 className="text-base sm:text-lg font-bold text-yellow-300 mb-4 flex items-center gap-2">
                             🎁 루시드 보상 상향 및 질적 교환 내역
                         </h3>
-                        <div className="overflow-x-auto rounded-xl border border-slate-700">
-                            <table className="w-full text-sm text-left">
+                        <div className="overflow-x-auto rounded-xl border border-slate-700 -mx-4 sm:mx-0">
+                            <table className="w-full text-xs sm:text-sm text-left min-w-[320px]">
                                 <thead className="bg-slate-800 text-slate-200">
                                     <tr>
-                                        <th className="px-4 py-3 w-1/4">레벨</th>
-                                        <th className="px-4 py-3 text-slate-400 line-through w-1/3">기존 (테섭)</th>
-                                        <th className="px-4 py-3 text-green-400 w-5/12">변경 (본섭)</th>
+                                        <th className="px-3 py-2 sm:px-4 sm:py-3 w-1/4">레벨</th>
+                                        <th className="px-2 py-2 sm:px-4 sm:py-3 text-slate-400 line-through w-1/3">기존 (테섭)</th>
+                                        <th className="px-2 py-2 sm:px-4 sm:py-3 text-green-400 w-5/12">변경 (본섭)</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-700/50 bg-slate-900/40">
                                     <tr>
-                                        <td className="px-4 py-3 font-bold text-white text-center">20Lv</td>
-                                        <td className="px-4 py-3 text-slate-400 line-through">드림캐쳐 3개</td>
-                                        <td className="px-4 py-3 font-bold text-green-400">몽환의 장비 선택 상자 (에픽) 1개</td>
+                                        <td className="px-3 py-2 sm:px-4 sm:py-3 font-bold text-white text-center">20Lv</td>
+                                        <td className="px-2 py-2 sm:px-4 sm:py-3 text-slate-400 line-through">드림캐쳐 3개</td>
+                                        <td className="px-2 py-2 sm:px-4 sm:py-3 font-bold text-green-400 break-keep">몽환의 장비 선택 상자 (에픽) 1개</td>
                                     </tr>
                                     <tr>
-                                        <td className="px-4 py-3 font-bold text-white text-center">30Lv</td>
-                                        <td className="px-4 py-3 text-slate-400 line-through">드림캐쳐 3개</td>
-                                        <td className="px-4 py-3 font-bold text-green-400">의문의 몽환의 결정 상자 (에픽) 2개</td>
+                                        <td className="px-3 py-2 sm:px-4 sm:py-3 font-bold text-white text-center">30Lv</td>
+                                        <td className="px-2 py-2 sm:px-4 sm:py-3 text-slate-400 line-through">드림캐쳐 3개</td>
+                                        <td className="px-2 py-2 sm:px-4 sm:py-3 font-bold text-green-400 break-keep">의문의 몽환의 결정 상자 (에픽) 2개</td>
                                     </tr>
                                     <tr>
-                                        <td className="px-4 py-3 font-bold text-white text-center">40Lv</td>
-                                        <td className="px-4 py-3 text-slate-400 line-through">에픽 결정 상자 1개</td>
-                                        <td className="px-4 py-3 font-bold text-cyan-400">유니크 결정 상자 1개 ↑</td>
+                                        <td className="px-3 py-2 sm:px-4 sm:py-3 font-bold text-white text-center">40Lv</td>
+                                        <td className="px-2 py-2 sm:px-4 sm:py-3 text-slate-400 line-through">에픽 결정 상자 1개</td>
+                                        <td className="px-2 py-2 sm:px-4 sm:py-3 font-bold text-cyan-400">유니크 결정 상자 1개 ↑</td>
                                     </tr>
                                     <tr>
-                                        <td className="px-4 py-3 font-bold text-white text-center">70Lv</td>
-                                        <td className="px-4 py-3 text-slate-400 line-through">드림캐쳐 10개</td>
-                                        <td className="px-4 py-3 font-bold text-yellow-300">유니크 결정 상자 2개 🎉</td>
+                                        <td className="px-3 py-2 sm:px-4 sm:py-3 font-bold text-white text-center">70Lv</td>
+                                        <td className="px-2 py-2 sm:px-4 sm:py-3 text-slate-400 line-through">드림캐쳐 10개</td>
+                                        <td className="px-2 py-2 sm:px-4 sm:py-3 font-bold text-yellow-300">유니크 결정 상자 2개 🎉</td>
                                     </tr>
                                     <tr className="bg-yellow-900/20">
-                                        <td className="px-4 py-4 font-black text-yellow-400 text-center">100Lv</td>
-                                        <td className="px-4 py-4 text-slate-400 line-through">레전드리 결정 상자 1개</td>
-                                        <td className="px-4 py-4 font-black text-yellow-300 text-lg italic">레전드리 결정 상자 3개 (3배!) 🎉</td>
+                                        <td className="px-3 py-3 sm:px-4 sm:py-4 font-black text-yellow-400 text-center">100Lv</td>
+                                        <td className="px-2 py-3 sm:px-4 sm:py-4 text-slate-400 line-through">레전드리 결정 상자 1개</td>
+                                        <td className="px-2 py-3 sm:px-4 sm:py-4 font-black text-yellow-300 text-base sm:text-lg italic break-keep">레전드리 결정 상자 3개 (3배!) 🎉</td>
                                     </tr>
                                 </tbody>
                             </table>
