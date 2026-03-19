@@ -559,8 +559,8 @@ export default function March19PatchnoteChanges2026Page() {
                             <div className="flex items-start gap-3">
                                 <span className="text-2xl shrink-0">😈</span>
                                 <div className="text-sm">
-                                    <p className="font-bold text-white mb-1">데몬 직업군 상향</p>
-                                    <p className="text-slate-300"><span className="font-bold text-green-400">&#39;아스트라 인퓨전&#39; 스킬</span>이 <span className="font-bold text-white">펫 자동 버프(즐겨찾기)</span>에 등록 가능해짐</p>
+                                    <p className="font-bold text-white mb-1">데몬 직업군 오류 수정</p>
+                                    <p className="text-slate-300"><span className="font-bold text-green-400">아스트라 인퓨전</span>이 <span className="font-bold text-white">버프 즐겨찾기</span>에 등록 가능하도록 수정됩니다.</p>
                                 </div>
                             </div>
                         </div>
