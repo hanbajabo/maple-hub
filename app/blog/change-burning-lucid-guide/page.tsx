@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Calendar, Clock, AlertCircle, Star, ChevronRight, Gift, Zap, Shield } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Clock, AlertCircle, Star, ChevronRight, Gift, Zap, Shield } from 'lucide-react';
 import { InArticleAd } from '@/components/AdSense';
 
 export const metadata: Metadata = {
@@ -86,6 +86,26 @@ export default function ChangeBurningLucidGuide() {
                     </div>
                 </div>
 
+                {/* 목차 (Table of Contents) */}
+                <div className="mb-10 bg-slate-900/40 border border-slate-700/50 rounded-2xl p-5 sm:p-7">
+                    <p className="text-slate-200 font-bold mb-4 flex items-center gap-2">
+                        <span className="text-xl">📑</span> 이 글의 목차
+                    </p>
+                    <nav className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                        <a href="#step1" className="text-slate-400 hover:text-purple-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">1</span> 체인지 버닝 참여 방법</a>
+                        <a href="#step2" className="text-slate-400 hover:text-indigo-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">2</span> 악몽 제어 (사냥 핵심)</a>
+                        <a href="#step3" className="text-slate-400 hover:text-pink-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">3</span> 루시드 드림 미션</a>
+                        <a href="#step4" className="text-slate-400 hover:text-violet-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">4</span> 드림 기프트 (레벨 보상)</a>
+                        <a href="#step5" className="text-slate-400 hover:text-emerald-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">5</span> 악몽의 숲 공략</a>
+                        <a href="#step6" className="text-slate-400 hover:text-amber-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">6</span> 몽환의 장비 & 결정</a>
+                        <a href="#step7" className="text-slate-400 hover:text-red-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">7</span> 몽환의 시련 (보스)</a>
+                        <a href="#step8" className="text-slate-400 hover:text-cyan-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">8</span> 드림 샤드샵</a>
+                        <a href="#strategy" className="text-slate-400 hover:text-orange-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">📊</span> 경험치 효율 분석</a>
+                        <a href="#summary" className="text-slate-400 hover:text-purple-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">✅</span> 요약 체크리스트</a>
+                        <a href="#calculator" className="text-slate-400 hover:text-indigo-300 transition-colors flex items-center gap-2 py-1.5"><span className="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">🧮</span> 내 레벨 풀도핑 경험치 계산</a>
+                    </nav>
+                </div>
+
                 {/* ① 체인지 버닝: 루시드 */}
                 <section className="mb-10">
                     <div className="bg-gradient-to-br from-purple-900/50 to-violet-900/50 border-2 border-purple-500/50 rounded-2xl p-4 sm:p-6 lg:p-8">
@@ -95,7 +115,7 @@ export default function ChangeBurningLucidGuide() {
                             </div>
                             <div>
                                 <p className="text-xs text-purple-300/70 font-bold uppercase tracking-widest">STEP 1</p>
-                                <h2 className="text-xl sm:text-2xl font-black text-purple-300">체인지 버닝: 루시드 참여 방법</h2>
+                                <h2 id="step1" className="text-xl sm:text-2xl font-black text-purple-300 scroll-mt-24">체인지 버닝: 루시드 참여 방법</h2>
                             </div>
                         </div>
 
@@ -229,7 +249,7 @@ export default function ChangeBurningLucidGuide() {
                             </div>
                             <div>
                                 <p className="text-xs text-indigo-300/70 font-bold uppercase tracking-widest">STEP 2</p>
-                                <h2 className="text-xl sm:text-2xl font-black text-indigo-300">악몽 제어 — 사냥터 핵심</h2>
+                                <h2 id="step2" className="text-xl sm:text-2xl font-black text-indigo-300 scroll-mt-24">악몽 제어 — 사냥터 핵심</h2>
                             </div>
                         </div>
 
@@ -391,7 +411,7 @@ export default function ChangeBurningLucidGuide() {
                             </div>
                             <div>
                                 <p className="text-xs text-pink-300/70 font-bold uppercase tracking-widest">STEP 3</p>
-                                <h2 className="text-xl sm:text-2xl font-black text-pink-300">루시드 드림 미션 & 보상</h2>
+                                <h2 id="step3" className="text-xl sm:text-2xl font-black text-pink-300 scroll-mt-24">루시드 드림 미션 & 보상</h2>
                             </div>
                         </div>
 
@@ -486,7 +506,7 @@ export default function ChangeBurningLucidGuide() {
                             </div>
                             <div>
                                 <p className="text-xs text-violet-300/70 font-bold uppercase tracking-widest">STEP 4</p>
-                                <h2 className="text-xl sm:text-2xl font-black text-violet-300">드림 기프트 — 루시드 레벨 보상</h2>
+                                <h2 id="step4" className="text-xl sm:text-2xl font-black text-violet-300 scroll-mt-24">드림 기프트 — 루시드 레벨 보상</h2>
                             </div>
                         </div>
 
@@ -572,7 +592,7 @@ export default function ChangeBurningLucidGuide() {
                             </div>
                             <div>
                                 <p className="text-xs text-emerald-300/70 font-bold uppercase tracking-widest">STEP 5</p>
-                                <h2 className="text-xl sm:text-2xl font-black text-emerald-300">악몽의 숲 공략</h2>
+                                <h2 id="step5" className="text-xl sm:text-2xl font-black text-emerald-300 scroll-mt-24">악몽의 숲 공략</h2>
                             </div>
                         </div>
 
@@ -666,7 +686,7 @@ export default function ChangeBurningLucidGuide() {
                             </div>
                             <div>
                                 <p className="text-xs text-amber-300/70 font-bold uppercase tracking-widest">STEP 6</p>
-                                <h2 className="text-xl sm:text-2xl font-black text-amber-300">몽환의 장비 & 결정</h2>
+                                <h2 id="step6" className="text-xl sm:text-2xl font-black text-amber-300 scroll-mt-24">몽환의 장비 & 결정</h2>
                             </div>
                         </div>
 
@@ -744,7 +764,7 @@ export default function ChangeBurningLucidGuide() {
                             </div>
                             <div>
                                 <p className="text-xs text-red-300/70 font-bold uppercase tracking-widest">STEP 7</p>
-                                <h2 className="text-xl sm:text-2xl font-black text-red-300">몽환의 시련 — 보스 공략</h2>
+                                <h2 id="step7" className="text-xl sm:text-2xl font-black text-red-300 scroll-mt-24">몽환의 시련 — 보스 공략</h2>
                             </div>
                         </div>
 
@@ -822,7 +842,7 @@ export default function ChangeBurningLucidGuide() {
                             </div>
                             <div>
                                 <p className="text-xs text-cyan-300/70 font-bold uppercase tracking-widest">STEP 8</p>
-                                <h2 className="text-xl sm:text-2xl font-black text-cyan-300">드림 샤드샵</h2>
+                                <h2 id="step8" className="text-xl sm:text-2xl font-black text-cyan-300 scroll-mt-24">드림 샤드샵</h2>
                             </div>
                         </div>
 
@@ -878,7 +898,7 @@ export default function ChangeBurningLucidGuide() {
                             </div>
                             <div>
                                 <p className="text-xs text-orange-300/70 font-bold uppercase tracking-widest">STRATEGY</p>
-                                <h2 className="text-xl sm:text-2xl font-black text-orange-300">경험치 효율 완전 분석</h2>
+                                <h2 id="strategy" className="text-xl sm:text-2xl font-black text-orange-300 scroll-mt-24">경험치 효율 완전 분석</h2>
                             </div>
                         </div>
                         <p className="text-slate-400 text-sm mb-8 ml-14">LV.289 / LV.290 기준 실측 데이터 — 단락별 핵심 설명 후 전체 표를 확인하세요</p>
@@ -1530,13 +1550,37 @@ export default function ChangeBurningLucidGuide() {
                                 </a>
                             </div>
                         </div>
+
+                        {/* 경험치 계산기 CTA */}
+                        <div id="calculator" className="scroll-mt-24 mt-6 bg-gradient-to-r from-indigo-900/50 via-purple-900/40 to-indigo-900/50 border border-indigo-500/50 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-center gap-5 shadow-xl shadow-indigo-900/30">
+                            <div className="text-5xl flex-shrink-0 animate-pulse">🧮</div>
+                            <div className="flex-1 text-center sm:text-left">
+                                <p className="text-indigo-200 font-black text-base sm:text-lg mb-1">
+                                    내 레벨 기준으로 직접 계산해보세요!
+                                </p>
+                                <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                                    위 분석표는 LV.295 기준입니다. 내 캐릭터 레벨에서 루시드 버닝 경험치가
+                                    <span className="text-white font-bold"> 정확히 몇 % </span>
+                                    인지, 레벨업까지 얼마나 남았는지
+                                    <br className="hidden sm:block" />
+                                    메이플스토리 경험치 계산기로 직접 확인해보세요.
+                                </p>
+                            </div>
+                            <Link
+                                href="/guide/exp-calculator"
+                                className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black rounded-xl transition-all shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 text-sm whitespace-nowrap group"
+                            >
+                                경험치 계산기로 이동
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </div>
                     </div>
                 </section>
 
                 {/* 최종 요약 체크리스트 */}
                 <section className="mb-10">
                     <div className="bg-gradient-to-r from-slate-800 to-slate-900 border-2 border-purple-500/60 rounded-2xl p-4 sm:p-6 lg:p-8">
-                        <h2 className="text-xl sm:text-2xl font-black mb-6 text-center flex items-center justify-center gap-2 text-purple-300">
+                        <h2 id="summary" className="text-xl sm:text-2xl font-black mb-6 text-center flex items-center justify-center gap-2 text-purple-300 scroll-mt-24">
                             <Star className="w-6 h-6" /> 체인지 버닝 루시드 핵심 체크리스트
                         </h2>
                         <div className="space-y-3">
