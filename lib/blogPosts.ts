@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 3월 19일 본섭 패치노트 핵심 변경사항 총정리
+    {
+        slug: 'march-19-patchnote-changes-2026',
+        title: '📋 3월 19일 본섭 패치노트 핵심 변경사항 총정리 | 전승 스크롤·메멘토 큐브·체인지 버닝 루시드 상향',
+        description: '본섭 패치노트로 넘어오면서 변경되거나 기습 추가된 핵심 내용을 카테고리별 완벽 정리. 전승 스크롤 거래, 메멘토 큐브, 루시드 보상 3배 상향, 스마트 강화 중단, 연무장 변경까지!',
+        category: '업데이트 소식',
+        date: '2026년 3월 19일',
+        readTime: '10분',
+        thumbnail: '📋',
+        featured: true,
+    },
     // 체인지 버닝: 루시드 완전 공략 (3월 16일)
     {
         slug: 'change-burning-lucid-guide',
