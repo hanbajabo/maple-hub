@@ -38,8 +38,17 @@ export default function March19PatchnoteChanges2026Page() {
                     {/* 목차 */}
                     <div className="bg-slate-800/60 border border-slate-700 rounded-2xl p-5 mb-6">
                         <p className="text-sm font-bold text-slate-300 mb-3">📑 목차</p>
-                        <ol className="space-y-1.5 text-sm">
-                            <li><a href="#economy" className="flex items-center gap-2 text-yellow-300 hover:text-yellow-200 transition-colors"><span className="text-slate-500">01</span> 💰 아이템 시세 및 경제 관련 (핵심 파급력)</a></li>
+                        <ol className="space-y-2.5 text-sm">
+                            <li>
+                                <a href="#economy" className="flex items-center gap-2 text-yellow-300 hover:text-yellow-200 transition-colors"><span className="text-slate-500">01</span> 💰 아이템 시세 및 경제 관련 (핵심 파급력)</a>
+                                <ul className="pl-6 mt-1.5 space-y-1">
+                                    <li>
+                                        <a href="#memento" className="flex items-center gap-1.5 text-blue-300 hover:text-blue-200 transition-colors text-xs sm:text-sm">
+                                            <span className="text-slate-500 text-[10px]">└</span> 🧊 신규 아이템 &#39;메멘토 큐브&#39; 집중 분석
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li><a href="#event" className="flex items-center gap-2 text-pink-300 hover:text-pink-200 transition-colors"><span className="text-slate-500">02</span> 📈 메인 이벤트: 체인지 버닝 루시드</a></li>
                             <li><a href="#system" className="flex items-center gap-2 text-cyan-300 hover:text-cyan-200 transition-colors"><span className="text-slate-500">03</span> 🛠️ 시스템 및 편의성</a></li>
                             <li><a href="#boss" className="flex items-center gap-2 text-red-300 hover:text-red-200 transition-colors"><span className="text-slate-500">04</span> ⚔️ 보스 및 직업 스킬</a></li>
@@ -149,7 +158,7 @@ export default function March19PatchnoteChanges2026Page() {
                     </div>
 
                     {/* 🧊 메멘토 큐브 보스 드랍 및 확률 총정리 */}
-                    <div className="bg-slate-800/40 border border-blue-500/30 rounded-2xl p-5 sm:p-6 mb-5">
+                    <div id="memento" className="bg-slate-800/40 border border-blue-500/30 rounded-2xl p-5 sm:p-6 mb-5 scroll-mt-24">
                         <h3 className="text-base sm:text-lg font-bold text-blue-300 mb-5 flex items-center gap-2">
                             🧊 신규 아이템 &#39;메멘토 큐브&#39; 보스 드랍 및 확률 총정리
                         </h3>
