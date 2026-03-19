@@ -32,7 +32,7 @@ export default function March19PatchnoteChanges2026Page() {
                     </h1>
 
                     <p className="text-sm sm:text-base md:text-lg text-slate-300 mb-6 leading-relaxed break-keep">
-                        본섭 패치노트로 넘어오면서 변경되거나 기습 추가된 핵심 내용들을 한눈에 파악하기 쉽게 카테고리별로 총정리해 드립니다. 콘텐츠 대본 작성이나 사이트 데이터 갱신에 바로 활용하실 수 있도록 구성했습니다.
+                        본섭 패치노트로 넘어오면서 변경되거나 기습 추가된 핵심 내용들을 한눈에 파악하기 쉽게 카테고리별로 총정리해 드립니다.
                     </p>
 
                     {/* 목차 */}
