@@ -492,21 +492,7 @@ export default function ChangeBurningLucidWeek1GuidePage() {
 
                     {/* 추가 꿀팁 */}
                     <div className="mt-8 space-y-4">
-                        <div className="bg-slate-800/60 border border-slate-700 rounded-2xl p-4 sm:p-5">
-                            <h3 className="text-base sm:text-lg font-bold text-amber-300 mb-2 sm:mb-3 flex items-center gap-2">
-                                💡 사이키스 게더링 꿀팁
-                            </h3>
-                            <p className="text-sm sm:text-base text-slate-200 leading-relaxed break-keep">
-                                25,000마리를 한 번에 다 잡지 마시고, <strong className="text-amber-200">반드시 100마리 정도는 남겨두세요!</strong> 처치 가능한 마릿수가 남아있어야 사냥터에서 본캐와 루시드를 자유롭게 오가며 변신할 수 있습니다.<br />
-                                본캐로 사냥하다가 아이템이 쌓였을 때 루시드로 변신해서 <strong className="text-white">'사이키스 게더링'</strong>을 쓰면 전체 맵의 아이템과 콤보킬 구슬을 한 번에 싹쓸이할 수 있습니다!
-                            </p>
-                            <div className="mt-3 bg-black/30 rounded-xl p-3 text-xs sm:text-sm text-slate-400 break-keep">
-                                (※ 이렇게 100마리를 남겨도 주간 미션 클리어 및 1주차 20레벨 달성에는 전혀 지장이 없습니다. 또한 드림 이터 몬스터는 누적 방식이라 남겨둔 마릿수가 사라지지 않으니 안심하세요!)
-                            </div>
-                            <div className="mt-4 overflow-hidden rounded-xl border border-amber-500/30">
-                                <Image src="/images/blog/change-burning-lucid/psychis-gathering.png" alt="사이키스 게더링 스킬 설명" width={800} height={300} className="w-full h-auto object-cover" />
-                            </div>
-                        </div>
+
                         <div className="bg-slate-800/60 border border-slate-700 rounded-2xl p-4 sm:p-5">
                             <h3 className="text-base sm:text-lg font-bold text-green-300 mb-2 sm:mb-3 flex items-center gap-2">
                                 🧪 도핑 꿀팁
