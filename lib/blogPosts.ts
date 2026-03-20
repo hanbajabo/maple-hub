@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 체인지 버닝: 루시드 1주차 공략 (3월 20일)
+    {
+        slug: 'change-burning-lucid-week1-guide',
+        title: '🦋 체인지 버닝: 루시드 1주차 완벽 공략 & 꿀팁 대방출 | 드림 이터·악몽의 숲·결정 세팅까지',
+        description: '바쁜 분들을 위한 1주차 핵심 9단계 요약! 드림 이터 25,000마리부터 몽환의 시련(자쿰), 악몽의 숲 25회, 몽환의 결정 세팅법까지. 드림캐쳐 교환권 80레벨 전 절대 사용 금지!',
+        category: '이벤트 가이드',
+        date: '2026년 3월 20일',
+        readTime: '12분',
+        thumbnail: '🦋',
+        featured: true,
+    },
     // 3월 19일 본섭 패치노트 핵심 변경사항 총정리
     {
         slug: 'march-19-patchnote-changes-2026',
