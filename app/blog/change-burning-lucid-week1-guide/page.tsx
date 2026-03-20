@@ -279,7 +279,7 @@ export default function ChangeBurningLucidWeek1GuidePage() {
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <AlertCircle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                                    <span className="break-keep"><strong className="text-amber-300">주의:</strong> 25,000마리를 다 잡고 나면 사냥터에서 변신이 <strong className="text-white">불가능</strong>해집니다! 마릿수는 <strong className="text-white">매주 목요일</strong> 초기화됩니다.</span>
+                                    <span className="break-keep"><strong className="text-amber-300">주의:</strong> 25,000마리를 다 잡고 나면 사냥터에서 변신이 <strong className="text-white">불가능</strong>해집니다! 마릿수는 <strong className="text-white">매주 목요일 25,000마리씩 추가</strong>됩니다.</span>
                                 </li>
                                 <li className="mt-3 bg-indigo-900/30 border border-indigo-500/30 rounded-xl p-3 break-keep">
                                     💡 <strong className="text-indigo-200">꿀팁:</strong> 드림 이터는 별개로 소환되는 몬스터라 추가 경험치/드롭률 효과를 받지 않습니다. 일반 몬스터는 그대로 나오니 <strong className="text-white">평소 본 캐릭터 사냥용 도핑만</strong> 하시면 됩니다!
