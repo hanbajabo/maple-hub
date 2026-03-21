@@ -50,7 +50,22 @@ export default function CalculatorMenu() {
                         </div>
                     </Link>
 
-                    {/* 2. Challengers World */}
+                    {/* 2. Hunting Field Calculator */}
+                    <Link
+                        href="/guide/hunting-field-calculator"
+                        className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                    >
+                        <span className="text-xl">🗺️</span>
+                        <div className="flex flex-col">
+                            <div className="flex items-center gap-1.5">
+                                <span className="font-semibold text-sm">추천 사냥터</span>
+                                <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm">NEW</span>
+                            </div>
+                            <span className="text-[10px] text-slate-400 mt-0.5">레벨별 경험치 효율 TOP 20</span>
+                        </div>
+                    </Link>
+
+                    {/* 3. Challengers World */}
                     <Link
                         href="/blog/challengers-world-calculator"
                         className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
@@ -64,33 +79,7 @@ export default function CalculatorMenu() {
                         </div>
                     </Link>
 
-                    {/* 3. Boss Coin */}
-                    <Link
-                        href="/blog/boss-memory-calculator"
-                        className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
-                    >
-                        <div className="relative w-6 h-6 flex-shrink-0">
-                            <Image src="/images/boss-coin.png" alt="Boss" fill className="object-contain" />
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-sm">보스 코인</span>
-                            <span className="text-[10px] text-slate-400">계산기 & 코인샵</span>
-                        </div>
-                    </Link>
 
-                    {/* 4. Illusion Coin */}
-                    <Link
-                        href="/blog/illusion-coin-shop"
-                        className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
-                    >
-                        <div className="relative w-6 h-6 flex-shrink-0">
-                            <Image src="/images/illusion-coin.png" alt="Illusion" fill className="object-contain" />
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-sm">일루전 코인샵</span>
-                            <span className="text-[10px] text-slate-400">일반 코인샵</span>
-                        </div>
-                    </Link>
 
                     {/* 5. Genesis Liberation */}
                     <Link
