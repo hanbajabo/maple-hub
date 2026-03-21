@@ -190,16 +190,16 @@ export const evaluateStage0 = (equipment: EquipmentItem[], jobName: string, attT
                             issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 또는 공/마 +3% 옵션 없음` });
                         }
                     } else if (adiScore >= 2) { // 에픽 이상 (일반 방어구/장신구)
-                        // 공/마+10 OR 주스탯%
-                        if (!hasAtt10 && !hasStatPct) {
+                        // 공/마+10 OR 주스탯% OR 렙당 스탯
+                        if (!hasAtt10 && !hasStatPct && !hasLevelStat) {
                             isPassed = false;
-                            issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 또는 주스탯% 옵션 없음` });
+                            issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 또는 주스탯% 또는 렙당 스탯 옵션 없음` });
                         }
                     } else { // 레어 (일반 방어구/장신구)
-                        // 공/마+10
-                        if (!hasAtt10) {
+                        // 공/마+10 OR 렙당 스탯
+                        if (!hasAtt10 && !hasLevelStat) {
                             isPassed = false;
-                            issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 옵션 없음` });
+                            issues.push({ type: 'additional', message: `[에디셔널] ${item.item_name}: 공/마 +10 또는 렙당 스탯 옵션 없음` });
                         }
                     }
                 }

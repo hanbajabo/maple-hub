@@ -56,8 +56,7 @@ export const SPECIAL_STARFORCE_GOALS = {
 export function getMaxStarforce(level: number): number {
     if (level <= 94) return 5;
     if (level <= 107) return 8;
-    if (level <= 117) return 10;
-    if (level <= 127) return 15;
+    if (level <= 127) return 10;
     if (level <= 137) return 20;
     return 25;
 }

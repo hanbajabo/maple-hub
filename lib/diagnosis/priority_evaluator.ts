@@ -145,6 +145,7 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
 
         // === 특수 아이템 필터링 ===
         if (name.includes('정령의 펜던트')) return;
+        if (name.includes('도전자')) return;
 
         const potentialLines = [item.potential_option_1, item.potential_option_2, item.potential_option_3].filter((s): s is string => !!s);
         const adiLines = [item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3].filter((s): s is string => !!s);
@@ -229,49 +230,39 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
                     }
                 }
             } else {
-                if (starforce < 10) {
+                if (starforce < Math.min(10, maxSf)) {
                     priorities.push({
                         item, priorityScore: 100 - starforce, type: 'STARFORCE',
-                        currentStatus: `${starforce}성`, targetStatus: '10성',
+                        currentStatus: `${starforce}성`, targetStatus: `${Math.min(10, maxSf)}성${maxSf <= 10 ? ' (최대치)' : ''}`,
                         costEstimate: '매우 저렴', efficiencyLabel: '가성비 최강', rank: 1
                     });
-                } else if (starforce < 12) {
+                } else if (starforce < Math.min(12, maxSf)) {
                     priorities.push({
                         item, priorityScore: 90 - starforce, type: 'STARFORCE',
-                        currentStatus: `${starforce}성`, targetStatus: '12성',
+                        currentStatus: `${starforce}성`, targetStatus: `${Math.min(12, maxSf)}성${maxSf <= 12 ? ' (최대치)' : ''}`,
                         costEstimate: '저렴', efficiencyLabel: '기본 매너', rank: 1
                     });
-                } else if (starforce < 17) {
+                } else if (starforce < Math.min(17, maxSf)) {
                     if (!name.includes('타일런트')) {
-                        if (maxSf < 17) {
-                            if (starforce < maxSf) {
-                                priorities.push({
-                                    item, priorityScore: 90 - starforce, type: 'STARFORCE',
-                                    currentStatus: `${starforce}성`, targetStatus: `${maxSf}성 (최대치)`,
-                                    costEstimate: '저렴', efficiencyLabel: '최대 강화 필수', rank: 1
-                                });
-                            }
-                        } else {
-                            priorities.push({
-                                item, priorityScore: 80 - starforce, type: 'STARFORCE',
-                                currentStatus: `${starforce}성`, targetStatus: '17성',
-                                costEstimate: '보통', efficiencyLabel: '스펙업 필수', rank: 2
-                            });
-                        }
+                        priorities.push({
+                            item, priorityScore: 80 - starforce, type: 'STARFORCE',
+                            currentStatus: `${starforce}성`, targetStatus: `${Math.min(17, maxSf)}성${maxSf <= 17 ? ' (최대치)' : ''}`,
+                            costEstimate: '보통', efficiencyLabel: maxSf <= 17 ? '최대 강화 필수' : '스펙업 필수', rank: 2
+                        });
                     }
-                } else if (starforce < 18) {
+                } else if (starforce < Math.min(18, maxSf)) {
                     if (!name.includes('타일런트')) {
                         priorities.push({
                             item, priorityScore: 60, type: 'STARFORCE',
-                            currentStatus: `${starforce}성`, targetStatus: '18성',
+                            currentStatus: `${starforce}성`, targetStatus: `${Math.min(18, maxSf)}성${maxSf <= 18 ? ' (최대치)' : ''}`,
                             costEstimate: '다소 높음', efficiencyLabel: '안전한 스펙업', rank: 2
                         });
                     }
-                } else if (starforce < 22) {
+                } else if (starforce < Math.min(22, maxSf)) {
                     if (!name.includes('타일런트') && !name.includes('탈벨')) {
                         priorities.push({
                             item, priorityScore: 40 + (starforce - 18), type: 'STARFORCE',
-                            currentStatus: `${starforce}성`, targetStatus: '22성',
+                            currentStatus: `${starforce}성`, targetStatus: `${Math.min(22, maxSf)}성${maxSf <= 22 ? ' (최대치)' : ''}`,
                             costEstimate: '매우 높음', efficiencyLabel: '엔드급 도전', rank: 3
                         });
                     }
@@ -507,11 +498,14 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
             // 3-2. 방어구/장신구
             else if (!slot.includes('훈장') && !slot.includes('뱃지') && !slot.includes('포켓')) {
                 const hasAttAdi = adiLines.some(l => l.includes('공격력') || l.includes('마력'));
+                const hasLevelStatAdi = adiLines.some(l => l.includes('레벨 당'));
+                const hasStatPctAdi = adiLines.some(l => l.includes('%') && (l.includes('올스탯') || l.includes('모든 스탯') || l.includes('STR') || l.includes('DEX') || l.includes('INT') || l.includes('LUK') || l.includes('최대 HP')));
+                const hasValidAdi = hasAttAdi || hasLevelStatAdi || hasStatPctAdi;
 
-                if (!grade || (grade === '레어' && !hasAttAdi)) {
+                if (!grade || (grade === '레어' && !hasValidAdi)) {
                     priorities.push({
                         item, priorityScore: 65, type: 'ADDITIONAL',
-                        currentStatus: '공/마 없음', targetStatus: '공/마 +10',
+                        currentStatus: grade ? '유효옵 없음' : '공/마 없음', targetStatus: '공/마 +10 / 렙당 스탯',
                         costEstimate: '저렴', efficiencyLabel: '소소한 스펙업', rank: 2
                     });
                 } else if (grade === '레어') {
