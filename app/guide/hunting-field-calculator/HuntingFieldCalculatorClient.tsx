@@ -240,7 +240,9 @@ export default function HuntingFieldCalculatorClient() {
 
                     {/* 안내 + 버튼 한 행 */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-2">
-                        <p style={{ color: "#64748b", fontSize: 12, margin: 0 }}>💡 버닝, 파티 보너스, 이벤트 등 합산된 추가 경험치 %를 입력하세요</p>
+                        <p style={{ color: "#64748b", fontSize: 12, margin: 0 }}>
+                            💡 <strong style={{ color: "#cbd5e1" }}>캐릭터 정보</strong>에서 <span style={{ color: "#34d399", fontWeight: 700 }}>"추가 경험치 획득"</span> 수치를 확인하고 추가 경험치%를 입력하세요
+                        </p>
                         <button
                             onClick={handleSearch}
                             disabled={levelNum < 200 || levelNum >= 300}
