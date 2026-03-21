@@ -307,14 +307,14 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
                     else {
                         stage4Issues++;
                         targetStats.additional.failedItems.push(name);
-                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 또는 렙당 주스탯 미만` });
+                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 미만` });
                     }
                 } else if (adiScore >= 1) { // 레어
                     if (hasAtt10 || hasAdiCritDmg || hasLevelStat) adiPass = true;
                     else {
                         stage4Issues++;
                         targetStats.additional.failedItems.push(name);
-                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 렙당 주스탯 없음` });
+                        issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 옵션 없음` });
                     }
                 } else {
                     stage4Issues++;
@@ -330,14 +330,14 @@ export const evaluateStage4 = (equipment: EquipmentItem[], jobName: string, attT
                 else {
                     stage4Issues++;
                     targetStats.additional.failedItems.push(name);
-                    issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 또는 렙당 주스탯 미만` });
+                    issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 주스탯% 미만` });
                 }
             } else if (adiScore >= 1) { // 레어
                 if (hasAtt10 || hasAdiCritDmg || hasLevelStat) adiPass = true;
                 else {
                     stage4Issues++;
                     targetStats.additional.failedItems.push(name);
-                    issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 또는 렙당 주스탯 없음` });
+                    issues.push({ type: 'growth_additional', message: `[성장/에디] ${name}: 공/마+10 옵션 없음` });
                 }
             } else {
                 stage4Issues++;

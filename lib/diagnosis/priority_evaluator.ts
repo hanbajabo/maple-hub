@@ -505,7 +505,7 @@ export function evaluateUpgradePriority(items: EquipmentItem[], job?: string): P
                 if (!grade || (grade === '레어' && !hasValidAdi)) {
                     priorities.push({
                         item, priorityScore: 65, type: 'ADDITIONAL',
-                        currentStatus: grade ? '유효옵 없음' : '공/마 없음', targetStatus: '공/마 +10 / 렙당 스탯',
+                        currentStatus: grade ? '유효옵 없음' : '공/마 없음', targetStatus: '공/마 +10',
                         costEstimate: '저렴', efficiencyLabel: '소소한 스펙업', rank: 2
                     });
                 } else if (grade === '레어') {
