@@ -170,6 +170,17 @@ export const blogPosts: BlogPost[] = [
         thumbnail: '📉',
         featured: true,
     },
+    // 신규 BM 경험치 효율 분석 (2026년 3월)
+    {
+        slug: 'new-bm-exp-efficiency-2026',
+        title: '💎 메이플 신규 BM : 진 패키지 경험치 효율 완벽 분석',
+        description: '진 부스터 패키지(1만 캐시), 아스트랄 세레나데 패키지 추가 경험치 효과, 경매장 28.3억 시세 구매까지! 상급 EXP 기준 레벨별 효율과 모멘텀 패스 대비 가성비를 완벽 분석합니다.',
+        category: '경험치 가이드',
+        date: '2026년 3월 23일',
+        readTime: '15분',
+        thumbnail: '💎',
+        featured: true,
+    },
     // 경험치 상품 효율 분석
     {
         slug: 'exp-product-efficiency',
