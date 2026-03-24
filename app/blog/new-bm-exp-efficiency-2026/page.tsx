@@ -8,6 +8,8 @@ import { InArticleAd } from '@/components/AdSense';
 
 export default function NewBmExpEfficiency2026() {
     const [astraSortLevel, setAstraSortLevel] = useState<'280' | '285' | '290'>('290');
+    const [tableSortLevel, setTableSortLevel] = useState<'280' | '285' | '290'>('290');
+    const [tableAuctionPrice, setTableAuctionPrice] = useState<number>(28.3);
 
     // 기본 데이터 (1.7만~1.8만 마리 사냥 기준 상향 조정)
     const BASE_HUNTING = {
@@ -62,6 +64,86 @@ export default function NewBmExpEfficiency2026() {
     };
 
     const huntingOptions = [0.5, 1, 2, 3, 4];
+
+    const TABLE_CASH_EQUIV = Math.round(tableAuctionPrice * 1500);
+
+    // 최종 효율표 데이터 병합
+    const FINAL_TABLE_DATA = [
+        { name: "몬스터 파크", detail: "썬데이메이플(4.8배)", price: "600 메포", e280: 14400, e285: 18134, e290: 21547 },
+        { name: "챌린저스 EXP 듀오", detail: "64.5만 마리", price: "10,000 캐시", e280: 16000, e285: 16000, e290: 16000 },
+        { name: "챌린저스 EXP 듀오", detail: "60만 마리", price: "10,000 캐시", e280: 15245, e285: 15245, e290: 15245 },
+        { name: "모멘텀 패스", detail: "경쿠 제외", price: "50,000 캐시", e280: 10248, e285: 13064, e290: 14003 },
+        { name: "챌린저스 EXP 듀오", detail: "50만 마리", price: "10,000 캐시", e280: 13567, e285: 13567, e290: 13567 },
+        { name: "챌린저스 EXP 듀오", detail: "40만 마리", price: "10,000 캐시", e280: 11889, e285: 11889, e290: 11889 },
+        { name: "챌린저스 EXP 듀오", detail: "30만 마리", price: "10,000 캐시", e280: 10211, e285: 10211, e290: 10211 },
+        { name: "몬스터 파크", detail: "일요일+보약(2.3배)", price: "600 메포", e280: 6900, e285: 8689, e290: 10325 },
+        { name: "챌린저스 EXP 듀오", detail: "20만 마리", price: "10,000 캐시", e280: 8533, e285: 8533, e290: 8533 },
+        { name: "하이마운틴", detail: "0→1", price: "7,500 메포", e280: 8335, e285: 8335, e290: 8335 },
+        { name: "메카베리 농장", detail: "메소 구매", price: "5억 메소", e280: 5632, e285: 7509, e290: 8135 },
+        { name: "익스프레스 패스", detail: "캐시 구매", price: "30,000 캐시", e280: 8107, e285: 8107, e290: 8107 },
+        { name: "앵글러 컴퍼니", detail: "0→1", price: "10,000 메포", e280: 7906, e285: 7906, e290: 7906 },
+        { name: "몬스터 파크", detail: "평일 보약(1.7배)", price: "600 메포", e280: 5111, e285: 6422, e290: 7621 },
+        { name: "악몽선경", detail: "0→1", price: "12,500 메포", e280: 7708, e285: 7708, e290: 7708 },
+        { name: "챌린저스 EXP 듀오", detail: "10만 마리", price: "10,000 캐시", e280: 6855, e285: 6855, e290: 6855 },
+        { name: "익스프레스 부스터", detail: "메소 구매", price: "3,000만 메소", e280: 4556, e285: 4556, e290: 4556 },
+        { name: "몬스터 파크", detail: "기본배율", price: "600 메포", e280: 3000, e285: 3778, e290: 4489 },
+        { name: "악몽선경", detail: "1→2", price: "37,500 메포", e280: 2090, e285: 2090, e290: 2090 },
+        { name: "앵글러 컴퍼니", detail: "1→2", price: "30,000 메포", e280: 2006, e285: 2006, e290: 2006 },
+        { name: "하이마운틴", detail: "1→2", price: "22,500 메포", e280: 1857, e285: 1857, e290: 1857 },
+        { name: "사우나", detail: "1시간", price: "3,000 메포", e280: 1822, e285: 1822, e290: 1822 },
+        // 신규 BM 추가
+        { 
+            name: "진 부스터 패키지", 
+            detail: "기본+보너스", 
+            price: "10,000 캐시", 
+            e280: JIN_BOOSTER['280'].total, 
+            e285: JIN_BOOSTER['285'].total, 
+            e290: JIN_BOOSTER['290'].total,
+            isNew: true
+        },
+        {
+            name: "아스트랄 세레나데(경매장)",
+            detail: "경매장 4종(일 2시간)",
+            price: `${tableAuctionPrice}억 메소`,
+            e280: Math.round(calcAstraExp('280', 2) / (TABLE_CASH_EQUIV / 10000)),
+            e285: Math.round(calcAstraExp('285', 2) / (TABLE_CASH_EQUIV / 10000)),
+            e290: Math.round(calcAstraExp('290', 2) / (TABLE_CASH_EQUIV / 10000)),
+            isNew: true
+        },
+        {
+            name: "아스트랄 세레나데(경매장)",
+            detail: "경매장 4종(일 3시간)",
+            price: `${tableAuctionPrice}억 메소`,
+            e280: Math.round(calcAstraExp('280', 3) / (TABLE_CASH_EQUIV / 10000)),
+            e285: Math.round(calcAstraExp('285', 3) / (TABLE_CASH_EQUIV / 10000)),
+            e290: Math.round(calcAstraExp('290', 3) / (TABLE_CASH_EQUIV / 10000)),
+            isNew: true
+        },
+        {
+            name: "아스트랄 세레나데(캐시)",
+            detail: "캐시 패키지(일 2시간)",
+            price: "69,800 캐시",
+            e280: Math.round(calcAstraExp('280', 2) / 6.98),
+            e285: Math.round(calcAstraExp('285', 2) / 6.98),
+            e290: Math.round(calcAstraExp('290', 2) / 6.98),
+            isNew: true
+        },
+        {
+            name: "아스트랄 세레나데(캐시)",
+            detail: "캐시 패키지(일 3시간)",
+            price: "69,800 캐시",
+            e280: Math.round(calcAstraExp('280', 3) / 6.98),
+            e285: Math.round(calcAstraExp('285', 3) / 6.98),
+            e290: Math.round(calcAstraExp('290', 3) / 6.98),
+            isNew: true
+        }
+    ];
+
+    const sortedTableData = [...FINAL_TABLE_DATA].sort((a, b) => {
+        if (tableSortLevel === '290') return (b.e290 || 0) - (a.e290 || 0);
+        if (tableSortLevel === '285') return (b.e285 || 0) - (a.e285 || 0);
+        return (b.e280 || 0) - (a.e280 || 0);
+    });
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
@@ -588,6 +670,99 @@ export default function NewBmExpEfficiency2026() {
                                     <p>추가적인 보약 효과 <strong className="text-cyan-400">공/마+60 + 올스탯 +140</strong>까지 가치를 더하면 엄청나게 가성비 아이템!</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ===== SECTION 4: 상급 EXP 최종 환산 효율표 ===== */}
+                <section className="mb-14">
+                    <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-2 border-slate-700 rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl">
+                        <div className="flex items-center gap-3 mb-4 flex-wrap">
+                            <div className="w-12 h-12 bg-slate-700/50 rounded-xl flex items-center justify-center">
+                                <TrendingUp className="w-6 h-6 text-yellow-400" />
+                            </div>
+                            <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-white">
+                                🍁 상급 EXP 환산 효율표
+                            </h2>
+                        </div>
+                        <p className="text-slate-300 text-sm mb-6 leading-relaxed">
+                            💡 <strong className="text-yellow-400">효율 수치란?</strong> 1만 캐시당 획득할 수 있는 경험치를 상급 EXP 개수로 환산한 수치입니다. 숫자가 높을수록 가성비가 좋습니다!<br/>
+                            <span className="text-cyan-400">※ 상단의 레벨 버튼을 클릭하면 해당 레벨 구간의 효율을 기준으로 정렬됩니다. 신규 추가된 진 패키지와 아스트랄 패키지도 합산되어 있습니다.</span>
+                        </p>
+
+                        {/* 정렬 탭 & 실시간 경매장 가격 입력 */}
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+                            <div className="flex gap-2">
+                                {(['280', '285', '290'] as const).map(lv => (
+                                    <button
+                                        key={`table-${lv}`}
+                                        onClick={() => setTableSortLevel(lv)}
+                                        className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${tableSortLevel === lv ? 'bg-yellow-500 text-slate-900 shadow-lg scale-105' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
+                                    >
+                                        {lv === '290' ? 'Lv.290+' : `Lv.${lv}~${parseInt(lv) + 4}`}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="flex items-center gap-3 bg-slate-800/80 border border-slate-600 rounded-lg p-2 shadow-inner">
+                                <span className="text-sm font-bold text-slate-300">
+                                    <ShoppingCart className="w-4 h-4 inline mr-1 text-slate-400" />
+                                    아스트랄(경매장) 가격 :
+                                </span>
+                                <div className="flex items-center gap-1">
+                                    <input 
+                                        type="number" 
+                                        value={tableAuctionPrice || ''}
+                                        onChange={(e) => setTableAuctionPrice(Number(e.target.value))}
+                                        step="0.1"
+                                        min="0"
+                                        className="w-20 sm:w-24 bg-slate-950 border border-slate-600 rounded px-2 py-1 text-yellow-400 font-mono font-bold text-right outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400/50 transition-colors"
+                                    />
+                                    <span className="text-sm text-slate-300 font-bold whitespace-nowrap">억 메소</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="overflow-x-auto rounded-xl border border-slate-700/50 shadow-inner">
+                            <table className="min-w-full text-xs sm:text-sm">
+                                <thead>
+                                    <tr className="bg-slate-800 border-b border-slate-600">
+                                        <th className="px-3 py-3 text-center text-slate-300 font-bold whitespace-nowrap">순위</th>
+                                        <th className="px-3 py-3 text-left text-slate-300 font-bold whitespace-nowrap">콘텐츠명</th>
+                                        <th className="px-3 py-3 text-left text-slate-300 font-bold whitespace-nowrap">상세</th>
+                                        <th className="px-3 py-3 text-left text-slate-300 font-bold whitespace-nowrap">가격</th>
+                                        <th className={`px-3 py-3 text-center font-bold whitespace-nowrap ${tableSortLevel === '280' ? 'text-yellow-400 bg-slate-700/50' : 'text-slate-300'}`}>280~284</th>
+                                        <th className={`px-3 py-3 text-center font-bold whitespace-nowrap ${tableSortLevel === '285' ? 'text-yellow-400 bg-slate-700/50' : 'text-slate-300'}`}>285~289</th>
+                                        <th className={`px-3 py-3 text-center font-bold whitespace-nowrap ${tableSortLevel === '290' ? 'text-yellow-400 bg-slate-700/50' : 'text-slate-300'}`}>290+</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-700/30">
+                                    {sortedTableData.map((row, idx) => (
+                                        <tr key={idx} className={`${row.isNew ? 'bg-purple-900/20' : 'bg-slate-900/50'} hover:bg-slate-700/30 transition-colors`}>
+                                            <td className="px-3 py-3 text-center">
+                                                {idx === 0 ? <span className="w-6 h-6 inline-flex items-center justify-center bg-yellow-500 text-slate-900 rounded-full font-bold text-xs shadow-md">1</span> : 
+                                                 idx === 1 ? <span className="w-6 h-6 inline-flex items-center justify-center bg-slate-300 text-slate-900 rounded-full font-bold text-xs shadow-md">2</span> : 
+                                                 idx === 2 ? <span className="w-6 h-6 inline-flex items-center justify-center bg-amber-600 text-white rounded-full font-bold text-xs shadow-md">3</span> : 
+                                                 <span className="text-slate-400 font-mono">{idx + 1}</span>}
+                                            </td>
+                                            <td className={`px-3 py-3 font-bold whitespace-nowrap flex items-center gap-2 ${row.name === '진 부스터 패키지' ? 'text-cyan-400' : 'text-white'}`}>
+                                                {row.name}
+                                                {row.isNew && <span className="px-1.5 py-0.5 bg-purple-500 text-white text-[10px] rounded animate-pulse">NEW</span>}
+                                            </td>
+                                            <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{row.detail}</td>
+                                            <td className="px-3 py-3 text-slate-300 whitespace-nowrap">{row.price}</td>
+                                            <td className={`px-3 py-3 text-center font-mono ${tableSortLevel === '280' ? 'text-yellow-300 font-bold bg-slate-800/30' : 'text-slate-300'}`}>
+                                                {row.e280.toLocaleString()}
+                                            </td>
+                                            <td className={`px-3 py-3 text-center font-mono ${tableSortLevel === '285' ? 'text-yellow-300 font-bold bg-slate-800/30' : 'text-slate-300'}`}>
+                                                {row.e285.toLocaleString()}
+                                            </td>
+                                            <td className={`px-3 py-3 text-center font-mono ${tableSortLevel === '290' ? 'text-yellow-300 font-bold bg-slate-800/30' : 'text-slate-300'}`}>
+                                                {row.e290.toLocaleString()}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </section>
