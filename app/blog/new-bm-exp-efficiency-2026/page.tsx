@@ -547,7 +547,7 @@ export default function NewBmExpEfficiency2026() {
                                 3. 경매장 시세 구매 분석
                             </h2>
                         </div>
-                        <p className="text-slate-200 text-sm mb-6">4가지 경험치 아이템만 경매장에서 따로 구매했을 때의 효율 분석. <strong className="text-yellow-400">현실 메소로 가능!</strong></p>
+                        <p className="text-slate-200 text-sm mb-6">4가지 경험치 아이템만 경매장에서 따로 구매했을 때의 효율 분석. <strong className="text-yellow-400">메이플 메소로 가능!</strong></p>
 
                         {/* 경매장 가격 */}
                         <div className="bg-slate-900/60 rounded-xl p-5 mb-6">
@@ -655,7 +655,7 @@ export default function NewBmExpEfficiency2026() {
                             <div className="mt-4 space-y-2 text-sm text-white">
                                 <div className="flex items-start gap-2">
                                     <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
-                                    <p>경매장 구매는 <strong className="text-yellow-400">현실 메소</strong>로 가능 — 넥슨캐시(실돈) 불필요!</p>
+                                    <p>경매장 구매는 <strong className="text-yellow-400">메이플 메소</strong>로 가능 — 넥슨캐시(실돈) 불필요!</p>
                                 </div>
                                 <div className="flex items-start gap-2">
                                     <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
