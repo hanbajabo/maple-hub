@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 체인지 버닝: 루시드 2주차 공략 (3월 27일)
+    {
+        slug: 'change-burning-lucid-week2-guide',
+        title: '🦋 체인지 버닝: 루시드 2주차 완벽 공략 & 꿀팁 대방출',
+        description: '2주차 핵심 숙제 완벽 정리! 드림 이터 25,000마리, 악몽의 숲 25회, 보스전 꿀팁, 스펙업 전략까지. 이번 주 놓치면 안 되는 것들을 한 번에 확인하세요.',
+        category: '이벤트 가이드',
+        date: '2026년 3월 27일',
+        readTime: '12분',
+        thumbnail: '🦋',
+        featured: true,
+    },
     // 체인지 버닝: 루시드 1주차 공략 (3월 20일)
     {
         slug: 'change-burning-lucid-week1-guide',
