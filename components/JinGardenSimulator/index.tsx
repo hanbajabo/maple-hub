@@ -809,8 +809,8 @@ export default function JinGardenSimulator() {
                     {([
                       ['fert',    '🌿 비료',   '클릭마다 100→200→300→400→500→600 순환'],
                       ['monster', '👾 몬스터', '클릭마다 없음→황금벌→독호문→신비한벌 순환'],
-                      ['mole',    '🐭 이동효과', '클릭마다 없음→-2칸→-3칸→+3칸 순환'],
-                      ['specdie', '🎲 특주', '특수 주사위 획득 칸 지정 (1개만 존재 가능)'],
+                      ['mole',    '🐭 이동효과', '클릭마다 없음→-2칸→-3칸→+3칸 순환 (유형별 1칸씩만)'],
+                      ['specdie', '🎲 특주', '특수 주사위 획득 칸 토글 (여러 칸 지정 가능)'],
                     ] as const).map(([m, label, tip]) => (
                       <button key={m}
                         title={tip}
@@ -839,8 +839,8 @@ export default function JinGardenSimulator() {
               <div className="mb-2 text-sm font-bold rounded-xl px-3 py-2 bg-yellow-900/30 border border-yellow-700/40 flex flex-wrap gap-x-4 gap-y-1">
                 {editSubMode === 'fert' && <span className="text-yellow-300">🌿 비료 모드: 비료 칸을 클릭하면 <strong>100→...→500→600→100</strong> 순환합니다</span>}
                 {editSubMode === 'monster' && <span className="text-yellow-300">👾 몬스터 모드: 칸을 클릭하면 <strong>없음→🐝황금벌(×2)→☠️독호문(×0.5)→✨신비한벌(×3)</strong> 순환합니다</span>}
-                {editSubMode === 'mole' && <span className="text-yellow-300">🐭 이동효과 모드: 칸을 클릭하면 <strong>없음→-2칸→-3칸→+3칸(점프대)→없음</strong> 순환합니다 (유형당 1칸만 배치)</span>}
-                {editSubMode === 'specdie' && <span className="text-yellow-300">🎲 특수주사위 모드: 칸을 클릭하면 해당 칸을 <strong>🎲+특수주사위</strong> 칸으로 덮어씁니다. (보드에 1개만 존재 가능)</span>}
+                {editSubMode === 'mole' && <span className="text-yellow-300">🐭 이동효과 모드: 칸을 클릭하면 <strong>없음→-2칸→-3칸→+3칸(점프대)→없음</strong> 순환합니다. (각 이동 효과는 보드에 1칸씩만 배치 가능합니다)</span>}
+                {editSubMode === 'specdie' && <span className="text-yellow-300">🎲 특수주사위 모드: 칸을 클릭하면 해당 칸에 <strong>🎲특수주사위 획득</strong> 효과를 추가/제거 합니다. (동시에 여러 칸 지정이 가능합니다)</span>}
               </div>
             )}
 
