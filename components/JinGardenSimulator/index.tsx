@@ -249,19 +249,19 @@ function CellEditor({ space, board, setBoard, onClose }: {
 // ── Dice Picker ────────────────────────────────────────────────
 function DiePicker({ label, value, onChange }: { label: string; value: number | null; onChange: (v: number) => void }) {
   return (
-    <div className="flex-1 bg-gray-900/50 md:bg-transparent p-3 md:p-0 rounded-xl md:rounded-none border border-gray-800 md:border-none">
-      <div className="text-gray-300 text-sm md:text-base font-bold mb-2 md:text-center flex justify-between md:block items-center">
-        <span>{label}</span>
-        <span className={`md:hidden text-xs font-black px-2 py-0.5 rounded ${value ? 'bg-purple-900/50 text-purple-300' : 'bg-gray-800 text-gray-500'}`}>
-          {value ? `눈금 ${value}` : '선택 대기'}
-        </span>
+    <div className="flex-1 flex flex-row md:flex-col items-center bg-gray-900/40 md:bg-transparent p-2 md:p-0 rounded-xl md:rounded-none border border-gray-800 md:border-none gap-2 md:gap-0">
+      <div className="w-[60px] md:w-auto shrink-0 text-left md:text-center">
+        <div className="text-gray-300 text-xs md:text-base font-bold md:mb-2 leading-tight">{label}</div>
+        <div className={`md:hidden text-[9px] font-black mt-1 bg-gray-800/80 px-1 py-0.5 rounded text-center inline-block ${value ? 'text-purple-300' : 'text-gray-500'}`}>
+          {value ? `눈금 ${value}` : '대기중'}
+        </div>
       </div>
-      <div className="grid grid-cols-6 md:grid-cols-3 gap-1.5 md:gap-2">
+      <div className="flex-1 grid grid-cols-6 md:grid-cols-3 gap-1 md:gap-2 w-full">
         {DICE_FACES.map((face, i) => {
           const v = i + 1;
           return (
             <button key={v} onClick={() => onChange(v)}
-              className={`aspect-square flex items-center justify-center text-3xl md:text-5xl rounded-lg md:rounded-2xl border-2 transition-all hover:scale-105
+              className={`aspect-square flex items-center justify-center text-2xl md:text-5xl rounded-lg md:rounded-2xl border-2 transition-all hover:scale-105 active:scale-95
                 ${value === v
                   ? 'bg-purple-600 border-purple-300 shadow-lg md:shadow-xl shadow-purple-900/60'
                   : 'bg-gray-800 border-gray-600 hover:border-purple-500 hover:bg-gray-700'}`}>
@@ -863,14 +863,14 @@ export default function JinGardenSimulator() {
 
                 {!analysisActive ? (
                   <>
-                    <div className="flex flex-col md:flex-row gap-4 mb-5">
+                    <div className="flex flex-col md:flex-row gap-2 md:gap-4 mb-3 md:mb-5">
                       {[0, 1, 2].map(i => (
                         <DiePicker key={i} label={`주사위 ${i + 1}`} value={inputDice[i]}
                           onChange={v => setInputDice(prev => { const n = [...prev]; n[i] = v; return n; })} />
                       ))}
                     </div>
                     <button onClick={confirmDice} disabled={!diceReady}
-                      className={`w-full py-4 rounded-2xl text-lg font-black transition-all
+                      className={`w-full py-3 md:py-4 rounded-xl md:rounded-2xl text-base md:text-lg font-black transition-all
                         ${diceReady
                           ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-xl shadow-purple-900/50'
                           : 'bg-gray-800 text-gray-600 cursor-not-allowed'}`}>
@@ -878,95 +878,93 @@ export default function JinGardenSimulator() {
                     </button>
                   </>
                 ) : (
-                  <div className="space-y-4 mt-2">
-                    <div className={`text-center text-lg font-black py-4 rounded-xl flex flex-col items-center justify-center gap-2 ${allUsed ? 'bg-green-900/20 border-2 border-green-600' : 'bg-purple-900/30 text-purple-300 border border-purple-800'}`}>
+                  <div className="space-y-3 md:space-y-4 mt-2">
+                    <div className={`text-center text-sm md:text-lg font-black py-2 md:py-4 rounded-xl flex flex-col items-center justify-center gap-1 md:gap-2 ${allUsed ? 'bg-green-900/20 border-2 border-green-600' : 'bg-purple-900/30 text-purple-300 border border-purple-800'}`}>
                       {allUsed ? (
                         <>
                           <span className="text-green-400">✅ 주사위 3개를 모두 사용했습니다!</span>
-                          <button onClick={resetRound} className="mt-1 px-8 py-3 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white rounded-xl shadow-[0_0_15px_rgba(34,197,94,0.5)] transition-all">
+                          <button onClick={resetRound} className="mt-1 px-4 md:px-8 py-2 md:py-3 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 text-white text-xs md:text-base rounded-xl shadow-[0_0_15px_rgba(34,197,94,0.5)] transition-all">
                             다음 주사위 3개 입력하기
                           </button>
                         </>
                       ) : (
-                        <span>분석 완료 — (아래 패널에서 특주를 추가로 굴리거나 결과를 확인하세요)</span>
+                        <span>분석 완료 — (특수 주사위를 반영할 수 있습니다)</span>
                       )}
                     </div>
 
                     {!allUsed && (
-                      <div className="flex flex-col md:flex-row gap-3">
+                      <div className="flex flex-col md:flex-row gap-2 md:gap-3">
                         {game.rolledDice.map((val, i) => (
-                          <div key={i} className={`flex-1 flex flex-col items-center bg-gray-900 border-2 rounded-xl p-3 transition-colors ${game.rolledSpecDice[i] ? 'border-yellow-600 shadow-[0_0_10px_rgba(202,138,4,0.3)]' : 'border-purple-500/30'}`}>
-                            <span className="text-gray-400 text-xs font-bold mb-1.5 flex items-center justify-between w-full px-1">
-                              <span>주사위 {i + 1}</span>
-                              <span className="text-yellow-500 font-bold bg-gray-800 border border-gray-700 rounded px-1.5 text-[10px]">특주 입력</span>
-                            </span>
-                            <div className="flex w-full items-stretch gap-2 mb-2">
-                              <span className="text-5xl bg-gray-800 border-2 border-purple-500/50 rounded-xl aspect-square flex items-center justify-center text-purple-300 font-black shadow-lg pl-3 pr-3 pt-1">
+                          <div key={i} className={`flex-1 flex flex-row md:flex-col items-center bg-gray-900 border-2 rounded-xl p-2 md:p-3 transition-colors ${game.rolledSpecDice[i] ? 'border-yellow-600 shadow-[0_0_10px_rgba(202,138,4,0.3)]' : 'border-purple-500/30'}`}>
+                            <div className="w-[60px] md:w-full flex flex-col items-center justify-center shrink-0 border-r border-gray-700 md:border-r-0 md:border-b-0 pr-2 md:pr-0">
+                              <span className="text-gray-400 text-[10px] md:text-xs font-bold md:mb-1 w-full text-center">주사위 {i + 1}</span>
+                              <span className="text-3xl md:text-5xl md:bg-gray-800 md:border-2 border-purple-500/50 md:rounded-xl md:aspect-square flex items-center justify-center text-purple-300 font-black md:shadow-lg mt-0.5 w-full">
                                 {DICE_FACES[val - 1]}
                               </span>
-                              <div className="flex-1 relative">
-                                <select value={game.rolledSpecDice[i] || ''} onChange={e => {
-                                  const s = e.target.value ? Number(e.target.value) as SpecDie : null;
-                                  setGame(g => {
-                                    const n = [...g.rolledSpecDice];
-                                    n[i] = s;
-                                    return { ...g, rolledSpecDice: n };
-                                  });
-                                }} 
-                                 className={`w-full h-full font-bold rounded-xl px-2 py-1 border outline-none text-xs text-center cursor-pointer appearance-none ${game.rolledSpecDice[i] ? 'bg-yellow-900/40 text-yellow-300 border-yellow-500/50' : 'bg-gray-800 text-gray-400 border-gray-600 hover:border-yellow-600/50'}`}>
-                                   <option value="">적용 안함</option>
-                                   {([1, 2, 3, 4, 5, 6] as SpecDie[]).map(spec => (
-                                     <option key={spec} value={spec}>{SPEC_DIE_META[spec].label}</option>
-                                   ))}
-                                </select>
-                                <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-[10px] text-gray-500">▼</div>
-                              </div>
+                            </div>
+                            <div className="flex-1 w-full pl-3 md:pl-0 mt-0 md:mt-2 relative flex flex-col justify-center">
+                              <span className="text-yellow-500 font-bold bg-gray-800 border border-gray-700 rounded px-1.5 py-0.5 text-[9px] self-start md:self-auto md:absolute md:-top-7 md:right-1 z-10 hidden md:inline-block">특주 입력</span>
+                              <span className="md:hidden text-yellow-500 font-bold mb-1 text-[9px]">특수 주사위 추가 (선택)</span>
+                              <select value={game.rolledSpecDice[i] || ''} onChange={e => {
+                                const s = e.target.value ? Number(e.target.value) as SpecDie : null;
+                                setGame(g => {
+                                  const n = [...g.rolledSpecDice];
+                                  n[i] = s;
+                                  return { ...g, rolledSpecDice: n };
+                                });
+                              }} 
+                               className={`w-full font-bold rounded-lg px-2 py-1.5 md:py-1 border outline-none text-[11px] md:text-xs text-center cursor-pointer appearance-none ${game.rolledSpecDice[i] ? 'bg-yellow-900/40 text-yellow-300 border-yellow-500/50' : 'bg-gray-800 text-gray-400 border-gray-600 hover:border-yellow-600/50'}`}>
+                                 <option value="">적용 안함</option>
+                                 {([1, 2, 3, 4, 5, 6] as SpecDie[]).map(spec => (
+                                   <option key={spec} value={spec}>{SPEC_DIE_META[spec].label}</option>
+                                 ))}
+                              </select>
+                              <div className="absolute right-2 top-auto bottom-[9px] md:top-1/2 md:-translate-y-1/2 md:bottom-auto pointer-events-none text-[8px] md:text-[10px] text-gray-500">▼</div>
                             </div>
                           </div>
                         ))}
                       </div>
                     )}
 
-                    <div className="text-gray-400 text-center text-sm mb-4">
-                      확인 버튼을 누르면 인게임처럼 점수와 위치가 자동 기록됩니다.<br />아래의 최적 경로를 확인 후 적용하세요.
+                    <div className="text-gray-400 text-center text-[11px] md:text-sm mb-3 md:mb-4">
+                      확인 버튼을 누르면 인게임처럼 점수와 위치가 자동 기록됩니다.<br className="hidden md:block" />아래의 최적 경로를 확인 후 적용하세요.
                     </div>
 
                     {!allUsed && evAnalysis && (
-                      <div className="bg-yellow-900/10 border border-yellow-700/50 rounded-2xl p-4 flex flex-col items-center mb-4 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 bg-yellow-600/20 text-yellow-300 text-[10px] font-black px-2 py-0.5 rounded-bl-lg">기댓값 분석기</div>
-                        <div className="text-yellow-300 font-bold mb-2 flex items-center gap-2">
-                          <span className="text-lg">💡 추천: 특수 주사위 굴리기</span>
+                      <div className="bg-yellow-900/10 border border-yellow-700/50 rounded-xl p-3 md:p-4 flex flex-col items-center mb-3 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 bg-yellow-600/20 text-yellow-300 text-[8px] md:text-[10px] font-black px-1.5 py-0.5 rounded-bl-[4px]">기댓값 분석기</div>
+                        <div className="text-yellow-300 font-bold mb-1 flex items-center gap-1.5">
+                          <span className="text-sm md:text-lg">💡 추천: 특수 주사위 굴리기</span>
                         </div>
-                        <div className="text-gray-300 text-sm text-center">
-                          아직 특주를 쓰지 않은 경우, 현재 패에서는 <strong className="text-yellow-400 font-black">[주사위 {evAnalysis.dieIndex + 1}]</strong>에 특수 주사위를 굴리면
-                          평균적으로 <strong className="text-green-400">+{Math.round(evAnalysis.evGain)} 비료</strong>의 이득이 예상됩니다!
-                          <div className="text-xs text-gray-400 mt-1">(최고 운: {evAnalysis.bestEffect ? SPEC_DIE_META[evAnalysis.bestEffect].label : '-'} 시 +{evAnalysis.maxGain} 이득)</div>
+                        <div className="text-gray-300 text-[11px] md:text-sm text-center">
+                          현재 패에서는 <strong className="text-yellow-400 font-black">[주사위 {evAnalysis.dieIndex + 1}]</strong>에 특수 주사위를 굴리면
+                          평균 <strong className="text-green-400">+{Math.round(evAnalysis.evGain)}</strong>의 이득이 예상됩니다!
                         </div>
                       </div>
                     )}
 
                     {!allUsed && bestPath && (
-                      <div className="bg-gray-800 border-2 border-purple-500/30 p-5 rounded-2xl flex flex-col items-center shadow-lg">
-                        <div className="text-gray-300 font-bold mb-4 flex items-center justify-between w-full text-xs sm:text-base">
+                      <div className="bg-gray-800 border-2 border-purple-500/30 p-3 md:p-5 rounded-2xl flex flex-col items-center shadow-lg">
+                        <div className="text-gray-300 font-bold mb-2 md:mb-4 flex items-center justify-between w-full text-xs sm:text-base">
                           <span>🌟 추천 이동 순서</span>
-                          <span className="text-blue-300 font-black text-sm sm:text-lg">결과 획득 비료: <span className="text-yellow-400">+{bestPath.totalScore}</span></span>
+                          <span className="text-blue-300 font-black text-xs sm:text-lg">결과 획득 비료: <span className="text-yellow-400 text-sm md:text-lg">+{bestPath.totalScore}</span></span>
                         </div>
-                        <div className="flex flex-wrap items-center justify-center gap-2 mb-4 bg-gray-900 p-3 sm:p-4 rounded-xl border border-gray-700 w-full">
+                        <div className="flex flex-wrap items-center justify-center gap-1.5 md:gap-2 mb-3 md:mb-4 bg-gray-900 p-2 sm:p-4 rounded-xl border border-gray-700 w-full">
                           {bestPath.sequence.map((step: any, i: number) => (
                             <React.Fragment key={i}>
                               <div className="flex flex-col items-center">
-                                <span className="text-[10px] text-purple-400/80 font-bold mb-1">주사위 {step.dieIndex + 1}</span>
-                                <div className={`bg-gray-800 border-2 rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 flex items-center gap-2 shadow-lg ${step.specEffect ? 'border-yellow-500/60' : 'border-blue-500/50'}`}>
-                                  <span className={`${step.specEffect ? 'text-yellow-300' : 'text-blue-300'} font-black text-3xl sm:text-4xl`}>{DICE_FACES[step.dieValue - 1]}</span>
-                                  {step.specEffect && <span className="text-yellow-400 border-yellow-700/50 text-[10px] font-black leading-tight text-left border-l pl-2">특주<br/>{SPEC_DIE_META[step.specEffect as SpecDie].label}</span>}
+                                <span className="text-[9px] md:text-[10px] text-purple-400/80 font-bold mb-0.5 md:mb-1">주사위 {step.dieIndex + 1}</span>
+                                <div className={`bg-gray-800 border-2 rounded-lg md:rounded-xl px-1.5 py-1 md:px-3 md:py-1.5 flex items-center gap-1.5 md:gap-2 shadow-lg ${step.specEffect ? 'border-yellow-500/60' : 'border-blue-500/50'}`}>
+                                  <span className={`${step.specEffect ? 'text-yellow-300' : 'text-blue-300'} font-black text-xl md:text-4xl`}>{DICE_FACES[step.dieValue - 1]}</span>
+                                  {step.specEffect && <span className="text-yellow-400 border-yellow-700/50 text-[8px] md:text-[10px] font-black leading-tight text-left border-l pl-1.5 md:pl-2">특주<br/>{SPEC_DIE_META[step.specEffect as SpecDie].label}</span>}
                                 </div>
                               </div>
-                              {i < bestPath.sequence.length - 1 && <span className="text-gray-600 text-lg sm:text-xl font-black mt-4">▶</span>}
+                              {i < bestPath.sequence.length - 1 && <span className="text-gray-600 text-sm md:text-xl font-black mt-3 md:mt-4">▶</span>}
                             </React.Fragment>
                           ))}
                         </div>
                         <button onClick={() => applyPathToGame(bestPath!)}
-                          className="w-full py-3 sm:py-3.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold shadow-[0_0_15px_rgba(147,51,234,0.4)] transition-all">
+                          className="w-full py-2.5 sm:py-3.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-sm md:text-base font-bold shadow-[0_0_10px_rgba(147,51,234,0.4)] transition-all">
                           ✅ 위 경로로 내 보드 기록하기
                         </button>
                       </div>
