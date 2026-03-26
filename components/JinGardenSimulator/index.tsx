@@ -939,6 +939,9 @@ export default function JinGardenSimulator() {
                         <div className="text-gray-300 text-[11px] md:text-sm text-center">
                           현재 패에서는 <strong className="text-yellow-400 font-black">[주사위 {evAnalysis.dieIndex + 1}]</strong>에 특수 주사위를 굴리면
                           평균 <strong className="text-green-400">+{Math.round(evAnalysis.evGain)}</strong>의 이득이 예상됩니다!
+                          <div className="mt-1.5 md:mt-2 text-[10px] md:text-xs text-gray-400 bg-gray-900/60 rounded-lg px-2.5 py-1 inline-block border border-gray-700">
+                            (최고 이득: <strong className="text-blue-400">{evAnalysis.maxGain > 0 ? '+' : ''}{evAnalysis.maxGain}</strong> / 최악 이득: <strong className="text-red-400">{evAnalysis.worstGain > 0 ? '+' : ''}{evAnalysis.worstGain}</strong>)
+                          </div>
                         </div>
                       </div>
                     )}
@@ -953,13 +956,13 @@ export default function JinGardenSimulator() {
                           {bestPath.sequence.map((step: any, i: number) => (
                             <React.Fragment key={i}>
                               <div className="flex flex-col items-center">
-                                <span className="text-[9px] md:text-[10px] text-purple-400/80 font-bold mb-0.5 md:mb-1">주사위 {step.dieIndex + 1}</span>
-                                <div className={`bg-gray-800 border-2 rounded-lg md:rounded-xl px-1.5 py-1 md:px-3 md:py-1.5 flex items-center gap-1.5 md:gap-2 shadow-lg ${step.specEffect ? 'border-yellow-500/60' : 'border-blue-500/50'}`}>
-                                  <span className={`${step.specEffect ? 'text-yellow-300' : 'text-blue-300'} font-black text-xl md:text-4xl`}>{DICE_FACES[step.dieValue - 1]}</span>
-                                  {step.specEffect && <span className="text-yellow-400 border-yellow-700/50 text-[8px] md:text-[10px] font-black leading-tight text-left border-l pl-1.5 md:pl-2">특주<br/>{SPEC_DIE_META[step.specEffect as SpecDie].label}</span>}
+                                <span className="text-[10px] md:text-[13px] text-purple-400/80 font-bold mb-1 md:mb-2">주사위 {step.dieIndex + 1}</span>
+                                <div className={`bg-gray-800 border-2 rounded-xl md:rounded-2xl px-2.5 py-1.5 md:px-5 md:py-3 flex items-center gap-2 md:gap-4 shadow-lg ${step.specEffect ? 'border-yellow-500/60' : 'border-blue-500/50'}`}>
+                                  <span className={`${step.specEffect ? 'text-yellow-300' : 'text-blue-300'} font-black text-3xl md:text-6xl leading-none`}>{DICE_FACES[step.dieValue - 1]}</span>
+                                  {step.specEffect && <span className="text-yellow-400 border-yellow-700/50 text-[10px] md:text-sm font-black leading-tight text-left border-l pl-2 md:pl-4">특주<br/>{SPEC_DIE_META[step.specEffect as SpecDie].label}</span>}
                                 </div>
                               </div>
-                              {i < bestPath.sequence.length - 1 && <span className="text-gray-600 text-sm md:text-xl font-black mt-3 md:mt-4">▶</span>}
+                              {i < bestPath.sequence.length - 1 && <span className="text-gray-600 text-lg md:text-3xl font-black mt-4 md:mt-6">▶</span>}
                             </React.Fragment>
                           ))}
                         </div>
