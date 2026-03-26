@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import {
   Space, MonsterType, SpaceType, GameState,
   SPACE_META, MONSTER_META, SPEC_DIE_META, CUMULATIVE_REWARDS, SpecDie,
@@ -358,6 +358,33 @@ const MONSTER_CYCLE: MonsterType[] = ['none', 'golden', 'poison', 'mystery'];
 export default function JinGardenSimulator() {
   const [board, setBoard] = useState<Space[]>(() => createDefaultBoard());
   const [game, setGame] = useState<GameState>(INITIAL_GAME);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // 로컬 스토리지에서 상태 불러오기
+  useEffect(() => {
+    const savedBoard = localStorage.getItem('jinGardenBoard');
+    const savedGame = localStorage.getItem('jinGardenGame');
+    if (savedBoard) {
+      try { setBoard(JSON.parse(savedBoard)); } catch (e) { console.error('Failed to parse board', e); }
+    }
+    if (savedGame) {
+      try { setGame(JSON.parse(savedGame)); } catch (e) { console.error('Failed to parse game', e); }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // 상태 변경 시 로컬 스토리지에 자동 저장
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem('jinGardenBoard', JSON.stringify(board));
+    }
+  }, [board, isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem('jinGardenGame', JSON.stringify(game));
+    }
+  }, [game, isLoaded]);
   const [tab, setTab] = useState<'sim' | 'guide'>('sim');
   const [editMode, setEditMode] = useState(false);
   const [editSubMode, setEditSubMode] = useState<'fert' | 'monster' | 'mole' | 'specdie'>('fert');
@@ -566,11 +593,23 @@ export default function JinGardenSimulator() {
           <p className="text-gray-500 text-sm mt-0.5">주사위 입력 → 최적 선택 계산기</p>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => { setBoard(createDefaultBoard()); setGame(g => ({ ...g, mysteryBeeTurnsLeft: null })); }}
+          <button onClick={() => { 
+            if (confirm('보드판을 정말 초기화하시겠습니까?')) {
+              const defaultBoard = createDefaultBoard();
+              setBoard(defaultBoard); 
+              setGame(g => ({ ...g, mysteryBeeTurnsLeft: null })); 
+            }
+          }}
             className="px-4 py-2 bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 text-gray-300 text-sm font-bold rounded-xl">
             보드 초기화
           </button>
-          <button onClick={() => { setGame(INITIAL_GAME); setInputDice([null, null, null]); setHighlightPos(null); }}
+          <button onClick={() => { 
+            if (confirm('현재 진행 상황(위치, 비료, 주사위 등)을 초기화하시겠습니까?')) {
+              setGame(INITIAL_GAME); 
+              setInputDice([null, null, null]); 
+              setHighlightPos(null); 
+            }
+          }}
             className="px-4 py-2 bg-red-950 hover:bg-red-900 border-2 border-red-800 text-red-400 text-sm font-bold rounded-xl">
             게임 초기화
           </button>
