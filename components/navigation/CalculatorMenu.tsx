@@ -21,15 +21,31 @@ export default function CalculatorMenu() {
             {/* Dropdown Menu */}
             <div className="absolute right-0 top-full mt-2 w-56 bg-slate-900 border-2 border-indigo-500/50 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[9999]">
                 <div className="py-2">
-                    {/* 0. Price Tracker - NEW! */}
                     <Link
                         href="/blog/item-price-tracker-2026"
-                        className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                        className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors border-b border-white/5"
                     >
                         <span className="text-xl">📊</span>
                         <div className="flex flex-col">
                             <span className="font-semibold">아이템 시세 추적</span>
                             <span className="text-xs text-slate-400">매일 업데이트</span>
+                        </div>
+                    </Link>
+
+                    {/* Jin's Garden Calculator - NEW! */}
+                    <Link
+                        href="/tools/jin-garden"
+                        className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 transition-colors"
+                    >
+                        <div className="relative w-6 h-6 flex-shrink-0">
+                            <Image src="/images/jin-garden-icon.png" alt="Jin Garden" fill className="object-contain" />
+                        </div>
+                        <div className="flex flex-col">
+                            <div className="flex items-center gap-1.5">
+                                <span className="font-semibold text-sm">진의 정원 계산기</span>
+                                <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm">NEW</span>
+                            </div>
+                            <span className="text-[10px] text-slate-400 mt-0.5">최적 주사위 경로 추천</span>
                         </div>
                     </Link>
 
