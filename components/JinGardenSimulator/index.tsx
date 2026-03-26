@@ -285,11 +285,11 @@ function StrategyGuide() {
         <h3 className="text-purple-300 font-black text-xl mb-4">🎲 특수 주사위 — 언제 쓸까?</h3>
         <div className="space-y-3">
           {[
-            { icon: '🟡', title: '비료×2 (효과 #3)', desc: '400~600비료 칸 바로 앞에 있을 때 사용. 착지 비료 2배 획득.' },
-            { icon: '🟢', title: '×3 (효과 #2)', desc: '멀리 있는 고비료 칸이나 특주 지급 칸에 도달할 때.' },
-            { icon: '🟣', title: '빽도 ×(−3) (효과 #6)', desc: '1~5번 칸에 있을 때 사용 → START 역통과 +400보너스 + 착지비료!' },
-            { icon: '🔴', title: '−5 / −10 (효과 #4,5)', desc: '두더지 칸을 피하거나, 빽도 조건 생성 보조.' },
-            { icon: '🔵', title: '×2 (효과 #1)', desc: '중거리 고비료 칸 도달용. ×3이 없을 때의 차선책.' },
+            { icon: '🟡', title: '비료 획득량 ×2 (특주 3)', desc: '400~600비료 칸 바로 앞에 있을 때 사용. 도착 비료 2배 획득.' },
+            { icon: '🟢', title: '주사위 숫자 ×3 (특주 2)', desc: '멀리 있는 고비료 칸이나 특주 지급 칸에 도달할 때.' },
+            { icon: '🟣', title: '주사위 숫자 ×(−3) (특주 6)', desc: '1~5번 칸에 있을 때 사용 → 역방향 뒤로 가기로 START 보너스 재획득!' },
+            { icon: '🔴', title: '숫자 −5 / −10 (특주 4, 5)', desc: '두더지나 몬스터 칸을 디테일하게 피할 때 사용.' },
+            { icon: '🔵', title: '주사위 숫자 ×2 (특주 1)', desc: '중거리 고비료 칸 도달용. ×3이 없을 때의 차선책.' },
           ].map(item => (
             <div key={item.title} className="flex gap-4 bg-gray-900/60 rounded-xl p-4">
               <span className="text-2xl">{item.icon}</span>
@@ -913,7 +913,7 @@ export default function JinGardenSimulator() {
                                className={`w-full font-bold rounded-lg px-2 py-1.5 md:py-1 border outline-none text-[11px] md:text-xs text-center cursor-pointer appearance-none ${game.rolledSpecDice[i] ? 'bg-yellow-900/40 text-yellow-300 border-yellow-500/50' : 'bg-gray-800 text-gray-400 border-gray-600 hover:border-yellow-600/50'}`}>
                                  <option value="">적용 안함</option>
                                  {([1, 2, 3, 4, 5, 6] as SpecDie[]).map(spec => (
-                                   <option key={spec} value={spec}>{SPEC_DIE_META[spec].label}</option>
+                                   <option key={spec} value={spec}>{spec}. {SPEC_DIE_META[spec].desc}</option>
                                  ))}
                               </select>
                               <div className="absolute right-2 top-auto bottom-[9px] md:top-1/2 md:-translate-y-1/2 md:bottom-auto pointer-events-none text-[8px] md:text-[10px] text-gray-500">▼</div>

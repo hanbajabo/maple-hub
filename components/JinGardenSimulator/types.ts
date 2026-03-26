@@ -59,12 +59,12 @@ export const MONSTER_META: Record<MonsterType, { label: string; icon: string; mu
 };
 
 export const SPEC_DIE_META: Record<SpecDie, { label: string; desc: string; color: string }> = {
-  1: { label: '×2',    desc: '주사위 숫자 ×2',        color: '#60a5fa' },
-  2: { label: '×3',    desc: '주사위 숫자 ×3',        color: '#34d399' },
-  3: { label: '비료×2', desc: '착지 칸 비료 ×2',    color: '#fbbf24' },
-  4: { label: '-5',    desc: '주사위 숫자 -5',        color: '#f87171' },
-  5: { label: '-10',   desc: '주사위 숫자 -10',       color: '#ef4444' },
-  6: { label: '빽도',  desc: '주사위 ×(-3) 역방향',   color: '#a78bfa' },
+  1: { label: '숫자 ×2',    desc: '주사위 숫자 ×2',        color: '#60a5fa' },
+  2: { label: '숫자 ×3',    desc: '주사위 숫자 ×3',        color: '#34d399' },
+  3: { label: '비료 ×2',    desc: '도착 칸 성장 비료 획득량 ×2', color: '#fbbf24' },
+  4: { label: '숫자 -5',    desc: '주사위 숫자 -5',        color: '#f87171' },
+  5: { label: '숫자 -10',   desc: '주사위 숫자 -10',       color: '#ef4444' },
+  6: { label: '숫자 ×(-3)', desc: '주사위 숫자 ×(-3)',   color: '#a78bfa' },
 };
 
 export const CUMULATIVE_REWARDS = [
