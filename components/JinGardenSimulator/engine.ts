@@ -82,8 +82,9 @@ export function analyzeDie(
   if (landSpace.hasSpecDie) notes.push('🎲 특수 주사위 획득!');
 
   // Scoring: total fert + special die value bonus
+  const SPEC_DIE_BONUS = 400; // 특수 주사위 1개의 기대 추가 이득 (빽도 메타 ~500, 평균 ~400)
   let score = total;
-  if (landSpace.hasSpecDie) score += 200;
+  if (landSpace.hasSpecDie) score += SPEC_DIE_BONUS;
   // Penalize mole unless backtrack nets positive
   if ((landPos === rawLandPos) && (landSpace.type === 'mole2' || landSpace.type === 'mole3') && !landSpace.moveUsed) {
     score -= 200;
