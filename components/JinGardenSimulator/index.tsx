@@ -109,18 +109,19 @@ function BoardGrid({ board, playerPos, highlightPos, editMode, onCellClick, chil
 }) {
   const cells = useMemo(() => buildGridCells(), []);
   return (
-    <div className="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
-      <div className="relative grid gap-0.5 sm:gap-1 mx-auto min-w-[700px] lg:min-w-full" style={{ gridTemplateColumns: 'repeat(11, 1fr)' }}>
-      {/* 내측 9x9 공간 레이아웃: 자식 컨텐츠(주사위 입력 등) 렌더링 */}
-      {children && (
-        <div style={{ gridRow: '2 / 11', gridColumn: '2 / 11' }} className="flex items-center justify-center p-2 sm:p-5 pointer-events-none z-10">
-          <div className="pointer-events-auto w-full max-w-2xl shadow-2xl rounded-2xl">
-            {children}
+    <div className="w-full">
+      <div className="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
+        <div className="relative grid gap-0.5 sm:gap-1 mx-auto min-w-[700px] lg:min-w-full" style={{ gridTemplateColumns: 'repeat(11, 1fr)' }}>
+        {/* 내측 9x9 공간 레이아웃: 자식 컨텐츠(주사위 입력 등) 렌더링 (PC 전용) */}
+        {children && (
+          <div style={{ gridRow: '2 / 11', gridColumn: '2 / 11' }} className="hidden md:flex items-center justify-center p-2 sm:p-5 pointer-events-none z-10">
+            <div className="pointer-events-auto w-full max-w-2xl shadow-2xl rounded-2xl">
+              {children}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {cells.map((cell, i) => {
+        {cells.map((cell, i) => {
         if (cell.pos === null) return null; // 빈 공간은 단일 div로 처리했으므로 무시
 
         const space = board[cell.pos];
@@ -139,6 +140,13 @@ function BoardGrid({ board, playerPos, highlightPos, editMode, onCellClick, chil
       })}
       </div>
     </div>
+    {/* 모바일 하단 렌더링 */}
+    {children && (
+      <div className="md:hidden mt-4 w-full">
+        {children}
+      </div>
+    )}
+  </div>
   );
 }
 
@@ -241,23 +249,28 @@ function CellEditor({ space, board, setBoard, onClose }: {
 // ── Dice Picker ────────────────────────────────────────────────
 function DiePicker({ label, value, onChange }: { label: string; value: number | null; onChange: (v: number) => void }) {
   return (
-    <div className="flex-1">
-      <div className="text-gray-300 text-base font-bold mb-2 text-center">{label}</div>
-      <div className="grid grid-cols-3 gap-2">
+    <div className="flex-1 bg-gray-900/50 md:bg-transparent p-3 md:p-0 rounded-xl md:rounded-none border border-gray-800 md:border-none">
+      <div className="text-gray-300 text-sm md:text-base font-bold mb-2 md:text-center flex justify-between md:block items-center">
+        <span>{label}</span>
+        <span className={`md:hidden text-xs font-black px-2 py-0.5 rounded ${value ? 'bg-purple-900/50 text-purple-300' : 'bg-gray-800 text-gray-500'}`}>
+          {value ? `눈금 ${value}` : '선택 대기'}
+        </span>
+      </div>
+      <div className="grid grid-cols-6 md:grid-cols-3 gap-1.5 md:gap-2">
         {DICE_FACES.map((face, i) => {
           const v = i + 1;
           return (
             <button key={v} onClick={() => onChange(v)}
-              className={`aspect-square flex items-center justify-center text-5xl rounded-2xl border-2 transition-all hover:scale-105
+              className={`aspect-square flex items-center justify-center text-3xl md:text-5xl rounded-lg md:rounded-2xl border-2 transition-all hover:scale-105
                 ${value === v
-                  ? 'bg-purple-600 border-purple-300 shadow-xl shadow-purple-900/60'
+                  ? 'bg-purple-600 border-purple-300 shadow-lg md:shadow-xl shadow-purple-900/60'
                   : 'bg-gray-800 border-gray-600 hover:border-purple-500 hover:bg-gray-700'}`}>
-              {face}
+              <span className="mb-0.5 md:mb-0">{face}</span>
             </button>
           );
         })}
       </div>
-      <div className={`text-center text-base font-black mt-2 ${value ? 'text-purple-300' : 'text-gray-700'}`}>
+      <div className={`hidden md:block text-center text-base font-black mt-2 ${value ? 'text-purple-300' : 'text-gray-700'}`}>
         {value ? `눈금 ${value}` : '미선택'}
       </div>
     </div>
@@ -834,7 +847,7 @@ export default function JinGardenSimulator() {
             <BoardGrid board={board} playerPos={game.position}
               highlightPos={highlightPos} editMode={editMode} onCellClick={handleCellClick}>
               {/* 주사위 입력 UI를 Board 가운데에 배치 */}
-              <div className="bg-gray-900 border-2 border-purple-700/60 rounded-2xl p-5 w-full max-h-[60vh] overflow-y-auto bg-opacity-95 backdrop-blur-sm shadow-xl shadow-purple-900/40 custom-scrollbar">
+              <div className="bg-gray-900 border-2 border-purple-700/60 rounded-2xl p-4 md:p-5 w-full md:max-h-[60vh] md:overflow-y-auto bg-opacity-95 md:backdrop-blur-sm shadow-xl shadow-purple-900/40 custom-scrollbar">
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <div className="text-purple-300 font-black text-xl">🎲 주사위 결과 입력</div>
