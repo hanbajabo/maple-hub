@@ -61,42 +61,42 @@ function BoardCell({ space, isPlayer, isSelected, isHighlight, editMode, onClick
     <button
       onClick={onClick}
       style={{ background: cellBg, borderColor: cellBorder }}
-      className={`relative flex flex-col items-center justify-center w-full aspect-square rounded-xl border-2 transition-all
-        ${isPlayer ? 'shadow-[0_0_16px_#ef4444]' : ''}
-        ${fertTheme ? `shadow-[0_0_6px_${fertTheme.border}60]` : ''}
+      className={`relative flex flex-col items-center justify-center w-full aspect-square rounded-[4px] md:rounded-xl border md:border-2 transition-all
+        ${isPlayer ? 'shadow-[0_0_8px_#ef4444] md:shadow-[0_0_16px_#ef4444]' : ''}
+        ${fertTheme ? `shadow-[0_0_4px_${fertTheme.border}60] md:shadow-[0_0_6px_${fertTheme.border}60]` : ''}
         ${editMode ? 'cursor-crosshair hover:brightness-125' : 'cursor-pointer hover:brightness-110'}`}
     >
-      {isPlayer && <div className="absolute inset-0 rounded-xl bg-red-400/20 border-2 border-red-300 animate-pulse pointer-events-none" />}
-      {hasMonster && <div className="absolute -top-3 -right-3 text-3xl z-20 drop-shadow-lg select-none">{mon.icon}</div>}
+      {isPlayer && <div className="absolute inset-0 rounded-[4px] md:rounded-xl bg-red-400/20 border-2 border-red-300 animate-pulse pointer-events-none" />}
+      {hasMonster && <div className="absolute -top-1 -right-1 md:-top-3 md:-right-3 text-[14px] md:text-3xl z-20 drop-shadow-lg select-none">{mon.icon}</div>}
       {hasSpecDie && (
-        <div className="absolute -bottom-2 -right-2 text-xl z-20 drop-shadow-md select-none bg-blue-900/90 rounded-full w-8 h-8 flex items-center justify-center border-2 border-blue-400 shadow-[0_0_12px_rgba(96,165,250,0.7)]">
+        <div className="absolute -bottom-1 -right-1 md:-bottom-2 md:-right-2 text-[8px] md:text-xl z-20 drop-shadow-md select-none bg-blue-900/90 rounded-full w-4 h-4 md:w-8 md:h-8 flex items-center justify-center border md:border-2 border-blue-400 shadow-[0_0_4px_rgba(96,165,250,0.7)] md:shadow-[0_0_12px_rgba(96,165,250,0.7)]">
           🎲
         </div>
       )}
-      {space.moveUsed && isMoveTile && <div className="absolute top-1 left-1 w-2 h-2 rounded-full bg-gray-500" />}
-      {isPlayer && <div className="absolute -top-4 -left-3 text-3xl z-20 select-none drop-shadow-xl z-30">👤</div>}
+      {space.moveUsed && isMoveTile && <div className="absolute top-0.5 left-0.5 md:top-1 md:left-1 w-1 h-1 md:w-2 md:h-2 rounded-full bg-gray-500" />}
+      {isPlayer && <div className="absolute -top-2 -left-2 md:-top-4 md:-left-3 text-base md:text-3xl z-30 select-none drop-shadow-xl">👤</div>}
 
       {/* 비료칸 + 몬스터: 취소선 + 실제 획득량 */}
       {isFertTile && hasMonster ? (
         <div className="flex flex-col items-center select-none">
-          {space.type === 'start' && <span className="text-[10px] font-black mb-0.5 leading-none px-1 py-0.5 bg-black/20 rounded text-[#f5d0fe]">START</span>}
-          <span style={{ color: fertTheme?.color ?? '#9ca3af' }} className="text-[10px] line-through leading-none opacity-60">+{space.fert}</span>
-          <span style={{ color: mon.color }} className="font-black text-lg leading-tight">+{effectiveFert}</span>
-          <span style={{ color: mon.color }} className="text-[10px] leading-none font-bold">×{mon.mult}</span>
+          {space.type === 'start' && <span className="text-[5px] md:text-[10px] font-black mb-0 md:mb-0.5 leading-none px-0.5 md:px-1 py-[1px] md:py-0.5 bg-black/20 rounded text-[#f5d0fe]">START</span>}
+          <span style={{ color: fertTheme?.color ?? '#9ca3af' }} className="text-[6px] md:text-[10px] line-through leading-none opacity-60">+{space.fert}</span>
+          <span style={{ color: mon.color }} className="font-black text-[9px] sm:text-[10px] md:text-lg leading-tight">+{effectiveFert}</span>
+          <span style={{ color: mon.color }} className="text-[5px] md:text-[10px] leading-none font-bold">×{mon.mult}</span>
         </div>
       ) : baseLabel ? (
         <div className="flex flex-col items-center select-none">
           <span style={{ color: cellTextColor }} 
-            className={`font-black leading-tight text-center px-0.5 ${space.type === 'question' ? 'text-4xl' : 'text-base'}`}>
+            className={`font-black leading-tight text-center px-0.5 ${space.type === 'question' ? 'text-lg md:text-4xl' : 'text-[7px] md:text-base'}`}>
             {baseLabel}
           </span>
-          {space.type === 'start' && <span style={{ color: cellTextColor }} className="text-xs leading-none mt-0.5 opacity-80">+{space.fert}</span>}
+          {space.type === 'start' && <span style={{ color: cellTextColor }} className="text-[5px] md:text-xs leading-none mt-0.5 opacity-80">+{space.fert}</span>}
         </div>
       ) : (
-        <span style={{ color: cellTextColor }} className="font-black text-lg leading-tight text-center select-none">+{space.fert}</span>
+        <span style={{ color: cellTextColor }} className="font-black text-[9px] sm:text-[10px] md:text-lg leading-tight text-center select-none">+{space.fert}</span>
       )}
 
-      <span className="text-gray-500 text-[10px] leading-none mt-0.5 select-none">#{space.id}</span>
+      <span className="text-gray-500 text-[5px] md:text-[10px] leading-none mt-0.5 select-none">#{space.id}</span>
     </button>
   );
 }
@@ -111,7 +111,7 @@ function BoardGrid({ board, playerPos, highlightPos, editMode, onCellClick, chil
   return (
     <div className="w-full">
       <div className="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
-        <div className="relative grid gap-0.5 sm:gap-1 mx-auto min-w-[700px] lg:min-w-full" style={{ gridTemplateColumns: 'repeat(11, 1fr)' }}>
+        <div className="relative grid gap-0.5 sm:gap-1 mx-auto min-w-[350px] md:min-w-[700px] lg:min-w-full" style={{ gridTemplateColumns: 'repeat(11, 1fr)' }}>
         {/* 내측 9x9 공간 레이아웃: 자식 컨텐츠(주사위 입력 등) 렌더링 (PC 전용) */}
         {children && (
           <div style={{ gridRow: '2 / 11', gridColumn: '2 / 11' }} className="hidden md:flex items-center justify-center p-2 sm:p-5 pointer-events-none z-10">
