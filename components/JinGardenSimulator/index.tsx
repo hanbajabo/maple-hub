@@ -6,7 +6,7 @@ import {
 } from './types';
 import { createDefaultBoard, buildGridCells } from './board';
 import { analyzeDie, getBestSequenceForDice, BestPathResult } from './engine';
-import { Camera, ImagePlus, RotateCcw, Map, Sparkles, Brain, Loader2 } from 'lucide-react';
+import { RotateCcw, Map, Sparkles } from 'lucide-react';
 
 const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
@@ -369,85 +369,6 @@ const INITIAL_GAME: GameState = {
 const FERT_CYCLE = [100, 200, 300, 400, 500, 600];
 const MONSTER_CYCLE: MonsterType[] = ['none', 'golden', 'poison', 'mystery'];
 
-function VisionUpload({ onResult }: { onResult: (data: any) => void }) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const processImage = async (file: File) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const reader = new FileReader();
-      const promise = new Promise<string>((resolve) => {
-        reader.onloadend = () => resolve(reader.result as string);
-      });
-      reader.readAsDataURL(file);
-      const base64 = await promise;
-
-      const res = await fetch('/api/vision', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ imageBase64: base64 })
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      onResult(data);
-    } catch (err: any) {
-      console.error(err);
-      setError(err.message || '인식에 실패했습니다. Gemini API 키를 확인하세요.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handlePaste = (e: React.ClipboardEvent) => {
-    const item = Array.from(e.clipboardData.items).find(i => i.type.startsWith('image'));
-    if (item) {
-      const file = item.getAsFile();
-      if (file) processImage(file);
-    }
-  };
-
-  return (
-    <div 
-      onPaste={handlePaste}
-      className={`relative group bg-gray-900/80 border-2 border-dashed rounded-2xl p-3 md:p-4 transition-all
-        ${loading ? 'border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.2)]' : 'border-gray-700 hover:border-purple-500/50 hover:bg-gray-800'}`}
-    >
-      <input 
-        type="file" 
-        accept="image/*" 
-        className="absolute inset-0 opacity-0 cursor-pointer z-10" 
-        onChange={(e) => e.target.files?.[0] && processImage(e.target.files[0])}
-        disabled={loading}
-      />
-      <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center
-          ${loading ? 'bg-purple-900/50 text-purple-300' : 'bg-gray-800 text-gray-400 group-hover:text-purple-300'}`}>
-          {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Camera className="w-6 h-6" />}
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <span className={`font-black text-sm md:text-base ${loading ? 'text-purple-300' : 'text-white group-hover:text-purple-200'}`}>
-              {loading ? 'AI 분석 중...' : '스크린샷 자동 입력'}
-            </span>
-            {!loading && <span className="bg-purple-900/40 text-purple-400 text-[10px] font-bold px-1.5 py-0.5 rounded border border-purple-800/50 transition-all group-hover:bg-purple-600 group-hover:text-white">Gemini</span>}
-          </div>
-          <p className="text-[10px] md:text-xs text-gray-500 mt-0.5 leading-tight">
-            캡처 복붙(Ctrl+V) 또는 클릭<br className="hidden md:block" />
-            (위치, 주사위, 비료 자동 판독)
-          </p>
-        </div>
-      </div>
-      {error && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-red-950/90 text-red-400 text-[10px] p-2 rounded-lg border border-red-900 z-50 animate-bounce">
-          ⚠️ {error}
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function JinGardenSimulator() {
   const [board, setBoard] = useState<Space[]>(() => createDefaultBoard());
   const [game, setGame] = useState<GameState>(INITIAL_GAME);
@@ -676,62 +597,36 @@ export default function JinGardenSimulator() {
     <div className="max-w-6xl mx-auto" style={{ fontFamily: 'var(--font-noto-sans-kr), sans-serif' }}>
 
       {/* Header */}
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-4 md:mb-6">
-        <div className="text-center lg:text-left">
-          <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-purple-400 via-pink-300 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 mb-4 md:mb-5">
+        <div className="text-center md:text-left">
+          <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-r from-purple-400 via-pink-300 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(168,85,247,0.2)]">
             🌸 진의 신비한 정원 계산기
           </h1>
-          <div className="flex flex-col md:flex-row items-center gap-2 mt-1">
-            <p className="text-gray-400 text-sm font-medium">인게임 스크린샷 캡처본을 붙여넣으면 자동 세팅됩니다!</p>
-            <div className="flex gap-1">
-              <span className="bg-blue-900/30 text-blue-400 text-[10px] px-2 py-0.5 rounded border border-blue-800/40 font-bold">Screenshot OCR</span>
-              <span className="bg-green-900/30 text-green-400 text-[10px] px-2 py-0.5 rounded border border-green-800/40 font-bold">Auto Set</span>
-            </div>
-          </div>
+          <p className="text-gray-500 text-xs md:text-sm mt-0.5">주사위 입력 → 최적 선택 계산기</p>
         </div>
-
-        <div className="flex flex-col md:flex-row items-stretch gap-3 w-full lg:w-auto">
-          <VisionUpload onResult={(data) => {
-            if (data.current_position !== null) {
-              setGame(g => ({ ...g, position: data.current_position }));
+        <div className="flex gap-2 w-full md:w-auto">
+          <button onClick={() => { 
+            if (confirm('보드판을 정말 초기화하시겠습니까?')) {
+              const defaultBoard = createDefaultBoard();
+              setBoard(defaultBoard); 
+              setGame(g => ({ ...g, mysteryBeeTurnsLeft: null })); 
             }
-            if (data.fertilizer > 0) {
-              setGame(g => ({ ...g, fertilizer: data.fertilizer }));
+          }}
+            className="flex-1 md:flex-none px-3 md:px-5 py-2.5 bg-gray-900 hover:bg-gray-800 border-2 border-gray-700 text-gray-300 text-xs md:text-sm font-black rounded-xl transition-all hover:border-purple-500/50 flex items-center justify-center gap-2">
+            <Map className="w-4 h-4" />
+            보드 초기화
+          </button>
+          <button onClick={() => { 
+            if (confirm('현재 진행 상황(위치, 비료, 주사위 등)을 초기화하시겠습니까?')) {
+              setGame(INITIAL_GAME); 
+              setInputDice([null, null, null]); 
+              setHighlightPos(null); 
             }
-            if (data.dice && data.dice.length > 0) {
-              const newDice = [...inputDice];
-              data.dice.forEach((val: number, i: number) => {
-                if (i < 3) newDice[i] = val;
-              });
-              setInputDice(newDice);
-            }
-            alert('📸 스크린샷 판독이 완료되었습니다!');
-          }} />
-
-          <div className="flex gap-2">
-            <button onClick={() => { 
-              if (confirm('보드판을 정말 초기화하시겠습니까?')) {
-                const defaultBoard = createDefaultBoard();
-                setBoard(defaultBoard); 
-                setGame(g => ({ ...g, mysteryBeeTurnsLeft: null })); 
-              }
-            }}
-              className="flex-1 lg:flex-none px-4 py-2 bg-gray-900 hover:bg-gray-800 border-2 border-gray-700 text-gray-300 text-sm font-bold rounded-2xl transition-all hover:border-purple-500/50 flex flex-col items-center justify-center min-w-[90px]">
-              <Map className="w-5 h-5 mb-1" />
-              <span className="text-[10px]">보드 초기화</span>
-            </button>
-            <button onClick={() => { 
-              if (confirm('현재 진행 상황(위치, 비료, 주사위 등)을 초기화하시겠습니까?')) {
-                setGame(INITIAL_GAME); 
-                setInputDice([null, null, null]); 
-                setHighlightPos(null); 
-              }
-            }}
-              className="flex-1 lg:flex-none px-4 py-2 bg-red-950/30 hover:bg-red-900/50 border-2 border-red-900/40 text-red-400 text-sm font-bold rounded-2xl transition-all hover:border-red-500 flex flex-col items-center justify-center min-w-[90px]">
-              <RotateCcw className="w-5 h-5 mb-1" />
-              <span className="text-[10px]">데이터 리셋</span>
-            </button>
-          </div>
+          }}
+            className="flex-1 md:flex-none px-3 md:px-5 py-2.5 bg-red-950/20 hover:bg-red-900/40 border-2 border-red-900/40 text-red-400 text-xs md:text-sm font-black rounded-xl transition-all hover:border-red-500/60 flex items-center justify-center gap-2">
+            <RotateCcw className="w-4 h-4" />
+            데이터 리셋
+          </button>
         </div>
       </div>
 
@@ -872,8 +767,8 @@ export default function JinGardenSimulator() {
         <div className="hidden md:flex items-center gap-3 ml-auto px-5 py-3 bg-gradient-to-r from-purple-900/30 to-blue-900/20 border border-purple-700/30 rounded-2xl shadow-inner backdrop-blur-sm">
           <Sparkles className="w-5 h-5 text-purple-400 animate-pulse" />
           <p className="text-xs sm:text-sm font-bold text-purple-300 leading-tight">
-            <span className="text-white">스크린샷 자동 분석</span>을 사용해 보세요! <span className="text-yellow-400">Ctrl+V</span>로 바로 입기!<br/>
-            <span className="text-[10px] text-purple-400 font-medium opacity-80">인게임 화면을 캡처해서 붙여넣으면 위치와 주사위가 즉시 세팅됩니다.</span>
+            <span className="text-white">편집 모드</span>를 사용해 내 인게임 보드판과 <span className="text-yellow-400">똑같이 맞춰보세요!</span><br/>
+            <span className="text-[10px] text-purple-400 font-medium opacity-80">몬스터, 비료 점수, 두더지 위치를 드래그/클릭으로 자유롭게 바꿀 수 있습니다.</span>
           </p>
         </div>
       </div>
