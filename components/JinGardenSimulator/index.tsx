@@ -599,14 +599,14 @@ export default function JinGardenSimulator() {
     <div className="max-w-6xl mx-auto" style={{ fontFamily: 'var(--font-noto-sans-kr), sans-serif' }}>
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-5">
-        <div>
-          <h1 className="text-3xl font-black bg-gradient-to-r from-purple-400 via-pink-300 to-purple-300 bg-clip-text text-transparent">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 mb-4 md:mb-5">
+        <div className="text-center md:text-left">
+          <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-r from-purple-400 via-pink-300 to-purple-300 bg-clip-text text-transparent">
             🌸 진의 신비한 정원 계산기
           </h1>
-          <p className="text-gray-500 text-sm mt-0.5">주사위 입력 → 최적 선택 계산기</p>
+          <p className="text-gray-500 text-xs md:text-sm mt-0.5">주사위 입력 → 최적 선택 계산기</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full md:w-auto">
           <button onClick={() => { 
             if (confirm('보드판을 정말 초기화하시겠습니까?')) {
               const defaultBoard = createDefaultBoard();
@@ -614,7 +614,7 @@ export default function JinGardenSimulator() {
               setGame(g => ({ ...g, mysteryBeeTurnsLeft: null })); 
             }
           }}
-            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 text-gray-300 text-sm font-bold rounded-xl">
+            className="flex-1 md:flex-none px-3 md:px-4 py-2 bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 text-gray-300 text-xs md:text-sm font-bold rounded-lg md:rounded-xl">
             보드 초기화
           </button>
           <button onClick={() => { 
@@ -624,7 +624,7 @@ export default function JinGardenSimulator() {
               setHighlightPos(null); 
             }
           }}
-            className="px-4 py-2 bg-red-950 hover:bg-red-900 border-2 border-red-800 text-red-400 text-sm font-bold rounded-xl">
+            className="flex-1 md:flex-none px-3 md:px-4 py-2 bg-red-950 hover:bg-red-900 border-2 border-red-800 text-red-400 text-xs md:text-sm font-bold rounded-lg md:rounded-xl">
             게임 초기화
           </button>
         </div>
@@ -633,8 +633,8 @@ export default function JinGardenSimulator() {
       {/* Stats bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 mb-4">
         {/* Position */}
-        <div className="bg-gray-900 border-2 border-gray-700 rounded-2xl p-4 text-center">
-          <div className="text-gray-500 text-sm mb-1">📍 현재 위치</div>
+        <div className="bg-gray-900 border-2 border-gray-700 rounded-xl md:rounded-2xl p-3 md:p-4 text-center">
+          <div className="text-gray-500 text-xs md:text-sm mb-0.5 md:mb-1">📍 현재 위치</div>
           {posEditing ? (
             <input autoFocus type="number" min={0} max={39} value={posInput}
               onChange={e => setPosInput(e.target.value)}
@@ -651,20 +651,20 @@ export default function JinGardenSimulator() {
                 if (!isNaN(n) && n >= 0 && n <= 39) setGame(g => ({ ...g, position: n }));
                 setPosEditing(false);
               }}
-              className="w-24 bg-gray-800 text-purple-300 font-black text-2xl text-center rounded-xl border-2 border-purple-500 focus:outline-none mx-auto block" />
+              className="w-16 md:w-24 bg-gray-800 text-purple-300 font-black text-xl md:text-2xl text-center rounded-lg md:rounded-xl border-2 border-purple-500 focus:outline-none mx-auto block" />
           ) : (
             <button
               onClick={() => { setPosInput(String(game.position)); setPosEditing(true); }}
-              className="text-purple-300 font-black text-3xl hover:text-purple-200 w-full block">
+              className="text-purple-300 font-black text-2xl md:text-3xl hover:text-purple-200 w-full block">
               #{game.position}
             </button>
           )}
-          <div className="text-gray-600 text-[10px] mt-1">클릭하여 변경</div>
+          <div className="text-gray-600 text-[9px] md:text-[10px] mt-1">클릭하여 변경</div>
         </div>
 
         {/* Fertilizer */}
-        <div className="bg-gray-900 border-2 border-gray-700 rounded-2xl p-4 text-center">
-          <div className="text-gray-500 text-sm mb-1">🌿 성장 비료</div>
+        <div className="bg-gray-900 border-2 border-gray-700 rounded-xl md:rounded-2xl p-3 md:p-4 text-center">
+          <div className="text-gray-500 text-xs md:text-sm mb-0.5 md:mb-1">🌿 성장 비료</div>
           {fertEditing ? (
             <input autoFocus type="number" value={fertInput}
               onChange={e => setFertInput(e.target.value)}
@@ -681,19 +681,19 @@ export default function JinGardenSimulator() {
                 if (!isNaN(n)) setGame(g => ({ ...g, fertilizer: n }));
                 setFertEditing(false);
               }}
-              className="w-full bg-gray-800 text-green-300 font-black text-2xl text-center rounded-xl border-2 border-green-500 focus:outline-none" />
+              className="w-full bg-gray-800 text-green-300 font-black text-xl md:text-2xl text-center rounded-lg md:rounded-xl border-2 border-green-500 focus:outline-none" />
           ) : (
             <button onClick={() => { setFertInput(String(game.fertilizer)); setFertEditing(true); }}
-              className="text-green-300 font-black text-3xl hover:text-green-200 block w-full whitespace-nowrap overflow-hidden">
+              className="text-green-300 font-black text-2xl md:text-3xl hover:text-green-200 block w-full whitespace-nowrap overflow-hidden">
               {game.fertilizer.toLocaleString()}개
             </button>
           )}
-          <div className="text-gray-600 text-[10px] mt-1">클릭하여 변경</div>
+          <div className="text-gray-600 text-[9px] md:text-[10px] mt-1">클릭하여 변경</div>
         </div>
 
         {/* Special Dice */}
-        <div className="bg-gray-900 border-2 border-gray-700 rounded-2xl p-4 text-center">
-          <div className="text-gray-500 text-sm mb-1">🎲 특수 주사위</div>
+        <div className="bg-gray-900 border-2 border-gray-700 rounded-xl md:rounded-2xl p-3 md:p-4 text-center">
+          <div className="text-gray-500 text-xs md:text-sm mb-0.5 md:mb-1">🎲 특수 주사위</div>
           {specEditing ? (
             <input autoFocus type="number" value={specInput}
               onChange={e => setSpecInput(e.target.value)}
@@ -710,19 +710,19 @@ export default function JinGardenSimulator() {
                 if (!isNaN(n)) setGame(g => ({ ...g, specialDiceCount: Math.max(0, n) }));
                 setSpecEditing(false);
               }}
-              className="w-20 bg-gray-800 text-yellow-300 font-black text-2xl text-center rounded-xl border-2 border-yellow-500 focus:outline-none mx-auto block" />
+              className="w-16 md:w-20 bg-gray-800 text-yellow-300 font-black text-xl md:text-2xl text-center rounded-lg md:rounded-xl border-2 border-yellow-500 focus:outline-none mx-auto block" />
           ) : (
             <button onClick={() => { setSpecInput(String(game.specialDiceCount)); setSpecEditing(true); }}
-              className="text-yellow-300 font-black text-3xl hover:text-yellow-200 block w-full">
+              className="text-yellow-300 font-black text-2xl md:text-3xl hover:text-yellow-200 block w-full">
               {game.specialDiceCount}개
             </button>
           )}
-          <div className="text-gray-600 text-[10px] mt-1">클릭하여 변경</div>
+          <div className="text-gray-600 text-[9px] md:text-[10px] mt-1">클릭하여 변경</div>
         </div>
 
         {/* Dice Rolled */}
-        <div className="bg-gray-900 border-2 border-gray-700 rounded-2xl p-4 text-center">
-          <div className="text-gray-500 text-sm mb-1">🎯 누적 굴린 수</div>
+        <div className="bg-gray-900 border-2 border-gray-700 rounded-xl md:rounded-2xl p-3 md:p-4 text-center">
+          <div className="text-gray-500 text-xs md:text-sm mb-0.5 md:mb-1">🎯 누적 굴린 수</div>
           {diceRolledEditing ? (
             <input autoFocus type="number" value={diceRolledInput}
               onChange={e => setDiceRolledInput(e.target.value)}
@@ -739,14 +739,14 @@ export default function JinGardenSimulator() {
                 if (!isNaN(n)) setGame(g => ({ ...g, diceRolled: Math.max(0, n) }));
                 setDiceRolledEditing(false);
               }}
-              className="w-20 bg-gray-800 text-pink-300 font-black text-2xl text-center rounded-xl border-2 border-pink-500 focus:outline-none mx-auto block" />
+              className="w-16 md:w-20 bg-gray-800 text-pink-300 font-black text-xl md:text-2xl text-center rounded-lg md:rounded-xl border-2 border-pink-500 focus:outline-none mx-auto block" />
           ) : (
             <button onClick={() => { setDiceRolledInput(String(game.diceRolled)); setDiceRolledEditing(true); }}
-              className="text-pink-300 font-black text-3xl hover:text-pink-200 block w-full">
+              className="text-pink-300 font-black text-2xl md:text-3xl hover:text-pink-200 block w-full">
               {game.diceRolled}개
             </button>
           )}
-          <div className="text-gray-600 text-[10px] mt-1">클릭하여 변경</div>
+          <div className="text-gray-600 text-[9px] md:text-[10px] mt-1">클릭하여 변경</div>
         </div>
       </div>
 
