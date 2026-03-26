@@ -475,15 +475,16 @@ export default function JinGardenSimulator() {
         }
       }
     } else if (editSubMode === 'specdie') {
-      if (['rocket', 'jumppad', 'mole2', 'mole3'].includes(space.type)) return;
+      if (['rocket', 'mole2', 'mole3'].includes(space.type)) return;
       setBoard(board.map(s => s.id === id ? { ...s, hasSpecDie: !s.hasSpecDie } : s));
     } else {
-      // 두더지 순환 (고정 칸 제외)
-      if (['start', 'rocket', 'jumppad', 'question'].includes(space.type)) return;
-      const MOLE_CYCLE: SpaceType[] = ['fert', 'mole2', 'mole3'];
-      const cur: SpaceType = ['mole2', 'mole3'].includes(space.type) ? space.type : 'fert';
-      const nextType = MOLE_CYCLE[(MOLE_CYCLE.indexOf(cur) + 1) % MOLE_CYCLE.length];
-      if (nextType === 'mole2' || nextType === 'mole3') {
+      // 이동 효과 순환 (고정 칸 제외: start, rocket, question)
+      if (['start', 'rocket', 'question'].includes(space.type)) return;
+      const MOVE_CYCLE: SpaceType[] = ['fert', 'mole2', 'mole3', 'jumppad'];
+      const cur: SpaceType = ['mole2', 'mole3', 'jumppad'].includes(space.type) ? space.type : 'fert';
+      const nextType = MOVE_CYCLE[(MOVE_CYCLE.indexOf(cur) + 1) % MOVE_CYCLE.length];
+      if (nextType === 'mole2' || nextType === 'mole3' || nextType === 'jumppad') {
+        // 동일 유형은 1개만 존재하도록 기존 것 제거
         const cleaned = board.map(s => s.type === nextType ? { ...s, type: 'fert' as SpaceType, fert: 100 } : s);
         cleaned[id] = { ...cleaned[id], type: nextType, fert: 0 };
         setBoard(cleaned);
@@ -795,7 +796,7 @@ export default function JinGardenSimulator() {
                     {([
                       ['fert',    '🌿 비료',   '클릭마다 100→200→300→400→500→600 순환'],
                       ['monster', '👾 몬스터', '클릭마다 없음→황금벌→독호문→신비한벌 순환'],
-                      ['mole',    '🐭 두더지', '클릭마다 없음→-2칸→-3칸 순환'],
+                      ['mole',    '🐭 이동효과', '클릭마다 없음→-2칸→-3칸→+3칸 순환'],
                       ['specdie', '🎲 특주', '특수 주사위 획득 칸 지정 (1개만 존재 가능)'],
                     ] as const).map(([m, label, tip]) => (
                       <button key={m}
@@ -825,7 +826,7 @@ export default function JinGardenSimulator() {
               <div className="mb-2 text-sm font-bold rounded-xl px-3 py-2 bg-yellow-900/30 border border-yellow-700/40 flex flex-wrap gap-x-4 gap-y-1">
                 {editSubMode === 'fert' && <span className="text-yellow-300">🌿 비료 모드: 비료 칸을 클릭하면 <strong>100→...→500→600→100</strong> 순환합니다</span>}
                 {editSubMode === 'monster' && <span className="text-yellow-300">👾 몬스터 모드: 칸을 클릭하면 <strong>없음→🐝황금벌(×2)→☠️독호문(×0.5)→✨신비한벌(×3)</strong> 순환합니다</span>}
-                {editSubMode === 'mole' && <span className="text-yellow-300">🐭 두더지 모드: 칸을 클릭하면 <strong>없음→-2칸→-3칸→없음</strong> 순환합니다 (유형당 1칸만 배치)</span>}
+                {editSubMode === 'mole' && <span className="text-yellow-300">🐭 이동효과 모드: 칸을 클릭하면 <strong>없음→-2칸→-3칸→+3칸(점프대)→없음</strong> 순환합니다 (유형당 1칸만 배치)</span>}
                 {editSubMode === 'specdie' && <span className="text-yellow-300">🎲 특수주사위 모드: 칸을 클릭하면 해당 칸을 <strong>🎲+특수주사위</strong> 칸으로 덮어씁니다. (보드에 1개만 존재 가능)</span>}
               </div>
             )}

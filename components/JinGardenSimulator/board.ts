@@ -42,7 +42,7 @@ const DEFAULTS: { type: SpaceType; fert: number }[] = [
   { type: 'fert',    fert: 100 }, // 32
   { type: 'fert',    fert: 100 }, // 33
   { type: 'fert',    fert: 100 }, // 34
-  { type: 'jumppad', fert: 0   }, // 35 점프대 +3
+  { type: 'fert',    fert: 100 }, // 35
   { type: 'fert',    fert: 100 }, // 36
   { type: 'fert',    fert: 100 }, // 37
   { type: 'fert',    fert: 100 }, // 38
