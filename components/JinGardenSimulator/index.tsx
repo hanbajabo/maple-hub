@@ -962,13 +962,21 @@ export default function JinGardenSimulator() {
                                   {step.specEffect && <span className="text-yellow-400 border-yellow-700/50 text-[10px] md:text-sm font-black leading-tight text-left border-l pl-2 md:pl-4">특주<br/>{SPEC_DIE_META[step.specEffect as SpecDie].label}</span>}
                                 </div>
                               </div>
-                              {i < bestPath.sequence.length - 1 && <span className="text-gray-600 text-lg md:text-3xl font-black mt-4 md:mt-6">▶</span>}
+                              {i < bestPath.sequence.length - 1 && (
+                                <div className="flex flex-col items-center justify-center mx-1 md:mx-2 mt-4 md:mt-6 gap-2">
+                                  <span className="text-gray-600 text-lg md:text-3xl font-black">▶</span>
+                                  <button onClick={() => applyPathToGame({ ...bestPath, sequence: bestPath.sequence.slice(0, i + 1) })}
+                                    className="text-[10px] md:text-xs text-blue-300 bg-blue-900/40 hover:bg-blue-800/60 border border-blue-700/50 px-2 py-1 rounded-lg transition-colors whitespace-nowrap shadow-sm">
+                                    여기까지 적용 (보드수정)
+                                  </button>
+                                </div>
+                              )}
                             </React.Fragment>
                           ))}
                         </div>
                         <button onClick={() => applyPathToGame(bestPath!)}
                           className="w-full py-2.5 sm:py-3.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-sm md:text-base font-bold shadow-[0_0_10px_rgba(147,51,234,0.4)] transition-all">
-                          ✅ 위 경로로 내 보드 기록하기
+                          ✅ 위 경로로 모두 기록하기
                         </button>
                       </div>
                     )}
