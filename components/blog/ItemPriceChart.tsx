@@ -418,7 +418,12 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
 
             {/* 시각화 차트 추가 */}
             <div className="mt-8 pt-8 border-t border-slate-700">
-                <h4 className="text-lg font-bold text-white mb-4">📈 가격 추이 그래프</h4>
+                <h4 className="text-lg font-bold text-white mb-4 flex flex-wrap items-center gap-2">
+                    📈 가격 추이 그래프
+                    <span className="text-sm font-normal text-slate-300/80 mt-1 sm:mt-0">
+                        (추적 아이템: {itemDisplayName[selectedItem] || selectedItem})
+                    </span>
+                </h4>
                 <div className="h-[300px] w-full bg-slate-900/50 rounded-xl p-4 border border-slate-700">
                     {isMounted ? (
                         <ResponsiveContainer width="100%" height="100%">
