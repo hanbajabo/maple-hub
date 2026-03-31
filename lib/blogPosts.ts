@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 체인지 버닝: 루시드 3주차 공략 (4월 3일)
+    {
+        slug: 'change-burning-lucid-week3-guide',
+        title: '🦋 체인지 버닝: 루시드 3주차 — 폭풍 레벨업 & 6차 스킬 해금!',
+        description: '37레벨에서 단숨에 46레벨+로! 선(先) 사냥 후(後) 악몽의 숲 3단계 핵심 동선과 45레벨 6차 스킬 해금 전략. 유니크 드랍률 15% 폭증 타이밍 완벽 공략.',
+        category: '이벤트 가이드',
+        date: '2026년 4월 3일',
+        readTime: '12분',
+        thumbnail: '🦋',
+        featured: true,
+    },
     // 체인지 버닝: 루시드 2주차 공략 (3월 27일)
     {
         slug: 'change-burning-lucid-week2-guide',
