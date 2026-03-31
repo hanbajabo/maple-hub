@@ -124,9 +124,9 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
         '도미': '도미네이터 펜던트',
         '자석펫': '자석펫 (7기)',
         '불안정한 시간의 파편': '불안정한 시간의 파편',
-        '블랙하트(스카)': '블랙하트 (본섭)',
-        '신마석(스카)': '신마석 (본섭)',
-        '연마석(스카)': '연마석 (본섭)',
+        '블랙하트(스카)': '블랙하트 (스카니아)',
+        '신마석(스카)': '신마석 (스카니아)',
+        '연마석(스카)': '연마석 (스카니아)',
     };
 
     return (
@@ -139,7 +139,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                 <p className="text-sm text-slate-400 mb-4">
                     {isEthernel
                         ? '에테르넬 평균 가격 (5개 직업군 평균) - 하단 표에서 직업별 상세 가격 확인'
-                        : '챌린저스 vs 본섭 가격 비교'
+                        : '챌린저스 vs 스카니아 가격 비교'
                     }
                 </p>
 
@@ -195,7 +195,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     <th className="text-right p-2 sm:p-4 text-red-400 font-bold">챌린저스</th>
                                 )}
                                 <th className="text-right p-2 sm:p-4 text-blue-400 font-bold">
-                                    {isEthernel ? '본섭 평균' : '본섭'}
+                                    {isEthernel ? '스카니아 평균' : '스카니아'}
                                 </th>
                                 {!isEthernel && (
                                     <th className="text-right p-2 sm:p-4 text-yellow-400 font-bold">차이</th>
@@ -337,7 +337,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                             <span className="text-lg font-bold text-white">{itemData[baselineDateIndex].challenger || '-'}억</span>
                                         </div>
                                         <div className="flex justify-between items-center">
-                                            <span className="text-sm text-blue-400 font-bold">본섭</span>
+                                            <span className="text-sm text-blue-400 font-bold">스카니아</span>
                                             <span className="text-lg font-bold text-white">{itemData[baselineDateIndex].main || '-'}억</span>
                                         </div>
                                     </div>
@@ -357,7 +357,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                             <span className="text-lg font-bold text-white">{itemData[itemData.length - 1].challenger || '-'}억</span>
                                         </div>
                                         <div className="flex justify-between items-center">
-                                            <span className="text-sm text-blue-400 font-bold">본섭</span>
+                                            <span className="text-sm text-blue-400 font-bold">스카니아</span>
                                             <span className="text-lg font-bold text-white">{itemData[itemData.length - 1].main || '-'}억</span>
                                         </div>
                                     </div>
@@ -386,7 +386,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                             </span>
                                         </div>
                                         <div className="flex justify-between items-center">
-                                            <span className="text-sm text-blue-400 font-bold">본섭</span>
+                                            <span className="text-sm text-blue-400 font-bold">스카니아</span>
                                             <span className={`text-lg font-bold ${((itemData[itemData.length - 1].main || 0) - (itemData[baselineDateIndex].main || 0)) > 0
                                                 ? 'text-red-400' : 'text-green-400'
                                                 }`}>
@@ -468,7 +468,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                 <Line
                                     type="monotone"
                                     dataKey="main"
-                                    name={isEthernel ? "본섭 평균 가격" : "본섭"}
+                                    name={isEthernel ? "스카니아 평균 가격" : "스카니아"}
                                     stroke="#3b82f6"
                                     strokeWidth={3}
                                     dot={{ fill: '#3b82f6', r: 3 }}
@@ -496,7 +496,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
             {data.length > 0 && data[data.length - 1].ethernelByJob && data[data.length - 1].ethernelByJob!.length > 0 && (
                 <div className="mt-12 pt-8 border-t border-slate-700">
                     <h4 className="text-2xl font-black text-white mb-4 flex items-center gap-2">
-                        ⚔️ 에테르넬 장비 직업별 가격 (본섭)
+                        ⚔️ 에테르넬 장비 직업별 가격 (스카니아)
                     </h4>
                     <p className="text-sm text-slate-300 mb-6">
                         최근 업데이트: <span className="text-blue-400 font-bold">{data[data.length - 1].date}</span> - 각 직업군별 에테르넬 장비 가격을 한눈에 확인하세요
