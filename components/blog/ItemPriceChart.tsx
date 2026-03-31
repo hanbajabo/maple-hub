@@ -25,18 +25,50 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
         setIsMounted(true);
     }, []);
 
-    // 데이터 구조 확인
-    console.log('=== 파싱된 날짜 목록 ===');
-    console.log(data.map(d => d.date).join(', '));
-    console.log('전체 데이터 개수:', data.length);
-
     // 아이템 카테고리 정의
     const itemCategories = {
         '칠흑 세트': ['거공', '고근', '커포', '루컨마', '마깃안', '몽벨', '마도서', '미트라', '창뱃', '언더컨트롤', '블랙하트(스카)'],
         '광휘 세트': ['근원의 속삭임', '죽음의 맹세', '불멸의 유산', '황홀한 악몽'],
         '에테르넬': ['에테르넬 모자', '에테르넬 상의', '에테르넬 하의', '에테르넬 견장', '에테르넬 신발', '에테르넬 장갑', '에테르넬 망토'],
         '장신구': ['가엔링', '데브팬', '블빈마', '파풀마', '분자벨', '트왈마', '에스텔라', '도미'],
-        '기타 아이템': ['컨4', '리4', '자석펫', '불안정한 시간의 파편', '신마석(스카)', '연마석(스카)'],
+        '기타 아이템': ['컨4', '리4', '자석펫', '불안정한 시간의 파편', '신마석(스카)', '연마석(스카)', '익셉셔널 벨트', '익셉셔널 얼장', '익셉셔널 눈장', '익셉셔널 훈장', '에리온의 조각', '아델레', '카이', '쁘띠 스노우'],
+    };
+
+    // 아이템 표시 이름 매핑
+    const itemDisplayName: Record<string, string> = {
+        '거공': '거대한 공포',
+        '고근': '고통의 근원',
+        '커포': '커맨더 포스 이어링',
+        '루컨마': '루즈 컨트롤 머신 마크',
+        '마깃안': '마력이 깃든 안대',
+        '몽벨': '몽환의 벨트',
+        '마도서': '저주받은 마도서',
+        '미트라': '미트라의 분노',
+        '창뱃': '창세의 뱃지',
+        '언더컨트롤': '컴플리트 언더컨트롤',
+        '가엔링': '가디언 엔젤 링',
+        '데브팬': '데이브레이크 펜던트',
+        '블빈마': '블랙빈 마크',
+        '파풀마': '파풀라투스 마크',
+        '분자벨': '분노한 자쿰의 벨트',
+        '리4': '리스트레인트 링 4레벨',
+        '컨4': '컨티뉴어스 링 4레벨',
+        '트왈마': '트와일라이트 마크',
+        '에스텔라': '에스텔라 이어링',
+        '도미': '도미네이터 펜던트',
+        '자석펫': '자석펫 (7기 평균값)',
+        '불안정한 시간의 파편': '불안정한 시간의 파편',
+        '블랙하트(스카)': '블랙하트 (스카니아)',
+        '신마석(스카)': '신마석 (스카니아)',
+        '연마석(스카)': '연마석 (스카니아)',
+        '아델레': '자석펫 아델레',
+        '카이': '자석펫 카이',
+        '쁘띠 스노우': '자석펫 쁘띠 스노우',
+        '익셉셔널 벨트': '익셉셔널 벨트',
+        '익셉셔널 얼장': '익셉셔널 얼굴장식',
+        '익셉셔널 눈장': '익셉셔널 눈장식',
+        '익셉셔널 훈장': '익셉셔널 훈장',
+        '에리온의 조각': '에리온의 조각',
     };
 
     // 모든 아이템 목록
@@ -44,9 +76,12 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
         const items = new Set<string>();
 
         // 제외할 아이템 키워드 목록
-        const excludedKeywords = ['부티크', '솜사탕', '웨폰'];
+        const excludedKeywords = ['부티크', '솜사탕', '웨폰', '리3', '컨3', '프리렌', '슈타르크', '페른'];
 
-        data.forEach((day) => {
+        // 최근 7일 내에 데이터가 한 번이라도 있었던 아이템만 추출 (데이터 누락 방지)
+        const recentDays = data.slice(-7);
+
+        recentDays.forEach((day) => {
             Object.keys(day.items).forEach((item) => {
                 // 제외 키워드가 포함되지 않은 아이템만 추가
                 if (!excludedKeywords.some(keyword => item.includes(keyword))) {
@@ -54,9 +89,25 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                 }
             });
         });
-        console.log('=== 전체 아이템 목록 ===');
-        console.log(Array.from(items).sort().join(', '));
-        return Array.from(items).sort();
+
+        // 칠흑, 광휘, 에테르넬 필수 품목은 데이터가 없어도 항상 목록에 유지 (기본값 설정 목적)
+        const essentialItems = [
+            ...Object.values(itemCategories['칠흑 세트']),
+            ...Object.values(itemCategories['광휘 세트']),
+            ...Object.values(itemCategories['에테르넬']),
+        ];
+        
+        essentialItems.forEach(item => {
+            if (!excludedKeywords.some(keyword => item.includes(keyword))) {
+                items.add(item);
+            }
+        });
+
+        return Array.from(items).sort((a, b) => {
+            const nameA = itemDisplayName[a] || a;
+            const nameB = itemDisplayName[b] || b;
+            return nameA.localeCompare(nameB, 'ko');
+        });
     }, [data]);
 
     const [selectedCategory, setSelectedCategory] = useState<string>('전체');
@@ -86,9 +137,19 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
             // 날짜 형식 안전성 검사 (YYYY-MM-DD)
             if (!day.date || day.date.length < 10) return null;
 
-            const priceInfo = day.items[selectedItem] || {};
-            // 데이터가 아예 없는 날은 제외하고 싶다면 아래 조건을 강화할 수 있음
-            // 현재는 날짜만 있으면 표시 (데이터 없으면 - 표시)
+            let priceInfo = { ...(day.items[selectedItem] || {}) };
+            
+            // 자석펫 3종(아델레, 카이, 쁘띠 스노우)이고 해당 데이터가 없으면, '자석펫'(7기 평균값) 데이터 사용
+            const individualPets = ['아델레', '카이', '쁘띠 스노우'];
+            if (individualPets.includes(selectedItem)) {
+                const avgPriceInfo = day.items['자석펫'] || {};
+                if (priceInfo.main === undefined || priceInfo.main === null) {
+                    priceInfo.main = avgPriceInfo.main;
+                }
+                if (priceInfo.challenger === undefined || priceInfo.challenger === null) {
+                    priceInfo.challenger = avgPriceInfo.challenger;
+                }
+            }
 
             return {
                 date: day.date,
@@ -100,34 +161,6 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
     }, [data, selectedItem]);
 
     const isEthernel = selectedItem.startsWith('에테르넬');
-
-    const itemDisplayName: Record<string, string> = {
-        '거공': '거대한 공포',
-        '고근': '고통의 근원',
-        '커포': '커맨더 포스 이어링',
-        '루컨마': '루즈 컨트롤 머신 마크',
-        '마깃안': '마력이 깃든 안대',
-        '몽벨': '몽환의 벨트',
-        '마도서': '저주받은 마도서',
-        '미트라': '미트라의 분노',
-        '창뱃': '창세의 뱃지',
-        '언더컨트롤': '컴플리트 언더컨트롤',
-        '가엔링': '가디언 엔젤 링',
-        '데브팬': '데이브레이크 펜던트',
-        '블빈마': '블랙빈 마크',
-        '파풀마': '파풀라투스 마크',
-        '분자벨': '분노한 자쿰의 벨트',
-        '리4': '리스트레인트 링 4레벨',
-        '컨4': '컨티뉴어스 링 4레벨',
-        '트왈마': '트와일라이트 마크',
-        '에스텔라': '에스텔라 이어링',
-        '도미': '도미네이터 펜던트',
-        '자석펫': '자석펫 (7기)',
-        '불안정한 시간의 파편': '불안정한 시간의 파편',
-        '블랙하트(스카)': '블랙하트 (스카니아)',
-        '신마석(스카)': '신마석 (스카니아)',
-        '연마석(스카)': '연마석 (스카니아)',
-    };
 
     return (
         <div className="w-full bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-2xl border border-slate-700 p-4 sm:p-6 md:p-8 my-4 sm:my-8 shadow-2xl">
