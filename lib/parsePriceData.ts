@@ -70,9 +70,11 @@ export function getPriceData() {
                 if (trimmed.startsWith('-') && currentSection) {
                     const parts = trimmed.substring(1).split(':');
                     if (parts.length >= 2) {
-                        const itemName = currentSection === 'ethernel'
-                            ? `에테르넬 ${parts[0].trim()}`
-                            : parts[0].trim();
+                        const rawItemName = parts[0].trim();
+                        const ethernelItems = ['모자', '상의', '하의', '견장', '신발', '장갑', '망토'];
+                        const itemName = (currentSection === 'ethernel' && ethernelItems.includes(rawItemName))
+                            ? `에테르넬 ${rawItemName}`
+                            : rawItemName;
 
                         const priceStr = parts[1].trim().split(' ')[0];
                         const price = parseFloat(priceStr);
