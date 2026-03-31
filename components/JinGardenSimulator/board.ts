@@ -92,11 +92,12 @@ export function buildGridCells(): GridCell[] {
   return cells;
 }
 
-export function calcLanding(pos: number, move: number): { pos: number; crossedStart: boolean } {
+export function calcLanding(pos: number, move: number): { pos: number; crossedStart: boolean; crossedBackwards: boolean } {
   const raw = pos + move;
   const newPos = ((raw % TOTAL_SPACES) + TOTAL_SPACES) % TOTAL_SPACES;
-  const crossedStart =
-    (move > 0 && raw >= TOTAL_SPACES) ||
-    (move < 0 && raw < 0);
-  return { pos: newPos, crossedStart };
+  return { 
+    pos: newPos, 
+    crossedStart: move > 0 && raw >= TOTAL_SPACES, 
+    crossedBackwards: move < 0 && raw < 0 
+  };
 }

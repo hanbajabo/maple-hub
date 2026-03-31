@@ -62,13 +62,13 @@ export function analyzeDie(
     notes.push(`특수주사위: ${SPEC_DIE_META[specEffect].desc}`);
   }
 
-  const { pos: rawLandPos, crossedStart } = calcLanding(currentPos, finalMove);
+  const { pos: rawLandPos, crossedStart, crossedBackwards } = calcLanding(currentPos, finalMove);
   const { finalPos: landPos, chainNote } = resolveChain(rawLandPos, board);
   if (chainNote) notes.push(chainNote);
 
-  const isBacktrack = (move: number) => move < 0 && crossedStart;
+  const isBacktrack = (move: number) => crossedBackwards;
   const backtrack = isBacktrack(finalMove);
-  if (backtrack) notes.push('🔄 빽도! START 역통과 → +400 비료');
+  if (backtrack) notes.push('🔄 빽도! (다음 턴 완주 준비)');
   if (crossedStart && finalMove > 0) notes.push('✅ START 통과 → +400 비료');
 
   const landSpace = board[landPos];
@@ -85,6 +85,12 @@ export function analyzeDie(
   const SPEC_DIE_BONUS = 400; // 특수 주사위 1개의 기대 추가 이득 (빽도 메타 ~500, 평균 ~400)
   let score = total;
   if (landSpace.hasSpecDie) score += SPEC_DIE_BONUS;
+  
+  // 빽도 메타는 당장 보너스를 안 주지만, 다음 턴 완주(+400)를 거의 확정지으므로 내재 가치를 점수에 추가
+  if (backtrack) {
+    score += 400;
+  }
+
   // Penalize mole unless backtrack nets positive
   if ((landPos === rawLandPos) && (landSpace.type === 'mole2' || landSpace.type === 'mole3') && !landSpace.moveUsed) {
     score -= 200;

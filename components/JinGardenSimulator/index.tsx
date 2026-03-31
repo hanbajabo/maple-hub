@@ -304,11 +304,11 @@ function StrategyGuide() {
       </div>
 
       <div className="bg-violet-950/50 rounded-2xl p-6 border-2 border-violet-700/40">
-        <h3 className="text-violet-300 font-black text-xl mb-4">🔄 빽도 메타</h3>
+        <h3 className="text-violet-300 font-black text-xl mb-4">🔄 빽도 메타 (뒤로 가기)</h3>
         <div className="bg-violet-900/30 rounded-xl p-4 mb-4 text-base text-gray-200 leading-relaxed">
           특주 <strong className="text-yellow-300">×(−3)</strong>은 뒤로 이동합니다.<br />
-          1~5번 칸에서 쓰면 역방향으로 START를 통과해<br />
-          <strong className="text-yellow-300">+400 비료 보너스</strong> + 착지 칸 비료를 동시에 획득!
+          1~5번 칸 근처에서 쓰면 <strong>START선 뒤쪽(35~39번 칸)으로</strong> 넘어가며,<br />
+          <strong>다음 번 이동 시 START 보너스(+400)</strong>를 다시 한 번 더 획득할 수 있도록 세팅해 주는 최고의 전략입니다!
         </div>
         <table className="w-full text-base">
           <thead>
@@ -321,10 +321,10 @@ function StrategyGuide() {
           </thead>
           <tbody>
             {[
-              { pos: '#1', die: '1', move: '−3', land: '#38', note: 'START 역통과 +400' },
-              { pos: '#5', die: '2', move: '−6', land: '#39', note: 'START 역통과 +400' },
-              { pos: '#2', die: '3', move: '−9', land: '#33', note: 'START 역통과 +400' },
-              { pos: '#3', die: '1', move: '−3', land: '#40→역통과', note: 'START 역통과 +400' },
+              { pos: '#1', die: '1', move: '−3', land: '#38', note: '다음 턴 완주 확정급' },
+              { pos: '#5', die: '2', move: '−6', land: '#39', note: '다음 턴 완주 확정급' },
+              { pos: '#2', die: '3', move: '−9', land: '#33', note: '다음 턴 완주 준비' },
+              { pos: '#3', die: '1', move: '−3', land: '#40', note: '다음 턴 완주 확정급' },
             ].map((ex, i) => (
               <tr key={i} className="border-b border-gray-800">
                 <td className="text-purple-300 font-black py-2.5 pr-4">{ex.pos}</td>
