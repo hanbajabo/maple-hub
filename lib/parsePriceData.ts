@@ -72,9 +72,25 @@ export function getPriceData() {
                     if (parts.length >= 2) {
                         const rawItemName = parts[0].trim();
                         const ethernelItems = ['모자', '상의', '하의', '견장', '신발', '장갑', '망토'];
-                        const itemName = (currentSection === 'ethernel' && ethernelItems.includes(rawItemName))
+                        let itemName = (currentSection === 'ethernel' && ethernelItems.includes(rawItemName))
                             ? `에테르넬 ${rawItemName}`
                             : rawItemName;
+
+                        // 아이템 이름 정규화 (별칭 처리)
+                        const nameAliases: Record<string, string> = {
+                            '신마석': '신마석(스카)',
+                            '연마석': '연마석(스카)',
+                            '블랙하트': '블랙하트(스카)',
+                            '신마석(스카니아)': '신마석(스카)',
+                            '연마석(스카니아)': '연마석(스카)',
+                            '블랙하트(스카니아)': '블랙하트(스카)',
+                            '자석펫 7기(평균)': '자석펫',
+                            '자석펫(평균)': '자석펫',
+                        };
+
+                        if (nameAliases[itemName]) {
+                            itemName = nameAliases[itemName];
+                        }
 
                         const priceStr = parts[1].trim().split(' ')[0];
                         const price = parseFloat(priceStr);
@@ -105,7 +121,7 @@ export function getPriceData() {
 
                                     if (warriorMatch && mageMatch && archerMatch && thiefMatch && pirateMatch) {
                                         ethernelByJob.push({
-                                            item: parts[0].trim(), // 모자, 상의, etc.
+                                            item: rawItemName, // 모자, 상의, etc.
                                             warrior: parseFloat(warriorMatch[1]),
                                             mage: parseFloat(mageMatch[1]),
                                             archer: parseFloat(archerMatch[1]),
