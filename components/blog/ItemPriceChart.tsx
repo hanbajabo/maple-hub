@@ -63,7 +63,13 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
     const [selectedItem, setSelectedItem] = useState(
         allItems.includes('거공') ? '거공' : allItems[0]
     );
+    const [isTableExpanded, setIsTableExpanded] = useState(false);
     const [baselineDateIndex, setBaselineDateIndex] = useState(0); // 기준 날짜 인덱스 (0 = 첫 번째 날짜)
+
+    // 품목이 변경될 때 테이블 접기 초기화
+    useEffect(() => {
+        setIsTableExpanded(false);
+    }, [selectedItem]);
 
     // 현재 카테고리에 맞는 아이템 목록
     const filteredItems = useMemo(() => {
@@ -197,6 +203,39 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                         </thead>
                         <tbody>
                             {itemData.map((row, index) => {
+                                const isStartOfMonth = row.date.endsWith('-01');
+                                const isFirst = index === 0;
+                                const isLatest = index >= itemData.length - 3;
+                                const isVisibleWhenCollapsed = isFirst || isStartOfMonth || isLatest;
+                                const isLastRow = index === itemData.length - 1;
+
+                                if (!isTableExpanded && itemData.length > 5 && !isVisibleWhenCollapsed) {
+                                    // 여러 등성이에 숨겨진 데이터가 있을 수 있는데, 사용자가 원하는 대로
+                                    // 마지막 숨겨진 위치(즉, 최신 데이터 3개 바로 위)에 "더보기" 버튼을 하나만 표시합니다.
+                                    const lastHiddenIndex = itemData.findLastIndex((r, idx) => !(idx === 0 || r.date.endsWith('-01') || idx >= itemData.length - 3));
+
+                                    if (index === lastHiddenIndex) {
+                                        return (
+                                            <tr key="collapsed-indicator" className="bg-slate-800/30 border-b border-slate-700/50">
+                                                <td colSpan={isEthernel ? 2 : 4} className="p-0">
+                                                    <button 
+                                                        onClick={() => setIsTableExpanded(true)}
+                                                        className="w-full h-full p-3 flex items-center justify-center gap-2 text-slate-400 hover:text-blue-400 hover:bg-slate-800/50 transition-colors text-xs sm:text-sm"
+                                                    >
+                                                        <span className="flex-1 h-px bg-slate-700/50"></span>
+                                                        <span className="px-3 flex items-center gap-1 font-bold">
+                                                            <ChevronDown size={14} />
+                                                            모든 날짜 데이터 더보기
+                                                        </span>
+                                                        <span className="flex-1 h-px bg-slate-700/50"></span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    }
+                                    return null;
+                                }
+
                                 // 부동소수점 오차 방지를 위해 toFixed 사용 후 parseFloat
                                 const diffVal = row.challenger && row.main ? row.challenger - row.main : 0;
                                 // 소수점 첫째 자리까지만 표시 (필요시 정수로 표시)
@@ -207,13 +246,13 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     : '0';
 
                                 return (<tr
-                                    key={row.date}
-                                    className={`border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors ${index === itemData.length - 1 ? 'bg-blue-900/10' : ''
+                                    key={`${row.date}-${index}`}
+                                    className={`border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors ${isLastRow ? 'bg-blue-900/10' : ''
                                         }`}
                                 >
                                     <td className="p-2 sm:p-4 text-slate-300 font-medium whitespace-nowrap">
                                         {row.displayDate}
-                                        {index === itemData.length - 1 && (
+                                        {isLastRow && (
                                             <span className="ml-1 sm:ml-2 text-[10px] sm:text-xs bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded">최신</span>
                                         )}
                                     </td>
@@ -247,6 +286,17 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                         </tbody>
                     </table>
                 </div>
+                {isTableExpanded && itemData.length > 5 && (
+                    <div className="mt-3 flex justify-center">
+                        <button
+                            onClick={() => setIsTableExpanded(false)}
+                            className="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-600 px-5 py-2 rounded-lg text-xs sm:text-sm font-bold transition-colors flex items-center gap-2"
+                        >
+                            <ChevronDown className="rotate-180" size={16} />
+                            표 간략히 보기
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* 요약 통계 */}
@@ -372,7 +422,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                 <div className="h-[300px] w-full bg-slate-900/50 rounded-xl p-4 border border-slate-700">
                     {isMounted ? (
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={itemData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                            <LineChart data={itemData.slice(baselineDateIndex)} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.3} />
                                 <XAxis
                                     dataKey="displayDate"
