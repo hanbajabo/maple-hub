@@ -268,6 +268,70 @@ export default function ChangeBurningLucidWeek3GuidePage() {
                                 </p>
                             </div>
                         </div>
+
+                        {/* 교환권 탕진 전략 분석 */}
+                        <div className="mt-6 bg-gradient-to-r from-red-950/60 to-rose-900/40 border-2 border-red-500/50 rounded-2xl p-5 sm:p-6">
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="text-xl">🚨</span>
+                                <p className="font-black text-red-300 text-base sm:text-lg break-keep">
+                                    &quot;3단계 유니크 확률 높으니까 교환권 다 털자!&quot; — 이거 손해입니다
+                                </p>
+                            </div>
+                            <p className="text-sm sm:text-base text-slate-200 break-keep leading-relaxed mb-4">
+                                3단계 유니크 확률이 <strong className="text-yellow-300">7.5배</strong> 뛰었다고 교환권을 지금 다 쏟는 분들이 계신데,
+                                이건 <strong className="text-white">&apos;상대적 상승폭&apos;에 혹한 판단</strong>입니다.
+                                기대값으로 계산하면 명백한 손해예요.
+                            </p>
+
+                            {/* 기대값 비교표 */}
+                            <div className="overflow-x-auto rounded-xl border border-slate-700 mb-4">
+                                <table className="w-full text-xs sm:text-sm text-center">
+                                    <thead>
+                                        <tr className="bg-slate-700/80 text-slate-200 border-b border-slate-600">
+                                            <th className="py-2.5 px-3 text-left font-bold">단계</th>
+                                            <th className="py-2.5 px-2 text-yellow-300">유니크 확률</th>
+                                            <th className="py-2.5 px-2 text-orange-300">레전드리 확률</th>
+                                            <th className="py-2.5 px-2 text-yellow-200">교환권 10장당<br />유니크 기대값</th>
+                                            <th className="py-2.5 px-2 text-orange-200">레전드리<br />기대값</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {[
+                                            { stage: '3단계 (지금)', unique: '15.0%', legend: '1.0%', expUnique: '1.5개', expLegend: '0.1개', highlight: false },
+                                            { stage: '4단계', unique: '40.5%', legend: '1.5%', expUnique: '4.05개', expLegend: '0.15개', highlight: false },
+                                            { stage: '5단계 ⭐', unique: '52.0%', legend: '4.0%', expUnique: '5.2개', expLegend: '0.4개', highlight: true },
+                                        ].map((row, i) => (
+                                            <tr key={i} className={`border-b border-slate-700/50 ${row.highlight ? 'bg-green-900/30' : 'bg-slate-800/40'}`}>
+                                                <td className={`py-2.5 px-3 text-left font-bold ${row.highlight ? 'text-green-300' : 'text-slate-200'}`}>{row.stage}</td>
+                                                <td className="py-2.5 px-2 text-yellow-400">{row.unique}</td>
+                                                <td className="py-2.5 px-2 text-orange-400">{row.legend}</td>
+                                                <td className={`py-2.5 px-2 font-black ${row.highlight ? 'text-green-300 text-sm sm:text-base' : 'text-slate-300'}`}>{row.expUnique}</td>
+                                                <td className={`py-2.5 px-2 font-bold ${row.highlight ? 'text-orange-300' : 'text-slate-400'}`}>{row.expLegend}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div className="space-y-2">
+                                <div className="bg-red-900/30 border border-red-500/40 rounded-xl p-3 text-sm break-keep">
+                                    <p className="text-red-100 font-medium leading-relaxed">
+                                        ❌ <strong className="text-white">3단계에서 교환권 10장 소모:</strong> 유니크 평균 <strong className="text-yellow-300">1.5개</strong>, 레전드리 평균 <strong className="text-orange-300">0.1개</strong>
+                                    </p>
+                                </div>
+                                <div className="bg-green-900/30 border border-green-500/40 rounded-xl p-3 text-sm break-keep">
+                                    <p className="text-green-100 font-medium leading-relaxed">
+                                        ✅ <strong className="text-white">5단계까지 존버 후 10장 소모:</strong> 유니크 평균 <strong className="text-yellow-300 text-base">5.2개 (3.5배↑)</strong>, 레전드리 평균 <strong className="text-orange-300 text-base">0.4개 (4배↑)</strong>
+                                    </p>
+                                </div>
+                                <div className="bg-amber-900/30 border border-amber-500/40 rounded-xl p-3 text-sm break-keep mt-1">
+                                    <p className="text-amber-100 font-medium leading-relaxed">
+                                        💡 <strong className="text-white">핵심:</strong> 3단계가 2단계보다 훨씬 좋은 건 맞습니다. 하지만 최고점(5단계)이 아직 훨씬 남아있어요.
+                                        <br /><strong className="text-yellow-300">교환권은 무조건 80레벨 5단계까지 존버!</strong> 수학적으로 압도적으로 유리합니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
