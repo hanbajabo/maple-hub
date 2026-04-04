@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import AdBanner, { AdSlots } from '../AdBanner';
+import AdBanner from '../AdSense/AdBanner';
 import './lucid-calc.css';
 
 const BOSSES = [
@@ -188,7 +188,7 @@ export default function LucidBossCalcClient() {
         {/* 상단 광고 */}
         <div className="my-6 w-full flex justify-center">
           <div className="w-full max-w-[728px]">
-            <AdBanner adSlot={AdSlots.NEWS_BOTTOM} />
+            <AdBanner dataAdSlot="4331375010" />
           </div>
         </div>
 
@@ -247,7 +247,7 @@ export default function LucidBossCalcClient() {
             {/* 계산 후 노출되는 중간 광고 */}
             <div className="mb-6 w-full flex justify-center">
               <div className="w-full max-w-[728px]">
-                <AdBanner adSlot={AdSlots.NEWS_BOTTOM} />
+                <AdBanner dataAdSlot="8162808816" />
               </div>
             </div>
 
@@ -349,7 +349,7 @@ export default function LucidBossCalcClient() {
         {calculated && (
             <div className="mt-8 w-full flex justify-center">
               <div className="w-full max-w-[728px]">
-                <AdBanner adSlot={AdSlots.PAGE_FOOTER} />
+                <AdBanner dataAdSlot="6849727140" />
               </div>
             </div>
         )}
