@@ -354,6 +354,111 @@ export default function LucidBossCalcClient() {
             </div>
         )}
 
+        {/* ── 계산 공식 및 정보 ── */}
+        <div className="lc-card lc-info-card" style={{ marginTop: '24px' }}>
+          <div className="lc-section-label" style={{ marginBottom: '20px' }}>계산 공식 및 페널티 정보</div>
+          
+          <div className="lc-info-grid" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {/* 공식 */}
+            <div className="lc-eff-item" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '20px' }}>
+              <div className="lc-eff-name-row" style={{ marginBottom: '12px' }}>
+                <span className="lc-eff-icon" style={{ fontSize: '20px' }}>🧮</span>
+                <span className="lc-eff-name" style={{ fontSize: '16px', fontWeight: 900, color: 'var(--pink)' }}>계산 공식</span>
+              </div>
+              <div style={{ width: '100%', borderLeft: '3px solid rgba(236, 72, 153, 0.4)', margin: '4px 0 14px', color: 'var(--text)', fontSize: '13.5px', lineHeight: 1.8, background: 'rgba(255,255,255,0.03)', padding: '14px 18px', borderRadius: '0 12px 12px 0', letterSpacing: '-0.02em', wordBreak: 'keep-all' }}>
+                <div><strong style={{ color: 'var(--pink-soft)' }}>1. 기본 CP (전투력) :</strong> 마력 × <span style={{ opacity: 0.85 }}>(45 + 숙련도% × 0.075)</span> × <span style={{ opacity: 0.85 }}>{'{ 1 + 크확% × (크뎀% - 1) }'}</span></div>
+                <div style={{ marginTop: '8px' }}><strong style={{ color: 'var(--pink-soft)' }}>2. 최종 CP :</strong> 기본 CP × <span style={{ color: 'var(--danger)', fontWeight: 700 }}>레벨 페널티</span> × <span style={{ color: 'var(--success)', fontWeight: 700 }}>쿨타임 감소 배율</span></div>
+              </div>
+              <div className="lc-eff-note" style={{ borderTop: 'none', margin: '0', padding: '0', fontSize: '12px' }}>
+                 ※ 쿨타임 감소는 1초당 약 2%~3%의 최종 데미지 상승으로 차등 환산되어 적용됩니다.
+              </div>
+            </div>
+
+            {/* 보스 정보 */}
+            <div className="lc-eff-item" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '20px' }}>
+              <div className="lc-eff-name-row" style={{ marginBottom: '16px' }}>
+                <span className="lc-eff-icon" style={{ fontSize: '20px' }}>👑</span>
+                <span className="lc-eff-name" style={{ fontSize: '16px', fontWeight: 900, color: '#fcd34d' }}>보스별 권장 정보</span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px', width: '100%' }}>
+                <div style={{ background: 'rgba(0,0,0,0.25)', padding: '16px 18px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ fontSize: '15px', fontWeight: 900, color: 'var(--text)', marginBottom: '8px' }}>카오스 자쿰</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginBottom: '4px', fontWeight: 500 }}>요구 레벨 : Lv. 10</div>
+                  <div style={{ fontSize: '13px', color: 'var(--success)', fontWeight: 800 }}>최소 전투력 : 9,000</div>
+                </div>
+                <div style={{ background: 'rgba(0,0,0,0.25)', padding: '16px 18px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ fontSize: '15px', fontWeight: 900, color: 'var(--text)', marginBottom: '8px' }}>카오스 벨룸</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginBottom: '4px', fontWeight: 500 }}>요구 레벨 : Lv. 30</div>
+                  <div style={{ fontSize: '13px', color: 'var(--success)', fontWeight: 800 }}>최소 전투력 : 80,800</div>
+                </div>
+                <div style={{ background: 'rgba(0,0,0,0.25)', padding: '16px 18px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ fontSize: '15px', fontWeight: 900, color: 'var(--text)', marginBottom: '8px' }}>하드 루시드</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginBottom: '4px', fontWeight: 500 }}>요구 레벨 : Lv. 60</div>
+                  <div style={{ fontSize: '13px', color: 'var(--success)', fontWeight: 800 }}>최소 전투력 : 373,000</div>
+                </div>
+              </div>
+            </div>
+
+            {/* 페널티 */}
+            <div className="lc-eff-item" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '20px' }}>
+              <div className="lc-eff-name-row" style={{ marginBottom: '10px' }}>
+                <span className="lc-eff-icon" style={{ fontSize: '20px' }}>📉</span>
+                <span className="lc-eff-name" style={{ fontSize: '16px', fontWeight: 900, color: 'var(--danger)' }}>레벨 페널티 (데미지 반감)</span>
+              </div>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '16px', lineHeight: 1.6, wordBreak: 'keep-all', width: '100%' }}>
+                보스 요구 레벨보다 플레이어 레벨이 낮을 경우, 아래 표와 같이 <strong>최종 데미지가 감소</strong>합니다.<br/>
+                <span style={{ fontSize: '12px', color: 'var(--text-dim)' }}>(4레벨 부족 구간부터는 매 4레벨 부족 시마다 10%씩 추가 감소)</span>
+              </p>
+              
+              <div style={{ width: '100%', background: 'rgba(0,0,0,0.25)', borderRadius: '12px', padding: '6px', border: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden' }}>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', textAlign: 'center', borderCollapse: 'collapse', fontSize: '13px', color: 'var(--text)', minWidth: '400px' }}>
+                    <thead>
+                      <tr style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)', fontSize: '12.5px' }}>
+                        <th style={{ padding: '12px 14px', fontWeight: 800, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>레벨 차이</th>
+                        <th style={{ padding: '12px 14px', fontWeight: 800, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>최종 배율</th>
+                        <th style={{ padding: '12px 14px', fontWeight: 800, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>감소율 (페널티)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                        <td style={{ padding: '12px 14px', color: 'var(--success)', fontWeight: 800 }}>0 이하 (동레벨 이상)</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 800 }}>100%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--text-muted)' }}>0%</td>
+                      </tr>
+                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>1 레벨 부족</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>98%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-2%</td>
+                      </tr>
+                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>2 레벨 부족</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>95%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-5%</td>
+                      </tr>
+                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>3 레벨 부족</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>93%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-7%</td>
+                      </tr>
+                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>4~7 레벨 부족</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>90%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-10%</td>
+                      </tr>
+                      <tr>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>8~11 레벨 부족</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>80%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-20%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Footer */}
         <div className="lc-footer-note">
           출처 및 참고자료 : <a href="https://www.inven.co.kr/board/maple/2304/47201?my=chu" target="_blank" rel="noreferrer">메이플 인벤 '나린사람'님의 작성글</a>
