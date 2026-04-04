@@ -24,14 +24,7 @@ const COOL_TABLE = [
 
 const CIRC = 2 * Math.PI * 36;
 
-const UPGRADE_OPTIONS = [
-  { key: 'cr10',    label: '+10% 크리티컬 확률',  icon: '🎯', color: '#f472b6' },
-  { key: 'cd5',     label: '+5% 크리티컬 데미지', icon: '⚡', color: '#fb923c' },
-  { key: 'mp100',   label: '+100 마력',           icon: '💜', color: '#a855f7' },
-  { key: 'mp1pct',  label: '+1% 마력',            icon: '✨', color: '#c084fc' },
-  { key: 'cool1',   label: '+1초 쿨타임 감소',    icon: '⏱️', color: '#60a5fa' },
-  { key: 'ma5',     label: '+5% 숙련도',          icon: '📖', color: '#34d399' },
-];
+
 
 function levelPenalty(bossLv: number, playerLv: number) {
   const diff = bossLv - playerLv;
@@ -58,23 +51,31 @@ export default function LucidBossCalcClient() {
   const [cool, setCool] = useState('');
 
   const [results, setResults] = useState<any[]>([]);
-  const [effGains, setEffGains] = useState<Record<string, number>>({});
-  const [effWarnings, setEffWarnings] = useState<Record<string, string>>({});
   const [calculated, setCalculated] = useState(false);
+  const [parsedStats, setParsedStats] = useState<any>(null);
+
+  const [optVals, setOptVals] = useState<Record<string, string>>({
+    cr: '10',
+    cd: '5',
+    mpAbs: '100',
+    mpPct: '1',
+    cool: '1',
+    ma: '5',
+  });
 
   const calculate = () => {
     const pLv = parseFloat(lv);
-    const pM = parseFloat(mp);
+    const pMp = parseFloat(mp);
     const pMa = parseFloat(ma);
     const pCr = parseFloat(cr);
     const pCd = parseFloat(cd);
 
-    if ([pLv, pM, pMa, pCr, pCd].some((v) => isNaN(v))) {
+    if ([pLv, pMp, pMa, pCr, pCd].some((v) => isNaN(v))) {
       alert('모든 스탯을 입력해 주세요!');
       return;
     }
 
-    const baseCP = pM * (45 + (pMa / 100) * 7.5) * (1 + (pCr / 100) * (pCd / 100 - 1));
+    const baseCP = pMp * (45 + (pMa / 100) * 7.5) * (1 + (pCr / 100) * (pCd / 100 - 1));
     const coolSec = isNaN(parseInt(cool)) || parseInt(cool) < 0 ? 0 : Math.min(parseInt(cool), 9);
     const coolMult = COOL_TABLE[coolSec].mult;
 
@@ -92,58 +93,8 @@ export default function LucidBossCalcClient() {
       return { ...boss, pct, pass, pctStr, penaltyText, diff, filled };
     });
 
-    // 효율 계산
-    const A = 45 + (pMa / 100) * 7.5;
-    const crRatio = pCr / 100;
-    const cdRatio = pCd / 100;
-    const B = 1 + crRatio * (cdRatio - 1);
-    const gains: Record<string, number> = {};
-    const warnings: Record<string, string> = {};
-
-    // +10% 크리티컬 확률 (100% 초과 불가)
-    if (pCr >= 100) {
-      gains['cr10'] = 0;
-      warnings['cr10'] = '이미 최대 (100%)';
-    } else {
-      const newCR = Math.min(pCr + 10, 100);
-      const newB_cr = 1 + (newCR / 100) * (cdRatio - 1);
-      gains['cr10'] = B > 0 ? ((newB_cr / B) - 1) * 100 : 0;
-      if (pCr + 10 > 100) warnings['cr10'] = `실제 +${100 - pCr}% 적용`;
-    }
-
-    // +5% 크리티컬 데미지
-    const newB_cd = 1 + crRatio * ((pCd + 5) / 100 - 1);
-    gains['cd5'] = B > 0 ? ((newB_cd / B) - 1) * 100 : 0;
-    if (pCr === 0) warnings['cd5'] = '크확 0% → 효과 없음';
-
-    // +100 마력
-    gains['mp100'] = (100 / pM) * 100;
-
-    // +1% 마력
-    gains['mp1pct'] = 1.0;
-
-    // +5% 숙련도 (100% 초과 불가)
-    if (pMa >= 100) {
-      gains['ma5'] = 0;
-      warnings['ma5'] = '이미 최대 (100%)';
-    } else {
-      const newMA = Math.min(pMa + 5, 100);
-      const newA = 45 + (newMA / 100) * 7.5;
-      gains['ma5'] = ((newA / A) - 1) * 100;
-      if (pMa + 5 > 100) warnings['ma5'] = `실제 +${100 - pMa}% 적용`;
-    }
-
-    // +1초 쿨타임 감소
-    if (coolSec >= 9) {
-      gains['cool1'] = 0;
-      warnings['cool1'] = '이미 최대 (9초)';
-    } else {
-      gains['cool1'] = ((COOL_TABLE[coolSec + 1].mult / coolMult) - 1) * 100;
-    }
-
     setResults(newResults);
-    setEffGains(gains);
-    setEffWarnings(warnings);
+    setParsedStats({ pLv, pMa, pCd, pMp, pCr, coolSec, coolMult });
     setCalculated(true);
 
     setTimeout(() => {
@@ -155,11 +106,81 @@ export default function LucidBossCalcClient() {
     if (e.key === 'Enter') calculate();
   };
 
+  // 파생 상태 계산 (효율 및 순위)
+  let effGains: Record<string, number> = {};
+  let effWarnings: Record<string, string> = {};
+
+  if (calculated && parsedStats) {
+    const { pMa, pCd, pMp, pCr, coolSec, coolMult } = parsedStats;
+    const A = 45 + (pMa / 100) * 7.5;
+    const crRatio = pCr / 100;
+    const cdRatio = pCd / 100;
+    const B = 1 + crRatio * (cdRatio - 1);
+
+    // cr
+    const valCr = parseFloat(optVals.cr) || 0;
+    if (pCr >= 100 || valCr <= 0) {
+      effGains.cr = 0;
+      effWarnings.cr = pCr >= 100 ? '이미 최대 (100%)' : '';
+    } else {
+      const newCR = Math.min(pCr + valCr, 100);
+      const newB_cr = 1 + (newCR / 100) * (cdRatio - 1);
+      effGains.cr = B > 0 ? ((newB_cr / B) - 1) * 100 : 0;
+      if (pCr + valCr > 100) effWarnings.cr = `실제 +${100 - pCr}% 적용`;
+    }
+
+    // cd
+    const valCd = parseFloat(optVals.cd) || 0;
+    const newB_cd = 1 + crRatio * ((pCd + valCd) / 100 - 1);
+    effGains.cd = B > 0 ? ((newB_cd / B) - 1) * 100 : 0;
+    if (pCr === 0 && valCd > 0) effWarnings.cd = '크확 0% → 효과 없음';
+
+    // mpAbs
+    const valMpAbs = parseFloat(optVals.mpAbs) || 0;
+    effGains.mpAbs = pMp > 0 ? (valMpAbs / pMp) * 100 : 0;
+
+    // mpPct
+    const valMpPct = parseFloat(optVals.mpPct) || 0;
+    effGains.mpPct = valMpPct;
+
+    // ma
+    const valMa = parseFloat(optVals.ma) || 0;
+    if (pMa >= 100 || valMa <= 0) {
+      effGains.ma = 0;
+      effWarnings.ma = pMa >= 100 ? '이미 최대 (100%)' : '';
+    } else {
+      const newMA = Math.min(pMa + valMa, 100);
+      const newA = 45 + (newMA / 100) * 7.5;
+      effGains.ma = ((newA / A) - 1) * 100;
+      if (pMa + valMa > 100) effWarnings.ma = `실제 +${(100 - pMa).toFixed(1).replace(/\.0$/, '')}% 적용`;
+    }
+
+    // cool
+    const valCool = parseFloat(optVals.cool) || 0;
+    if (coolSec >= 9 || valCool <= 0) {
+      effGains.cool = 0;
+      effWarnings.cool = coolSec >= 9 ? '이미 최대 (9초)' : '';
+    } else {
+      const targetSec = Math.min(Math.floor(coolSec + valCool), 9);
+      effGains.cool = ((COOL_TABLE[targetSec].mult / coolMult) - 1) * 100;
+      if (coolSec + valCool > 9) effWarnings.cool = `실제 +${9 - coolSec}초 적용`;
+    }
+  }
+
+  const BASE_OPTIONS = [
+    { key: 'cr',    prefix: '+', suffix: '% 크리티컬 확률',  icon: '🎯', color: '#f472b6' },
+    { key: 'cd',    prefix: '+', suffix: '% 크리티컬 데미지', icon: '⚡', color: '#fb923c' },
+    { key: 'mpAbs', prefix: '+', suffix: ' 마력',           icon: '💜', color: '#a855f7' },
+    { key: 'mpPct', prefix: '+', suffix: '% 마력',          icon: '✨', color: '#c084fc' },
+    { key: 'cool',  prefix: '+', suffix: '초 쿨타임 감소',    icon: '⏱️', color: '#60a5fa' },
+    { key: 'ma',    prefix: '+', suffix: '% 숙련도',         icon: '📖', color: '#34d399' },
+  ];
+
   // 효율 순위 정렬
-  const sortedOptions = calculated
-    ? [...UPGRADE_OPTIONS].sort((a, b) => (effGains[b.key] ?? 0) - (effGains[a.key] ?? 0))
-    : UPGRADE_OPTIONS;
-  const maxGain = calculated ? Math.max(...UPGRADE_OPTIONS.map(o => effGains[o.key] ?? 0), 0.001) : 1;
+  const sortedOptions = calculated && parsedStats
+    ? [...BASE_OPTIONS].sort((a, b) => (effGains[b.key] ?? 0) - (effGains[a.key] ?? 0))
+    : BASE_OPTIONS;
+  const maxGain = calculated ? Math.max(...BASE_OPTIONS.map(o => effGains[o.key] ?? 0), 0.001) : 1;
 
   return (
     <div className="lucid-calc-wrapper">
@@ -308,9 +329,33 @@ export default function LucidBossCalcClient() {
 
                     {/* 아이콘 + 라벨 */}
                     <div className="lc-eff-info">
-                      <div className="lc-eff-name-row">
+                      <div className="lc-eff-name-row" style={{ display: 'flex', alignItems: 'center' }}>
                         <span className="lc-eff-icon">{opt.icon}</span>
-                        <span className="lc-eff-name">{opt.label}</span>
+                        <span className="lc-eff-name" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span>{opt.prefix}</span>
+                          <input 
+                            type="number"
+                            style={{
+                              width: '56px',
+                              padding: '2px 4px',
+                              background: 'rgba(255,255,255,0.08)',
+                              border: 'none',
+                              borderBottom: `2px solid ${opt.color}`,
+                              color: 'white',
+                              borderRadius: '4px 4px 0 0',
+                              textAlign: 'center',
+                              fontSize: '14px',
+                              fontWeight: 800,
+                              outline: 'none',
+                              margin: '0 2px'
+                            }}
+                            value={optVals[opt.key]}
+                            onChange={(e) => setOptVals({ ...optVals, [opt.key]: e.target.value })}
+                            onFocus={(e) => e.target.style.background = 'rgba(255,255,255,0.15)'}
+                            onBlur={(e) => e.target.style.background = 'rgba(255,255,255,0.08)'}
+                          />
+                          <span>{opt.suffix}</span>
+                        </span>
                       </div>
                       {/* 바 */}
                       {!isMaxed && (
