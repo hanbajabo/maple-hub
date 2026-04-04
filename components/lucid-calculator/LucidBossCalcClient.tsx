@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import AdBanner, { AdSlots } from '../AdBanner';
 import './lucid-calc.css';
 
 const BOSSES = [
@@ -184,6 +185,13 @@ export default function LucidBossCalcClient() {
           <p>[체인지 버닝 : 루시드] 보스 최소컷 계산기</p>
         </div>
 
+        {/* 상단 광고 */}
+        <div className="my-6 w-full flex justify-center">
+          <div className="w-full max-w-[728px]">
+            <AdBanner adSlot={AdSlots.NEWS_BOTTOM} />
+          </div>
+        </div>
+
         {/* Input */}
         <div className="lc-card" onKeyDown={handleKeyDown}>
           <div className="lc-section-label">루시드 스탯 입력</div>
@@ -328,6 +336,23 @@ export default function LucidBossCalcClient() {
               ※ CP 증가율 기준 단순 비교입니다. 실제 업그레이드 비용/난이도는 고려되지 않습니다.
             </div>
           </div>
+        )}
+
+        {/* 하단 광고 (항상 표시) */}
+        {!calculated && (
+            <div className="mt-8 w-full flex justify-center">
+              <div className="w-full max-w-[728px]">
+                <AdBanner adSlot={AdSlots.PAGE_FOOTER} />
+              </div>
+            </div>
+        )}
+        
+        {calculated && (
+            <div className="mt-8 w-full flex justify-center">
+              <div className="w-full max-w-[728px]">
+                <AdBanner adSlot={AdSlots.PAGE_FOOTER} />
+              </div>
+            </div>
         )}
 
         {/* Footer */}
