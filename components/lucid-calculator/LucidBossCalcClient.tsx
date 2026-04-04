@@ -244,6 +244,13 @@ export default function LucidBossCalcClient() {
         {/* Results */}
         {calculated && (
           <div className="lc-results" id="lc-results">
+            {/* 계산 후 노출되는 중간 광고 */}
+            <div className="mb-6 w-full flex justify-center">
+              <div className="w-full max-w-[728px]">
+                <AdBanner adSlot={AdSlots.NEWS_BOTTOM} />
+              </div>
+            </div>
+
             <div className="lc-boss-grid">
               {results.map((res, i) => (
                 <div key={i} className={`lc-boss-card ${res.pass ? 'pass' : 'fail'}`}>
@@ -338,15 +345,7 @@ export default function LucidBossCalcClient() {
           </div>
         )}
 
-        {/* 하단 광고 (항상 표시) */}
-        {!calculated && (
-            <div className="mt-8 w-full flex justify-center">
-              <div className="w-full max-w-[728px]">
-                <AdBanner adSlot={AdSlots.PAGE_FOOTER} />
-              </div>
-            </div>
-        )}
-        
+        {/* 계산 후 노출되는 하단 광고 */}
         {calculated && (
             <div className="mt-8 w-full flex justify-center">
               <div className="w-full max-w-[728px]">
