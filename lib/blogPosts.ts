@@ -165,7 +165,7 @@ export const blogPosts: BlogPost[] = [
         title: '📊 2026년 메이플스토리 아이템 시세 추적 | 챌린저스 vs 본섭 가격 비교',
         description: '매일 오전 10시 업데이트! 거대한 공포, 에테르넬 장비 등 주요 아이템의 가격 추이를 실시간으로 확인하세요. 챌린저스 서버와 본 서버 가격 비교 차트 제공.',
         category: '메이플 이야기',
-        date: '2026년 1월 20일',
+        date: '2026년 4월 1일',
         readTime: '5분',
         thumbnail: '📊',
         featured: true,
