@@ -482,6 +482,32 @@
   font-weight: 800;
   color: var(--text);
 }
+.lucid-calc-wrapper .lc-eff-inline-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+  flex-wrap: wrap;
+}
+.lucid-calc-wrapper .lc-eff-inline-input {
+  width: 56px;
+  padding: 2px 4px;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: white;
+  border-radius: 4px 4px 0 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+  outline: none;
+  margin: 0 2px;
+  transition: background 0.2s;
+}
+.lucid-calc-wrapper .lc-eff-inline-input:focus {
+  background: rgba(255,255,255,0.15) !important;
+}
 .lucid-calc-wrapper .lc-eff-tag {
   font-size: 9px;
   font-weight: 700;
@@ -712,6 +738,42 @@
     word-break: keep-all;
     padding: 0 8px;
   }
+
+  /* Efficiency Card Mobile */
+  .lucid-calc-wrapper .lc-eff-item {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .lucid-calc-wrapper .lc-eff-rank {
+    width: 20px;
+    font-size: 14px;
+  }
+  .lucid-calc-wrapper .lc-eff-item.best .lc-eff-rank {
+    font-size: 18px;
+  }
+  .lucid-calc-wrapper .lc-eff-name-row {
+    margin-bottom: 4px;
+    gap: 4px;
+  }
+  .lucid-calc-wrapper .lc-eff-icon {
+    font-size: 13px;
+  }
+  .lucid-calc-wrapper .lc-eff-inline-name {
+    font-size: 11px;
+    gap: 2px;
+  }
+  .lucid-calc-wrapper .lc-eff-inline-input {
+    width: 44px;
+    font-size: 12px;
+    padding: 1px 2px;
+  }
+  .lucid-calc-wrapper .lc-eff-value {
+    min-width: 48px;
+    font-size: 12px;
+  }
+  .lucid-calc-wrapper .lc-eff-item.best .lc-eff-value {
+    font-size: 14px;
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -751,6 +813,13 @@
     font-size: 11px;
   }
   .lucid-calc-wrapper .lc-penalty-info {
+    font-size: 10.5px;
+  }
+  .lucid-calc-wrapper .lc-eff-inline-input {
+    width: 38px;
+    font-size: 11px;
+  }
+  .lucid-calc-wrapper .lc-eff-inline-name {
     font-size: 10.5px;
   }
 }

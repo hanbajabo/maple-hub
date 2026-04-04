@@ -331,28 +331,14 @@ export default function LucidBossCalcClient() {
                     <div className="lc-eff-info">
                       <div className="lc-eff-name-row" style={{ display: 'flex', alignItems: 'center' }}>
                         <span className="lc-eff-icon">{opt.icon}</span>
-                        <span className="lc-eff-name" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <span className="lc-eff-inline-name">
                           <span>{opt.prefix}</span>
                           <input 
                             type="number"
-                            style={{
-                              width: '56px',
-                              padding: '2px 4px',
-                              background: 'rgba(255,255,255,0.08)',
-                              border: 'none',
-                              borderBottom: `2px solid ${opt.color}`,
-                              color: 'white',
-                              borderRadius: '4px 4px 0 0',
-                              textAlign: 'center',
-                              fontSize: '14px',
-                              fontWeight: 800,
-                              outline: 'none',
-                              margin: '0 2px'
-                            }}
+                            className="lc-eff-inline-input"
+                            style={{ borderBottom: `2px solid ${opt.color}` }}
                             value={optVals[opt.key]}
                             onChange={(e) => setOptVals({ ...optVals, [opt.key]: e.target.value })}
-                            onFocus={(e) => e.target.style.background = 'rgba(255,255,255,0.15)'}
-                            onBlur={(e) => e.target.style.background = 'rgba(255,255,255,0.08)'}
                           />
                           <span>{opt.suffix}</span>
                         </span>
