@@ -155,6 +155,8 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  word-break: keep-all;
+  line-height: 1.3;
 }
 .lucid-calc-wrapper .lc-stat-label::before {
   content: '';
@@ -364,9 +366,24 @@
   font-size: 13px;
   font-weight: 800;
   letter-spacing: .01em;
+  word-break: keep-all;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 .lucid-calc-wrapper .lc-verdict-badge.pass { background: rgba(52,211,153,.13); color: var(--success); }
 .lucid-calc-wrapper .lc-verdict-badge.fail { background: rgba(251,113,133,.12); color: var(--danger); }
+.lucid-calc-wrapper .lc-verdict-result {
+  font-size: 14px;
+  font-weight: 900;
+}
+.lucid-calc-wrapper .lc-verdict-pct {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.85;
+}
 
 .lucid-calc-wrapper .lc-penalty-info {
   font-size: 12px;
@@ -379,6 +396,8 @@
   padding: 7px 10px;
   border-radius: 8px;
   letter-spacing: 0.02em;
+  word-break: keep-all;
+  line-height: 1.4;
 }
 .lucid-calc-wrapper .lc-penalty-info.no-penalty {
   color: var(--text-muted);
@@ -386,7 +405,142 @@
   border-color: rgba(255, 255, 255, 0.1);
 }
 
+/* ── Efficiency Card ── */
+.lucid-calc-wrapper .lc-eff-card {
+  margin-top: 24px;
+}
+.lucid-calc-wrapper .lc-eff-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.lucid-calc-wrapper .lc-eff-subtitle {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.lucid-calc-wrapper .lc-eff-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lucid-calc-wrapper .lc-eff-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(42, 21, 64, 0.25);
+  border: 1.5px solid rgba(244, 114, 182, 0.12);
+  transition: border-color 0.2s, background 0.2s;
+}
+.lucid-calc-wrapper .lc-eff-item.best {
+  border-color: rgba(168, 85, 247, 0.5);
+  background: rgba(168, 85, 247, 0.08);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.15);
+}
+.lucid-calc-wrapper .lc-eff-item.maxed {
+  opacity: 0.45;
+}
+
+/* 순위 번호 */
+.lucid-calc-wrapper .lc-eff-rank {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--text-muted);
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.lucid-calc-wrapper .lc-eff-item.best .lc-eff-rank {
+  font-size: 20px;
+}
+
+/* 아이콘 + 이름 영역 */
+.lucid-calc-wrapper .lc-eff-info {
+  flex: 1;
+  min-width: 0;
+}
+.lucid-calc-wrapper .lc-eff-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.lucid-calc-wrapper .lc-eff-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.lucid-calc-wrapper .lc-eff-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+}
+.lucid-calc-wrapper .lc-eff-tag {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+/* 바 차트 */
+.lucid-calc-wrapper .lc-eff-bar-wrap {
+  height: 5px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+.lucid-calc-wrapper .lc-eff-bar {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.7s cubic-bezier(.34, 1.4, .64, 1);
+}
+
+/* 경고 텍스트 */
+.lucid-calc-wrapper .lc-eff-warn {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* 수치 */
+.lucid-calc-wrapper .lc-eff-value {
+  font-size: 14px;
+  font-weight: 900;
+  flex-shrink: 0;
+  min-width: 60px;
+  text-align: right;
+  letter-spacing: -0.01em;
+}
+.lucid-calc-wrapper .lc-eff-item.best .lc-eff-value {
+  font-size: 16px;
+}
+
+/* 안내 문구 */
+.lucid-calc-wrapper .lc-eff-note {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  word-break: keep-all;
+  line-height: 1.5;
+}
+
 /* ── Footer ── */
+
 .lucid-calc-wrapper .lc-footer-note {
   text-align: center;
   margin-top: 48px;
@@ -404,23 +558,199 @@
   text-decoration: underline;
 }
 
-/* ── Responsive ── */
+/* ══════════════════════════════════════════
+   Responsive — Tablet (≤768px)
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .lucid-calc-wrapper .lc-boss-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+/* ══════════════════════════════════════════
+   Responsive — Mobile (≤600px)
+══════════════════════════════════════════ */
 @media (max-width: 600px) {
+  /* Wrapper */
   .lucid-calc-wrapper {
-    padding: 32px 14px 60px;
+    padding: 20px 12px 60px;
     background-image:
       radial-gradient(ellipse 70% 50% at 50% 0%, rgba(168,85,247,.2) 0%, transparent 70%),
       radial-gradient(ellipse 60% 40% at 80% 60%, rgba(236,72,153,.15) 0%, transparent 60%);
   }
-  .lucid-calc-wrapper .lc-card { padding: 22px 18px 20px; }
-  .lucid-calc-wrapper .lc-boss-card { padding: 18px 16px 14px; }
-  
-  .lucid-calc-wrapper .lc-stat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .lucid-calc-wrapper .lc-boss-grid { grid-template-columns: 1fr; }
-  
-  .lucid-calc-wrapper .lc-stat-input { font-size: 20px; }
-  .lucid-calc-wrapper .lc-btn-calc { padding: 15px; font-size: 15.5px; }
+
+  /* Hero */
+  .lucid-calc-wrapper .lc-hero {
+    margin-bottom: 24px;
+  }
+  .lucid-calc-wrapper .lc-hero-badge {
+    margin-bottom: 12px;
+    font-size: 10px;
+    padding: 5px 14px;
+    letter-spacing: .08em;
+  }
+  .lucid-calc-wrapper .lc-hero h1 {
+    font-size: clamp(22px, 7vw, 30px);
+    margin-bottom: 8px;
+  }
+  .lucid-calc-wrapper .lc-hero p {
+    font-size: 12px;
+    word-break: keep-all;
+    padding: 0 4px;
+  }
+
+  /* Card */
+  .lucid-calc-wrapper .lc-card {
+    padding: 18px 14px 16px;
+    margin-bottom: 16px;
+    border-radius: 18px;
+  }
+  .lucid-calc-wrapper .lc-section-label {
+    margin-bottom: 14px;
+    font-size: 10px;
+  }
+
+  /* Stat Grid — 2열 레이아웃 */
+  .lucid-calc-wrapper .lc-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .lucid-calc-wrapper .lc-stat-cell {
+    padding: 11px 12px 9px;
+    border-radius: 12px;
+    gap: 5px;
+  }
+  .lucid-calc-wrapper .lc-stat-label {
+    font-size: 10.5px;
+    gap: 4px;
+    min-height: 28px;       /* 라벨 2줄 대응 */
+    align-items: flex-start;
+  }
+  .lucid-calc-wrapper .lc-stat-label::before {
+    margin-top: 3px;        /* 2줄 라벨일 때 아이콘 상단 정렬 */
+  }
+  .lucid-calc-wrapper .lc-stat-input {
+    font-size: 20px;
+  }
+  .lucid-calc-wrapper .lc-stat-input::placeholder {
+    font-size: 18px;
+  }
+  .lucid-calc-wrapper .lc-stat-unit {
+    font-size: 12px;
+  }
+
+  /* Note & Button */
+  .lucid-calc-wrapper .lc-note {
+    margin-top: 12px;
+    font-size: 11px;
+    word-break: keep-all;
+  }
+  .lucid-calc-wrapper .lc-btn-calc {
+    padding: 15px;
+    font-size: 15px;
+    border-radius: 12px;
+    margin-top: 14px;
+    letter-spacing: .02em;
+  }
+
+  /* Boss Grid — 1열 레이아웃 */
+  .lucid-calc-wrapper .lc-boss-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Boss Card — 가로 배치로 링 + 텍스트 나란히 */
+  .lucid-calc-wrapper .lc-boss-card {
+    padding: 16px 14px 14px;
+    border-radius: 16px;
+    display: grid;
+    grid-template-rows: auto auto auto auto;
+  }
+  .lucid-calc-wrapper .lc-boss-header {
+    margin-bottom: 12px;
+  }
+  .lucid-calc-wrapper .lc-boss-name {
+    font-size: 14px;
+  }
+  .lucid-calc-wrapper .lc-boss-emoji {
+    font-size: 18px;
+  }
+
+  /* Ring — 모바일에서 크기 축소 */
+  .lucid-calc-wrapper .lc-pct-wrap {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 12px;
+  }
+  .lucid-calc-wrapper .lc-ring-svg {
+    width: 100px;
+    height: 100px;
+  }
+  .lucid-calc-wrapper .lc-pct-center {
+    padding: 10px;
+  }
+  .lucid-calc-wrapper .lc-pct-sub {
+    font-size: 9px;
+    margin-top: 4px;
+  }
+
+  /* Verdict & Penalty */
+  .lucid-calc-wrapper .lc-verdict-badge {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .lucid-calc-wrapper .lc-penalty-info {
+    margin-top: 8px;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  /* Footer */
+  .lucid-calc-wrapper .lc-footer-note {
+    margin-top: 32px;
+    font-size: 12px;
+    word-break: keep-all;
+    padding: 0 8px;
+  }
 }
-@media (max-width: 400px) {
-  .lucid-calc-wrapper .lc-stat-grid { grid-template-columns: 1fr; }
+
+/* ══════════════════════════════════════════
+   Responsive — Small Mobile (≤390px)
+══════════════════════════════════════════ */
+@media (max-width: 390px) {
+  .lucid-calc-wrapper {
+    padding: 16px 10px 56px;
+  }
+  .lucid-calc-wrapper .lc-hero h1 {
+    font-size: 20px;
+  }
+  .lucid-calc-wrapper .lc-card {
+    padding: 14px 12px 12px;
+  }
+  .lucid-calc-wrapper .lc-stat-cell {
+    padding: 10px 10px 8px;
+  }
+  .lucid-calc-wrapper .lc-stat-label {
+    font-size: 10px;
+  }
+  .lucid-calc-wrapper .lc-stat-input {
+    font-size: 18px;
+  }
+  .lucid-calc-wrapper .lc-stat-input::placeholder {
+    font-size: 16px;
+  }
+  .lucid-calc-wrapper .lc-pct-wrap {
+    width: 90px;
+    height: 90px;
+  }
+  .lucid-calc-wrapper .lc-ring-svg {
+    width: 90px;
+    height: 90px;
+  }
+  .lucid-calc-wrapper .lc-verdict-badge {
+    font-size: 11px;
+  }
+  .lucid-calc-wrapper .lc-penalty-info {
+    font-size: 10.5px;
+  }
 }
