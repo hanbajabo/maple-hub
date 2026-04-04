@@ -241,7 +241,6 @@ export default function LucidBossCalcClient() {
                 <div key={i} className={`lc-boss-card ${res.pass ? 'pass' : 'fail'}`}>
                   <div className="lc-boss-header">
                     <div className="lc-boss-name-wrap">
-                      <span className="lc-boss-emoji">{res.emoji}</span>
                       <span className="lc-boss-name">{res.name}</span>
                     </div>
                     <span className="lc-boss-lv">Lv.{res.lv}</span>
