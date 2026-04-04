@@ -35,10 +35,14 @@ export default function AdBanner({
     }, []);
 
     return (
-        <div className={`adsense-container ${className}`}>
+        <div className={`adsense-container ${className} flex flex-col items-center my-4`}>
+            {/* 구글 정책에 맞춘 안전한 광고 라벨링 */}
+            <div className="text-xs text-gray-500 mb-2 text-center tracking-wide">
+                광고
+            </div>
             <ins
                 className="adsbygoogle"
-                style={{ display: 'block' }}
+                style={{ display: 'block', width: '100%' }}
                 data-ad-client="ca-pub-6144208174617294"
                 data-ad-slot={dataAdSlot}
                 data-ad-format={dataAdFormat}
