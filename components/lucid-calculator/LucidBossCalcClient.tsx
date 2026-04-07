@@ -4,23 +4,37 @@ import AdBanner from '../AdSense/AdBanner';
 import './lucid-calc.css';
 
 const BOSSES = [
-  { name: '카오스 자쿰', lv: 10, cut: 9000, emoji: '🪦' },
-  { name: '카오스 벨룸', lv: 30, cut: 80800, emoji: '🐉' },
-  { name: '하드 루시드', lv: 60, cut: 373000, emoji: '👁️' },
+  { name: '카오스 자쿰', lv: 10, cut: 9000,   emoji: '🪦', useCoolMult: true  },
+  { name: '카오스 벨룸', lv: 30, cut: 80800,  emoji: '🐉', useCoolMult: true  },
+  { name: '하드 루시드', lv: 60, cut: 355000, emoji: '👁️', useCoolMult: false },
 ];
 
-const COOL_TABLE = [
-  { sec: 0, mult: 1.0000 },
-  { sec: 1, mult: 1.0194 },
-  { sec: 2, mult: 1.0419 },
-  { sec: 3, mult: 1.0683 },
-  { sec: 4, mult: 1.0994 },
-  { sec: 5, mult: 1.1370 },
-  { sec: 6, mult: 1.1578 },
-  { sec: 7, mult: 1.1811 },
-  { sec: 8, mult: 1.2071 },
-  { sec: 9, mult: 1.2364 },
+// 나린사람님 제공 DPM 표 (허수아비 딜사이클 기준)
+// 열 순서: Lv.1+, Lv.10+, Lv.20+, Lv.45+
+const DPM_TABLE = [
+  [49397696,  79807910,  94230322, 106206323],  // 쿨감 0초
+  [51494891,  81884468,  96294268, 108270269],  // 쿨감 1초
+  [53922452,  84288218,  98683466, 110659467],  // 쿨감 2초
+  [56762972,  87100957, 101479229, 113455230],  // 쿨감 3초
+  [60129076,  90434230, 104792437, 116768439],  // 쿨감 4초
+  [64178439,  94444195, 108778326, 120754328],  // 쿨감 5초
+  [66431276,  96674222, 110994414, 122970416],  // 쿨감 6초
+  [68940004,  99157607, 113462311, 125438312],  // 쿨감 7초
+  [71749781, 101939059, 116226453, 128202455],  // 쿨감 8초
+  [74917055, 105074466, 119342387, 131318389],  // 쿨감 9초
 ];
+
+function getDpmCol(playerLv: number): number {
+  if (playerLv >= 45) return 3;
+  if (playerLv >= 20) return 2;
+  if (playerLv >= 10) return 1;
+  return 0;
+}
+
+function calcCoolMult(playerLv: number, coolSec: number): number {
+  const col = getDpmCol(playerLv);
+  return DPM_TABLE[coolSec][col] / DPM_TABLE[0][col];
+}
 
 const CIRC = 2 * Math.PI * 36;
 
@@ -32,7 +46,8 @@ function levelPenalty(bossLv: number, playerLv: number) {
   if (diff === 1) return 0.98;
   if (diff === 2) return 0.95;
   if (diff === 3) return 0.93;
-  return Math.max(0, 0.90 - 0.10 * Math.floor((diff - 4) / 4));
+  // 4레벨마다 3레벨 기준(7%) 대비 10%p씩 추가 감소
+  return Math.max(0, 0.93 - 0.10 * Math.ceil((diff - 3) / 4));
 }
 
 function pctFontSize(str: string) {
@@ -77,13 +92,14 @@ export default function LucidBossCalcClient() {
 
     const baseCP = pMp * (45 + (pMa / 100) * 7.5) * (1 + (pCr / 100) * (pCd / 100 - 1));
     const coolSec = isNaN(parseInt(cool)) || parseInt(cool) < 0 ? 0 : Math.min(parseInt(cool), 9);
-    const coolMult = COOL_TABLE[coolSec].mult;
+    const coolMult = calcCoolMult(pLv, coolSec);
 
     // 보스 결과
     const newResults = BOSSES.map((boss) => {
       const p = levelPenalty(boss.lv, pLv);
       const diff = boss.lv - pLv;
-      const convCP = baseCP * p * coolMult;
+      // 하드 루시드는 순수 전투력 기준 (쿨감 배율 미적용)
+      const convCP = baseCP * p * (boss.useCoolMult ? coolMult : 1);
       const pct = (convCP / boss.cut) * 100;
       const pass = pct >= 100;
       const pctStr = Math.round(pct) + '%';
@@ -162,7 +178,8 @@ export default function LucidBossCalcClient() {
       effWarnings.cool = coolSec >= 9 ? '이미 최대 (9초)' : '';
     } else {
       const targetSec = Math.min(Math.floor(coolSec + valCool), 9);
-      effGains.cool = ((COOL_TABLE[targetSec].mult / coolMult) - 1) * 100;
+      const newCoolMult = calcCoolMult(parsedStats.pLv, targetSec);
+      effGains.cool = ((newCoolMult / coolMult) - 1) * 100;
       if (coolSec + valCool > 9) effWarnings.cool = `실제 +${9 - coolSec}초 적용`;
     }
   }
@@ -425,8 +442,47 @@ export default function LucidBossCalcClient() {
                 <div style={{ background: 'rgba(0,0,0,0.25)', padding: '16px 18px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ fontSize: '15px', fontWeight: 900, color: 'var(--text)', marginBottom: '8px' }}>하드 루시드</div>
                   <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginBottom: '4px', fontWeight: 500 }}>요구 레벨 : Lv. 60</div>
-                  <div style={{ fontSize: '13px', color: 'var(--success)', fontWeight: 800 }}>최소 전투력 : 373,000</div>
+                  <div style={{ fontSize: '13px', color: 'var(--success)', fontWeight: 800 }}>최소 전투력 : 355,000</div>
                 </div>
+              </div>
+              {/* 업데이트 내역 */}
+              <div style={{ marginTop: '16px', padding: '14px 16px', background: 'rgba(252,211,77,0.06)', border: '1px solid rgba(252,211,77,0.2)', borderRadius: '10px', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.8 }}>
+                <div style={{ fontWeight: 800, color: '#fcd34d', marginBottom: '6px', fontSize: '12.5px' }}>📋 업데이트 내역 (2026.04.07)</div>
+                <div>· 하드 루시드 최소컷 : 373,000 → <strong style={{ color: 'var(--text)' }}>355,000</strong> 으로 재측정 반영</div>
+                <div>· 레벨 페널티 기준 정정 : 4레벨 부족부터 3레벨 기준(7%)에 10%p씩 추가 감소 적용</div>
+                <div>· 쿨감 배율 : 플레이어 레벨別 개방 스킬 기준 DPM 표로 교체 (Lv.1/10/20/45 구간)</div>
+                <div style={{ marginTop: '4px', color: 'rgba(252,211,77,0.6)', fontSize: '11px' }}>※ 원본 데이터 출처 : 메이플 인벤 '나린사람'님</div>
+              </div>
+            </div>
+
+            {/* 하드 루시드 3페이즈 딜사이클 */}
+            <div className="lc-eff-item" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '20px' }}>
+              <div className="lc-eff-name-row" style={{ marginBottom: '14px' }}>
+                <span className="lc-eff-icon" style={{ fontSize: '20px' }}>⚔️</span>
+                <span className="lc-eff-name" style={{ fontSize: '16px', fontWeight: 900, color: '#c084fc' }}>하드 루시드 3페이즈 딜사이클 (40초)</span>
+              </div>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '16px', lineHeight: 1.6, wordBreak: 'keep-all', width: '100%' }}>
+                최소컷 측정의 기준이 된 <strong>40초 딜사이클</strong>입니다. 액션 딜레이 합계 20.85초를 제외한 나머지 시간은 드림 더스트(공격 간격 0.09초)로 채웁니다.
+              </p>
+              <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px', marginBottom: '16px' }}>
+                {[
+                  { skill: '렌드 레버리',          count: '3회',  color: '#c084fc' },
+                  { skill: '페어리 더스트',         count: '3회',  color: '#c084fc' },
+                  { skill: '엘리멘탈 판타즘',        count: '3회',  color: '#a78bfa' },
+                  { skill: '일루전 드래곤',          count: '1회',  color: '#818cf8' },
+                  { skill: '가든 오브 이터널 드림',   count: '1회',  color: '#818cf8' },
+                  { skill: '피니스 솜니아',          count: '1회',  color: '#818cf8' },
+                ].map(({ skill, count, color }) => (
+                  <div key={skill} style={{ background: 'rgba(0,0,0,0.25)', borderRadius: '10px', padding: '12px 14px', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '13px', color: 'var(--text)', fontWeight: 600 }}>{skill}</span>
+                    <span style={{ fontSize: '13px', color, fontWeight: 800 }}>{count}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ width: '100%', background: 'rgba(192,132,252,0.07)', border: '1px solid rgba(192,132,252,0.25)', borderRadius: '10px', padding: '14px 16px', fontSize: '12.5px', lineHeight: 1.9, color: 'var(--text-dim)' }}>
+                <div><span style={{ color: '#c084fc', fontWeight: 700 }}>총 액션 딜레이</span> : 20.85초</div>
+                <div><span style={{ color: '#c084fc', fontWeight: 700 }}>드림 더스트 채움 시간</span> : 40.00 − 20.85 = <strong style={{ color: 'var(--text)' }}>19.15초</strong></div>
+                <div><span style={{ color: '#c084fc', fontWeight: 700 }}>드림 더스트 타격 횟수</span> : 19.15 ÷ 0.09 = <strong style={{ color: 'var(--text)' }}>약 212회</strong></div>
               </div>
             </div>
 
@@ -474,13 +530,18 @@ export default function LucidBossCalcClient() {
                       </tr>
                       <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
                         <td style={{ padding: '12px 14px', fontWeight: 600 }}>4~7 레벨 부족</td>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>90%</td>
-                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-10%</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>83%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-17%</td>
+                      </tr>
+                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>8~11 레벨 부족</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>73%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-27%</td>
                       </tr>
                       <tr>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>8~11 레벨 부족</td>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>80%</td>
-                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-20%</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>12~15 레벨 부족</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>63%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-37%</td>
                       </tr>
                     </tbody>
                   </table>
