@@ -33,7 +33,9 @@ function getDpmCol(playerLv: number): number {
 
 function calcCoolMult(playerLv: number, coolSec: number): number {
   const col = getDpmCol(playerLv);
-  return DPM_TABLE[coolSec][col] / DPM_TABLE[0][col];
+  // 환산 전투력의 기준치는 45레벨 0초 DPM입니다. 
+  // 45레벨 미만 유저는 스킬 미개방으로 인한 딜 감소량까지 배율로 적용받습니다.
+  return DPM_TABLE[coolSec][col] / DPM_TABLE[0][3];
 }
 
 const CIRC = 2 * Math.PI * 36;
@@ -43,11 +45,13 @@ const CIRC = 2 * Math.PI * 36;
 function levelPenalty(bossLv: number, playerLv: number) {
   const diff = bossLv - playerLv;
   if (diff <= 0) return 1.0;
-  if (diff === 1) return 0.98;
-  if (diff === 2) return 0.95;
-  if (diff === 3) return 0.93;
-  // 4레벨마다 3레벨 기준(7%) 대비 10%p씩 추가 감소
-  return Math.max(0, 0.93 - 0.10 * Math.ceil((diff - 3) / 4));
+  
+  const basePenalties = [0, 0.02, 0.05, 0.07];
+  const cycle = Math.floor(diff / 4);
+  const remainder = diff % 4;
+  
+  const penalty = (cycle * 0.10) + basePenalties[remainder];
+  return Math.max(0, 1 - penalty);
 }
 
 function pctFontSize(str: string) {
@@ -449,9 +453,9 @@ export default function LucidBossCalcClient() {
               <div style={{ marginTop: '16px', padding: '14px 16px', background: 'rgba(252,211,77,0.06)', border: '1px solid rgba(252,211,77,0.2)', borderRadius: '10px', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.8 }}>
                 <div style={{ fontWeight: 800, color: '#fcd34d', marginBottom: '6px', fontSize: '12.5px' }}>📋 업데이트 내역 (2026.04.07)</div>
                 <div>· 하드 루시드 최소컷 : 373,000 → <strong style={{ color: 'var(--text)' }}>355,000</strong> 으로 재측정 반영</div>
-                <div>· 레벨 페널티 기준 정정 : 4레벨 부족부터 3레벨 기준(7%)에 10%p씩 추가 감소 적용</div>
-                <div>· 쿨감 배율 : 플레이어 레벨別 개방 스킬 기준 DPM 표로 교체 (Lv.1/10/20/45 구간)</div>
-                <div style={{ marginTop: '4px', color: 'rgba(252,211,77,0.6)', fontSize: '11px' }}>※ 원본 데이터 출처 : 메이플 인벤 '나린사람'님</div>
+                <div>· 레벨 페널티 공식 정정 : (레벨 차이 ÷ 4) × 10% + 기본 패턴(0, 2, 5, 7%) 누적으로 계산식 수정</div>
+                <div>· 쿨감/환산 전투력 배율 : 45레벨 미만 유저의 딜량 손실(스킬 미개방 요소)을 배율에 올바르게 반영</div>
+                <div style={{ marginTop: '4px', color: 'rgba(252,211,77,0.6)', fontSize: '11px' }}>※ 원본 데이터 출처 : 메이플 인벤 '나린사람'님 및 유저 피드백</div>
               </div>
             </div>
 
@@ -494,7 +498,7 @@ export default function LucidBossCalcClient() {
               </div>
               <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '16px', lineHeight: 1.6, wordBreak: 'keep-all', width: '100%' }}>
                 보스 요구 레벨보다 플레이어 레벨이 낮을 경우, 아래 표와 같이 <strong>최종 데미지가 감소</strong>합니다.<br/>
-                <span style={{ fontSize: '12px', color: 'var(--text-dim)' }}>(4레벨 부족 구간부터는 매 4레벨 부족 시마다 10%씩 추가 감소)</span>
+                <span style={{ fontSize: '12px', color: 'var(--text-dim)' }}>(4레벨 주기로 [0, 2, 5, 7]% 패턴이 반복되며, 1주기마다 10%p씩 추가 감소 누적)</span>
               </p>
               
               <div style={{ width: '100%', background: 'rgba(0,0,0,0.25)', borderRadius: '12px', padding: '6px', border: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden' }}>
@@ -514,34 +518,24 @@ export default function LucidBossCalcClient() {
                         <td style={{ padding: '12px 14px', color: 'var(--text-muted)' }}>0%</td>
                       </tr>
                       <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>1 레벨 부족</td>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>98%</td>
-                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-2%</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>1 ~ 3 레벨 부족</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>98% / 95% / 93%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-2% / -5% / -7%</td>
                       </tr>
                       <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>2 레벨 부족</td>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>95%</td>
-                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-5%</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>4 ~ 7 레벨 부족</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>90% / 88% / 85% / 83%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-10% / -12% / -15% / -17%</td>
                       </tr>
                       <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>3 레벨 부족</td>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>93%</td>
-                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-7%</td>
-                      </tr>
-                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>4~7 레벨 부족</td>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>83%</td>
-                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-17%</td>
-                      </tr>
-                      <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>8~11 레벨 부족</td>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>73%</td>
-                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-27%</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>8 ~ 11 레벨 부족</td>
+                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>80% / 78% / 75% / 73%</td>
+                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-20% / -22% / -25% / -27%</td>
                       </tr>
                       <tr>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>12~15 레벨 부족</td>
-                        <td style={{ padding: '12px 14px', fontWeight: 600 }}>63%</td>
-                        <td style={{ padding: '12px 14px', color: 'var(--danger)', fontWeight: 700 }}>-37%</td>
+                        <td colSpan={3} style={{ padding: '14px', fontWeight: 600, color: 'var(--text-dim)', fontSize: '12px' }}>
+                          ※ 12레벨 이상 부족 시에도 동일한 주기로 10%p씩 안정적으로 누적 감소
+                        </td>
                       </tr>
                     </tbody>
                   </table>
