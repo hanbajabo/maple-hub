@@ -20,8 +20,8 @@ const categoryIcons: { [key: string]: any } = {
 export default function BlogPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Hero Post는 최신 업데이트 포스트
-    const heroPost = blogPosts.find(p => p.slug === 'change-burning-lucid-guide') || blogPosts[0];
+    // Hero Post는 최신 업데이트 포스트 (4주차 공략으로 변경)
+    const heroPost = blogPosts.find(p => p.slug === 'change-burning-lucid-week4-guide') || blogPosts[0];
 
     // 검색 필터 함수
     const filterBySearch = (posts: BlogPost[]) => {
