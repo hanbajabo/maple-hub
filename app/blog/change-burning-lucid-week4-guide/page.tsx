@@ -204,7 +204,7 @@ export default function ChangeBurningLucidWeek4GuidePage() {
                                     <tr className="bg-slate-700/80 text-slate-200 border-b border-slate-600">
                                         <th className="py-3 px-3 text-left font-bold">유저 티어</th>
                                         <th className="py-3 px-2 text-center">사냥 직후 레벨</th>
-                                        <th className="py-3 px-2 text-center font-bold">4단계 즉시 진입</th>
+                                        <th className="py-3 px-2 text-center font-bold">악몽의 숲 4단계 즉시 진입</th>
                                     </tr>
                                 </thead>
                                 <tbody>
