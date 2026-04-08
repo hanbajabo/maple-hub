@@ -56,10 +56,10 @@ export default function BlogPage() {
 
             <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12">
 
-                {/* Hero Section - 컴팩트한 HOT 포스트 */}
-                <section className="mb-12 relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-900/40 via-blue-900/40 to-indigo-900/40 border border-purple-500/50 shadow-xl">
-                    <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
+                {/* Hero Section & 검색바 통합 */}
+                <section className="mb-12 relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-900/40 via-blue-900/40 to-indigo-900/40 border border-purple-500/50 shadow-xl flex flex-col">
+                    <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70 pointer-events-none" />
 
                     <div className="relative z-10 p-4 sm:p-6 md:p-8">
                         <div className="flex items-center gap-2 mb-3">
@@ -77,11 +77,11 @@ export default function BlogPage() {
                             </span>
                         </h2>
 
-                        <p className="text-slate-200 text-sm sm:text-base md:text-lg mb-4 drop-shadow-md">
+                        <p className="text-slate-200 text-sm sm:text-base md:text-lg mb-4 drop-shadow-md border-b-0 pb-0">
                             {heroPost.description}
                         </p>
 
-                        <div className="flex items-center gap-4 mb-4">
+                        <div className="flex items-center gap-4 mb-5">
                             <div className="flex items-center gap-1.5 text-xs sm:text-sm text-slate-300">
                                 <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                                 <span>{heroPost.date}</span>
@@ -110,14 +110,14 @@ export default function BlogPage() {
 
                 {/* 검색바 */}
                 <section className="mb-12">
-                    <div className="max-w-2xl mx-auto">
+                    <div className="w-full">
                         <div className="relative">
                             <input
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="제목, 키워드로 검색하세요... (예: 어빌리티, 헥사, 보스)"
-                                className="w-full px-5 py-4 pl-12 bg-slate-800/50 border-2 border-slate-700 rounded-xl text-white placeholder:text-slate-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
+                                placeholder="제목, 키워드로 검색해서 다양한 정보를 얻으세요. (예: 어빌리티, 헥사, 보스)"
+                                className="w-full px-5 py-4 pl-12 bg-slate-800/50 border-2 border-slate-700 rounded-xl text-white placeholder:text-slate-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm sm:text-base shadow-lg"
                             />
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                             {searchQuery && (
@@ -131,7 +131,7 @@ export default function BlogPage() {
                         </div>
                         {searchQuery && (
                             <p className="mt-3 text-sm text-slate-400 text-center">
-                                "{searchQuery}" 검색 결과: {allSearchResults.length}개
+                                &quot;{searchQuery}&quot; 검색 결과: {allSearchResults.length}개
                             </p>
                         )}
                     </div>
