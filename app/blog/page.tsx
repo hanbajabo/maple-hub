@@ -110,16 +110,39 @@ export default function BlogPage() {
 
                 {/* 검색바 */}
                 <section className="mb-12">
-                    <div className="w-full">
+                    <div className="w-full bg-gradient-to-r from-purple-900/30 via-slate-800/60 to-blue-900/30 border border-purple-500/40 rounded-xl p-4 sm:p-5 shadow-lg">
+                        {/* 섹션 바로가기 칩 */}
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
+                            <span className="text-xs text-slate-500 font-medium shrink-0">바로가기:</span>
+                            {[
+                                { label: '🍁 메이플 소식', href: '#update' },
+                                { label: '🔥 육성 가이드', href: '#leveling' },
+                                { label: '🎉 이벤트 가이드', href: '#event' },
+                                { label: '🛡️ 장비 가이드', href: '#equipment' },
+                                { label: '💬 메이플 이야기', href: '#story' },
+                            ].map((item) => (
+                                <a
+                                    key={item.href}
+                                    href={item.href}
+                                    className="px-2.5 py-1 text-xs font-semibold bg-slate-700/60 hover:bg-purple-700/50 border border-slate-600 hover:border-purple-500 text-slate-300 hover:text-white rounded-full transition-all"
+                                >
+                                    {item.label}
+                                </a>
+                            ))}
+                        </div>
+                        <p className="text-xs sm:text-sm font-bold text-purple-300 mb-2 flex items-center gap-1.5">
+                            <Search className="w-3.5 h-3.5" />
+                            블로그 전체 검색
+                        </p>
                         <div className="relative">
                             <input
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="제목, 키워드로 검색해서 다양한 정보를 얻으세요. (예: 어빌리티, 헥사, 보스)"
-                                className="w-full px-5 py-4 pl-12 bg-slate-800/50 border-2 border-slate-700 rounded-xl text-white placeholder:text-slate-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm sm:text-base shadow-lg"
+                                className="w-full px-5 py-4 pl-12 bg-slate-900/80 border-2 border-purple-500/50 rounded-xl text-white placeholder:text-slate-500 focus:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400/40 transition-all text-sm sm:text-base shadow-inner"
                             />
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery('')}
@@ -130,7 +153,7 @@ export default function BlogPage() {
                             )}
                         </div>
                         {searchQuery && (
-                            <p className="mt-3 text-sm text-slate-400 text-center">
+                            <p className="mt-3 text-sm text-purple-300 font-semibold text-center">
                                 &quot;{searchQuery}&quot; 검색 결과: {allSearchResults.length}개
                             </p>
                         )}
@@ -201,7 +224,7 @@ export default function BlogPage() {
 
                         {/* 테스트월드 소식 섹션 */}
                         {testworldPosts.length > 0 && (
-                            <section className="mb-20">
+                            <section id="update" className="mb-20 scroll-mt-24">
                                 <div className="flex justify-between items-end mb-8">
                                     <div>
                                         <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
@@ -272,7 +295,7 @@ export default function BlogPage() {
                         </div>
 
                         {/* 육성 가이드 섹션 */}
-                        <section className="mb-20">
+                        <section id="leveling" className="mb-20 scroll-mt-24">
                             <div className="flex justify-between items-end mb-8">
                                 <div>
                                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
@@ -335,7 +358,7 @@ export default function BlogPage() {
                         </div>
 
                         {/* 이벤트 가이드 섹션 */}
-                        <section className="mb-20">
+                        <section id="event" className="mb-20 scroll-mt-24">
                             <div className="flex justify-between items-end mb-8">
                                 <div>
                                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
@@ -398,7 +421,7 @@ export default function BlogPage() {
                         </div>
 
                         {/* 장비 가이드 섹션 */}
-                        <section className="mb-16">
+                        <section id="equipment" className="mb-16 scroll-mt-24">
                             <div className="flex justify-between items-end mb-8">
                                 <div>
                                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
@@ -450,7 +473,7 @@ export default function BlogPage() {
 
                         {/* 메이플 이야기 섹션 */}
                         {storyPosts.length > 0 && (
-                            <section className="mb-20">
+                            <section id="story" className="mb-20 scroll-mt-24">
                                 <div className="flex justify-between items-end mb-8">
                                     <div>
                                         <h2 className="text-2xl sm:text-3xl md:text-4xl font-black flex items-center gap-3 mb-2">
