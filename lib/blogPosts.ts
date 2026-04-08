@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 체인지 버닝: 루시드 4주차 공략 (4월 10일)
+    {
+        slug: 'change-burning-lucid-week4-guide',
+        title: '🦋 체인지 버닝: 루시드 4주차 — 60레벨의 벽과 4단계 던전의 진실',
+        description: '내 스펙으로 4단계 악몽의 숲 즉시 진입 가능할까? 3주차 마무리 티어별 레벨 완벽 분석! 레전드리 장비·결정·루시드 격파 조건 총정리. 일반 유저를 위한 멘탈 케어까지.',
+        category: '이벤트 가이드',
+        date: '2026년 4월 10일',
+        readTime: '12분',
+        thumbnail: '🦋',
+        featured: true,
+    },
     // 체인지 버닝: 루시드 3주차 공략 (4월 3일)
     {
         slug: 'change-burning-lucid-week3-guide',
