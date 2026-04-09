@@ -6,7 +6,7 @@ import './lucid-calc.css';
 const BOSSES = [
   { name: '카오스 자쿰', lv: 10, cut: 9000,   emoji: '🪦', useCoolMult: true  },
   { name: '카오스 벨룸', lv: 30, cut: 80800,  emoji: '🐉', useCoolMult: true  },
-  { name: '하드 루시드', lv: 60, cut: 355000, emoji: '👁️', useCoolMult: false },
+  { name: '하드 루시드', lv: 60, cut: 355000, emoji: '👁️', useCoolMult: true },
 ];
 
 // 나린사람님 제공 DPM 표 (허수아비 딜사이클 기준)
@@ -85,14 +85,17 @@ export default function LucidBossCalcClient() {
   const calculate = () => {
     const pLv = parseFloat(lv);
     const pMp = parseFloat(mp);
-    const pMa = parseFloat(ma);
-    const pCr = parseFloat(cr);
+    const rawMa = parseFloat(ma);
+    const rawCr = parseFloat(cr);
     const pCd = parseFloat(cd);
 
-    if ([pLv, pMp, pMa, pCr, pCd].some((v) => isNaN(v))) {
+    if ([pLv, pMp, rawMa, rawCr, pCd].some((v) => isNaN(v))) {
       alert('모든 스탯을 입력해 주세요!');
       return;
     }
+
+    const pMa = Math.min(100, Math.max(0, rawMa));
+    const pCr = Math.min(100, Math.max(0, rawCr));
 
     const baseCP = pMp * (45 + (pMa / 100) * 7.5) * (1 + (pCr / 100) * (pCd / 100 - 1));
     const coolSec = isNaN(parseInt(cool)) || parseInt(cool) < 0 ? 0 : Math.min(parseInt(cool), 9);
@@ -102,7 +105,7 @@ export default function LucidBossCalcClient() {
     const newResults = BOSSES.map((boss) => {
       const p = levelPenalty(boss.lv, pLv);
       const diff = boss.lv - pLv;
-      // 하드 루시드는 순수 전투력 기준 (쿨감 배율 미적용)
+      // 하드 루시드 등 모든 보스에 환산 쿨감 배율 정상 적용
       const convCP = baseCP * p * (boss.useCoolMult ? coolMult : 1);
       const pct = (convCP / boss.cut) * 100;
       const pass = pct >= 100;
