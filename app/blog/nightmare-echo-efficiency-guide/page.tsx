@@ -34,7 +34,7 @@ export default function NightmareEchoEfficiencyGuide() {
                         </span>
                         <span className="text-slate-500 text-sm mt-0.5">2026년 4월 16일 적용 예정</span>
                     </div>
-                    <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">
+                    <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
                         <Image 
                             src="/images/blog/nightmare_echo_icon.png" 
                             alt="악몽의 메아리 아이콘" 
@@ -282,7 +282,7 @@ export default function NightmareEchoEfficiencyGuide() {
                                 </p>
                                 <div className="bg-slate-900/60 rounded-lg p-5 text-center">
                                     <p className="text-white font-bold text-sm mb-2">악몽의 클리너 1마리당 경험치</p>
-                                    <p className="text-5xl font-black text-yellow-400 mb-1">470배</p>
+                                    <p className="text-4xl sm:text-5xl font-black text-yellow-400 mb-1">470배</p>
                                     <p className="text-slate-200 text-sm mb-2">(47,000%) — 동렙 일반 몬스터 대비 <span className="text-yellow-400 font-bold">정확히 고정</span></p>
                                     <p className="text-sm text-slate-300 font-medium">※ 레벨260 이상 사냥터 기준</p>
                                 </div>
@@ -333,10 +333,10 @@ export default function NightmareEchoEfficiencyGuide() {
                                 <table className="w-full text-sm">
                                     <thead className="bg-indigo-900/40">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-indigo-300 font-bold">레벨 (주요 사냥터)</th>
-                                            <th className="px-4 py-3 text-right text-indigo-300 font-bold">1회 총 경험치</th>
-                                            <th className="px-4 py-3 text-right text-indigo-300 font-bold">1회 상승(%)</th>
-                                            <th className="px-4 py-3 text-right text-indigo-300 font-bold">일일 3회 누적</th>
+                                            <th className="px-4 py-3 text-left text-indigo-300 font-bold whitespace-nowrap">레벨 (주요 사냥터)</th>
+                                            <th className="px-4 py-3 text-right text-indigo-300 font-bold whitespace-nowrap">1회 총 경험치</th>
+                                            <th className="px-4 py-3 text-right text-indigo-300 font-bold whitespace-nowrap">1회 상승(%)</th>
+                                            <th className="px-4 py-3 text-right text-indigo-300 font-bold whitespace-nowrap">일일 3회 누적</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-700">
@@ -350,7 +350,7 @@ export default function NightmareEchoEfficiencyGuide() {
                                             { level: '290 (탈라하트)', exp: '4,280억 4,329만', single: '약 0.14%', triple: '약 0.43%', tier: 'low' },
                                             { level: '295 (기어드락)', exp: '5,039억 3,954만', single: '약 0.05%', triple: '약 0.17%', tier: 'low' },
                                         ].map((row) => (
-                                            <tr key={row.level} className="hover:bg-slate-800/50 transition-colors">
+                                            <tr key={row.level} className="hover:bg-slate-800/50 transition-colors whitespace-nowrap">
                                                 <td className="px-4 py-3 text-white font-bold">Lv. {row.level}</td>
                                                 <td className="px-4 py-3 text-right text-slate-300 font-mono text-xs">{row.exp}</td>
                                                 <td className="px-4 py-3 text-right">
@@ -421,15 +421,15 @@ export default function NightmareEchoEfficiencyGuide() {
                         <div className="mt-5 bg-gradient-to-r from-green-900/40 to-teal-900/40 border-2 border-green-500/50 rounded-xl p-5">
                             <p className="text-green-300 font-bold mb-2 text-center text-lg">🎯 가장 인상적인 수치: 270레벨 기준</p>
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-slate-900/50 rounded-lg p-4 text-center">
+                                <div className="bg-slate-900/50 rounded-lg p-3 sm:p-4 text-center">
                                     <p className="text-slate-400 text-xs mb-1">메아리 1개 사용 시</p>
-                                    <p className="text-white text-3xl font-black">4.11%</p>
-                                    <p className="text-slate-400 text-xs mt-1">100초 동안 사냥 시</p>
+                                    <p className="text-white text-2xl sm:text-3xl font-black">4.11%</p>
+                                    <p className="text-slate-400 text-[10px] sm:text-xs mt-1">100초 동안 사냥 시</p>
                                 </div>
-                                <div className="bg-slate-900/50 rounded-lg p-4 text-center">
+                                <div className="bg-slate-900/50 rounded-lg p-3 sm:p-4 text-center">
                                     <p className="text-slate-400 text-xs mb-1">하루 3개 사용 시</p>
-                                    <p className="text-green-400 text-3xl font-black">12.3%</p>
-                                    <p className="text-slate-400 text-xs mt-1">하루 300초 사냥으로!</p>
+                                    <p className="text-green-400 text-2xl sm:text-3xl font-black">12.3%</p>
+                                    <p className="text-slate-400 text-[10px] sm:text-xs mt-1">하루 300초 사냥으로!</p>
                                 </div>
                             </div>
                         </div>
@@ -584,8 +584,8 @@ export default function NightmareEchoEfficiencyGuide() {
 
                             <div className="bg-gradient-to-r from-yellow-900/40 to-orange-900/40 rounded-xl p-5 border-2 border-yellow-500/50 text-center">
                                 <p className="text-yellow-300 font-bold mb-2">🎉 최종 결론</p>
-                                <p className="text-white text-lg font-bold leading-relaxed">
-                                    '악몽의 메아리' 1개 ≈ '익스프레스 부스터' <span className="text-yellow-400 text-3xl font-black align-middle">2개</span>를<br />
+                                <p className="text-white text-base sm:text-lg font-bold leading-relaxed">
+                                    '악몽의 메아리' 1개 ≈ '익스프레스 부스터' <span className="text-yellow-400 text-2xl sm:text-3xl font-black align-middle">2개</span>를<br className="sm:hidden" />
                                     동시에 터뜨리는 파급력
                                 </p>
                                 <p className="text-yellow-200 text-sm font-medium mt-4 bg-black/20 inline-block px-4 py-2 rounded-lg">
