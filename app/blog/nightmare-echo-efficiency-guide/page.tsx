@@ -145,6 +145,9 @@ export default function NightmareEchoEfficiencyGuide() {
                                                     특수 효과: <span className="text-purple-400 font-bold">루시드 자동 스킬</span> (렌드 레버리, 페어리 더스트) 자동 발동
                                                 </span>
                                             </li>
+                                            <li className="flex items-start gap-2 mt-4 pt-3 border-t border-slate-700">
+                                                <span className="text-yellow-400 font-bold text-sm">※ ‘악몽의 클리너’는 어떠한 추가 경험치 효과도 적용 받지 않습니다.</span>
+                                            </li>
                                         </ul>
                                     </div>
 
