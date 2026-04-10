@@ -20,8 +20,8 @@ const categoryIcons: { [key: string]: any } = {
 export default function BlogPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Hero Post는 최신 업데이트 포스트 (4주차 공략으로 변경)
-    const heroPost = blogPosts.find(p => p.slug === 'change-burning-lucid-week4-guide') || blogPosts[0];
+    // Hero Post는 최신 업데이트 포스트 (악몽의 메아리 효율 분석으로 변경)
+    const heroPost = blogPosts.find(p => p.slug === 'nightmare-echo-efficiency-guide') || blogPosts[0];
 
     // 검색 필터 함수
     const filterBySearch = (posts: BlogPost[]) => {
@@ -39,7 +39,7 @@ export default function BlogPage() {
     const levelingPosts = filterBySearch(blogPosts.filter(p => p.category === '육성 가이드' || p.category === '경험치 가이드'));
     const eventPosts = filterBySearch(blogPosts.filter(p => p.category === '이벤트 가이드'));
     const equipmentPosts = filterBySearch(blogPosts.filter(p => p.category === '장비 가이드'));
-    const testworldPosts = filterBySearch(blogPosts.filter(p => p.category === '업데이트 소식'));
+    const testworldPosts = filterBySearch(blogPosts.filter(p => p.category === '업데이트 소식' || p.slug === 'nightmare-echo-efficiency-guide'));
     const storyPosts = filterBySearch(blogPosts.filter(p => p.category === '메이플 이야기'));
 
     return (

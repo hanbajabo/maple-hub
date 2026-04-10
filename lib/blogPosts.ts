@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 악몽의 메아리 이벤트 (4월 16일)
+    {
+        slug: 'nightmare-echo-efficiency-guide',
+        title: '악몽의 메아리 효율 완벽 정리',
+        description: '악몽의 메아리 경험치의 비밀, 레벨별 상승량, 무자본 vs 과금 투트랙 전략까지 완벽 분석.',
+        category: '이벤트 가이드',
+        date: '2026년 4월 10일',
+        readTime: '10분',
+        thumbnail: '/images/blog/nightmare_echo_icon.png',
+        featured: true,
+        targetDate: '2026년 4월 16일',
+    },
     // 체인지 버닝: 루시드 4주차 공략 (4월 10일)
     {
         slug: 'change-burning-lucid-week4-guide',

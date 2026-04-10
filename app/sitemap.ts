@@ -114,6 +114,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.9,
         },
         {
+            url: 'https://maple.ai.kr/blog/nightmare-echo-efficiency-guide',
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.9,
+        },
+        {
             url: 'https://maple.ai.kr/blog/beginner-guide-2025',
             lastModified: new Date(),
             changeFrequency: 'monthly',
