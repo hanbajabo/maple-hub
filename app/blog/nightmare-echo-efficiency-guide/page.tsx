@@ -294,7 +294,7 @@ export default function NightmareEchoEfficiencyGuide() {
                                         <span className="text-blue-400 flex-shrink-0">💡</span>
                                         <span>
                                             물론 필드에 일반 몬스터도 함께 나오기 때문에 경험치 도핑을 하면 전체적으로 더 유리합니다.<br />
-                                            다만 <span className="text-yellow-300 font-bold">축복의 룬</span> 등 특수한 경우에는 굳이 소비하지 않아도 됩니다.
+                                            다만, <span className="text-yellow-300 font-bold">축복의 룬</span> 효과도 받지 않기 때문에 룬을 사용한 상태에서 메아리를 사용하지 않아도 됩니다.
                                         </span>
                                     </p>
                                 </div>
