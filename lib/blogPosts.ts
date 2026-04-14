@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 체인지 버닝: 루시드 5주차 공략 (4월 17일)
+    {
+        slug: 'change-burning-lucid-week5-guide',
+        title: '🦋 체인지 버닝: 루시드 5주차 — 이번 주는 편안하게 악몽의 숲 4단계로!',
+        description: '드디어 모두가 악몽의 숲 4단계(유니크 40.5%)에 입장하는 주! 선 사냥 후 입장 필수 동선, 4/15 NPC 오류 보상 수령 방법, 신규 보스 헬레나 정보와 70레벨 달성 조건까지 완벽 분석.',
+        category: '이벤트 가이드',
+        date: '2026년 4월 17일',
+        readTime: '10분',
+        thumbnail: '🦋',
+        featured: true,
+    },
     // 악몽의 메아리 이벤트 (4월 16일)
     {
         slug: 'nightmare-echo-efficiency-guide',
