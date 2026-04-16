@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 최종 공용코어 파운틴·야누스 데미지 조정 (4월 16일)
+    {
+        slug: 'final-common-core-damage-adjustment',
+        title: '🍁 최종 공용코어 파운틴·야누스 테섭→본섭 데미지 조정 총정리 + 퍼뎀 순위',
+        description: '파운틴, 야누스(황혼·새벽) 30레벨 기준 테섭→본섭 반영 데미지 변동 전 직업 총정리. 상승/하락 직업 분석과 최종 퍼뎀 1위~꼴찌 순위까지 한 번에 확인하세요!',
+        category: '업데이트 소식',
+        date: '2026년 4월 16일',
+        readTime: '10분',
+        thumbnail: '🍁',
+        featured: true,
+    },
     // 체인지 버닝: 루시드 5주차 공략 (4월 17일)
     {
         slug: 'change-burning-lucid-week5-guide',
