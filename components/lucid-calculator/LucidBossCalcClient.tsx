@@ -7,6 +7,7 @@ const BOSSES = [
   { name: '카오스 자쿰', lv: 10, cut: 9000,   emoji: '🪦', useCoolMult: true  },
   { name: '카오스 벨룸', lv: 30, cut: 80800,  emoji: '🐉', useCoolMult: true  },
   { name: '하드 루시드', lv: 60, cut: 355000, emoji: '👁️', useCoolMult: true },
+  { name: '노멀 헬레나', lv: 75, cut: 576000, emoji: '🧚', useCoolMult: true },
 ];
 
 // 나린사람님 제공 DPM 표 (허수아비 딜사이클 기준)
@@ -451,14 +452,26 @@ export default function LucidBossCalcClient() {
                   <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginBottom: '4px', fontWeight: 500 }}>요구 레벨 : Lv. 60</div>
                   <div style={{ fontSize: '13px', color: 'var(--success)', fontWeight: 800 }}>최소 전투력 : 355,000</div>
                 </div>
+                <div style={{ background: 'rgba(0,0,0,0.25)', padding: '16px 18px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ fontSize: '15px', fontWeight: 900, color: 'var(--text)', marginBottom: '8px' }}>🧚 노멀 헬레나</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-dim)', marginBottom: '4px', fontWeight: 500 }}>요구 레벨 : Lv. 75</div>
+                  <div style={{ fontSize: '13px', color: 'var(--success)', fontWeight: 800 }}>최소 전투력 : 576,000</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', marginTop: '4px' }}>체력 1조 5,000억</div>
+                </div>
               </div>
               {/* 업데이트 내역 */}
               <div style={{ marginTop: '16px', padding: '14px 16px', background: 'rgba(252,211,77,0.06)', border: '1px solid rgba(252,211,77,0.2)', borderRadius: '10px', fontSize: '12px', color: 'var(--text-dim)', lineHeight: 1.8 }}>
-                <div style={{ fontWeight: 800, color: '#fcd34d', marginBottom: '6px', fontSize: '12.5px' }}>📋 업데이트 내역 (2026.04.07)</div>
-                <div>· 하드 루시드 최소컷 : 373,000 → <strong style={{ color: 'var(--text)' }}>355,000</strong> 으로 재측정 반영</div>
+                <div style={{ fontWeight: 800, color: '#fcd34d', marginBottom: '6px', fontSize: '12.5px' }}>📋 업데이트 내역 (2026.04.16)</div>
+                <div>· 🧚 <strong style={{ color: 'var(--text)' }}>노멀 헬레나</strong> 추가 : Lv. 75 / 체력 1조 5,000억 / 최소컷 576,000 (유저 실측 기반 역산)</div>
+                <div style={{ marginTop: '4px', color: 'var(--text-dim)' }}>· 하드 루시드 최소컷 : 373,000 → <strong style={{ color: 'var(--text)' }}>355,000</strong> 으로 재측정 반영 (2026.04.07)</div>
                 <div>· 레벨 페널티 공식 정정 : (레벨 차이 ÷ 4) × 10% + 기본 패턴(0, 2, 5, 7%) 누적으로 계산식 수정</div>
                 <div>· 쿨감/환산 전투력 배율 : 45레벨 미만 유저의 딜량 손실(스킬 미개방 요소)을 배율에 올바르게 반영</div>
-                <div style={{ marginTop: '4px', color: 'rgba(252,211,77,0.6)', fontSize: '11px' }}>※ 원본 데이터 출처 : 메이플 인벤 '나린사람'님 및 유저 피드백</div>
+                <div style={{ marginTop: '4px', color: 'rgba(252,211,77,0.6)', fontSize: '11px' }}>
+                  ※ 노멀 헬레나 출처 :{' '}
+                  <a href="https://www.inven.co.kr/board/maple/2304/47312" target="_blank" rel="noreferrer" style={{ color: 'rgba(252,211,77,0.85)', textDecoration: 'underline', fontWeight: 700 }}>메이플 인벤 '서페인'님의 작성글</a>
+                  {' · '}하드 루시드 이하 출처 :{' '}
+                  <a href="https://www.inven.co.kr/board/maple/2304/47201?my=chu" target="_blank" rel="noreferrer" style={{ color: 'rgba(252,211,77,0.85)', textDecoration: 'underline', fontWeight: 700 }}>메이플 인벤 '나린사람'님의 작성글</a>
+                </div>
               </div>
             </div>
 
@@ -550,7 +563,10 @@ export default function LucidBossCalcClient() {
 
         {/* Footer */}
         <div className="lc-footer-note">
-          출처 및 참고자료 : <a href="https://www.inven.co.kr/board/maple/2304/47201?my=chu" target="_blank" rel="noreferrer">메이플 인벤 '나린사람'님의 작성글</a>
+          출처 및 참고자료 :
+          {' '}<a href="https://www.inven.co.kr/board/maple/2304/47201?my=chu" target="_blank" rel="noreferrer">메이플 인벤 '나린사람'님의 작성글</a>
+          {' '}·{' '}
+          <a href="https://www.inven.co.kr/board/maple/2304/47312" target="_blank" rel="noreferrer">메이플 인벤 '서페인'님의 작성글 (노멀 헬레나)</a>
         </div>
 
       </div>
