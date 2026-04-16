@@ -82,23 +82,23 @@ const allJobs: JobData[] = [
 
 // ===================== 헬퍼 =====================
 
-function DiffBadge({ diff, base }: { diff: number; base: number }) {
+function DiffBadge({ diff, base, compact = false }: { diff: number; base: number; compact?: boolean }) {
     const pct = ((diff / base) * 100).toFixed(0);
     if (diff > 0) return (
         <span className="inline-flex items-center gap-0.5 text-green-400 font-bold text-xs whitespace-nowrap">
             <TrendingUp className="w-3 h-3" />+{diff}
-            <span className="text-green-500/70 font-normal">({pct}%)</span>
+            {!compact && <span className="text-green-500/70 font-normal hidden sm:inline">({pct}%)</span>}
         </span>
     );
     if (diff < 0) return (
         <span className="inline-flex items-center gap-0.5 text-red-400 font-bold text-xs whitespace-nowrap">
             <TrendingDown className="w-3 h-3" />{diff}
-            <span className="text-red-500/70 font-normal">({pct}%)</span>
+            {!compact && <span className="text-red-500/70 font-normal hidden sm:inline">({pct}%)</span>}
         </span>
     );
     return (
         <span className="inline-flex items-center gap-0.5 text-slate-400 font-bold text-xs">
-            <Minus className="w-3 h-3" />기준값
+            <Minus className="w-3 h-3" />기준
         </span>
     );
 }
@@ -128,18 +128,18 @@ function GroupTable({ data }: { data: JobData[] }) {
                             const fDiff = job.fountain - BASE_FOUNTAIN;
                             const dDiff = job.dawn - BASE_DAWN;
                             return (
-                                <div key={job.name} className="bg-slate-800/50 border border-slate-700/60 rounded-xl px-3 py-3">
+                                <div key={job.name} className="bg-slate-800/50 border border-slate-700/60 rounded-xl px-3 py-2.5">
                                     <div className="font-semibold text-slate-100 text-sm mb-2">{job.name}</div>
-                                    <div className="flex gap-3">
-                                        <div className="flex-1 bg-cyan-950/40 border border-cyan-800/30 rounded-lg px-2.5 py-2">
+                                    <div className="flex gap-2">
+                                        <div className="flex-1 bg-cyan-950/40 border border-cyan-800/30 rounded-lg px-2 py-1.5">
                                             <div className="text-xs text-cyan-400 font-semibold mb-0.5">💧 파운틴</div>
                                             <div className="font-bold text-white text-sm">{job.fountain}%</div>
-                                            <div className="mt-0.5"><DiffBadge diff={fDiff} base={BASE_FOUNTAIN} /></div>
+                                            <div className="mt-0.5"><DiffBadge diff={fDiff} base={BASE_FOUNTAIN} compact /></div>
                                         </div>
-                                        <div className="flex-1 bg-indigo-950/40 border border-indigo-800/30 rounded-lg px-2.5 py-2">
+                                        <div className="flex-1 bg-indigo-950/40 border border-indigo-800/30 rounded-lg px-2 py-1.5">
                                             <div className="text-xs text-indigo-400 font-semibold mb-0.5">🌙 새벽</div>
                                             <div className="font-bold text-white text-sm">{job.dawn}%</div>
-                                            <div className="mt-0.5"><DiffBadge diff={dDiff} base={BASE_DAWN} /></div>
+                                            <div className="mt-0.5"><DiffBadge diff={dDiff} base={BASE_DAWN} compact /></div>
                                         </div>
                                     </div>
                                 </div>
@@ -154,9 +154,9 @@ function GroupTable({ data }: { data: JobData[] }) {
                                 <tr className="bg-slate-800/80 text-slate-400 text-xs">
                                     <th className="text-left px-4 py-2.5 font-semibold">직업</th>
                                     <th className="text-right px-4 py-2.5 font-semibold text-cyan-400">💧 파운틴</th>
-                                    <th className="text-right px-4 py-2.5 font-semibold text-slate-300">기준 대비</th>
+                                    <th className="text-right px-4 py-2.5 font-semibold text-slate-300">기존 대비</th>
                                     <th className="text-right px-4 py-2.5 font-semibold text-indigo-400">🌙 새벽</th>
-                                    <th className="text-right px-4 py-2.5 font-semibold text-slate-300">기준 대비</th>
+                                    <th className="text-right px-4 py-2.5 font-semibold text-slate-300">기존 대비</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -218,7 +218,7 @@ function FountainRanking({ data }: { data: JobData[] }) {
                             <th className="text-left px-3 py-2.5 font-semibold w-24">순위</th>
                             <th className="text-left px-3 py-2.5 font-semibold">직업</th>
                             <th className="text-right px-3 py-2.5 font-semibold">파운틴</th>
-                            <th className="text-right px-3 py-2.5 font-semibold">기준 대비</th>
+                            <th className="text-right px-3 py-2.5 font-semibold">기존 대비</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -278,7 +278,7 @@ function DawnRanking({ data }: { data: JobData[] }) {
                             <th className="text-left px-3 py-2.5 font-semibold w-24">순위</th>
                             <th className="text-left px-3 py-2.5 font-semibold">직업</th>
                             <th className="text-right px-3 py-2.5 font-semibold">새벽</th>
-                            <th className="text-right px-3 py-2.5 font-semibold">기준 대비</th>
+                            <th className="text-right px-3 py-2.5 font-semibold">기존 대비</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -362,25 +362,27 @@ export default function FinalCommonCoreDamageAdjustmentPage() {
 
                     {/* 주목할 직업 */}
                     <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 mb-5">
-                        <h2 className="text-sm sm:text-base font-bold text-white mb-3">⚡ 파운틴 주목 직업</h2>
-                        <div className="grid grid-cols-2 gap-3">
+                        <h2 className="text-sm sm:text-base font-bold text-white mb-3">⚡ 주목 직업 TOP 5</h2>
+                        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4">
                             <div>
-                                <div className="text-xs text-cyan-400 font-bold mb-2">📈 확정값 상위 5위</div>
-                                <div className="space-y-1">
-                                    {topFountain.map(j => (
-                                        <div key={j.name} className="flex items-center justify-between text-xs bg-slate-700/40 rounded-lg px-2.5 py-1.5 gap-1">
-                                            <span className="font-semibold text-slate-200 truncate">{j.name}</span>
+                                <div className="text-xs text-cyan-400 font-bold mb-2">💧 파운틴 상위 5위</div>
+                                <div className="space-y-1.5">
+                                    {topFountain.map((j, i) => (
+                                        <div key={j.name} className="flex items-center gap-2 text-sm bg-slate-700/40 rounded-lg px-3 py-2">
+                                            <span className="text-xs text-slate-500 w-5 shrink-0">{i + 1}위</span>
+                                            <span className="font-semibold text-slate-200 flex-1">{j.name}</span>
                                             <span className="text-cyan-300 font-bold shrink-0">{j.fountain}%</span>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                             <div>
-                                <div className="text-xs text-indigo-400 font-bold mb-2">🌙 새벽 확정값 상위 5위</div>
-                                <div className="space-y-1">
-                                    {topDawn.map(j => (
-                                        <div key={j.name} className="flex items-center justify-between text-xs bg-slate-700/40 rounded-lg px-2.5 py-1.5 gap-1">
-                                            <span className="font-semibold text-slate-200 truncate">{j.name}</span>
+                                <div className="text-xs text-indigo-400 font-bold mb-2">🌙 새벽 상위 5위</div>
+                                <div className="space-y-1.5">
+                                    {topDawn.map((j, i) => (
+                                        <div key={j.name} className="flex items-center gap-2 text-sm bg-slate-700/40 rounded-lg px-3 py-2">
+                                            <span className="text-xs text-slate-500 w-5 shrink-0">{i + 1}위</span>
+                                            <span className="font-semibold text-slate-200 flex-1">{j.name}</span>
                                             <span className="text-indigo-300 font-bold shrink-0">{j.dawn}%</span>
                                         </div>
                                     ))}
