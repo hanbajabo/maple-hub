@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 최종 공용코어 직업별 확정안 (4월 16일)
+    {
+        slug: 'final-common-core-damage-adjustment',
+        title: '🍁 최종 공용코어 파운틴·야누스 직업별 데미지 확정안 총정리',
+        description: '패치 전 공통 기준(파운틴 900% / 새벽 690%)에서 직업별 최종 확정 수치가 어떻게 결정됐는지 전 직업 정리. 순위·증감·밸런싱 배경까지 한눈에!',
+        category: '업데이트 소식',
+        date: '2026년 4월 16일',
+        readTime: '8분',
+        thumbnail: '🍁',
+        featured: true,
+    },
     // 체인지 버닝: 루시드 5주차 공략 (4월 17일)
     {
         slug: 'change-burning-lucid-week5-guide',
