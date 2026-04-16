@@ -21,7 +21,7 @@ export default function BlogPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
     // Hero Post는 최신 업데이트 포스트
-    const heroPost = blogPosts.find(p => p.slug === 'final-common-core-damage-adjustment') || blogPosts[0];
+    const heroPost = blogPosts.find(p => p.slug === 'change-burning-lucid-week5-guide') || blogPosts[0];
 
     // 검색 필터 함수
     const filterBySearch = (posts: BlogPost[]) => {
