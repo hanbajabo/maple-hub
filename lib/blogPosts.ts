@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 체인지 버닝: 루시드 6주차 공략 (4월 24일)
+    {
+        slug: 'change-burning-lucid-week6-guide',
+        title: '🦋 체인지 버닝: 루시드 6주차 — 드디어 전원 70레벨! 이제 헬레나를 잡아라!',
+        description: '6주차 주간 숙제 +70레벨 보너스로 전 티어 유저가 70레벨 대통합! 80레벨(5단계 숲)은 7주차에 자동 달성. 이번 주 할 일은 4단계 파밍 + 노멀 헬레나 도전뿐.',
+        category: '이벤트 가이드',
+        date: '2026년 4월 24일',
+        readTime: '10분',
+        thumbnail: '🦋',
+        featured: true,
+    },
     // 최종 공용코어 직업별 확정안 (4월 16일)
     {
         slug: 'final-common-core-damage-adjustment',
