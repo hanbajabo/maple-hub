@@ -34,7 +34,7 @@ export default function ChangeBurningLucidWeek6GuidePage() {
                             </span>
                         </div>
                         <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent pl-2 sm:pl-[42px]">
-                            드디어 전원 70레벨! 이제 헬레나를 잡아라!
+                            드디어 전원 70레벨! 헬레나 도전!
                         </span>
                     </h1>
 
@@ -257,10 +257,28 @@ export default function ChangeBurningLucidWeek6GuidePage() {
                         {/* 강조 박스 */}
                         <div className="bg-gradient-to-r from-purple-900/60 to-indigo-900/40 border-2 border-purple-400/60 rounded-xl p-4 text-sm break-keep">
                             <p className="text-white font-black text-base mb-1">🦋 이번 6주차의 핵심!</p>
-                            <p className="text-slate-200 leading-relaxed">
+                            <p className="text-slate-200 leading-relaxed mb-4">
                                 단계 구분 없이 <strong className="text-yellow-300">모든 유저가 70레벨 이상</strong>으로 진입하는 대통합의 주간입니다.<br />
                                 4단계 악몽의 숲에서 여유롭게 스펙업을 하면서, <strong className="text-pink-300">여력이 된다면 노멀 헬레나 도전</strong>도 해보세요!
                             </p>
+
+                            {/* 공략 영상 */}
+                            <div className="bg-black/30 rounded-xl p-3 border border-purple-500/30 shadow-inner">
+                                <div className="flex items-center gap-2 mb-2 px-1">
+                                    <span className="text-lg sm:text-xl">📺</span>
+                                    <p className="text-purple-200 font-bold text-sm sm:text-base">헬레나 쉽게 잡는 방법 공략 영상</p>
+                                </div>
+                                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-purple-500/20 shadow-lg">
+                                    <iframe
+                                        className="absolute top-0 left-0 w-full h-full"
+                                        src="https://www.youtube.com/embed/7xZN97Jn27c"
+                                        title="헬레나 쉽게 잡는 방법"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowFullScreen>
+                                    </iframe>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -383,25 +401,22 @@ export default function ChangeBurningLucidWeek6GuidePage() {
                                 { week: '12주차', period: '6월 4일(목) ~ 6월 10일(수)', date: '', note: '', isNow: false, isHighlight: false },
                                 { week: '13주차', period: '6월 11일(목) ~ 6월 17일(수)', date: '최종 마감!', note: '', isNow: false, isHighlight: false, isFinal: true },
                             ].map((row, i) => (
-                                <div key={i} className={`flex items-center gap-3 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 border ${
-                                    row.isNow ? 'bg-purple-900/40 border-purple-400/60' :
+                                <div key={i} className={`flex items-center gap-3 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 border ${row.isNow ? 'bg-purple-900/40 border-purple-400/60' :
                                     row.isHighlight ? 'bg-yellow-900/30 border-yellow-500/40' :
-                                    row.isFinal ? 'bg-red-900/30 border-red-500/40' :
-                                    'bg-slate-800/40 border-slate-700/50'
-                                }`}>
-                                    <span className={`text-xs font-black px-2 py-0.5 rounded-full shrink-0 ${
-                                        row.isNow ? 'bg-purple-500 text-white' :
+                                        row.isFinal ? 'bg-red-900/30 border-red-500/40' :
+                                            'bg-slate-800/40 border-slate-700/50'
+                                    }`}>
+                                    <span className={`text-xs font-black px-2 py-0.5 rounded-full shrink-0 ${row.isNow ? 'bg-purple-500 text-white' :
                                         row.isHighlight ? 'bg-yellow-600 text-white' :
-                                        row.isFinal ? 'bg-red-600 text-white' :
-                                        'bg-slate-600 text-slate-200'
-                                    }`}>{row.week}</span>
+                                            row.isFinal ? 'bg-red-600 text-white' :
+                                                'bg-slate-600 text-slate-200'
+                                        }`}>{row.week}</span>
                                     <div className="flex-1 min-w-0">
-                                        <p className={`font-bold text-sm ${
-                                            row.isNow ? 'text-purple-200' :
+                                        <p className={`font-bold text-sm ${row.isNow ? 'text-purple-200' :
                                             row.isHighlight ? 'text-yellow-200' :
-                                            row.isFinal ? 'text-red-200' :
-                                            'text-slate-200'
-                                        }`}>
+                                                row.isFinal ? 'text-red-200' :
+                                                    'text-slate-200'
+                                            }`}>
                                             {row.period} {row.date && <span className="text-red-400 ml-1">{row.date}</span>}
                                         </p>
                                         {row.note && <p className={`text-xs mt-0.5 ${row.isHighlight ? 'text-yellow-300 font-bold' : 'text-slate-400'}`}>➡️ {row.note}</p>}
