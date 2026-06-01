@@ -588,7 +588,7 @@ export default function SummerShowcaseOverdrive2026AnalysisPage() {
                             </div>
                             
                             <p className="mb-3 text-slate-300">
-                                '한계를 돌파한다'는 의미의 'OVERDRIVE'는 김창섭 디렉터 체제 출범 이후 가장 긴 업데이트 명칭이자, 메이플스토리 역사상 '히어로즈 오브 메이플'에 이어 두 번째로 긴 타이틀이다.<Cite id={9} /> 또한, <span className="text-white font-bold">김창섭 디렉터가 넥슨 메이플스토리 본부의 부본부장으로 승진</span>한 이후 지휘하는 첫 번째 대규모 여름 프로젝트라는 점에서 내부적인 상징성도 대단히 크다.<Cite id={9} />
+                                '한계를 돌파한다'는 의미의 'OVERDRIVE'는 김창섭 디렉터 체제 출범 이후 가장 긴 업데이트 명칭이자, 메이플스토리 역사상 '히어로즈 오브 메이플'에 이어 두 번째로 긴 타이틀이다.<Cite id={9} /> 또한, <span className="text-white font-bold">김창섭 디렉터가 넥슨 메이플스토리 부본부장으로 승진</span>한 이후 지휘하는 첫 번째 대규모 여름 프로젝트라는 점에서 내부적인 상징성도 대단히 크다.<Cite id={9} />
                             </p>
                             <p className="mb-3 text-slate-300">
                                 이러한 기대감을 증명하듯, 지난 5월 26일 오후 8시 티켓링크를 통해 진행된 현장 관람 티켓 예매는 270레벨 이상 캐릭터를 보유한 고성장 유저만을 대상으로 엄격하게 진행되었음에도 불구하고, <span className="text-red-300 font-bold">예매 오픈 단 1분 만에 전량 매진</span>되는 기염을 토하며 메이플스토리 팬덤의 강력한 화력을 다시 한번 입증했다.<Cite id={19} /> 넥슨은 관람객의 성원에 보답하기 위해 현장 관람객 전원에게 <span className="text-amber-300 font-bold">15,000 넥슨캐시가 충전된 특별한 시그니처 티켓과 공식 응원봉</span>을 현장 선물로 지급한다.<Cite id={12} /> 뿐만 아니라 '챌린저스 월드 시즌3'에서 챌린저 등급을 달성하거나 최근 1년간 게임에 빠짐없이 출석한 충성 유저 중 100명을 별도로 추첨하여 <span className="text-white font-bold">VIP 자격으로 쇼케이스에 초대</span>하는 등 팬서비스에 만전을 기하고 있다.<Cite id={12} />
