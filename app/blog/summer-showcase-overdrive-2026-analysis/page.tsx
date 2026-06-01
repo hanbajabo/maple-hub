@@ -773,7 +773,7 @@ export default function SummerShowcaseOverdrive2026AnalysisPage() {
                                 </tr>
                                 <tr className="bg-slate-900/10 hover:bg-slate-900/40 transition-colors">
                                     <td className="px-4 py-3.5 font-bold text-blue-300 whitespace-nowrap">비즈니스 모델</td>
-                                    <td className="px-4 py-3.5">육성 패스 모델 다양화 (프론티어 패스 등 신규 패스 출시)</td>
+                                    <td className="px-4 py-3.5">육성 패스 모델 다양화 (2025 제네시스 패스 전례를 계승한 신규 패스 출시)</td>
                                     <td className="px-4 py-3.5 text-center text-blue-400 font-extrabold text-base whitespace-nowrap">85%</td>
                                     <td className="px-4 py-3.5 whitespace-nowrap"><a href="#pred-10" className="text-blue-400 hover:underline text-xs">상세 분석 &rarr;</a></td>
                                 </tr>
@@ -1169,7 +1169,7 @@ export default function SummerShowcaseOverdrive2026AnalysisPage() {
                                     🔍 심층 분석 (Deep Analysis)
                                 </p>
                                 <p className="text-sm sm:text-base leading-relaxed text-slate-300">
-                                    개발진 입장에서는 기본 필요 경험치 테이블을 직접적으로 줄여 전체적인 인게임 가치를 훼손하는 조치보다, 패스권이라는 비즈니스 모델(BM)을 통해 게임 참여도를 높이면서 간접적으로 성장 피로도를 대폭 낮춰주는 방식을 훨씬 선호하고 있다.<Cite id={4} />
+                                    개발진 입장에서는 기본 필요 경험치 테이블을 직접적으로 줄여 전체적인 인게임 가치를 훼손하는 조치보다, 패스권이라는 비즈니스 모델(BM)을 통해 게임 참여도를 높이면서 간접적으로 성장 피로도를 대폭 낮춰주는 방식을 훨씬 선호하고 있다.<Cite id={4} /> 특히 <span className="text-white font-bold bg-slate-900/60 px-1 py-0.5 rounded border border-slate-800">2025년 여름 'ASSEMBLE' 업데이트 당시 전격 도입되었던 '제네시스 패스'</span>는 복잡하고 혹독했던 제네시스 무기 해방 장벽과 해방 기간을 획기적으로 단축해 주어, 신규/복귀 유저들이 무사히 최상위 연착륙을 실현하는 데 장안의 화제이자 진짜 결정적인 기여를 남겼다.<Cite id={4} />
                                 </p>
                                 <div className="bg-slate-900/40 border border-slate-850 rounded-xl p-4 mt-3 space-y-2">
                                     <p className="text-xs font-bold uppercase tracking-wider text-pink-400 flex items-center gap-1.5">
@@ -1177,7 +1177,7 @@ export default function SummerShowcaseOverdrive2026AnalysisPage() {
                                         🔮 예상 변화 & 논리적 인과관계
                                     </p>
                                     <p className="text-sm text-slate-300 leading-relaxed">
-                                        뉴비의 무기 해방을 돕는 제네시스 패스와 챌린저스 월드의 경험치 펌핑을 돕는 챌린저스 패스의 기조를 이어가며, 주간 미션 등을 통해 보상을 더욱 세분화하여 지급하는 <span className="text-blue-300 font-bold">신규 패스 모델(예: 프론티어 패스)</span>이 이번 쇼케이스를 통해 적극적으로 도입될 전망이다.
+                                        이처럼 실유저들의 극찬을 받으며 혁명적인 안착 효과를 입증했던 <span className="text-cyan-300 font-bold">'제네시스 패스'</span>와 챌린저스 월드의 챌린저스 패스의 기조를 한 차원 더 고도화하여, 주간 미션 등을 통해 보상을 더욱 세분화하여 지급하는 <span className="text-blue-300 font-bold">신규 패스 모델(예: 프론티어 패스)</span>이 이번 쇼케이스를 통해 적극적으로 도입될 전망이다.
                                     </p>
                                 </div>
                             </div>
