@@ -706,8 +706,11 @@ export default function SummerShowcaseOverdrive2026AnalysisPage() {
                     </p>
 
                     {/* Dashboard styled Prediction Table */}
-                    <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60 mb-10 shadow-inner">
-                        <table className="w-full text-xs sm:text-sm text-left min-w-[820px] border-collapse">
+                    <div className="md:hidden flex items-center justify-end text-[11px] text-slate-400 mb-2 gap-1.5 px-1 font-semibold tracking-wide">
+                        <span className="animate-pulse text-purple-400">↔</span> 표를 좌우로 스크롤하여 확인하세요
+                    </div>
+                    <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60 mb-10 shadow-inner scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent pb-1">
+                        <table className="w-full text-xs sm:text-sm text-left min-w-[680px] border-collapse">
                             <thead>
                                 <tr className="bg-slate-900/80 border-b border-slate-850 text-slate-355">
                                     <th className="px-4 py-3.5 font-bold w-[18%] whitespace-nowrap">분류</th>
