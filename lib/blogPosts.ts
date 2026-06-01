@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 2026 여름 쇼케이스 OVERDRIVE 심층 분석 (6월 1일)
+    {
+        slug: 'summer-showcase-overdrive-2026-analysis',
+        title: '🎸 역대 메이플 쇼케이스 완전 분석 & 2026 여름 OVERDRIVE 심층 전망',
+        description: '2024 MILESTONE부터 2025 CROWN까지, 김창섭 체제 쇼케이스의 모든 것을 해부한다. 만렙 305/310 확장, 3번째 6차 스킬, 에버니아 개방, BTS 진 콜라보, 극장판 애니까지 — OVERDRIVE가 바꿀 메이플의 미래를 실현 확률과 함께 총정리.',
+        category: '메이플 이야기',
+        date: '2026년 6월 1일',
+        readTime: '25분',
+        thumbnail: '🎸',
+        featured: true,
+    },
     // 체인지 버닝: 루시드 6주차 공략 (4월 24일)
     {
         slug: 'change-burning-lucid-week6-guide',
