@@ -1212,9 +1212,9 @@ export default function SummerShowcaseOverdrive2026AnalysisPage() {
                         {/* SEO 해시태그 클라우드 */}
                         <div className="mt-8 pt-6 border-t border-slate-800/80 flex flex-wrap gap-2">
                             {[
-                                '메이플스토리', 'OVERDRIVE', '오버드라이브', '김창섭', 
-                                '여름쇼케이스', 'BTS진', '메이플용사진', '디어마이히어로', 
-                                '핸드볼경기장', '롯데시네마', '메이플아일랜드', '완벽분석'
+                                '메이플스토리', '오버드라이브쇼케이스예상', '오버드라이브쇼케이스분석',
+                                '쇼케이스분석', '쇼케이스예상', '메이플쇼케이스분석', '메이플쇼케이스예상',
+                                'OVERDRIVE', '김창섭', 'BTS진', '디어마이히어로', '메이플용사진'
                             ].map((tag) => (
                                 <span 
                                     key={tag} 
