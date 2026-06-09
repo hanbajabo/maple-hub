@@ -222,6 +222,16 @@ export default function OverdrivePreEventChecklist() {
                         <p className="text-white text-lg sm:text-xl font-bold flex items-center gap-2 text-purple-300">
                             ✨ 루시드 히든 미션 공략
                         </p>
+                        {/* 이미지 */}
+                        <div className="rounded-xl overflow-hidden border border-purple-500/30 bg-slate-900/60 my-2">
+                            <Image
+                                src="/lucid-hidden-mission.webp"
+                                alt="루시드 히든 미션 이펙트 및 노틸러스 맵 위치"
+                                width={800}
+                                height={200}
+                                className="w-full h-auto object-contain"
+                            />
+                        </div>
                         <div className="text-slate-300 text-base sm:text-lg space-y-2">
                             <p className="font-bold text-white">
                                 🔒 참여 조건: <span className="text-purple-400">루시드 레벨 80 이상</span>
