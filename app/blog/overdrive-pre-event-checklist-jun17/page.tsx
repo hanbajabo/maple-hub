@@ -216,6 +216,36 @@ export default function OverdrivePreEventChecklist() {
                     <WarnBox>
                         헬레나 나이트메어를 잡으면 <strong>몽환의 나비 피니시 어택 이펙트 교환권</strong>을 받을 수 있으니, 마지막까지 최대한 스펙업을 하신 후에 잡아보는 것을 추천드립니다!
                     </WarnBox>
+
+                    {/* 히든 미션 안내 */}
+                    <div className="bg-purple-950/60 border border-purple-500/50 rounded-xl px-5 py-4 mt-4 space-y-3">
+                        <p className="text-white text-lg sm:text-xl font-bold flex items-center gap-2 text-purple-300">
+                            ✨ 루시드 히든 미션 공략
+                        </p>
+                        <div className="text-slate-300 text-base sm:text-lg space-y-2">
+                            <p className="font-bold text-white">
+                                🔒 참여 조건: <span className="text-purple-400">루시드 레벨 80 이상</span>
+                            </p>
+                            <ol className="list-decimal pl-5 space-y-3 text-slate-300 leading-relaxed">
+                                <li>
+                                    <strong>체인지 버닝 수락 캐릭터</strong>로 석촌호수 루시드에게 말을 걸어 <strong className="text-yellow-300">노틸러스 침실</strong>에 입장하고 <strong className="text-yellow-300">꿈의 미로</strong>를 클리어합니다.
+                                    <div className="bg-slate-900/60 border border-purple-500/30 rounded-lg p-3 mt-1.5 text-sm space-y-1">
+                                        <p className="font-bold text-purple-300">🧭 꿈의 미로 클리어 팁</p>
+                                        <ul className="list-disc pl-4 space-y-1 text-slate-400">
+                                            <li><strong>1번째 맵:</strong> 나비들이 줄지어서 가리키는 포탈로 입장</li>
+                                            <li><strong>2번째, 3번째 맵:</strong> 머리 중앙에 <span className="text-yellow-300 font-bold">더듬이가 있는 나비</span> 옆의 포탈로 입장</li>
+                                            <li>(예시: 더듬이 있는 나비는 왼쪽 / 없는 나비는 오른쪽)</li>
+                                        </ul>
+                                    </div>
+                                    <p className="text-green-300 text-sm font-semibold mt-1">🎁 보상: 체인지 버닝 : 루시드 이펙트</p>
+                                </li>
+                                <li>
+                                    획득한 <strong>이펙트를 착용</strong>한 상태에서 다시 석촌호수 루시드와 대화합니다.
+                                    <p className="text-green-300 text-sm font-semibold mt-1">🎁 보상: 루시드의 드림캐처 (메이플 홈 가구)</p>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
                 </EventCard>
 
                 {/* ───── 3. 코인샵 ───── */}
