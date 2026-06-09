@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 6월 17일 마감! 오버드라이브 업데이트 전 이벤트 총정리 (6월 9일)
+    {
+        slug: 'overdrive-pre-event-checklist-jun17',
+        title: '🚨 6월 17일 마감! 오버드라이브 업데이트 전 이벤트 총정리',
+        description: '6월 18일 오버드라이브 업데이트 전, 꼭 챙겨야 할 이벤트 10가지 완벽 정리! 하이퍼버닝, 체인지버닝 루시드, 마스코트 퍼레이드, VIP 사우나, 썸머 카운트다운, 쇼케이스 장소 변경까지.',
+        category: '이벤트 가이드',
+        date: '2026년 6월 9일',
+        readTime: '8분',
+        thumbnail: '🚨',
+        featured: true,
+    },
     // 2026 여름 쇼케이스 OVERDRIVE 심층 분석 (6월 1일)
     {
         slug: 'summer-showcase-overdrive-2026-analysis',
