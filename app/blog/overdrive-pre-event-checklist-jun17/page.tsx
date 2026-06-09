@@ -241,8 +241,19 @@ export default function OverdrivePreEventChecklist() {
                                     <strong>체인지 버닝 수락 캐릭터</strong>로 석촌호수 루시드에게 말을 걸어 <strong className="text-yellow-300">노틸러스 침실</strong>에 입장하고 <strong className="text-yellow-300">꿈의 미로</strong>를 클리어합니다.
                                     <div className="bg-slate-900/60 border border-purple-500/30 rounded-lg p-3 mt-1.5 text-sm space-y-1">
                                         <p className="font-bold text-purple-300">🧭 꿈의 미로 클리어 팁</p>
-                                        <ul className="list-disc pl-4 space-y-1 text-slate-400">
-                                            <li><strong>1번째 맵:</strong> 나비들이 줄지어서 가리키는 포탈로 입장</li>
+                                        <ul className="list-disc pl-4 space-y-2 text-slate-400">
+                                            <li>
+                                                <strong>1번째 맵:</strong> 나비들이 줄지어서 가리키는 포탈로 입장
+                                                <div className="rounded-lg overflow-hidden border border-purple-500/20 bg-slate-950/80 my-2 max-w-lg">
+                                                    <Image
+                                                        src="/lucid-hidden-first-portal.webp"
+                                                        alt="꿈의 미로 1번째 맵 공략 (나비들 경로)"
+                                                        width={600}
+                                                        height={300}
+                                                        className="w-full h-auto object-contain"
+                                                    />
+                                                </div>
+                                            </li>
                                             <li><strong>2번째, 3번째 맵:</strong> 머리 중앙에 <span className="text-yellow-300 font-bold">더듬이가 있는 나비</span> 옆의 포탈로 입장</li>
                                             <li>(예시: 더듬이 있는 나비는 왼쪽 / 없는 나비는 오른쪽)</li>
                                         </ul>
