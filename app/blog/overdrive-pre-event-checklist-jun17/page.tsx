@@ -254,7 +254,18 @@ export default function OverdrivePreEventChecklist() {
                                                     />
                                                 </div>
                                             </li>
-                                            <li><strong>2번째, 3번째 맵:</strong> 머리 중앙에 <span className="text-yellow-300 font-bold">더듬이가 있는 나비</span> 옆의 포탈로 입장</li>
+                                            <li>
+                                                <strong>2번째, 3번째 맵:</strong> 머리 중앙에 <span className="text-yellow-300 font-bold">더듬이가 있는 나비</span> 옆의 포탈로 입장
+                                                <div className="rounded-lg overflow-hidden border border-purple-500/20 bg-slate-950/80 my-2 max-w-lg">
+                                                    <Image
+                                                        src="/lucid-hidden-second-third-portal.webp"
+                                                        alt="꿈의 미로 2, 3번째 맵 공략 (더듬이 여부)"
+                                                        width={600}
+                                                        height={300}
+                                                        className="w-full h-auto object-contain"
+                                                    />
+                                                </div>
+                                            </li>
                                             <li>(예시: 더듬이 있는 나비는 왼쪽 / 없는 나비는 오른쪽)</li>
                                         </ul>
                                     </div>
