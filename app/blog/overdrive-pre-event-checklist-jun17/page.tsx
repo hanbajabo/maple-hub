@@ -54,16 +54,16 @@ function EventCard({
     };
 
     return (
-        <div className={`bg-gradient-to-br ${colorMap[color]} border-2 rounded-2xl p-6 sm:p-8 mb-6`}>
-            <div className="flex items-center gap-4 mb-5">
-                <div className={`flex-shrink-0 w-14 h-14 ${numColorMap[color]} rounded-2xl flex items-center justify-center shadow-lg`}>
-                    <span className="text-white text-2xl font-black">{num}</span>
+        <div className={`bg-gradient-to-br ${colorMap[color]} border-2 rounded-2xl p-4 sm:p-8 mb-6`}>
+            <div className="flex items-start gap-3 mb-4">
+                <div className={`flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 ${numColorMap[color]} rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg`}>
+                    <span className="text-white text-lg sm:text-2xl font-black">{num}</span>
                 </div>
-                <h2 className={`text-2xl sm:text-3xl font-black ${titleColorMap[color]} leading-tight`}>
+                <h2 className={`text-lg sm:text-3xl font-black ${titleColorMap[color]} leading-tight break-keep`}>
                     {emoji} {title}
                 </h2>
             </div>
-            <div className="space-y-3 pl-2">
+            <div className="space-y-3">
                 {children}
             </div>
         </div>
@@ -73,9 +73,9 @@ function EventCard({
 // 강조 텍스트 줄
 function InfoLine({ icon, text, highlight }: { icon?: React.ReactNode; text: string; highlight?: string }) {
     return (
-        <div className="flex items-start gap-3 bg-slate-900/60 rounded-xl px-5 py-4">
+        <div className="flex items-start gap-3 bg-slate-900/60 rounded-xl px-4 py-3 sm:px-5 sm:py-4">
             {icon && <div className="flex-shrink-0 mt-0.5 text-slate-300">{icon}</div>}
-            <p className="text-white text-lg sm:text-xl leading-relaxed">
+            <p className="text-white text-base sm:text-xl leading-relaxed break-keep">
                 {highlight
                     ? text.split(highlight).map((part, i) =>
                         i === 0 ? <span key={i}>{part}</span> : <span key={i}><strong className="text-yellow-300">{highlight}</strong>{part}</span>
@@ -89,9 +89,9 @@ function InfoLine({ icon, text, highlight }: { icon?: React.ReactNode; text: str
 // 경고 박스
 function WarnBox({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex items-start gap-3 bg-yellow-950/60 border border-yellow-500/60 rounded-xl px-5 py-4 mt-2">
-            <AlertCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-0.5" />
-            <p className="text-yellow-200 text-lg sm:text-xl leading-relaxed">{children}</p>
+        <div className="flex items-start gap-3 bg-yellow-950/60 border border-yellow-500/60 rounded-xl px-4 py-3 sm:px-5 sm:py-4 mt-2">
+            <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 flex-shrink-0 mt-0.5" />
+            <p className="text-yellow-200 text-sm sm:text-xl leading-relaxed break-keep">{children}</p>
         </div>
     );
 }
@@ -99,9 +99,9 @@ function WarnBox({ children }: { children: React.ReactNode }) {
 // 체크 박스
 function CheckLine({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex items-start gap-3 bg-slate-900/60 rounded-xl px-5 py-4">
-            <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-            <p className="text-white text-lg sm:text-xl leading-relaxed">{children}</p>
+        <div className="flex items-start gap-3 bg-slate-900/60 rounded-xl px-4 py-3 sm:px-5 sm:py-4">
+            <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0 mt-0.5" />
+            <p className="text-white text-sm sm:text-xl leading-relaxed break-keep">{children}</p>
         </div>
     );
 }
@@ -137,33 +137,33 @@ export default function OverdrivePreEventChecklist() {
                         <span className="text-slate-500 text-sm">2026년 6월 9일</span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-5xl font-black text-white mb-5 leading-tight">
+                    <h1 className="text-2xl sm:text-5xl font-black text-white mb-5 leading-tight break-keep">
                         🚨 6월 17일 마감!<br />
                         오버드라이브 업데이트 전<br />
                         이벤트 총정리
                     </h1>
 
-                    <p className="text-xl sm:text-2xl text-slate-300 leading-relaxed">
+                    <p className="text-base sm:text-2xl text-slate-300 leading-relaxed break-keep">
                         6월 18일(목) 오버드라이브 업데이트까지 <strong className="text-yellow-300">딱 1주일</strong>!<br />
                         놓치면 사라지는 보상들, 오늘 바로 체크하세요 ⏰
                     </p>
                 </header>
 
                 {/* D-9 긴급 배너 */}
-                <div className="mb-12 bg-gradient-to-r from-red-900/60 via-orange-900/50 to-red-900/60 border-2 border-red-500 rounded-2xl p-7 sm:p-10">
-                    <div className="flex items-center gap-5">
-                        <div className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 bg-red-500 rounded-2xl flex items-center justify-center shadow-lg">
-                            <Clock className="w-9 h-9 sm:w-11 sm:h-11 text-white" />
+                <div className="mb-10 bg-gradient-to-r from-red-900/60 via-orange-900/50 to-red-900/60 border-2 border-red-500 rounded-2xl p-5 sm:p-10">
+                    <div className="flex items-center gap-4">
+                        <div className="flex-shrink-0 w-12 h-12 sm:w-20 sm:h-20 bg-red-500 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
+                            <Clock className="w-7 h-7 sm:w-11 sm:h-11 text-white" />
                         </div>
-                        <div>
-                            <h2 className="text-2xl sm:text-4xl font-black text-red-300 mb-2">
+                        <div className="min-w-0">
+                            <h2 className="text-xl sm:text-4xl font-black text-red-300 mb-1.5 break-keep">
                                 ⚠️ 6월 17일(수) 전부 종료!
                             </h2>
-                            <p className="text-white text-xl sm:text-2xl">
+                            <p className="text-white text-sm sm:text-2xl break-keep">
                                 <strong className="text-yellow-300">6월 18일(목)</strong> 오버드라이브 업데이트와 함께
                                 현재 이벤트가 모두 종료됩니다.
                             </p>
-                            <p className="text-slate-300 text-lg mt-2">
+                            <p className="text-slate-300 text-xs sm:text-lg mt-1.5 break-keep">
                                 지금 알려드리는 것은 <strong className="text-orange-300">모두 6월 17일 수요일에 종료</strong>되는 것들입니다!
                             </p>
                         </div>
@@ -440,14 +440,14 @@ export default function OverdrivePreEventChecklist() {
 
                         {/* 메소 환산 계산기 UI */}
                         <div className="bg-slate-950/90 border border-green-600/40 rounded-xl p-4 mt-4 space-y-4">
-                            <p className="text-green-400 text-base font-bold flex items-center justify-between">
+                            <p className="text-green-400 text-base font-bold flex flex-wrap items-center justify-between gap-2">
                                 <span>💰 메포 ↔ 메소 환산 계산기</span>
                                 {missedCount > 0 && (
                                     <button
                                         onClick={() => setPointsToConvert(missedCount * 3000)}
-                                        className="text-xs bg-green-500/20 hover:bg-green-500/30 text-green-300 px-2 py-1 rounded border border-green-500/30 transition-colors"
+                                        className="text-xs bg-green-500/20 hover:bg-green-500/30 text-green-300 px-2 py-1 rounded border border-green-500/30 transition-colors whitespace-nowrap"
                                     >
-                                        위 메포 결과 가져오기 ({ (missedCount * 3000).toLocaleString() } MP)
+                                        결과 가져오기
                                     </button>
                                 )}
                             </p>
@@ -533,7 +533,7 @@ export default function OverdrivePreEventChecklist() {
                     />
                     <div className="bg-slate-900/60 border border-blue-500/30 rounded-xl px-5 py-4 mt-2">
                         <p className="text-slate-300 text-base sm:text-lg">
-                            📅 <strong>진행 기간:</strong> 2026년 4월 17일(금) 오전 0시 ~ 5월 14일(목) 오후 11시 59분
+                            📅 <strong>진행 기간:</strong> 2026년 4월 17일(금) 오전 0시 ~ 6월 18일(목) 오후 11시 59분
                         </p>
                     </div>
                 </EventCard>
@@ -544,26 +544,26 @@ export default function OverdrivePreEventChecklist() {
                         icon={<MapPin className="w-6 h-6 text-red-400" />}
                         text="쇼케이스 장소가 변경되었습니다. 직관하시는 분들은 꼭 확인하세요!"
                     />
-                    <div className="bg-red-950/60 border-2 border-red-500 rounded-xl px-6 py-5 space-y-3">
-                        <p className="text-red-300 text-xl sm:text-2xl font-black">📍 변경된 장소</p>
-                        <p className="text-white text-xl sm:text-2xl font-bold">
+                    <div className="bg-red-950/60 border-2 border-red-500 rounded-xl px-4 py-4 sm:px-6 sm:py-5 space-y-2">
+                        <p className="text-red-300 text-lg sm:text-2xl font-black">📍 변경된 장소</p>
+                        <p className="text-white text-base sm:text-2xl font-bold">
                             킨텍스 제2전시장 9홀
                         </p>
-                        <p className="text-slate-300 text-lg">
+                        <p className="text-slate-300 text-sm sm:text-lg break-keep">
                             경기도 고양시 일산서구 킨텍스로 217-59 (대화동)
                         </p>
                     </div>
-                    <div className="bg-yellow-950/60 border border-yellow-500/60 rounded-xl px-5 py-5 mt-2 space-y-3">
-                        <p className="text-yellow-300 text-lg sm:text-xl font-bold flex items-center gap-2">
-                            <ShieldAlert className="w-6 h-6" /> 티켓 환불 안내
+                    <div className="bg-yellow-950/60 border border-yellow-500/60 rounded-xl px-4 py-4 sm:px-5 sm:py-5 mt-2 space-y-3">
+                        <p className="text-yellow-300 text-base sm:text-xl font-bold flex items-center gap-2">
+                            <ShieldAlert className="w-5 h-5 sm:w-6 sm:h-6" /> 티켓 환불 안내
                         </p>
-                        <p className="text-white text-lg sm:text-xl">
+                        <p className="text-white text-sm sm:text-xl break-keep">
                             티켓 환불을 희망하실 경우,<br />
                             <strong className="text-yellow-300">6월 11일(목) 오후 5시까지</strong> 아래 방법으로 취소 시 <strong>전액 환불</strong> 예정입니다.
                         </p>
-                        <div className="bg-slate-900/60 rounded-lg px-4 py-3 space-y-2">
-                            <p className="text-slate-200 text-lg">📞 티켓링크 고객센터(유선): <strong className="text-white">1588-7890</strong></p>
-                            <p className="text-slate-200 text-lg">💻 티켓링크 홈페이지 → 고객센터 → 1:1 상담 문의</p>
+                        <div className="bg-slate-900/60 rounded-lg px-3 py-3 space-y-2">
+                            <p className="text-slate-200 text-sm sm:text-lg">📞 티켓링크 고객센터(유선): <strong className="text-white">1588-7890</strong></p>
+                            <p className="text-slate-200 text-sm sm:text-lg break-keep">💻 티켓링크 홈페이지 → 고객센터 → 1:1 상담 문의</p>
                         </div>
                     </div>
                 </EventCard>
@@ -591,12 +591,12 @@ export default function OverdrivePreEventChecklist() {
 
                 {/* 최종 체크리스트 요약 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-yellow-400 rounded-2xl p-7 sm:p-10">
-                        <h2 className="text-2xl sm:text-3xl font-black text-yellow-300 mb-7 flex items-center gap-3">
-                            <CheckCircle className="w-8 h-8" />
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-yellow-400 rounded-2xl p-5 sm:p-10">
+                        <h2 className="text-xl sm:text-3xl font-black text-yellow-300 mb-5 sm:mb-7 flex items-center gap-2 sm:gap-3">
+                            <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8" />
                             ✅ 최종 체크리스트
                         </h2>
-                        <div className="space-y-3">
+                        <div className="space-y-2 sm:space-y-3">
                             {[
                                 { text: '🔥 하이퍼버닝 캐릭터 보상 수령', sub: '6/17 종료' },
                                 { text: '🦋 체인지버닝 루시드 보상 & 드림 샤드샵 구매', sub: '6/17 종료' },
@@ -610,11 +610,11 @@ export default function OverdrivePreEventChecklist() {
                                 { text: '📍 쇼케이스 직관 → 킨텍스 제2전시장 9홀 확인', sub: '환불 6/11(목) 오후 5시까지' },
                                 { text: '🛍️ NPC 스타일 어워즈 & 진 콜라보 캐시템 구매', sub: '6/17 판매 종료' },
                             ].map((item, i) => (
-                                <div key={i} className="flex items-center gap-3 bg-slate-900/60 rounded-xl px-5 py-4 hover:bg-slate-900/80 transition-colors">
-                                    <input type="checkbox" className="w-6 h-6 accent-yellow-400 flex-shrink-0" />
+                                <div key={i} className="flex items-start gap-3 bg-slate-900/60 rounded-xl px-4 py-3 sm:px-5 sm:py-4 hover:bg-slate-900/80 transition-colors">
+                                    <input type="checkbox" className="w-5 h-5 sm:w-6 sm:h-6 accent-yellow-400 flex-shrink-0 mt-0.5" />
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-white text-lg sm:text-xl font-bold">{item.text}</p>
-                                        <p className="text-red-400 text-base sm:text-lg">{item.sub}</p>
+                                        <p className="text-white text-sm sm:text-xl font-bold break-keep">{item.text}</p>
+                                        <p className="text-red-400 text-xs sm:text-lg mt-0.5">{item.sub}</p>
                                     </div>
                                 </div>
                             ))}
@@ -624,14 +624,14 @@ export default function OverdrivePreEventChecklist() {
 
                 {/* 마무리 */}
                 <section className="mb-12">
-                    <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 border border-purple-500/60 rounded-2xl p-8 sm:p-10 text-center">
-                        <p className="text-2xl sm:text-3xl font-black text-white mb-4">
+                    <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 border border-purple-500/60 rounded-2xl p-6 sm:p-10 text-center">
+                        <p className="text-lg sm:text-3xl font-black text-white mb-3 break-keep">
                             🍁 6월 18일 오버드라이브, 함께 맞이해요!
                         </p>
-                        <p className="text-slate-300 text-xl sm:text-2xl leading-relaxed mb-3">
+                        <p className="text-slate-300 text-sm sm:text-2xl leading-relaxed mb-2 break-keep">
                             지금 진행 중인 이벤트를 깔끔하게 마무리하고
                         </p>
-                        <p className="text-slate-300 text-xl sm:text-2xl leading-relaxed">
+                        <p className="text-slate-300 text-sm sm:text-2xl leading-relaxed break-keep">
                             <strong className="text-yellow-300">오버드라이브</strong>를 최상의 상태로 즐기세요! 🎸
                         </p>
                     </div>
