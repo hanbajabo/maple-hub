@@ -166,13 +166,19 @@ export default function ChallengersCalculator() {
       }
     }
     return { name: '언랭크', points: 0, rewards: '없음' };
-  }, [totalPoints, clearedBosses]);
+  }, [totalPoints, clearedBosses, isSuperChallenger]);
 
   const aggregatedRewards = useMemo(() => {
     const tierIndex = TIERS.findIndex(t => t.name === currentTier.name);
     if (tierIndex === -1 || currentTier.name === '언랭크') return [];
     
-    const achievedTiers = TIERS.slice(0, tierIndex + 1);
+    let achievedTiers = TIERS.slice(0, tierIndex + 1);
+    
+    // 슈퍼챌린저 달성 시 일반 챌린저 보상 중복 방지
+    if (currentTier.name === '슈퍼챌린저') {
+        achievedTiers = achievedTiers.filter(t => t.name !== '챌린저');
+    }
+
     const itemMap = new Map<string, number>();
     const singularItemsMap = new Map<string, number>();
     
