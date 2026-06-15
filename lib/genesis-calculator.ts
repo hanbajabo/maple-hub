@@ -289,7 +289,9 @@ export function calculateWeeklyLiberationProgress(
             // 17주(혹은 13주)를 넘어가면 마지막 주차의 보스 설정을 사용
             const weekToUse = currentWeek <= totalSeasonWeeks ? currentWeek : totalSeasonWeeks;
             const weekSelections = weeklySelections.get(weekToUse) || [];
-            const weekTraces = calculateWeekTraces(currentWeek, weekSelections, isGenesisPass);
+            // 시즌 기간(13주/17주) 이후에는 제네시스 패스 혜택 미적용
+            const isPassActive = isGenesisPass && currentWeek <= totalSeasonWeeks;
+            const weekTraces = calculateWeekTraces(currentWeek, weekSelections, isPassActive);
 
             // 무한 루프 방지: 시즌 기간을 넘어가고, 설정된 획득량도 0인 경우 더 이상 진행 불가
             if (currentWeek > totalSeasonWeeks && weekTraces === 0) {
