@@ -753,6 +753,29 @@ export default function ChallengersWorldSeason4Page() {
               <p className="text-xs text-slate-400 mt-2">※ 마스터 이상 보상은 원하는 월드에서 수령 가능 (챌린저스1~3은 에오스/핼리오스 제외)</p>
               <p className="text-xs text-slate-400 mt-1">※ 슈퍼챌린저를 1등 ~ 10등으로 달성할 경우, 1st 슈퍼챌린저 ~ 10th 슈퍼챌린저 훈장을 획득할 수 있습니다.</p>
               
+              {/* 챌린저 달성 시 누적 획득 보상 (훈장/모자 제외) */}
+              <div className="mt-6 bg-indigo-950/30 border border-indigo-500/30 rounded-xl p-5 shadow-lg shadow-indigo-900/10">
+                <p className="font-bold text-indigo-300 mb-4 flex items-center gap-2 text-base">🎁 챌린저 달성 시 누적 획득 보상 <span className="text-xs text-slate-400 font-normal ml-1 bg-slate-900 px-2 py-1 rounded-md border border-slate-700">(훈장/모자류 제외)</span></p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 text-sm text-slate-300">
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 솔 에르다 조각 600개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 솔 에르다 14개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 카르마 블랙 큐브 60개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 카르마 화이트 에디셔널 큐브 60개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 카르마 레전드리 잠재능력 부여 스크롤 100% (200제) 2개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 카르마 에디셔널 유니크 잠재능력 부여 스크롤 100% (200제) 1개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 200레벨 달성의 비약 20개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 250레벨 달성의 비약 1개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 메멘토 방어구 스타포스 18성 강화권 (200제) 3개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 하트 업그레이드 모듈: 플라즈마 1개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 페어리 하트 1개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 챌린저스 3레벨 특수 스킬 반지 선택권 1개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 챌린저스 4레벨 특수 스킬 반지 선택권 1개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 챌린저스 휘장로이드 교환권 1개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 챌린저스 월드 시즌4 챌린저 가구 교환권 1개</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-indigo-400/80"></span> 솔 야누스 스킬 강화권 (20레벨) 1개</div>
+                </div>
+              </div>
+              
               {/* 9만 점 달성 공략 및 2가지 맞춤형 루트 */}
               <div className="mt-8 border-t border-slate-800/80 pt-6 space-y-6 text-sm sm:text-base text-slate-300">
                 <div>
