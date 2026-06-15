@@ -502,8 +502,9 @@ export default function GenesisPassGuidePage() {
                   <span>🪐</span> 그 외 그란디스 상위 보스 완화
                 </p>
                 <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside mt-2">
-                  <li><span className="text-white font-semibold">카링 2페이즈</span>: 흑염 및 감전 지대가 소환되는 지점 위치 완화.</li>
-                  <li><span className="text-white font-semibold">카링 3페이즈</span>: 행동 불가(바인드) 상태에 걸렸을 때, 악기 방출 패턴의 재사용 대기시간(쿨타임)이 흘러가지 않도록 수정되어 바인드 타임 중 무방비로 겹치는 패턴 연계 억까를 방지.</li>
+                  <li>2페이즈에서 일부 흑염의 위치가 변경됩니다.</li>
+                  <li>2페이즈에서 일부 감전 지대의 생성 위치 및 생성 개수가 변경됩니다.</li>
+                  <li>3페이즈의 폭주한 카링에게 행동 불가 상태이상 적용 중 악기 방출 패턴의 재사용 대기시간이 감소하지 않도록 변경됩니다.</li>
                 </ul>
               </div>
             </div>
