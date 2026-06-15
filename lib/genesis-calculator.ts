@@ -186,7 +186,7 @@ export function calculateLiberationProgress(
     const finalCompletionDate = finalCompletion ? finalCompletion.completionDate : null;
     const finalWeekNumber = finalCompletion ? finalCompletion.weekNumber : null;
 
-    const canCompleteInSeason = isPossibleToComplete && finalCompletionDate !== null && finalCompletionDate <= season.endDate;
+    const canCompleteInSeason = isPossibleToComplete && finalCompletionDate !== null && new Date(finalCompletionDate) <= new Date(season.endDate);
     const weeksUntilCompletion = finalCompletionDate ? getWeeksDifference(new Date(), finalCompletionDate) : null;
     const weeksRemainingInSeason = getWeeksDifference(new Date(), season.endDate);
     const daysUntilCompletion = finalCompletionDate ? getDaysDifference(new Date(), finalCompletionDate) : null;
@@ -211,19 +211,25 @@ export function calculateLiberationProgress(
 /**
  * 날짜를 "YYYY-MM-DD" 형식으로 포맷
  */
-export function formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+export function formatDate(date: Date | null | undefined): string {
+    if (!date) return '알 수 없음';
+    const d = date instanceof Date ? date : new Date(date);
+    if (isNaN(d.getTime())) return '알 수 없음';
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
 
 /**
  * 날짜를 "MM/DD" 형식으로 포맷
  */
-export function formatDateShort(date: Date): string {
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+export function formatDateShort(date: Date | null | undefined): string {
+    if (!date) return '--/--';
+    const d = date instanceof Date ? date : new Date(date);
+    if (isNaN(d.getTime())) return '--/--';
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
     return `${month}/${day}`;
 }
 
@@ -331,7 +337,7 @@ export function calculateWeeklyLiberationProgress(
     const finalCompletionDate = finalCompletion ? finalCompletion.completionDate : null;
     const finalWeekNumber = finalCompletion ? finalCompletion.weekNumber : null;
 
-    const canCompleteInSeason = isPossibleToComplete && finalCompletionDate !== null && finalCompletionDate <= season.endDate;
+    const canCompleteInSeason = isPossibleToComplete && finalCompletionDate !== null && new Date(finalCompletionDate) <= new Date(season.endDate);
     const weeksUntilCompletion = finalCompletionDate ? getWeeksDifference(new Date(), finalCompletionDate) : null;
     const weeksRemainingInSeason = getWeeksDifference(new Date(), season.endDate);
     const daysUntilCompletion = finalCompletionDate ? getDaysDifference(new Date(), finalCompletionDate) : null;
