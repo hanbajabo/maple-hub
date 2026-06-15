@@ -456,6 +456,7 @@ export default function ChallengersCalculator() {
                             <div className="flex items-center gap-2">
                                 <span className="text-xs md:text-sm font-medium text-slate-300 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">+{bossStats.points.toLocaleString()} P</span>
                                 <span className="text-xs md:text-sm font-bold text-yellow-400 bg-slate-950 px-3 py-1.5 rounded-lg border border-yellow-900/30">+{bossStats.coins.toLocaleString()} C</span>
+                                <span className="text-xs md:text-sm font-bold text-purple-400 bg-slate-950 px-3 py-1.5 rounded-lg border border-purple-900/30">+{bossStats.advancedCoins.toLocaleString()} AC</span>
                             </div>
                         </div>
 
