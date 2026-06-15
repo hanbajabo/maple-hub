@@ -31,6 +31,15 @@ export default function GenesisPassGuidePage() {
             </span>
           </h1>
 
+          {/* 타이틀 이미지 */}
+          <div className="w-full rounded-2xl overflow-hidden mb-8 border border-slate-700/50 shadow-2xl shadow-purple-900/20">
+            <img
+              src="/genesis-pass-plus.png"
+              alt="제네시스 패스 & 제네시스 패스 PLUS 완벽 가이드"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+
           <p className="text-base md:text-lg text-slate-300 mb-8 leading-relaxed break-keep border-l-4 border-purple-500 pl-5 py-2 bg-purple-950/10 rounded-r-lg">
             2026년 6월 18일 점검 후 출시되는 <span className="text-white font-bold">제네시스 패스</span>와 <span className="text-purple-300 font-bold">제네시스 패스 PLUS</span>! 
             어둠의 흔적 3배속 해방 혜택부터 6인 파티 해방 퀘스트, 보스 클리어 미션 리워드, 대적자 코인샵까지 유저들이 꼭 알아야 할 모든 정보를 정리해 드립니다.
@@ -84,6 +93,15 @@ export default function GenesisPassGuidePage() {
               </div>
             </div>
 
+            {/* 제네시스 패스 기본 정보 배너 */}
+            <div className="w-full rounded-2xl overflow-hidden border border-slate-700/50 shadow-lg">
+              <img
+                src="/genesis-pass-info.png"
+                alt="제네시스 패스 기본 정보"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-5">
               <p className="font-bold text-slate-100 mb-2">🏷️ 판매 가격 및 유의사항</p>
               <ul className="text-sm text-slate-300 space-y-1.5 list-disc list-inside">
@@ -114,6 +132,15 @@ export default function GenesisPassGuidePage() {
               <p className="text-xs text-slate-400 mt-2">
                 ※ 제네시스 패스 적용 주간에 이미 획득한 흔적이 있다면, 패스 활성화 시 어둠의 흔적 교환권(7일 기간제, 교환 불가)으로 소급 적용되어 지급됩니다.
               </p>
+            </div>
+
+            {/* 패스 3배속 및 파티 해방 효과 배너 */}
+            <div className="w-full rounded-2xl overflow-hidden border border-slate-700/50 shadow-lg">
+              <img
+                src="/genesis-pass-benefits.png"
+                alt="어둠의 흔적 획득량 3배 및 6인 파티 해방 효과"
+                className="w-full h-auto object-cover"
+              />
             </div>
 
             <div className="bg-indigo-950/20 border border-indigo-500/30 rounded-xl p-5">
@@ -149,6 +176,15 @@ export default function GenesisPassGuidePage() {
               </div>
             </div>
 
+            {/* 대적자의 힘 능력치 버프 및 소울 상자 혜택 배너 */}
+            <div className="w-full rounded-2xl overflow-hidden border border-slate-700/50 shadow-lg">
+              <img
+                src="/genesis-pass-buff.png"
+                alt="대적자의 힘 능력치 버프 및 군단장 소울 지급 효과"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-5">
               <p className="font-bold text-slate-100 mb-2 flex items-center gap-2"><Sparkles className="w-4 h-4 text-yellow-400" /> 핵심 혜택 4: 위대한 군단장의 소울 상자</p>
               <p className="text-sm text-slate-300">
@@ -175,6 +211,15 @@ export default function GenesisPassGuidePage() {
               <span className="text-pink-300 font-bold">제네시스 패스 PLUS</span>는 제네시스 패스를 구매한 유저 중 <span className="text-white font-bold">해방을 모두 완료한 캐릭터</span>가 참여할 수 있는 추가 성장형 보스 처치 미션 이벤트입니다.
             </p>
 
+            {/* 제네시스 패스 PLUS 안내 배너 */}
+            <div className="w-full rounded-2xl overflow-hidden border border-slate-700/50 shadow-lg">
+              <img
+                src="/genesis-pass-plus-info.png"
+                alt="제네시스 패스 PLUS 이벤트 기간"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
                 <p className="font-bold text-pink-300 mb-1">📅 이벤트 진행 기간</p>
@@ -196,7 +241,7 @@ export default function GenesisPassGuidePage() {
                       <th className="px-3.5 py-3.5 font-bold">미션 오픈 시점</th>
                       <th className="px-3.5 py-3.5 font-bold">격파 미션 조건</th>
                       <th className="px-3.5 py-3.5 font-bold text-cyan-300">기본 리워드</th>
-                      <th className="px-3.5 py-3.5 font-bold text-purple-300">프리미엄 리워드 (티켓 구매자 전용)</th>
+                      <th className="px-3.5 py-3.5 font-bold text-purple-300">프리미엄 리워드</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/40 text-slate-300">
@@ -259,16 +304,93 @@ export default function GenesisPassGuidePage() {
 
           <div className="space-y-6 text-sm sm:text-base text-slate-200 leading-relaxed break-keep">
             <p className="text-slate-300">
-              제네시스 패스 PLUS 프리미엄 티켓 효과를 통해 미션을 달성하고 모은 <span className="text-white font-bold">대적자 코인</span>은 메이플 ID 내 해방 완료 캐릭터가 대적자 코인샵에서 다양한 핵심 소비형 강화 아이템으로 구매할 수 있습니다.
+              제네시스 패스 PLUS 프리미엄 티켓 효과를 통해 미션을 달성하고 모은 <span className="text-yellow-300 font-bold">대적자 코인은 메이플 ID 내 해방 완료 캐릭터</span>가 대적자 코인샵에서 다양한 핵심 소비형 강화 아이템으로 구매할 수 있습니다.
             </p>
 
-            <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-3">
-              <p className="font-bold text-slate-100">🛍️ 판매 아이템 목록</p>
-              <ul className="text-sm text-slate-300 space-y-2 list-disc list-inside">
-                <li><span className="font-semibold text-white">소비: 대적자의 심연의 환생의 불꽃</span></li>
-                <li><span className="font-semibold text-white">소비: 대적자의 블랙 큐브</span></li>
-                <li><span className="font-semibold text-white">소비: 대적자의 화이트 에디셔널 큐브</span></li>
-              </ul>
+            <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-6 space-y-4">
+              <div className="flex justify-between items-center border-b border-slate-850 pb-3">
+                <p className="font-bold text-slate-100 text-lg flex items-center gap-2">🛍️ 판매 아이템 목록</p>
+                <span className="text-[11px] bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-semibold">
+                  구매 제한 없음 (무제한)
+                </span>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  {
+                    name: '대적자의 심연의 환생의 불꽃',
+                    category: '소비',
+                    price: '25',
+                    desc: '장비에 심연의 환생의 불꽃 효과를 부여합니다.',
+                    color: 'from-orange-500/15 to-amber-500/5 border-orange-500/20'
+                  },
+                  {
+                    name: '대적자의 블랙 큐브',
+                    category: '소비',
+                    price: '25',
+                    desc: '장비의 잠재능력을 새롭게 설정합니다.',
+                    color: 'from-purple-500/15 to-indigo-500/5 border-purple-500/20'
+                  },
+                  {
+                    name: '대적자의 화이트 에디셔널 큐브',
+                    category: '소비',
+                    price: '50',
+                    desc: '장비의 에디셔널 잠재능력을 새롭게 설정합니다.',
+                    color: 'from-cyan-500/15 to-blue-500/5 border-cyan-500/20'
+                  }
+                ].map((item) => (
+                  <div key={item.name} className={`bg-gradient-to-br ${item.color} border rounded-xl p-4 flex flex-col justify-between shadow-md hover:scale-[1.01] transition-transform`}>
+                    <div>
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-[10px] bg-slate-900 border border-slate-800 px-2 py-0.5 rounded-md font-semibold text-slate-400">
+                          {item.category}
+                        </span>
+                        <span className="text-[10px] bg-slate-900/60 text-slate-300 px-2 py-0.5 rounded-md font-medium">
+                          월드 내 이동 가능
+                        </span>
+                      </div>
+                      <p className="font-bold text-white text-[13px] sm:text-sm break-keep leading-snug mb-1">{item.name}</p>
+                      <p className="text-[11px] sm:text-xs text-slate-400 break-keep mb-4">{item.desc}</p>
+                    </div>
+                    <div className="border-t border-slate-800/80 pt-3 mt-auto flex justify-between items-center">
+                      <span className="text-xs text-slate-400">판매 가격</span>
+                      <span className="text-sm font-bold text-yellow-400 flex items-center gap-1">
+                        <Coins className="w-4 h-4 text-yellow-400 inline" /> {item.price}코인
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 코인 획득 계산기 정보 */}
+            <div className="bg-purple-950/20 border border-purple-500/30 rounded-xl p-5 space-y-3">
+              <p className="font-extrabold text-purple-300 text-base flex items-center gap-2">💰 코인 획득량 & 구매 가능 수량 계산</p>
+              <div className="text-sm text-slate-300 space-y-2">
+                <p>
+                  프리미엄 리워드(티켓 구매)까지 모두 활성화하고 모든 보스 처치 미션을 완료할 시, 총 <span className="text-yellow-400 font-bold text-base">10,500개</span>의 대적자 코인을 획득할 수 있습니다.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mt-3">
+                  <div className="bg-slate-950/50 border border-slate-800 p-3 rounded-lg">
+                    <p className="text-xs text-slate-400 font-semibold mb-1">🔥 심연의 환생의 불꽃만 구매 시</p>
+                    <p className="text-sm font-bold text-white">최대 <span className="text-orange-400">420개</span> 구매 가능</p>
+                    <p className="text-[10px] text-slate-500 mt-1">(개당 25코인)</p>
+                  </div>
+                  <div className="bg-slate-950/50 border border-slate-800 p-3 rounded-lg">
+                    <p className="text-xs text-slate-400 font-semibold mb-1">🟣 블랙 큐브만 구매 시</p>
+                    <p className="text-sm font-bold text-white">최대 <span className="text-purple-400">420개</span> 구매 가능</p>
+                    <p className="text-[10px] text-slate-500 mt-1">(개당 25코인)</p>
+                  </div>
+                  <div className="bg-slate-950/50 border border-slate-800 p-3 rounded-lg">
+                    <p className="text-xs text-slate-400 font-semibold mb-1">🔵 화이트 에디셔널 큐브만 구매 시</p>
+                    <p className="text-sm font-bold text-white">최대 <span className="text-cyan-400">210개</span> 구매 가능</p>
+                    <p className="text-[10px] text-slate-500 mt-1">(개당 50코인)</p>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 mt-2">
+                  ※ 대적자 코인샵은 구매 제한이 없으므로, 위 품목들을 유저 본인의 스펙업 계획에 맞춰 자유롭게 섞어서 구매하실 수 있습니다.
+                </p>
+              </div>
             </div>
 
             <div className="bg-amber-950/20 border border-amber-800/50 rounded-xl p-5">
@@ -357,8 +479,8 @@ export default function GenesisPassGuidePage() {
                   </p>
                   <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
                     <li><span className="text-white font-semibold">1페이즈</span>: 주시하며 튕겨내던 '어둠의 집행자' 패턴 아예 삭제!</li>
-                    <li><span className="text-white font-semibold">2페이즈</span>: 주시하는 눈동자 레이저에 피격되어도 달빛 게이지가 깎이지 않음. 거미줄에 밀쳐질 때 걸리던 '혼란' 상태이상 삭제, 장벽 데미지 10~11% 감소.</li>
-                    <li><span className="text-white font-semibold">3페이즈</span>: 솔플 생존을 위협하던 심연의 거미줄 생성 속도가 <span className="text-yellow-300 font-semibold">"파티원 수에 비례하여 적을수록 느리게"</span> 생성되도록 상향!</li>
+                    <li><span className="text-white font-semibold">2페이즈</span>: 주시하는 눈동자 레이저에 피격되어도 달빛 게이지가 깎이지 않음. 밀쳐내기 패턴 피격 시 '혼란' 상태 이상 삭제, 장벽 데미지 10~11% 감소.</li>
+                    <li><span className="text-white font-semibold">3페이즈</span>: 솔플 생존을 위협하던 심연의 거미줄 생성 속도가 <span className="text-yellow-300 font-semibold">"파티원 수에 비례하여 적을수록 느리게"</span> 생성되도록 변경!</li>
                   </ul>
                 </div>
 
