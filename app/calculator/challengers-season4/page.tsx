@@ -43,6 +43,7 @@ export default function ChallengersCalculator() {
   const [weeksParticipated, setWeeksParticipated] = useState<number>(13);
   const [completedSeasonMissions, setCompletedSeasonMissions] = useState<Set<string>>(new Set());
   const [clearedBosses, setClearedBosses] = useState<Record<string, string>>({}); // group -> id
+  const [isSuperChallenger, setIsSuperChallenger] = useState<boolean>(false);
   const [cartNormal, setCartNormal] = useState<Record<string, number>>({});
   const [cartSpecial, setCartSpecial] = useState<Record<string, number>>({});
 
@@ -136,8 +137,15 @@ export default function ChallengersCalculator() {
   }, [cartNormal, cartSpecial]);
 
   const currentTier = useMemo(() => {
+    if (isSuperChallenger && totalPoints >= 90000 && clearedBosses['meilin'] === 'meilin_hard') {
+        const scTier = TIERS.find(t => t.name === '슈퍼챌린저');
+        if (scTier) return scTier;
+    }
+
     let tier = TIERS[0];
     for (let i = TIERS.length - 1; i >= 0; i--) {
+      if (TIERS[i].name === '슈퍼챌린저') continue;
+
       if (totalPoints >= TIERS[i].points) {
         // Check boss req
         if (TIERS[i].reqBoss) {
@@ -358,11 +366,24 @@ export default function ChallengersCalculator() {
         <div className="sticky top-16 md:top-20 z-40 bg-slate-900/80 backdrop-blur-xl border-2 border-indigo-500/50 rounded-2xl p-4 md:p-6 shadow-2xl shadow-indigo-900/20 mb-8 flex flex-col md:flex-row gap-4 md:gap-6 justify-between items-start md:items-center">
             <div className="flex-1 w-full">
                 <p className="text-xs md:text-sm text-slate-400 font-semibold mb-1">예상 달성 티어</p>
-                <div className="flex items-end gap-2 md:gap-3">
-                    <span className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-yellow-300 to-yellow-600 drop-shadow-md">
-                        {currentTier.name}
-                    </span>
-                    <span className="text-lg md:text-xl text-slate-300 mb-1 font-bold">({totalPoints.toLocaleString()} P)</span>
+                <div className="flex flex-col sm:flex-row sm:items-end gap-2 md:gap-3 mb-1">
+                    <div className="flex items-end gap-2 md:gap-3">
+                        <span className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-yellow-300 to-yellow-600 drop-shadow-md">
+                            {currentTier.name}
+                        </span>
+                        <span className="text-lg md:text-xl text-slate-300 mb-1 font-bold">({totalPoints.toLocaleString()} P)</span>
+                    </div>
+                    {totalPoints >= 90000 && clearedBosses['meilin'] === 'meilin_hard' && (
+                        <label className="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 cursor-pointer hover:bg-slate-700/80 transition-colors sm:ml-2">
+                            <input 
+                                type="checkbox" 
+                                checked={isSuperChallenger}
+                                onChange={(e) => setIsSuperChallenger(e.target.checked)}
+                                className="w-4 h-4 rounded text-indigo-500 bg-slate-900 border-slate-700 focus:ring-indigo-500 focus:ring-offset-slate-900"
+                            />
+                            <span className="text-xs text-slate-300 font-medium">1~999위 (슈퍼챌린저)</span>
+                        </label>
+                    )}
                 </div>
                 {currentTier.name !== '언랭크' && (
                     <div className="mt-3">
