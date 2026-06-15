@@ -160,6 +160,44 @@ export default function ChallengersCalculator() {
     return { name: '언랭크', points: 0, rewards: '없음' };
   }, [totalPoints, clearedBosses]);
 
+  const aggregatedRewards = useMemo(() => {
+    const tierIndex = TIERS.findIndex(t => t.name === currentTier.name);
+    if (tierIndex === -1 || currentTier.name === '언랭크') return [];
+    
+    const achievedTiers = TIERS.slice(0, tierIndex + 1);
+    const itemMap = new Map<string, number>();
+    const singularItemsMap = new Map<string, number>();
+    
+    achievedTiers.forEach(tier => {
+      if (!tier.rewards || tier.rewards === '없음') return;
+      const items = tier.rewards.split(', ');
+      items.forEach(item => {
+        const match = item.match(/(.+)\s+([0-9,]+)개$/);
+        if (match) {
+          const name = match[1];
+          const qty = parseInt(match[2].replace(/,/g, ''), 10);
+          itemMap.set(name, (itemMap.get(name) || 0) + qty);
+        } else {
+          singularItemsMap.set(item, (singularItemsMap.get(item) || 0) + 1);
+        }
+      });
+    });
+    
+    const result: string[] = [];
+    singularItemsMap.forEach((qty, item) => {
+        if (qty > 1) {
+            result.push(`${item} ${qty}개`);
+        } else {
+            result.push(item);
+        }
+    });
+    itemMap.forEach((qty, name) => {
+      result.push(`${name} ${qty.toLocaleString()}개`);
+    });
+    
+    return result;
+  }, [currentTier.name]);
+
   const toggleSeasonMission = (id: string) => {
     setCompletedSeasonMissions(prev => {
       const next = new Set(prev);
@@ -327,9 +365,18 @@ export default function ChallengersCalculator() {
                     <span className="text-lg md:text-xl text-slate-300 mb-1 font-bold">({totalPoints.toLocaleString()} P)</span>
                 </div>
                 {currentTier.name !== '언랭크' && (
-                    <p className="text-[10px] md:text-xs text-indigo-300 mt-2 border-l-2 border-indigo-500 pl-2 leading-relaxed break-keep">
-                        🎁 {currentTier.rewards}
-                    </p>
+                    <div className="mt-3">
+                        <p className="text-[10px] md:text-xs font-bold text-indigo-300 mb-1.5 flex items-center gap-1">
+                            <span>🎁</span> 누적 획득 보상 (합산)
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 md:gap-2 bg-slate-950/40 rounded-lg p-2.5 md:p-3 border border-indigo-500/20 max-h-24 md:max-h-32 overflow-y-auto custom-scrollbar">
+                            {aggregatedRewards.map((reward, idx) => (
+                                <span key={idx} className="bg-slate-900 border border-slate-700/80 px-2.5 py-1.5 rounded-lg text-[10px] md:text-xs text-slate-300 font-medium shadow-sm">
+                                    {reward}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
                 )}
             </div>
             <div className="flex gap-3 md:gap-6 w-full md:w-auto mt-2 md:mt-0">
@@ -551,9 +598,18 @@ export default function ChallengersCalculator() {
                     <span className="text-lg md:text-xl text-slate-300 mb-1 font-bold">({totalPoints.toLocaleString()} P)</span>
                 </div>
                 {currentTier.name !== '언랭크' && (
-                    <p className="text-[10px] md:text-xs text-indigo-300 mt-2 border-l-2 border-indigo-500 pl-2 leading-relaxed break-keep">
-                        🎁 {currentTier.rewards}
-                    </p>
+                    <div className="mt-3">
+                        <p className="text-[10px] md:text-xs font-bold text-indigo-300 mb-1.5 flex items-center gap-1">
+                            <span>🎁</span> 누적 획득 보상 (합산)
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 md:gap-2 bg-slate-950/40 rounded-lg p-2.5 md:p-3 border border-indigo-500/20 max-h-32 md:max-h-40 overflow-y-auto custom-scrollbar">
+                            {aggregatedRewards.map((reward, idx) => (
+                                <span key={idx} className="bg-slate-900 border border-slate-700/80 px-2.5 py-1.5 rounded-lg text-[10px] md:text-xs text-slate-300 font-medium shadow-sm">
+                                    {reward}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
                 )}
             </div>
             <div className="flex gap-3 md:gap-6 w-full md:w-auto mt-2 md:mt-0">
@@ -633,7 +689,23 @@ export default function ChallengersCalculator() {
                                     </div>
                                     <div className="flex items-center gap-1 sm:gap-2 bg-slate-900 px-1.5 sm:px-2 py-1 rounded-lg border border-slate-700 shrink-0">
                                         <button onClick={() => handleCartNormalChange(item.id, -1, maxQty)} className="p-1.5 sm:p-1 text-slate-400 hover:text-white disabled:opacity-30" disabled={qty === 0}><Minus className="w-3.5 h-3.5 sm:w-3 sm:h-3" /></button>
-                                        <span className="text-xs sm:text-sm font-bold w-5 sm:w-6 text-center text-slate-200">{qty}</span>
+                                        <input 
+                                            type="number" 
+                                            min="0" 
+                                            max={maxQty} 
+                                            value={qty === 0 ? '' : qty} 
+                                            placeholder="0"
+                                            onChange={(e) => {
+                                                const val = parseInt(e.target.value);
+                                                if (e.target.value === '') {
+                                                    setCartNormal(prev => ({ ...prev, [item.id]: 0 }));
+                                                } else if (!isNaN(val)) {
+                                                    const next = Math.max(0, Math.min(maxQty, val));
+                                                    setCartNormal(prev => ({ ...prev, [item.id]: next }));
+                                                }
+                                            }}
+                                            className="text-xs sm:text-sm font-bold w-8 sm:w-10 text-center text-slate-200 bg-transparent border-none focus:ring-0 p-0 m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                        />
                                         <button onClick={() => handleCartNormalChange(item.id, 1, maxQty)} className="p-1.5 sm:p-1 text-slate-400 hover:text-white disabled:opacity-30" disabled={qty >= maxQty}><Plus className="w-3.5 h-3.5 sm:w-3 sm:h-3" /></button>
                                     </div>
                                 </div>
@@ -659,7 +731,23 @@ export default function ChallengersCalculator() {
                                     </div>
                                     <div className="flex items-center gap-1 sm:gap-2 bg-slate-900 px-1.5 sm:px-2 py-1 rounded-lg border border-slate-700 shrink-0">
                                         <button onClick={() => handleCartSpecialChange(item.id, -1, item.maxQty)} className="p-1.5 sm:p-1 text-slate-400 hover:text-white disabled:opacity-30" disabled={qty === 0}><Minus className="w-3.5 h-3.5 sm:w-3 sm:h-3" /></button>
-                                        <span className="text-xs sm:text-sm font-bold w-5 sm:w-6 text-center text-slate-200">{qty}</span>
+                                        <input 
+                                            type="number" 
+                                            min="0" 
+                                            max={item.maxQty} 
+                                            value={qty === 0 ? '' : qty} 
+                                            placeholder="0"
+                                            onChange={(e) => {
+                                                const val = parseInt(e.target.value);
+                                                if (e.target.value === '') {
+                                                    setCartSpecial(prev => ({ ...prev, [item.id]: 0 }));
+                                                } else if (!isNaN(val)) {
+                                                    const next = Math.max(0, Math.min(item.maxQty, val));
+                                                    setCartSpecial(prev => ({ ...prev, [item.id]: next }));
+                                                }
+                                            }}
+                                            className="text-xs sm:text-sm font-bold w-8 sm:w-10 text-center text-slate-200 bg-transparent border-none focus:ring-0 p-0 m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                        />
                                         <button onClick={() => handleCartSpecialChange(item.id, 1, item.maxQty)} className="p-1.5 sm:p-1 text-slate-400 hover:text-white disabled:opacity-30" disabled={qty >= item.maxQty}><Plus className="w-3.5 h-3.5 sm:w-3 sm:h-3" /></button>
                                     </div>
                                 </div>

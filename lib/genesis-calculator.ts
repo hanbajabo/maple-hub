@@ -18,6 +18,7 @@ export interface CalculationInput {
     bossSelections: BossSelection[];
     startDate: Date;
     season: Season;
+    isGenesisPass?: boolean;
 }
 
 // 주차별 계산 입력
@@ -27,6 +28,7 @@ export interface WeeklyCalculationInput {
     weeklySelections: Map<number, BossSelection[]>; // 주차별 보스 선택
     startDate: Date;
     season: Season;
+    isGenesisPass?: boolean;
 }
 
 export interface StageCompletion {
@@ -105,10 +107,14 @@ export function getDaysDifference(date1: Date, date2: Date): number {
  * 월간 보스는 4주당 1회로 계산
  */
 export function calculateTracesPerWeek(
-    bossSelections: BossSelection[]
+    bossSelections: BossSelection[],
+    isGenesisPass?: boolean
 ): number {
     return bossSelections.reduce((total, selection) => {
-        const tracesFromBoss = Math.floor(selection.traces / selection.partySize);
+        let tracesFromBoss = Math.floor(selection.traces / selection.partySize);
+        if (isGenesisPass) {
+            tracesFromBoss *= 3;
+        }
         // 월간 보스는 4주에 1회닌 계산
         const weeklyTraces = selection.isMonthly ? tracesFromBoss / 4 : tracesFromBoss;
         return total + weeklyTraces;
@@ -127,9 +133,10 @@ export function calculateLiberationProgress(
         bossSelections,
         startDate,
         season,
+        isGenesisPass,
     } = input;
 
-    const tracesPerWeek = calculateTracesPerWeek(bossSelections);
+    const tracesPerWeek = calculateTracesPerWeek(bossSelections, isGenesisPass);
 
     // 현재 보유 흔적으로 시작
     let accumulatedTraces = currentTraces;
@@ -218,10 +225,14 @@ export function formatDateShort(date: Date): string {
  */
 export function calculateWeekTraces(
     weekNum: number,
-    selections: BossSelection[]
+    selections: BossSelection[],
+    isGenesisPass?: boolean
 ): number {
     return selections.reduce((total, selection) => {
-        const tracesFromBoss = Math.floor(selection.traces / selection.partySize);
+        let tracesFromBoss = Math.floor(selection.traces / selection.partySize);
+        if (isGenesisPass) {
+            tracesFromBoss *= 3;
+        }
         // 월간 보스는 1, 5, 9, 13, 17주차에만 획득
         if (selection.isMonthly && weekNum % 4 !== 1) {
             return total;
@@ -242,11 +253,13 @@ export function calculateWeeklyLiberationProgress(
         weeklySelections,
         startDate,
         season,
+        isGenesisPass,
     } = input;
 
     let accumulatedTraces = currentTraces;
     let currentWeek = 0;
     const stageCompletions: StageCompletion[] = [];
+    const totalSeasonWeeks = season.name.includes('시즌3') ? 17 : 13;
 
     // 현재 단계부터 8단계까지 계산
     for (let stage = currentStage; stage <= 8; stage++) {
@@ -260,10 +273,10 @@ export function calculateWeeklyLiberationProgress(
         while (tracesNeeded > 0) {
             currentWeek++;
 
-            // 17주를 넘어가면 17주차의 보스 설정을 사용
-            const weekToUse = currentWeek <= 17 ? currentWeek : 17;
+            // 17주(혹은 13주)를 넘어가면 마지막 주차의 보스 설정을 사용
+            const weekToUse = currentWeek <= totalSeasonWeeks ? currentWeek : totalSeasonWeeks;
             const weekSelections = weeklySelections.get(weekToUse) || [];
-            const weekTraces = calculateWeekTraces(currentWeek, weekSelections);
+            const weekTraces = calculateWeekTraces(currentWeek, weekSelections, isGenesisPass);
 
             accumulatedTraces += weekTraces;
             tracesNeeded -= weekTraces;
@@ -298,11 +311,12 @@ export function calculateWeeklyLiberationProgress(
 
     // 전체 평균 주간 획득량 계산 (참고용)
     let totalTraces = 0;
-    for (let week = 1; week <= 17; week++) {
+    const computedTotalSeasonWeeks = season.name.includes('시즌3') ? 17 : 13;
+    for (let week = 1; week <= computedTotalSeasonWeeks; week++) {
         const weekSelections = weeklySelections.get(week) || [];
-        totalTraces += calculateWeekTraces(week, weekSelections);
+        totalTraces += calculateWeekTraces(week, weekSelections, isGenesisPass);
     }
-    const tracesPerWeek = totalTraces / 17;
+    const tracesPerWeek = totalTraces / totalSeasonWeeks;
 
     const canCompleteInSeason = finalCompletionDate <= season.endDate;
     const weeksUntilCompletion = getWeeksDifference(new Date(), finalCompletionDate);

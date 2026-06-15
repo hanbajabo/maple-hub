@@ -11,9 +11,10 @@ import { useState } from 'react';
 interface WeeklyScheduleProps {
     totalWeeks: number;
     onScheduleChange: (weeklySelections: Map<number, BossSelection[]>) => void;
+    isGenesisPass?: boolean;
 }
 
-export default function WeeklySchedule({ totalWeeks, onScheduleChange }: WeeklyScheduleProps) {
+export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesisPass }: WeeklyScheduleProps) {
     // 주차별 보스 선택 (week number -> BossSelection[])
     const [weeklySelections, setWeeklySelections] = useState<Map<number, BossSelection[]>>(
         new Map()
@@ -127,7 +128,10 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange }: WeeklyS
     const calculateWeekTraces = (weekNum: number): number => {
         const selections = weeklySelections.get(weekNum) || [];
         return selections.reduce((total, selection) => {
-            const tracesFromBoss = Math.floor(selection.traces / selection.partySize);
+            let tracesFromBoss = Math.floor(selection.traces / selection.partySize);
+            if (isGenesisPass) {
+                tracesFromBoss *= 3;
+            }
             // 월간 보스는 4주마다 한 번만
             if (selection.isMonthly && weekNum % 4 !== 1) {
                 return total; // 이번 주에는 획득 안함
@@ -245,7 +249,7 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange }: WeeklyS
                                                                             className="w-3 h-3 rounded border-gray-600 bg-gray-700"
                                                                         />
                                                                         <span className="text-gray-300">
-                                                                            {diff.difficulty} ({diff.traces})
+                                                                            {diff.difficulty} ({isGenesisPass ? diff.traces * 3 : diff.traces})
                                                                         </span>
                                                                     </label>
                                                                     {isChecked && (
@@ -316,7 +320,7 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange }: WeeklyS
                                                                                 className="w-3 h-3 rounded border-gray-600 bg-gray-700"
                                                                             />
                                                                             <span className="text-gray-300">
-                                                                                {diff.difficulty} ({diff.traces})
+                                                                                {diff.difficulty} ({isGenesisPass ? diff.traces * 3 : diff.traces})
                                                                             </span>
                                                                         </label>
                                                                         {isChecked && (

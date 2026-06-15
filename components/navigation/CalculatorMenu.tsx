@@ -137,8 +137,11 @@ export default function CalculatorMenu() {
                                 <Image src="/images/genesis-weapon.png" alt="Genesis" fill className="object-contain" />
                             </div>
                             <div className="flex flex-col min-w-0">
-                                <span className="font-semibold text-sm">제네시스 해방</span>
-                                <span className="text-[10px] text-slate-400">시즌3 계산기</span>
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-semibold text-sm">제네시스 해방</span>
+                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
+                                </div>
+                                <span className="text-[10px] text-slate-400 mt-0.5">시즌4 계산기</span>
                             </div>
                         </Link>
 

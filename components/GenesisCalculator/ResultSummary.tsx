@@ -10,9 +10,10 @@ import { Season } from '@/data/genesis-liberation';
 interface ResultSummaryProps {
     result: CalculationResult | null;
     season: Season;
+    isGenesisPass?: boolean;
 }
 
-export default function ResultSummary({ result, season }: ResultSummaryProps) {
+export default function ResultSummary({ result, season, isGenesisPass }: ResultSummaryProps) {
     if (!result) {
         return (
             <div className="bg-gray-800/50 rounded-lg p-8 border border-gray-700 text-center">
@@ -101,6 +102,9 @@ export default function ResultSummary({ result, season }: ResultSummaryProps) {
                                 <div className="mt-3 text-sm text-red-100 space-y-1">
                                     <div className="font-semibold">💡 해결 방법:</div>
                                     <ul className="list-disc list-inside space-y-1 ml-2">
+                                        {!isGenesisPass && season.name.includes('시즌4') && (
+                                            <li className="text-yellow-300 font-bold">제네시스 패스 적용 (어둠의 흔적 3배)</li>
+                                        )}
                                         <li>검은 마법사 격파 추가 (+600/주)</li>
                                         <li>더 높은 난이도 보스 격파</li>
                                         <li>파티 → 솔로 격파로 전환</li>

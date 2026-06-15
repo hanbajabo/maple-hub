@@ -4,7 +4,7 @@ export const TIERS = [
   { name: '골드', points: 15000, reqBoss: null, rewards: '골드 훈장, 솔 에르다 조각 100개, 솔 에르다 3개, 페어리 하트' },
   { name: '플래티넘', points: 20000, reqBoss: null, rewards: '플래티넘 훈장, 솔 에르다 조각 300개, 솔 에르다 5개' },
   { name: '에메랄드', points: 30000, reqBoss: null, rewards: '200레벨 달성의 비약 20개, 카르마 레전드리 잠재능력 스크롤 100% (200제), 카르마 블랙 큐브 30개' },
-  { name: '사파이어', points: 40000, reqBoss: null, rewards: '카르마 에디셔널 유니크 잠재 스크롤 100% (200제), 카르마 레전드리 잠재 스크롤 100% (200제)' },
+  { name: '사파이어', points: 40000, reqBoss: null, rewards: '카르마 에디셔널 유니크 잠재능력 스크롤 100% (200제), 카르마 레전드리 잠재능력 스크롤 100% (200제)' },
   { name: '다이아몬드', points: 50000, reqBoss: null, rewards: '카르마 화이트 에디셔널 큐브 30개, 하트 업그레이드 모듈: 플라즈마' },
   { name: '마스터', points: 70000, reqBoss: '메이린(노멀)', rewards: '카르마 블랙 큐브 30개, 화이트 에디셔널 큐브 30개, 메멘토 방어구 스타포스 18성 강화권 3개, 250레벨 달성의 비약 1개' },
   { name: '챌린저', points: 90000, reqBoss: '메이린(하드)', rewards: '챌린저 훈장, 챌린저 가구 교환권, 솔 야누스 스킬 강화권 (20레벨)' }

@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import WeeklySchedule from '@/components/GenesisCalculator/WeeklySchedule';
 import ResultSummary from '@/components/GenesisCalculator/ResultSummary';
-import { SEASON_3, QUEST_STAGES } from '@/data/genesis-liberation';
+import { SEASON_3, SEASON_4, QUEST_STAGES } from '@/data/genesis-liberation';
 import {
     BossSelection,
     calculateWeeklyLiberationProgress,
@@ -17,6 +17,8 @@ import {
 import { InArticleAd } from '@/components/AdSense';
 
 export default function GenesisLiberationPage() {
+    const [selectedSeason, setSelectedSeason] = useState<'season3' | 'season4'>('season4');
+    const [isGenesisPass, setIsGenesisPass] = useState(true);
     const [currentStage, setCurrentStage] = useState(1);
     const [currentTraces, setCurrentTraces] = useState(0);
     const [weeklySelections, setWeeklySelections] = useState<Map<number, BossSelection[]>>(
@@ -36,16 +38,23 @@ export default function GenesisLiberationPage() {
             return;
         }
 
+        const activeSeason = selectedSeason === 'season3' ? SEASON_3 : SEASON_4;
+        const activeIsGenesisPass = selectedSeason === 'season4' ? isGenesisPass : false;
+
         const calculationResult = calculateWeeklyLiberationProgress({
             currentStage,
             currentTraces,
             weeklySelections,
-            startDate: SEASON_3.startDate,
-            season: SEASON_3,
+            startDate: activeSeason.startDate,
+            season: activeSeason,
+            isGenesisPass: activeIsGenesisPass,
         });
 
         setResult(calculationResult);
-    }, [currentStage, currentTraces, weeklySelections]);
+    }, [currentStage, currentTraces, weeklySelections, selectedSeason, isGenesisPass]);
+
+    const activeSeason = selectedSeason === 'season3' ? SEASON_3 : SEASON_4;
+    const activeIsGenesisPass = selectedSeason === 'season4' ? isGenesisPass : false;
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900">
@@ -84,7 +93,7 @@ export default function GenesisLiberationPage() {
                             ⚔️ 제네시스 무기 해방 계산기
                         </h1>
                         <p className="text-purple-200 text-lg">
-                            챌린저스 시즌3 주차별 보스 격파 스케줄로 해방 완료 시점을 계산하세요
+                            챌린저스 시즌별 주차별 보스 격파 스케줄로 해방 완료 시점을 계산하세요
                         </p>
                     </div>
                 </div>
@@ -99,6 +108,63 @@ export default function GenesisLiberationPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* 왼쪽: 입력 섹션 (2/3) */}
                     <div className="lg:col-span-2 space-y-6">
+                        {/* 시즌 및 패스 설정 */}
+                        <div className="bg-gray-800/50 rounded-lg p-6 border border-gray-700 space-y-4">
+                            <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                <span>⚙️</span>
+                                <span>시즌 및 패스 설정</span>
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* 시즌 선택 */}
+                                <div>
+                                    <label className="block text-sm text-gray-300 mb-2">
+                                        도전 시즌 선택
+                                    </label>
+                                    <select
+                                        value={selectedSeason}
+                                        onChange={(e) => {
+                                            const val = e.target.value as 'season3' | 'season4';
+                                            setSelectedSeason(val);
+                                            setWeeklySelections(new Map());
+                                            if (val === 'season4') {
+                                                setIsGenesisPass(true);
+                                            } else {
+                                                setIsGenesisPass(false);
+                                            }
+                                        }}
+                                        className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white 
+                                                 border border-gray-600 focus:ring-2 focus:ring-purple-500"
+                                    >
+                                        <option value="season4">제네시스 패스 (시즌4, 13주)</option>
+                                        <option value="season3">챌린저스 시즌3 (17주)</option>
+                                    </select>
+                                </div>
+
+                                {/* 제네시스 패스 여부 */}
+                                <div className="flex items-center">
+                                    {selectedSeason === 'season4' ? (
+                                        <label className="flex items-center gap-3 cursor-pointer bg-purple-950/20 border border-purple-500/30 p-3 rounded-lg w-full hover:bg-purple-950/30 transition-colors">
+                                            <input
+                                                type="checkbox"
+                                                checked={isGenesisPass}
+                                                onChange={(e) => setIsGenesisPass(e.target.checked)}
+                                                className="w-5 h-5 rounded border-purple-500 bg-purple-900 text-purple-600 focus:ring-purple-500 focus:ring-offset-gray-900"
+                                            />
+                                            <div>
+                                                <p className="text-sm font-bold text-purple-200">제네시스 패스 활성화 (3배속)</p>
+                                                <p className="text-xs text-purple-400">보스 처치 시 어둠의 흔적 획득량이 3배가 됩니다.</p>
+                                            </div>
+                                        </label>
+                                    ) : (
+                                        <div className="bg-gray-800/80 border border-gray-700 p-3 rounded-lg w-full opacity-50 select-none">
+                                            <p className="text-sm font-bold text-gray-400">제네시스 패스 미지원 시즌</p>
+                                            <p className="text-xs text-gray-500">챌린저스 시즌3은 제네시스 패스 혜택이 적용되지 않습니다.</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
                         {/* 현재 진행 상황 */}
                         <div className="bg-gray-800/50 rounded-lg p-6 border border-gray-700">
                             <h3 className="text-lg font-bold text-white mb-4">
@@ -115,7 +181,7 @@ export default function GenesisLiberationPage() {
                                         value={currentStage}
                                         onChange={(e) => setCurrentStage(parseInt(e.target.value))}
                                         className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white 
-                             border border-gray-600 focus:ring-2 focus:ring-purple-500"
+                                     border border-gray-600 focus:ring-2 focus:ring-purple-500"
                                     >
                                         {QUEST_STAGES.map((stage) => (
                                             <option key={stage.stage} value={stage.stage}>
@@ -141,11 +207,11 @@ export default function GenesisLiberationPage() {
                                                     Math.min(3000, Math.max(0, parseInt(e.target.value) || 0))
                                                 )
                                             }
-                                            className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white 
-                               border border-gray-600 focus:ring-2 focus:ring-purple-500"
+                                            className="w-full pl-4 pr-16 py-3 rounded-lg bg-gray-700 text-white 
+                                       border border-gray-600 focus:ring-2 focus:ring-purple-500"
                                             placeholder="0"
                                         />
-                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none select-none">
                                             / 3,000
                                         </span>
                                     </div>
@@ -163,15 +229,21 @@ export default function GenesisLiberationPage() {
 
                         {/* 주차별 스케줄 */}
                         <WeeklySchedule
-                            totalWeeks={17}
+                            key={selectedSeason}
+                            totalWeeks={selectedSeason === 'season3' ? 17 : 13}
                             onScheduleChange={setWeeklySelections}
+                            isGenesisPass={activeIsGenesisPass}
                         />
                     </div>
 
                     {/* 오른쪽: 결과 섹션 (1/3) */}
                     <div className="lg:col-span-1">
                         <div className="sticky top-8">
-                            <ResultSummary result={result} season={SEASON_3} />
+                            <ResultSummary 
+                                result={result} 
+                                season={activeSeason} 
+                                isGenesisPass={activeIsGenesisPass}
+                            />
                         </div>
                     </div>
                 </div>
@@ -210,20 +282,26 @@ export default function GenesisLiberationPage() {
                     <div className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 border border-purple-700 rounded-lg p-6">
                         <h3 className="text-lg font-bold text-purple-300 mb-4 flex items-center gap-2">
                             <span>🏆</span>
-                            챌린저스 시즌3
+                            {selectedSeason === 'season3' ? '챌린저스 시즌3' : '제네시스 패스 (시즌4)'}
                         </h3>
                         <div className="grid grid-cols-1 gap-3 text-sm">
                             <div className="bg-gray-900/50 rounded p-3">
                                 <div className="text-gray-400 mb-1">시작일</div>
-                                <div className="text-white font-semibold">2025년 12월 18일</div>
+                                <div className="text-white font-semibold">
+                                    {selectedSeason === 'season3' ? '2025년 12월 18일' : '2026년 6월 18일'}
+                                </div>
                             </div>
                             <div className="bg-gray-900/50 rounded p-3">
                                 <div className="text-gray-400 mb-1">종료일</div>
-                                <div className="text-white font-semibold">2026년 4월 16일</div>
+                                <div className="text-white font-semibold">
+                                    {selectedSeason === 'season3' ? '2026년 4월 16일' : '2026년 9월 16일'}
+                                </div>
                             </div>
                             <div className="bg-gray-900/50 rounded p-3">
                                 <div className="text-gray-400 mb-1">총 기간</div>
-                                <div className="text-white font-semibold">17주 (119일)</div>
+                                <div className="text-white font-semibold">
+                                    {selectedSeason === 'season3' ? '17주 (119일)' : '13주 (90일)'}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -233,7 +311,10 @@ export default function GenesisLiberationPage() {
             {/* 푸터 */}
             <div className="container mx-auto px-4 py-8 text-center text-gray-500 text-sm">
                 <p>💡 주간 보스 리셋은 매주 목요일 기준으로 계산됩니다</p>
-                <p className="mt-1">⚠️ 월간 보스(검은 마법사)는 1, 5, 9, 13, 17주차에만 격파 가능합니다</p>
+                <p className="mt-1">
+                    ⚠️ 월간 보스(검은 마법사)는 4주에 한 번만 격파 가능합니다 
+                    ({selectedSeason === 'season3' ? '1, 5, 9, 13, 17주차' : '1, 5, 9, 13주차'})
+                </p>
             </div>
         </div>
     );

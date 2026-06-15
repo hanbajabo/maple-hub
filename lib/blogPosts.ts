@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 제네시스 패스 & 제네시스 패스 PLUS 완벽 가이드 (6월 15일)
+    {
+        slug: 'genesis-pass-plus-guide',
+        title: '💎 제네시스 패스 & 제네시스 패스 PLUS 완벽 가이드 — 3배속 해방 · 6인 파티 · 대적자 코인샵',
+        description: '6월 18일 출시되는 제네시스 패스 & PLUS 완벽 해부! 어둠의 흔적 3배속 획득, 스우~진 힐라 6인 파티 해방 퀘스트, 보스 클리어 미션 리워드, 대적자 코인샵 활용 팁까지.',
+        category: '이벤트 가이드',
+        date: '2026년 6월 15일',
+        readTime: '15분',
+        thumbnail: '💎',
+        featured: true,
+        targetDate: '2026년 6월 18일',
+    },
     // 챌린저스 월드 시즌4 완벽 가이드 (6월 15일)
     {
         slug: 'challengers-world-season4-overdrive',

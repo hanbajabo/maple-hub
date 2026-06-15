@@ -128,6 +128,14 @@ export const SEASON_3: Season = {
     bossResetDay: 4, // 목요일
 };
 
+// 제네시스 패스 (시즌4)
+export const SEASON_4: Season = {
+    name: '제네시스 패스 (시즌4)',
+    startDate: new Date('2026-06-18'),
+    endDate: new Date('2026-09-16'),
+    bossResetDay: 4, // 목요일
+};
+
 // 총 필요 어둠의 흔적
 export const TOTAL_REQUIRED_TRACES = QUEST_STAGES.reduce(
     (sum, stage) => sum + stage.requiredTraces,
