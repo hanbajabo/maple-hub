@@ -458,7 +458,8 @@ export default function GenesisPassGuidePage() {
               <ul className="text-xs sm:text-sm text-slate-300 space-y-1.5 list-disc list-inside bg-slate-900/40 p-3.5 rounded-lg border border-slate-800">
                 <li><span className="font-semibold text-white">적용 대상</span>: 스우(노멀) 이상 ~ 카링(하드) 이하의 특정 주간/월간 보스</li>
                 <li><span className="font-semibold text-white">진입 조건</span>: 실전이나 전체 연습 모드에서 한 번이라도 진입해 본 페이즈만 선택 가능합니다. (예: 윌 3페이즈 연습을 위해서는 최소 1회 3페이즈에 도달한 기록 필요)</li>
-                <li><span className="font-semibold text-white">활용 팁</span>: 페이즈별 연습모드를 이용하여 제네시스 해방 및 데스티니 1차 초월 미션을 연습할 수 있습니다. 단, 페이즈별 연습모드를 이용한 클리어는 미션 완료로 인정되지 않습니다. (전체 연습모드로 해야 인정 됩니다.) ※ 챔피언 평가전, 데스티니 2차 초월 미션은 페이즈별 연습모드를 지원하지 않습니다.</li>
+                <li><span className="font-semibold text-white">활용 팁</span>: 페이즈별 연습모드를 이용하여 제네시스 해방 및 데스티니 1차 초월 미션을 연습할 수 있습니다. 단, 페이즈별 연습모드를 이용한 클리어는 미션 완료로 인정되지 않습니다. (전체 연습모드로 해야 인정 됩니다.)</li>
+                <li className="text-slate-400">※ 챔피언 평가전, 데스티니 2차 초월 미션은 페이즈별 연습모드를 지원하지 않습니다.</li>
               </ul>
             </div>
 
