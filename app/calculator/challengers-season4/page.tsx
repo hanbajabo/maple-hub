@@ -402,9 +402,12 @@ export default function ChallengersCalculator() {
                             {aggregatedRewards.map((reward, idx) => {
                                 const isSolErda = reward.includes('솔 에르다');
                                 const isLegendaryScroll = reward.includes('레전드리 잠재능력 부여 스크롤');
+                                const isSolJanus = reward.includes('솔 야누스');
+                                const isPotion = reward.includes('달성의 비약');
                                 return (
                                 <span key={idx} className={`px-2.5 py-1.5 rounded-lg text-[10px] md:text-xs font-medium shadow-sm border ${
                                     isLegendaryScroll ? 'bg-green-950/40 border-green-700/60 text-green-400' :
+                                    isSolJanus || isPotion ? 'bg-red-950/40 border-red-700/60 text-red-400' :
                                     isSolErda ? 'bg-cyan-950/40 border-cyan-700/60 text-cyan-300' : 'bg-slate-900 border-slate-700/80 text-slate-300'
                                 }`}>
                                     {reward}
@@ -639,11 +642,21 @@ export default function ChallengersCalculator() {
                             <span>🎁</span> 누적 획득 보상 (합산)
                         </p>
                         <div className="flex flex-wrap gap-1.5 md:gap-2 bg-slate-950/40 rounded-lg p-2.5 md:p-3 border border-indigo-500/20 max-h-32 md:max-h-40 overflow-y-auto custom-scrollbar">
-                            {aggregatedRewards.map((reward, idx) => (
-                                <span key={idx} className="bg-slate-900 border border-slate-700/80 px-2.5 py-1.5 rounded-lg text-[10px] md:text-xs text-slate-300 font-medium shadow-sm">
+                            {aggregatedRewards.map((reward, idx) => {
+                                const isSolErda = reward.includes('솔 에르다');
+                                const isLegendaryScroll = reward.includes('레전드리 잠재능력 부여 스크롤');
+                                const isSolJanus = reward.includes('솔 야누스');
+                                const isPotion = reward.includes('달성의 비약');
+                                return (
+                                <span key={idx} className={`px-2.5 py-1.5 rounded-lg text-[10px] md:text-xs font-medium shadow-sm border ${
+                                    isLegendaryScroll ? 'bg-green-950/40 border-green-700/60 text-green-400' :
+                                    isSolJanus || isPotion ? 'bg-red-950/40 border-red-700/60 text-red-400' :
+                                    isSolErda ? 'bg-cyan-950/40 border-cyan-700/60 text-cyan-300' : 'bg-slate-900 border-slate-700/80 text-slate-300'
+                                }`}>
                                     {reward}
                                 </span>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 )}
