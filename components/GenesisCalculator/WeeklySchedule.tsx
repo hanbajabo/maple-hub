@@ -12,9 +12,10 @@ interface WeeklyScheduleProps {
     totalWeeks: number;
     onScheduleChange: (weeklySelections: Map<number, BossSelection[]>) => void;
     isGenesisPass?: boolean;
+    startDate: Date;
 }
 
-export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesisPass }: WeeklyScheduleProps) {
+export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesisPass, startDate }: WeeklyScheduleProps) {
     // 주차별 보스 선택 (week number -> BossSelection[])
     const [weeklySelections, setWeeklySelections] = useState<Map<number, BossSelection[]>>(
         new Map()
@@ -26,6 +27,20 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
     // 주간/월간 보스 분리
     const weeklyBosses = BOSSES.filter((boss) => !boss.isMonthly);
     const monthlyBosses = BOSSES.filter((boss) => boss.isMonthly);
+
+    // 월간 보스 출현 주차 계산 (매월 첫 번째 주차)
+    const monthlyWeeks: number[] = [1];
+    let currentMonth = startDate.getMonth();
+    for (let w = 2; w <= totalWeeks; w++) {
+        const weekStart = new Date(startDate);
+        weekStart.setDate(startDate.getDate() + (w - 1) * 7);
+        const weekMonth = weekStart.getMonth();
+        
+        if (weekMonth !== currentMonth) {
+            monthlyWeeks.push(w);
+            currentMonth = weekMonth;
+        }
+    }
 
     // 특정 주차의 보스 선택 토글
     const handleBossToggle = (
@@ -166,7 +181,7 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
                 {Array.from({ length: totalWeeks }, (_, i) => i + 1).map((weekNum) => {
                     const isExpanded = expandedWeeks.has(weekNum);
                     const weekTraces = calculateWeekTraces(weekNum);
-                    const isMonthlyWeek = weekNum % 4 === 1; // 월간 보스 가능 주차
+                    const isMonthlyWeek = monthlyWeeks.includes(weekNum); // 월이 바뀌는 첫 번째 주차
 
                     return (
                         <div

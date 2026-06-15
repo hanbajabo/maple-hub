@@ -233,6 +233,7 @@ export default function GenesisLiberationPage() {
                             totalWeeks={selectedSeason === 'season3' ? 17 : 13}
                             onScheduleChange={setWeeklySelections}
                             isGenesisPass={activeIsGenesisPass}
+                            startDate={activeSeason.startDate}
                         />
                     </div>
 
@@ -272,8 +273,8 @@ export default function GenesisLiberationPage() {
                                 </ul>
                             </div>
                             <div>
-                                <strong>• 월간 보스:</strong> 검은 마법사는 4주에 1회만 격파 가능
-                                (1, 5, 9, 13, 17주차)
+                                <strong>• 월간 보스:</strong> 검은 마법사는 달력 기준 매월 1회 격파 가능합니다.
+                                (시즌3: 1, 3, 8, 12, 16주차 / 시즌4: 1, 3, 8, 12주차)
                             </div>
                         </div>
                     </div>
@@ -312,8 +313,8 @@ export default function GenesisLiberationPage() {
             <div className="container mx-auto px-4 py-8 text-center text-gray-500 text-sm">
                 <p>💡 주간 보스 리셋은 매주 목요일 기준으로 계산됩니다</p>
                 <p className="mt-1">
-                    ⚠️ 월간 보스(검은 마법사)는 4주에 한 번만 격파 가능합니다 
-                    ({selectedSeason === 'season3' ? '1, 5, 9, 13, 17주차' : '1, 5, 9, 13주차'})
+                    ⚠️ 월간 보스(검은 마법사)는 매월 1일 초기화되어 달력 기준 월 1회만 격파 가능합니다 
+                    ({selectedSeason === 'season3' ? '추천: 1, 3, 8, 12, 16주차' : '추천: 1, 3, 8, 12주차'})
                 </p>
             </div>
         </div>
