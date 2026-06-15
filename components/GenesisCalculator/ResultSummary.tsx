@@ -31,6 +31,7 @@ export default function ResultSummary({ result, season, isGenesisPass }: ResultS
         finalCompletionDate,
         finalWeekNumber,
         canCompleteInSeason,
+        isPossibleToComplete,
         daysUntilCompletion,
         daysUntilSeasonEnd,
     } = result;
