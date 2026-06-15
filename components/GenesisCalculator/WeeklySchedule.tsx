@@ -175,23 +175,23 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
                         >
                             {/* 주차 헤더 */}
                             <div
-                                className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-700/30"
+                                className="flex flex-col sm:flex-row sm:items-center justify-between p-4 cursor-pointer hover:bg-gray-700/30 gap-3"
                                 onClick={() => toggleWeek(weekNum)}
                             >
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center flex-wrap gap-2 sm:gap-3">
                                     <span className="text-white font-semibold">
                                         Week {weekNum}
                                     </span>
                                     {isMonthlyWeek && (
-                                        <span className="text-xs bg-orange-600 text-white px-2 py-1 rounded">
+                                        <span className="text-[10px] sm:text-xs bg-orange-600 text-white px-2 py-1 rounded whitespace-nowrap">
                                             월간 보스 가능
                                         </span>
                                     )}
-                                    <span className="text-yellow-400 text-sm">
+                                    <span className="text-yellow-400 text-sm whitespace-nowrap">
                                         {weekTraces > 0 ? `${weekTraces} 흔적` : '미설정'}
                                     </span>
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center justify-end gap-2">
                                     {weekNum < totalWeeks && isExpanded && (
                                         <button
                                             onClick={(e) => {
@@ -215,7 +215,7 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
                                     {/* 주간 보스 */}
                                     <div>
                                         <h5 className="text-sm text-blue-300 mb-2">주간 보스</h5>
-                                        <div className="grid grid-cols-4 gap-2">
+                                        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3">
                                             {weeklyBosses.map((boss) => (
                                                 <div key={boss.id} className="bg-gray-900/50 rounded p-2">
                                                     <div className="flex items-center gap-1 mb-2">
@@ -286,7 +286,7 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
                                     {isMonthlyWeek && monthlyBosses.length > 0 && (
                                         <div>
                                             <h5 className="text-sm text-orange-300 mb-2">월간 보스 (이번 주 가능)</h5>
-                                            <div className="grid grid-cols-1 gap-2">
+                                            <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3">
                                                 {monthlyBosses.map((boss) => (
                                                     <div key={boss.id} className="bg-gray-900/50 rounded p-2">
                                                         <div className="flex items-center gap-1 mb-2">
