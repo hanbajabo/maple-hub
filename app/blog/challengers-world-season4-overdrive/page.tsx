@@ -232,7 +232,7 @@ export default function ChallengersWorldSeason4Page() {
                   </tbody>
                 </table>
               </div>
-              <p className="text-xs text-slate-400 mt-2">※ 스탠스 +100%, 소환수 지속 +10%, 쿨타임 감소 +5%, 길드 기여도 2배, 해방 룬 50% 전 티어 공통</p>
+              <p className="text-xs text-slate-400 mt-2">※ 스탠스 +100%, 소환수 지속 +10%, 쿨타임 감소 5%, 길드 기여도 2배, 해방 룬 지속시간 +50% 전 티어 공통</p>
             </div>
           </div>
         </section>
