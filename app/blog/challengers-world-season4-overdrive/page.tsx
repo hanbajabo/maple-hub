@@ -228,7 +228,7 @@ export default function ChallengersWorldSeason4Page() {
                     <tr className="bg-slate-900/10 hover:bg-slate-900/30"><td className="px-3 py-2">버프 지속시간</td><td className="px-3 py-2">+30%</td><td className="px-3 py-2">+30%</td><td className="px-3 py-2">+30%</td><td className="px-3 py-2">+30%</td><td className="px-3 py-2">+30%</td><td className="px-3 py-2">+60%</td></tr>
                     <tr className="hover:bg-slate-900/30"><td className="px-3 py-2">올스탯</td><td className="px-3 py-2">+50</td><td className="px-3 py-2">+50</td><td className="px-3 py-2">+60</td><td className="px-3 py-2">+70</td><td className="px-3 py-2">+90</td><td className="px-3 py-2">+100</td></tr>
                     <tr className="bg-slate-900/10 hover:bg-slate-900/30"><td className="px-3 py-2">최대 HP/MP</td><td className="px-3 py-2">+2500</td><td className="px-3 py-2">+2500</td><td className="px-3 py-2">+3000</td><td className="px-3 py-2">+3500</td><td className="px-3 py-2">+4500</td><td className="px-3 py-2">+5000</td></tr>
-                    <tr className="hover:bg-slate-900/30"><td className="px-3 py-2">메소/드롭률</td><td className="px-3 py-2">-</td><td className="px-3 py-2">-</td><td className="px-3 py-2">-</td><td className="px-3 py-2">-</td><td className="px-3 py-2">-</td><td className="px-3 py-2 font-bold text-emerald-300">+20% (챌린저↑)</td></tr>
+                    <tr className="hover:bg-slate-900/30"><td className="px-3 py-2">메획/아획</td><td className="px-3 py-2">-</td><td className="px-3 py-2">-</td><td className="px-3 py-2">-</td><td className="px-3 py-2">-</td><td className="px-3 py-2">-</td><td className="px-3 py-2 font-bold text-emerald-300">+20% (챌린저↑)</td></tr>
                   </tbody>
                 </table>
               </div>
