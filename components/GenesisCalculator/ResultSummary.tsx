@@ -56,10 +56,10 @@ export default function ResultSummary({ result, season, isGenesisPass }: ResultS
                     <div className={canCompleteInSeason ? 'text-green-300' : 'text-red-300'}>
                         <div className="text-sm mb-1">해방 완료 예상</div>
                         <div className="text-2xl font-bold text-white">
-                            {formatDate(finalCompletionDate)}
+                            {finalCompletionDate ? formatDate(finalCompletionDate) : '해방 불가'}
                         </div>
                         <div className="text-sm mt-1">
-                            {finalWeekNumber}주차 소요 • D-{daysUntilCompletion}
+                            {finalCompletionDate && finalWeekNumber ? `${finalWeekNumber}주차 소요 • D-${daysUntilCompletion}` : '흔적 부족으로 진행 불가'}
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@ export default function ResultSummary({ result, season, isGenesisPass }: ResultS
                                 <div className="text-sm text-green-200">
                                     시즌 종료 ({formatDate(season.endDate)})까지{' '}
                                     <strong>
-                                        {Math.max(0, daysUntilSeasonEnd - daysUntilCompletion)}일
+                                        {Math.max(0, daysUntilSeasonEnd - (daysUntilCompletion || 0))}일
                                     </strong>{' '}
                                     여유가 있습니다.
                                 </div>
@@ -96,8 +96,7 @@ export default function ResultSummary({ result, season, isGenesisPass }: ResultS
                                     주의: 현재 진행 속도로는 시즌 내 해방 불가능
                                 </div>
                                 <div className="text-sm text-red-200">
-                                    예상 완료: {formatDate(finalCompletionDate)} (시즌 종료 후{' '}
-                                    {Math.abs(daysUntilSeasonEnd - daysUntilCompletion)}일)
+                                    예상 완료: {finalCompletionDate ? formatDate(finalCompletionDate) : '진행 불가'} {finalCompletionDate && `(시즌 종료 후 ${Math.abs(daysUntilSeasonEnd - (daysUntilCompletion || 0))}일)`}
                                 </div>
                                 <div className="mt-3 text-sm text-red-100 space-y-1">
                                     <div className="font-semibold">💡 해결 방법:</div>
@@ -108,6 +107,7 @@ export default function ResultSummary({ result, season, isGenesisPass }: ResultS
                                         <li>검은 마법사 격파 추가 (+600/주)</li>
                                         <li>더 높은 난이도 보스 격파</li>
                                         <li>파티 → 솔로 격파로 전환</li>
+                                        {!isPossibleToComplete && <li>이후 주차에 보스 격파 스케줄 추가</li>}
                                     </ul>
                                 </div>
                             </div>

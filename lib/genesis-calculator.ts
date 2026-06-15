@@ -40,16 +40,17 @@ export interface StageCompletion {
 }
 
 export interface CalculationResult {
-    tracesPerWeek: number; // 주간 획득 어둠의 흔적
+    tracesPerWeek: number; // 주간 평균 획득 어둠의 흔적
     currentStage: number;
     currentTraces: number;
     stageCompletions: StageCompletion[]; // 각 단계별 완료 정보
-    finalCompletionDate: Date; // 전체 해방 완료일
-    finalWeekNumber: number; // 완료 주차
+    finalCompletionDate: Date | null; // 전체 해방 완료일
+    finalWeekNumber: number | null; // 완료 주차
     canCompleteInSeason: boolean; // 시즌 내 완료 가능 여부
-    weeksUntilCompletion: number; // 완료까지 남은 주
+    isPossibleToComplete: boolean; // 해방 완료 자체가 가능한지 여부
+    weeksUntilCompletion: number | null; // 완료까지 남은 주
     weeksRemainingInSeason: number; // 시즌 종료까지 남은 주
-    daysUntilCompletion: number; // 완료까지 남은 일
+    daysUntilCompletion: number | null; // 완료까지 남은 일
     daysUntilSeasonEnd: number; // 시즌 종료까지 남은 일
 }
 
@@ -152,6 +153,10 @@ export function calculateLiberationProgress(
         const tracesNeeded = requiredTraces - accumulatedTraces;
 
         if (tracesNeeded > 0) {
+            if (tracesPerWeek <= 0) {
+                // 더 이상 진행 불가
+                break;
+            }
             // 추가 주차가 필요
             const weeksNeeded = Math.ceil(tracesNeeded / tracesPerWeek);
             currentWeek += weeksNeeded;
@@ -176,14 +181,15 @@ export function calculateLiberationProgress(
         });
     }
 
-    const finalCompletion = stageCompletions[stageCompletions.length - 1];
-    const finalCompletionDate = finalCompletion.completionDate;
-    const finalWeekNumber = finalCompletion.weekNumber;
+    const isPossibleToComplete = stageCompletions.length === (8 - currentStage + 1);
+    const finalCompletion = stageCompletions.length > 0 ? stageCompletions[stageCompletions.length - 1] : null;
+    const finalCompletionDate = finalCompletion ? finalCompletion.completionDate : null;
+    const finalWeekNumber = finalCompletion ? finalCompletion.weekNumber : null;
 
-    const canCompleteInSeason = finalCompletionDate <= season.endDate;
-    const weeksUntilCompletion = getWeeksDifference(new Date(), finalCompletionDate);
+    const canCompleteInSeason = isPossibleToComplete && finalCompletionDate !== null && finalCompletionDate <= season.endDate;
+    const weeksUntilCompletion = finalCompletionDate ? getWeeksDifference(new Date(), finalCompletionDate) : null;
     const weeksRemainingInSeason = getWeeksDifference(new Date(), season.endDate);
-    const daysUntilCompletion = getDaysDifference(new Date(), finalCompletionDate);
+    const daysUntilCompletion = finalCompletionDate ? getDaysDifference(new Date(), finalCompletionDate) : null;
     const daysUntilSeasonEnd = getDaysDifference(new Date(), season.endDate);
 
     return {
@@ -194,6 +200,7 @@ export function calculateLiberationProgress(
         finalCompletionDate,
         finalWeekNumber,
         canCompleteInSeason,
+        isPossibleToComplete,
         weeksUntilCompletion,
         weeksRemainingInSeason,
         daysUntilCompletion,
@@ -278,13 +285,18 @@ export function calculateWeeklyLiberationProgress(
             const weekSelections = weeklySelections.get(weekToUse) || [];
             const weekTraces = calculateWeekTraces(currentWeek, weekSelections, isGenesisPass);
 
-            accumulatedTraces += weekTraces;
-            tracesNeeded -= weekTraces;
-
-            // 무한 루프 방지: 주간 획득량이 0이면 중단
-            if (weekTraces === 0) {
+            // 무한 루프 방지: 시즌 기간을 넘어가고, 설정된 획득량도 0인 경우 더 이상 진행 불가
+            if (currentWeek > totalSeasonWeeks && weekTraces === 0) {
                 break;
             }
+
+            accumulatedTraces += weekTraces;
+            tracesNeeded -= weekTraces;
+        }
+
+        if (tracesNeeded > 0) {
+            // 이번 단계(및 이후)를 완료할 수 없음
+            break;
         }
 
         // 이 단계 완료
@@ -305,10 +317,6 @@ export function calculateWeeklyLiberationProgress(
         });
     }
 
-    const finalCompletion = stageCompletions[stageCompletions.length - 1];
-    const finalCompletionDate = finalCompletion.completionDate;
-    const finalWeekNumber = finalCompletion.weekNumber;
-
     // 전체 평균 주간 획득량 계산 (참고용)
     let totalTraces = 0;
     const computedTotalSeasonWeeks = season.name.includes('시즌3') ? 17 : 13;
@@ -318,10 +326,15 @@ export function calculateWeeklyLiberationProgress(
     }
     const tracesPerWeek = totalTraces / totalSeasonWeeks;
 
-    const canCompleteInSeason = finalCompletionDate <= season.endDate;
-    const weeksUntilCompletion = getWeeksDifference(new Date(), finalCompletionDate);
+    const isPossibleToComplete = stageCompletions.length === (8 - currentStage + 1);
+    const finalCompletion = stageCompletions.length > 0 ? stageCompletions[stageCompletions.length - 1] : null;
+    const finalCompletionDate = finalCompletion ? finalCompletion.completionDate : null;
+    const finalWeekNumber = finalCompletion ? finalCompletion.weekNumber : null;
+
+    const canCompleteInSeason = isPossibleToComplete && finalCompletionDate !== null && finalCompletionDate <= season.endDate;
+    const weeksUntilCompletion = finalCompletionDate ? getWeeksDifference(new Date(), finalCompletionDate) : null;
     const weeksRemainingInSeason = getWeeksDifference(new Date(), season.endDate);
-    const daysUntilCompletion = getDaysDifference(new Date(), finalCompletionDate);
+    const daysUntilCompletion = finalCompletionDate ? getDaysDifference(new Date(), finalCompletionDate) : null;
     const daysUntilSeasonEnd = getDaysDifference(new Date(), season.endDate);
 
     return {
@@ -332,6 +345,7 @@ export function calculateWeeklyLiberationProgress(
         finalCompletionDate,
         finalWeekNumber,
         canCompleteInSeason,
+        isPossibleToComplete,
         weeksUntilCompletion,
         weeksRemainingInSeason,
         daysUntilCompletion,
