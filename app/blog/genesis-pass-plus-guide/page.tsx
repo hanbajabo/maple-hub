@@ -463,11 +463,11 @@ export default function GenesisPassGuidePage() {
               </ul>
             </div>
 
-            {/* 3. 보스 패턴 무지성 억까 방지! */}
+            {/* 3. 보스 패턴 완호 패치 적용 */}
             <div className="bg-slate-950/40 border border-slate-800/80 rounded-xl p-5 space-y-4">
               <p className="font-bold text-base text-pink-300 flex items-center gap-2">
                 <span className="px-2 py-0.5 text-xs bg-pink-500/20 text-pink-200 rounded-md">이유 3</span>
-                🛡️ 보스 패턴 무지성 억까 방지! (주요 몬스터 너프)
+                🛡️ 보스 패턴 완화 패치 적용
               </p>
               <p className="text-sm text-slate-300">
                 솔플 도전자들의 키보드를 부수게 만들었던 보스들의 악랄한 억까 패턴들이 완화 및 삭제되었습니다.
