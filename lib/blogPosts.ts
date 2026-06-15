@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 챌린저스 월드 시즌4 완벽 가이드 (6월 15일)
+    {
+        slug: 'challengers-world-season4-overdrive',
+        title: '🌐 챌린저스 월드 시즌4 완벽 가이드 — 테라버닝 3캐릭 · 시즌보스 메이린 · 솔야누스 지원',
+        description: '6월 18일 오버드라이브와 함께 개막! 테라 버닝 3캐릭터, 신규 시즌 보스 메이린, 티어별 버프 스킬, 레벨/보스/시즌 미션, 의문의 결계, 챌린저스 패스, 솔 야누스 30레벨 지원까지 모든 정보를 완벽 정리.',
+        category: '이벤트 가이드',
+        date: '2026년 6월 15일',
+        readTime: '20분',
+        thumbnail: '🌐',
+        featured: true,
+        targetDate: '2026년 6월 18일',
+    },
     // 6월 17일 마감! 오버드라이브 업데이트 전 이벤트 총정리 (6월 9일)
     {
         slug: 'overdrive-pre-event-checklist-jun17',
