@@ -186,6 +186,8 @@ export default function ChallengersCalculator() {
       if (!tier.rewards || tier.rewards === '없음') return;
       const items = tier.rewards.split(', ');
       items.forEach(item => {
+        if (item.includes('훈장') || item.includes('모자')) return;
+
         const match = item.match(/(.+)\s+([0-9,]+)개$/);
         if (match) {
           const name = match[1];
@@ -394,7 +396,7 @@ export default function ChallengersCalculator() {
                 {currentTier.name !== '언랭크' && (
                     <div className="mt-3">
                         <p className="text-[10px] md:text-xs font-bold text-indigo-300 mb-1.5 flex items-center gap-1">
-                            <span>🎁</span> 누적 획득 보상 (합산)
+                            <span>🎁</span> 누적 획득 보상 (훈장/모자류 제외)
                         </p>
                         <div className="flex flex-wrap gap-1.5 md:gap-2 bg-slate-950/40 rounded-lg p-2.5 md:p-3 border border-indigo-500/20 max-h-24 md:max-h-32 overflow-y-auto custom-scrollbar">
                             {aggregatedRewards.map((reward, idx) => (
