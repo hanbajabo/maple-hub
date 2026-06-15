@@ -499,7 +499,7 @@ export default function GenesisPassGuidePage() {
 
               <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
                 <p className="font-bold text-white text-sm flex items-center gap-1.5 border-b border-slate-800 pb-2">
-                  <span>🪐</span> 그외 보스 '카링'도 난이도 완화
+                  <span>🪐</span> 그 외 보스 '카링'도 난이도 완화
                 </p>
                 <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside mt-2">
                   <li>2페이즈에서 일부 흑염의 위치가 변경됩니다.</li>
