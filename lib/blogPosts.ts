@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 챌린저스 패스 효율 완벽 분석 (6월 16일)
+    {
+        slug: 'challengers-pass-efficiency-2026',
+        title: '🌐 챌린저스 패스 효율 완벽 분석 — 무료/EXP/프리미엄 패스 전격 비교',
+        description: '챌린저스 월드 전용 혜택! 챌린저스 패스의 주간 미션, 패스별 보상 효율, 미호의 블루베리 농장 경험치까지 완벽하게 분석합니다.',
+        category: '이벤트 가이드',
+        date: '2026년 6월 16일',
+        readTime: '12분',
+        thumbnail: '🎟️',
+        featured: true,
+        targetDate: '2026년 6월 18일',
+    },
     // 제네시스 패스 & 제네시스 패스 PLUS 완벽 가이드 (6월 15일)
     {
         slug: 'genesis-pass-plus-guide',
