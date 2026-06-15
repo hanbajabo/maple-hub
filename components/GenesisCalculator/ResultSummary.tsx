@@ -177,19 +177,21 @@ export default function ResultSummary({ result, season, isGenesisPass }: ResultS
                 </div>
 
                 {/* 최종 완료 */}
-                <div className="mt-6 p-4 bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-lg border border-purple-700">
-                    <div className="flex items-center gap-3">
-                        <span className="text-3xl">🎉</span>
-                        <div className="flex-1">
-                            <div className="font-bold text-white text-lg">
-                                제네시스 무기 완전 해방!
-                            </div>
-                            <div className="text-purple-200 text-sm">
-                                {formatDate(finalCompletionDate)} ({finalWeekNumber}주차) 완료 예상
+                {isPossibleToComplete && finalCompletionDate && (
+                    <div className="mt-6 p-4 bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-lg border border-purple-700">
+                        <div className="flex items-center gap-3">
+                            <span className="text-3xl">🎉</span>
+                            <div className="flex-1">
+                                <div className="font-bold text-white text-lg">
+                                    제네시스 무기 완전 해방!
+                                </div>
+                                <div className="text-purple-200 text-sm">
+                                    {formatDate(finalCompletionDate)} ({finalWeekNumber}주차) 완료 예상
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                )}
             </div>
 
             {/* 시즌 정보 */}
