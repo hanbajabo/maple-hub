@@ -151,7 +151,7 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
         <div className="space-y-4">
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-white">
-                    주차별 보스 격파 스케줄 (17주)
+                    주차별 보스 격파 스케줄 ({totalWeeks}주)
                 </h3>
                 <button
                     onClick={resetAllSelections}
@@ -368,7 +368,7 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
                         <ul className="list-disc list-inside mt-1 space-y-1">
                             <li>각 주차를 클릭하여 격파 가능한 보스를 선택하세요</li>
                             <li>"이후 주차 동일" 버튼으로 같은 보스 구성을 이후 주차에 일괄 적용할 수 있습니다</li>
-                            <li>월간 보스는 1, 5, 9, 13, 17주차에만 선택 가능합니다</li>
+                            <li>월간 보스는 1, 5, 9, 13{totalWeeks >= 17 ? ', 17' : ''}주차에만 선택 가능합니다</li>
                         </ul>
                     </div>
                 </div>
