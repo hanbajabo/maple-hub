@@ -181,55 +181,199 @@ export default function ChallengersPassEfficiency2026() {
                 {/* ===== 주요 보상 ===== */}
                 <section className="mb-10">
                     <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                        <span>🎁</span> 주요 레벨 보상 하이라이트
+                        <span>🎟️</span> [메이플스토리] 챌린저스 패스 시즌4 1~30레벨 보상 총정리!
                     </h2>
                     <div className="bg-slate-900/60 border border-slate-700/50 rounded-xl overflow-hidden shadow-inner overflow-x-auto">
                         <img src="/challengers-pass-rewards.png" alt="챌린저스 패스 전체 보상 UI" className="w-full border-b border-slate-700" />
                         <table className="w-full text-sm sm:text-base text-left text-slate-300">
                             <thead className="bg-slate-800 text-white font-bold">
                                 <tr>
-                                    <th className="px-4 py-3 border-b border-slate-700 whitespace-nowrap">레벨</th>
-                                    <th className="px-4 py-3 border-b border-slate-700 whitespace-nowrap text-slate-300">기본 지원 물품</th>
-                                    <th className="px-4 py-3 border-b border-slate-700 whitespace-nowrap text-blue-300">EXP 지원 물품</th>
-                                    <th className="px-4 py-3 border-b border-slate-700 whitespace-nowrap text-yellow-300">프리미엄 지원 물품</th>
+                                    <th className="px-4 py-3 border-b border-slate-700 whitespace-nowrap">패스 레벨</th>
+                                    <th className="px-4 py-3 border-b border-slate-700 whitespace-nowrap text-slate-300">🎁 지원 물품 (기본 패스)</th>
+                                    <th className="px-4 py-3 border-b border-slate-700 whitespace-nowrap text-blue-300">📈 EXP 지원 물품 (EXP 패스)</th>
+                                    <th className="px-4 py-3 border-b border-slate-700 whitespace-nowrap text-yellow-300">👑 프리미엄 지원 물품 (프리미엄 패스)</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-700/50">
+                            <tbody className="divide-y divide-slate-700/50 text-sm sm:text-base">
                                 <tr className="hover:bg-slate-800/30 transition-colors">
-                                    <td className="px-4 py-3 font-bold">Lv.1</td>
+                                    <td className="px-4 py-3 font-bold text-center">1</td>
                                     <td className="px-4 py-3">VIP 부스터 5개</td>
                                     <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
                                     <td className="px-4 py-3">경험치 4배 쿠폰 (30분) 2개</td>
                                 </tr>
                                 <tr className="hover:bg-slate-800/30 transition-colors">
-                                    <td className="px-4 py-3 font-bold">Lv.4</td>
+                                    <td className="px-4 py-3 font-bold text-center">2</td>
+                                    <td className="px-4 py-3">코어 젬스톤 200개</td>
+                                    <td className="px-4 py-3">VIP 사우나 이용권 2개</td>
+                                    <td className="px-4 py-3">코어 젬스톤 1,000개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">3</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 10개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">4</td>
                                     <td className="px-4 py-3">솔 에르다 조각 15개</td>
                                     <td className="px-4 py-3">상급 EXP 교환권 1,000개</td>
                                     <td className="px-4 py-3">스페셜 명예의 훈장 100개</td>
                                 </tr>
                                 <tr className="hover:bg-slate-800/30 transition-colors">
-                                    <td className="px-4 py-3 font-bold">Lv.14</td>
+                                    <td className="px-4 py-3 font-bold text-center">5</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">솔 에르다/솔 에르다 조각 선택권 3개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">6</td>
+                                    <td className="px-4 py-3">VIP 부스터 5개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">경험치 4배 쿠폰 (30분) 2개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">7</td>
+                                    <td className="px-4 py-3">코어 젬스톤 200개</td>
+                                    <td className="px-4 py-3">VIP 사우나 이용권 2개</td>
+                                    <td className="px-4 py-3">코어 젬스톤 1,000개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">8</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 10개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">9</td>
+                                    <td className="px-4 py-3">스페셜 명예의 훈장 10개</td>
+                                    <td className="px-4 py-3">상급 EXP 교환권 1,000개</td>
+                                    <td className="px-4 py-3">스페셜 명예의 훈장 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">10</td>
+                                    <td className="px-4 py-3">VIP 사우나 이용권 1개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">솔 에르다/솔 에르다 조각 선택권 3개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">11</td>
+                                    <td className="px-4 py-3">VIP 부스터 5개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">경험치 4배 쿠폰 (30분) 2개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">12</td>
+                                    <td className="px-4 py-3">스페셜 명예의 훈장 10개</td>
+                                    <td className="px-4 py-3">VIP 사우나 이용권 2개</td>
+                                    <td className="px-4 py-3">스페셜 명예의 훈장 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">13</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 10개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">14</td>
                                     <td className="px-4 py-3">카르마 검은 환생의 불꽃 10개</td>
                                     <td className="px-4 py-3">상급 EXP 교환권 1,000개</td>
                                     <td className="px-4 py-3">카르마 검은 환생의 불꽃 100개</td>
                                 </tr>
                                 <tr className="hover:bg-slate-800/30 transition-colors">
-                                    <td className="px-4 py-3 font-bold">Lv.24</td>
+                                    <td className="px-4 py-3 font-bold text-center">15</td>
+                                    <td className="px-4 py-3">솔 에르다 조각 15개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">솔 에르다/솔 에르다 조각 선택권 3개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">16</td>
+                                    <td className="px-4 py-3">VIP 부스터 5개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">경험치 4배 쿠폰 (30분) 2개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">17</td>
+                                    <td className="px-4 py-3">스페셜 명예의 훈장 10개</td>
+                                    <td className="px-4 py-3">VIP 사우나 이용권 2개</td>
+                                    <td className="px-4 py-3">스페셜 명예의 훈장 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">18</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 10개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">19</td>
+                                    <td className="px-4 py-3">카르마 검은 환생의 불꽃 10개</td>
+                                    <td className="px-4 py-3">상급 EXP 교환권 1,000개</td>
+                                    <td className="px-4 py-3">카르마 검은 환생의 불꽃 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">20</td>
+                                    <td className="px-4 py-3">VIP 사우나 이용권 1개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">솔 에르다/솔 에르다 조각 선택권 3개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">21</td>
+                                    <td className="px-4 py-3">VIP 부스터 5개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">경험치 4배 쿠폰 (30분) 2개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">22</td>
+                                    <td className="px-4 py-3">상급 EXP 교환권 100개</td>
+                                    <td className="px-4 py-3">VIP 사우나 이용권 2개</td>
+                                    <td className="px-4 py-3">카르마 검은 환생의 불꽃 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">23</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 10개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">24</td>
                                     <td className="px-4 py-3">카르마 검은 환생의 불꽃 10개</td>
                                     <td className="px-4 py-3">상급 EXP 교환권 1,000개</td>
                                     <td className="px-4 py-3">카르마 블랙 큐브 20개</td>
                                 </tr>
                                 <tr className="hover:bg-slate-800/30 transition-colors">
-                                    <td className="px-4 py-3 font-bold">Lv.29</td>
+                                    <td className="px-4 py-3 font-bold text-center">25</td>
+                                    <td className="px-4 py-3">솔 에르다 조각 15개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">솔 에르다/솔 에르다 조각 선택권 3개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">26</td>
+                                    <td className="px-4 py-3">VIP 부스터 5개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">경험치 4배 쿠폰 (30분) 2개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">27</td>
+                                    <td className="px-4 py-3">상급 EXP 교환권 100개</td>
+                                    <td className="px-4 py-3">VIP 사우나 이용권 2개</td>
+                                    <td className="px-4 py-3">카르마 검은 환생의 불꽃 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">28</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 10개</td>
+                                    <td className="px-4 py-3">블루베리 농장 입장권 1개</td>
+                                    <td className="px-4 py-3">선택 심볼 교환권 100개</td>
+                                </tr>
+                                <tr className="hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-4 py-3 font-bold text-center">29</td>
                                     <td className="px-4 py-3">카르마 검은 환생의 불꽃 10개</td>
                                     <td className="px-4 py-3">상급 EXP 교환권 1,000개</td>
                                     <td className="px-4 py-3">카르마 화이트 에디셔널 큐브 20개</td>
                                 </tr>
                                 <tr className="hover:bg-slate-800/30 transition-colors bg-yellow-900/20">
-                                    <td className="px-4 py-3 font-bold text-yellow-400">Lv.30 🏆</td>
+                                    <td className="px-4 py-3 font-bold text-center text-yellow-400">30 🏆</td>
                                     <td className="px-4 py-3 font-bold">상급 EXP 교환권 2,000개</td>
                                     <td className="px-4 py-3 font-bold">성장의 비약 (200~279) 1개</td>
-                                    <td className="px-4 py-3 font-bold text-yellow-300">솔 에르다/조각 선택권 5개</td>
+                                    <td className="px-4 py-3 font-bold text-yellow-300">솔 에르다/솔 에르다 조각 선택권 5개</td>
                                 </tr>
                             </tbody>
                         </table>
