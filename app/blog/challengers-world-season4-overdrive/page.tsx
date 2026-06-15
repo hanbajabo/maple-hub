@@ -269,6 +269,14 @@ export default function ChallengersWorldSeason4Page() {
               </div>
             </div>
 
+            <div className="w-full rounded-xl overflow-hidden border border-pink-500/20 shadow-md">
+              <img
+                src="/boss_meilin_entry.png"
+                alt="메이린 난이도 선택 카드"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-5">
               <p className="font-bold text-slate-100 mb-3">🗺️ 입장 방법</p>
               <p className="text-slate-300 text-sm">챌린저스 월드의 <span className="text-white font-semibold">헤네시스 / 이름 없는 마을 / 세르니움 광장 / 연구자들의 도시</span>에 위치한 <span className="text-cyan-300 font-bold">아네트 NPC</span>를 통해 입장</p>
@@ -743,16 +751,14 @@ export default function ChallengersWorldSeason4Page() {
                 </table>
               </div>
               <p className="text-xs text-slate-400 mt-2">※ 마스터 이상 보상은 원하는 월드에서 수령 가능 (챌린저스1~3은 에오스/핼리오스 제외)</p>
+              <p className="text-xs text-slate-400 mt-1">※ 슈퍼챌린저를 1등 ~ 10등으로 달성할 경우, 1st 슈퍼챌린저 ~ 10th 슈퍼챌린저 훈장을 획득할 수 있습니다.</p>
               
-              {/* 9만 점 달성 공략 및 3가지 맞춤형 루트 */}
+              {/* 9만 점 달성 공략 및 2가지 맞춤형 루트 */}
               <div className="mt-8 border-t border-slate-800/80 pt-6 space-y-6 text-sm sm:text-base text-slate-300">
                 <div>
                   <p className="font-bold text-slate-100 text-base mb-2">💡 9만 점 달성 전략 가이드</p>
                   <p className="leading-relaxed">
-                    9만 점이라는 커트라인은 감으로 도달하기엔 꽤 빡빡한 수치입니다. 단순한 레벨업이나 무지성 보스 트라이보다는, 목표하는 최소 전투력 컷과 요구 DPM을 정확하게 분석해서 견적을 내야 시간 낭비를 줄일 수 있습니다.
-                  </p>
-                  <p className="leading-relaxed mt-2">
-                    9만 점 달성과 '슈퍼챌린저/챌린저' 등급 획득을 위해서는 <span className="text-pink-300 font-bold">하드 메이린 격파(필수 조건)</span>가 선행되어야 하므로, 이를 기본 베이스로 깔고 플레이 성향에 따른 3가지 맞춤형 공략 루트를 계산해 보았습니다.
+                    9만 점 달성과 '슈퍼챌린저/챌린저' 등급 획득을 위해서는 <span className="text-pink-300 font-bold">하드 메이린 격파(필수 조건)</span>가 선행되어야 하므로, 이를 기본 베이스로 깔고 플레이 성향에 따른 2가지 맞춤형 공략 루트를 계산해 보았습니다.
                   </p>
                 </div>
 
@@ -794,30 +800,7 @@ export default function ChallengersWorldSeason4Page() {
 
                   {/* 루트 B */}
                   <div className="bg-slate-950/40 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700/50 transition-all">
-                    <p className="font-bold text-purple-300 mb-2 text-base flex items-center gap-2">⚔️ 루트 B: [컨트롤 깎는 장인형] 레벨 275 + 그란디스 상위권 올킬</p>
-                    <p className="text-xs text-slate-400 mb-3">사냥은 최소화하고, 보스 패턴을 완벽히 숙지해 극한의 딜 효율을 뽑아낼 수 있는 분들을 위한 루트입니다.</p>
-                    <div className="space-y-2 text-sm text-slate-300">
-                      <p>• <span className="font-semibold text-white">목표 레벨:</span> 275레벨 <span className="text-purple-400 font-bold">(누적 10,200점 획득)</span></p>
-                      <div>
-                        <p>• <span className="font-semibold text-white">추가 보스 컷:</span></p>
-                        <ul className="pl-4 list-disc list-inside space-y-1 text-slate-400 mt-1">
-                          <li>노멀/하드 선택받은 세렌 (13,000점)</li>
-                          <li>이지/노멀 감시자 칼로스 (16,000점)</li>
-                          <li>이지 최초의 대적자 (7,000점)</li>
-                        </ul>
-                      </div>
-                      <p className="border-t border-slate-800/80 pt-2 mt-2 font-bold text-purple-200">
-                        최종 점수: 49,300 + 10,200 + 36,000 = 95,500점 (목표 달성!)
-                      </p>
-                      <p className="text-xs text-slate-400 mt-2 bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/50">
-                        <span className="font-semibold text-purple-300">공략 포인트:</span> 레벨업에 쏟을 시간을 아껴 코어 강화와 보스 트라이에 투자합니다. 레벨 차이에 의한 데미지 반감을 뚫어내야 하므로, 연습 모드를 적극 활용해 노멀 칼로스 패턴을 완벽하게 깎아내는 것이 핵심입니다.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* 루트 C */}
-                  <div className="bg-slate-950/40 border border-slate-800/80 rounded-xl p-5 hover:border-slate-700/50 transition-all">
-                    <p className="font-bold text-yellow-300 mb-2 text-base flex items-center gap-2">🔥 루트 C: [우직한 사냥 머신형] 레벨 285 + 그란디스 진입만</p>
+                    <p className="font-bold text-yellow-300 mb-2 text-base flex items-center gap-2">🔥 루트 B: [우직한 사냥 머신형] 레벨 285 + 그란디스 진입만</p>
                     <p className="text-xs text-slate-400 mb-3">복잡한 그란디스 상위 보스 패턴을 외우기 싫거나 컨트롤에 자신이 없는 분들을 위한 '시간 갈아 넣기' 루트입니다.</p>
                     <div className="space-y-2 text-sm text-slate-300">
                       <p>• <span className="font-semibold text-white">목표 레벨:</span> 285레벨 <span className="text-yellow-400 font-bold">(누적 23,700점 획득)</span></p>
