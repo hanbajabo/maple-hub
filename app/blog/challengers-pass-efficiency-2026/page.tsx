@@ -55,6 +55,7 @@ export default function ChallengersPassEfficiency2026() {
                         </div>
 
                         <div className="bg-slate-900/60 border border-slate-700/50 rounded-xl p-5 mb-6 shadow-inner">
+                            <img src="/challengers-pass.png" alt="챌린저스 패스 UI" className="w-full rounded-lg mb-6 border border-slate-700 shadow-md" />
                             <p className="text-sm sm:text-base text-slate-200 mb-4 leading-relaxed">
                                 카산드라가 준비한 챌린저스 월드 전용 물품! 챌린저스 월드를 여행하며 챌린저스 패스 레벨을 올리고 특별한 선물도 받아 가세요!
                             </p>
@@ -183,6 +184,7 @@ export default function ChallengersPassEfficiency2026() {
                         <span>🎁</span> 주요 레벨 보상 하이라이트
                     </h2>
                     <div className="bg-slate-900/60 border border-slate-700/50 rounded-xl overflow-hidden shadow-inner overflow-x-auto">
+                        <img src="/challengers-pass-rewards.png" alt="챌린저스 패스 전체 보상 UI" className="w-full border-b border-slate-700" />
                         <table className="w-full text-sm sm:text-base text-left text-slate-300">
                             <thead className="bg-slate-800 text-white font-bold">
                                 <tr>
@@ -246,6 +248,8 @@ export default function ChallengersPassEfficiency2026() {
                         <p className="text-slate-200 mb-6 font-semibold">
                             미호의 블루베리 농사를 도와주고 대량의 경험치를 획득하세요!
                         </p>
+
+                        <img src="/blueberry-farm.png" alt="미호의 블루베리 농장" className="w-full rounded-xl mb-6 border border-indigo-500/30 shadow-lg" />
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="bg-slate-900/60 border border-slate-700/50 rounded-xl p-5 shadow-inner">
