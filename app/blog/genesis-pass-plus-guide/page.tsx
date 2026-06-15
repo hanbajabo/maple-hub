@@ -479,7 +479,7 @@ export default function GenesisPassGuidePage() {
                     <span>🕷️</span> 거미의 왕 '윌' 대폭 너프
                   </p>
                   <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-                    <li><span className="text-white font-semibold">1페이즈</span>: 주시하며 튕겨내던 '어둠의 집행자' 패턴 아예 삭제!</li>
+                    <li>'어둠의 집행자' 패턴 아예 삭제!</li>
                     <li><span className="text-white font-semibold">2페이즈</span>: 주시하는 눈동자 레이저에 피격되어도 달빛 게이지가 깎이지 않음. 밀쳐내기 패턴 피격 시 '혼란' 상태 이상 삭제, 장벽 데미지 10~11% 감소.</li>
                     <li><span className="text-white font-semibold">3페이즈</span>: 솔플 생존을 위협하던 심연의 거미줄 생성 속도가 <span className="text-yellow-300 font-semibold">"파티원 수에 비례하여 적을수록 느리게"</span> 생성되도록 변경!</li>
                   </ul>
