@@ -750,7 +750,10 @@ export default function ChallengersWorldSeason4Page() {
                   </tbody>
                 </table>
               </div>
-              <p className="text-xs text-slate-400 mt-2">※ 마스터 이상 보상은 원하는 월드에서 수령 가능 (챌린저스1~3은 에오스/핼리오스 제외)</p>
+              <div className="text-xs text-slate-400 mt-3 space-y-1.5 bg-slate-900/50 p-3 rounded-lg border border-slate-700/50">
+                  <p>- 챌린저스 월드 에메랄드, 사파이어, 다이아몬드, 마스터, 챌린저, 슈퍼챌린저 보상은 이벤트 리스트를 통해 원하는 월드에서 수령할 수 있습니다.</p>
+                  <p className="text-yellow-400/90">※ 단, 챌린저스, 챌린저스2, 챌린저스3 월드에서 이벤트를 진행한 경우에는, 에오스와 핼리오스 월드를 제외한 월드에서만 보상을 수령할 수 있습니다.</p>
+              </div>
               <p className="text-xs text-slate-400 mt-1">※ 슈퍼챌린저를 1등 ~ 10등으로 달성할 경우, 1st 슈퍼챌린저 ~ 10th 슈퍼챌린저 훈장을 획득할 수 있습니다.</p>
               
               {/* 챌린저 달성 시 누적 획득 보상 (훈장/모자 제외) */}
