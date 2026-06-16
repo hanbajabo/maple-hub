@@ -131,7 +131,7 @@ export default function CalculatorMenu() {
                         <Link
                             href="/calculator/genesis-liberation"
                             onClick={close}
-                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors"
+                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
                         >
                             <div className="relative w-6 h-6 flex-shrink-0">
                                 <Image src="/images/genesis-weapon.png" alt="Genesis" fill className="object-contain" />
@@ -145,7 +145,20 @@ export default function CalculatorMenu() {
                             </div>
                         </Link>
 
-
+                        <Link
+                            href="/calculator/blueberry-farm"
+                            onClick={close}
+                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors"
+                        >
+                            <span className="text-xl flex-shrink-0 text-center w-6">🍇</span>
+                            <div className="flex flex-col min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-semibold text-sm">블루베리 농장 계산기</span>
+                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
+                                </div>
+                                <span className="text-[10px] text-slate-400 mt-0.5">경험치 획득량 & 레벨업 계산</span>
+                            </div>
+                        </Link>
                     </div>
                 </div>
             )}

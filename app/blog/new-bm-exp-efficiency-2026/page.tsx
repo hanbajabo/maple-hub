@@ -93,6 +93,15 @@ export default function NewBmExpEfficiency2026() {
         { name: "사우나", detail: "1시간", price: "3,000 메포", e280: 1822, e285: 1822, e290: 1822 },
         // 신규 BM 추가
         { 
+            name: "챌린저스 시즌4 EXP 패스", 
+            detail: "275이상 44,010 / 260이상 34,737", 
+            price: "19,800 캐시", 
+            e280: 44010, 
+            e285: 44010, 
+            e290: 44010,
+            isNew: true
+        },
+        { 
             name: "진 부스터 패키지", 
             detail: "기본+보너스", 
             price: "10,000 캐시", 

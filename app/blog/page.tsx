@@ -39,7 +39,7 @@ export default function BlogPage() {
     const levelingPosts = filterBySearch(blogPosts.filter(p => p.category === '육성 가이드' || p.category === '경험치 가이드'));
     const eventPosts = filterBySearch(blogPosts.filter(p => p.category === '이벤트 가이드'));
     const equipmentPosts = filterBySearch(blogPosts.filter(p => p.category === '장비 가이드'));
-    const testworldPosts = filterBySearch(blogPosts.filter(p => p.category === '업데이트 소식' || p.slug === 'nightmare-echo-efficiency-guide' || p.slug === 'challengers-world-season4-overdrive'));
+    const testworldPosts = filterBySearch(blogPosts.filter(p => p.category === '업데이트 소식' || p.slug === 'nightmare-echo-efficiency-guide' || p.slug === 'challengers-world-season4-overdrive' || p.slug === 'challengers-pass-efficiency-2026' || p.slug === 'genesis-pass-plus-guide'));
     const storyPosts = filterBySearch(blogPosts.filter(p => p.category === '메이플 이야기'));
 
     return (
