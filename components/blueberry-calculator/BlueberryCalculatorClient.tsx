@@ -118,10 +118,10 @@ export default function BlueberryCalculatorClient() {
         <div className="min-h-screen bg-slate-950 py-10 px-4">
             <div className="max-w-4xl mx-auto">
                 <header className="mb-8 text-center">
-                    <div className="flex justify-center gap-3 mb-6">
+                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6">
                         <Link 
                             href="/" 
-                            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white bg-slate-900/60 hover:bg-slate-800 border border-slate-800 hover:border-indigo-500/50 rounded-xl transition-all duration-200 shadow-md backdrop-blur-sm"
+                            className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-slate-900/60 hover:bg-slate-800 border border-slate-800 hover:border-indigo-500/50 rounded-xl transition-all duration-200 shadow-md backdrop-blur-sm"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400">
                                 <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
@@ -131,7 +131,7 @@ export default function BlueberryCalculatorClient() {
                         </Link>
                         <Link 
                             href="/blog" 
-                            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white bg-slate-900/60 hover:bg-slate-800 border border-slate-800 hover:border-indigo-500/50 rounded-xl transition-all duration-200 shadow-md backdrop-blur-sm"
+                            className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-slate-900/60 hover:bg-slate-800 border border-slate-800 hover:border-indigo-500/50 rounded-xl transition-all duration-200 shadow-md backdrop-blur-sm"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400">
                                 <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
@@ -141,7 +141,7 @@ export default function BlueberryCalculatorClient() {
                             블로그로 돌아가기
                         </Link>
                     </div>
-                    <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 mb-4 inline-block">
+                    <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 mb-4 inline-block">
                         미호의 블루베리 농장 계산기
                     </h1>
                     <p className="text-slate-400 text-sm md:text-base">
@@ -219,9 +219,9 @@ export default function BlueberryCalculatorClient() {
                         <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                             <div className="bg-gradient-to-br from-indigo-900/40 to-slate-900 border border-indigo-500/50 rounded-xl p-6">
                                 <h3 className="text-center text-slate-400 font-semibold mb-2">목표 달성 결과</h3>
-                                <div className="text-center text-3xl md:text-5xl font-black text-white mb-6">
+                                <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6">
                                     <span className="text-indigo-400">Lv.{result.finalLevel}</span> 
-                                    <span className="text-2xl md:text-3xl text-slate-300 ml-2">({result.finalExp.toFixed(4)}%)</span>
+                                    <span className="text-xl sm:text-2xl md:text-3xl text-slate-300">({result.finalExp.toFixed(4)}%)</span>
                                 </div>
                                 
                                 <div className="bg-slate-950/80 rounded-lg p-4 border border-slate-800 max-h-80 overflow-y-auto">
@@ -239,14 +239,14 @@ export default function BlueberryCalculatorClient() {
                     )}
 
                     <details className="mt-8 bg-slate-900/60 border border-slate-700/50 rounded-xl shadow-inner group">
-                        <summary className="p-5 cursor-pointer text-lg font-bold text-white flex items-center justify-between outline-none hover:bg-slate-800/30 transition-colors">
+                        <summary className="p-4 sm:p-5 cursor-pointer text-base sm:text-lg font-bold text-white flex items-center justify-between outline-none hover:bg-slate-800/30 transition-colors">
                             <div className="flex items-center gap-2">
                                 <span>📈</span> 블루베리 농장 레벨별 경험치 획득량 표 보기 (1회 기준)
                             </div>
                             <div className="text-slate-400 group-open:rotate-180 transition-transform">▼</div>
                         </summary>
-                        <div className="p-5 pt-0 border-t border-slate-700/50 mt-2">
-                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                        <div className="p-3 sm:p-5 pt-0 border-t border-slate-700/50 mt-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
                                 {/* 260~269 */}
                                 <div>
                                     <table className="w-full text-xs sm:text-sm text-center text-white border border-slate-700">
@@ -331,10 +331,10 @@ export default function BlueberryCalculatorClient() {
                         </div>
                     </details>
 
-                    <div className="mt-8 text-center">
-                        <Link href="/blog/challengers-pass-efficiency-2026" className="inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-3 px-6 rounded-xl transition-all border border-slate-700 hover:border-slate-500 shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinelinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                            챌린저스 패스 효율 완벽 분석 글로 돌아가기
+                    <div className="mt-8 text-center px-2">
+                        <Link href="/blog/challengers-pass-efficiency-2026" className="inline-flex flex-col sm:flex-row items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-3 px-4 sm:px-6 rounded-xl transition-all border border-slate-700 hover:border-slate-500 shadow-sm text-sm sm:text-base w-full sm:w-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><path d="m15 18-6-6 6-6"/></svg>
+                            <span>챌린저스 패스 효율 완벽 분석 글로 돌아가기</span>
                         </Link>
                     </div>
                 </div>
