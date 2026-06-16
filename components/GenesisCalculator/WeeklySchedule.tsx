@@ -28,17 +28,11 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
     const weeklyBosses = BOSSES.filter((boss) => !boss.isMonthly);
     const monthlyBosses = BOSSES.filter((boss) => boss.isMonthly);
 
-    // 월간 보스 출현 주차 계산 (매월 첫 번째 주차)
-    const monthlyWeeks: number[] = [1];
-    let currentMonth = startDate.getMonth();
-    for (let w = 2; w <= totalWeeks; w++) {
-        const weekStart = new Date(startDate);
-        weekStart.setDate(startDate.getDate() + (w - 1) * 7);
-        const weekMonth = weekStart.getMonth();
-        
-        if (weekMonth !== currentMonth) {
+    // 월간 보스 출현 주차: 계산 엔진과 동일하게 4주 단위 (1, 5, 9, 13, 17주차)
+    const monthlyWeeks: number[] = [];
+    for (let w = 1; w <= totalWeeks; w++) {
+        if (w % 4 === 1) { // 1, 5, 9, 13, 17주차
             monthlyWeeks.push(w);
-            currentMonth = weekMonth;
         }
     }
 
