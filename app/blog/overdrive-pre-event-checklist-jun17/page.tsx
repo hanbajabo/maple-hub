@@ -174,7 +174,7 @@ export default function OverdrivePreEventChecklist() {
                 <EventCard num={1} emoji="🔥" title="하이퍼버닝 맥스, 부스터, 버닝 비욘드 종료" color="orange">
                     <InfoLine
                         icon={<Flame className="w-6 h-6 text-orange-400" />}
-                        text="버닝 관련 모든 이벤트가 다음주 수요일에 종료됩니다."
+                        text="버닝 관련 모든 이벤트가 수요일에 종료됩니다."
                     />
                     {/* 이미지 */}
                     <div className="rounded-2xl overflow-hidden border border-orange-500/40 bg-slate-900/60 mt-1">
@@ -195,7 +195,7 @@ export default function OverdrivePreEventChecklist() {
                 <EventCard num={2} emoji="🦋" title="체인지 버닝 : 루시드 종료" color="purple">
                     <InfoLine
                         icon={<Star className="w-6 h-6 text-purple-400" />}
-                        text="체인지 버닝 : 루시드도 다음주 수요일에 종료됩니다."
+                        text="체인지 버닝 : 루시드도 수요일에 종료됩니다."
                     />
                     {/* 이미지 */}
                     <div className="rounded-2xl overflow-hidden border border-purple-500/40 bg-slate-900/60 mt-1">
@@ -284,7 +284,7 @@ export default function OverdrivePreEventChecklist() {
                 <EventCard num={3} emoji="🪙" title="각종 코인샵 종료" color="yellow">
                     <InfoLine
                         icon={<Gift className="w-6 h-6 text-yellow-400" />}
-                        text="드림 샤드샵, 기프트 티켓 상점, 메소샵, 메이플포인트샵 등 모든 코인샵이 다음주에 종료됩니다."
+                        text="드림 샤드샵, 기프트 티켓 상점, 메소샵, 메이플포인트샵 등 모든 코인샵이 수요일에 종료됩니다."
                     />
                     {/* 이미지 */}
                     <div className="rounded-2xl overflow-hidden border border-yellow-500/40 bg-slate-900/60 mt-1">
@@ -335,7 +335,7 @@ export default function OverdrivePreEventChecklist() {
                 <EventCard num={5} emoji="🧖" title="VIP 사우나 종료" color="blue">
                     <InfoLine
                         icon={<Zap className="w-6 h-6 text-blue-400" />}
-                        text="VIP 사우나 이벤트도 다음주 수요일에 종료됩니다."
+                        text="VIP 사우나 이벤트도 수요일에 종료됩니다."
                     />
                     {/* 이미지 */}
                     <div className="rounded-2xl overflow-hidden border border-blue-500/40 bg-slate-900/60 mt-1">
@@ -383,7 +383,7 @@ export default function OverdrivePreEventChecklist() {
                 <EventCard num={7} emoji="🧲" title="메인 이벤트 '마스코트 퍼레이드' 종료" color="green">
                     <InfoLine
                         icon={<Star className="w-6 h-6 text-green-400" />}
-                        text="일명 '영구 자석펫' 얻는 이벤트도 다음주 수요일에 종료됩니다."
+                        text="일명 '영구 자석펫' 얻는 이벤트도 수요일에 종료됩니다."
                     />
                     {/* 이미지 */}
                     <div className="rounded-2xl overflow-hidden border border-green-500/40 bg-slate-900/60 mt-1">
@@ -502,7 +502,7 @@ export default function OverdrivePreEventChecklist() {
                 <EventCard num={8} emoji="💊" title="보약 스킬 '메이플 스위츠' 종료" color="orange">
                     <InfoLine
                         icon={<Zap className="w-6 h-6 text-orange-400" />}
-                        text="보약 스킬을 올릴 수 있는 기간은 다음주 수요일(6/17)까지입니다."
+                        text="보약 스킬을 올릴 수 있는 기간은 수요일(6/17)까지입니다."
                     />
                     {/* 이미지 */}
                     <div className="rounded-2xl overflow-hidden border border-orange-500/40 bg-slate-900/60 mt-1">
@@ -572,7 +572,7 @@ export default function OverdrivePreEventChecklist() {
                 <EventCard num={11} emoji="🛍️" title="NPC 스타일 어워즈 & 메이플스토리 진 캐시템 판매 종료" color="purple">
                     <InfoLine
                         icon={<Star className="w-6 h-6 text-purple-400" />}
-                        text="NPC 스타일 어워즈 그리고 메이플스토리 × 진 콜라보 캐시템 판매도 다음주 수요일에 종료됩니다."
+                        text="NPC 스타일 어워즈 그리고 메이플스토리 × 진 콜라보 캐시템 판매도 수요일에 종료됩니다."
                     />
                     {/* 이미지 */}
                     <div className="rounded-2xl overflow-hidden border border-purple-500/40 bg-slate-900/60 mt-1">
