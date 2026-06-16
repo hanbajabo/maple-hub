@@ -887,7 +887,7 @@ export default function ChallengersPassEfficiency2026() {
                             <h4 className="text-lg font-bold text-blue-300 mt-6 mb-3 border-b border-blue-500/30 pb-2">
                                 📊 레벨 구간별 EXP 패스 효율표 (상급 EXP 환산 기준)
                             </h4>
-                            <div className="overflow-x-auto -mx-5 sm:mx-0 mb-6">
+                            <div className="overflow-x-auto mb-6 rounded-lg border border-slate-700/50">
                                 <table className="w-full min-w-[600px] text-xs sm:text-sm text-center text-white border-collapse">
                                     <thead>
                                         <tr className="bg-blue-900/40 border-b-2 border-blue-500/50 whitespace-nowrap">
@@ -962,27 +962,27 @@ export default function ChallengersPassEfficiency2026() {
                             <h4 className="text-xl font-black text-white mb-4 flex items-center gap-2">
                                 <span className="text-orange-400">🔥</span> 최종 가성비 총정리 (1만 캐시 당 상급 EXP)
                             </h4>
-                            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-                                <div className="bg-slate-900/80 border border-slate-600/50 rounded-xl p-4 text-center">
-                                    <h4 className="text-sm font-bold text-white mb-2">260~264</h4>
-                                    <div className="text-xl font-black text-white">34,737</div>
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-2 sm:gap-3 mb-6">
+                                <div className="bg-slate-900/80 border border-slate-600/50 rounded-xl p-3 sm:p-4 text-center">
+                                    <h4 className="text-xs sm:text-sm font-bold text-white mb-1 sm:mb-2">260~264</h4>
+                                    <div className="text-lg sm:text-xl font-black text-white">34,737</div>
                                 </div>
-                                <div className="bg-slate-900/80 border border-slate-500/50 rounded-xl p-4 text-center">
-                                    <h4 className="text-sm font-bold text-white mb-2">265~269</h4>
-                                    <div className="text-xl font-black text-white">34,714</div>
+                                <div className="bg-slate-900/80 border border-slate-500/50 rounded-xl p-3 sm:p-4 text-center">
+                                    <h4 className="text-xs sm:text-sm font-bold text-white mb-1 sm:mb-2">265~269</h4>
+                                    <div className="text-lg sm:text-xl font-black text-white">34,714</div>
                                 </div>
-                                <div className="bg-slate-900/80 border border-slate-400/50 rounded-xl p-4 text-center">
-                                    <h4 className="text-sm font-bold text-white mb-2">270~274</h4>
-                                    <div className="text-xl font-black text-white">43,800</div>
+                                <div className="bg-slate-900/80 border border-slate-400/50 rounded-xl p-3 sm:p-4 text-center">
+                                    <h4 className="text-xs sm:text-sm font-bold text-white mb-1 sm:mb-2">270~274</h4>
+                                    <div className="text-lg sm:text-xl font-black text-white">43,800</div>
                                 </div>
-                                <div className="bg-slate-900/80 border border-slate-300/50 rounded-xl p-4 text-center">
-                                    <h4 className="text-sm font-bold text-white mb-2">275~279</h4>
-                                    <div className="text-xl font-black text-white">43,808</div>
+                                <div className="bg-slate-900/80 border border-slate-300/50 rounded-xl p-3 sm:p-4 text-center">
+                                    <h4 className="text-xs sm:text-sm font-bold text-white mb-1 sm:mb-2">275~279</h4>
+                                    <div className="text-lg sm:text-xl font-black text-white">43,808</div>
                                 </div>
-                                <div className="bg-slate-900/80 border border-yellow-500/50 rounded-xl p-4 text-center relative overflow-hidden">
+                                <div className="bg-slate-900/80 border border-yellow-500/50 rounded-xl p-3 sm:p-4 text-center relative overflow-hidden col-span-2 md:col-span-1">
                                     <div className="absolute top-0 right-0 bg-yellow-500 text-black text-[10px] font-bold px-2 py-0.5 rounded-bl-lg">MAX 효율</div>
-                                    <h4 className="text-sm font-bold text-yellow-400 mb-2">280 이상 전 구간</h4>
-                                    <div className="text-2xl font-black text-yellow-100">44,010</div>
+                                    <h4 className="text-xs sm:text-sm font-bold text-yellow-400 mb-1 sm:mb-2">280 이상 전 구간</h4>
+                                    <div className="text-xl sm:text-2xl font-black text-yellow-100">44,010</div>
                                 </div>
                             </div>
                             
@@ -1022,33 +1022,33 @@ export default function ChallengersPassEfficiency2026() {
                         </div>
 
                         {/* 정렬 탭 & 실시간 경매장 가격 입력 */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
-                            <div className="flex gap-2">
+                        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-4">
+                            <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-1 scrollbar-hide">
                                 {(['280', '285', '290'] as const).map(lv => (
                                     <button
                                         key={`table-${lv}`}
                                         onClick={() => setTableSortLevel(lv)}
-                                        className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${tableSortLevel === lv ? 'bg-yellow-500 text-slate-900 shadow-lg scale-105' : 'bg-slate-800 text-white hover:bg-slate-700'}`}
+                                        className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-bold transition-all whitespace-nowrap ${tableSortLevel === lv ? 'bg-yellow-500 text-slate-900 shadow-lg scale-105' : 'bg-slate-800 text-white hover:bg-slate-700'}`}
                                     >
                                         {lv === '290' ? 'Lv.290+' : `Lv.${lv}~${parseInt(lv) + 4}`}
                                     </button>
                                 ))}
                             </div>
-                            <div className="flex items-center gap-3 bg-slate-800/80 border border-slate-600 rounded-lg p-2 shadow-inner">
-                                <span className="text-sm font-bold text-white">
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 bg-slate-800/80 border border-slate-600 rounded-lg p-3 sm:p-2 shadow-inner w-full md:w-auto">
+                                <span className="text-xs sm:text-sm font-bold text-white whitespace-nowrap">
                                     <ShoppingCart className="w-4 h-4 inline mr-1 text-white" />
                                     아스트랄(경매장) 가격 :
                                 </span>
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-2">
                                     <input 
                                         type="number" 
                                         value={tableAuctionPrice || ''}
                                         onChange={(e) => setTableAuctionPrice(Number(e.target.value))}
                                         step="0.1"
                                         min="0"
-                                        className="w-20 sm:w-24 bg-slate-950 border border-slate-600 rounded px-2 py-1 text-yellow-400 font-mono font-bold text-right outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400/50 transition-colors"
+                                        className="w-full sm:w-24 bg-slate-950 border border-slate-600 rounded px-2 py-1 text-yellow-400 font-mono font-bold text-right outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400/50 transition-colors"
                                     />
-                                    <span className="text-sm text-white font-bold whitespace-nowrap">억 메소</span>
+                                    <span className="text-xs sm:text-sm text-white font-bold whitespace-nowrap shrink-0">억 메소</span>
                                 </div>
                             </div>
                         </div>
