@@ -16,7 +16,10 @@ import {
 } from '@/lib/genesis-calculator';
 import { InArticleAd } from '@/components/AdSense';
 
+const LOCAL_STORAGE_KEY = 'genesis_calculator_state';
+
 export default function GenesisLiberationPage() {
+    const [isMounted, setIsMounted] = useState(false);
     const [selectedSeason, setSelectedSeason] = useState<'season3' | 'season4'>('season4');
     const [isGenesisPass, setIsGenesisPass] = useState(true);
     const [currentStage, setCurrentStage] = useState(1);
@@ -25,6 +28,45 @@ export default function GenesisLiberationPage() {
         new Map()
     );
     const [result, setResult] = useState<CalculationResult | null>(null);
+
+    // 로컬 스토리지에서 데이터 불러오기
+    useEffect(() => {
+        setIsMounted(true);
+        try {
+            const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (savedData) {
+                const parsed = JSON.parse(savedData);
+                if (parsed.selectedSeason) setSelectedSeason(parsed.selectedSeason);
+                if (parsed.isGenesisPass !== undefined) setIsGenesisPass(parsed.isGenesisPass);
+                if (parsed.currentStage) setCurrentStage(parsed.currentStage);
+                if (parsed.currentTraces !== undefined) setCurrentTraces(parsed.currentTraces);
+                if (parsed.weeklySelections) {
+                    setWeeklySelections(new Map(parsed.weeklySelections));
+                }
+            }
+        } catch (error) {
+            console.error('Failed to parse local storage data', error);
+        }
+    }, []);
+
+    // 상태 변경 시 로컬 스토리지에 자동 저장
+    useEffect(() => {
+        if (!isMounted) return;
+        
+        const stateToSave = {
+            selectedSeason,
+            isGenesisPass,
+            currentStage,
+            currentTraces,
+            weeklySelections: Array.from(weeklySelections.entries()),
+        };
+        
+        try {
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stateToSave));
+        } catch (error) {
+            console.error('Failed to save to local storage', error);
+        }
+    }, [selectedSeason, isGenesisPass, currentStage, currentTraces, weeklySelections, isMounted]);
 
     // 계산 실행
     useEffect(() => {
@@ -231,6 +273,7 @@ export default function GenesisLiberationPage() {
                         <WeeklySchedule
                             key={selectedSeason}
                             totalWeeks={selectedSeason === 'season3' ? 17 : 13}
+                            weeklySelections={weeklySelections}
                             onScheduleChange={setWeeklySelections}
                             isGenesisPass={activeIsGenesisPass}
                             startDate={activeSeason.startDate}

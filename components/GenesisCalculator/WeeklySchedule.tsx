@@ -10,17 +10,13 @@ import { useState } from 'react';
 
 interface WeeklyScheduleProps {
     totalWeeks: number;
+    weeklySelections: Map<number, BossSelection[]>;
     onScheduleChange: (weeklySelections: Map<number, BossSelection[]>) => void;
     isGenesisPass?: boolean;
     startDate: Date;
 }
 
-export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesisPass, startDate }: WeeklyScheduleProps) {
-    // 주차별 보스 선택 (week number -> BossSelection[])
-    const [weeklySelections, setWeeklySelections] = useState<Map<number, BossSelection[]>>(
-        new Map()
-    );
-
+export default function WeeklySchedule({ totalWeeks, weeklySelections, onScheduleChange, isGenesisPass, startDate }: WeeklyScheduleProps) {
     // 펼쳐진 주차들
     const [expandedWeeks, setExpandedWeeks] = useState<Set<number>>(new Set([1]));
 
@@ -70,7 +66,6 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
             );
         }
 
-        setWeeklySelections(newWeeklySelections);
         onScheduleChange(newWeeklySelections);
     };
 
@@ -91,7 +86,6 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
         );
 
         newWeeklySelections.set(weekNum, updated);
-        setWeeklySelections(newWeeklySelections);
         onScheduleChange(newWeeklySelections);
     };
 
@@ -105,7 +99,6 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
             newWeeklySelections.set(i, [...currentWeekSelections]);
         }
 
-        setWeeklySelections(newWeeklySelections);
         onScheduleChange(newWeeklySelections);
     };
 
@@ -151,7 +144,6 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
 
     // 전체 초기화
     const resetAllSelections = () => {
-        setWeeklySelections(new Map());
         setExpandedWeeks(new Set([1])); // 1주차만 펼침
         onScheduleChange(new Map());
     };
