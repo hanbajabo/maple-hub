@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 2026 여름 오버드라이브 하이퍼버닝 직업 추천 종합 정리 (6월 17일)
+    {
+        slug: 'overdrive-hyperburning-job-guide-2026',
+        title: '🔥 2026년 여름 오버드라이브 하이퍼버닝 직업 추천 TOP 10 종합 정리 — 유튜버 6명 분석',
+        description: '혜유안, 진격캐넌, 도루, 잼이, 메이플 대장메린이, 나로후닝 6명의 직업 추천을 모두 분석! 렌, 보우마스터, 와일드헌터 등 챌린저스 시즌4 하이퍼버닝 추천 직업을 점수로 종합 정리.',
+        category: '육성 가이드',
+        date: '2026년 6월 17일',
+        readTime: '15분',
+        thumbnail: '🏆',
+        featured: true,
+        targetDate: '2026년 6월 18일',
+    },
     // 챌린저스 패스 효율 완벽 분석 (6월 16일)
     {
         slug: 'challengers-pass-efficiency-2026',
