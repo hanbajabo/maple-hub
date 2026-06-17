@@ -234,20 +234,39 @@ export function formatDateShort(date: Date | null | undefined): string {
 }
 
 /**
+ * 특정 주차가 달이 바뀌는 첫 번째 주차인지 판별
+ * (1주차는 무조건 가능하며, 이후는 이전 주차와 달이 다를 때 가능)
+ */
+export function isMonthlyWeek(startDate: Date, weekNum: number): boolean {
+    if (weekNum === 1) return true;
+    
+    const currentWeekDate = new Date(startDate);
+    currentWeekDate.setDate(currentWeekDate.getDate() + (weekNum - 1) * 7);
+    
+    const prevWeekDate = new Date(startDate);
+    prevWeekDate.setDate(prevWeekDate.getDate() + (weekNum - 2) * 7);
+    
+    return currentWeekDate.getMonth() !== prevWeekDate.getMonth();
+}
+
+/**
  * 특정 주차의 어둠의 흔적 획득량 계산
  */
 export function calculateWeekTraces(
     weekNum: number,
     selections: BossSelection[],
+    startDate: Date,
     isGenesisPass?: boolean
 ): number {
+    const isMonthly = isMonthlyWeek(startDate, weekNum);
+
     return selections.reduce((total, selection) => {
         let tracesFromBoss = Math.floor(selection.traces / selection.partySize);
         if (isGenesisPass) {
             tracesFromBoss *= 3;
         }
-        // 월간 보스는 1, 5, 9, 13, 17주차에만 획득
-        if (selection.isMonthly && weekNum % 4 !== 1) {
+        // 월간 보스는 달이 바뀌는 첫 주차에만 획득
+        if (selection.isMonthly && !isMonthly) {
             return total;
         }
         return total + tracesFromBoss;
@@ -291,7 +310,7 @@ export function calculateWeeklyLiberationProgress(
             const weekSelections = weeklySelections.get(weekToUse) || [];
             // 시즌 기간(13주/17주) 이후에는 제네시스 패스 혜택 미적용
             const isPassActive = isGenesisPass && currentWeek <= totalSeasonWeeks;
-            const weekTraces = calculateWeekTraces(currentWeek, weekSelections, isPassActive);
+            const weekTraces = calculateWeekTraces(currentWeek, weekSelections, startDate, isPassActive);
 
             // 무한 루프 방지: 시즌 기간을 넘어가고, 설정된 획득량도 0인 경우 더 이상 진행 불가
             if (currentWeek > totalSeasonWeeks && weekTraces === 0) {
@@ -330,7 +349,7 @@ export function calculateWeeklyLiberationProgress(
     const computedTotalSeasonWeeks = season.name.includes('시즌3') ? 17 : 13;
     for (let week = 1; week <= computedTotalSeasonWeeks; week++) {
         const weekSelections = weeklySelections.get(week) || [];
-        totalTraces += calculateWeekTraces(week, weekSelections, isGenesisPass);
+        totalTraces += calculateWeekTraces(week, weekSelections, startDate, isGenesisPass);
     }
     const tracesPerWeek = totalTraces / totalSeasonWeeks;
 

@@ -5,7 +5,7 @@
 'use client';
 
 import { Boss, BOSSES } from '@/data/genesis-liberation';
-import { BossSelection } from '@/lib/genesis-calculator';
+import { BossSelection, isMonthlyWeek } from '@/lib/genesis-calculator';
 import { useState } from 'react';
 
 interface WeeklyScheduleProps {
@@ -28,10 +28,10 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
     const weeklyBosses = BOSSES.filter((boss) => !boss.isMonthly);
     const monthlyBosses = BOSSES.filter((boss) => boss.isMonthly);
 
-    // 월간 보스 출현 주차: 계산 엔진과 동일하게 4주 단위 (1, 5, 9, 13, 17주차)
+    // 월간 보스 출현 주차: 시작일 기준 달력이 바뀌는 첫 번째 주차
     const monthlyWeeks: number[] = [];
     for (let w = 1; w <= totalWeeks; w++) {
-        if (w % 4 === 1) { // 1, 5, 9, 13, 17주차
+        if (isMonthlyWeek(startDate, w)) {
             monthlyWeeks.push(w);
         }
     }
@@ -141,8 +141,8 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
             if (isGenesisPass) {
                 tracesFromBoss *= 3;
             }
-            // 월간 보스는 4주마다 한 번만
-            if (selection.isMonthly && weekNum % 4 !== 1) {
+            // 월간 보스는 달력이 바뀌는 첫 번째 주차에만 한 번 획득
+            if (selection.isMonthly && !monthlyWeeks.includes(weekNum)) {
                 return total; // 이번 주에는 획득 안함
             }
             return total + tracesFromBoss;
@@ -377,7 +377,7 @@ export default function WeeklySchedule({ totalWeeks, onScheduleChange, isGenesis
                         <ul className="list-disc list-inside mt-1 space-y-1">
                             <li>각 주차를 클릭하여 격파 가능한 보스를 선택하세요</li>
                             <li>"이후 주차 동일" 버튼으로 같은 보스 구성을 이후 주차에 일괄 적용할 수 있습니다</li>
-                            <li>월간 보스는 1, 5, 9, 13{totalWeeks >= 17 ? ', 17' : ''}주차에만 선택 가능합니다</li>
+                            <li>월간 보스는 <strong>달이 바뀌는 첫 주차</strong>에만 선택 가능합니다</li>
                         </ul>
                     </div>
                 </div>
