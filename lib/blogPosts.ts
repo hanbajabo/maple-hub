@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 6월 18일 본섭 오면서 추가된 사항들 정리
+    {
+        slug: 'june-18-official-update',
+        title: '🌟 6월 18일 본섭 오면서 추가된 사항들 정리',
+        description: '6월 18일 본섭 업데이트로 추가된 사항들을 파트별로 정리합니다. 신규 일러스트 컬렉션, 금손 어워즈 재출시 등 다채로운 캐시 아이템 업데이트 내역을 확인해보세요.',
+        category: '업데이트 소식',
+        date: '2026년 6월 18일',
+        readTime: '3분',
+        thumbnail: '🛍️',
+        featured: true,
+        targetDate: '2026년 6월 18일',
+    },
     // 레테 스킬 개편 요약 (6월 18일)
     {
         slug: 'lethe-skill-patch-notes',
