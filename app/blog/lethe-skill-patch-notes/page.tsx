@@ -212,8 +212,8 @@ export default function LetheSkillPatchNotesPage() {
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
               <p className="font-bold text-yellow-400 mb-2">편의성 대폭발</p>
               <p className="text-slate-300">
-                대신 소환수 버프(임펠, 서스테인 등)를 줄 때 빡빡했던 위치 조건이 <strong>'소환수 중 한 마리만 받아도 전체 적용'</strong>으로 대폭 완화되었습니다. 
-                또한 소환수들이 적을 알아서 추적하고 거리가 멀어지면 본체로 텔레포트하는 지능형 AI가 탑재되어, 사냥과 보스전에서의 스트레스가 크게 줄었습니다.
+                대신 소환수 버프(임펠, 서스테인 등)를 줄 때 빡빡했던 위치 조건이 <strong>'소환수 중 한 마리만 받아도 전체 적용'</strong>으로 대폭 완화되었고, 버프 적용 범위 자체도 크게 늘어났습니다. 
+                또한 소환수들이 적을 알아서 추적하고 거리가 멀어지면 본체로 텔레포트하는 지능형 AI가 탑재되어, 사냥이나 보스 잡기가 훨씬 더 편하고 좋아졌습니다.
               </p>
             </div>
           </div>
