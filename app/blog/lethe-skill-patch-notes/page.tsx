@@ -176,7 +176,23 @@ export default function LetheSkillPatchNotesPage() {
           <div className="space-y-6 text-sm sm:text-base text-slate-200 leading-relaxed break-keep">
             <p>보스전에서 소환수들의 비중이 어떻게 변했는지도 중요하겠죠?</p>
 
-
+            <div className="w-full rounded-xl overflow-hidden border border-slate-700 shadow-lg bg-slate-800/50 flex flex-col items-center">
+              <img
+                src="/images/lethe/media__1781746563834.png"
+                alt="인보크 : 바르가르 - 평딜 하향 텍스트"
+                className="w-full h-auto object-contain"
+              />
+              <p className="text-xs text-center text-slate-400 py-2 w-full bg-slate-900 border-t border-slate-700">인보크 : 바르가르 - 평딜 하향 텍스트</p>
+            </div>
+            
+            <div className="w-full rounded-xl overflow-hidden border border-slate-700 shadow-lg bg-slate-800/50 flex flex-col items-center">
+              <img
+                src="/images/lethe/media__1781746582943.png"
+                alt="서스테인 - 버프 조건 완화 텍스트"
+                className="w-full h-auto object-contain"
+              />
+              <p className="text-xs text-center text-slate-400 py-2 w-full bg-slate-900 border-t border-slate-700">서스테인 - 버프 조건 완화 텍스트</p>
+            </div>
 
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
               <p className="font-bold text-red-400 mb-2">소환수 기본 평딜 하향</p>
