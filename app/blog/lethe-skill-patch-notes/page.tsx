@@ -202,6 +202,15 @@ export default function LetheSkillPatchNotesPage() {
               <p className="text-xs text-center text-slate-400 py-2 w-full bg-slate-900 border-t border-slate-700">서스테인 - 버프 조건 완화 텍스트</p>
             </div>
 
+            <div className="w-full rounded-xl overflow-hidden border border-slate-700 shadow-lg bg-slate-800/50 flex flex-col items-center">
+              <img
+                src="/images/lethe/media__1781750322495.png"
+                alt="임펠 - 지속시간 및 공속 버프 변경점"
+                className="w-full h-auto object-contain"
+              />
+              <p className="text-xs text-center text-slate-400 py-2 w-full bg-slate-900 border-t border-slate-700">임펠 - 지속시간 및 공속 버프 변경점</p>
+            </div>
+
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
               <p className="font-bold text-red-400 mb-2">소환수 기본 평딜 하향</p>
               <p className="text-slate-300">
@@ -214,6 +223,14 @@ export default function LetheSkillPatchNotesPage() {
               <p className="text-slate-300">
                 대신 소환수 버프(임펠, 서스테인 등)를 줄 때 빡빡했던 위치 조건이 <strong>'소환수 중 한 마리만 받아도 전체 적용'</strong>으로 대폭 완화되었습니다. 
                 게다가 소환수들의 공격 범위 자체가 크게 상향되어, 사냥이나 보스 잡기가 훨씬 더 편하고 좋아졌습니다.
+              </p>
+            </div>
+
+            <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
+              <p className="font-bold text-emerald-400 mb-2">임펠(공속 버프) 지속시간 5초 → 8초 증가 (핵심!)</p>
+              <p className="text-slate-300">
+                레테 딜 사이클의 핵심인 공속을 올려주는 <strong>임펠</strong> 버프의 지속시간이 8초로 넉넉하게 늘어났습니다. 
+                셀러리티에 추가된 공속 1단계 상승 패시브와 맞물려, 공속 유지와 딜 사이클 굴리기가 훨씬 수월해졌습니다.
               </p>
             </div>
           </div>
