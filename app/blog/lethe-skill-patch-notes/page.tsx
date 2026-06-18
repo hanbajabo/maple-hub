@@ -158,7 +158,7 @@ export default function LetheSkillPatchNotesPage() {
             <div className="bg-emerald-950/20 border border-emerald-800/50 rounded-xl p-5 mt-4">
               <p className="font-bold text-emerald-400 mb-2">💡 결론</p>
               <p className="text-emerald-100/80">
-                고효율 쿨감 모자와 어빌리티를 맞추면, 극딜 30초 동안 이딕트를 머신건처럼 난사할 수 있는 엄청난 폭딜 구조가 완성되었습니다.
+                고효율 쿨감 모자와 어빌리티를 맞추면, 극딜 30초 동안 이딕트를 난사할 수 있는 엄청난 폭딜 구조가 완성되었습니다.
               </p>
             </div>
           </div>
