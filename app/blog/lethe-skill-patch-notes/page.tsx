@@ -211,6 +211,15 @@ export default function LetheSkillPatchNotesPage() {
               <p className="text-xs text-center text-slate-400 py-2 w-full bg-slate-900 border-t border-slate-700">임펠 - 지속시간 및 공속 버프 변경점</p>
             </div>
 
+            <div className="w-full rounded-xl overflow-hidden border border-slate-700 shadow-lg bg-slate-800/50 flex flex-col items-center">
+              <img
+                src="/images/lethe/media__1781751882993.png"
+                alt="신규 사냥 온오프 스킬 스캐터"
+                className="w-full h-auto object-contain"
+              />
+              <p className="text-xs text-center text-slate-400 py-2 w-full bg-slate-900 border-t border-slate-700">신규 사냥 온오프 스킬 스캐터</p>
+            </div>
+
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
               <p className="font-bold text-red-400 mb-2">소환수 기본 평딜 하향</p>
               <p className="text-slate-300">
@@ -219,18 +228,16 @@ export default function LetheSkillPatchNotesPage() {
             </div>
 
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
-              <p className="font-bold text-yellow-400 mb-2">편의성 대폭발</p>
+              <p className="font-bold text-yellow-400 mb-2">[신규] 사냥 온오프 스킬 '스캐터'</p>
               <p className="text-slate-300">
-                대신 소환수 버프(임펠, 서스테인 등)를 줄 때 빡빡했던 위치 조건이 <strong>'소환수 중 한 마리만 받아도 전체 적용'</strong>으로 대폭 완화되었습니다. 
-                게다가 소환수들의 공격 범위 자체가 크게 상향되어, 사냥이나 보스 잡기가 훨씬 더 편하고 좋아졌습니다.
+                그동안 몬스터 인식 범위가 좁아 소환수를 텔레포트로 끌고 다녀야 했죠? 신규 스킬 '스캐터'를 켜두면 소환수들이 맵 사방으로 산개하여 각자 다른 몬스터를 끝까지 추적해 사냥합니다. 사냥 피로도가 0에 수렴하게 되었습니다.
               </p>
             </div>
 
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
-              <p className="font-bold text-emerald-400 mb-2">임펠(공속 버프) 지속시간 5초 → 8초 증가 (핵심!)</p>
+              <p className="font-bold text-emerald-400 mb-2">핵심 버프 완화</p>
               <p className="text-slate-300">
-                레테 딜 사이클의 핵심인 공속을 올려주는 <strong>임펠</strong> 버프의 지속시간이 8초로 넉넉하게 늘어났습니다. 
-                셀러리티에 추가된 공속 1단계 상승 패시브와 맞물려, 공속 유지와 딜 사이클 굴리기가 훨씬 수월해졌습니다.
+                딜 사이클의 핵심인 임펠(공속 버프)의 지속시간이 5초에서 8초로 증가했습니다. 또한 버프를 줄 때 까다로웠던 조건이 사라져, '소환수 중 아무나 한 마리만' 범위에 있어도 모든 소환수에게 버프가 적용됩니다.
               </p>
             </div>
           </div>
