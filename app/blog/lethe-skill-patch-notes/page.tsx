@@ -31,6 +31,14 @@ export default function LetheSkillPatchNotesPage() {
             </span>
           </h1>
 
+          {/* 타이틀 이미지 */}
+          <div className="w-full rounded-2xl overflow-hidden mb-8 border border-slate-700/50 shadow-2xl shadow-purple-900/20">
+            <img
+              src="/images/lethe/media__1781746726739.png"
+              alt="신직업 레테 스킬 변경점 정리"
+              className="w-full h-auto object-cover"
+            />
+          </div>
           <p className="text-base md:text-lg text-slate-300 mb-8 leading-relaxed break-keep border-l-4 border-cyan-500 pl-5 py-2 bg-cyan-950/10 rounded-r-lg">
             오늘은 이번 본섭 패치로 완전히 환골탈태한 <span className="text-white font-bold">레테</span>의 스킬 변경점과 핵심 딜 사이클 변화를 아주 알기 쉽게, 핵심만 쏙쏙 뽑아 정리해 드리려고 합니다.
           </p>
