@@ -253,6 +253,23 @@ export default function LetheSkillPatchNotesPage() {
           </div>
         </section>
 
+        {/* 해시태그 */}
+        <div className="flex flex-wrap gap-2 mt-8 mb-6 px-2">
+          {['#메이플스토리', '#레테', '#스킬개편', '#오버드라이브', '#메이플본섭', '#이딕트', '#신직업'].map((tag) => (
+            <span key={tag} className="px-3 py-1 bg-slate-800/40 text-slate-300 text-sm rounded-full border border-slate-700/50 hover:bg-slate-700 hover:text-white transition-colors cursor-pointer">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        {/* 블로그 목록으로 돌아가기 버튼 */}
+        <div className="flex justify-center mt-12 border-t border-slate-800/60 pt-8">
+          <Link href="/blog" className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800/40 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl border border-slate-700/50 hover:border-purple-500/50 transition-all font-semibold">
+            <ArrowLeft className="w-4 h-4" />
+            블로그 목록으로 돌아가기
+          </Link>
+        </div>
+
       </main>
     </div>
   );
