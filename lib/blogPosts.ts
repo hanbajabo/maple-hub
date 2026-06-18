@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 레테 스킬 개편 요약 (6월 18일)
+    {
+        slug: 'lethe-skill-patch-notes',
+        title: '⚔️ 메이플스토리 레테 본섭 오면서 변경된 스킬 내용 총정리',
+        description: '오버로드: 이터널 게이즈 오리진 구조 삭제, 체인 커맨드 시퀀스 강제 완화, 이딕트 쿨타임 대폭 감소 등 완전 환골탈태한 레테 패치 요약.',
+        category: '업데이트 소식',
+        date: '2026년 6월 18일',
+        readTime: '5분',
+        thumbnail: '⚔️',
+        featured: true,
+        targetDate: '2026년 6월 18일',
+    },
     // 2026 여름 오버드라이브 하이퍼버닝 직업 추천 종합 정리 (6월 17일)
     {
         slug: 'overdrive-hyperburning-job-guide-2026',
