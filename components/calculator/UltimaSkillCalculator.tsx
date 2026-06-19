@@ -319,9 +319,9 @@ export default function UltimaSkillCalculator() {
                     </div>
                     {/* 현재 레벨 입력 */}
                     {!isNone && (
-                      <div className="flex items-center gap-2 pl-9">
+                      <div className="flex items-center gap-2 pl-9 flex-wrap">
                         <span className="text-xs text-slate-400 shrink-0">현재 레벨:</span>
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 shrink-0">
                           <button
                             onClick={() => adjustSkillLevel(skillName, -1)}
                             disabled={curLv <= 0}
@@ -339,7 +339,7 @@ export default function UltimaSkillCalculator() {
                           >+</button>
                         </div>
                         {curLv > 0 && (
-                          <span className="text-xs text-emerald-400 font-medium">칩 {LEVEL_COSTS[curLv]}개 사용됨</span>
+                          <span className="text-xs text-emerald-400 font-medium whitespace-nowrap">칩 {LEVEL_COSTS[curLv]}개 사용됨</span>
                         )}
                       </div>
                     )}
