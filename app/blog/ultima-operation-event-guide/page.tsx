@@ -28,7 +28,7 @@ export default function UltimaOperationGuidePage() {
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 leading-tight break-keep">
             <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              울티마 작전일지 / 에테리온 아티팩트 <br />
+              울티마 훈련일지 / 에테리온 아티팩트 <br />
               '보약 스킬' 총정리 및 공략
             </span>
           </h1>
