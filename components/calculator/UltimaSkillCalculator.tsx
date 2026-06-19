@@ -62,6 +62,15 @@ export default function UltimaSkillCalculator() {
   
   const [includePaid, setIncludePaid] = useState(false);
   const [strategy, setStrategy] = useState<'sequence' | 'balanced' | 'balanced123'>('balanced');
+  // 현재 스킬 레벨 상태 (스킬명 -> 현재 레벨)
+  const [currentSkillLevels, setCurrentSkillLevels] = useState<Record<string, number>>({});
+
+  const getSkillLevel = (skill: string) => currentSkillLevels[skill] ?? 0;
+  const adjustSkillLevel = (skill: string, delta: number) => {
+    const cur = getSkillLevel(skill);
+    const next = Math.min(6, Math.max(0, cur + delta));
+    setCurrentSkillLevels(prev => ({ ...prev, [skill]: next }));
+  };
 
   const currentOptions = tab === 'combat' ? COMBAT_SKILLS : SPECIAL_SKILLS;
   const currentPriorities = tab === 'combat' ? combatPriorities : specialPriorities;
@@ -97,9 +106,13 @@ export default function UltimaSkillCalculator() {
     const validPriorities = currentPriorities.filter(p => p !== '선택 안 함');
     
     const currentLevels: Record<string, number> = {};
-    validPriorities.forEach(p => currentLevels[p] = 0);
+    validPriorities.forEach(p => currentLevels[p] = currentSkillLevels[p] ?? 0);
+    // 이미 소모된 칩 계산 (현재 레벨 기준)
+    const alreadySpent = validPriorities.reduce((sum, p) => sum + (LEVEL_COSTS[currentSkillLevels[p] ?? 0] || 0), 0);
+    const startLevels: Record<string, number> = {};
+    validPriorities.forEach(p => startLevels[p] = currentSkillLevels[p] ?? 0);
     
-    let leftover = 0;
+    let leftover = -alreadySpent; // 이미 쓴 칩은 음수로 시작해서 첫 주부터 자연스럽게 반영
     let totalAccumulated = 0;
 
     for (let week = 1; week <= 13; week++) {
@@ -177,10 +190,10 @@ export default function UltimaSkillCalculator() {
       }
       
       leftover = chipsLeft;
-      results.push({ week, levels: { ...currentLevels }, leftover: chipsLeft, totalChips: totalAccumulated });
+      results.push({ week, levels: { ...currentLevels }, leftover: chipsLeft, totalChips: totalAccumulated, startLevels });
     }
     return { results, validPriorities };
-  }, [currentPriorities, includePaid, strategy, starredSkills]);
+  }, [currentPriorities, includePaid, strategy, starredSkills, currentSkillLevels]);
 
   return (
     <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl flex flex-col my-8">
@@ -271,35 +284,65 @@ export default function UltimaSkillCalculator() {
                 별표 클릭 시 최우선 마스터
               </span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {currentPriorities.map((_, index) => {
                 const skillName = currentPriorities[index];
                 const isStarred = starredSkills.has(skillName);
                 const isNone = skillName === '선택 안 함';
+                const curLv = isNone ? 0 : getSkillLevel(skillName);
                 
                 return (
-                  <div key={index} className={`flex items-center gap-2 bg-slate-900/40 p-2.5 rounded-xl border transition-colors ${isStarred ? 'border-yellow-500/50 shadow-[0_0_10px_rgba(234,179,8,0.1)]' : 'border-slate-700/50'}`}>
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-black shrink-0 ${index < 2 ? 'bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-500/50' : 'bg-slate-800 text-slate-400'}`}>
-                      {index + 1}
-                    </span>
-                    <select
-                      value={skillName}
-                      onChange={(e) => setPriority(index, e.target.value)}
-                      className="w-full bg-slate-950/80 border border-slate-700 rounded-lg py-2 px-3 text-base sm:text-sm text-slate-100 outline-none focus:border-indigo-500"
-                    >
-                      {currentOptions.map(opt => (
-                        <option key={opt} value={opt}>{opt}</option>
-                      ))}
-                      {index >= 3 && <option value="선택 안 함">선택 안 함</option>}
-                    </select>
-                    <button 
-                      onClick={() => toggleStar(skillName)}
-                      disabled={isNone}
-                      className={`shrink-0 p-1.5 rounded-md transition-all ${isNone ? 'opacity-30 cursor-not-allowed' : ''} ${isStarred ? 'bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30' : 'bg-slate-800 text-slate-500 hover:text-slate-300'}`}
-                      title="최우선 마스터 지정 (클릭)"
-                    >
-                      <Star className="w-5 h-5" fill={isStarred ? "currentColor" : "none"} />
-                    </button>
+                  <div key={index} className={`flex flex-col gap-2 bg-slate-900/40 p-2.5 rounded-xl border transition-colors ${isStarred ? 'border-yellow-500/50 shadow-[0_0_10px_rgba(234,179,8,0.1)]' : 'border-slate-700/50'}`}>
+                    {/* 순위 + 스킬 선택 + 별표 */}
+                    <div className="flex items-center gap-2">
+                      <span className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-black shrink-0 ${index < 2 ? 'bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-500/50' : 'bg-slate-800 text-slate-400'}`}>
+                        {index + 1}
+                      </span>
+                      <select
+                        value={skillName}
+                        onChange={(e) => setPriority(index, e.target.value)}
+                        className="w-full bg-slate-950/80 border border-slate-700 rounded-lg py-2 px-3 text-base sm:text-sm text-slate-100 outline-none focus:border-indigo-500"
+                      >
+                        {currentOptions.map(opt => (
+                          <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                        {index >= 3 && <option value="선택 안 함">선택 안 함</option>}
+                      </select>
+                      <button 
+                        onClick={() => toggleStar(skillName)}
+                        disabled={isNone}
+                        className={`shrink-0 p-1.5 rounded-md transition-all ${isNone ? 'opacity-30 cursor-not-allowed' : ''} ${isStarred ? 'bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30' : 'bg-slate-800 text-slate-500 hover:text-slate-300'}`}
+                        title="최우선 마스터 지정 (클릭)"
+                      >
+                        <Star className="w-5 h-5" fill={isStarred ? "currentColor" : "none"} />
+                      </button>
+                    </div>
+                    {/* 현재 레벨 입력 */}
+                    {!isNone && (
+                      <div className="flex items-center gap-2 pl-9">
+                        <span className="text-xs text-slate-400 shrink-0">현재 레벨:</span>
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => adjustSkillLevel(skillName, -1)}
+                            disabled={curLv <= 0}
+                            className="w-6 h-6 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-sm flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                          >−</button>
+                          <span className={`w-14 text-center text-sm font-bold px-2 py-0.5 rounded ${
+                            curLv === 6 ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/40' :
+                            curLv > 0 ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' :
+                            'bg-slate-800 text-slate-400 border border-slate-700'
+                          }`}>Lv.{curLv}{curLv === 6 ? ' ★' : ''}</span>
+                          <button
+                            onClick={() => adjustSkillLevel(skillName, 1)}
+                            disabled={curLv >= 6}
+                            className="w-6 h-6 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-sm flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                          >+</button>
+                        </div>
+                        {curLv > 0 && (
+                          <span className="text-xs text-emerald-400 font-medium">칩 {LEVEL_COSTS[curLv]}개 사용됨</span>
+                        )}
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -344,14 +387,17 @@ export default function UltimaSkillCalculator() {
                   <td className="py-3 font-bold text-blue-300">{data.totalChips}개</td>
                   {weeklyData.validPriorities.map(skill => {
                     const level = data.levels[skill];
+                    const startLv = data.startLevels[skill] ?? 0;
                     const isMax = level === 6;
+                    const isBelowStart = level <= startLv; // 현재 레벨 이하 = 시작 상태
                     return (
                       <td key={skill} className="py-3 px-2">
                         <span className={`inline-flex items-center justify-center px-2.5 py-1.5 rounded-md text-xs font-bold transition-all ${
-                          isMax ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/50 shadow-[0_0_10px_rgba(234,179,8,0.15)]' : 
+                          isMax ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/50 shadow-[0_0_10px_rgba(234,179,8,0.15)]' :
+                          isBelowStart ? 'bg-slate-700/40 text-slate-500 border border-slate-700/30' :
                           level > 0 ? 'bg-indigo-500/20 text-indigo-200 border border-indigo-500/40' : 'bg-slate-800/50 text-slate-400 border border-slate-700/50'
                         }`}>
-                          Lv.{level} {isMax && '(M)'}
+                          Lv.{level}{isMax ? ' (M)' : isBelowStart && level === startLv ? ' (현재)' : ''}
                         </span>
                       </td>
                     );
