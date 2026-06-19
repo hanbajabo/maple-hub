@@ -28,17 +28,18 @@ export default function UltimaOperationGuidePage() {
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 leading-tight break-keep">
             <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              울티마 작전 일지 (훈련 일지) 이벤트 '보약 스킬' 총정리 및 공략
+              울티마 작전일지 / 에테리온 아티팩트 <br />
+              '보약 스킬' 총정리 및 공략
             </span>
           </h1>
 
           {/* 메인 이미지 */}
           <div className="relative w-full rounded-xl overflow-hidden mb-8 border border-indigo-500/30 shadow-xl shadow-indigo-900/20">
             <Image 
-              src="/images/ultima-bg.jpg" 
-              alt="울티마 작전 일지 화면" 
+              src="/images/ultima-hero.png" 
+              alt="미션 울티마 및 에테리온 아티팩트 메인 화면" 
               width={1200}
-              height={1200}
+              height={600}
               style={{ width: '100%', height: 'auto' }}
               priority
             />
