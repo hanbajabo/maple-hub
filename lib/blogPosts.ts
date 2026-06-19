@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 울티마 작전 일지 이벤트 총정리 및 공략
+    {
+        slug: 'ultima-operation-event-guide',
+        title: '💊 울티마 작전 일지 (훈련 일지) 이벤트 \'보약 스킬\' 총정리 및 공략',
+        description: '이번 여름 메이플스토리를 뜨겁게 달굴 핵심 이벤트, \'울티마 작전 일지(일명 보약 버프)\'의 기본 정보와 보상, 보약스킬 강화 트리 최적화 계산기까지 완벽하게 정리했습니다.',
+        category: '이벤트 가이드',
+        date: '2026년 6월 19일',
+        readTime: '8분',
+        thumbnail: '💊',
+        featured: true,
+    },
     // 6월 18일 본섭 오면서 추가된 사항들 정리
     {
         slug: 'june-18-official-update',
