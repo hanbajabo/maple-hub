@@ -204,7 +204,7 @@ export default function UltimaSkillCalculator() {
           계산기 설정
         </h3>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {/* 1. 탭 및 옵션 (1단) */}
           <div className="space-y-6 flex flex-col">
             <div className="flex bg-slate-950/50 rounded-lg p-1 border border-slate-800">
@@ -319,15 +319,15 @@ export default function UltimaSkillCalculator() {
                     </div>
                     {/* 현재 레벨 입력 */}
                     {!isNone && (
-                      <div className="flex items-center gap-2 pl-9 flex-wrap">
-                        <span className="text-xs text-slate-400 shrink-0">현재 레벨:</span>
+                      <div className="flex items-center gap-2 mt-0.5 border-t border-slate-700/40 pt-2">
+                        <span className="text-xs text-slate-400 shrink-0 w-16">현재 레벨:</span>
                         <div className="flex items-center gap-1 shrink-0">
                           <button
                             onClick={() => adjustSkillLevel(skillName, -1)}
                             disabled={curLv <= 0}
-                            className="w-6 h-6 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-sm flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                            className="w-7 h-7 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-base flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                           >−</button>
-                          <span className={`w-14 text-center text-sm font-bold px-2 py-0.5 rounded ${
+                          <span className={`w-16 text-center text-sm font-bold px-2 py-1 rounded ${
                             curLv === 6 ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/40' :
                             curLv > 0 ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' :
                             'bg-slate-800 text-slate-400 border border-slate-700'
@@ -335,11 +335,11 @@ export default function UltimaSkillCalculator() {
                           <button
                             onClick={() => adjustSkillLevel(skillName, 1)}
                             disabled={curLv >= 6}
-                            className="w-6 h-6 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-sm flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                            className="w-7 h-7 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-base flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                           >+</button>
                         </div>
                         {curLv > 0 && (
-                          <span className="text-xs text-emerald-400 font-medium whitespace-nowrap">칩 {LEVEL_COSTS[curLv]}개 사용됨</span>
+                          <span className="text-xs text-emerald-400 font-medium whitespace-nowrap">칩 {LEVEL_COSTS[curLv]}개 소모</span>
                         )}
                       </div>
                     )}
@@ -357,13 +357,18 @@ export default function UltimaSkillCalculator() {
       </div>
 
       {/* 하단 결과 영역 */}
-      <div className="flex-1 p-4 sm:p-6 bg-slate-900/30 overflow-x-auto w-full">
-        <h3 className="text-xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
-          <Zap className="w-5 h-5 text-yellow-400" />
-          1~13주차 스킬 마스터 루트 결과
-        </h3>
-        
-        <div className="min-w-[700px]">
+      <div className="flex-1 p-4 sm:p-6 bg-slate-900/30 w-full">
+        <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-2">
+          <h3 className="text-xl font-bold text-white flex items-center gap-2">
+            <Zap className="w-5 h-5 text-yellow-400" />
+            1~13주차 스킬 마스터 루트 결과
+          </h3>
+          <span className="text-xs text-slate-500 flex items-center gap-1 sm:hidden">
+            ← 좌우로 스크롤하세요
+          </span>
+        </div>
+        <div className="overflow-x-auto w-full">
+        <div className="min-w-[600px]">
           <table className="w-full text-left border-collapse bg-slate-950/20 rounded-xl overflow-hidden">
             <thead>
               <tr className="bg-slate-800/80 text-slate-200 text-sm border-b border-slate-700/80">
@@ -406,6 +411,7 @@ export default function UltimaSkillCalculator() {
               ))}
             </tbody>
           </table>
+        </div>
         </div>
         
         <div className="mt-6 p-4 bg-indigo-950/30 border border-indigo-800/40 rounded-xl flex items-start gap-3">
