@@ -9,7 +9,7 @@ export const Stage6Guide: React.FC = () => {
                     축하합니다!
                 </p>
                 <p className="text-slate-300 text-sm">
-                    아이템 드롭률 <span className="text-indigo-400 font-bold">200%</span>를 달성하셨습니다.
+                    메소 획득량 <span className="text-yellow-400 font-bold">100%</span>와 아이템 드롭률 <span className="text-emerald-400 font-bold">200%</span>를 모두 달성하셨습니다.
                 </p>
             </div>
 

@@ -27,7 +27,7 @@ export function analyze(characterData: any, targetMode: 'HUNTING' | 'BOSS', boss
 
     // 2. 그래도 안된 경우, 특정 키워드로 추론
     if (!jobData) {
-        if (myClass.includes("아크메이지") || myClass.includes("비숍") || myClass.includes("플레임위자드") || myClass.includes("에반") || myClass.includes("루미너스") || myClass.includes("배틀메이지") || myClass.includes("키네시스") || myClass.includes("일리움") || myClass.includes("라라")) {
+        if (myClass.includes("아크메이지") || myClass.includes("비숍") || myClass.includes("플레임위자드") || myClass.includes("에반") || myClass.includes("루미너스") || myClass.includes("배틀메이지") || myClass.includes("키네시스") || myClass.includes("일리움") || myClass.includes("라라") || myClass.includes("레테")) {
             jobData = { stat: "INT", att: "마력" };
         } else if (myClass.includes("보우마스터") || myClass.includes("신궁") || myClass.includes("패스파인더") || myClass.includes("윈드브레이커") || myClass.includes("와일드헌터") || myClass.includes("메르세데스") || myClass.includes("카인") || myClass.includes("엔젤릭버스터") || myClass.includes("캡틴") || myClass.includes("메카닉")) {
             jobData = { stat: "DEX", att: "공격력" };

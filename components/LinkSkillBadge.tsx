@@ -47,7 +47,8 @@ const LINK_SKILL_JOBS: Record<string, string> = {
     "스피릿 오브 플레임": "플레임위자드",
     "엘리멘탈 엑스퍼트": "모험가 마법사(전체)",
     "인빈서블 빌리프": "모험가 전사",
-    "강체": "렌"
+    "강체": "렌",
+    "커버넌트": "레테"
 };
 
 export default function LinkSkillBadge({ ocid, initialData, refreshKey }: { ocid: string, initialData?: any, refreshKey?: number }) {

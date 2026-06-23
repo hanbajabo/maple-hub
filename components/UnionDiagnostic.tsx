@@ -57,33 +57,14 @@ const UNION_EFFECTS: Record<string, { effect: string; tier?: number; type: strin
     "호영": { effect: "LUK 100 증가", type: "LUK" },
 
     "제논": { effect: "STR, DEX, LUK 5/10/20/40/50 증가", type: "AllStat" },
+    "레테": { effect: "올스탯 +10/20/30/40/50, 최대 HP 500/1000/1500/2000/2500 증가", type: "AllStat" },
 };
-
-const BLOCK_COLORS = [
-    'bg-red-600/90 border-red-400',
-    'bg-orange-600/90 border-orange-400',
-    'bg-amber-600/90 border-amber-400',
-    'bg-yellow-600/90 border-yellow-400',
-    'bg-lime-600/90 border-lime-400',
-    'bg-green-600/90 border-green-400',
-    'bg-emerald-600/90 border-emerald-400',
-    'bg-teal-600/90 border-teal-400',
-    'bg-cyan-600/90 border-cyan-400',
-    'bg-sky-600/90 border-sky-400',
-    'bg-blue-600/90 border-blue-400',
-    'bg-indigo-600/90 border-indigo-400',
-    'bg-violet-600/90 border-violet-400',
-    'bg-purple-600/90 border-purple-400',
-    'bg-fuchsia-600/90 border-fuchsia-400',
-    'bg-pink-600/90 border-pink-400',
-    'bg-rose-600/90 border-rose-400',
-];
 
 // 직업별 주스텟 매핑
 const getMainStat = (className: string): string => {
     const strClasses = ['히어로', '팔라딘', '다크나이트', '소울마스터', '미하일', '블래스터', '데몬슬레이어', '데몬어벤져', '아란', '카이저', '제로', '아델', '아크', '바이퍼', '캐논마스터', '캐논슈터', '스트라이커', '은월', '렌'];
     const dexClasses = ['보우마스터', '신궁', '패스파인더', '윈드브레이커', '와일드헌터', '메르세데스', '카인', '엔젤릭버스터', '캡틴', '메카닉'];
-    const intClasses = ['아크메이지', '비숍', '불독', '썬콜', '불,독', '썬,콜', '플레임위자드', '배틀메이지', '에반', '루미너스', '일리움', '라라', '키네시스', '린'];
+    const intClasses = ['아크메이지', '비숍', '불독', '썬콜', '불,독', '썬,콜', '플레임위자드', '배틀메이지', '에반', '루미너스', '일리움', '라라', '키네시스', '린', '레테'];
     const lukClasses = ['나이트로드', '섀도어', '듀얼블레이드', '듀얼블레이더', '나이트워커', '팬텀', '카데나', '칼리', '호영'];
 
     if (intClasses.some(c => className.includes(c))) return 'INT';
@@ -94,12 +75,101 @@ const getMainStat = (className: string): string => {
     return 'STR';
 };
 
+// 텍스트 파싱을 기반으로 가상의 유니온 블록 리스트 생성 (패치 이후의 대응)
+function generateVirtualBlocks(raiderStats: string[]): UnionBlock[] {
+    const virtualBlocks: UnionBlock[] = [];
+    
+    raiderStats.forEach((stat: string) => {
+        let jobClass = "";
+        let level = 200; // 기본값
+        
+        if (stat.includes("대기시간") && stat.includes("감소")) {
+            jobClass = "메르세데스";
+            if (stat.includes("6%")) level = 250;
+            else if (stat.includes("5%")) level = 200;
+            else if (stat.includes("4%")) level = 140;
+        } else if (stat.includes("경험치 획득량")) {
+            jobClass = "제로";
+            if (stat.includes("12%")) level = 250;
+            else if (stat.includes("10%")) level = 200;
+            else if (stat.includes("8%")) level = 140;
+        } else if (stat.includes("메소 획득량")) {
+            jobClass = "팬텀";
+            if (stat.includes("5%")) level = 250;
+            else if (stat.includes("4%")) level = 200;
+            else if (stat.includes("3%")) level = 140;
+        } else if (stat.includes("크리티컬 데미지")) {
+            jobClass = "은월";
+            if (stat.includes("6%")) level = 250;
+            else if (stat.includes("5%")) level = 200;
+            else if (stat.includes("3%")) level = 140;
+        } else if (stat.includes("보스 몬스터") && stat.includes("데미지") && stat.includes("증가")) {
+            jobClass = "데몬어벤져";
+            if (stat.includes("6%")) level = 250;
+            else if (stat.includes("5%")) level = 200;
+            else if (stat.includes("3%")) level = 140;
+        } else if (stat.includes("확률로 데미지")) {
+            jobClass = "와일드헌터";
+            if (stat.includes("20%")) level = 250;
+            else if (stat.includes("16%")) level = 200;
+            else if (stat.includes("12%")) level = 140;
+        } else if (stat.includes("버프") && stat.includes("지속시간")) {
+            jobClass = "메카닉";
+            if (stat.includes("25%")) level = 250;
+            else if (stat.includes("20%")) level = 200;
+            else if (stat.includes("15%")) level = 140;
+        } else if (stat.includes("방어율 무시")) {
+            jobClass = "블래스터";
+            if (stat.includes("6%")) level = 250;
+            else if (stat.includes("5%")) level = 200;
+            else if (stat.includes("3%")) level = 140;
+        } else if (stat.includes("크리티컬 확률")) {
+            const hasSinGung = virtualBlocks.some(b => b.block_class === "신궁");
+            jobClass = hasSinGung ? "나이트로드" : "신궁";
+            if (stat.includes("5%")) level = 250;
+            else if (stat.includes("4%")) level = 200;
+            else if (stat.includes("3%")) level = 140;
+        } else if (stat.includes("올스탯") && stat.includes("HP")) {
+            jobClass = "레테";
+            if (stat.includes("50") || stat.includes("2500")) level = 250;
+            else if (stat.includes("40") || stat.includes("2000")) level = 200;
+            else if (stat.includes("30") || stat.includes("1500")) level = 140;
+            else level = 100;
+        } else {
+            let statType = "";
+            if (stat.includes("STR, DEX, LUK")) statType = "제논";
+            else if (stat.includes("STR")) statType = "STR대원";
+            else if (stat.includes("DEX")) statType = "DEX대원";
+            else if (stat.includes("INT")) statType = "INT대원";
+            else if (stat.includes("LUK")) statType = "LUK대원";
+            else if (stat.includes("HP")) statType = "HP대원";
+            
+            if (statType) {
+                jobClass = statType;
+                if (stat.includes("120") || stat.includes("50")) level = 250;
+                else if (stat.includes("100") || stat.includes("40")) level = 200;
+                else if (stat.includes("80") || stat.includes("20")) level = 140;
+                else level = 100;
+            }
+        }
+        
+        if (jobClass) {
+            virtualBlocks.push({
+                block_type: "Virtual",
+                block_class: jobClass,
+                block_level: level.toString()
+            });
+        }
+    });
+    
+    return virtualBlocks;
+}
+
 export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass, unionLevel, children }: { ocid: string, initialData?: any, refreshKey?: number, myClass?: string, unionLevel?: number, children?: React.ReactNode }) {
     const [raiders, setRaiders] = useState<UnionBlock[]>([]);
     const [loading, setLoading] = useState(!initialData);
     const [isOpen, setIsOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
-    const [hoveredInfo, setHoveredInfo] = useState<{ x: number, y: number, job?: string } | null>(null);
 
     useEffect(() => {
         setMounted(true);
@@ -107,7 +177,10 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
 
     useEffect(() => {
         if (initialData) {
-            const blocks = initialData.union_block || [];
+            let blocks = initialData.union_block || [];
+            if (blocks.length === 0 && initialData.union_raider_stat) {
+                blocks = generateVirtualBlocks(initialData.union_raider_stat);
+            }
             blocks.sort((a: any, b: any) => parseInt(b.block_level) - parseInt(a.block_level));
             setRaiders(blocks);
             setLoading(false);
@@ -119,7 +192,10 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
             try {
                 setLoading(true);
                 const res = await getUserUnionRaider(ocid);
-                const blocks = res.union_block || [];
+                let blocks = res.union_block || [];
+                if (blocks.length === 0 && res.union_raider_stat) {
+                    blocks = generateVirtualBlocks(res.union_raider_stat);
+                }
                 blocks.sort((a: any, b: any) => parseInt(b.block_level) - parseInt(a.block_level));
                 setRaiders(blocks);
             } catch (err) {
@@ -168,23 +244,30 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
         .sort((a, b) => (b[1].tier || 0) - (a[1].tier || 0))
         .map(([name, data]) => `${name} (${data.effect})`);
 
-    // 주스텟 대원 중 없는 것 찾기
-    const missingStatMembers = Object.entries(UNION_EFFECTS)
-        .filter(([name, data]) => (data.type === mainStat || data.type === 'AllStat') && !ownedClasses.has(name))
-        .map(([name, data]) => `${name} (${data.effect})`);
+    // 주스텟 대원 중 없는 것 찾기 (Fallback 모드에서 스탯 대원 개수 충족 시 추천 제외)
+    const virtualStatCount = raiders.filter(r => {
+        const name = r.block_class;
+        if (mainStat === 'STR') return name === 'STR대원' || name === '제논' || name === '레테';
+        if (mainStat === 'DEX') return name === 'DEX대원' || name === '제논' || name === '레테';
+        if (mainStat === 'INT') return name === 'INT대원' || name === '레테';
+        if (mainStat === 'LUK') return name === 'LUK대원' || name === '제논' || name === '레테';
+        return false;
+    }).length;
+
+    const hasVirtualStat = raiders.some(r => r.block_class.endsWith('대원'));
+    const isStatSufficient = hasVirtualStat && virtualStatCount >= 3;
+
+    const missingStatMembers = isStatSufficient
+        ? []
+        : Object.entries(UNION_EFFECTS)
+            .filter(([name, data]) => (data.type === mainStat || data.type === 'AllStat') && !ownedClasses.has(name))
+            .map(([name, data]) => `${name} (${data.effect})`);
+
 
     const hasMissing = missingEssential.length > 0 || missingStatMembers.length > 0;
     const displayLevel = unionLevel || raiders.reduce((sum, r) => sum + parseInt(r.block_level), 0);
 
-    // 유니온 그리드 맵 생성
-    const gridMap = new Map<string, { job: string, index: number }>();
-    if (hasRaiders) {
-        raiders.forEach((r, idx) => {
-            r.block_position?.forEach(pos => {
-                gridMap.set(`${pos.x},${pos.y}`, { job: r.block_class, index: idx });
-            });
-        });
-    }
+
 
     return (
         <>
@@ -212,53 +295,9 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
                 <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-2" onClick={handleClose}>
                     <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-2 sm:p-4 w-full max-w-md max-h-[80vh] overflow-y-auto animate-in fade-in slide-in-from-top-2" onClick={e => e.stopPropagation()}>
                         <div className="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
-                            <h4 className="text-xs sm:text-sm font-bold text-slate-300">배치된 공격대원 목록</h4>
+                            <h4 className="text-xs sm:text-sm font-bold text-slate-300">공격대원 목록</h4>
                             <button onClick={handleClose} className="text-slate-500 hover:text-slate-300">✕</button>
                         </div>
-
-                        {/* 유니온 배치도 */}
-                        {hasRaiders && raiders[0].block_position && (
-                            <div className="mb-4 p-3 bg-slate-950 rounded-lg flex flex-col items-center border border-slate-800" onMouseLeave={() => setHoveredInfo(null)}>
-                                <div className="grid gap-[1px] mb-2" style={{ gridTemplateColumns: `repeat(22, 10px)` }}>
-                                    {Array.from({ length: 20 }).map((_, rowIdx) => {
-                                        const y = 10 - rowIdx; // y: 10 ~ -9
-                                        return Array.from({ length: 22 }).map((_, colIdx) => {
-                                            const x = colIdx - 11; // x: -11 ~ 10
-                                            const key = `${x},${y}`;
-                                            const cellData = gridMap.get(key);
-                                            const job = cellData?.job;
-                                            const isCenter = x === 0 && y === 0;
-
-                                            const colorClass = cellData
-                                                ? BLOCK_COLORS[cellData.index % BLOCK_COLORS.length]
-                                                : 'bg-slate-800/40 border-slate-700/50';
-
-                                            return (
-                                                <div
-                                                    key={key}
-                                                    className={`w-[10px] h-[10px] rounded-[1px] border ${colorClass} ${isCenter && !cellData ? '!bg-slate-600 !border-slate-500' : ''} hover:ring-1 hover:ring-white hover:z-20 z-10 cursor-crosshair shadow-sm`}
-                                                    onMouseEnter={() => setHoveredInfo({ x, y, job })}
-                                                />
-                                            );
-                                        });
-                                    })}
-                                </div>
-                                <div className="h-6 flex items-center justify-center text-xs w-full">
-                                    {hoveredInfo ? (
-                                        <div className="flex gap-2 items-center bg-slate-900 px-3 py-1 rounded-full border border-slate-700 shadow-sm animate-in fade-in duration-200">
-                                            <span className="font-mono text-slate-500">({hoveredInfo.x}, {hoveredInfo.y})</span>
-                                            {hoveredInfo.job ? (
-                                                <span className="font-bold text-yellow-400">{hoveredInfo.job}</span>
-                                            ) : (
-                                                <span className="text-slate-600">빈 공간</span>
-                                            )}
-                                        </div>
-                                    ) : (
-                                        <span className="text-slate-700">블록에 마우스를 올려보세요</span>
-                                    )}
-                                </div>
-                            </div>
-                        )}
 
                         {hasRaiders && (
                             <div className="grid grid-cols-2 gap-1 mb-4">
@@ -311,14 +350,14 @@ export default function UnionDiagnostic({ ocid, initialData, refreshKey, myClass
                         {missingEssential.length === 0 && missingStatMembers.length === 0 && hasRaiders && (
                             <div className="text-center py-4">
                                 <div className="text-green-400 font-bold mb-1">✅ 완벽합니다!</div>
-                                <div className="text-xs text-slate-400">필수 및 주스텟 유니온을 모두 보유하고 있습니다.</div>
+                                <div className="text-xs text-slate-400">필수 및 주스텟 유니온 대원을 모두 보유하고 있습니다.</div>
                             </div>
                         )}
 
                         {/* 유니온이 없을 때 */}
                         {!hasRaiders && (
                             <div className="text-xs text-slate-400 mt-2 text-center">
-                                💡 Tip: 위 대원들을 키워서 공격대에 배치하세요!
+                                💡 Tip: 유니온 대원을 더 육성해보세요!
                             </div>
                         )}
                     </div>

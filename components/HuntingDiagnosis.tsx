@@ -22,57 +22,162 @@ interface HuntingDiagnosisProps {
     equipment: ItemData[];
     stat: any;
     ability: any;
+    worldName?: string;
+    ocid?: string;
+    linkReport?: { bad: string[]; good: string[] };
+    unionReport?: { bad: string[]; good: string[] };
+    abilityReport?: { bad: string[]; good: string[] };
 }
 
-const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ability }) => {
-    const [showNextStage, setShowNextStage] = useState(false);
-    const [expandedStages, setExpandedStages] = useState<Set<number>>(new Set());
+// 가로 바 게이지 컴포넌트
+const HorizontalGauge: React.FC<{
+    value: number;
+    max: number;
+    trackColor: string;
+    fillFrom: string;
+    fillTo: string;
+    label: string;
+    icon: string;
+}> = ({ value, max, trackColor, fillFrom, fillTo, label, icon }) => {
+    const percent = Math.min(100, (value / max) * 100);
+    const isMax = value >= max;
+
+    return (
+        <div className="w-full flex flex-col gap-2">
+            {/* 라벨 + 수치 */}
+            <div className="flex items-end justify-between">
+                <div className="flex items-center gap-2">
+                    <span className="text-lg">{icon}</span>
+                    <span className="text-sm font-bold text-slate-200">{label}</span>
+                </div>
+                <div className="flex items-baseline gap-1">
+                    <span className={`text-3xl sm:text-4xl font-black tabular-nums ${isMax ? 'text-emerald-400' : 'text-white'}`}>
+                        {value}
+                    </span>
+                    <span className="text-base text-slate-400 font-bold">%</span>
+                    {isMax ? (
+                        <span className="ml-1 text-[10px] font-black bg-emerald-500 text-white px-1.5 py-0.5 rounded-full">MAX</span>
+                    ) : (
+                        <span className="text-xs text-slate-500">/ {max}%</span>
+                    )}
+                </div>
+            </div>
+            {/* 게이지 바 */}
+            <div className={`w-full h-4 rounded-full overflow-hidden ${trackColor}`}>
+                <div
+                    className={`h-full rounded-full bg-gradient-to-r ${fillFrom} ${fillTo} transition-all duration-700 ease-out relative`}
+                    style={{ width: `${percent}%` }}
+                >
+                    {percent > 8 && (
+                        <div className="absolute right-2 inset-y-0 flex items-center">
+                            <div className="w-1 h-2.5 bg-white/30 rounded-full" />
+                        </div>
+                    )}
+                </div>
+            </div>
+            {/* 마일스톤 (드롭만) */}
+        </div>
+    );
+};
+
+// 아코디언 진단 카드
+const DiagnosticCard: React.FC<{
+    icon: string;
+    title: string;
+    bad: string[];
+    good: string[];
+}> = ({ icon, title, bad, good }) => {
+    const [open, setOpen] = useState(false);
+    const hasIssue = bad.length > 0;
+
+    return (
+        <div className={`rounded-xl border transition-all ${hasIssue ? 'border-amber-500/40 bg-amber-950/10' : 'border-emerald-500/30 bg-emerald-950/10'}`}>
+            <button
+                onClick={() => setOpen(v => !v)}
+                className="w-full flex items-center justify-between p-3 sm:p-4 gap-3"
+            >
+                <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-base">{icon}</span>
+                    <span className="text-sm font-bold text-slate-200 truncate">{title}</span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${hasIssue ? 'bg-amber-500/20 text-amber-300' : 'bg-emerald-500/20 text-emerald-300'}`}>
+                        {hasIssue ? `⚠️ ${bad.length}개` : '✅ 양호'}
+                    </span>
+                    <span className={`text-slate-400 text-xs transition-transform ${open ? 'rotate-180' : ''}`}>▼</span>
+                </div>
+            </button>
+            {open && (
+                <div className="px-3 sm:px-4 pb-3 sm:pb-4 pt-0 space-y-1 border-t border-slate-700/50">
+                    {bad.map((txt, i) => (
+                        <div key={i} className="flex items-start gap-2 text-xs text-amber-300 py-1">
+                            <span className="mt-0.5 shrink-0">⚠️</span>
+                            <span>{txt}</span>
+                        </div>
+                    ))}
+                    {good.map((txt, i) => (
+                        <div key={i} className="flex items-start gap-2 text-xs text-emerald-300 py-1">
+                            <span className="mt-0.5 shrink-0">✅</span>
+                            <span>{txt}</span>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
+const STAGE_LABELS = ['기초', '메획100', '드메100', '드롭160', '드롭180', '드롭200', '졸업'];
+const STAGE_TITLES = [
+    '🌱 메소 확정 드롭',
+    '💰 메획 100%',
+    '🎯 드롭+메획 100%',
+    '🎯 드롭 160%',
+    '🎯 드롭 180%',
+    '🎯 드롭 200%',
+    '🎉 졸업!'
+];
+
+const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({
+    equipment, stat, ability, worldName, ocid,
+    linkReport, unionReport, abilityReport
+}) => {
+    const [activeStage, setActiveStage] = useState<number | null>(null);
+    const isChallengers = worldName?.includes('챌린저스') ?? false;
 
     // 1. Parse Equipment Stats
-    const { itemDrop, itemMeso, hasSpiritPendant, hasTwinDrop } = useMemo(() => {
+    const { itemDrop, itemMeso, hasSpiritPendant } = useMemo(() => {
         let drop = 0;
         let meso = 0;
         let spiritPendant = false;
-        let twinDrop = false;
 
         if (!equipment || !Array.isArray(equipment)) {
-            return { itemDrop: 0, itemMeso: 0, hasSpiritPendant: false, hasTwinDrop: false };
+            return { itemDrop: 0, itemMeso: 0, hasSpiritPendant: false };
         }
 
         equipment.forEach(item => {
-            if (item.item_name.includes("정령의 펜던트")) {
-                spiritPendant = true;
-            }
+            if (item.item_name.includes('정령의 펜던트')) spiritPendant = true;
 
             const opts = [
                 item.potential_option_1, item.potential_option_2, item.potential_option_3,
                 item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3
             ];
 
-            let itemDropVal = 0;
-            let itemMesoVal = 0;
-
             opts.forEach(opt => {
                 if (!opt) return;
-                const normalized = opt.replace(/\s+/g, "");
-
-                if (normalized.includes("아이템드롭률") && normalized.includes("%")) {
+                const normalized = opt.replace(/\s+/g, '');
+                if (normalized.includes('아이템드롭률') && normalized.includes('%')) {
                     const match = normalized.match(/(\d+)%/);
-                    if (match) itemDropVal += Number(match[1]);
+                    if (match) drop += Number(match[1]);
                 }
-                if (normalized.includes("메소획득량") && normalized.includes("%")) {
+                if (normalized.includes('메소획득량') && normalized.includes('%')) {
                     const match = normalized.match(/(\d+)%/);
-                    if (match) itemMesoVal += Number(match[1]);
+                    if (match) meso += Number(match[1]);
                 }
             });
-
-            if (itemDropVal >= 40) twinDrop = true;
-
-            drop += itemDropVal;
-            meso += itemMesoVal;
         });
 
-        return { itemDrop: drop, itemMeso: meso, hasSpiritPendant: spiritPendant, hasTwinDrop: twinDrop };
+        return { itemDrop: drop, itemMeso: meso, hasSpiritPendant: spiritPendant };
     }, [equipment]);
 
     // Parse Ability Drop Rate
@@ -80,7 +185,7 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ab
         let val = 0;
         if (ability?.ability_info) {
             ability.ability_info.forEach((info: any) => {
-                if (info.ability_value && info.ability_value.includes("아이템 드롭률")) {
+                if (info.ability_value && info.ability_value.includes('아이템 드롭률')) {
                     const match = info.ability_value.match(/(\d+)%/);
                     if (match) val += Number(match[1]);
                 }
@@ -89,8 +194,40 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ab
         return val;
     }, [ability]);
 
+    // 0단계(기초) 완료 상태 관리
+    const [isStage0Completed, setIsStage0Completed] = useState<boolean>(false);
+
+    // ocid, abilityDrop, isChallengers 중 하나라도 바뀌면 완료 상태 업데이트
+    React.useEffect(() => {
+        const storageKey = ocid ? `maple_hub_stage0_completed_${ocid}` : 'maple_hub_stage0_completed';
+        const isAutoCompleted = abilityDrop + (isChallengers ? 64 : 56) >= 67;
+        const isSavedCompleted = typeof window !== 'undefined' && window.localStorage.getItem(storageKey) === 'true';
+        
+        if (isAutoCompleted || isSavedCompleted) {
+            setIsStage0Completed(true);
+            if (typeof window !== 'undefined') {
+                window.localStorage.setItem(storageKey, 'true');
+            }
+        } else {
+            setIsStage0Completed(false);
+        }
+    }, [ocid, abilityDrop, isChallengers]);
+
+    const handleStage0Complete = () => {
+        setIsStage0Completed(true);
+        const storageKey = ocid ? `maple_hub_stage0_completed_${ocid}` : 'maple_hub_stage0_completed';
+        if (typeof window !== 'undefined') {
+            window.localStorage.setItem(storageKey, 'true');
+        }
+        // 사용자가 완료하면 자동으로 1단계로 포커스
+        setActiveStage(null);
+    };
+
     // 2. Determine Current Stage
     const currentStage = useMemo(() => {
+        if (!isStage0Completed) {
+            return 0;
+        }
         if (itemMeso >= 100) {
             if (itemDrop < 100) return 2;
             if (itemDrop < 160) return 3;
@@ -98,296 +235,271 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({ equipment, stat, ab
             if (itemDrop < 200) return 5;
             return 6;
         } else {
-            if (itemDrop < 67) return 0;
             return 1;
         }
-    }, [itemDrop, itemMeso]);
+    }, [isStage0Completed, itemDrop, itemMeso]);
 
-    // Initialize expanded stages with current stage
-    React.useEffect(() => {
-        setExpandedStages(prev => {
-            const newSet = new Set(prev);
-            newSet.add(currentStage);
-            return newSet;
-        });
-    }, [currentStage]);
-
-    // Toggle stage expansion
-    const toggleStage = (stageId: number) => {
-        setExpandedStages(prev => {
-            const newSet = new Set(prev);
-            if (newSet.has(stageId)) {
-                newSet.delete(stageId);
-            } else {
-                newSet.add(stageId);
-            }
-            return newSet;
-        });
-    };
-
-    // Check if stage is expanded
-    const isStageExpanded = (stageId: number) => {
-        return expandedStages.has(stageId);
-    };
-
-    // Render stage content
+    // 스테이지 콘텐츠 렌더
     const renderStageContent = (stage: number) => {
         switch (stage) {
-            case 0:
-                return (
-                    <Stage0Guide
-                        abilityDrop={abilityDrop}
-                        isCurrentStage={stage === currentStage}
-                        onComplete={() => {
-                            // 0단계를 닫고 1단계를 엽니다
-                            setExpandedStages(prev => {
-                                const newSet = new Set(prev);
-                                newSet.delete(0); // 0단계 닫기
-                                newSet.add(1);    // 1단계 열기
-                                return newSet;
-                            });
-                        }}
-                    />
-                );
-            case 1:
-                return <Stage1Guide itemMeso={itemMeso} />;
-            case 2:
-                return <Stage2Guide itemDrop={itemDrop} />;
-            case 3:
-                return <Stage3Guide itemDrop={itemDrop} hasSpiritPendant={hasSpiritPendant} />;
-            case 4:
-                return <Stage4Guide itemDrop={itemDrop} hasSpiritPendant={hasSpiritPendant} />;
-            case 5:
-                return <Stage5Guide itemDrop={itemDrop} />;
-            case 6:
-                return <Stage6Guide />;
-            default:
-                return null;
+            case 0: return (
+                <Stage0Guide
+                    abilityDrop={abilityDrop}
+                    isCurrentStage={true}
+                    isChallengers={isChallengers}
+                    onComplete={handleStage0Complete}
+                />
+            );
+            case 1: return <Stage1Guide itemMeso={itemMeso} />;
+            case 2: return <Stage2Guide itemDrop={itemDrop} />;
+            case 3: return <Stage3Guide itemDrop={itemDrop} hasSpiritPendant={hasSpiritPendant} />;
+            case 4: return <Stage4Guide itemDrop={itemDrop} hasSpiritPendant={hasSpiritPendant} />;
+            case 5: return <Stage5Guide itemDrop={itemDrop} />;
+            case 6: return <Stage6Guide />;
+            default: return null;
         }
     };
 
-    // Stage metadata
-    const stages = [
-        { id: 0, title: "🌱 [0단계] 메소 확정 드롭 만들기 (필수 기초)", color: "emerald" },
-        { id: 1, title: "💰 [1단계] 메획 100% 맞추기 (가성비 세팅)", color: "yellow" },
-        { id: 2, title: "🎯 [2단계] 드롭 100% + 메획 100%", color: "emerald" },
-        { id: 3, title: "🎯 [3단계] 드롭 160% + 메획 100% (정펜 착용)", color: "emerald" },
-        { id: 4, title: "🎯 [4단계] 드롭 180% + 메획 100% (정펜 빼고 드롭 우선)", color: "emerald" },
-        { id: 5, title: "🎯 [5단계] 드롭 200% + 메획 100% (엔드 세팅)", color: "emerald" },
-        { id: 6, title: "🎉 [6단계] 졸업 - 드롭 200% 달성!", color: "emerald" }
+    // 잠재능력 설정이 불가능한 특수 아이템 (시드링 등) 블랙리스트
+    const SPECIAL_NO_POTENTIAL_ITEMS = [
+        '리스트레인트 링',
+        '컨티뉴어스 링',
+        '배틀로드 링',
+        '호텐투스 링',
+        '예비 특수 반지',
     ];
 
-    // Render all stages as accordion
-    const renderAllStages = () => {
-        return (
-            <div className="space-y-2">
-                {stages.map(stageInfo => {
-                    const isExpanded = isStageExpanded(stageInfo.id);
-                    const isCurrent = stageInfo.id === currentStage;
-                    const isPassed = stageInfo.id < currentStage;
+    // 드롭/메획 없는 장신구 부위 (특수 아이템 제외)
+    const missingSlotItems = useMemo(() => {
+        if (!equipment) return [];
+        return equipment.filter(item => {
+            const slot = item.item_equipment_slot;
+            if (!(slot.includes('반지') || slot.includes('펜던트') || slot === '얼굴장식' || slot === '눈장식' || slot === '귀고리')) return false;
 
-                    return (
-                        <div
-                            key={stageInfo.id}
-                            className={`rounded-lg border transition-all ${isCurrent
-                                ? 'bg-slate-900/70 border-emerald-500/50 shadow-lg'
-                                : isPassed
-                                    ? 'bg-slate-900/30 border-slate-700/50'
-                                    : 'bg-slate-900/50 border-slate-700'
-                                }`}
-                        >
-                            {/* Stage Header */}
-                            <button
-                                onClick={() => toggleStage(stageInfo.id)}
-                                className="w-full p-3 flex items-center justify-between hover:bg-slate-800/50 transition-colors rounded-lg"
-                            >
-                                <div className="flex items-center gap-3">
-                                    <span className={`text-sm font-bold ${stageInfo.color === 'yellow' ? 'text-yellow-400' :
-                                        stageInfo.color === 'emerald' ? 'text-emerald-400' : 'text-slate-400'
-                                        }`}>
-                                        {stageInfo.title}
-                                    </span>
-                                    {isCurrent && (
-                                        <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">
-                                            현재 단계
-                                        </span>
-                                    )}
-                                    {isPassed && (
-                                        <span className="text-xs text-green-400">✓</span>
-                                    )}
-                                </div>
-                                <span className={`text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
-                                    ▼
-                                </span>
-                            </button>
+            // 시드링 등 잠재능력 설정 불가 아이템 제외
+            if (SPECIAL_NO_POTENTIAL_ITEMS.some(name => item.item_name.includes(name))) return false;
 
-                            {/* Stage Content */}
-                            {isExpanded && (
-                                <div className="px-3 pb-3">
-                                    {renderStageContent(stageInfo.id)}
-                                </div>
-                            )}
-                        </div>
-                    );
-                })}
-            </div>
-        );
-    };
+            const opts = [
+                item.potential_option_1, item.potential_option_2, item.potential_option_3,
+                item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3
+            ];
+
+            // 잠재능력 자체가 아예 없는 아이템 (미감정 또는 잠재 불가 아이템)도 제외
+            const hasPotentialAtAll = opts.some(opt => opt && opt.trim() !== '');
+            if (!hasPotentialAtAll) return false;
+
+            // 드롭/메획 옵션이 없는 경우만 포함
+            return !opts.some(opt => opt && (opt.includes('아이템 드롭률') || opt.includes('메소 획득량')));
+        });
+    }, [equipment]);
+
+    const displayedStage = activeStage ?? currentStage;
 
     return (
-        <div className="w-full h-full flex flex-col gap-3 sm:gap-4">
-            {/* Header Stats */}
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                {/* Drop Rate */}
-                <div className="bg-gradient-to-br from-emerald-950/50 to-slate-900 p-3 sm:p-4 rounded-xl border-2 border-emerald-500/30 hover:border-emerald-500/50 transition-all shadow-lg shadow-emerald-500/10">
-                    <div className="flex flex-col items-center justify-center gap-1 sm:gap-2">
-                        <div className="flex items-center gap-1.5">
-                            <span className="text-emerald-400 text-lg sm:text-xl">💎</span>
-                            <span className="text-xs sm:text-sm text-emerald-300/90 font-semibold">아이템 드롭률</span>
-                        </div>
-                        <div className="flex items-baseline gap-1">
-                            <span className={`text-2xl sm:text-4xl font-black ${itemDrop >= 200 ? 'text-emerald-400 drop-shadow-glow' : itemDrop >= 100 ? 'text-emerald-300' : 'text-white'}`}>
-                                {itemDrop}
-                            </span>
-                            <span className="text-sm sm:text-lg text-emerald-400/70 font-bold">%</span>
-                        </div>
-                        <div className="w-full bg-slate-950/50 rounded-full h-1.5 sm:h-2 overflow-hidden border border-emerald-900/30">
-                            <div
-                                className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500"
-                                style={{ width: `${Math.min(100, (itemDrop / 200) * 100)}%` }}
-                            />
-                        </div>
-                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">목표: 200% (Max)</span>
-                    </div>
-                </div>
+        <div className="w-full flex flex-col gap-4">
 
-                {/* Meso Rate */}
-                <div className="bg-gradient-to-br from-yellow-950/50 to-slate-900 p-3 sm:p-4 rounded-xl border-2 border-yellow-500/30 hover:border-yellow-500/50 transition-all shadow-lg shadow-yellow-500/10">
-                    <div className="flex flex-col items-center justify-center gap-1 sm:gap-2">
-                        <div className="flex items-center gap-1.5">
-                            <span className="text-yellow-400 text-lg sm:text-xl">💰</span>
-                            <span className="text-xs sm:text-sm text-yellow-300/90 font-semibold">메소 획득량</span>
-                        </div>
-                        <div className="flex items-baseline gap-1">
-                            <span className={`text-2xl sm:text-4xl font-black ${itemMeso >= 100 ? 'text-yellow-400 drop-shadow-glow' : itemMeso >= 60 ? 'text-yellow-300' : 'text-white'}`}>
-                                {itemMeso}
-                            </span>
-                            <span className="text-sm sm:text-lg text-yellow-400/70 font-bold">%</span>
-                        </div>
-                        <div className="w-full bg-slate-950/50 rounded-full h-1.5 sm:h-2 overflow-hidden border border-yellow-900/30">
-                            <div
-                                className="h-full bg-gradient-to-r from-yellow-600 to-yellow-400 transition-all duration-500"
-                                style={{ width: `${Math.min(100, (itemMeso / 100) * 100)}%` }}
-                            />
-                        </div>
-                        <span className="text-[10px] sm:text-xs text-slate-400 font-medium">목표: 100% (Max)</span>
-                    </div>
+            {/* ── 1. 가로 게이지 영역 ── */}
+            <div className="bg-gradient-to-br from-slate-800/70 to-slate-900/70 rounded-2xl border border-slate-700/60 p-4 sm:p-6 flex flex-col gap-4">
+                <HorizontalGauge
+                    value={itemDrop}
+                    max={200}
+                    trackColor="bg-emerald-950/60"
+                    fillFrom="from-emerald-700"
+                    fillTo="to-emerald-400"
+                    label="아이템 드롭률"
+                    icon="💎"
+                />
+                <div className="border-t border-slate-700/40" />
+                <HorizontalGauge
+                    value={itemMeso}
+                    max={100}
+                    trackColor="bg-yellow-950/60"
+                    fillFrom="from-yellow-700"
+                    fillTo="to-yellow-400"
+                    label="메소 획득량"
+                    icon="💰"
+                />
+                <div className="bg-slate-800/50 rounded-xl border border-slate-600/40 p-3 space-y-1.5">
+                    <p className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                        <span>ℹ️</span> 왜 장비 잠재능력 기준으로만 표시하나요?
+                    </p>
+                    <ul className="text-[11px] text-slate-400 space-y-1 leading-relaxed">
+                        <li>• 장비 잠재능력으로 올릴 수 있는 드롭률·메소 획득량에는 <span className="text-slate-200 font-semibold">고정 한도(캡)가 있습니다.</span></li>
+                        <li>• 아이템 드롭률 최대 <span className="text-emerald-300 font-semibold">200%</span>, 메소 획득량 최대 <span className="text-yellow-300 font-semibold">100%</span> — 이 캡을 채우는 것이 사냥 세팅의 핵심 목표입니다.</li>
+                        <li>• 어빌리티·아티팩트·쓸심 등 다른 수단은 별도 관리 영역이므로, 여기서는 <span className="text-emerald-300 font-semibold">장비 잠재능력 캡 달성률</span>만 집계합니다.</li>
+                        <li className="text-amber-300/80">※ 실제 인게임 합산 수치(어빌+아티팩트 등 포함)는 이보다 높습니다.</li>
+                    </ul>
                 </div>
             </div>
 
-            {/* Disclaimer */}
-            <div className="text-xs sm:text-sm text-amber-400/80 text-center bg-amber-950/20 border border-amber-900/30 rounded-lg px-2 sm:px-3 py-2">
-                * 오직 아이템에서 얻는 잠재능력 합계 기준 (최대치 제한 미적용 수치)
+            {/* ── 2. Step Tracker ── */}
+            <div className="bg-slate-900/70 rounded-2xl border border-slate-700/60 p-4 sm:p-5">
+                <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
+                    <span className="text-sm font-bold text-slate-200">📊 단계 진행 현황</span>
+                    <div className="flex items-center gap-2 flex-wrap">
+                        {/* 실제 진행 단계 (장비 기준) — 보는 단계와 다를 때만 표시 */}
+                        {displayedStage !== currentStage && (
+                            <span className="text-xs text-slate-400 px-2 py-1 rounded-full bg-slate-700/60 border border-slate-600">
+                                내 단계: {STAGE_LABELS[currentStage]}
+                            </span>
+                        )}
+                        {/* 현재 보고 있는 단계 */}
+                        <span className="text-xs bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full font-bold border border-emerald-500/30">
+                            {displayedStage === currentStage ? '현재: ' : '보는 중: '}{STAGE_LABELS[displayedStage]}
+                        </span>
+                    </div>
+                </div>
+
+                {/* 스텝 노드 */}
+                <div className="flex items-start justify-between gap-1">
+                    {STAGE_LABELS.map((label, i) => {
+                        const isPassed = i < currentStage;
+                        const isCurrent = i === currentStage;
+                        const isViewing = i === displayedStage; // 지금 보고 있는 단계
+
+                        return (
+                            <React.Fragment key={i}>
+                                <button
+                                    onClick={() => setActiveStage(i === activeStage ? null : i)}
+                                    className="flex flex-col items-center gap-1 flex-1 min-w-0"
+                                >
+                                    {/* 노드 원 */}
+                                    <div className={`relative flex items-center justify-center rounded-full transition-all duration-200
+                                        w-9 h-9 sm:w-11 sm:h-11
+                                        ${isPassed
+                                            ? 'bg-emerald-500 shadow-md shadow-emerald-500/30'
+                                            : isCurrent
+                                                ? 'bg-emerald-700 border-2 border-emerald-400'
+                                                : 'bg-slate-700/80 border-2 border-slate-600'}
+                                    `}>
+                                        {/* 지금 보고 있는 단계 펄스 (보는 단계 기준) */}
+                                        {isViewing && (
+                                            <span className="absolute inset-0 rounded-full bg-white/10 animate-ping pointer-events-none" />
+                                        )}
+                                        {/* 흰색 외곽 하이라이트 (보는 단계) */}
+                                        {isViewing && (
+                                            <span className="absolute inset-0 rounded-full ring-2 ring-white/50 ring-offset-1 ring-offset-slate-900 pointer-events-none" />
+                                        )}
+                                        {isPassed ? (
+                                            <span className="text-white font-black text-base sm:text-lg z-10">✓</span>
+                                        ) : isCurrent ? (
+                                            <span className="text-white font-black text-sm sm:text-base z-10">{i}</span>
+                                        ) : (
+                                            <span className="text-slate-400 font-bold text-sm sm:text-base z-10">{i}</span>
+                                        )}
+                                    </div>
+                                    {/* 라벨 */}
+                                    <span className={`text-[9px] sm:text-[11px] font-bold text-center leading-tight w-full px-0.5 truncate mt-0.5
+                                        ${isViewing ? 'text-white' :
+                                            isCurrent ? 'text-emerald-400' :
+                                                isPassed ? 'text-emerald-300/60' :
+                                                    'text-slate-500'}
+                                    `}>
+                                        {label}
+                                    </span>
+                                    {/* 현재 진행 위치 표시 점 */}
+                                    <div className={`w-1.5 h-1.5 rounded-full mt-0.5 transition-all ${isCurrent ? 'bg-emerald-400' : 'bg-transparent'}`} />
+                                </button>
+                                {/* 연결선 */}
+                                {i < STAGE_LABELS.length - 1 && (
+                                    <div className="flex items-start pt-4 sm:pt-5 shrink-0">
+                                        <div className={`w-3 sm:w-5 h-0.5 rounded-full transition-colors
+                                            ${i < currentStage ? 'bg-emerald-500' : 'bg-slate-700'}`}
+                                        />
+                                    </div>
+                                )}
+                            </React.Fragment>
+                        );
+                    })}
+                </div>
             </div>
 
-            {/* Missing Option Guide */}
-            {currentStage < 6 && (
-                <div className="bg-slate-900/50 p-2 sm:p-3 rounded-lg border border-slate-700/50">
-                    <h4 className="text-xs sm:text-sm font-bold text-slate-300 mb-1 sm:mb-2 flex items-center gap-2">
-                        <span>🔍</span> 드롭/메획 챙길 수 있는 부위 점검
+
+
+            {/* ── 3. 현재/선택 단계 가이드 ── */}
+            <div className="bg-slate-900/70 rounded-2xl border border-slate-700/60 overflow-hidden">
+                {/* 헤더 */}
+                <div className="flex items-center justify-between px-4 py-3 border-b border-slate-700/60 bg-slate-800/40">
+                    <div className="flex items-center gap-2">
+                        <span className="text-base font-black text-white">{STAGE_TITLES[displayedStage]}</span>
+                        {displayedStage === currentStage && (
+                            <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/30">현재 단계</span>
+                        )}
+                    </div>
+                    {/* 이전/다음 화살표 */}
+                    <div className="flex items-center gap-1">
+                        <button
+                            onClick={() => setActiveStage(Math.max(0, displayedStage - 1))}
+                            disabled={displayedStage === 0}
+                            className="p-1.5 rounded-lg bg-slate-700/60 hover:bg-slate-600/60 disabled:opacity-30 disabled:cursor-not-allowed text-slate-300 transition-all text-sm"
+                        >
+                            ◀
+                        </button>
+                        <button
+                            onClick={() => setActiveStage(Math.min(6, displayedStage + 1))}
+                            disabled={displayedStage === 6}
+                            className="p-1.5 rounded-lg bg-slate-700/60 hover:bg-slate-600/60 disabled:opacity-30 disabled:cursor-not-allowed text-slate-300 transition-all text-sm"
+                        >
+                            ▶
+                        </button>
+                    </div>
+                </div>
+
+                {/* 가이드 내용 */}
+                <div className="p-3 sm:p-4">
+                    {renderStageContent(displayedStage)}
+                </div>
+            </div>
+
+            {/* ── 4. 드롭/메획 없는 장신구 슬롯 ── */}
+            {missingSlotItems.length > 0 && currentStage < 6 && (
+                <div className="bg-slate-900/70 rounded-2xl border border-slate-700/60 p-3 sm:p-4">
+                    <h4 className="text-sm font-bold text-slate-200 mb-3 flex items-center gap-2">
+                        <span>🔍</span> 드롭/메획 챙길 수 있는 부위
                     </h4>
-                    <div className="text-[10px] sm:text-xs text-slate-400">
-                        {(() => {
-                            const targetSlots = ["반지1", "반지2", "반지3", "반지4", "펜던트", "펜던트2", "얼굴장식", "눈장식", "귀고리"];
-                            const missingSlots: string[] = [];
-
-                            // 슬롯별 아이템 매핑
-                            const slotItemMap: { [key: string]: ItemData | undefined } = {};
-                            equipment.forEach(item => {
-                                let slot = item.item_equipment_slot;
-                                if (slot === "반지") {
-                                    // 반지 슬롯 구분 로직이 필요하지만 API 데이터상 구분이 어려울 수 있음
-                                    // 여기서는 단순화하여 반지 이름으로 구분하거나, 그냥 반지가 4개 있는지 체크하는 식으로 접근해야 함
-                                    // 하지만 API는 '반지1', '반지2' 등으로 줄 수도 있고 아닐 수도 있음.
-                                    // 일단 item_equipment_slot 그대로 사용
-                                }
-                                slotItemMap[slot] = item;
-                            });
-
-                            // API가 반지1, 반지2... 로 주는지 확인 필요. 보통은 고유 식별자가 있음.
-                            // 여기서는 단순하게 equipment 배열을 순회하며 드롭/메획이 없는 장신구를 찾습니다.
-
-                            const accessories = equipment.filter(item => {
-                                const slot = item.item_equipment_slot;
-                                return slot.includes("반지") || slot.includes("펜던트") || slot === "얼굴장식" || slot === "눈장식" || slot === "귀고리";
-                            });
-
-                            const noOptionItems = accessories.filter(item => {
-                                const opts = [
-                                    item.potential_option_1, item.potential_option_2, item.potential_option_3,
-                                    item.additional_potential_option_1, item.additional_potential_option_2, item.additional_potential_option_3
-                                ];
-                                const hasOption = opts.some(opt => opt && (opt.includes("아이템 드롭률") || opt.includes("메소 획득량")));
-                                return !hasOption;
-                            });
-
-                            if (noOptionItems.length === 0) return <span className="text-green-400">모든 장신구 부위에 드롭/메획 옵션이 있습니다! (또는 장착된 장신구가 없음)</span>;
-
-                            return (
-                                <div className="space-y-0.5 sm:space-y-1">
-                                    <p>다음 아이템에 드롭/메획 옵션이 없습니다:</p>
-                                    <ul className="list-disc list-inside text-slate-300">
-                                        {noOptionItems.map((item, idx) => (
-                                            <li key={idx}>
-                                                <span className="text-orange-300">{item.item_equipment_slot}</span>: {item.item_name}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            );
-                        })()}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                        {missingSlotItems.map((item, idx) => (
+                            <div key={idx} className="flex items-center gap-2 bg-slate-800/60 rounded-lg px-2.5 py-2 border border-slate-700/50">
+                                <span className="text-orange-400 text-[10px] font-bold shrink-0 bg-orange-500/10 px-1.5 py-0.5 rounded">
+                                    {item.item_equipment_slot}
+                                </span>
+                                <span className="text-xs text-slate-300 truncate">{item.item_name}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             )}
 
-            {/* Current Stage Indicator */}
-            <div className="bg-slate-800 rounded-lg p-3 sm:p-4 border border-slate-700">
-                <div className="flex justify-between items-center mb-2 sm:mb-4">
-                    <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                        <span>📊</span>
-                        <span>현재 단계: <span className="text-emerald-400">{currentStage}단계</span></span>
-                    </h3>
-                    {hasSpiritPendant && <span className="text-[10px] sm:text-xs bg-slate-900 text-emerald-400 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded border border-emerald-900">정펜 착용 중</span>}
+            {/* ── 5. 링크/유니온/어빌 진단 카드 (접힘) ── */}
+            {(linkReport || unionReport || abilityReport) && (
+                <div className="flex flex-col gap-2">
+                    <h4 className="text-xs font-bold text-slate-400 px-1">📋 세부 진단</h4>
+                    {linkReport && (
+                        <DiagnosticCard
+                            icon="🔗"
+                            title="링크 스킬"
+                            bad={linkReport.bad}
+                            good={linkReport.good}
+                        />
+                    )}
+                    {unionReport && (
+                        <DiagnosticCard
+                            icon="🏆"
+                            title="유니온"
+                            bad={unionReport.bad}
+                            good={unionReport.good}
+                        />
+                    )}
+                    {abilityReport && (
+                        <DiagnosticCard
+                            icon="🔮"
+                            title="어빌리티"
+                            bad={abilityReport.bad}
+                            good={abilityReport.good}
+                        />
+                    )}
                 </div>
-
-                {/* Progress Bar */}
-                <div className="w-full bg-slate-950 h-2 sm:h-3 rounded-full overflow-hidden mb-1 sm:mb-2 relative">
-                    <div
-                        className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500"
-                        style={{ width: `${(currentStage / 6) * 100}%` }}
-                    ></div>
-                    {/* Stage Markers */}
-                    <div className="absolute inset-0 flex justify-between px-1">
-                        {[0, 1, 2, 3, 4, 5, 6].map(s => (
-                            <div key={s} className={`w-0.5 h-full ${s <= currentStage ? 'bg-transparent' : 'bg-slate-800'}`}></div>
-                        ))}
-                    </div>
-                </div>
-                <div className="flex justify-between text-[8px] sm:text-[10px] text-slate-500 px-1">
-                    <span>기초</span>
-                    <span>메획100</span>
-                    <span>드메100</span>
-                    <span>드롭160</span>
-                    <span>드롭180</span>
-                    <span>드롭200</span>
-                    <span>졸업</span>
-                </div>
-            </div>
-
-            {/* Guide Content */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar">
-                {renderAllStages()}
-            </div>
+            )}
         </div>
     );
 };

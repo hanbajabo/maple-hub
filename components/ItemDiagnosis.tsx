@@ -302,103 +302,116 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey, 
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                                        {/* Left Column: Link, Union, Ability */}
-                                        <div className="space-y-3 sm:space-y-4 md:col-span-1">
-                                            {/* 링크 스킬 섹션 */}
-                                            <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors">
-                                                <h3 className="text-amber-400 font-bold mb-2 sm:mb-3 flex items-center gap-2 text-base sm:text-xl">
-                                                    <span>🔗</span> 링크 스킬
-                                                </h3>
-                                                {report.sections.link.bad.length > 0 && (
-                                                    <ul className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
-                                                        {report.sections.link.bad.map((txt: string, i: number) => (
-                                                            <li key={i} className="text-xs sm:text-base text-red-300 leading-relaxed pl-2 sm:pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-0.5 sm:py-1 pr-2 rounded-r">
-                                                                ⚠️ {txt}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                                {report.sections.link.good.length > 0 && (
-                                                    <ul className="space-y-0.5 sm:space-y-1">
-                                                        {report.sections.link.good.map((txt: string, i: number) => (
-                                                            <li key={i} className="text-xs sm:text-base text-green-400 flex items-start gap-1 sm:gap-2">
-                                                                <span className="mt-0.5 sm:mt-1">✅</span> <span>{txt}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
-
-                                            {/* 유니온 섹션 */}
-                                            <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors">
-                                                <h3 className="text-purple-400 font-bold mb-2 sm:mb-3 flex items-center gap-2 text-base sm:text-xl">
-                                                    <span>🏆</span> 유니온
-                                                </h3>
-                                                {report.sections.union.bad.length > 0 && (
-                                                    <ul className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
-                                                        {report.sections.union.bad.map((txt: string, i: number) => (
-                                                            <li key={i} className="text-xs sm:text-base text-red-300 leading-relaxed pl-2 sm:pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-0.5 sm:py-1 pr-2 rounded-r">
-                                                                ⚠️ {txt}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                                {report.sections.union.good.length > 0 && (
-                                                    <ul className="space-y-0.5 sm:space-y-1">
-                                                        {report.sections.union.good.map((txt: string, i: number) => (
-                                                            <li key={i} className="text-xs sm:text-base text-green-400 flex items-start gap-1 sm:gap-2">
-                                                                <span className="mt-0.5 sm:mt-1">✅</span> <span>{txt}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
-
-                                            {/* 어빌리티 섹션 */}
-                                            <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors">
-                                                <h3 className="text-cyan-400 font-bold mb-2 sm:mb-3 flex items-center gap-2 text-base sm:text-xl">
-                                                    <span>🔮</span> 어빌리티
-                                                </h3>
-                                                {report.sections.ability.bad.length > 0 && (
-                                                    <ul className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
-                                                        {report.sections.ability.bad.map((txt: string, i: number) => (
-                                                            <li key={i} className="text-xs sm:text-base text-red-300 leading-relaxed pl-2 sm:pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-0.5 sm:py-1 pr-2 rounded-r">
-                                                                ⚠️ {txt}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                                {report.sections.ability.good.length > 0 && (
-                                                    <ul className="space-y-0.5 sm:space-y-1">
-                                                        {report.sections.ability.good.map((txt: string, i: number) => (
-                                                            <li key={i} className="text-xs sm:text-base text-green-400 flex items-start gap-1 sm:gap-2">
-                                                                <span className="mt-0.5 sm:mt-1">✅</span> <span>{txt}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
+                                    {mode === 'HUNTING' ? (
+                                        /* 사냥용: 전체 폭으로 HuntingDiagnosis 표시 */
+                                        <div className="w-full">
+                                            <HuntingDiagnosis
+                                                equipment={equipment}
+                                                stat={rawData?.stat}
+                                                ability={rawData?.ability}
+                                                worldName={worldName}
+                                                ocid={ocid}
+                                                linkReport={report?.sections?.link}
+                                                unionReport={report?.sections?.union}
+                                                abilityReport={report?.sections?.ability}
+                                            />
                                         </div>
+                                    ) : (
+                                        /* 보스용: 기존 3컬럼 레이아웃 유지 */
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                                            {/* Left Column: Link, Union, Ability */}
+                                            <div className="space-y-3 sm:space-y-4 md:col-span-1">
+                                                {/* 링크 스킬 섹션 */}
+                                                <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors">
+                                                    <h3 className="text-amber-400 font-bold mb-2 sm:mb-3 flex items-center gap-2 text-base sm:text-xl">
+                                                        <span>🔗</span> 링크 스킬
+                                                    </h3>
+                                                    {report.sections.link.bad.length > 0 && (
+                                                        <ul className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
+                                                            {report.sections.link.bad.map((txt: string, i: number) => (
+                                                                <li key={i} className="text-xs sm:text-base text-red-300 leading-relaxed pl-2 sm:pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-0.5 sm:py-1 pr-2 rounded-r">
+                                                                    ⚠️ {txt}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                    {report.sections.link.good.length > 0 && (
+                                                        <ul className="space-y-0.5 sm:space-y-1">
+                                                            {report.sections.link.good.map((txt: string, i: number) => (
+                                                                <li key={i} className="text-xs sm:text-base text-green-400 flex items-start gap-1 sm:gap-2">
+                                                                    <span className="mt-0.5 sm:mt-1">✅</span> <span>{txt}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </div>
 
-                                        {/* Right Column: Equipment or Hunting/Boss Diagnosis */}
-                                        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors h-full md:col-span-2">
-                                            <h3 className="text-orange-400 font-bold mb-2 sm:mb-4 flex items-center gap-2 text-lg sm:text-2xl border-b border-slate-700 pb-2">
-                                                <span>⚔️</span> {mode === 'HUNTING' ? '사냥 단계별 가이드' : '보스 단계별 가이드'}
-                                            </h3>
+                                                {/* 유니온 섹션 */}
+                                                <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors">
+                                                    <h3 className="text-purple-400 font-bold mb-2 sm:mb-3 flex items-center gap-2 text-base sm:text-xl">
+                                                        <span>🏆</span> 유니온
+                                                    </h3>
+                                                    {report.sections.union.bad.length > 0 && (
+                                                        <ul className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
+                                                            {report.sections.union.bad.map((txt: string, i: number) => (
+                                                                <li key={i} className="text-xs sm:text-base text-red-300 leading-relaxed pl-2 sm:pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-0.5 sm:py-1 pr-2 rounded-r">
+                                                                    ⚠️ {txt}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                    {report.sections.union.good.length > 0 && (
+                                                        <ul className="space-y-0.5 sm:space-y-1">
+                                                            {report.sections.union.good.map((txt: string, i: number) => (
+                                                                <li key={i} className="text-xs sm:text-base text-green-400 flex items-start gap-1 sm:gap-2">
+                                                                    <span className="mt-0.5 sm:mt-1">✅</span> <span>{txt}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </div>
 
-                                            {mode === 'HUNTING' ? (
-                                                <HuntingDiagnosis equipment={equipment} stat={rawData?.stat} ability={rawData?.ability} />
-                                            ) : (
+                                                {/* 어빌리티 섹션 */}
+                                                <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors">
+                                                    <h3 className="text-cyan-400 font-bold mb-2 sm:mb-3 flex items-center gap-2 text-base sm:text-xl">
+                                                        <span>🔮</span> 어빌리티
+                                                    </h3>
+                                                    {report.sections.ability.bad.length > 0 && (
+                                                        <ul className="space-y-1 sm:space-y-2 mb-2 sm:mb-3">
+                                                            {report.sections.ability.bad.map((txt: string, i: number) => (
+                                                                <li key={i} className="text-xs sm:text-base text-red-300 leading-relaxed pl-2 sm:pl-3 border-l-2 border-red-500/50 bg-red-950/10 py-0.5 sm:py-1 pr-2 rounded-r">
+                                                                    ⚠️ {txt}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                    {report.sections.ability.good.length > 0 && (
+                                                        <ul className="space-y-0.5 sm:space-y-1">
+                                                            {report.sections.ability.good.map((txt: string, i: number) => (
+                                                                <li key={i} className="text-xs sm:text-base text-green-400 flex items-start gap-1 sm:gap-2">
+                                                                    <span className="mt-0.5 sm:mt-1">✅</span> <span>{txt}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {/* Right Column: Boss Diagnosis */}
+                                            <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3 sm:p-5 hover:bg-slate-800/80 transition-colors h-full md:col-span-2">
+                                                <h3 className="text-orange-400 font-bold mb-2 sm:mb-4 flex items-center gap-2 text-lg sm:text-2xl border-b border-slate-700 pb-2">
+                                                    <span>⚔️</span> 보스 단계별 가이드
+                                                </h3>
                                                 <BossDiagnosis
                                                     equipment={equipment}
                                                     stat={rawData?.stat}
                                                     basic={rawData?.basic}
                                                     onStageChange={(stage) => setBossStage(stage)}
                                                 />
-                                            )}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
+
                                 </>
                             )}
 

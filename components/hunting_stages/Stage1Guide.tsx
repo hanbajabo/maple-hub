@@ -19,6 +19,7 @@ export const Stage1Guide: React.FC<Stage1GuideProps> = ({ itemMeso }) => {
                         <div>
                             <span className="text-slate-300 font-bold">귀고리: 하프이어링</span>
                             <div className="text-xs text-slate-400">경매장에서 <span className="text-yellow-400">메획 20%</span> 잠재능력이 달린 것을 구매하세요.</div>
+                            <div className="text-[10px] text-amber-400/90 font-semibold mt-0.5">⚠️ 주의: 나중에 되팔기 어려우므로, 가위 횟수 제한이 있는 하프이어링은 피하고 무제한 교환이 가능한 제품으로 구매하세요.</div>
                         </div>
                     </li>
                     <li className="flex items-start gap-2">

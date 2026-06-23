@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 interface Stage0GuideProps {
     abilityDrop: number;
     isCurrentStage: boolean;
+    isChallengers?: boolean;
     onComplete: () => void;
 }
 
-export const Stage0Guide: React.FC<Stage0GuideProps> = ({ abilityDrop, isCurrentStage, onComplete }) => {
+export const Stage0Guide: React.FC<Stage0GuideProps> = ({ abilityDrop, isCurrentStage, isChallengers = false, onComplete }) => {
     // 사용자가 NO를 눌렀을 때 팁을 보여주기 위한 상태
     const [showTip, setShowTip] = useState(false);
 
@@ -29,10 +30,23 @@ export const Stage0Guide: React.FC<Stage0GuideProps> = ({ abilityDrop, isCurrent
                 <div className="space-y-2 text-sm">
                     {/* 기본 3종 세트 */}
                     <div className="grid grid-cols-3 gap-2 pb-2 border-b border-slate-700/50">
-                        <div className="col-span-2 flex items-center gap-2">
-                            <span className="text-blue-400">🗿 아티팩트</span>
-                        </div>
-                        <div className="text-right font-mono text-slate-300">12%</div>
+                        {isChallengers ? (
+                            /* 챌린저스: 아티팩트 없음 → 사피이어 버프 */
+                            <>
+                                <div className="col-span-2 flex items-center gap-2">
+                                    <span className="text-sky-400">💎 사피이어 등급 이상 버프</span>
+                                </div>
+                                <div className="text-right font-mono text-slate-300">20%</div>
+                            </>
+                        ) : (
+                            /* 일반 서버: 아티팩트 */
+                            <>
+                                <div className="col-span-2 flex items-center gap-2">
+                                    <span className="text-blue-400">🗿 아티팩트</span>
+                                </div>
+                                <div className="text-right font-mono text-slate-300">12%</div>
+                            </>
+                        )}
 
                         <div className="col-span-2 flex items-center gap-2">
                             <span className="text-purple-400">🎯 어빌리티</span>
@@ -51,7 +65,7 @@ export const Stage0Guide: React.FC<Stage0GuideProps> = ({ abilityDrop, isCurrent
                     {/* 기본 합계 */}
                     <div className="grid grid-cols-3 gap-2 py-1">
                         <div className="col-span-2 text-slate-400 font-bold">기본 합계</div>
-                        <div className="text-right font-mono text-slate-400">56%</div>
+                        <div className="text-right font-mono text-slate-400">{isChallengers ? 64 : 56}%</div>
                     </div>
 
                     {/* 재획비 추가 */}
@@ -65,12 +79,12 @@ export const Stage0Guide: React.FC<Stage0GuideProps> = ({ abilityDrop, isCurrent
                     {/* 최종 합계 */}
                     <div className="grid grid-cols-3 gap-2 mt-2 bg-emerald-950/30 p-2 rounded border border-emerald-500/30">
                         <div className="col-span-2 text-emerald-300 font-bold">총 드롭률 합계</div>
-                        <div className="text-right font-mono text-emerald-300 font-bold text-lg">76%</div>
+                        <div className="text-right font-mono text-emerald-300 font-bold text-lg">{isChallengers ? 84 : 76}%</div>
                     </div>
                 </div>
 
                 <p className="text-xs text-slate-500 mt-2 text-center">
-                    * 76%를 달성하면 67% 조건을 여유롭게 만족합니다.
+                    * {isChallengers ? 84 : 76}%를 달성하면 67% 조건을 여유롭게 만족합니다.
                 </p>
             </div>
 
