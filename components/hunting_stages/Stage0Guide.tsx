@@ -31,10 +31,10 @@ export const Stage0Guide: React.FC<Stage0GuideProps> = ({ abilityDrop, isCurrent
                     {/* 기본 3종 세트 */}
                     <div className="grid grid-cols-3 gap-2 pb-2 border-b border-slate-700/50">
                         {isChallengers ? (
-                            /* 챌린저스: 아티팩트 없음 → 사피이어 버프 */
+                            /* 챌린저스: 아티팩트 없음 → 사파이어 버프 */
                             <>
                                 <div className="col-span-2 flex items-center gap-2">
-                                    <span className="text-sky-400">💎 사피이어 등급 이상 버프</span>
+                                    <span className="text-sky-400">💎 사파이어 등급 이상 버프</span>
                                 </div>
                                 <div className="text-right font-mono text-slate-300">20%</div>
                             </>
