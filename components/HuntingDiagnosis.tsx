@@ -24,6 +24,7 @@ interface HuntingDiagnosisProps {
     ability: any;
     worldName?: string;
     ocid?: string;
+    characterBasic?: any;
     linkReport?: { bad: string[]; good: string[] };
     unionReport?: { bad: string[]; good: string[] };
     abilityReport?: { bad: string[]; good: string[] };
@@ -139,7 +140,7 @@ const STAGE_TITLES = [
 ];
 
 const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({
-    equipment, stat, ability, worldName, ocid,
+    equipment, stat, ability, worldName, ocid, characterBasic,
     linkReport, unionReport, abilityReport
 }) => {
     const [activeStage, setActiveStage] = useState<number | null>(null);
@@ -297,6 +298,46 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({
 
     return (
         <div className="w-full flex flex-col gap-4">
+
+            {/* ── 0. 캐릭터 간이 정보 프로필 ── */}
+            {characterBasic && (
+                <div className="bg-gradient-to-r from-slate-800/80 to-slate-900/80 rounded-2xl border border-slate-700/60 p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
+                    {characterBasic.character_image && (
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-slate-950/60 rounded-xl border border-slate-700/60 overflow-hidden relative shrink-0">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={characterBasic.character_image}
+                                alt={characterBasic.character_name}
+                                className="absolute w-[220%] h-[220%] max-w-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain"
+                            />
+                        </div>
+                    )}
+                    <div className="flex items-center gap-x-3 gap-y-1.5 flex-wrap min-w-0">
+                        <span className="text-base sm:text-lg font-black text-white truncate">
+                            {characterBasic.character_name}
+                        </span>
+                        <span className="text-[10px] sm:text-xs bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded-full border border-emerald-500/20 shrink-0">
+                            {characterBasic.world_name}
+                        </span>
+                        <span className="text-slate-600 hidden sm:inline text-xs">|</span>
+                        <span className="text-xs sm:text-sm font-semibold text-slate-300 shrink-0">
+                            Lv. {characterBasic.character_level}
+                        </span>
+                        <span className="text-slate-600 hidden sm:inline text-xs">|</span>
+                        <span className="text-xs sm:text-sm text-slate-400 truncate">
+                            {characterBasic.character_class}
+                        </span>
+                        {characterBasic.character_guild_name && (
+                            <>
+                                <span className="text-slate-600 hidden sm:inline text-xs">|</span>
+                                <span className="text-xs sm:text-sm text-sky-300/90 truncate shrink-0">
+                                    길드: {characterBasic.character_guild_name}
+                                </span>
+                            </>
+                        )}
+                    </div>
+                </div>
+            )}
 
             {/* ── 1. 가로 게이지 영역 ── */}
             <div className="bg-gradient-to-br from-slate-800/70 to-slate-900/70 rounded-2xl border border-slate-700/60 p-4 sm:p-6 flex flex-col gap-4">

@@ -311,6 +311,7 @@ export default function ItemDiagnosis({ equipment, ocid, worldName, refreshKey, 
                                                 ability={rawData?.ability}
                                                 worldName={worldName}
                                                 ocid={ocid}
+                                                characterBasic={rawData?.basic}
                                                 linkReport={report?.sections?.link}
                                                 unionReport={report?.sections?.union}
                                                 abilityReport={report?.sections?.ability}
