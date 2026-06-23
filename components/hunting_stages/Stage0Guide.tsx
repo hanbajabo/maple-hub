@@ -30,6 +30,11 @@ export const Stage0Guide: React.FC<Stage0GuideProps> = ({ abilityDrop, isCurrent
                 <div className="space-y-2 text-sm">
                     {/* 기본 3종 세트 */}
                     <div className="grid grid-cols-3 gap-2 pb-2 border-b border-slate-700/50">
+                        <div className="col-span-2 flex items-center gap-2">
+                            <span className="text-pink-400">🏃 캐릭터 기본 드롭률</span>
+                        </div>
+                        <div className="text-right font-mono text-slate-300">24%</div>
+
                         {isChallengers ? (
                             /* 챌린저스: 아티팩트 없음 → 사파이어 버프 */
                             <>
@@ -64,14 +69,14 @@ export const Stage0Guide: React.FC<Stage0GuideProps> = ({ abilityDrop, isCurrent
 
                     {/* 기본 합계 */}
                     <div className="grid grid-cols-3 gap-2 py-1">
-                        <div className="col-span-2 text-slate-400 font-bold">기본 합계</div>
-                        <div className="text-right font-mono text-slate-400">{isChallengers ? 64 : 56}%</div>
+                        <div className="col-span-2 text-slate-400 font-bold">기본 합계 (재획비 제외)</div>
+                        <div className="text-right font-mono text-slate-400">{isChallengers ? 88 : 80}%</div>
                     </div>
 
                     {/* 재획비 추가 */}
                     <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-700/50 items-center">
                         <div className="col-span-2 flex items-center gap-2">
-                            <span className="text-yellow-400">🧪 재물획득 비약 (필수)</span>
+                            <span className="text-yellow-400">🧪 재물획득 비약 (선택)</span>
                         </div>
                         <div className="text-right font-mono text-yellow-400">+20%</div>
                     </div>
@@ -79,12 +84,12 @@ export const Stage0Guide: React.FC<Stage0GuideProps> = ({ abilityDrop, isCurrent
                     {/* 최종 합계 */}
                     <div className="grid grid-cols-3 gap-2 mt-2 bg-emerald-950/30 p-2 rounded border border-emerald-500/30">
                         <div className="col-span-2 text-emerald-300 font-bold">총 드롭률 합계</div>
-                        <div className="text-right font-mono text-emerald-300 font-bold text-lg">{isChallengers ? 84 : 76}%</div>
+                        <div className="text-right font-mono text-emerald-300 font-bold text-lg">{isChallengers ? 108 : 100}%</div>
                     </div>
                 </div>
 
                 <p className="text-xs text-slate-500 mt-2 text-center">
-                    * {isChallengers ? 84 : 76}%를 달성하면 67% 조건을 여유롭게 만족합니다.
+                    * 재획비를 사용하지 않아도 기본 합계({isChallengers ? 88 : 80}%)만으로 67% 조건을 쉽게 달성합니다.
                 </p>
             </div>
 

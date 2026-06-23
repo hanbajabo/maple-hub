@@ -201,7 +201,7 @@ const HuntingDiagnosis: React.FC<HuntingDiagnosisProps> = ({
     // ocid, abilityDrop, isChallengers 중 하나라도 바뀌면 완료 상태 업데이트
     React.useEffect(() => {
         const storageKey = ocid ? `maple_hub_stage0_completed_${ocid}` : 'maple_hub_stage0_completed';
-        const isAutoCompleted = abilityDrop + (isChallengers ? 64 : 56) >= 67;
+        const isAutoCompleted = abilityDrop + (isChallengers ? 88 : 80) >= 67;
         const isSavedCompleted = typeof window !== 'undefined' && window.localStorage.getItem(storageKey) === 'true';
         
         if (isAutoCompleted || isSavedCompleted) {
