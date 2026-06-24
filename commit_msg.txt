@@ -1,7 +1,3 @@
-feat: add genesis liberation spreadsheet view & presets
+feat: set spreadsheet view as default
 
-- Add SpreadsheetView component for a compact, matrix-style UI
-- Implement two popular boss clear presets (Normal Hilla included/excluded)
-- Improve mobile layout for view toggles and spreadsheet headers
-- Color code difficulties and party size configurations for better visibility
-- Enhance localStorage to persist weekly selections robustly per season
+- Change the default viewMode from list to spreadsheet in Genesis Liberation Calculator

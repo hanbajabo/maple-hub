@@ -168,7 +168,7 @@ export function calculateLiberationProgress(
 
         const completionDate = getDateAfterWeeks(
             startDate,
-            currentWeek,
+            currentWeek - 1,
             season.bossResetDay
         );
 
@@ -331,7 +331,7 @@ export function calculateWeeklyLiberationProgress(
 
         const completionDate = getDateAfterWeeks(
             startDate,
-            currentWeek,
+            currentWeek - 1,
             season.bossResetDay
         );
 
