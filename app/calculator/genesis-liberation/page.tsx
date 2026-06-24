@@ -21,7 +21,7 @@ const LOCAL_STORAGE_KEY = 'genesis_calculator_state';
 
 export default function GenesisLiberationPage() {
     const [isMounted, setIsMounted] = useState(false);
-    const [viewMode, setViewMode] = useState<'list' | 'spreadsheet'>('list');
+    const [viewMode, setViewMode] = useState<'list' | 'spreadsheet'>('spreadsheet');
     const [selectedSeason, setSelectedSeason] = useState<'season3' | 'season4'>('season4');
     const [isGenesisPass, setIsGenesisPass] = useState(true);
     const [currentStage, setCurrentStage] = useState(1);

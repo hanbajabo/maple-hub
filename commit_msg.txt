@@ -1,3 +1,7 @@
-content: 챌린저스 월드 티어 보상 수령 조건 설명 보강
+feat: add genesis liberation spreadsheet view & presets
 
-- 챌린저스 월드 시즌4 글에서 티어 보상 수령 월드 제한 사항에 대해 더 명확하게 설명하도록 문구 수정 (에메랄드~슈퍼챌린저 전체 및 예외 규정 명시)
+- Add SpreadsheetView component for a compact, matrix-style UI
+- Implement two popular boss clear presets (Normal Hilla included/excluded)
+- Improve mobile layout for view toggles and spreadsheet headers
+- Color code difficulties and party size configurations for better visibility
+- Enhance localStorage to persist weekly selections robustly per season
