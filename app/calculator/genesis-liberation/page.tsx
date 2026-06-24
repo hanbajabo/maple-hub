@@ -7,6 +7,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import WeeklySchedule from '@/components/GenesisCalculator/WeeklySchedule';
+import SpreadsheetView from '@/components/GenesisCalculator/SpreadsheetView';
 import ResultSummary from '@/components/GenesisCalculator/ResultSummary';
 import { SEASON_3, SEASON_4, QUEST_STAGES } from '@/data/genesis-liberation';
 import {
@@ -20,6 +21,7 @@ const LOCAL_STORAGE_KEY = 'genesis_calculator_state';
 
 export default function GenesisLiberationPage() {
     const [isMounted, setIsMounted] = useState(false);
+    const [viewMode, setViewMode] = useState<'list' | 'spreadsheet'>('list');
     const [selectedSeason, setSelectedSeason] = useState<'season3' | 'season4'>('season4');
     const [isGenesisPass, setIsGenesisPass] = useState(true);
     const [currentStage, setCurrentStage] = useState(1);
@@ -36,11 +38,15 @@ export default function GenesisLiberationPage() {
             const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
             if (savedData) {
                 const parsed = JSON.parse(savedData);
-                if (parsed.selectedSeason) setSelectedSeason(parsed.selectedSeason);
+                const season = parsed.selectedSeason || 'season4';
+                setSelectedSeason(season);
                 if (parsed.isGenesisPass !== undefined) setIsGenesisPass(parsed.isGenesisPass);
                 if (parsed.currentStage) setCurrentStage(parsed.currentStage);
                 if (parsed.currentTraces !== undefined) setCurrentTraces(parsed.currentTraces);
-                if (parsed.weeklySelections) {
+                
+                if (parsed.selections && parsed.selections[season]) {
+                    setWeeklySelections(new Map(parsed.selections[season]));
+                } else if (parsed.weeklySelections) {
                     setWeeklySelections(new Map(parsed.weeklySelections));
                 }
             }
@@ -53,15 +59,18 @@ export default function GenesisLiberationPage() {
     useEffect(() => {
         if (!isMounted) return;
         
-        const stateToSave = {
-            selectedSeason,
-            isGenesisPass,
-            currentStage,
-            currentTraces,
-            weeklySelections: Array.from(weeklySelections.entries()),
-        };
-        
         try {
+            const existingRaw = localStorage.getItem(LOCAL_STORAGE_KEY);
+            const stateToSave = existingRaw ? JSON.parse(existingRaw) : {};
+            
+            stateToSave.selectedSeason = selectedSeason;
+            stateToSave.isGenesisPass = isGenesisPass;
+            stateToSave.currentStage = currentStage;
+            stateToSave.currentTraces = currentTraces;
+            
+            if (!stateToSave.selections) stateToSave.selections = {};
+            stateToSave.selections[selectedSeason] = Array.from(weeklySelections.entries());
+
             localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stateToSave));
         } catch (error) {
             console.error('Failed to save to local storage', error);
@@ -167,7 +176,23 @@ export default function GenesisLiberationPage() {
                                         onChange={(e) => {
                                             const val = e.target.value as 'season3' | 'season4';
                                             setSelectedSeason(val);
-                                            setWeeklySelections(new Map());
+                                            
+                                            // 저장된 해당 시즌 데이터가 있으면 불러오기
+                                            try {
+                                                const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+                                                let loaded = false;
+                                                if (savedData) {
+                                                    const parsed = JSON.parse(savedData);
+                                                    if (parsed.selections && parsed.selections[val]) {
+                                                        setWeeklySelections(new Map(parsed.selections[val]));
+                                                        loaded = true;
+                                                    }
+                                                }
+                                                if (!loaded) setWeeklySelections(new Map());
+                                            } catch (err) {
+                                                setWeeklySelections(new Map());
+                                            }
+
                                             if (val === 'season4') {
                                                 setIsGenesisPass(true);
                                             } else {
@@ -269,15 +294,44 @@ export default function GenesisLiberationPage() {
                             </div>
                         </div>
 
-                        {/* 주차별 스케줄 */}
-                        <WeeklySchedule
-                            key={selectedSeason}
-                            totalWeeks={selectedSeason === 'season3' ? 17 : 13}
-                            weeklySelections={weeklySelections}
-                            onScheduleChange={setWeeklySelections}
-                            isGenesisPass={activeIsGenesisPass}
-                            startDate={activeSeason.startDate}
-                        />
+                        {/* 뷰 모드 토글 */}
+                        <div className="flex flex-col sm:flex-row bg-gray-800/80 p-1 rounded-lg border border-gray-700 w-full sm:w-fit mb-4 gap-1 sm:gap-0">
+                            <button
+                                onClick={() => setViewMode('list')}
+                                className={`px-4 py-2.5 sm:py-2 text-sm font-bold rounded-md transition-colors w-full sm:w-auto ${viewMode === 'list' ? 'bg-purple-600 text-white shadow-md' : 'text-gray-400 hover:text-white hover:bg-gray-700/50'}`}
+                            >
+                                📋 리스트 뷰
+                            </button>
+                            <button
+                                onClick={() => setViewMode('spreadsheet')}
+                                className={`px-4 py-2.5 sm:py-2 text-sm font-bold rounded-md transition-colors w-full sm:w-auto ${viewMode === 'spreadsheet' ? 'bg-purple-600 text-white shadow-md' : 'text-gray-400 hover:text-white hover:bg-gray-700/50'}`}
+                            >
+                                📊 스프레드시트 뷰 (심플)
+                            </button>
+                        </div>
+
+                        {/* 선택된 뷰 렌더링 */}
+                        {viewMode === 'list' ? (
+                            <WeeklySchedule
+                                key={selectedSeason}
+                                totalWeeks={selectedSeason === 'season3' ? 17 : 13}
+                                weeklySelections={weeklySelections}
+                                onScheduleChange={setWeeklySelections}
+                                isGenesisPass={activeIsGenesisPass}
+                                startDate={activeSeason.startDate}
+                            />
+                        ) : (
+                            <SpreadsheetView
+                                key={`spreadsheet-${selectedSeason}`}
+                                totalWeeks={selectedSeason === 'season3' ? 17 : 13}
+                                weeklySelections={weeklySelections}
+                                onScheduleChange={setWeeklySelections}
+                                isGenesisPass={activeIsGenesisPass}
+                                startDate={activeSeason.startDate}
+                                currentStage={currentStage}
+                                currentTraces={currentTraces}
+                            />
+                        )}
                     </div>
 
                     {/* 오른쪽: 결과 섹션 (1/3) */}
