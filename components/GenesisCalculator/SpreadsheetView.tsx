@@ -469,7 +469,7 @@ export default function SpreadsheetView({
                                                 onClick={() => setSelectedDifficulty(d.difficulty)}
                                                 className={`px-3 py-2 rounded-lg text-sm font-bold border transition-colors ${isSelected ? (isHard ? 'bg-red-900/60 text-red-300 border-red-500' : 'bg-blue-900/60 text-blue-300 border-blue-500') : 'bg-gray-700/50 text-gray-300 border-gray-700 hover:bg-gray-700'}`}
                                             >
-                                                {d.difficulty} ({d.traces} 흔적)
+                                                {d.difficulty} ({isGenesisPass ? d.traces * 3 : d.traces} 흔적)
                                             </button>
                                         );
                                     })}
@@ -480,7 +480,7 @@ export default function SpreadsheetView({
                                 <div className="animate-in slide-in-from-top-2 fade-in duration-200">
                                     <div className="flex justify-between items-end mb-2">
                                         <label className="block text-sm font-semibold text-gray-400">파티 인원</label>
-                                        <span className="text-xs text-yellow-500 font-bold">1인당 획득량: {Math.floor((modalData.boss.difficulties.find(d => d.difficulty === selectedDifficulty)?.traces || 0) / selectedPartySize)}</span>
+                                        <span className="text-xs text-yellow-500 font-bold">1인당 획득량: {Math.floor((modalData.boss.difficulties.find(d => d.difficulty === selectedDifficulty)?.traces || 0) / selectedPartySize) * (isGenesisPass ? 3 : 1)}</span>
                                     </div>
                                     <div className="grid grid-cols-6 gap-1">
                                         {[1, 2, 3, 4, 5, 6].map(num => (
