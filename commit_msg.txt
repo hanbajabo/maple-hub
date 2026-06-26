@@ -1,3 +1,4 @@
-fix: calculate completion date accurately based on completion week
+fix: apply Genesis Pass multiplier to modal UI display
 
-- Shift completion date calculation by -1 week to correctly represent the starting date of the week the quest is completed, instead of the following week.
+- Multiply the 'per person trace amount' by 3 in the SpreadsheetView modal when Genesis Pass is active.
+- Fix difficulty buttons to display the pass-multiplied traces.

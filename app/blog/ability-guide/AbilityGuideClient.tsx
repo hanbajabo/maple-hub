@@ -1,67 +1,104 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Target, TrendingUp, Search, Sparkles } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowLeft, Target, TrendingUp, Search, Sparkles, Table, LayoutGrid } from 'lucide-react';
+import React, { useState } from 'react';
 
 const ABILITY_DATA = [
-    { job: '히어로', abilities: ['보스 몬스터 공격 시 데미지 20% 증가', '상태 이상에 걸린 대상 공격 시 데미지 8% 증가', '버프 지속시간 38% 증가'], note: '벞지 90% 이상: 공격력 21 증가로 교체' },
-    { job: '팔라딘', abilities: ['보스 몬스터 공격 시 데미지 20% 증가', '상태 이상에 걸린 대상 공격 시 데미지 8% 증가', '공격력 21 증가'] },
-    { job: '다크나이트', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '스킬 사용 시 재사용 대기시간이 미적용 10%', '상태 이상에 걸린 대상 공격 시 데미지 8% 증가'] },
-    { job: '아크메이지(불,독)', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '마력 증가 21'] },
-    { job: '아크메이지(썬,콜)', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '마력 증가 21'] },
-    { job: '비숍', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '마력 증가 21'] },
-    { job: '보우마스터', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '크리티컬 확률 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%'] },
-    { job: '신궁', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '크리티컬 확률 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%'] },
-    { job: '패스파인더', abilities: ['재사용 대기시간 미적용 20%', '보스 몬스터 공격 시 데미지 증가 10%', '크리티컬 확률 증가 20%'] },
-    { job: '나이트로드', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '공격력 증가 21'] },
-    { job: '섀도어', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '공격력 증가 21'] },
-    { job: '듀얼블레이더', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '버프 지속시간 증가 38%', '상태 이상에 걸린 대상 공격 시 데미지 8%'] },
-    { job: '바이퍼', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '공격력 21 증가'] },
-    { job: '캡틴', abilities: ['스킬 사용 시 재사용 대기시간 미적용 20%', '보스 몬스터 공격 시 데미지 증가 10%', '상태 이상에 걸린 대상 공격 시 데미지 8%'] },
-    { job: '캐논마스터', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '공격력 증가 21'] },
-    { job: '미하일', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '버프 지속시간 증가 38%'] },
-    { job: '소울마스터', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '버프 지속시간 증가 38%', '상태 이상에 걸린 대상 공격 시 데미지 8%'], note: '벞지 90% 이상: 공격력 21 증가' },
-    { job: '플레임위자드', abilities: ['패시브 스킬 레벨 증가 1', '보스 몬스터 공격 시 데미지 증가 10%', '상태 이상에 걸린 대상 공격 시 데미지 8%'] },
-    { job: '윈드브레이커', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '크리티컬 확률 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%'] },
-    { job: '나이트워커', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '공격력 증가 21'] },
-    { job: '스트라이커', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '공격력 증가 21'] },
-    { job: '아란', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '공격력 증가 21'] },
-    { job: '에반', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '재사용 대기시간 미적용 10%', '상태 이상에 걸린 대상 공격 시 데미지 8%'] },
-    { job: '루미너스', abilities: ['재사용 대기시간 미적용 20%', '버프 지속시간 증가 38%', '보스 몬스터 공격 시 데미지 증가 10%'] },
-    { job: '메르세데스', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '크리티컬 확률 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%'] },
-    { job: '팬텀', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '재사용 대기시간 미적용 10%', '상태 이상에 걸린 대상 공격 시 데미지 8%'] },
-    { job: '은월', abilities: ['보스 몬스터 공격 시 데미지 20% 증가', '상태 이상에 걸린 대상 공격 시 데미지 8% 증가', '공격력 21 증가'] },
-    { job: '블래스터', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%', '공격력 증가 21'] },
-    { job: '배틀메이지', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%', '마력 증가 21'] },
-    { job: '와일드헌터', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '크리티컬 확률 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8% 증가'] },
-    { job: '메카닉', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%', '버프 지속시간 증가 38%'] },
-    { job: '제논', abilities: ['보스 몬스터 공격 시 데미지 20% 증가', '상태 이상에 걸린 대상 공격 시 데미지 8% 증가', '버프 스킬의 지속 시간 38% 증가'] },
-    { job: '데몬슬레이어', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '버프 스킬의 지속 시간 증가 38%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%'] },
-    { job: '데몬어벤져', abilities: ['재사용 대기시간 미적용 20%', '보스 몬스터 공격 시 데미지 증가 10%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%'] },
-    { job: '카이저', abilities: ['재사용 대기시간 미적용 20%', '보스 몬스터 공격 시 데미지 10% 증가', '버프 스킬의 지속 시간 증가 38%'] },
-    { job: '카인', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '크리티컬 확률 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%'], note: '보뎀 합 650 이상: 패시브 레벨 1 권장' },
-    { job: '카데나', abilities: ['재사용 대기시간 미적용 20%', '보스 몬스터 공격 시 데미지 증가 10%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%'] },
-    { job: '엔젤릭버스터', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '버프 스킬의 지속 시간 증가 38%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%'] },
-    { job: '아델', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '재사용 대기시간 10%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%'] },
-    { job: '일리움', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 8%', '마력 증가 21'] },
-    { job: '아크', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%', '공격력 증가 21'], note: '주스탯 8~9만 이상: 패시브 레벨 1 권장' },
-    { job: '칼리', abilities: ['재사용 대기시간 미적용 20%', '보스 몬스터 공격 시 데미지 증가 10%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%'] },
-    { job: '호영', abilities: ['패시브 스킬 레벨 증가 1', '보스 몬스터 공격 시 데미지 증가 10%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%'] },
-    { job: '라라', abilities: ['패시브 스킬 레벨 증가 1', '보스 몬스터 공격 시 데미지 증가 10%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%'] },
-    { job: '렌', abilities: ['보스 몬스터 공격 시 데미지 20% 증가', '상태 이상에 걸린 대상 공격 시 데미지 8% 증가', '공격력 21 증가'] },
-    { job: '키네시스', abilities: ['패시브 스킬 레벨 증가 1', '보스 몬스터 공격 시 데미지 증가 10%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%'] },
-    { job: '제로', abilities: ['보스 몬스터 공격 시 데미지 증가 20%', '상태 이상에 걸린 대상 공격 시 데미지 증가 8%', '공격력 증가 21'] },
+    { job: '히어로', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '팔라딘', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '다크나이트', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '스킬 사용 시 확률로 재사용 대기시간이 미적용'] },
+    { job: '아크메이지(불,독)', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '버프 스킬 지속 시간 증가'] },
+    { job: '아크메이지(썬,콜)', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '마력 증가'] },
+    { job: '비숍', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '버프 스킬 지속 시간 증가'] },
+    { job: '보우마스터', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '크리티컬 확률 증가'] },
+    { job: '신궁', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '크리티컬 확률 증가'] },
+    { job: '패스파인더', abilities: ['스킬 사용 시 확률로 재사용 대기시간이 미적용', '크리티컬 확률 증가', '보스 몬스터 공격 시 데미지 증가'] },
+    { job: '나이트로드', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '섀도어', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '듀얼블레이더', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '바이퍼', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '캡틴', abilities: ['스킬 사용 시 확률로 재사용 대기시간이 미적용', '상태 이상에 걸린 대상 공격 시 데미지 증가', '보스 몬스터 공격 시 데미지 증가'] },
+    { job: '캐논마스터', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '미하일', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '버프 스킬 지속 시간 증가'] },
+    { job: '소울마스터', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '버프 스킬 지속 시간 증가'] },
+    { job: '플레임위자드', abilities: ['패시브 스킬 레벨이 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '보스 몬스터 공격 시 데미지 증가'] },
+    { job: '윈드브레이커', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '크리티컬 확률 증가'] },
+    { job: '나이트워커', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '스트라이커', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'], note: '고스펙에선 첫 줄 패시브가 사용됨 : 패시브 레벨 1 / 보공 10% / 상추뎀 8% 사용' },
+    { job: '아란', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '에반', abilities: ['보스 몬스터 공격 시 데미지 증가', '스킬 사용 시 확률로 재사용 대기시간이 미적용', '상태 이상에 걸린 대상 공격 시 데미지 증가'] },
+    { job: '루미너스', abilities: ['스킬 사용 시 확률로 재사용 대기시간이 미적용', '보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가'] },
+    { job: '메르세데스', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '크리티컬 확률 증가'] },
+    { job: '팬텀', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '스킬 사용 시 확률로 재사용 대기시간이 미적용'] },
+    { job: '은월', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '블래스터', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '배틀메이지', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '마력 증가'] },
+    { job: '와일드헌터', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '크리티컬 확률 증가'] },
+    { job: '메카닉', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '버프 스킬 지속 시간 증가'] },
+    { job: '제논', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '버프 스킬 지속 시간 증가'] },
+    { job: '데몬슬레이어', abilities: ['보스 몬스터 공격 시 데미지 증가', '스킬 사용 시 확률로 재사용 대기시간이 미적용', '상태 이상에 걸린 대상 공격 시 데미지 증가'] },
+    { job: '데몬어벤져', abilities: ['스킬 사용 시 확률로 재사용 대기시간이 미적용', '상태 이상에 걸린 대상 공격 시 데미지 증가', '보스 몬스터 공격 시 데미지 증가'] },
+    { job: '카이저', abilities: ['스킬 사용 시 확률로 재사용 대기시간이 미적용', '버프 스킬 지속 시간 증가', '보스 몬스터 공격 시 데미지 증가'] },
+    { job: '카인', abilities: ['보스 몬스터 공격 시 데미지 증가', '크리티컬 확률 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가'], note: '보크상이 메인인데 재보크도 쓰는 사람이 있음' },
+    { job: '카데나', abilities: ['스킬 사용 시 확률로 재사용 대기시간이 미적용', '상태 이상에 걸린 대상 공격 시 데미지 증가', '보스 몬스터 공격 시 데미지 증가'] },
+    { job: '엔젤릭버스터', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '버프 스킬 지속 시간 증가'] },
+    { job: '아델', abilities: ['보스 몬스터 공격 시 데미지 증가', '스킬 사용 시 확률로 재사용 대기시간이 미적용', '상태 이상에 걸린 대상 공격 시 데미지 증가'] },
+    { job: '일리움', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '스킬 사용 시 확률로 재사용 대기시간이 미적용'] },
+    { job: '아크', abilities: ['스킬 사용 시 확률로 재사용 대기시간이 미적용', '상태 이상에 걸린 대상 공격 시 데미지 증가', '보스 몬스터 공격 시 데미지 증가'] },
+    { job: '칼리', abilities: ['스킬 사용 시 확률로 재사용 대기시간이 미적용', '상태 이상에 걸린 대상 공격 시 데미지 증가', '보스 몬스터 공격 시 데미지 증가'] },
+    { job: '호영', abilities: ['패시브 스킬 레벨이 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '보스 몬스터 공격 시 데미지 증가'] },
+    { job: '라라', abilities: ['패시브 스킬 레벨이 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '보스 몬스터 공격 시 데미지 증가'] },
+    { job: '렌', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '공격력 증가'] },
+    { job: '키네시스', abilities: ['보스 몬스터 공격 시 데미지 증가', '상태 이상에 걸린 대상 공격 시 데미지 증가', '버프 스킬 지속 시간 증가'], note: '보상벞이 메인인데 챌섭에서는 보상마도 씀 (첫 줄 패시브 채용 시: 패시브 레벨 1 / 상뎀 8% / 벞지 38% 사용)' },
+    { job: '제로', abilities: ['보스 몬스터 공격 시 데미지 증가', '스킬 사용 시 확률로 재사용 대기시간이 미적용', '상태 이상에 걸린 대상 공격 시 데미지 증가'] },
+    { job: '레테', abilities: ['스킬 사용 시 확률로 재사용 대기시간이 미적용', '상태 이상에 걸린 대상 공격 시 데미지 증가', '보스 몬스터 공격 시 데미지 증가'], note: '이딕트 재사용 최적화를 위해 재사용 대기시간 미적용 최우선' },
 ];
+
+function formatAbility(abilityName: string, lineIndex: number): string {
+    const isLegendary = lineIndex === 0;
+    
+    switch (abilityName) {
+        case '보스 몬스터 공격 시 데미지 증가':
+            return isLegendary ? '보스공격력 20%' : '보스공격력 10%';
+        case '상태 이상에 걸린 대상 공격 시 데미지 증가':
+            return isLegendary ? '상추뎀 10%' : '상추뎀 8%';
+        case '공격력 증가':
+            return isLegendary ? '공격력 증가 30' : '공격력 증가 21';
+        case '마력 증가':
+            return isLegendary ? '마력 증가 30' : '마력 증가 21';
+        case '버프 스킬 지속 시간 증가':
+            return isLegendary ? '버프 지속 50%' : '버프 지속 38%';
+        case '스킬 사용 시 확률로 재사용 대기시간이 미적용':
+            return isLegendary ? '재사용미적용 20%' : '재사용미적용 10%';
+        case '패시브 스킬 레벨이 증가':
+            return '패시브 스킬 + 1';
+        case '크리티컬 확률 증가':
+            return isLegendary ? '크리티컬확률 30%' : '크리티컬확률 20%';
+        case '일반 몬스터 공격 시 데미지 증가':
+            return isLegendary ? '일반몹데미지 10%' : '일반몹데미지 8%';
+        case '아이템 드롭률 증가':
+            return isLegendary ? '아이템드롭률 20%' : '아이템드롭률 15%';
+        case '메소 획득량 증가':
+            return isLegendary ? '메소획득량 20%' : '메소획득량 15%';
+        case '다수 공격 스킬 공격 대상 증가':
+            return '타겟수 +1';
+        default:
+            return abilityName;
+    }
+}
 
 export default function AbilityGuideClient() {
     const [selectedJob, setSelectedJob] = useState('');
+    const [viewMode, setViewMode] = useState<'table' | 'grid'>('table');
 
     const filteredData = selectedJob
         ? ABILITY_DATA.filter(data => data.job === selectedJob)
         : ABILITY_DATA;
 
-    const jobList = ABILITY_DATA.map(d => d.job).sort();
+    // 가나다 순 정렬
+    const sortedData = [...filteredData].sort((a, b) => a.job.localeCompare(b.job, 'ko'));
+    const jobList = ABILITY_DATA.map(d => d.job).sort((a, b) => a.localeCompare(b, 'ko'));
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
@@ -71,7 +108,7 @@ export default function AbilityGuideClient() {
                         <ArrowLeft className="w-4 h-4" />
                         <span className="text-sm">가이드 목록으로</span>
                     </Link>
-                    <h1 className="text-3xl sm:text-4xl font-black text-white">직업별 어빌리티 추천 가이드</h1>
+                    <h1 className="text-3xl sm:text-4xl font-black text-white">직업별 어빌리티 추천 가이드 (최종수정 : 260626)</h1>
                     <p className="text-slate-400 mt-2">전직업 보스용 최적 어빌리티 완벽 정리</p>
                 </div>
             </div>
@@ -81,7 +118,7 @@ export default function AbilityGuideClient() {
                     <img src="/images/maple-ai-logo.jpg" alt="단풍이" className="w-12 h-12 rounded-full object-cover" />
                     <div>
                         <div className="font-bold text-white">메이플 AI 단풍이</div>
-                        <div className="text-sm text-slate-400">2025년 7월 기준 직업별 추천 어빌리티</div>
+                        <div className="text-sm text-slate-400">2026년 6월 기준 직업별 추천 어빌리티 (레테 추가)</div>
                     </div>
                 </div>
 
@@ -159,8 +196,9 @@ export default function AbilityGuideClient() {
                         </div>
                     </div>
 
-                    <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-4 mb-6">
-                        <div className="flex items-center gap-4">
+                    {/* 검색 및 뷰 모드 토글 */}
+                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                        <div className="flex-1 bg-slate-800/30 border border-slate-700 rounded-xl p-3 flex items-center gap-3">
                             <Search className="w-5 h-5 text-slate-400" />
                             <select
                                 value={selectedJob}
@@ -173,59 +211,144 @@ export default function AbilityGuideClient() {
                                 ))}
                             </select>
                         </div>
+                        <div className="flex border border-slate-700 rounded-xl overflow-hidden p-1 bg-slate-900/50 self-start sm:self-center">
+                            <button
+                                onClick={() => setViewMode('table')}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === 'table' ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                <Table className="w-4 h-4" />
+                                한눈에 표로 보기
+                            </button>
+                            <button
+                                onClick={() => setViewMode('grid')}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === 'grid' ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                <LayoutGrid className="w-4 h-4" />
+                                상세 카드로 보기
+                            </button>
+                        </div>
                     </div>
 
-                    <h2 className="text-2xl font-bold text-white mb-6 mt-12">
-                        전직업 추천 어빌리티 {selectedJob && `- ${selectedJob}`}
+                    <h2 className="text-2xl font-bold text-white mb-6 mt-8">
+                        추천 어빌리티 목록 {selectedJob && `- ${selectedJob}`} (가나다 순)
                     </h2>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                        {filteredData.map((data, idx) => (
-                            <div key={idx} className="bg-slate-800/40 border border-slate-700 rounded-xl p-6 hover:border-purple-500/50 transition-colors">
-                                <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-14 h-14 rounded-lg overflow-hidden border border-slate-600 bg-slate-800 flex-shrink-0 relative group">
-                                        <img
-                                            src={`/images/jobs/${data.job}.png`}
-                                            alt={data.job}
-                                            className="w-full h-full object-cover transition-transform group-hover:scale-110"
-                                            onError={(e) => {
-                                                const parent = e.currentTarget.parentElement;
-                                                if (parent) {
-                                                    e.currentTarget.style.display = 'none';
-                                                    parent.className = "w-14 h-14 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center border border-purple-400/30";
-                                                    parent.innerHTML = `<span class="text-white font-bold text-xl">${data.job[0]}</span>`;
-                                                }
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <h3 className="text-xl font-bold text-white">{data.job}</h3>
-                                        <Sparkles className="w-5 h-5 text-yellow-400" />
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2 mb-3">
-                                    {data.abilities.map((ability, aIdx) => (
-                                        <div key={aIdx} className="flex items-start gap-2">
-                                            <span className={`px-2 py-0.5 rounded text-xs font-bold flex-shrink-0 ${aIdx === 0 ? 'bg-purple-500/20 text-purple-300' :
-                                                aIdx === 1 ? 'bg-blue-500/20 text-blue-300' :
-                                                    'bg-slate-700 text-slate-300'
-                                                }`}>
-                                                {aIdx + 1}
-                                            </span>
-                                            <span className="text-sm text-slate-300">{ability}</span>
-                                        </div>
+                    {viewMode === 'table' ? (
+                        <div className="w-full overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/30 backdrop-blur-sm shadow-2xl">
+                            <table className="w-full text-left border-collapse min-w-[700px]">
+                                <thead>
+                                    <tr className="bg-slate-900/90 border-b border-slate-800 text-slate-300 text-xs font-semibold uppercase tracking-wider">
+                                        <th className="py-4 px-6 sticky left-0 bg-slate-950/90 min-w-[120px] z-10">직업</th>
+                                        <th className="py-4 px-6 text-purple-300">어빌리티 1 (레전더리)</th>
+                                        <th className="py-4 px-6 text-blue-300">어빌리티 2 (유니크)</th>
+                                        <th className="py-4 px-6 text-slate-300">어빌리티 3 (유니크)</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-800/50 text-sm text-slate-300">
+                                    {sortedData.map((data, idx) => (
+                                        <React.Fragment key={idx}>
+                                            <tr className="hover:bg-slate-800/20 transition-colors">
+                                                <td className="py-3.5 px-6 font-bold text-white flex items-center gap-2.5 sticky left-0 bg-slate-950/80 backdrop-blur-sm z-10">
+                                                    <div className="w-6 h-6 rounded overflow-hidden border border-slate-700 bg-slate-800 flex-shrink-0 relative">
+                                                        <img
+                                                            src={encodeURI(`/images/jobs/${data.job}.png`)}
+                                                            alt={data.job}
+                                                            className="w-full h-full object-cover"
+                                                            onError={(e) => {
+                                                                const parent = e.currentTarget.parentElement;
+                                                                if (parent) {
+                                                                    e.currentTarget.style.display = 'none';
+                                                                    parent.className = "w-6 h-6 rounded bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center border border-purple-400/30";
+                                                                    parent.innerHTML = `<span class="text-white font-bold text-xs">${data.job[0]}</span>`;
+                                                                }
+                                                            }}
+                                                        />
+                                                    </div>
+                                                    <span className="truncate">{data.job}</span>
+                                                </td>
+                                                <td className="py-3.5 px-6 font-medium">
+                                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-purple-500/10 text-purple-300 border border-purple-500/20 mr-2">
+                                                        1
+                                                    </span>
+                                                    {formatAbility(data.abilities[0], 0)}
+                                                </td>
+                                                <td className="py-3.5 px-6">
+                                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-blue-500/10 text-blue-300 border border-blue-500/20 mr-2">
+                                                        2
+                                                    </span>
+                                                    {formatAbility(data.abilities[1], 1)}
+                                                </td>
+                                                <td className="py-3.5 px-6">
+                                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-slate-800 text-slate-400 border border-slate-700 mr-2">
+                                                        3
+                                                    </span>
+                                                    {formatAbility(data.abilities[2], 2)}
+                                                </td>
+                                            </tr>
+                                            {data.note && (
+                                                <tr className="bg-yellow-500/[0.02] border-t-0">
+                                                    <td colSpan={4} className="py-2 px-6 text-xs text-yellow-400/90 bg-slate-950/20">
+                                                        <div className="inline-flex items-center gap-1.5 bg-yellow-500/10 border border-yellow-500/20 px-2.5 py-1 rounded-lg">
+                                                            <span className="text-yellow-500 font-semibold">💡 참고사항</span>
+                                                            <span className="text-slate-300">{data.note}</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </React.Fragment>
                                     ))}
-                                </div>
-
-                                {data.note && (
-                                    <div className="mt-3 pt-3 border-t border-slate-700">
-                                        <p className="text-xs text-yellow-400">💡 {data.note}</p>
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            {sortedData.map((data, idx) => (
+                                <div key={idx} className="bg-slate-800/40 border border-slate-700 rounded-xl p-6 hover:border-purple-500/50 transition-colors">
+                                    <div className="flex items-center gap-4 mb-4">
+                                        <div className="w-14 h-14 rounded-lg overflow-hidden border border-slate-600 bg-slate-800 flex-shrink-0 relative group">
+                                            <img
+                                                src={encodeURI(`/images/jobs/${data.job}.png`)}
+                                                alt={data.job}
+                                                className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                                                onError={(e) => {
+                                                    const parent = e.currentTarget.parentElement;
+                                                    if (parent) {
+                                                        e.currentTarget.style.display = 'none';
+                                                        parent.className = "w-14 h-14 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center border border-purple-400/30";
+                                                        parent.innerHTML = `<span class="text-white font-bold text-xl">${data.job[0]}</span>`;
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <h3 className="text-xl font-bold text-white">{data.job}</h3>
+                                            <Sparkles className="w-5 h-5 text-yellow-400" />
+                                        </div>
                                     </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
+
+                                    <div className="space-y-2 mb-3">
+                                        {data.abilities.map((ability, aIdx) => (
+                                            <div key={aIdx} className="flex items-start gap-2">
+                                                <span className={`px-2 py-0.5 rounded text-xs font-bold flex-shrink-0 ${aIdx === 0 ? 'bg-purple-500/20 text-purple-300' :
+                                                    aIdx === 1 ? 'bg-blue-500/20 text-blue-300' :
+                                                        'bg-slate-700 text-slate-300'
+                                                    }`}>
+                                                    {aIdx + 1}
+                                                </span>
+                                                <span className="text-sm text-slate-300">{ability}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {data.note && (
+                                        <div className="mt-3 pt-3 border-t border-slate-700">
+                                            <p className="text-xs text-yellow-400">💡 {data.note}</p>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </section>
 
                 <div className="mt-16 bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-2xl p-8 text-center">
