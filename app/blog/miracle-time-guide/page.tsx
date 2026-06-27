@@ -135,7 +135,13 @@ export default function MiracleTimeGuidePage() {
                   <tr className="hover:bg-slate-800/60 transition-colors">
                     <td className="px-4 py-3 font-semibold text-white">교환 불가 무기/엠블렘</td>
                     <td className="px-4 py-3 text-center font-bold text-purple-300">유니크 2줄 스톱</td>
-                    <td className="px-4 py-3 text-slate-200 text-sm">교환 불가 장비의 레전드리 직작은 기댓값 회수가 불가능하므로 <span className="text-red-400 font-bold">강력히 비추천</span>합니다.</td>
+                    <td className="px-4 py-3 text-slate-200 text-sm leading-relaxed">
+                      미라클 타임이라고 무리하게 레전드리를 노리기보다, <span className="text-white font-semibold">유니크 유효 2줄을 목표</span>로 돌리다가 레전드리에 가면 이득이라는 마인드가 좋습니다.
+                      <br/>
+                      레전드리에 갔다면 무리하지 말고 천천히 공짜 큐브 같은 것으로 유효 1~2줄만 띄우고 스톱하세요.
+                      <br/>
+                      <span className="text-amber-300 font-bold">※ 미트라의 분노라면 레전드리 투자 가치가 괜찮지만, 일반 엠블렘은 레전드리 직작을 강력히 비추천합니다.</span>
+                    </td>
                   </tr>
                   <tr className="bg-slate-800/30 hover:bg-slate-800/60 transition-colors">
                     <td className="px-4 py-3 font-semibold text-white">교환 가능 보조무기</td>
