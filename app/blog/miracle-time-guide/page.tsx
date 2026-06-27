@@ -46,8 +46,9 @@ export default function MiracleTimeGuidePage() {
               {[
                 ['#rule1', '01', '제1원칙 : "레전드리의 함정"을 피하라', 'text-amber-400'],
                 ['#guide', '02', '부위별 스펙업 가이드 및 행동 지침', 'text-emerald-400'],
-                ['#exceptions', '03', '예외 : 레전드리는 도대체 언제 노리나요?', 'text-rose-400'],
-                ['#commandments', '04', '자본을 지키는 미라클 데이 3계명', 'text-cyan-400'],
+                ['#expected', '03', '본섭 기댓값 & 소모 메소 데이터', 'text-purple-400'],
+                ['#exceptions', '04', '예외 : 레전드리는 도대체 언제 노리나요?', 'text-rose-400'],
+                ['#commandments', '05', '자본을 지키는 미라클 데이 3계명', 'text-cyan-400'],
               ].map(([href, num, label, color]) => (
                 <li key={num} className="flex items-center gap-2 bg-slate-950/20 p-2.5 rounded-lg border border-slate-800/40 hover:border-amber-500/30 transition-colors">
                   <span className={`${color} font-mono font-bold`}>{num}</span>
@@ -224,6 +225,327 @@ export default function MiracleTimeGuidePage() {
                 </p>
               </div>
             </div>
+          </div>
+        </section>
+
+        <InArticleAd dataAdSlot="8162808816" className="my-10" />
+
+        {/* 5. 본섭 기댓값 데이터 */}
+        <section id="expected" className="mb-14 scroll-mt-24 bg-slate-900/20 border border-slate-800/60 rounded-2xl p-6 sm:p-8 backdrop-blur-sm shadow-lg">
+          <div className="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4">
+            <Coins className="w-6 h-6 text-purple-400" />
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-100">5. 본섭 기댓값 & 소모 메소 데이터</h2>
+          </div>
+
+          <div className="space-y-10 text-sm">
+
+            {/* 윗잠 */}
+            <div>
+              <h3 className="text-lg font-bold text-slate-100 mb-5 flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block"></span>
+                🟢 윗잠 (잠재능력) 본섭 기댓값
+              </h3>
+
+              {/* 윗잠 레어→에픽 */}
+              <div className="mb-6">
+                <p className="font-bold text-slate-300 mb-2 flex items-center gap-2"><span className="text-emerald-400">▸</span> 레어 → 에픽</p>
+                <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
+                  <table className="w-full text-xs text-left min-w-[700px] border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900/80 border-b border-slate-700 text-slate-300">
+                        <th className="px-3 py-2.5 font-bold">아이템 레벨</th>
+                        <th className="px-3 py-2.5 font-bold">1회 재설정</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 횟수</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 소모 메소</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/40 text-slate-300">
+                      {[
+                        ['~159', '4,000,000', '6', '24,000,000', '4', '16,000,000', '10', '40,000,000'],
+                        ['~199', '4,250,000', '6', '25,500,000', '4', '17,000,000', '10', '42,500,000'],
+                        ['~249', '4,500,000', '6', '27,000,000', '4', '18,000,000', '10', '45,000,000'],
+                        ['250~', '5,000,000', '6', '30,000,000', '4', '20,000,000', '10', '50,000,000'],
+                      ].map(([lv, cost, n1, m1, n2, m2, ceil, cm], i) => (
+                        <tr key={lv} className={i % 2 === 1 ? 'bg-slate-900/10 hover:bg-slate-900/30' : 'hover:bg-slate-900/30'}>
+                          <td className="px-3 py-2 font-bold text-slate-100">{lv}</td>
+                          <td className="px-3 py-2">{cost}</td>
+                          <td className="px-3 py-2 text-slate-400">{n1}회</td>
+                          <td className="px-3 py-2 text-slate-400">{m1}</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{n2}회</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{m2}</td>
+                          <td className="px-3 py-2 text-red-400">{ceil}회</td>
+                          <td className="px-3 py-2 text-red-400">{cm}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* 윗잠 에픽→유니크 */}
+              <div className="mb-6">
+                <p className="font-bold text-slate-300 mb-2 flex items-center gap-2"><span className="text-purple-400">▸</span> 에픽 → 유니크</p>
+                <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
+                  <table className="w-full text-xs text-left min-w-[700px] border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900/80 border-b border-slate-700 text-slate-300">
+                        <th className="px-3 py-2.5 font-bold">아이템 레벨</th>
+                        <th className="px-3 py-2.5 font-bold">1회 재설정</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 횟수</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 소모 메소</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/40 text-slate-300">
+                      {[
+                        ['~159', '16,000,000', '23', '368,000,000', '14', '224,000,000', '42', '672,000,000'],
+                        ['~199', '17,000,000', '23', '391,000,000', '14', '238,000,000', '42', '714,000,000'],
+                        ['~249', '18,000,000', '23', '414,000,000', '14', '252,000,000', '42', '756,000,000'],
+                        ['250~', '20,000,000', '23', '460,000,000', '14', '280,000,000', '42', '840,000,000'],
+                      ].map(([lv, cost, n1, m1, n2, m2, ceil, cm], i) => (
+                        <tr key={lv} className={i % 2 === 1 ? 'bg-slate-900/10 hover:bg-slate-900/30' : 'hover:bg-slate-900/30'}>
+                          <td className="px-3 py-2 font-bold text-slate-100">{lv}</td>
+                          <td className="px-3 py-2">{cost}</td>
+                          <td className="px-3 py-2 text-slate-400">{n1}회</td>
+                          <td className="px-3 py-2 text-slate-400">{m1}</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{n2}회</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{m2}</td>
+                          <td className="px-3 py-2 text-red-400">{ceil}회</td>
+                          <td className="px-3 py-2 text-red-400">{cm}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* 윗잠 유니크→레전드리 */}
+              <div className="mb-6">
+                <p className="font-bold text-slate-300 mb-2 flex items-center gap-2"><span className="text-yellow-400">▸</span> 유니크 → 레전드리</p>
+                <div className="overflow-x-auto rounded-xl border border-yellow-900/40 bg-slate-950/60">
+                  <table className="w-full text-xs text-left min-w-[700px] border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900/80 border-b border-yellow-900/40 text-slate-300">
+                        <th className="px-3 py-2.5 font-bold">아이템 레벨</th>
+                        <th className="px-3 py-2.5 font-bold">1회 재설정</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 횟수</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 소모 메소</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/40 text-slate-300">
+                      {[
+                        ['~159', '34,000,000', '56', '1,904,000,000', '35', '1,190,000,000', '107', '3,638,000,000'],
+                        ['~199', '36,125,000', '56', '2,023,000,000', '35', '1,264,375,000', '107', '3,865,375,000'],
+                        ['~249', '38,250,000', '56', '2,142,000,000', '35', '1,338,750,000', '107', '4,092,750,000'],
+                        ['250~', '42,500,000', '56', '2,380,000,000', '35', '1,487,500,000', '107', '4,547,500,000'],
+                      ].map(([lv, cost, n1, m1, n2, m2, ceil, cm], i) => (
+                        <tr key={lv} className={i % 2 === 1 ? 'bg-yellow-950/10 hover:bg-yellow-950/20' : 'hover:bg-yellow-950/20'}>
+                          <td className="px-3 py-2 font-bold text-slate-100">{lv}</td>
+                          <td className="px-3 py-2">{cost}</td>
+                          <td className="px-3 py-2 text-slate-400">{n1}회</td>
+                          <td className="px-3 py-2 text-slate-400">{m1}</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{n2}회</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{m2}</td>
+                          <td className="px-3 py-2 text-red-400 font-bold">{ceil}회</td>
+                          <td className="px-3 py-2 text-red-400 font-bold">{cm}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-xs text-red-400/80 mt-2">⚠️ 유니크 → 레전드리 천장 소모 메소가 최대 45억까지 올라갑니다. 이것이 직작을 피해야 하는 이유입니다.</p>
+              </div>
+
+              {/* 윗잠 레전드리 옵션 재설정 */}
+              <div>
+                <p className="font-bold text-slate-300 mb-2 flex items-center gap-2"><span className="text-orange-400">▸</span> 레전드리 (옵션 재설정)</p>
+                <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
+                  <table className="w-full text-xs text-left min-w-[300px] border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900/80 border-b border-slate-700 text-slate-300">
+                        <th className="px-3 py-2.5 font-bold">아이템 레벨</th>
+                        <th className="px-3 py-2.5 font-bold">1회 재설정 비용</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/40 text-slate-300">
+                      {[['~159', '40,000,000'], ['~199', '42,500,000'], ['~249', '45,000,000'], ['250~', '50,000,000']].map(([lv, cost], i) => (
+                        <tr key={lv} className={i % 2 === 1 ? 'bg-slate-900/10 hover:bg-slate-900/30' : 'hover:bg-slate-900/30'}>
+                          <td className="px-3 py-2 font-bold text-slate-100">{lv}</td>
+                          <td className="px-3 py-2 text-orange-300 font-bold">{cost}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* 구분선 */}
+            <div className="border-t border-slate-800/60" />
+
+            {/* 아랫잠 */}
+            <div>
+              <h3 className="text-lg font-bold text-slate-100 mb-5 flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-blue-400 inline-block"></span>
+                🔵 아랫잠 (에디셔널) 본섭 기댓값
+              </h3>
+
+              {/* 아랫잠 레어→에픽 */}
+              <div className="mb-6">
+                <p className="font-bold text-slate-300 mb-2 flex items-center gap-2"><span className="text-emerald-400">▸</span> 레어 → 에픽</p>
+                <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
+                  <table className="w-full text-xs text-left min-w-[700px] border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900/80 border-b border-slate-700 text-slate-300">
+                        <th className="px-3 py-2.5 font-bold">아이템 레벨</th>
+                        <th className="px-3 py-2.5 font-bold">1회 재설정</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 횟수</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 소모 메소</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/40 text-slate-300">
+                      {[
+                        ['~159', '9,750,000', '33', '321,750,000', '20', '195,000,000', '62', '604,500,000'],
+                        ['~199', '10,375,000', '33', '342,375,000', '20', '207,500,000', '62', '643,250,000'],
+                        ['~249', '11,000,000', '33', '363,000,000', '20', '220,000,000', '62', '682,000,000'],
+                        ['250~', '12,250,000', '33', '404,250,000', '20', '245,000,000', '62', '759,500,000'],
+                      ].map(([lv, cost, n1, m1, n2, m2, ceil, cm], i) => (
+                        <tr key={lv} className={i % 2 === 1 ? 'bg-slate-900/10 hover:bg-slate-900/30' : 'hover:bg-slate-900/30'}>
+                          <td className="px-3 py-2 font-bold text-slate-100">{lv}</td>
+                          <td className="px-3 py-2">{cost}</td>
+                          <td className="px-3 py-2 text-slate-400">{n1}회</td>
+                          <td className="px-3 py-2 text-slate-400">{m1}</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{n2}회</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{m2}</td>
+                          <td className="px-3 py-2 text-red-400">{ceil}회</td>
+                          <td className="px-3 py-2 text-red-400">{cm}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* 아랫잠 에픽→유니크 */}
+              <div className="mb-6">
+                <p className="font-bold text-slate-300 mb-2 flex items-center gap-2"><span className="text-purple-400">▸</span> 에픽 → 유니크</p>
+                <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
+                  <table className="w-full text-xs text-left min-w-[700px] border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900/80 border-b border-slate-700 text-slate-300">
+                        <th className="px-3 py-2.5 font-bold">아이템 레벨</th>
+                        <th className="px-3 py-2.5 font-bold">1회 재설정</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 횟수</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 소모 메소</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/40 text-slate-300">
+                      {[
+                        ['~159', '27,300,000', '79', '2,156,700,000', '49', '1,337,700,000', '152', '4,149,600,000'],
+                        ['~199', '29,050,000', '79', '2,294,950,000', '49', '1,423,450,000', '152', '4,415,600,000'],
+                        ['~249', '30,800,000', '79', '2,433,200,000', '49', '1,509,200,000', '152', '4,681,600,000'],
+                        ['250~', '34,300,000', '79', '2,709,700,000', '49', '1,680,700,000', '152', '5,213,600,000'],
+                      ].map(([lv, cost, n1, m1, n2, m2, ceil, cm], i) => (
+                        <tr key={lv} className={i % 2 === 1 ? 'bg-slate-900/10 hover:bg-slate-900/30' : 'hover:bg-slate-900/30'}>
+                          <td className="px-3 py-2 font-bold text-slate-100">{lv}</td>
+                          <td className="px-3 py-2">{cost}</td>
+                          <td className="px-3 py-2 text-slate-400">{n1}회</td>
+                          <td className="px-3 py-2 text-slate-400">{m1}</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{n2}회</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{m2}</td>
+                          <td className="px-3 py-2 text-red-400">{ceil}회</td>
+                          <td className="px-3 py-2 text-red-400">{cm}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* 아랫잠 유니크→레전드리 */}
+              <div className="mb-6">
+                <p className="font-bold text-slate-300 mb-2 flex items-center gap-2"><span className="text-yellow-400">▸</span> 유니크 → 레전드리</p>
+                <div className="overflow-x-auto rounded-xl border border-yellow-900/40 bg-slate-950/60">
+                  <table className="w-full text-xs text-left min-w-[700px] border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900/80 border-b border-yellow-900/40 text-slate-300">
+                        <th className="px-3 py-2.5 font-bold">아이템 레벨</th>
+                        <th className="px-3 py-2.5 font-bold">1회 재설정</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-slate-400">일반 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 기댓값</th>
+                        <th className="px-3 py-2.5 font-bold text-amber-300">미라클 소모 메소</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 횟수</th>
+                        <th className="px-3 py-2.5 font-bold text-red-400">천장 소모 메소</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/40 text-slate-300">
+                      {[
+                        ['~159', '66,300,000', '112', '7,425,600,000', '68', '4,508,400,000', '214', '14,188,200,000'],
+                        ['~199', '70,550,000', '112', '7,901,600,000', '68', '4,797,400,000', '214', '15,097,700,000'],
+                        ['~249', '74,800,000', '112', '8,377,600,000', '68', '5,086,400,000', '214', '16,007,200,000'],
+                        ['250~', '83,300,000', '112', '9,329,600,000', '68', '5,664,400,000', '214', '17,826,200,000'],
+                      ].map(([lv, cost, n1, m1, n2, m2, ceil, cm], i) => (
+                        <tr key={lv} className={i % 2 === 1 ? 'bg-yellow-950/10 hover:bg-yellow-950/20' : 'hover:bg-yellow-950/20'}>
+                          <td className="px-3 py-2 font-bold text-slate-100">{lv}</td>
+                          <td className="px-3 py-2">{cost}</td>
+                          <td className="px-3 py-2 text-slate-400">{n1}회</td>
+                          <td className="px-3 py-2 text-slate-400">{m1}</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{n2}회</td>
+                          <td className="px-3 py-2 text-amber-300 font-bold">{m2}</td>
+                          <td className="px-3 py-2 text-red-400 font-bold">{ceil}회</td>
+                          <td className="px-3 py-2 text-red-400 font-bold">{cm}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-xs text-red-400/80 mt-2">⚠️ 아랫잠 유니크 → 레전드리 천장 소모 메소가 최대 178억까지 올라갑니다. 절대 직작하지 마세요!</p>
+              </div>
+
+              {/* 아랫잠 레전드리 옵션 재설정 */}
+              <div>
+                <p className="font-bold text-slate-300 mb-2 flex items-center gap-2"><span className="text-orange-400">▸</span> 레전드리 (옵션 재설정)</p>
+                <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
+                  <table className="w-full text-xs text-left min-w-[300px] border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900/80 border-b border-slate-700 text-slate-300">
+                        <th className="px-3 py-2.5 font-bold">아이템 레벨</th>
+                        <th className="px-3 py-2.5 font-bold">1회 재설정 비용</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/40 text-slate-300">
+                      {[['~159', '78,000,000'], ['~199', '83,000,000'], ['~249', '88,000,000'], ['250~', '98,000,000']].map(([lv, cost], i) => (
+                        <tr key={lv} className={i % 2 === 1 ? 'bg-slate-900/10 hover:bg-slate-900/30' : 'hover:bg-slate-900/30'}>
+                          <td className="px-3 py-2 font-bold text-slate-100">{lv}</td>
+                          <td className="px-3 py-2 text-orange-300 font-bold">{cost}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
       </main>
