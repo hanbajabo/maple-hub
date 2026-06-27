@@ -140,7 +140,7 @@ export default function MiracleTimeGuidePage() {
                       <br/>
                       레전드리에 갔다면 무리하지 말고 천천히 공짜 큐브 같은 것으로 유효 1~2줄만 띄우고 스톱하세요.
                       <br/>
-                      <span className="text-amber-300 font-bold">※ 미트라의 분노라면 레전드리 투자 가치가 괜찮지만, 일반 엠블렘은 레전드리 직작을 강력히 비추천합니다.</span>
+                      <span className="text-amber-300 font-bold">※ 미트라의 분노라면 레전드리 투자 가치가 괜찮지만, 일반 엠블렘은 레전드리 직작은 비추천합니다.</span>
                     </td>
                   </tr>
                   <tr className="bg-slate-800/30 hover:bg-slate-800/60 transition-colors">
