@@ -388,7 +388,7 @@ export default function MiracleTimeGuidePage() {
             <li className="flex items-start gap-3 bg-slate-900/60 p-4 rounded-xl border border-slate-600">
               <CheckCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
               <div>
-                <strong className="text-white block mb-1">고자본 유저의 '스택받이' 전략</strong>
+                <strong className="text-white block mb-1">고자본 유저는 '천장용 템' 만들기 전략</strong>
                 <span className="text-slate-200">수십억 메소를 들고 여명 장신구 등 깡통 템을 돌려가며 유니크 유효 옵션을 띄워 팔아 이익을 챙기고, 천장 게이지를 채워 확정적으로 무교 보조무기 등에 레전드리를 가져가는 심화 기술입니다.</span>
               </div>
             </li>
