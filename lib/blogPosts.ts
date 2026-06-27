@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 미라클 타임 완벽 공략 : "레전드리의 함정"을 피하는 스펙업 가이드
+    {
+        slug: 'miracle-time-guide',
+        title: '💎 미라클 타임 완벽 공략 : "레전드리의 함정"을 피하는 스펙업 가이드',
+        description: '잠재능력 등급 상승 확률이 2배가 되는 미라클 타임! 자칫 잘못하면 수십억 메소를 탕진하는 "레전드리의 함정"을 알아보고, 최적의 부위별 세팅 목표와 본섭 기댓값을 완벽 가이드합니다.',
+        category: '이벤트 가이드',
+        date: '2026년 6월 27일',
+        readTime: '10분',
+        thumbnail: '💎',
+        featured: true,
+    },
     // 울티마 작전 일지 이벤트 총정리 및 공략
     {
         slug: 'ultima-operation-event-guide',
