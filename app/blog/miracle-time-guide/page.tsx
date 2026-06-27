@@ -408,7 +408,7 @@ export default function MiracleTimeGuidePage() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                { name: '엠블렘 윗잠', desc: '영구 귀속이라 기댓값 회수가 가능. 미트라 엠블렘이라면 더욱 우선순위 높음', tag: '추천', tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
+                { name: '엠블렘 윗잠', desc: '미트라 엠블렘이라면 더욱 우선순위 높음', tag: '추천', tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
                 { name: '제네시스 무기', desc: '최종 장비이므로 레전드리 직작 가치가 충분. 교환 불가라도 투자 가치 있음', tag: '추천', tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
                 { name: '칠흑 장신구', desc: '고레벨 핵심 장신구. 장기 사용 전제라면 레전드리 투자 가치 있음', tag: '추천', tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30', warn: '⚠️ 노작 칠흑을 등급업해서 쓸 분들은 반드시 장비 해제 후 돌리세요! 카블큐는 장착 시 가횟이 깎이고, 타 직업 스탯이 뜨면 귀속 후 팔 수 없게 됩니다.' },
                 { name: '에테르넬 방어구', desc: '현 최종 방어구. 장기 사용 전제 시 레전드리 투자 가치 충분', tag: '추천', tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
