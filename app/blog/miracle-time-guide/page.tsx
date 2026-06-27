@@ -133,7 +133,7 @@ export default function MiracleTimeGuidePage() {
                     <td className="px-4 py-3 text-slate-200 text-sm">에디 에픽 매물이 2억~2.5억 이하라면 직접 띄우지 말고 무조건 토드하세요.</td>
                   </tr>
                   <tr className="hover:bg-slate-800/60 transition-colors">
-                    <td className="px-4 py-3 font-semibold text-white">교환 불가 WSE<br/><span className="text-xs text-slate-400">(엠블렘 등)</span></td>
+                    <td className="px-4 py-3 font-semibold text-white">교환 불가 무기/엠블렘</td>
                     <td className="px-4 py-3 text-center font-bold text-purple-300">유니크 2줄 스톱</td>
                     <td className="px-4 py-3 text-slate-200 text-sm">교환 불가 장비의 레전드리 직작은 기댓값 회수가 불가능하므로 <span className="text-red-400 font-bold">강력히 비추천</span>합니다.</td>
                   </tr>
