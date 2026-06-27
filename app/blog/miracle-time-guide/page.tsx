@@ -31,11 +31,9 @@ export default function MiracleTimeGuidePage() {
             </span>
           </h1>
 
-          <p className="text-base md:text-lg text-slate-100 mb-8 leading-relaxed break-keep border-l-4 border-amber-500 pl-5 py-3 bg-amber-900/20 rounded-r-lg">
-            메이플스토리 스펙업의 핵심 이벤트, '미라클 타임'이 다가왔습니다. 잠재능력 등급 상승 확률이 2배가 되는 엄청난 기회지만, 자칫 잘못된 도파민에 휘둘리면 막대한 메소를 탕진하고 오히려 스펙이 떨어지는 대참사를 겪을 수 있습니다.
-            <br/><br/>
-            수많은 기댓값과 데이터를 분석해 본 결과, 이번 미라클 타임의 가장 완벽한 승리 공식은 단 하나로 수렴합니다. 성공적인 스펙업을 위해 반드시 알아야 할 <span className="text-amber-300 font-bold">"레전드리 직작을 피해야 하는 이유"</span>부터 부위별 최적화 가이드까지 완벽하게 총정리해 드립니다.
-          </p>
+          <div className="mb-8 rounded-2xl overflow-hidden border border-slate-700 shadow-xl">
+            <img src="/miracle-time-banner.png" alt="미라클 타임 이벤트 안내" className="w-full object-cover" />
+          </div>
 
           {/* 목차 */}
           <div className="bg-slate-800/60 border border-slate-600 rounded-2xl p-6 backdrop-blur-sm shadow-xl">
@@ -81,7 +79,11 @@ export default function MiracleTimeGuidePage() {
               
               <div className="bg-orange-950/40 border border-orange-700/50 rounded-xl p-5 hover:border-orange-500/60 transition-colors">
                 <h3 className="font-bold text-orange-300 mb-2 flex items-center gap-2"><Zap className="w-4 h-4" /> 옵션 뽑기라는 진짜 지옥</h3>
-                <p className="text-slate-200 text-sm">기적적으로 레전드리를 띄웠다고 끝이 아닙니다. 미라클 타임은 '등급업' 확률만 2배일 뿐, 유효 3줄 옵션을 띄우는 확률은 평소와 똑같습니다. 기껏 레전드리를 달아놓고 옵션이 망해서 기존 유니크보다 스펙이 떨어지는 경우가 부지기수입니다.</p>
+                <p className="text-slate-200 text-sm">기적적으로 레전드리를 띄웠다고 끝이 아닙니다.</p>
+                <div className="my-2 px-4 py-3 bg-orange-900/50 border-l-4 border-orange-400 rounded-r-lg">
+                  <p className="text-orange-200 font-bold text-sm">미라클 타임은 '등급업' 확률만 2배일 뿐,<br/>유효 3줄 옵션을 띄우는 확률은 <span className="text-white underline decoration-orange-400">평소와 똑같습니다.</span></p>
+                </div>
+                <p className="text-slate-200 text-sm">기껏 레전드리를 달아놓고 옵션이 망해서 기존 유니크보다 스펙이 떨어지는 경우가 부지기수입니다.</p>
               </div>
 
               <div className="bg-emerald-950/40 border border-emerald-700/50 rounded-xl p-5 hover:border-emerald-500/60 transition-colors">
