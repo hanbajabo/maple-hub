@@ -166,8 +166,8 @@ export default function MiracleTimeGuidePage() {
                 <p>당장 쓸 만한 매물이 없다면 <span className="text-purple-300 font-semibold">유니크 / 에픽</span> 정도로 만들어서 우선 사용하고, 미라클 타임 당일 폭락한 레전드리 매물을 구입하는 전략을 추천합니다.</p>
                 <div className="bg-slate-900/60 border border-sky-700/40 rounded-lg px-4 py-3 space-y-1.5">
                   <p className="text-white font-semibold text-xs">📌 임시 사용 시 목표 옵션</p>
-                  <p><span className="text-purple-300 font-bold">윗잠 유니크</span> → 메멘토 큐브 주스텟 2줄 이상</p>
-                  <p><span className="text-blue-300 font-bold">에디셔널 에픽</span> → 메멘토 큐브로 <span className="text-amber-300 font-bold">공격력(마력) +10上 + 주스텟 2~4%</span> 조합이 가성비 최고</p>
+                  <p><span className="text-purple-300 font-bold">윗잠 유니크</span> → 메멘토 큐브 유효옵 두줄 이상 (공,마%/보공/방무 등등)</p>
+                  <p><span className="text-blue-300 font-bold">에디셔널 에픽</span> → 메멘토 큐브로 공/마% 1~2줄 + 주스텟% 조합이 가성비 최고</p>
                 </div>
                 <p className="text-red-300">정 욕심이 나서 레전드리까지 직작하고 싶다면 시도할 수 있지만, <span className="font-bold">기댓값 손해가 크므로 비추천합니다.</span></p>
               </div>
