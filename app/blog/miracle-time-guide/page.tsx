@@ -143,6 +143,17 @@ export default function MiracleTimeGuidePage() {
                 </tbody>
               </table>
             </div>
+
+            {/* 보조무기 팁 */}
+            <div className="bg-sky-950/40 border border-sky-600/40 rounded-xl p-4 flex gap-3 items-start">
+              <span className="text-sky-300 text-lg shrink-0 mt-0.5">💡</span>
+              <div className="text-sm text-sky-100 leading-relaxed space-y-1.5">
+                <p className="font-bold text-white">보조무기 팁</p>
+                <p>보조무기는 <span className="text-sky-300 font-bold">경매장에서 좋은 매물을 사서 쓰는 것</span>이 가장 좋습니다.</p>
+                <p>당장 쓸 만한 매물이 없다면 <span className="text-purple-300 font-semibold">유니크 / 에픽</span> 정도로 만들어서 우선 사용하고, 미라클 타임 당일 폭락한 레전드리 매물을 구입하는 전략을 추천합니다.</p>
+                <p className="text-red-300">정 욕심이 나서 레전드리까지 직작하고 싶다면 시도할 수 있지만, <span className="font-bold">기댓값 손해가 크므로 비추천합니다.</span></p>
+              </div>
+            </div>
           </div>
         </section>
 
