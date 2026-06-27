@@ -167,7 +167,7 @@ export default function MiracleTimeGuidePage() {
                 <div className="bg-slate-900/60 border border-sky-700/40 rounded-lg px-4 py-3 space-y-1.5">
                   <p className="text-white font-semibold text-xs">📌 임시 사용 시 목표 옵션</p>
                   <p><span className="text-purple-300 font-bold">윗잠 유니크</span> → 메멘토 큐브 주스텟 2줄 이상</p>
-                  <p><span className="text-blue-300 font-bold">에디셔널 에픽</span> → 메멘토 큐브로 <span className="text-amber-300 font-bold">공격력(마력) 10% + 탯 4%</span> 조합이 가성비 최고</p>
+                  <p><span className="text-blue-300 font-bold">에디셔널 에픽</span> → 메멘토 큐브로 <span className="text-amber-300 font-bold">공격력(마력) +10上 + 주스텟 2~4%</span> 조합이 가성비 최고</p>
                 </div>
                 <p className="text-red-300">정 욕심이 나서 레전드리까지 직작하고 싶다면 시도할 수 있지만, <span className="font-bold">기댓값 손해가 크므로 비추천합니다.</span></p>
               </div>
