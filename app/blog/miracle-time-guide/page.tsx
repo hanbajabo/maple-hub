@@ -147,10 +147,15 @@ export default function MiracleTimeGuidePage() {
             {/* 보조무기 팁 */}
             <div className="bg-sky-950/40 border border-sky-600/40 rounded-xl p-4 flex gap-3 items-start">
               <span className="text-sky-300 text-lg shrink-0 mt-0.5">💡</span>
-              <div className="text-sm text-sky-100 leading-relaxed space-y-1.5">
+              <div className="text-sm text-sky-100 leading-relaxed space-y-2">
                 <p className="font-bold text-white">보조무기 팁</p>
                 <p>보조무기는 <span className="text-sky-300 font-bold">경매장에서 좋은 매물을 사서 쓰는 것</span>이 가장 좋습니다.</p>
                 <p>당장 쓸 만한 매물이 없다면 <span className="text-purple-300 font-semibold">유니크 / 에픽</span> 정도로 만들어서 우선 사용하고, 미라클 타임 당일 폭락한 레전드리 매물을 구입하는 전략을 추천합니다.</p>
+                <div className="bg-slate-900/60 border border-sky-700/40 rounded-lg px-4 py-3 space-y-1.5">
+                  <p className="text-white font-semibold text-xs">📌 임시 사용 시 목표 옵션</p>
+                  <p><span className="text-purple-300 font-bold">윗잠 유니크</span> → 주스텟 2줄 이상</p>
+                  <p><span className="text-blue-300 font-bold">에디셔널 에픽</span> → 메멘토 큐브로 <span className="text-amber-300 font-bold">공격력(마력) 10% + 탯 4%</span> 조합이 가성비 최고</p>
+                </div>
                 <p className="text-red-300">정 욕심이 나서 레전드리까지 직작하고 싶다면 시도할 수 있지만, <span className="font-bold">기댓값 손해가 크므로 비추천합니다.</span></p>
               </div>
             </div>
