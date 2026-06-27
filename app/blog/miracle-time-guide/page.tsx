@@ -88,7 +88,12 @@ export default function MiracleTimeGuidePage() {
 
               <div className="bg-emerald-950/40 border border-emerald-700/50 rounded-xl p-5 hover:border-emerald-500/60 transition-colors">
                 <h3 className="font-bold text-emerald-300 mb-2 flex items-center gap-2"><Coins className="w-4 h-4" /> 경매장 폭락의 법칙</h3>
-                <p className="text-slate-200 text-sm">미라클 타임 당일에는 수많은 고자본 유저들이 아이템을 쏟아냅니다. 이로 인해 레전드리 완성품 매물의 가격이 평소보다 훨씬 저렴해집니다. 직접 지옥을 맛보는 것보다, 메소를 쥐고 있다가 남이 예쁘게 완성해 둔 레전드리 템을 사는 것이 압도적인 이득입니다.</p>
+                <p className="text-slate-200 text-sm">미라클 타임 당일에는 수많은 고자본 유저들이 아이템을 쏟아냅니다. 이로 인해 레전드리 완성품 매물의 가격이 평소보다 훨씬 저렴해집니다.</p>
+                <div className="my-2 px-4 py-3 bg-emerald-900/50 border-l-4 border-emerald-400 rounded-r-lg">
+                  <p className="text-emerald-200 font-bold text-sm">
+                    직접 지옥을 맛보는 것보다, 메소를 쥐고 있다가 <span className="text-white underline decoration-emerald-400">남이 예쁘게 완성해 둔 레전드리 템을 사는 것</span>이 압도적인 이득입니다.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
