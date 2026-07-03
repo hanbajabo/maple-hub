@@ -210,7 +210,8 @@ export default function StarforceCalculatorComponent() {
                                             type="text" inputMode="numeric"
                                             value={itemCost.toLocaleString()}
                                             onChange={(e) => setItemCost(Number(e.target.value.replace(/[^0-9]/g, "")))}
-                                            className={`${inputCls} pl-10`}
+                                            className={inputCls}
+                                            style={{ paddingLeft: '2.5rem' }}
                                             placeholder="0"
                                         />
                                     </div>
