@@ -1,77 +1,66 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { Star, Shield, RefreshCw, Zap, Settings, Monitor, Calculator, Coins, Sparkles, ArrowLeft } from "lucide-react";
+import { Calculator, Coins, Shield, Sparkles, ArrowLeft, Star, ChevronRight, TrendingUp, Package } from "lucide-react";
 import { InArticleAd } from "@/components/AdSense";
 import {
+    calculateCumulativeExpectedCostDetailed,
     getRestorationMesoCost,
     getRestorationSpareCount,
-    calculateCumulativeExpectedCostDetailed
+    calculateStarforceCost,
+    calculateStarforceProbabilities
 } from "@/lib/starforce_db";
-
-interface StarforceStats {
-    totalCost: number;
-    attempts: number;
-    successes: number;
-    failures: number;
-    destroys: number;
-    starCatchSuccesses: number;
-    sparesConsumed: number;
-}
-
-interface SimResult {
-    averageCost: number;
-    medianCost: number;
-    minCost: number;
-    maxCost: number;
-    avgDestroys: number;
-    avgSpares: number;
-    successRate: number;
-    distribution: { cost: number, count: number }[];
-}
 
 type MVP = "none" | "silver" | "gold" | "diamond" | "red";
 
-export default function StarforceSimulator() {
-    // Item State
-    const [itemLevel, setItemLevel] = useState<number>(200);
-    const [currentStars, setCurrentStars] = useState<number>(0);
-    const [itemCost, setItemCost] = useState<number>(0);
+const ToggleCheckbox = ({ checked, onChange, label, desc }: { checked: boolean; onChange: () => void; label: string; desc: string }) => (
+    <label className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer select-none transition-all duration-150 ${
+        checked
+            ? "bg-indigo-500/15 border-indigo-400/50"
+            : "bg-slate-800/50 border-slate-600 hover:border-slate-500"
+    }`}>
+        <div className={`mt-0.5 w-4 h-4 rounded border-2 flex-shrink-0 flex items-center justify-center transition-all ${
+            checked ? "bg-indigo-500 border-indigo-500" : "border-slate-400"
+        }`}>
+            {checked && <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+        </div>
+        <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
+        <div>
+            <div className={`text-sm font-semibold ${checked ? "text-indigo-200" : "text-slate-100"}`}>{label}</div>
+            <div className="text-xs text-slate-400 mt-0.5 leading-relaxed">{desc}</div>
+        </div>
+    </label>
+);
 
-    // Options
-    const [useStarCatch, setUseStarCatch] = useState<boolean>(true);
-    const [useSafeguard, setUseSafeguard] = useState<boolean>(false);
-    const [eventMode, setEventMode] = useState<string>("none");
+const InputField = ({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) => (
+    <div className="space-y-1.5">
+        <label className="text-xs font-bold text-slate-300 uppercase tracking-widest">{label}</label>
+        {children}
+        {hint && <p className="text-xs text-slate-400">{hint}</p>}
+    </div>
+);
+
+export default function StarforceCalculatorComponent() {
+    const [itemLevel, setItemLevel] = useState<number>(200);
+    const [itemCost, setItemCost] = useState<number>(100000000);
+    const [currentStars, setCurrentStars] = useState<number>(0);
+    const [currentStarsInput, setCurrentStarsInput] = useState<string>("0");
     const [targetStars, setTargetStars] = useState<number>(22);
+    const [targetStarsInput, setTargetStarsInput] = useState<string>("22");
+    const [useSafeguard, setUseSafeguard] = useState<boolean>(true);
     const [mvpRank, setMvpRank] = useState<MVP>("none");
     const [usePCCafe, setUsePCCafe] = useState<boolean>(false);
+    const [isSundayMaple, setIsSundayMaple] = useState<boolean>(false);
+    const [isShining, setIsShining] = useState<boolean>(false);
     const [restoreMethod, setRestoreMethod] = useState<"A" | "B" | "optimal">("optimal");
 
-    // Simulation State
-    const [stats, setStats] = useState<StarforceStats>({
-        totalCost: 0,
-        attempts: 0,
-        successes: 0,
-        failures: 0,
-        destroys: 0,
-        starCatchSuccesses: 0,
-        sparesConsumed: 0,
-    });
-    const [isAnimating, setIsAnimating] = useState<boolean>(false);
-    const [lastResult, setLastResult] = useState<"success" | "fail" | "destroy" | "chance" | null>(null);
-    const [chanceTime, setChanceTime] = useState<boolean>(false);
-    const [log, setLog] = useState<string[]>([]);
-
-    // Batch Simulation State
-    const [simIterations, setSimIterations] = useState<number>(1000);
-    const [simResult, setSimResult] = useState<SimResult | null>(null);
-    const [isSimulating, setIsSimulating] = useState<boolean>(false);
-
-    const logEndRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        logEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [log]);
+    const [results, setResults] = useState<{
+        expectedMeso: number;
+        expectedSpares: number;
+        totalValue: number;
+        stages: any[];
+    } | null>(null);
 
     const getMaxStars = (level: number) => {
         if (level < 95) return 5;
@@ -83,690 +72,499 @@ export default function StarforceSimulator() {
     };
     const maxStars = getMaxStars(itemLevel);
 
-    // --- Core Logic ---
-    const getProbabilities = (stars: number, event: string, starCatch: boolean, safeguard: boolean) => {
-        let success = 0;
-        let destroy = 0;
+    const handleCalculate = () => {
+        if (currentStars >= targetStars) { setResults(null); return; }
 
-        // 2026년 개편: 성공 확률에 1.05배 스타캐치 혜택이 상시 합산 적용됨
-        if (stars === 0) success = 0.95;
-        else if (stars === 1) success = 0.90;
-        else if (stars === 2) success = 0.85;
-        else if (stars === 3) success = 0.85;
-        else if (stars === 4) success = 0.80;
-        else if (stars === 5) success = 0.75;
-        else if (stars === 6) success = 0.70;
-        else if (stars === 7) success = 0.65;
-        else if (stars === 8) success = 0.60;
-        else if (stars === 9) success = 0.55;
-        else if (stars === 10) success = 0.50;
-        else if (stars === 11) success = 0.45;
-        else if (stars === 12) success = 0.40;
-        else if (stars === 13) success = 0.35;
-        else if (stars === 14) success = 0.30;
-        else if (stars === 15 || stars === 16) { success = 0.30; destroy = 0.021; }
-        else if (stars === 17 || stars === 18) { success = 0.15; destroy = 0.068; }
-        else if (stars === 19) { success = 0.15; destroy = 0.085; }
-        else if (stars === 20) { success = 0.30; destroy = 0.105; }
-        else if (stars === 21) { success = 0.15; destroy = 0.1275; }
-        else if (stars === 22) { success = 0.15; destroy = 0.17; }
-        else if (stars >= 23 && stars <= 25) { success = 0.10; destroy = 0.18; }
-        else if (stars === 26) { success = 0.07; destroy = 0.1853; }
-        else if (stars === 27) { success = 0.05; destroy = 0.1895; }
-        else if (stars === 28) { success = 0.03; destroy = 0.1937; }
-        else if (stars === 29) { success = 0.01; destroy = 0.1979; }
-
-        // Starcatch가 true인 것이 디폴트(기본 1.05배 적용). 
-        // 만약 스타캐치 사용안함(starCatch = false) 상태라면 1.05배 보정을 역산으로 제거
-        if (starCatch) {
-            success = success * 1.05;
-            // 파괴율 또한 성공률 증가에 맞추어 비례 감소 적용
-            destroy = destroy * (1.0 - success) / (1.0 - (success / 1.05));
-        }
-
-        // Event Mods
-        if (event === "5/10/15" && (stars === 5 || stars === 10 || stars === 15)) {
-            success = 1.0;
-            destroy = 0;
-        }
-        // 샤타포스 또는 21성 이하 파괴 확률 30% 감소 이벤트
-        if ((event === "destroy30" || event === "shining") && stars <= 21 && destroy > 0) {
-            destroy = destroy * 0.7;
-        }
-
-        // Safeguard (15성~17성만 지원)
-        if (safeguard && (stars === 15 || stars === 16 || stars === 17)) {
-            destroy = 0;
-        }
-
-        return { 
-            success: Math.min(1, success), 
-            destroy: Math.min(1, destroy) 
+        const options = {
+            starcatch: true,
+            preventDestruction: useSafeguard,
+            mvpDiscount: mvpRank === "silver" ? 0.03 : mvpRank === "gold" ? 0.05 : (mvpRank === "diamond" || mvpRank === "red") ? 0.10 : 0,
+            pcCafe: usePCCafe,
+            sundayMaple: isSundayMaple,
+            isShining: isShining,
+            itemCost: itemCost,
+            restoreMethod: restoreMethod
         };
-    };
 
-    const calculateCost = (level: number, stars: number, event: string, safeguard: boolean, mvp: MVP, pcCafe: boolean) => {
-        let baseCost = 0;
-        const L3 = Math.pow(level, 3);
-        const S1 = stars + 1;
+        const statsStart = calculateCumulativeExpectedCostDetailed(itemLevel, currentStars, options);
+        const statsTarget = calculateCumulativeExpectedCostDetailed(itemLevel, targetStars, options);
 
-        if (stars <= 9) {
-            baseCost = 1000 + (L3 * S1) / 36;
-        } else {
-            let denom = 200;
-            if (stars === 10) denom = 571;
-            else if (stars === 11) denom = 314;
-            else if (stars === 12) denom = 214;
-            else if (stars === 13) denom = 157;
-            else if (stars === 14) denom = 107;
-            else if (stars === 17) denom = 150;
-            else if (stars === 18) denom = 70;
-            else if (stars === 19) denom = 45;
-            else if (stars === 21) denom = 125;
-            baseCost = 1000 + (L3 * Math.pow(S1, 2.7)) / denom;
+        const expectedMeso = statsTarget.totalMeso - statsStart.totalMeso;
+        const expectedSpares = statsTarget.totalSpares - statsStart.totalSpares;
+        const totalValue = expectedMeso + expectedSpares * itemCost;
+
+        const stages = [];
+        for (let s = currentStars; s < targetStars; s++) {
+            const probs = calculateStarforceProbabilities(s, options);
+            const cost = calculateStarforceCost(itemLevel, s, options);
+            const restoreMeso = getRestorationMesoCost(itemLevel, s, isShining);
+            const restoreSpares = getRestorationSpareCount(itemLevel, s);
+            const statsStageStart = calculateCumulativeExpectedCostDetailed(itemLevel, s, options);
+            const statsStageTarget = calculateCumulativeExpectedCostDetailed(itemLevel, s + 1, options);
+            const useOptionB = statsTarget.choices[s] ?? false;
+            stages.push({
+                stage: s,
+                success: probs.success,
+                destroy: probs.destroy,
+                cost,
+                restoreMeso,
+                restoreSpares,
+                expectedMeso: statsStageTarget.totalMeso - statsStageStart.totalMeso,
+                expectedSpares: statsStageTarget.totalSpares - statsStageStart.totalSpares,
+                useOptionB
+            });
         }
 
-        let discountPercent = 0;
-        if (stars <= 16) {
-            if (mvp === "silver") discountPercent += 0.03;
-            else if (mvp === "gold") discountPercent += 0.05;
-            else if (mvp === "diamond" || mvp === "red") discountPercent += 0.10;
-            if (pcCafe) discountPercent += 0.05;
-        }
-
-        let discountedCost = baseCost * (1.0 - discountPercent);
-
-        if (event === "30%" || event === "shining") {
-            discountedCost = discountedCost * 0.7;
-        }
-
-        let safeguardCost = 0;
-        if (safeguard && (stars === 15 || stars === 16 || stars === 17)) {
-            safeguardCost = baseCost * 2.0; // 파방 비용 200% 상향
-        }
-
-        return Math.floor(Math.round(discountedCost / 10) * 10 + safeguardCost);
+        setResults({ expectedMeso, expectedSpares, totalValue, stages });
     };
 
-    const getOptimalRestoreMethod = (stars: number): "A" | "B" => {
-        if (stars < 15) return "A";
-        const stats12 = calculateCumulativeExpectedCostDetailed(itemLevel, 12, { itemCost, isShining: eventMode === "shining", starcatch: useStarCatch });
-        const statsCurrent = calculateCumulativeExpectedCostDetailed(itemLevel, stars, { itemCost, isShining: eventMode === "shining", starcatch: useStarCatch });
-        const restoreCostMeso_A = statsCurrent.totalMeso - stats12.totalMeso;
-        const restoreCostSpares_A = 1 + (statsCurrent.totalSpares - stats12.totalSpares);
-        const totalValue_A = restoreCostMeso_A + restoreCostSpares_A * itemCost;
-
-        const restoreCostMeso_B = getRestorationMesoCost(itemLevel, stars, eventMode === "shining");
-        const restoreCostSpares_B = getRestorationSpareCount(stars);
-        const totalValue_B = restoreCostMeso_B + restoreCostSpares_B * itemCost;
-
-        return totalValue_B < totalValue_A ? "B" : "A";
-    };
-
-    // --- Interactive Handlers ---
-
-    const handleEnhance = async () => {
-        if (isAnimating || currentStars >= maxStars) return;
-        setIsAnimating(true);
-        await new Promise(r => setTimeout(r, 500));
-
-        const probs = getProbabilities(currentStars, eventMode, useStarCatch, useSafeguard);
-        const cost = calculateCost(itemLevel, currentStars, eventMode, useSafeguard, mvpRank, usePCCafe);
-
-        const roll = Math.random();
-        let result: "success" | "fail" | "destroy" = "fail";
-        let nextStars = currentStars;
-        let logMsg = "";
-        let finalCost = cost;
-        let finalSpares = 0;
-
-        if (chanceTime) {
-            result = "success";
-            setChanceTime(false);
-        } else {
-            if (roll < probs.success) result = "success";
-            else if (roll < probs.success + probs.destroy) result = "destroy";
-            else result = "fail";
+    const fmtLarge = (num: number) => {
+        const jo = 1000000000000, eok = 100000000, man = 10000;
+        if (num >= jo) return `${(num / jo).toFixed(1)}조`;
+        if (num >= eok) {
+            const e = Math.floor(num / eok);
+            const m = Math.floor((num % eok) / man);
+            return m > 0 ? `${e}억 ${m}만` : `${e}억`;
         }
-
-        if (result === "success") {
-            nextStars += 1;
-            if (eventMode === "1+1" && currentStars <= 10) nextStars += 1;
-            logMsg = `[${currentStars} -> ${nextStars}] 성공!`;
-        } else if (result === "fail") {
-            logMsg = `[${currentStars} -> ${currentStars}] 실패 (유지)`;
-        } else {
-            // 파괴 시 복구 방식 결정
-            let activeMethod = restoreMethod;
-            if (activeMethod === "optimal") {
-                activeMethod = getOptimalRestoreMethod(currentStars);
-            }
-
-            if (activeMethod === "B") {
-                const mesoCost = getRestorationMesoCost(itemLevel, currentStars, eventMode === "shining");
-                const spareCount = getRestorationSpareCount(currentStars);
-                finalCost += mesoCost;
-                finalSpares += spareCount;
-                nextStars = currentStars; // 성급 그대로 복구!
-                if (currentStars >= 23) {
-                    nextStars = 22; // 23성 이상 파괴 시 22성으로 복구
-                    logMsg = `[${currentStars}] 파괴! 온전한 복구 (22성 강제 고정, 스페어 ${spareCount}개, 추가 메소 ${formatNumber(mesoCost)} 소모)`;
-                } else {
-                    logMsg = `[${currentStars}] 파괴! 온전한 복구 (성급 유지, 스페어 ${spareCount}개, 추가 메소 ${formatNumber(mesoCost)} 소모)`;
-                }
-            } else {
-                finalSpares += 1;
-                nextStars = 12;
-                logMsg = `[${currentStars}] 파괴! 기본 복구 (12성으로 복구, 스페어 1개 소모)`;
-            }
-        }
-
-        setStats(prev => ({
-            totalCost: prev.totalCost + finalCost + (result === "destroy" ? finalSpares * itemCost : 0),
-            attempts: prev.attempts + 1,
-            successes: result === "success" ? prev.successes + 1 : prev.successes,
-            failures: result === "fail" ? prev.failures + 1 : prev.failures,
-            destroys: result === "destroy" ? prev.destroys + 1 : prev.destroys,
-            starCatchSuccesses: prev.starCatchSuccesses,
-            sparesConsumed: prev.sparesConsumed + finalSpares,
-        }));
-
-        setCurrentStars(nextStars);
-        setLog(prev => [...prev, `${logMsg} (${formatNumber(cost)})`]);
-        setLastResult(result);
-        setIsAnimating(false);
+        if (num >= man) return `${Math.floor(num / man)}만`;
+        return num.toLocaleString();
     };
 
-    const runBatchSimulation = async () => {
-        if (isSimulating) return;
-        setIsSimulating(true);
+    const inputCls = "w-full bg-slate-800 text-white px-4 py-2.5 rounded-xl border border-slate-600 focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400/30 outline-none font-mono text-sm transition-all placeholder-slate-500";
+    const selectCls = "w-full appearance-none bg-slate-800 text-white px-3.5 py-2.5 rounded-xl border border-slate-600 outline-none focus:border-indigo-400 text-sm transition-all";
 
-        await new Promise(r => setTimeout(r, 50));
-
-        const results: number[] = [];
-        const destroyCounts: number[] = [];
-        const sparesCounts: number[] = [];
-        let successCount = 0;
-
-        for (let i = 0; i < simIterations; i++) {
-            let simStars = currentStars;
-            let simCost = 0;
-            let simDestroys = 0;
-            let simSpares = 0;
-
-            let safety = 0;
-            while (simStars < targetStars && safety < 10000) {
-                safety++;
-                const probs = getProbabilities(simStars, eventMode, useStarCatch, useSafeguard);
-                const cost = calculateCost(itemLevel, simStars, eventMode, useSafeguard, mvpRank, usePCCafe);
-
-                simCost += cost;
-
-                const roll = Math.random();
-                if (roll < probs.success) {
-                    simStars += 1;
-                    if (eventMode === "1+1" && (simStars - 1) <= 10) simStars += 1;
-                } else if (roll < probs.success + probs.destroy) {
-                    simDestroys++;
-
-                    let activeMethod = restoreMethod;
-                    if (activeMethod === "optimal") {
-                        activeMethod = getOptimalRestoreMethod(simStars);
-                    }
-
-                    if (activeMethod === "B") {
-                        const mesoCost = getRestorationMesoCost(itemLevel, simStars, eventMode === "shining");
-                        const spareCount = getRestorationSpareCount(simStars);
-                        simCost += mesoCost + spareCount * itemCost;
-                        simSpares += spareCount;
-                        if (simStars >= 23) {
-                            simStars = 22;
-                        }
-                    } else {
-                        simCost += itemCost;
-                        simSpares += 1;
-                        simStars = 12;
-                    }
-                }
-            }
-
-            if (simStars >= targetStars) {
-                successCount++;
-            }
-            results.push(simCost);
-            destroyCounts.push(simDestroys);
-            sparesCounts.push(simSpares);
-        }
-
-        results.sort((a, b) => a - b);
-        const sum = results.reduce((a, b) => a + b, 0);
-        const avg = sum / results.length;
-        const median = results[Math.floor(results.length / 2)];
-        const min = results[0];
-        const max = results[results.length - 1];
-        const totalDestroys = destroyCounts.reduce((a, b) => a + b, 0);
-        const totalSpares = sparesCounts.reduce((a, b) => a + b, 0);
-
-        setSimResult({
-            averageCost: avg,
-            medianCost: median,
-            minCost: min,
-            maxCost: max,
-            avgDestroys: totalDestroys / simIterations,
-            avgSpares: totalSpares / simIterations,
-            successRate: (successCount / simIterations) * 100,
-            distribution: [],
-        });
-
-        setIsSimulating(false);
-    };
-
-    const resetSimulator = () => {
-        setCurrentStars(0);
-        setStats({ totalCost: 0, attempts: 0, successes: 0, failures: 0, destroys: 0, starCatchSuccesses: 0, sparesConsumed: 0 });
-        setLog([]);
-        setLastResult(null);
-        setSimResult(null);
-    };
-
-    const formatNumber = (num: number) => {
-        if (num === 0) return "0";
-
-        const unitGyeong = 10000000000000000;
-        const unitJo = 1000000000000;
-        const unitEok = 100000000;
-        const unitMan = 10000;
-
-        const gyeong = Math.floor(num / unitGyeong);
-        let remainder = num % unitGyeong;
-
-        const jo = Math.floor(remainder / unitJo);
-        remainder %= unitJo;
-
-        const eok = Math.floor(remainder / unitEok);
-        remainder %= unitEok;
-
-        const man = Math.floor(remainder / unitMan);
-        const one = Math.floor(remainder % unitMan);
-
-        const parts = [];
-        if (gyeong > 0) parts.push(`${gyeong}경`);
-        if (jo > 0) parts.push(`${jo}조`);
-        if (eok > 0) parts.push(`${eok}억`);
-        if (man > 0) parts.push(`${man}만`);
-        if (one > 0) parts.push(`${one}`);
-
-        return parts.join(" ") || "0";
-    };
+    // 파괴 방지 권장 여부: 15~17성 구간에서 파괴방지 ON/OFF 총 비용(메소 + 스페어 × 장비값) 비교
+    const safeguardRecommended = (() => {
+        if (currentStars >= 18 || targetStars <= 15) return false;
+        const baseOptions = {
+            starcatch: true,
+            preventDestruction: false,
+            mvpDiscount: mvpRank === "silver" ? 0.03 : mvpRank === "gold" ? 0.05 : (mvpRank === "diamond" || mvpRank === "red") ? 0.10 : 0,
+            pcCafe: usePCCafe,
+            sundayMaple: isSundayMaple,
+            isShining,
+            itemCost,
+            restoreMethod
+        };
+        const s = Math.max(15, currentStars);
+        const e = Math.min(18, targetStars);
+        const sgStart   = calculateCumulativeExpectedCostDetailed(itemLevel, s, { ...baseOptions, preventDestruction: true });
+        const sgEnd     = calculateCumulativeExpectedCostDetailed(itemLevel, e, { ...baseOptions, preventDestruction: true });
+        const noSgStart = calculateCumulativeExpectedCostDetailed(itemLevel, s, baseOptions);
+        const noSgEnd   = calculateCumulativeExpectedCostDetailed(itemLevel, e, baseOptions);
+        // 총 비용 = 메소 + 스페어 개수 × 장비 가격 (← 이걸 빠뜨리면 고가 장비에서 오판)
+        const totalWithSg    = (sgEnd.totalMeso   - sgStart.totalMeso)   + (sgEnd.totalSpares   - sgStart.totalSpares)   * itemCost;
+        const totalWithoutSg = (noSgEnd.totalMeso - noSgStart.totalMeso) + (noSgEnd.totalSpares - noSgStart.totalSpares) * itemCost;
+        return totalWithSg < totalWithoutSg;
+    })();
 
     return (
-        <div className="min-h-screen bg-[#0f172a] text-slate-100 font-sans selection:bg-indigo-500/30">
-            <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-6 sm:space-y-8">
+        <div className="min-h-screen text-slate-100" style={{ background: "linear-gradient(135deg, #0a0e1a 0%, #0f1629 50%, #0a0e1a 100%)" }}>
+            <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 space-y-8">
+
                 {/* Header */}
-                <div className="flex flex-col md:flex-row justify-between items-end gap-4 border-b border-slate-800 pb-4 sm:pb-6">
-                    <div>
-                        <Link href="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-3 sm:mb-4 group">
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                            <span className="text-xs sm:text-sm font-medium">홈으로 돌아가기</span>
-                        </Link>
-                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 flex items-center gap-2 sm:gap-3">
-                            <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 fill-yellow-400" />
-                            스타포스 시뮬레이터
-                        </h1>
-                        <p className="text-sm sm:text-base text-slate-400 mt-2 font-medium">메이플스토리 스타포스 강화 시뮬레이터 (2025 ver)</p>
-                    </div>
-                    <button
-                        onClick={resetSimulator}
-                        className="group flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-slate-800/50 hover:bg-slate-800 rounded-full border border-slate-700 hover:border-slate-600 transition-all text-xs sm:text-sm font-medium text-slate-300 hover:text-white"
-                    >
-                        <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:rotate-180 transition-transform duration-500" />
-                        초기화
-                    </button>
-                </div>
-
-                <div className="mb-6">
-                    <InArticleAd dataAdSlot="8162808816" />
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
-                    {/* Left Column: Visualizer & Controls (8 cols) */}
-                    <div className="lg:col-span-7 xl:col-span-8 space-y-4 sm:space-y-6">
-                        {/* Visualizer Card */}
-                        <div className="relative w-full h-56 sm:h-64 md:h-80 rounded-2xl sm:rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden flex flex-col items-center justify-center group">
-                            {/* Background Effects */}
-                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,_rgba(120,119,198,0.3),rgba(255,255,255,0))]" />
-                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20" />
-
-                            {/* Star Display */}
-                            <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 w-full px-4 sm:px-8">
-                                <div className="text-center">
-                                    <div className="text-5xl sm:text-6xl md:text-8xl font-black text-white drop-shadow-[0_0_30px_rgba(250,204,21,0.6)] tracking-tighter transition-all">
-                                        {currentStars}
-                                        <span className="text-xl sm:text-2xl md:text-4xl text-slate-600 ml-2 font-bold">/ {maxStars}</span>
-                                    </div>
-                                    <div className="text-indigo-400 font-medium tracking-widest text-xs sm:text-sm mt-1 sm:mt-2">현재 스타포스</div>
-                                </div>
-
-                                <div className="flex flex-wrap justify-center gap-1 sm:gap-1.5 max-w-2xl">
-                                    {Array.from({ length: 25 }).map((_, i) => (
-                                        <div key={i} className={`relative transition-all duration-300 ${i < currentStars ? "scale-100" : "scale-90 opacity-20"}`}>
-                                            <Star
-                                                className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${i < currentStars
-                                                    ? "text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]"
-                                                    : "text-slate-600"
-                                                    }`}
-                                            />
-                                        </div>
-                                    ))}
-                                    {maxStars > 25 && Array.from({ length: maxStars - 25 }).map((_, i) => (
-                                        <div key={i + 25} className={`relative transition-all duration-300 ${i + 25 < currentStars ? "scale-100" : "scale-90 opacity-20"}`}>
-                                            <Star
-                                                className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${i + 25 < currentStars
-                                                    ? "text-purple-400 fill-purple-400 drop-shadow-[0_0_8px_rgba(192,132,252,0.8)]"
-                                                    : "text-slate-600"
-                                                    }`}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Result Overlay */}
-                            {lastResult && (
-                                <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-                                    <div className={`text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-widest transform scale-100 animate-in zoom-in-50 duration-300 ${lastResult === "success" ? "text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-600 drop-shadow-[0_0_30px_rgba(234,179,8,0.5)]" :
-                                        lastResult === "destroy" ? "text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-red-800 drop-shadow-[0_0_30px_rgba(239,68,68,0.5)]" :
-                                            "text-slate-400"
-                                        }`}>
-                                        {lastResult === "success" ? "SUCCESS" : lastResult === "destroy" ? "DESTROYED" : "FAILED"}
-                                    </div>
-                                </div>
-                            )}
+                <div>
+                    <Link href="/" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors mb-5 text-xs font-medium group">
+                        <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                        홈으로 돌아가기
+                    </Link>
+                    <div className="flex items-start gap-4">
+                        <div className="p-3 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 flex-shrink-0">
+                            <Star className="w-7 h-7 text-indigo-300" fill="currentColor" fillOpacity={0.4} />
                         </div>
-
-                        {/* Control Panel */}
-                        <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-800 p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
-                            {/* Toggles */}
-                            <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
-                                {[
-                                    { label: "스타캐치", icon: Zap, state: useStarCatch, setter: setUseStarCatch, color: "yellow" },
-                                    { label: "파괴방지", icon: Shield, state: useSafeguard, setter: setUseSafeguard, color: "green" },
-                                    { label: "PC방", icon: Monitor, state: usePCCafe, setter: setUsePCCafe, color: "blue" },
-                                ].map((opt, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => opt.setter(!opt.state)}
-                                        className={`flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-2.5 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl border text-xs sm:text-base font-bold transition-all duration-200 active:scale-95 flex-grow sm:flex-grow-0 ${opt.state
-                                            ? `bg-${opt.color}-500/10 border-${opt.color}-500/50 text-${opt.color}-400 shadow-[0_0_15px_rgba(0,0,0,0.3)]`
-                                            : "bg-slate-800 border-transparent text-slate-500 hover:bg-slate-750"
-                                            }`}
-                                    >
-                                        <opt.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${opt.state ? "fill-current" : ""}`} />
-                                        {opt.label}
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* Dropdowns */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">이벤트</label>
-                                    <div className="relative">
-                                        <select
-                                            value={eventMode}
-                                            onChange={(e) => setEventMode(e.target.value)}
-                                            className="w-full appearance-none bg-slate-950 text-white px-4 py-3 sm:px-5 sm:py-4 rounded-xl sm:rounded-2xl border border-slate-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all font-medium text-sm sm:text-base"
-                                        >
-                                            <option value="none">이벤트 없음</option>
-                                            <option value="1+1">1+1 (10성 이하 2업)</option>
-                                            <option value="30%">비용 30% 할인</option>
-                                            <option value="5/10/15">5/10/15성 성공 100%</option>
-                                            <option value="destroy30">파괴 확률 30% 감소</option>
-                                            <option value="shining">샤이닝 (30% 할인 + 파괴방지)</option>
-                                        </select>
-                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">▼</div>
-                                    </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">MVP 등급</label>
-                                    <div className="relative">
-                                        <select
-                                            value={mvpRank}
-                                            onChange={(e) => setMvpRank(e.target.value as MVP)}
-                                            className="w-full appearance-none bg-slate-950 text-white px-4 py-3 sm:px-5 sm:py-4 rounded-xl sm:rounded-2xl border border-slate-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all font-medium text-sm sm:text-base"
-                                        >
-                                            <option value="none">없음</option>
-                                            <option value="silver">실버 (3%)</option>
-                                            <option value="gold">골드 (5%)</option>
-                                            <option value="diamond">다이아 (10%)</option>
-                                            <option value="red">레드 (10%)</option>
-                                        </select>
-                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">▼</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Session Stats */}
-                            <div className="bg-slate-950/50 rounded-xl sm:rounded-2xl border border-slate-800 p-4 sm:p-5 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 px-4 sm:px-8">
-                                <div className="text-center md:text-left w-full md:w-auto">
-                                    <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">현재 세션 누적 비용</div>
-                                    <div className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-yellow-500 break-keep">
-                                        {formatNumber(stats.totalCost)}
-                                    </div>
-                                </div>
-                                <div className="flex gap-4 sm:gap-6 w-full md:w-auto justify-center">
-                                    <div className="text-center">
-                                        <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">파괴 횟수</div>
-                                        <div className="text-lg sm:text-xl font-bold text-red-400">{stats.destroys}회</div>
-                                    </div>
-                                    <div className="text-center">
-                                        <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">소모 장비</div>
-                                        <div className="text-lg sm:text-xl font-bold text-orange-400">{stats.sparesConsumed}개</div>
-                                    </div>
-                                    <div className="text-center">
-                                        <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">총 시도</div>
-                                        <div className="text-lg sm:text-xl font-bold text-slate-300">{stats.attempts}회</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Action Area */}
-                            <div className="pt-4 sm:pt-6 border-t border-slate-800 flex flex-col items-center gap-4 sm:gap-6">
-                                <div className="flex flex-wrap justify-center gap-x-4 sm:gap-x-8 gap-y-2 text-xs sm:text-sm font-medium">
-                                    <div className="flex items-center gap-1.5 sm:gap-2 text-slate-400">
-                                        <Coins className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-500" />
-                                        <span>예상: <span className="text-white text-base sm:text-lg">{formatNumber(calculateCost(itemLevel, currentStars, eventMode, useSafeguard, mvpRank, usePCCafe))}</span></span>
-                                    </div>
-                                    <div className="flex items-center gap-3 sm:gap-4">
-                                        <div className="flex items-center gap-1.5 sm:gap-2">
-                                            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-                                            <span className="text-green-400">{(getProbabilities(currentStars, eventMode, useStarCatch, useSafeguard).success * 100).toFixed(1)}%</span>
-                                        </div>
-                                        {getProbabilities(currentStars, eventMode, useStarCatch, useSafeguard).destroy > 0 && (
-                                            <div className="flex items-center gap-1.5 sm:gap-2">
-                                                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
-                                                <span className="text-red-400">{(getProbabilities(currentStars, eventMode, useStarCatch, useSafeguard).destroy * 100).toFixed(1)}%</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                <button
-                                    onClick={handleEnhance}
-                                    disabled={isAnimating || currentStars >= maxStars}
-                                    className="w-full md:w-3/4 py-4 sm:py-5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-500 text-white text-lg sm:text-xl font-black rounded-xl sm:rounded-2xl shadow-lg shadow-indigo-900/30 transition-all active:scale-[0.98] flex items-center justify-center gap-2 sm:gap-3 touch-manipulation"
-                                >
-                                    {isAnimating ? (
-                                        <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
-                                    ) : (
-                                        <>
-                                            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 fill-white/20" />
-                                            강화 시작
-                                        </>
-                                    )}
-                                </button>
-                            </div>
+                        <div>
+                            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">스타포스 기댓값 계산기</h1>
+                            <p className="text-slate-400 text-sm mt-1">2026년 개편 반영 · 하락 제거 · 파괴 복구 최적 경로 자동 선택</p>
                         </div>
                     </div>
+                </div>
 
-                    {/* Right Column: Settings & Stats (4 cols) */}
-                    <div className="lg:col-span-5 xl:col-span-4 space-y-4 sm:space-y-6">
-                        {/* Settings Panel */}
-                        <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-800 p-4 sm:p-6 space-y-4 sm:space-y-6">
-                            <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3 sm:pb-4">
-                                <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />
-                                기본 설정
-                            </h3>
-                            <div className="space-y-3 sm:space-y-5">
-                                <div className="space-y-1.5 sm:space-y-2">
-                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">장비 레벨</label>
+                <InArticleAd dataAdSlot="8162808816" />
+
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+                    {/* ===== LEFT: Settings ===== */}
+                    <div className="lg:col-span-2 space-y-4">
+
+                        {/* 장비 정보 */}
+                        <div className="rounded-2xl border border-slate-600 bg-slate-800/60 overflow-hidden">
+                            <div className="px-5 py-3.5 border-b border-slate-600 flex items-center gap-2 bg-slate-800/80">
+                                <Sparkles className="w-4 h-4 text-indigo-300" />
+                                <span className="text-sm font-bold text-white">장비 정보</span>
+                            </div>
+                            <div className="p-5 space-y-4">
+                                <InputField label="장비 레벨제한" hint="100, 130, 140, 150, 160, 200, 250 등 자유 입력">
                                     <input
-                                        type="text"
-                                        inputMode="numeric"
+                                        type="text" inputMode="numeric"
                                         value={itemLevel}
                                         onChange={(e) => setItemLevel(Number(e.target.value.replace(/[^0-9]/g, "")))}
-                                        onFocus={(e) => e.target.select()}
-                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono text-sm sm:text-base"
+                                        className={inputCls}
+                                        placeholder="예: 200"
                                     />
-                                </div>
-                                <div className="space-y-1.5 sm:space-y-2">
-                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">현재 스타포스</label>
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        value={currentStars}
-                                        onChange={(e) => {
-                                            const val = Number(e.target.value.replace(/[^0-9]/g, ""));
-                                            if (val <= maxStars) setCurrentStars(val);
-                                        }}
-                                        onFocus={(e) => e.target.select()}
-                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono text-sm sm:text-base"
-                                    />
-                                </div>
-                                <div className="space-y-1.5 sm:space-y-2">
-                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">목표 스타포스</label>
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        value={targetStars}
-                                        onChange={(e) => setTargetStars(Number(e.target.value.replace(/[^0-9]/g, "")))}
-                                        onFocus={(e) => e.target.select()}
-                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono text-sm sm:text-base"
-                                    />
-                                </div>
-                                <div className="space-y-1.5 sm:space-y-2">
-                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">장비 노작값 (파괴 시 추가)</label>
+                                </InputField>
+
+                                <InputField label="장비 노작 가격 (스페어 1개 기준)">
                                     <div className="relative">
-                                        <Coins className="absolute left-4 top-3.5 w-4 h-4 text-slate-500" />
+                                        <Coins className="absolute left-3.5 top-3 w-4 h-4 text-slate-400" />
                                         <input
-                                            type="text"
-                                            inputMode="numeric"
+                                            type="text" inputMode="numeric"
                                             value={itemCost.toLocaleString()}
                                             onChange={(e) => setItemCost(Number(e.target.value.replace(/[^0-9]/g, "")))}
-                                            onFocus={(e) => e.target.select()}
-                                            className="w-full bg-slate-950 text-white pl-10 pr-4 py-3 rounded-xl border border-slate-800 focus:border-indigo-500 outline-none font-mono text-sm sm:text-base"
+                                            className={`${inputCls} pl-9`}
                                             placeholder="0"
                                         />
                                     </div>
-                                    <p className="text-[10px] sm:text-xs text-indigo-400 text-right font-medium">{formatNumber(itemCost)} 메소</p>
+                                    <p className="text-xs text-indigo-300 text-right font-medium">{fmtLarge(itemCost)} 메소</p>
+                                </InputField>
+
+                                <div className="grid grid-cols-2 gap-3">
+                                    <InputField label="시작 성급">
+                                        <div className="relative">
+                                            <input
+                                                type="text" inputMode="numeric"
+                                                value={currentStarsInput}
+                                                onChange={(e) => setCurrentStarsInput(e.target.value.replace(/[^0-9]/g, ""))}
+                                                onBlur={(e) => {
+                                                    const v = Math.min(maxStars, Math.max(0, parseInt(e.target.value) || 0));
+                                                    setCurrentStars(v);
+                                                    setCurrentStarsInput(String(v));
+                                                }}
+                                                className={`${inputCls} pr-8`}
+                                            />
+                                            <span className="absolute right-3 top-2.5 text-slate-400 text-sm font-bold">★</span>
+                                        </div>
+                                    </InputField>
+                                    <InputField label="목표 성급">
+                                        <div className="relative">
+                                            <input
+                                                type="text" inputMode="numeric"
+                                                value={targetStarsInput}
+                                                onChange={(e) => setTargetStarsInput(e.target.value.replace(/[^0-9]/g, ""))}
+                                                onBlur={(e) => {
+                                                    const v = Math.min(maxStars, Math.max(0, parseInt(e.target.value) || 0));
+                                                    setTargetStars(v);
+                                                    setTargetStarsInput(String(v));
+                                                }}
+                                                className={`${inputCls} pr-8 focus:border-yellow-400 focus:ring-yellow-400/30`}
+                                            />
+                                            <span className="absolute right-3 top-2.5 text-yellow-400 text-sm font-bold">★</span>
+                                        </div>
+                                    </InputField>
                                 </div>
-                                <div className="space-y-1.5 sm:space-y-2">
-                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">파괴 복구 방식</label>
-                                    <div className="relative">
-                                        <select
-                                            value={restoreMethod}
-                                            onChange={(e) => setRestoreMethod(e.target.value as "A" | "B" | "optimal")}
-                                            className="w-full appearance-none bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-550 transition-all font-medium text-sm sm:text-base"
-                                        >
-                                            <option value="optimal">최적 복구 자동 선택 (권장)</option>
-                                            <option value="B">성급 그대로 복구 (추가 메소 + 스페어 N개)</option>
-                                            <option value="A">12성으로 복구 (스페어 1개)</option>
-                                        </select>
-                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">▼</div>
+
+                                {/* Goal indicator */}
+                                <div className="flex items-center gap-3 py-2.5 px-4 rounded-xl bg-slate-900 border border-slate-600">
+                                    <span className="text-slate-300 text-xs font-mono font-bold">{currentStars}★</span>
+                                    <div className="flex-1 h-1.5 rounded-full bg-slate-700 overflow-hidden">
+                                        <div
+                                            className="h-full rounded-full bg-gradient-to-r from-indigo-400 to-yellow-400 transition-all"
+                                            style={{ width: `${maxStars > 0 ? Math.min(100, (currentStars / maxStars) * 100) : 0}%` }}
+                                        />
                                     </div>
+                                    <span className="text-yellow-300 text-xs font-mono font-bold">{targetStars}★</span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Simulation Panel */}
-                        <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl sm:rounded-3xl border border-slate-800 p-4 sm:p-6 space-y-4 sm:space-y-6">
-                            <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3 sm:pb-4">
-                                <Calculator className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
-                                대량 시뮬레이션
-                            </h3>
-                            <div className="space-y-3 sm:space-y-4">
-                                <div className="space-y-1.5 sm:space-y-2">
-                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">시뮬레이션 횟수</label>
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        value={simIterations}
-                                        onChange={(e) => setSimIterations(Number(e.target.value.replace(/[^0-9]/g, "")))}
-                                        onFocus={(e) => e.target.select()}
-                                        className="w-full bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 focus:border-emerald-500 outline-none font-mono text-sm sm:text-base"
+                        {/* 할인 및 이벤트 */}
+                        <div className="rounded-2xl border border-slate-600 bg-slate-800/60 overflow-hidden">
+                            <div className="px-5 py-3.5 border-b border-slate-600 flex items-center gap-2 bg-slate-800/80">
+                                <Shield className="w-4 h-4 text-emerald-300" />
+                                <span className="text-sm font-bold text-white">할인 및 이벤트</span>
+                            </div>
+                            <div className="p-5 space-y-4">
+                                <div className="grid grid-cols-2 gap-3">
+                                    <InputField label="MVP 등급">
+                                        <div className="relative">
+                                            <select
+                                                value={mvpRank}
+                                                onChange={(e) => setMvpRank(e.target.value as MVP)}
+                                                className={selectCls}
+                                            >
+                                                <option value="none">없음</option>
+                                                <option value="silver">실버 (3%)</option>
+                                                <option value="gold">골드 (5%)</option>
+                                                <option value="diamond">다이아/레드 (10%)</option>
+                                            </select>
+                                            <div className="absolute right-3 top-3 pointer-events-none text-slate-400 text-xs">▼</div>
+                                        </div>
+                                    </InputField>
+                                    <InputField label="복구 방식">
+                                        <div className="relative">
+                                            <select
+                                                value={restoreMethod}
+                                                onChange={(e) => setRestoreMethod(e.target.value as any)}
+                                                className={selectCls}
+                                            >
+                                                <option value="optimal">최적 자동 선택</option>
+                                                <option value="B">성급 유지 복구</option>
+                                                <option value="A">12성 복구</option>
+                                            </select>
+                                            <div className="absolute right-3 top-3 pointer-events-none text-slate-400 text-xs">▼</div>
+                                        </div>
+                                    </InputField>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <ToggleCheckbox
+                                        checked={isShining}
+                                        onChange={() => { setIsShining(!isShining); if (isSundayMaple) setIsSundayMaple(false); }}
+                                        label="샤이닝 스타포스 타임"
+                                        desc="비용 30% ↓ · 파괴율 30% ↓ (21성↓) · 복구비 20% ↓"
+                                    />
+                                    <ToggleCheckbox
+                                        checked={isSundayMaple}
+                                        onChange={() => { setIsSundayMaple(!isSundayMaple); if (isShining) setIsShining(false); }}
+                                        label="강화 비용 30% 할인"
+                                        desc="썬데이 메이플 등 전 구간 30% 할인 이벤트"
+                                    />
+                                    <ToggleCheckbox
+                                        checked={useSafeguard}
+                                        onChange={() => setUseSafeguard(!useSafeguard)}
+                                        label="파괴 방지 (세이프가드)"
+                                        desc="15~17성 적용 · 추가 비용 200% 발생"
+                                    />
+                                    {/* 파괴방지 권장 배지 */}
+                                    {(currentStars < 18 && targetStars > 15) && (
+                                        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold border ${
+                                            safeguardRecommended
+                                                ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
+                                                : "bg-red-500/10 border-red-500/30 text-red-300"
+                                        }`}>
+                                            <span>{safeguardRecommended ? "✓" : "✗"}</span>
+                                            <span>
+                                                {safeguardRecommended
+                                                    ? "현재 장비 가격 기준, 파괴 방지를 사용하는 것을 권장합니다."
+                                                    : "현재 장비 가격 기준, 파괴 방지 없이 강화하는 것이 유리합니다."}
+                                            </span>
+                                        </div>
+                                    )}
+                                    <ToggleCheckbox
+                                        checked={usePCCafe}
+                                        onChange={() => setUsePCCafe(!usePCCafe)}
+                                        label="PC방 할인"
+                                        desc="1~17성 구간 5% 추가 할인"
                                     />
                                 </div>
-                                <button
-                                    onClick={runBatchSimulation}
-                                    disabled={isSimulating}
-                                    className="w-full py-2.5 sm:py-3 bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/50 hover:border-emerald-500 text-emerald-400 font-bold rounded-xl transition-all flex items-center justify-center gap-2"
-                                >
-                                    {isSimulating ? "계산 중..." : "시뮬레이션 시작"}
-                                </button>
                             </div>
-
-                            {simResult && (
-                                <div className="space-y-3 pt-2 animate-in slide-in-from-top-2">
-                                    <div className="p-4 sm:p-6 bg-gradient-to-br from-indigo-900/30 to-slate-900/50 rounded-2xl border border-indigo-500/30 shadow-lg shadow-indigo-900/20 space-y-2 relative overflow-hidden group">
-                                        <div className="absolute inset-0 bg-indigo-500/5 group-hover:bg-indigo-500/10 transition-colors" />
-                                        <div className="relative z-10">
-                                            <div className="text-xs sm:text-sm font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
-                                                <Coins className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                                                평균 비용 (기대값)
-                                            </div>
-                                            <div className="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-100 to-indigo-200 break-keep mt-1 leading-tight">
-                                                {formatNumber(simResult.averageCost)}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                                        <div className="p-2.5 sm:p-3 bg-slate-950/50 rounded-xl border border-slate-800">
-                                            <div className="text-[10px] text-slate-500 uppercase">중위 비용 (50%)</div>
-                                            <div className="text-xs sm:text-sm font-medium text-slate-300 break-keep">{formatNumber(simResult.medianCost)}</div>
-                                        </div>
-                                        <div className="p-2.5 sm:p-3 bg-slate-950/50 rounded-xl border border-slate-800">
-                                            <div className="text-[10px] text-slate-500 uppercase">최대 비용 (100%)</div>
-                                            <div className="text-xs sm:text-sm font-medium text-red-400 break-keep">{formatNumber(simResult.maxCost)}</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-between items-center px-2 pt-2">
-                                        <span className="text-[10px] sm:text-xs text-slate-500">평균 파괴 횟수</span>
-                                        <span className="text-xs sm:text-sm font-bold text-red-400">{simResult.avgDestroys.toFixed(2)}회</span>
-                                    </div>
-                                    <div className="flex justify-between items-center px-2 pt-1">
-                                        <span className="text-[10px] sm:text-xs text-slate-500">평균 장비 소모 개수</span>
-                                        <span className="text-xs sm:text-sm font-bold text-orange-400">{simResult.avgSpares.toFixed(2)}개</span>
-                                    </div>
-                                </div>
-                            )}
                         </div>
 
-                        {/* Log */}
-                        <div className="bg-black/40 rounded-2xl sm:rounded-3xl border border-slate-800 p-4 h-40 sm:h-48 overflow-y-auto font-mono text-[10px] sm:text-xs space-y-1 sm:space-y-1.5 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
-                            {log.length === 0 && <div className="text-slate-600 text-center mt-16 italic">시뮬레이션 기록이 여기에 표시됩니다...</div>}
-                            {log.map((entry, i) => (
-                                <div key={i} className="text-slate-400 border-b border-white/5 pb-1 last:border-0 break-keep">
-                                    <span className="text-slate-600 mr-2">[{i + 1}]</span>
-                                    {entry}
+                        {/* Calculate Button */}
+                        <button
+                            onClick={handleCalculate}
+                            className="w-full py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-400 hover:to-purple-400 text-white shadow-lg shadow-indigo-500/25 active:scale-95 transition-all duration-150"
+                        >
+                            ✦ 계산하기
+                        </button>
+                    </div>
+
+                    {/* ===== RIGHT: Results ===== */}
+                    <div className="lg:col-span-3 space-y-4">
+                        {results ? (
+                            <>
+                                {/* Summary Cards */}
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <div className="rounded-2xl border border-slate-600 bg-slate-800/60 p-5 space-y-2">
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-300 uppercase tracking-wider">
+                                            <Coins className="w-3.5 h-3.5 text-yellow-400" />
+                                            강화 비용
+                                        </div>
+                                        <div className="text-2xl font-black text-white leading-none">{fmtLarge(results.expectedMeso)}</div>
+                                    </div>
+                                    <div className="rounded-2xl border border-slate-600 bg-slate-800/60 p-5 space-y-2">
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-300 uppercase tracking-wider">
+                                            <Package className="w-3.5 h-3.5 text-orange-300" />
+                                            스페어 장비
+                                        </div>
+                                        <div className="text-2xl font-black text-orange-300 leading-none">{results.expectedSpares.toFixed(2)}<span className="text-base font-bold ml-1">개</span></div>
+                                    </div>
+                                    <div className="rounded-2xl border-2 border-yellow-400/60 bg-yellow-950/30 p-5 space-y-2 relative overflow-hidden">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-orange-500/5 pointer-events-none" />
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-yellow-200 uppercase tracking-wider relative z-10">
+                                            <TrendingUp className="w-3.5 h-3.5 text-yellow-300" />
+                                            최종 기댓값
+                                        </div>
+                                        <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300 leading-none relative z-10">{fmtLarge(results.totalValue)}</div>
+                                    </div>
                                 </div>
-                            ))}
-                            <div ref={logEndRef} />
-                        </div>
+
+                                {/* Stage Breakdown Table */}
+                                <div className="rounded-2xl border border-slate-600 bg-slate-800/60 overflow-hidden">
+                                    <div className="px-5 py-4 border-b border-slate-600 flex items-center justify-between bg-slate-800/80">
+                                        <div className="flex items-center gap-2">
+                                            <Calculator className="w-4 h-4 text-slate-300" />
+                                            <span className="text-sm font-bold text-white">성급별 상세 분석</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-300">
+                                            <span className="text-slate-200">{currentStars}★</span>
+                                            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                                            <span className="text-yellow-300">{targetStars}★</span>
+                                        </div>
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left text-xs">
+                                            <thead>
+                                                <tr className="bg-slate-900/80 text-xs font-bold text-slate-300 uppercase tracking-wider border-b border-slate-600">
+                                                    <th className="py-3 px-4 whitespace-nowrap">구간</th>
+                                                    <th className="py-3 px-3 text-right whitespace-nowrap">성공 / 파괴율</th>
+                                                    <th className="py-3 px-3 text-right whitespace-nowrap">시도 비용</th>
+                                                    <th className="py-3 px-3 text-right whitespace-nowrap">구간 기대 비용</th>
+                                                    <th className="py-3 px-3 text-center whitespace-nowrap">스페어</th>
+                                                    <th className="py-3 px-3 text-center whitespace-nowrap">복구</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {results.stages.map((stageData, idx) => {
+                                                    const useOptionB = stageData.useOptionB;
+                                                    const hasDestroy = stageData.destroy > 0;
+                                                    const isHighRisk = stageData.destroy > 10;
+
+                                                    return (
+                                                        <tr
+                                                            key={idx}
+                                                            className={`border-b border-slate-700 transition-colors hover:bg-slate-700/40 ${isHighRisk ? "bg-red-900/10" : idx % 2 === 0 ? "bg-slate-800/20" : ""}`}
+                                                        >
+                                                            {/* 구간 */}
+                                                            <td className="py-3 px-4 font-bold whitespace-nowrap">
+                                                                <span className="text-slate-300">{stageData.stage}</span>
+                                                                <span className="text-slate-500 mx-1">→</span>
+                                                                <span className="text-white">{stageData.stage + 1}</span>
+                                                                <span className="text-yellow-400 ml-0.5 text-[10px]">★</span>
+                                                            </td>
+                                                            {/* 확률 */}
+                                                            <td className="py-3 px-3 text-right whitespace-nowrap">
+                                                                <span className="text-emerald-300 font-semibold">{stageData.success.toFixed(2)}%</span>
+                                                                {hasDestroy ? (
+                                                                    <span className={`ml-2 font-semibold ${isHighRisk ? "text-red-300" : "text-red-400"}`}>
+                                                                        {stageData.destroy.toFixed(2)}%
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="ml-2 text-slate-500">—</span>
+                                                                )}
+                                                            </td>
+                                                            {/* 시도 비용 */}
+                                                            <td className="py-3 px-3 text-right font-mono text-slate-300 whitespace-nowrap">
+                                                                {fmtLarge(stageData.cost)}
+                                                            </td>
+                                                            {/* 구간 기대 비용 */}
+                                                            <td className="py-3 px-3 text-right font-mono font-bold text-white whitespace-nowrap">
+                                                                {fmtLarge(stageData.expectedMeso)}
+                                                            </td>
+                                                            {/* 스페어 */}
+                                                            <td className="py-3 px-3 text-center whitespace-nowrap">
+                                                                {stageData.expectedSpares > 0.001 ? (
+                                                                    <span className="text-orange-300 font-semibold">{stageData.expectedSpares.toFixed(3)}</span>
+                                                                ) : (
+                                                                    <span className="text-slate-500">—</span>
+                                                                )}
+                                                            </td>
+                                                            {/* 복구 방식 */}
+                                                            <td className="py-3 px-3 text-center whitespace-nowrap">
+                                                                {hasDestroy ? (
+                                                                    useOptionB ? (
+                                                                        <span className="inline-block text-[10px] font-bold text-indigo-200 bg-indigo-500/25 border border-indigo-400/40 px-2 py-0.5 rounded-full">온전</span>
+                                                                    ) : (
+                                                                        <span className="inline-block text-[10px] font-bold text-amber-200 bg-amber-500/25 border border-amber-400/40 px-2 py-0.5 rounded-full">12성</span>
+                                                                    )
+                                                                ) : (
+                                                                    <span className="text-slate-500">—</span>
+                                                                )}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="rounded-2xl border border-slate-600 bg-slate-800/60 p-12 text-center flex flex-col items-center justify-center min-h-[400px]">
+                                <div className="w-16 h-16 rounded-2xl bg-slate-700 flex items-center justify-center mb-4">
+                                    <Star className="w-8 h-8 text-slate-400" />
+                                </div>
+                                <div className="text-slate-200 font-bold text-base mb-1">조건을 설정해 주세요</div>
+                                <div className="text-slate-400 text-sm">시작 성급이 목표 성급보다 낮아야 계산이 시작됩니다.</div>
+                                <div className="mt-4 text-sm text-slate-500">예: 시작 0★ → 목표 22★</div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                <div className="my-8">
-                    <InArticleAd dataAdSlot="6849727140" />
+                <InArticleAd dataAdSlot="6849727140" />
+
+                {/* Algorithm Explanation */}
+                <div className="rounded-2xl border border-slate-600 bg-slate-800/60 overflow-hidden">
+                    <div className="px-5 py-4 border-b border-slate-600 bg-slate-800/80">
+                        <h2 className="text-sm font-bold text-white">흔적 복구 최적화 알고리즘</h2>
+                        <p className="text-xs text-slate-400 mt-1">파괴 발생 시 어떤 방식으로 복구하는 게 더 저렴한지 자동으로 비교하여 선택합니다.</p>
+                    </div>
+                    <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                        {/* Option A */}
+                        <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 space-y-3">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-black text-amber-300 bg-amber-500/20 border border-amber-500/30 px-2 py-0.5 rounded-full">12성 복구 (A)</span>
+                            </div>
+                            <p className="text-sm text-slate-200 font-medium leading-relaxed">
+                                파괴된 장비를 <span className="text-amber-300 font-bold">스페어 1개</span>로 교체한 뒤,<br/>
+                                <span className="text-amber-300 font-bold">12성 체크포인트</span>부터 다시 강화합니다.
+                            </p>
+                            <div className="bg-slate-900/60 rounded-lg p-3 space-y-1 font-mono text-xs">
+                                <div className="text-slate-400">복구 비용 =</div>
+                                <div className="text-amber-200 pl-2">스페어 1개</div>
+                                <div className="text-amber-200 pl-2">+ E[12성 → 현재성] 메소</div>
+                                <div className="text-slate-500 text-[10px] pt-1">※ 15성 미만 파괴는 0성부터 복구</div>
+                            </div>
+                            <p className="text-xs text-slate-400">장비 가격이 저렴할수록 유리. 12성까지 강화 비용이 낮은 구간에서 효율적.</p>
+                        </div>
+
+                        {/* Option B */}
+                        <div className="rounded-xl border border-indigo-500/30 bg-indigo-950/20 p-4 space-y-3">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-black text-indigo-300 bg-indigo-500/20 border border-indigo-500/30 px-2 py-0.5 rounded-full">성급 유지 복구 (B)</span>
+                                <span className="text-[10px] text-slate-500">2026 개편 신규</span>
+                            </div>
+                            <p className="text-sm text-slate-200 font-medium leading-relaxed">
+                                메소를 지불하여 파괴된 장비를<br/>
+                                <span className="text-indigo-300 font-bold">파괴 직전 성급으로 즉시 복구</span>합니다.
+                            </p>
+                            <div className="bg-slate-900/60 rounded-lg p-3 space-y-1 font-mono text-xs">
+                                <div className="text-slate-400">복구 비용 =</div>
+                                <div className="text-indigo-200 pl-2">스페어 N개 (성급별 상이)</div>
+                                <div className="text-indigo-200 pl-2">+ 고정 복구 메소 (공식 고지)</div>
+                                <div className="text-slate-500 text-[10px] pt-1">※ 15성 이상 파괴부터 선택 가능</div>
+                            </div>
+                            <p className="text-xs text-slate-400">장비 가격이 비쌀수록 유리. 고성급에서 12성까지 다시 올리는 비용이 클 때 효율적.</p>
+                        </div>
+
+                        {/* Comparison Logic */}
+                        <div className="md:col-span-2 rounded-xl border border-slate-600 bg-slate-900/50 p-4 space-y-3">
+                            <p className="text-xs font-bold text-white">⚖️ 자동 선택 방식 (최적 복구)</p>
+                            <div className="bg-slate-950 rounded-lg p-3 font-mono text-xs space-y-2 text-slate-300">
+                                <div><span className="text-slate-500">// 각 복구 방식의 총 비용(메소 + 스페어 가치) 계산</span></div>
+                                <div><span className="text-amber-300">비용_A</span> = E[12성→현재성 메소] + <span className="text-amber-300">스페어 1개 × 장비 가격</span></div>
+                                <div><span className="text-indigo-300">비용_B</span> = 고정복구 메소 + <span className="text-indigo-300">스페어 N개 × 장비 가격</span></div>
+                                <div className="pt-1 border-t border-slate-800">
+                                    <span className="text-white">if </span>
+                                    <span className="text-indigo-300">비용_B</span>
+                                    <span className="text-white"> &lt; </span>
+                                    <span className="text-amber-300">비용_A</span>
+                                    <span className="text-white"> → </span>
+                                    <span className="text-indigo-300 font-bold">성급 유지 복구(B) 선택</span>
+                                </div>
+                                <div>
+                                    <span className="text-white">else → </span>
+                                    <span className="text-amber-300 font-bold">12성 복구(A) 선택</span>
+                                </div>
+                            </div>
+                            <p className="text-xs text-slate-400">
+                                성급이 높을수록, 장비 가격이 비쌀수록 성급 유지 복구(B)가 유리해지는 경향이 있습니다.
+                                23성 이상 파괴 시 22성으로 강제 복구되며, 22성→원래 성급 재강화 비용도 함께 반영됩니다.
+                            </p>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

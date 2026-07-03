@@ -59,8 +59,23 @@ export default function CalculatorMenu() {
                         >
                             <span className="text-xl flex-shrink-0">📊</span>
                             <div className="flex flex-col min-w-0">
-                                <span className="font-semibold">아이템 시세 추적</span>
-                                <span className="text-xs text-slate-400">매일 업데이트</span>
+                                <span className="font-semibold text-sm">아이템 시세 추적</span>
+                                <span className="text-[10px] text-slate-400 mt-0.5">매일 업데이트</span>
+                            </div>
+                        </Link>
+
+                        <Link
+                            href="/tools/starforce"
+                            onClick={close}
+                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
+                        >
+                            <span className="text-xl flex-shrink-0">⭐</span>
+                            <div className="flex flex-col min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-semibold text-sm">스타포스 기댓값 계산기</span>
+                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
+                                </div>
+                                <span className="text-[10px] text-slate-400 mt-0.5">하락 제거 & 복구 최적화</span>
                             </div>
                         </Link>
 

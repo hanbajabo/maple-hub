@@ -88,80 +88,74 @@ export const STARFORCE_DB: StarforceStage[] = [
 ];
 
 export interface StarforceOptions {
-    mvpDiscount?: number; // 0.03 ~ 0.1 (3% ~ 10%)
-    pcCafe?: boolean; // 5%
-    sundayMaple?: boolean; // 30%
-    preventDestruction?: boolean; // 12~16 star only
+    mvpDiscount?: number;       // 0.03 ~ 0.1 (3% ~ 10%)
+    pcCafe?: boolean;           // 5% 할인
+    sundayMaple?: boolean;      // 30% 할인
+    preventDestruction?: boolean; // 15~17성 파괴 방지
     starcatch?: boolean;
+    isShining?: boolean;        // 샤이닝 스타포스 타임
+    itemCost?: number;          // 스페어 장비 1개 가격 (메소)
+    restoreMethod?: "A" | "B" | "optimal"; // 파괴 복구 방식
 }
-
-// Denominator tables for different levels (New Age / Savior update)
-// Derived from cost curves: High denominators for 10-14 (low cost), varied for 15+.
-const STARFORCE_DENOMINATOR_TABLE: { [level: number]: number[] } = {
-    200: [
-        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, // 0-9
-        1350, 750, 510, 375, 255, // 10-14
-        475, 475, 300, 140, 90, // 15-19
-        400, 250, 400, 400, 400 // 20-24
-    ],
-    // Estimated/Scaled for other levels based on 200 data
-    160: [
-        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
-        1100, 600, 400, 300, 200,
-        350, 350, 250, 120, 80,
-        300, 200, 300, 300, 300
-    ],
-    150: [
-        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
-        1000, 550, 380, 280, 190,
-        320, 320, 230, 110, 75,
-        280, 190, 280, 280, 280
-    ],
-    // Default fallback for others (using 140/130 etc logic or generic)
-    140: [
-        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
-        900, 500, 350, 250, 170,
-        300, 300, 200, 100, 70,
-        250, 170, 250, 250, 250
-    ]
-};
 
 export const getRestorationMesoCost = (level: number, stars: number, isShining: boolean = false): number => {
     if (stars < 15 || stars > 22) return 0;
 
-    // 성급: [140제, 160제, 200제, 250제] (단위: 원화메소)
-    const costTable: { [star: number]: number[] } = {
-        15: [149000000, 222000000, 433000000, 846000000],
-        16: [359000000, 535000000, 1050000000, 2040000000],
-        17: [606000000, 904000000, 1770000000, 3450000000],
-        18: [1380000000, 2060000000, 4010000000, 7830000000],
-        19: [2280000000, 3410000000, 6650000000, 13000000000],
-        20: [4020000000, 6000000000, 11800000000, 22900000000],
-        21: [5050000000, 7540000000, 14800000000, 28800000000],
-        22: [8290000000, 12400000000, 24200000000, 47300000000],
+    let lv = 140;
+    if (level >= 250) lv = 250;
+    else if (level >= 200) lv = 200;
+    else if (level >= 160) lv = 160;
+    else if (level >= 150) lv = 150;
+    else if (level >= 145) lv = 145;
+    else if (level >= 140) lv = 140;
+    else if (level >= 135) lv = 135;
+    else lv = 130;
+
+    const table: { [lv: number]: { [star: number]: number } } = {
+        130: { 15: 0, 16: 222000000, 17: 535000000, 18: 904000000, 19: 2060000000, 20: 3410000000, 21: 6000000000, 22: 7540000000 },
+        135: { 15: 0, 16: 222000000, 17: 535000000, 18: 904000000, 19: 2060000000, 20: 3410000000, 21: 6000000000, 22: 7540000000 },
+        140: { 15: 0, 16: 359000000, 17: 606000000, 18: 1380000000, 19: 2280000000, 20: 4020000000, 21: 5050000000, 22: 8290000000 },
+        145: { 15: 0, 16: 359000000, 17: 606000000, 18: 1380000000, 19: 2280000000, 20: 4020000000, 21: 5050000000, 22: 8290000000 },
+        150: { 15: 0, 16: 359000000, 17: 606000000, 18: 1380000000, 19: 2280000000, 20: 4020000000, 21: 5050000000, 22: 8290000000 },
+        160: { 15: 0, 16: 535000000, 17: 904000000, 18: 2060000000, 19: 3410000000, 20: 6000000000, 21: 7540000000, 22: 12400000000 },
+        200: { 15: 0, 16: 1050000000, 17: 1770000000, 18: 4010000000, 19: 6650000000, 20: 11800000000, 21: 14800000000, 22: 24200000000 },
+        250: { 15: 0, 16: 2040000000, 17: 3450000000, 18: 7830000000, 19: 13000000000, 20: 22900000000, 21: 28800000000, 22: 47300000000 }
     };
 
-    let levelIndex = 0; // default 140제
-    if (level >= 250) levelIndex = 3;
-    else if (level >= 200) levelIndex = 2;
-    else if (level >= 160) levelIndex = 1;
-
-    let baseMeso = costTable[stars][levelIndex];
+    let baseMeso = table[lv]?.[stars] ?? 0;
 
     if (isShining) {
         baseMeso = baseMeso * 0.8; // 20% 할인
     }
 
-    return Math.floor(baseMeso);
+    return baseMeso;
 };
 
-export const getRestorationSpareCount = (stars: number): number => {
+export const getRestorationSpareCount = (level: number, stars: number): number => {
     if (stars < 15) return 1;
-    if (stars <= 18) return 1;
-    if (stars <= 20) return 2;
-    if (stars === 21) return 3;
-    if (stars === 22) return 4;
-    return 4; // 23성 이상 파괴 시 22성으로 복구되므로 4개
+
+    let lv = 140;
+    if (level >= 250) lv = 250;
+    else if (level >= 200) lv = 200;
+    else if (level >= 160) lv = 160;
+    else if (level >= 150) lv = 150;
+    else if (level >= 145) lv = 145;
+    else if (level >= 140) lv = 140;
+    else if (level >= 135) lv = 135;
+    else lv = 130;
+
+    if (lv === 130 || lv === 135) {
+        if (stars <= 18) return 1;
+        if (stars <= 21) return 2;
+        if (stars === 22) return 3;
+        return 3;
+    } else {
+        if (stars <= 18) return 1;
+        if (stars <= 20) return 2;
+        if (stars === 21) return 3;
+        if (stars === 22) return 4;
+        return 4;
+    }
 };
 
 export const calculateStarforceCost = (level: number, currentStar: number, options: StarforceOptions = {}): number => {
@@ -235,6 +229,12 @@ export const calculateStarforceProbabilities = (currentStar: number, options: St
         success = baseSuccess;
     }
 
+    // 파괴 방지 (세이프가드) 적용 시 15~17성 구간 파괴 확률 0%, 실패 확률로 이관
+    if (options.preventDestruction && currentStar >= 15 && currentStar <= 17) {
+        fail = fail + destroy;
+        destroy = 0;
+    }
+
     // 샤이닝 스타포스 적용 시 21성 이하 파괴 확률 30% 감소
     if (options.isShining && currentStar <= 21 && destroy > 0) {
         const originalDestroy = destroy;
@@ -253,14 +253,15 @@ export const calculateCumulativeExpectedCostDetailed = (
     level: number,
     targetStar: number,
     options: StarforceOptions = {}
-): { totalMeso: number; totalSpares: number } => {
-    if (targetStar <= 0) return { totalMeso: 0, totalSpares: 0 };
+): { totalMeso: number; totalSpares: number; choices: boolean[] } => {
+    if (targetStar <= 0) return { totalMeso: 0, totalSpares: 0, choices: [] };
 
     const itemCost = options.itemCost ?? 0;
     const isShining = options.isShining ?? false;
 
     const T_meso: number[] = [0];
     const T_spares: number[] = [0];
+    const choices: boolean[] = [];
 
     for (let i = 0; i < targetStar; i++) {
         const currentStar = i;
@@ -271,18 +272,25 @@ export const calculateCumulativeExpectedCostDetailed = (
         const p_x = probs.destroy / 100;
 
         // Option A: 12성 복구 후 다시 복귀하는 방식
-        const restoreStar = currentStar >= 12 ? 12 : 0;
-        const restoreCostMeso_A = T_meso[currentStar] - T_meso[restoreStar];
-        const restoreCostSpares_A = 1 + (T_spares[currentStar] - T_spares[restoreStar]);
+        const restoreStar_A = currentStar >= 12 ? 12 : 0;
+        const restoreCostMeso_A = T_meso[currentStar] - T_meso[restoreStar_A];
+        const restoreCostSpares_A = 1 + (T_spares[currentStar] - T_spares[restoreStar_A]);
         const totalValue_A = restoreCostMeso_A + restoreCostSpares_A * itemCost;
 
-        // Option B: 성급 유지 복구 방식 (메소 지불)
-        const restoreCostMeso_B = getRestorationMesoCost(level, currentStar, isShining);
-        const restoreCostSpares_B = getRestorationSpareCount(currentStar);
+        // Option B: 성급 유지 복구 방식 (메소 지불). 23성 이상 파괴 시 22성으로 복원됨.
+        const restoreStar_B = currentStar >= 23 ? 22 : currentStar;
+        const restoreCostMeso_B = getRestorationMesoCost(level, restoreStar_B, isShining) + (T_meso[currentStar] - T_meso[restoreStar_B]);
+        const restoreCostSpares_B = getRestorationSpareCount(level, restoreStar_B) + (T_spares[currentStar] - T_spares[restoreStar_B]);
         const totalValue_B = restoreCostMeso_B + restoreCostSpares_B * itemCost;
 
-        // 더 저렴한 방식을 선택 (15성 미만은 Option B가 없으므로 무조건 Option A)
-        const useOptionB = currentStar >= 15 && totalValue_B < totalValue_A;
+        // 복구 방식 결정 (15성 미만은 Option B가 존재하지 않으므로 무조건 Option A)
+        const method = options.restoreMethod ?? "optimal";
+        const useOptionB = currentStar >= 15 && (
+            method === "B" ||
+            (method === "optimal" && totalValue_B < totalValue_A)
+        );
+
+        choices.push(useOptionB);
 
         let stepExpectedMeso = 0;
         let stepExpectedSpares = 0;
@@ -301,7 +309,8 @@ export const calculateCumulativeExpectedCostDetailed = (
 
     return {
         totalMeso: Math.round(T_meso[targetStar]),
-        totalSpares: Number(T_spares[targetStar].toFixed(4))
+        totalSpares: Number(T_spares[targetStar].toFixed(4)),
+        choices
     };
 };
 
