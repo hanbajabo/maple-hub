@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 7월 5일 썬데이 메이플 샤이닝 스타포스 완벽 공략
+    {
+        slug: 'sunday-maple-starforce-jul5',
+        title: '⭐ 썬데이 메이플 샤타포스 완벽 공략',
+        description: '2026년 7월 5일 일요일 썬데이 메이플 샤이닝 스타포스 이벤트 완벽 공략. 강화 비용 30% 할인 + 파괴 확률 30% 감소 혜택을 최대로 활용하는 구간별 전략, 기댓값 데이터, 스페어 전략, 당일 체크리스트까지 한 번에 정리했습니다.',
+        category: '이벤트 가이드',
+        date: '2026년 7월 3일',
+        readTime: '8분',
+        thumbnail: '⭐',
+        featured: true,
+        targetDate: '2026년 7월 5일',
+    },
     // 미라클 타임 완벽 공략 : "레전드리의 함정"을 피하는 스펙업 가이드
     {
         slug: 'miracle-time-guide',
