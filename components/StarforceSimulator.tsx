@@ -42,13 +42,13 @@ const InputField = ({ label, children, hint }: { label: string; children: React.
 );
 
 export default function StarforceCalculatorComponent() {
-    const [itemLevel, setItemLevel] = useState<number>(200);
-    const [itemCost, setItemCost] = useState<number>(100000000);
+    const [itemLevel, setItemLevel] = useState<number>(0);
+    const [itemCost, setItemCost] = useState<number>(0);
     const [currentStars, setCurrentStars] = useState<number>(0);
     const [currentStarsInput, setCurrentStarsInput] = useState<string>("0");
     const [targetStars, setTargetStars] = useState<number>(22);
     const [targetStarsInput, setTargetStarsInput] = useState<string>("22");
-    const [useSafeguard, setUseSafeguard] = useState<boolean>(true);
+    const [useSafeguard, setUseSafeguard] = useState<boolean>(false);
     const [mvpRank, setMvpRank] = useState<MVP>("none");
     const [usePCCafe, setUsePCCafe] = useState<boolean>(false);
     const [isSundayMaple, setIsSundayMaple] = useState<boolean>(false);
