@@ -364,31 +364,31 @@ export default function StarforceCalculatorComponent() {
                         {results ? (
                             <>
                                 {/* Summary Cards */}
-                                <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                                    <div className="rounded-2xl border border-slate-600 bg-slate-800/60 p-2.5 sm:p-5 space-y-1 sm:space-y-2 flex flex-col justify-between">
-                                        <div className="flex items-center gap-1 sm:gap-1.5 text-[9px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider">
-                                            <Coins className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" />
-                                            <span className="truncate">강화 비용</span>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                                    <div className="rounded-2xl border border-slate-600 bg-slate-800/60 p-3.5 sm:p-5 flex flex-row sm:flex-col items-center sm:items-start justify-between sm:space-y-2">
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-300 uppercase tracking-wider">
+                                            <Coins className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-yellow-400 flex-shrink-0" />
+                                            <span>강화 비용</span>
                                         </div>
-                                        <div className="text-xs sm:text-2xl font-black text-white leading-none truncate">{fmtLarge(results.expectedMeso)}</div>
+                                        <div className="text-[17px] sm:text-2xl font-black text-white leading-none text-right sm:text-left">{fmtLarge(results.expectedMeso)}</div>
                                     </div>
-                                    <div className="rounded-2xl border border-slate-600 bg-slate-800/60 p-2.5 sm:p-5 space-y-1 sm:space-y-2 flex flex-col justify-between">
-                                        <div className="flex items-center gap-1 sm:gap-1.5 text-[9px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider">
-                                            <Package className="w-3.5 h-3.5 text-orange-300 flex-shrink-0" />
-                                            <span className="truncate">스페어 장비</span>
+                                    <div className="rounded-2xl border border-slate-600 bg-slate-800/60 p-3.5 sm:p-5 flex flex-row sm:flex-col items-center sm:items-start justify-between sm:space-y-2">
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-300 uppercase tracking-wider">
+                                            <Package className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-orange-300 flex-shrink-0" />
+                                            <span>스페어 장비</span>
                                         </div>
-                                        <div className="text-xs sm:text-2xl font-black text-orange-300 leading-none truncate">
+                                        <div className="text-[17px] sm:text-2xl font-black text-orange-300 leading-none text-right sm:text-left">
                                             {results.expectedSpares.toFixed(2)}
-                                            <span className="text-[9px] sm:text-base font-bold ml-0.5">개</span>
+                                            <span className="text-xs sm:text-base font-bold ml-1">개</span>
                                         </div>
                                     </div>
-                                    <div className="rounded-2xl border-2 border-yellow-400/60 bg-yellow-950/30 p-2.5 sm:p-5 space-y-1 sm:space-y-2 relative overflow-hidden flex flex-col justify-between">
+                                    <div className="rounded-2xl border-2 border-yellow-400/60 bg-yellow-950/30 p-3.5 sm:p-5 relative overflow-hidden flex flex-row sm:flex-col items-center sm:items-start justify-between sm:space-y-2">
                                         <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-orange-500/5 pointer-events-none" />
-                                        <div className="flex items-center gap-1 sm:gap-1.5 text-[9px] sm:text-xs font-bold text-yellow-200 uppercase tracking-wider relative z-10">
-                                            <TrendingUp className="w-3.5 h-3.5 text-yellow-300 flex-shrink-0" />
-                                            <span className="truncate">최종 기댓값</span>
+                                        <div className="flex items-center gap-1.5 text-xs font-bold text-yellow-200 uppercase tracking-wider relative z-10">
+                                            <TrendingUp className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-yellow-300 flex-shrink-0" />
+                                            <span>최종 기댓값</span>
                                         </div>
-                                        <div className="text-xs sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300 leading-none relative z-10 truncate">{fmtLarge(results.totalValue)}</div>
+                                        <div className="text-[17px] sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300 leading-none relative z-10 text-right sm:text-left">{fmtLarge(results.totalValue)}</div>
                                     </div>
                                 </div>
 
