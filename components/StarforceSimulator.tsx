@@ -4,6 +4,11 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Star, Shield, RefreshCw, Zap, Settings, Monitor, Calculator, Coins, Sparkles, ArrowLeft } from "lucide-react";
 import { InArticleAd } from "@/components/AdSense";
+import {
+    getRestorationMesoCost,
+    getRestorationSpareCount,
+    calculateCumulativeExpectedCostDetailed
+} from "@/lib/starforce_db";
 
 interface StarforceStats {
     totalCost: number;
@@ -12,6 +17,7 @@ interface StarforceStats {
     failures: number;
     destroys: number;
     starCatchSuccesses: number;
+    sparesConsumed: number;
 }
 
 interface SimResult {
@@ -20,6 +26,7 @@ interface SimResult {
     minCost: number;
     maxCost: number;
     avgDestroys: number;
+    avgSpares: number;
     successRate: number;
     distribution: { cost: number, count: number }[];
 }
@@ -39,6 +46,7 @@ export default function StarforceSimulator() {
     const [targetStars, setTargetStars] = useState<number>(22);
     const [mvpRank, setMvpRank] = useState<MVP>("none");
     const [usePCCafe, setUsePCCafe] = useState<boolean>(false);
+    const [restoreMethod, setRestoreMethod] = useState<"A" | "B" | "optimal">("optimal");
 
     // Simulation State
     const [stats, setStats] = useState<StarforceStats>({
@@ -48,6 +56,7 @@ export default function StarforceSimulator() {
         failures: 0,
         destroys: 0,
         starCatchSuccesses: 0,
+        sparesConsumed: 0,
     });
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
     const [lastResult, setLastResult] = useState<"success" | "fail" | "destroy" | "chance" | null>(null);
@@ -79,6 +88,7 @@ export default function StarforceSimulator() {
         let success = 0;
         let destroy = 0;
 
+        // 2026년 개편: 성공 확률에 1.05배 스타캐치 혜택이 상시 합산 적용됨
         if (stars === 0) success = 0.95;
         else if (stars === 1) success = 0.90;
         else if (stars === 2) success = 0.85;
@@ -101,43 +111,38 @@ export default function StarforceSimulator() {
         else if (stars === 21) { success = 0.15; destroy = 0.1275; }
         else if (stars === 22) { success = 0.15; destroy = 0.17; }
         else if (stars >= 23 && stars <= 25) { success = 0.10; destroy = 0.18; }
-        else if (stars === 26) { success = 0.07; destroy = 0.186; }
-        else if (stars === 27) { success = 0.05; destroy = 0.19; }
-        else if (stars === 28) { success = 0.03; destroy = 0.194; }
-        else if (stars === 29) { success = 0.01; destroy = 0.198; }
+        else if (stars === 26) { success = 0.07; destroy = 0.1853; }
+        else if (stars === 27) { success = 0.05; destroy = 0.1895; }
+        else if (stars === 28) { success = 0.03; destroy = 0.1937; }
+        else if (stars === 29) { success = 0.01; destroy = 0.1979; }
+
+        // Starcatch가 true인 것이 디폴트(기본 1.05배 적용). 
+        // 만약 스타캐치 사용안함(starCatch = false) 상태라면 1.05배 보정을 역산으로 제거
+        if (starCatch) {
+            success = success * 1.05;
+            // 파괴율 또한 성공률 증가에 맞추어 비례 감소 적용
+            destroy = destroy * (1.0 - success) / (1.0 - (success / 1.05));
+        }
 
         // Event Mods
-        if ((event === "5/10/15" || event === "shining") && (stars === 5 || stars === 10 || stars === 15)) {
+        if (event === "5/10/15" && (stars === 5 || stars === 10 || stars === 15)) {
             success = 1.0;
             destroy = 0;
         }
+        // 샤타포스 또는 21성 이하 파괴 확률 30% 감소 이벤트
         if ((event === "destroy30" || event === "shining") && stars <= 21 && destroy > 0) {
             destroy = destroy * 0.7;
         }
 
-        // Safeguard
+        // Safeguard (15성~17성만 지원)
         if (safeguard && (stars === 15 || stars === 16 || stars === 17)) {
             destroy = 0;
         }
 
-        // Star Catch
-        if (starCatch && success < 1.0) {
-            const baseSuccess = success;
-            const baseDestroy = destroy;
-            const baseFail = 1.0 - baseSuccess - baseDestroy;
-
-            const newSuccess = Math.min(baseSuccess * 1.05, 1.0);
-            const remaining = 1.0 - newSuccess;
-
-            if (baseFail + baseDestroy > 0) {
-                destroy = (baseDestroy / (baseFail + baseDestroy)) * remaining;
-            } else {
-                destroy = 0;
-            }
-            success = newSuccess;
-        }
-
-        return { success, destroy };
+        return { 
+            success: Math.min(1, success), 
+            destroy: Math.min(1, destroy) 
+        };
     };
 
     const calculateCost = (level: number, stars: number, event: string, safeguard: boolean, mvp: MVP, pcCafe: boolean) => {
@@ -147,22 +152,22 @@ export default function StarforceSimulator() {
 
         if (stars <= 9) {
             baseCost = 1000 + (L3 * S1) / 36;
-        } else if (stars <= 14) {
-            const denomMap: { [key: number]: number } = { 10: 571, 11: 314, 12: 214, 13: 157, 14: 107 };
-            baseCost = 1000 + (L3 * Math.pow(S1, 2.7)) / (denomMap[stars] || 100);
         } else {
             let denom = 200;
-            if (stars === 17) denom = 150;
+            if (stars === 10) denom = 571;
+            else if (stars === 11) denom = 314;
+            else if (stars === 12) denom = 214;
+            else if (stars === 13) denom = 157;
+            else if (stars === 14) denom = 107;
+            else if (stars === 17) denom = 150;
             else if (stars === 18) denom = 70;
             else if (stars === 19) denom = 45;
             else if (stars === 21) denom = 125;
             baseCost = 1000 + (L3 * Math.pow(S1, 2.7)) / denom;
         }
 
-        baseCost = Math.round(baseCost / 100) * 100;
-
         let discountPercent = 0;
-        if (stars >= 1 && stars <= 17) {
+        if (stars <= 16) {
             if (mvp === "silver") discountPercent += 0.03;
             else if (mvp === "gold") discountPercent += 0.05;
             else if (mvp === "diamond" || mvp === "red") discountPercent += 0.10;
@@ -177,10 +182,25 @@ export default function StarforceSimulator() {
 
         let safeguardCost = 0;
         if (safeguard && (stars === 15 || stars === 16 || stars === 17)) {
-            safeguardCost = baseCost;
+            safeguardCost = baseCost * 2.0; // 파방 비용 200% 상향
         }
 
-        return Math.floor(discountedCost + safeguardCost);
+        return Math.floor(Math.round(discountedCost / 10) * 10 + safeguardCost);
+    };
+
+    const getOptimalRestoreMethod = (stars: number): "A" | "B" => {
+        if (stars < 15) return "A";
+        const stats12 = calculateCumulativeExpectedCostDetailed(itemLevel, 12, { itemCost, isShining: eventMode === "shining", starcatch: useStarCatch });
+        const statsCurrent = calculateCumulativeExpectedCostDetailed(itemLevel, stars, { itemCost, isShining: eventMode === "shining", starcatch: useStarCatch });
+        const restoreCostMeso_A = statsCurrent.totalMeso - stats12.totalMeso;
+        const restoreCostSpares_A = 1 + (statsCurrent.totalSpares - stats12.totalSpares);
+        const totalValue_A = restoreCostMeso_A + restoreCostSpares_A * itemCost;
+
+        const restoreCostMeso_B = getRestorationMesoCost(itemLevel, stars, eventMode === "shining");
+        const restoreCostSpares_B = getRestorationSpareCount(stars);
+        const totalValue_B = restoreCostMeso_B + restoreCostSpares_B * itemCost;
+
+        return totalValue_B < totalValue_A ? "B" : "A";
     };
 
     // --- Interactive Handlers ---
@@ -197,6 +217,8 @@ export default function StarforceSimulator() {
         let result: "success" | "fail" | "destroy" = "fail";
         let nextStars = currentStars;
         let logMsg = "";
+        let finalCost = cost;
+        let finalSpares = 0;
 
         if (chanceTime) {
             result = "success";
@@ -212,19 +234,41 @@ export default function StarforceSimulator() {
             if (eventMode === "1+1" && currentStars <= 10) nextStars += 1;
             logMsg = `[${currentStars} -> ${nextStars}] 성공!`;
         } else if (result === "fail") {
-            logMsg = `[${currentStars} -> ${currentStars}] 실패`;
+            logMsg = `[${currentStars} -> ${currentStars}] 실패 (유지)`;
         } else {
-            nextStars = 12;
-            logMsg = `[${currentStars}] 파괴! 12성 복구`;
+            // 파괴 시 복구 방식 결정
+            let activeMethod = restoreMethod;
+            if (activeMethod === "optimal") {
+                activeMethod = getOptimalRestoreMethod(currentStars);
+            }
+
+            if (activeMethod === "B") {
+                const mesoCost = getRestorationMesoCost(itemLevel, currentStars, eventMode === "shining");
+                const spareCount = getRestorationSpareCount(currentStars);
+                finalCost += mesoCost;
+                finalSpares += spareCount;
+                nextStars = currentStars; // 성급 그대로 복구!
+                if (currentStars >= 23) {
+                    nextStars = 22; // 23성 이상 파괴 시 22성으로 복구
+                    logMsg = `[${currentStars}] 파괴! 온전한 복구 (22성 강제 고정, 스페어 ${spareCount}개, 추가 메소 ${formatNumber(mesoCost)} 소모)`;
+                } else {
+                    logMsg = `[${currentStars}] 파괴! 온전한 복구 (성급 유지, 스페어 ${spareCount}개, 추가 메소 ${formatNumber(mesoCost)} 소모)`;
+                }
+            } else {
+                finalSpares += 1;
+                nextStars = 12;
+                logMsg = `[${currentStars}] 파괴! 기본 복구 (12성으로 복구, 스페어 1개 소모)`;
+            }
         }
 
         setStats(prev => ({
-            totalCost: prev.totalCost + cost + (result === "destroy" ? itemCost : 0),
+            totalCost: prev.totalCost + finalCost + (result === "destroy" ? finalSpares * itemCost : 0),
             attempts: prev.attempts + 1,
             successes: result === "success" ? prev.successes + 1 : prev.successes,
             failures: result === "fail" ? prev.failures + 1 : prev.failures,
             destroys: result === "destroy" ? prev.destroys + 1 : prev.destroys,
             starCatchSuccesses: prev.starCatchSuccesses,
+            sparesConsumed: prev.sparesConsumed + finalSpares,
         }));
 
         setCurrentStars(nextStars);
@@ -241,12 +285,14 @@ export default function StarforceSimulator() {
 
         const results: number[] = [];
         const destroyCounts: number[] = [];
+        const sparesCounts: number[] = [];
         let successCount = 0;
 
         for (let i = 0; i < simIterations; i++) {
             let simStars = currentStars;
             let simCost = 0;
             let simDestroys = 0;
+            let simSpares = 0;
 
             let safety = 0;
             while (simStars < targetStars && safety < 10000) {
@@ -261,9 +307,26 @@ export default function StarforceSimulator() {
                     simStars += 1;
                     if (eventMode === "1+1" && (simStars - 1) <= 10) simStars += 1;
                 } else if (roll < probs.success + probs.destroy) {
-                    simStars = 12;
                     simDestroys++;
-                    simCost += itemCost;
+
+                    let activeMethod = restoreMethod;
+                    if (activeMethod === "optimal") {
+                        activeMethod = getOptimalRestoreMethod(simStars);
+                    }
+
+                    if (activeMethod === "B") {
+                        const mesoCost = getRestorationMesoCost(itemLevel, simStars, eventMode === "shining");
+                        const spareCount = getRestorationSpareCount(simStars);
+                        simCost += mesoCost + spareCount * itemCost;
+                        simSpares += spareCount;
+                        if (simStars >= 23) {
+                            simStars = 22;
+                        }
+                    } else {
+                        simCost += itemCost;
+                        simSpares += 1;
+                        simStars = 12;
+                    }
                 }
             }
 
@@ -272,6 +335,7 @@ export default function StarforceSimulator() {
             }
             results.push(simCost);
             destroyCounts.push(simDestroys);
+            sparesCounts.push(simSpares);
         }
 
         results.sort((a, b) => a - b);
@@ -281,6 +345,7 @@ export default function StarforceSimulator() {
         const min = results[0];
         const max = results[results.length - 1];
         const totalDestroys = destroyCounts.reduce((a, b) => a + b, 0);
+        const totalSpares = sparesCounts.reduce((a, b) => a + b, 0);
 
         setSimResult({
             averageCost: avg,
@@ -288,6 +353,7 @@ export default function StarforceSimulator() {
             minCost: min,
             maxCost: max,
             avgDestroys: totalDestroys / simIterations,
+            avgSpares: totalSpares / simIterations,
             successRate: (successCount / simIterations) * 100,
             distribution: [],
         });
@@ -297,7 +363,7 @@ export default function StarforceSimulator() {
 
     const resetSimulator = () => {
         setCurrentStars(0);
-        setStats({ totalCost: 0, attempts: 0, successes: 0, failures: 0, destroys: 0, starCatchSuccesses: 0 });
+        setStats({ totalCost: 0, attempts: 0, successes: 0, failures: 0, destroys: 0, starCatchSuccesses: 0, sparesConsumed: 0 });
         setLog([]);
         setLastResult(null);
         setSimResult(null);
@@ -488,10 +554,14 @@ export default function StarforceSimulator() {
                                         {formatNumber(stats.totalCost)}
                                     </div>
                                 </div>
-                                <div className="flex gap-4 sm:gap-8 w-full md:w-auto justify-center">
+                                <div className="flex gap-4 sm:gap-6 w-full md:w-auto justify-center">
                                     <div className="text-center">
                                         <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">파괴 횟수</div>
                                         <div className="text-lg sm:text-xl font-bold text-red-400">{stats.destroys}회</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">소모 장비</div>
+                                        <div className="text-lg sm:text-xl font-bold text-orange-400">{stats.sparesConsumed}개</div>
                                     </div>
                                     <div className="text-center">
                                         <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">총 시도</div>
@@ -600,6 +670,21 @@ export default function StarforceSimulator() {
                                     </div>
                                     <p className="text-[10px] sm:text-xs text-indigo-400 text-right font-medium">{formatNumber(itemCost)} 메소</p>
                                 </div>
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    <label className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">파괴 복구 방식</label>
+                                    <div className="relative">
+                                        <select
+                                            value={restoreMethod}
+                                            onChange={(e) => setRestoreMethod(e.target.value as "A" | "B" | "optimal")}
+                                            className="w-full appearance-none bg-slate-950 text-white px-4 py-3 rounded-xl border border-slate-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-550 transition-all font-medium text-sm sm:text-base"
+                                        >
+                                            <option value="optimal">최적 복구 자동 선택 (권장)</option>
+                                            <option value="B">성급 그대로 복구 (추가 메소 + 스페어 N개)</option>
+                                            <option value="A">12성으로 복구 (스페어 1개)</option>
+                                        </select>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">▼</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -656,7 +741,11 @@ export default function StarforceSimulator() {
                                     </div>
                                     <div className="flex justify-between items-center px-2 pt-2">
                                         <span className="text-[10px] sm:text-xs text-slate-500">평균 파괴 횟수</span>
-                                        <span className="text-xs sm:text-sm font-bold text-white">{simResult.avgDestroys.toFixed(2)}회</span>
+                                        <span className="text-xs sm:text-sm font-bold text-red-400">{simResult.avgDestroys.toFixed(2)}회</span>
+                                    </div>
+                                    <div className="flex justify-between items-center px-2 pt-1">
+                                        <span className="text-[10px] sm:text-xs text-slate-500">평균 장비 소모 개수</span>
+                                        <span className="text-xs sm:text-sm font-bold text-orange-400">{simResult.avgSpares.toFixed(2)}개</span>
                                     </div>
                                 </div>
                             )}

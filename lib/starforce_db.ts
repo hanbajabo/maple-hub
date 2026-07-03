@@ -44,47 +44,47 @@ export const STARFORCE_SIMULATION_STATS: StarforceSimulationStats[] = [
 // ================================================================
 export const STARFORCE_DB: StarforceStage[] = [
     // 0-14성: 파괴 없음, 실패 시 유지
-    { current_star: 0, success_rate: 99.75, fail_rate: 0.25, destroy_rate: 0.00, cost_formula_denominator: 1000 },
-    { current_star: 1, success_rate: 94.50, fail_rate: 5.50, destroy_rate: 0.00, cost_formula_denominator: 1000 },
-    { current_star: 2, success_rate: 89.25, fail_rate: 10.75, destroy_rate: 0.00, cost_formula_denominator: 1000 },
-    { current_star: 3, success_rate: 89.25, fail_rate: 10.75, destroy_rate: 0.00, cost_formula_denominator: 1000 },
-    { current_star: 4, success_rate: 84.00, fail_rate: 16.00, destroy_rate: 0.00, cost_formula_denominator: 1000 },
-    { current_star: 5, success_rate: 78.75, fail_rate: 21.25, destroy_rate: 0.00, cost_formula_denominator: 1000 },
-    { current_star: 6, success_rate: 73.50, fail_rate: 26.50, destroy_rate: 0.00, cost_formula_denominator: 1000 },
-    { current_star: 7, success_rate: 68.25, fail_rate: 31.75, destroy_rate: 0.00, cost_formula_denominator: 1000 },
-    { current_star: 8, success_rate: 63.00, fail_rate: 37.00, destroy_rate: 0.00, cost_formula_denominator: 1000 },
-    { current_star: 9, success_rate: 57.75, fail_rate: 42.25, destroy_rate: 0.00, cost_formula_denominator: 1000 },
-    { current_star: 10, success_rate: 52.50, fail_rate: 47.50, destroy_rate: 0.00, cost_formula_denominator: 1350 },
-    { current_star: 11, success_rate: 47.25, fail_rate: 52.75, destroy_rate: 0.00, cost_formula_denominator: 750 },
-    { current_star: 12, success_rate: 42.00, fail_rate: 58.00, destroy_rate: 0.00, cost_formula_denominator: 510 },
-    { current_star: 13, success_rate: 36.75, fail_rate: 63.25, destroy_rate: 0.00, cost_formula_denominator: 375 },
-    { current_star: 14, success_rate: 31.50, fail_rate: 68.50, destroy_rate: 0.00, cost_formula_denominator: 255 },
+    { current_star: 0, success_rate: 99.75, fail_rate: 0.25, destroy_rate: 0.00 },
+    { current_star: 1, success_rate: 94.50, fail_rate: 5.50, destroy_rate: 0.00 },
+    { current_star: 2, success_rate: 89.25, fail_rate: 10.75, destroy_rate: 0.00 },
+    { current_star: 3, success_rate: 89.25, fail_rate: 10.75, destroy_rate: 0.00 },
+    { current_star: 4, success_rate: 84.00, fail_rate: 16.00, destroy_rate: 0.00 },
+    { current_star: 5, success_rate: 78.75, fail_rate: 21.25, destroy_rate: 0.00 },
+    { current_star: 6, success_rate: 73.50, fail_rate: 26.50, destroy_rate: 0.00 },
+    { current_star: 7, success_rate: 68.25, fail_rate: 31.75, destroy_rate: 0.00 },
+    { current_star: 8, success_rate: 63.00, fail_rate: 37.00, destroy_rate: 0.00 },
+    { current_star: 9, success_rate: 57.75, fail_rate: 42.25, destroy_rate: 0.00 },
+    { current_star: 10, success_rate: 52.50, fail_rate: 47.50, destroy_rate: 0.00 },
+    { current_star: 11, success_rate: 47.25, fail_rate: 52.75, destroy_rate: 0.00 },
+    { current_star: 12, success_rate: 42.00, fail_rate: 58.00, destroy_rate: 0.00 },
+    { current_star: 13, success_rate: 36.75, fail_rate: 63.25, destroy_rate: 0.00 },
+    { current_star: 14, success_rate: 31.50, fail_rate: 68.50, destroy_rate: 0.00 },
 
-    // 15-16성: 파괴 시작 (1.439%), 실패 시 유지
-    { current_star: 15, success_rate: 31.50, fail_rate: 67.061, destroy_rate: 1.439, cost_formula_denominator: 475 },
-    { current_star: 16, success_rate: 31.50, fail_rate: 67.061, destroy_rate: 1.439, cost_formula_denominator: 475 },
+    // 15-16성: 파괴 시작 (2.055%), 실패 시 유지
+    { current_star: 15, success_rate: 31.50, fail_rate: 66.445, destroy_rate: 2.055 },
+    { current_star: 16, success_rate: 31.50, fail_rate: 66.445, destroy_rate: 2.055 },
 
-    // 17-19성: 파괴율 증가 (~4-6%), 실패 시 유지
-    { current_star: 17, success_rate: 15.75, fail_rate: 79.532, destroy_rate: 4.718, cost_formula_denominator: 300 },
-    { current_star: 18, success_rate: 15.75, fail_rate: 79.532, destroy_rate: 4.718, cost_formula_denominator: 140 },
-    { current_star: 19, success_rate: 15.75, fail_rate: 78.353, destroy_rate: 5.897, cost_formula_denominator: 90 },
+    // 17-18성: 파괴율 증가 (6.740%), 실패 시 유지
+    { current_star: 17, success_rate: 15.75, fail_rate: 77.510, destroy_rate: 6.740 },
+    { current_star: 18, success_rate: 15.75, fail_rate: 77.510, destroy_rate: 6.740 },
+    { current_star: 19, success_rate: 15.75, fail_rate: 75.825, destroy_rate: 8.425 },
 
     // 20성: 체크포인트, 실패 시 유지
-    { current_star: 20, success_rate: 31.50, fail_rate: 61.307, destroy_rate: 7.193, cost_formula_denominator: 400 },
+    { current_star: 20, success_rate: 31.50, fail_rate: 58.225, destroy_rate: 10.275 },
 
-    // 21-25성: 파괴율 급증 (8-17%), 실패 시 유지
-    { current_star: 21, success_rate: 15.75, fail_rate: 75.404, destroy_rate: 8.846, cost_formula_denominator: 250 },
-    { current_star: 22, success_rate: 15.75, fail_rate: 67.40, destroy_rate: 16.85, cost_formula_denominator: 400 },
-    { current_star: 23, success_rate: 10.50, fail_rate: 71.60, destroy_rate: 17.90, cost_formula_denominator: 400 },
-    { current_star: 24, success_rate: 10.50, fail_rate: 71.60, destroy_rate: 17.90, cost_formula_denominator: 400 },
-    { current_star: 25, success_rate: 10.50, fail_rate: 71.60, destroy_rate: 17.90, cost_formula_denominator: 400 },
+    // 21-25성: 파괴율 (12.6375% ~ 17.90%), 실패 시 유지
+    { current_star: 21, success_rate: 15.75, fail_rate: 71.6125, destroy_rate: 12.6375 },
+    { current_star: 22, success_rate: 15.75, fail_rate: 67.40, destroy_rate: 16.85 },
+    { current_star: 23, success_rate: 10.50, fail_rate: 71.60, destroy_rate: 17.90 },
+    { current_star: 24, success_rate: 10.50, fail_rate: 71.60, destroy_rate: 17.90 },
+    { current_star: 25, success_rate: 10.50, fail_rate: 71.60, destroy_rate: 17.90 },
 
-    // 26-30성: 극악의 확률 (1-7%), 파괴율 18-20%, 실패 시 유지
-    { current_star: 26, success_rate: 7.35, fail_rate: 74.12, destroy_rate: 18.53, cost_formula_denominator: 400 },
-    { current_star: 27, success_rate: 5.25, fail_rate: 75.80, destroy_rate: 18.95, cost_formula_denominator: 400 },
-    { current_star: 28, success_rate: 3.15, fail_rate: 77.48, destroy_rate: 19.37, cost_formula_denominator: 400 },
-    { current_star: 29, success_rate: 1.05, fail_rate: 79.16, destroy_rate: 19.79, cost_formula_denominator: 400 },
-    { current_star: 30, success_rate: 1.05, fail_rate: 79.16, destroy_rate: 19.79, cost_formula_denominator: 400 },  // 30성 추가
+    // 26-30성: 극악의 확률, 실패 시 유지
+    { current_star: 26, success_rate: 7.35, fail_rate: 74.16, destroy_rate: 18.53 },
+    { current_star: 27, success_rate: 5.25, fail_rate: 75.80, destroy_rate: 18.95 },
+    { current_star: 28, success_rate: 3.15, fail_rate: 77.48, destroy_rate: 19.37 },
+    { current_star: 29, success_rate: 1.05, fail_rate: 79.16, destroy_rate: 19.79 },
+    { current_star: 30, success_rate: 1.05, fail_rate: 79.16, destroy_rate: 19.79 },
 ];
 
 export interface StarforceOptions {
@@ -126,60 +126,91 @@ const STARFORCE_DENOMINATOR_TABLE: { [level: number]: number[] } = {
     ]
 };
 
-const getStarforceCostDenominator = (level: number, currentStar: number): number => {
-    // Find nearest defined level table
-    const definedLevels = Object.keys(STARFORCE_DENOMINATOR_TABLE).map(Number).sort((a, b) => a - b);
-    let targetLevel = definedLevels[0];
-    for (const l of definedLevels) {
-        if (level >= l) targetLevel = l;
+export const getRestorationMesoCost = (level: number, stars: number, isShining: boolean = false): number => {
+    if (stars < 15 || stars > 22) return 0;
+
+    // 성급: [140제, 160제, 200제, 250제] (단위: 원화메소)
+    const costTable: { [star: number]: number[] } = {
+        15: [149000000, 222000000, 433000000, 846000000],
+        16: [359000000, 535000000, 1050000000, 2040000000],
+        17: [606000000, 904000000, 1770000000, 3450000000],
+        18: [1380000000, 2060000000, 4010000000, 7830000000],
+        19: [2280000000, 3410000000, 6650000000, 13000000000],
+        20: [4020000000, 6000000000, 11800000000, 22900000000],
+        21: [5050000000, 7540000000, 14800000000, 28800000000],
+        22: [8290000000, 12400000000, 24200000000, 47300000000],
+    };
+
+    let levelIndex = 0; // default 140제
+    if (level >= 250) levelIndex = 3;
+    else if (level >= 200) levelIndex = 2;
+    else if (level >= 160) levelIndex = 1;
+
+    let baseMeso = costTable[stars][levelIndex];
+
+    if (isShining) {
+        baseMeso = baseMeso * 0.8; // 20% 할인
     }
 
-    // Default to 1000 if not found or star out of range
-    const table = STARFORCE_DENOMINATOR_TABLE[targetLevel];
-    if (currentStar < table.length) {
-        return table[currentStar];
-    }
-    return 200; // Fallback for high stars
+    return Math.floor(baseMeso);
+};
+
+export const getRestorationSpareCount = (stars: number): number => {
+    if (stars < 15) return 1;
+    if (stars <= 18) return 1;
+    if (stars <= 20) return 2;
+    if (stars === 21) return 3;
+    if (stars === 22) return 4;
+    return 4; // 23성 이상 파괴 시 22성으로 복구되므로 4개
 };
 
 export const calculateStarforceCost = (level: number, currentStar: number, options: StarforceOptions = {}): number => {
-    const denominator = getStarforceCostDenominator(level, currentStar);
+    let baseCostRaw = 0;
 
-    // 1. Calculate Base Cost
-    // Formula: 1000 + L^3 * (S+1)^2.7 / Denominator
-    const baseCostRaw = 1000 + (Math.pow(level, 3) * Math.pow(currentStar + 1, 2.7)) / denominator;
+    if (currentStar <= 9) {
+        // 0~9성: 1000 + L^3 * (S+1) / 36
+        baseCostRaw = 1000 + (Math.pow(level, 3) * (currentStar + 1)) / 36;
+    } else {
+        // 10성 이상: 1000 + L^3 * (S+1)^2.7 / D
+        let denom = 200;
+        if (currentStar === 10) denom = 571;
+        else if (currentStar === 11) denom = 314;
+        else if (currentStar === 12) denom = 214;
+        else if (currentStar === 13) denom = 157;
+        else if (currentStar === 14) denom = 107;
+        else if (currentStar === 17) denom = 150;
+        else if (currentStar === 18) denom = 70;
+        else if (currentStar === 19) denom = 45;
+        else if (currentStar === 21) denom = 125;
+
+        baseCostRaw = 1000 + (Math.pow(level, 3) * Math.pow(currentStar + 1, 2.7)) / denom;
+    }
 
     let cost = baseCostRaw;
 
-    // 2. Apply Discounts
-    // MVP + PC Cafe (Additive) - Applies for 1~17 stars (Current star 0 to 16)
+    // 2. 할인 적용
+    // MVP + PC방 할인 (합산 적용) - 1~17성 (현재 성급 0~16)
     if (currentStar <= 16) {
         let discountRate = 0;
         if (options.mvpDiscount) discountRate += options.mvpDiscount;
         if (options.pcCafe) discountRate += 0.05;
-
-        // Max discount check if needed, but usually just sum
         cost = cost * (1.0 - discountRate);
     }
 
-    // Sunday Maple (Multiplicative) - All stages
-    if (options.sundayMaple) {
+    // 30% 할인 (썬데이 메이플 또는 샤이닝 스타포스)
+    if (options.sundayMaple || options.isShining) {
         cost = cost * 0.7;
     }
 
-    // 3. Prevent Destruction (Additional Cost)
-    // Available for 12, 13, 14, 15, 16 stars.
-    // Additional cost is equal to the base cost (before discount). 
-    // "파괴 방지에 필요한 추가비용은 할인 혜택을 받을 수 없다."
-    if (options.preventDestruction && currentStar >= 12 && currentStar <= 16) {
-        cost += baseCostRaw;
+    // 3. 파괴 방지 추가 비용 (기본 비용의 200% 추가)
+    if (options.preventDestruction && currentStar >= 15 && currentStar <= 17) {
+        cost += baseCostRaw * 2.0;
     }
 
-    // 4. Rounding (십의 자리에서 반올림 -> 1의 자리에서 반올림하여 10단위로 만듦)
     return Math.round(cost / 10) * 10;
 };
 
-export const calculateStarforceProbabilities = (currentStar: number, starcatch: boolean = false) => {
+export const calculateStarforceProbabilities = (currentStar: number, options: StarforceOptions = {}) => {
     const stage = STARFORCE_DB.find(s => s.current_star === currentStar);
     if (!stage) return { success: 0, fail: 0, destroy: 0 };
 
@@ -187,15 +218,12 @@ export const calculateStarforceProbabilities = (currentStar: number, starcatch: 
     let fail = stage.fail_rate;
     let destroy = stage.destroy_rate;
 
-    if (starcatch) {
-        // Success rate * 1.05
-        const newSuccess = Math.min(100, success * 1.05);
-
-        // Adjust fail and destroy to maintain ratio
-        // Total remaining probability space
+    // 스타캐치 폐지로 기본 DB에 1.05배 상시 적용됨.
+    // 스타캐치 해제 시 (starcatch = false) 성공률을 base로 하향 조정
+    if (options.starcatch === false) {
+        const baseSuccess = success / 1.05;
         const oldRemaining = 100 - success;
-        const newRemaining = 100 - newSuccess;
-
+        const newRemaining = 100 - baseSuccess;
         if (oldRemaining > 0) {
             const ratio = newRemaining / oldRemaining;
             fail = fail * ratio;
@@ -204,81 +232,83 @@ export const calculateStarforceProbabilities = (currentStar: number, starcatch: 
             fail = 0;
             destroy = 0;
         }
+        success = baseSuccess;
+    }
 
-        success = newSuccess;
+    // 샤이닝 스타포스 적용 시 21성 이하 파괴 확률 30% 감소
+    if (options.isShining && currentStar <= 21 && destroy > 0) {
+        const originalDestroy = destroy;
+        destroy = destroy * 0.7;
+        fail = fail + (originalDestroy - destroy);
     }
 
     return {
-        success: Number(success.toFixed(2)),
-        fail: Number(fail.toFixed(2)),
-        destroy: Number(destroy.toFixed(2))
+        success: Number(success.toFixed(4)),
+        fail: Number(fail.toFixed(4)),
+        destroy: Number(destroy.toFixed(4))
     };
 };
 
-export const calculateCumulativeExpectedCost = (level: number, targetStar: number, options: StarforceOptions = {}): number => {
-    if (targetStar <= 0) return 0;
+export const calculateCumulativeExpectedCostDetailed = (
+    level: number,
+    targetStar: number,
+    options: StarforceOptions = {}
+): { totalMeso: number; totalSpares: number } => {
+    if (targetStar <= 0) return { totalMeso: 0, totalSpares: 0 };
 
-    // E[i]: Expected cost to go from i -> i+1 (Normal state)
-    // D[i]: Expected cost to go from i -> i+1 (Drop state - just dropped from i+1)
-    // Cumulative Cost T[i] = sum(E[0]...E[i-1])
+    const itemCost = options.itemCost ?? 0;
+    const isShining = options.isShining ?? false;
 
-    const E: number[] = [];
-    const D: number[] = [];
-    let cumulative_E = 0; // T[i]
-    const T: number[] = [0]; // T[i] stores cost to reach i stars
+    const T_meso: number[] = [0];
+    const T_spares: number[] = [0];
 
     for (let i = 0; i < targetStar; i++) {
         const currentStar = i;
         const cost = calculateStarforceCost(level, currentStar, options);
-        const probs = calculateStarforceProbabilities(currentStar, options.starcatch ?? true);
+        const probs = calculateStarforceProbabilities(currentStar, options);
 
         const p_s = probs.success / 100;
         const p_x = probs.destroy / 100;
 
-        // Logic for Drop vs Keep
-        // New Age Update: No drops for 15 stars and below.
-        // Drops only occur at 16, 17, 18, 19, 21+ (excluding 20 checkpoint).
+        // Option A: 12성 복구 후 다시 복귀하는 방식
+        const restoreStar = currentStar >= 12 ? 12 : 0;
+        const restoreCostMeso_A = T_meso[currentStar] - T_meso[restoreStar];
+        const restoreCostSpares_A = 1 + (T_spares[currentStar] - T_spares[restoreStar]);
+        const totalValue_A = restoreCostMeso_A + restoreCostSpares_A * itemCost;
 
-        let real_p_k = 0;
-        let real_p_d = 0;
+        // Option B: 성급 유지 복구 방식 (메소 지불)
+        const restoreCostMeso_B = getRestorationMesoCost(level, currentStar, isShining);
+        const restoreCostSpares_B = getRestorationSpareCount(currentStar);
+        const totalValue_B = restoreCostMeso_B + restoreCostSpares_B * itemCost;
 
-        if (currentStar <= 15 || currentStar === 20) {
-            real_p_k = probs.fail / 100;
-            real_p_d = 0;
+        // 더 저렴한 방식을 선택 (15성 미만은 Option B가 없으므로 무조건 Option A)
+        const useOptionB = currentStar >= 15 && totalValue_B < totalValue_A;
+
+        let stepExpectedMeso = 0;
+        let stepExpectedSpares = 0;
+
+        if (useOptionB) {
+            stepExpectedMeso = (cost + p_x * restoreCostMeso_B) / p_s;
+            stepExpectedSpares = (p_x * restoreCostSpares_B) / p_s;
         } else {
-            real_p_k = 0;
-            real_p_d = probs.fail / 100;
+            stepExpectedMeso = (cost + p_x * restoreCostMeso_A) / p_s;
+            stepExpectedSpares = (p_x * restoreCostSpares_A) / p_s;
         }
 
-        // Boom Cost
-        // If destroyed, restore to 12 (if i>=12) or 0.
-        // Cost to return to i: T[i] - T[restoreStar]
-        const restoreStar = currentStar >= 12 ? 12 : 0;
-        const boomCost = cumulative_E - (T[restoreStar] || 0);
-
-        // 1. Calculate E[i]
-        // E[i] = (Cost + p_d*D[i-1] + p_x*BoomCost) / p_s
-
-        const prev_D = i > 0 ? D[i - 1] : 0;
-
-        const e_numerator = cost + (real_p_d * prev_D) + (p_x * boomCost);
-        const e_val = e_numerator / p_s;
-
-        E.push(e_val);
-
-        // 2. Calculate D[i]
-        // D[i] = Cost + p_k*E[i] + p_d*(Cost_CT + E[i]) + p_x*(BoomCost + E[i])
-        // Cost_CT is simply the meso cost of attempting i-1.
-        const cost_ct = calculateStarforceCost(level, i - 1, options);
-
-        const d_val = cost + (real_p_k * e_val) + (real_p_d * (cost_ct + e_val)) + (p_x * (boomCost + e_val));
-
-        D.push(d_val);
-
-        // Update Cumulative
-        cumulative_E += e_val;
-        T.push(cumulative_E);
+        T_meso.push(T_meso[currentStar] + stepExpectedMeso);
+        T_spares.push(T_spares[currentStar] + stepExpectedSpares);
     }
 
-    return Math.round(T[targetStar]);
+    return {
+        totalMeso: Math.round(T_meso[targetStar]),
+        totalSpares: Number(T_spares[targetStar].toFixed(4))
+    };
+};
+
+export const calculateCumulativeExpectedCost = (
+    level: number,
+    targetStar: number,
+    options: StarforceOptions = {}
+): number => {
+    return calculateCumulativeExpectedCostDetailed(level, targetStar, options).totalMeso;
 };
