@@ -52,6 +52,18 @@ export default function SundayMapleStarforceJul5Page() {
               <p className="text-amber-300 font-black text-base mb-1">이 공략의 최종 목표</p>
               <p className="text-white font-bold text-lg">하드 메이린을 <span className="text-amber-300">130% 컷</span>으로 잡을 수 있는 템세팅</p>
               <p className="text-slate-400 text-xs mt-1">노칠흑 기준 · 여명 4세트 + 보스 장신구 21성 조합</p>
+              <p className="text-slate-400 text-xs mt-2.5 border-t border-slate-700/60 pt-2 flex items-center gap-1">
+                <span>※ 해당 글은 메이플 인벤의</span>
+                <a
+                  href="https://www.inven.co.kr/board/maple/5974/6816029"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-amber-300 hover:underline font-semibold"
+                >
+                  'Flame'님의 글
+                </a>
+                <span>을 참고했습니다.</span>
+              </p>
             </div>
           </div>
 
@@ -136,7 +148,7 @@ export default function SundayMapleStarforceJul5Page() {
               </div>
               <div className="mt-3 px-4 py-3 bg-purple-900/40 border-l-4 border-purple-400 rounded-r-lg">
                 <p className="text-purple-200 text-sm">
-                  💡 <span className="font-bold">전략 팁:</span> 3줄 유효 노리는 것은 많이 힘드니까 유니크 2줄로 쓰다가 팔고 레전드리 2~3줄 아이템을 사거나, 아니면 미라클 타임 같은 때 재미삼아 레전드리를 노려보는 것을 추천합니다.
+                  💡 <span className="font-bold">전략 팁:</span> 3줄 유효 노리는 것은 많이 힘드니까 유니크 2줄로 쓰다가 팔고 레전드리 2~3줄 아이템을 사거나, 아니면 미라클 타임에 재미삼아 레전드리를 노려보는 것을 추천합니다.
                 </p>
               </div>
             </div>
@@ -174,7 +186,7 @@ export default function SundayMapleStarforceJul5Page() {
               <div className="px-4 py-3 bg-cyan-900/40 border-l-4 border-cyan-400 rounded-r-lg">
                 <p className="text-cyan-200 font-bold text-sm">
                   ✅ 강화권 총 <span className="text-white">5개</span>로 장신구 9개 중 5개는 17성을 공짜로 보낼 수 있습니다!<br />
-                  <span className="text-slate-300 font-normal">골든 클로버 벨트 / 가디언 엔젤 링 / 에스텔라 이어링 등 값싼 아이템에 먼저 사용하는 것을 추천합니다.</span>
+                  <span className="text-slate-300 font-normal">골든 클로버 벨트 / 가디언 엔젤 링 / 에스텔라 이어링 등 값싼 아이템을 샤타포스 때 먼저 강화하는 것을 추천합니다.</span>
                 </p>
               </div>
             </div>
@@ -191,7 +203,7 @@ export default function SundayMapleStarforceJul5Page() {
           <div className="space-y-6 text-sm sm:text-base text-slate-100 leading-relaxed break-keep">
             <p className="text-slate-300">
               핵심 전략은 <span className="text-emerald-300 font-bold">여명 4세트 효과 (보공 10% + 방무 10%)</span>를 챙기면서,
-              21성 강화가 가능한 부위의 깡스탯을 극대화하는 것입니다.
+              21성 강화가 그나마 가능한 가성비 템들을 착용하는 것입니다.
             </p>
 
             {/* 기본 세팅 구성 */}
@@ -278,7 +290,7 @@ export default function SundayMapleStarforceJul5Page() {
                     </tr>
                     <tr className="bg-slate-800/30 hover:bg-slate-800/60 transition-colors">
                       <td className="px-4 py-3 font-semibold text-white">벨트</td>
-                      <td className="px-4 py-3">골든 클로버 벨트</td>
+                      <td className="px-4 py-3">골든 클로버 벨트(분자벨)</td>
                       <td className="px-4 py-3 text-center"><span className="text-amber-300 font-bold bg-amber-900/30 px-2 py-0.5 rounded">21성</span></td>
                       <td className="px-4 py-3 text-slate-400 text-xs">—</td>
                     </tr>
@@ -333,9 +345,9 @@ export default function SundayMapleStarforceJul5Page() {
 
               <div className="grid sm:grid-cols-2 gap-3 mb-4">
                 <div className="bg-slate-900/60 rounded-lg p-3 border border-rose-600/20">
-                  <p className="text-rose-300 font-bold text-xs mb-1">기본 세팅</p>
+                  <p className="text-rose-300 font-bold text-xs mb-1">무보엠 기본 세팅</p>
                   <p className="text-white text-sm">레전 (3줄 유효) / 에픽 (2줄 유효)</p>
-                  <p className="text-slate-400 text-xs mt-1">하드 메이린 최소컷 가능</p>
+                  <p className="text-slate-400 text-xs mt-1">하드 메이린 130%上</p>
                 </div>
                 <div className="bg-slate-900/60 rounded-lg p-3 border border-amber-600/20">
                   <p className="text-amber-300 font-bold text-xs mb-1">140% 이상 원할 때</p>
@@ -398,7 +410,7 @@ export default function SundayMapleStarforceJul5Page() {
                 나중에 제값을 받을 수 없습니다. <span className="text-red-300 font-bold">반드시 잠재능력을 먼저 확인하세요.</span>
                 <br />
                 <span className="text-amber-300 font-semibold mt-1.5 inline-block">
-                  (깡통 잠재템을 살 때는 레전드리 유효 3줄 이상을 권장함 - 꼭 저렴할 때 사세요! 시세 확인 필수!)
+                  (깡통 잠재템을 살 때는 레전드리 유효 최소 2줄 이상을 권장함 - 꼭 저렴할 때 사세요! 시세 확인 필수!)
                 </span>
               </p>
             </div>
@@ -431,7 +443,7 @@ export default function SundayMapleStarforceJul5Page() {
               <p className="text-emerald-300 font-bold text-sm mb-2">✅ 가장 현실적인 세팅 순서</p>
               <ol className="space-y-2 text-sm text-slate-200">
                 <li className="flex gap-2"><span className="text-emerald-400 font-bold shrink-0">①</span> 잠재 완성된 깡통 아이템을 경매장에서 저렴하게 구매</li>
-                <li className="flex gap-2"><span className="text-emerald-400 font-bold shrink-0">②</span> 너무 비싸거나 이벤트/메멘토 큐브로 직작할 계획이라면, 먼저 유니크 2줄 15%로 전체 맞춤</li>
+                <li className="flex gap-2"><span className="text-emerald-400 font-bold shrink-0">②</span> 너무 비싸거나 이벤트/메멘토 큐브로 직작할 계획이라면, 먼저 전체템을 유니크 2줄 15%로 맞춤</li>
                 <li className="flex gap-2"><span className="text-emerald-400 font-bold shrink-0">③</span> 이후 21% 목표로 차근차근 업그레이드</li>
                 <li className="flex gap-2"><span className="text-emerald-400 font-bold shrink-0">④</span> 그냥 기존 템을 팔고 레전드리 2~3줄 아이템 구입, 또는 미라클 타임 때, 재미삼아 도전</li>
               </ol>
@@ -484,6 +496,10 @@ export default function SundayMapleStarforceJul5Page() {
                 <p className="text-slate-200">
                   전 부위 17성이 완성됐다면, 파괴 리스크를 조금 감수하고 체급을 한 단계 끌어올릴 차례입니다.
                   스페어가 충분하거나 확정 복구 비용이 저렴한 부위부터 18성을 달아줍니다.
+                  <br />
+                  <span className="text-amber-300 font-semibold mt-1.5 inline-block">
+                    ➔ 심볼/헥사 내실이 잘 되어 있다면 하드메이린 100~110%로 도전 가능한 스펙 달성
+                  </span>
                 </p>
                 <div className="px-4 py-3 bg-amber-900/40 border-l-4 border-amber-400 rounded-r-lg">
                   <p className="text-amber-200 text-sm font-bold mb-1">⚠️ 18성에서 멈출 부위</p>
@@ -576,7 +592,7 @@ export default function SundayMapleStarforceJul5Page() {
             {[
               { emoji: '📈', title: '레벨뻥을 위한 285레벨 달성', desc: '레벨 차이에 따른 데미지 보정(레벨뻥)을 위해 285레벨을 달성하세요. 레벨 1당 메이린 상대 배율이 약 2%씩 상승합니다.' },
               { emoji: '⚔️', title: '6차 스킬 강화 필수', desc: '솔 에르다 조각을 최소 1,800개 이상 사용하여 핵심 마스터리 코어 및 오리진 스킬의 성능을 확실하게 끌어올려야 합니다.' },
-              { emoji: '📊', title: 'HEXA 스탯 떡작', desc: '헥사 스탯 영역 강화를 진행하여 적어도 메인/서브 스탯 강화를 통해 2등급 이상 수준(떡작)을 달성하세요.' },
+              { emoji: '📊', title: 'HEXA 스탯 떡작', desc: '헥사 스탯은 2개 정도 떡작을 진행하여 스펙업을 노립니다.' },
               { emoji: '🛡️', title: '심볼 만렙 & 어센틱 심볼 강화', desc: '아케인 심볼 만렙은 당연히 필수이며, 어센틱 심볼 역시 매일 일일 퀘스트를 빼놓지 않고 수행하여 꾸준히 강화해 주어야 합니다.' },
             ].map(({ emoji, title, desc }) => (
               <div key={title} className="bg-slate-900/60 border border-slate-700 rounded-xl p-4 flex gap-3 items-start hover:border-amber-500/40 transition-colors">
