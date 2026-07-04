@@ -142,7 +142,7 @@ export default function SundayMapleStarforceJul5Page() {
                 </div>
                 <div className="bg-slate-900/60 rounded-lg p-3 border border-purple-600/30">
                   <p className="text-purple-300 font-bold text-xs mb-1">🟣 에디셔널 (아랫잠)</p>
-                  <p className="text-white font-bold text-lg">에픽 <span className="text-purple-300">1.5줄</span> <span className="text-slate-300 text-sm">(주스탯 4% + 공/마 10)</span></p>
+                  <p className="text-white font-bold text-lg">에픽 <span className="text-purple-300">2줄</span> <span className="text-slate-300 text-sm">(주스탯 4% + 공/마 10)</span></p>
                   <p className="text-slate-200 text-sm mt-1.5 font-medium">초반엔 공/마 +10 세팅 후 점진적 업그레이드</p>
                 </div>
               </div>
@@ -308,7 +308,7 @@ export default function SundayMapleStarforceJul5Page() {
                     </tr>
                     <tr className="hover:bg-slate-800/60 transition-colors">
                       <td className="px-4 py-3 font-semibold text-white">이벤트 링</td>
-                      <td className="px-4 py-3">이벤트 링 <span className="text-purple-300 text-xs">(레전 21%上 / 에디 에픽 1.5줄)</span></td>
+                      <td className="px-4 py-3">이벤트 링 <span className="text-purple-300 text-xs">(레전 21%上 / 에디 에픽 2줄)</span></td>
                       <td className="px-4 py-3 text-center"><span className="text-purple-300 font-bold bg-purple-900/30 px-2 py-0.5 rounded">잠재 우선</span></td>
                       <td className="px-4 py-3 text-slate-400 text-xs">—</td>
                     </tr>
@@ -431,7 +431,7 @@ export default function SundayMapleStarforceJul5Page() {
                   <CheckCircle className="w-5 h-5 text-purple-400 shrink-0 mt-0.5" />
                   <div>
                     <p className="text-white font-bold text-sm">에디셔널 (아랫잠)</p>
-                    <p className="text-purple-300 font-bold">에픽 1.5줄 이상</p>
+                    <p className="text-purple-300 font-bold">에픽 2줄 이상</p>
                     <p className="text-slate-300 text-xs mt-1">주스탯 4% + 공/마 10 조합</p>
                   </div>
                 </div>
