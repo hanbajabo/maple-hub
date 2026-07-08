@@ -21,6 +21,17 @@ import {
 
 interface LevelData { level: number; requiredExp: number; cumulativeExp: number; }
 
+const BLUEBERRY_EXP_TABLE: Record<number, number> = {
+    260: 47.3428, 261: 47.5485, 262: 47.7467, 263: 47.9409, 264: 48.2099,
+    265: 41.7204, 266: 41.8745, 267: 42.0237, 268: 42.2380, 269: 42.3788,
+    270: 32.2025, 271: 32.3547, 272: 32.4513, 273: 32.5456, 274: 32.6885,
+    275: 18.1881, 276: 16.7430, 277: 15.4353, 278: 14.2061, 279: 13.0932,
+    280: 6.4818, 281: 5.8925, 282: 5.3568, 283: 4.8699, 284: 4.4271,
+    285: 2.1917, 286: 1.9924, 287: 1.8113, 288: 1.6466, 289: 1.4969,
+    290: 0.7411, 291: 0.6737, 292: 0.6124, 293: 0.5568, 294: 0.5062,
+    295: 0.2506, 296: 0.2278, 297: 0.2071, 298: 0.1883, 299: 0.1255,
+};
+
 export default function ExpCalculatorClient() {
     const [currentLevel, setCurrentLevel] = useState(200);
     const [currentLevelExp, setCurrentLevelExp] = useState(0);
@@ -47,9 +58,8 @@ export default function ExpCalculatorClient() {
     const [dailyQuestExp, setDailyQuestExp] = useState(0);
     const [useExtremeMonsterPark, setUseExtremeMonsterPark] = useState(false);
 
-    const [epicDungeonBonus15, setEpicDungeonBonus15] = useState(false);
-    const [epicDungeonBonus20, setEpicDungeonBonus20] = useState(false);
-    const [epicDungeonBonus25, setEpicDungeonBonus25] = useState(false);
+    const [useEpicArtifact, setUseEpicArtifact] = useState(false);
+    const [epicCoreLevel, setEpicCoreLevel] = useState(0);
 
     const [useHighMountain, setUseHighMountain] = useState(false);
     const [highMountainReward, setHighMountainReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
@@ -64,6 +74,9 @@ export default function ExpCalculatorClient() {
     const [advancedExpCouponCount, setAdvancedExpCouponCount] = useState(1);
     const [useMechaberryFarm, setUseMechaberryFarm] = useState(false);
     const [mechaberryFarmCount, setMechaberryFarmCount] = useState(3);
+    const [useBlueberryFarm, setUseBlueberryFarm] = useState(false);
+    const [blueberryFarmCount, setBlueberryFarmCount] = useState(18);
+    const [blueberryUseLevel, setBlueberryUseLevel] = useState(270);
     const [useExpressBooster, setUseExpressBooster] = useState(false);
     const [expressBoosterCount, setExpressBoosterCount] = useState(1);
     const [useVipBooster, setUseVipBooster] = useState(false);
@@ -179,7 +192,12 @@ export default function ExpCalculatorClient() {
 
     const arcaneQuestEventBonus = arcaneEventSkillLevel > 0 ? (arcaneEventSkillLevel / 100) : 0;
     const grandisQuestEventBonus = grandisEventSkillLevel > 0 ? (grandisEventSkillLevel / 100) : 0;
-    const epicDungeonMultiplier = 1.0 + (epicDungeonBonus15 ? 0.5 : 0) + (epicDungeonBonus20 ? 1.0 : 0) + (epicDungeonBonus25 ? 1.5 : 0);
+    const epicCoreBonus = epicCoreLevel === 1 ? 0.02 :
+                          epicCoreLevel === 2 ? 0.05 :
+                          epicCoreLevel === 3 ? 0.10 :
+                          epicCoreLevel === 4 ? 0.20 :
+                          epicCoreLevel === 5 ? 0.30 : 0.0;
+    const epicDungeonMultiplier = 1.0 + (useEpicArtifact ? 1.5 : 0.0) + epicCoreBonus;
 
     const arcaneQuestData = useMemo(() => getArcaneDailyQuest(targetLevel), [targetLevel]);
     const dailyArcaneQuestExp = useArcaneQuest ? arcaneQuestData.exp * (1 + arcaneQuestEventBonus) : 0;
@@ -208,9 +226,9 @@ export default function ExpCalculatorClient() {
 
         let daysNeeded = 0, hoursNeeded = 0, totalHuntingHours = 0;
         const monsterParkBreakdown: Array<{ level: number; area: string; exp: number; days: number }> = [];
-        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0 };
+        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0, blueberry: 0 };
 
-        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useLucidBurning || useGoldenFarm) {
+        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useBlueberryFarm || useLucidBurning || useGoldenFarm) {
             let remainingExp = totalExpNeeded;
             let currentSimLevel = currentLevel;
             let currentSimLevelProgress = currentLevelExp;
@@ -223,7 +241,8 @@ export default function ExpCalculatorClient() {
                 vipBooster: useVipBooster ? vipBoosterCount : 0,
                 sauna: useVipSauna ? vipSaunaCount : 0,
                 coupon: useAdvancedExpCoupon ? advancedExpCouponCount : 0,
-                farm: useMechaberryFarm ? mechaberryFarmCount : 0
+                farm: useMechaberryFarm ? mechaberryFarmCount : 0,
+                blueberry: useBlueberryFarm ? blueberryFarmCount : 0
             };
             let carriedOverExp = 0;
 
@@ -295,6 +314,23 @@ export default function ExpCalculatorClient() {
                         carriedOverExp += amount;
                         totalExpSources.farm += amount;
                         inventory.farm = 0;
+                    }
+                }
+                if (inventory.blueberry > 0 && currentSimLevel >= blueberryUseLevel) {
+                    const pct = BLUEBERRY_EXP_TABLE[currentSimLevel] || 0;
+                    if (pct > 0) {
+                        const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                        const amount = levelTotalExp * (pct / 100) * inventory.blueberry;
+                        carriedOverExp += amount;
+                        totalExpSources.blueberry += amount;
+                        
+                        const bdItem = levelBreakdown.find(i => i.level === currentSimLevel);
+                        if (bdItem) {
+                            const noteText = `🍇 블루베리 농장 ${inventory.blueberry}회 사용`;
+                            bdItem.note = bdItem.note ? `${bdItem.note} / ${noteText}` : noteText;
+                        }
+                        
+                        inventory.blueberry = 0;
                     }
                 }
 
@@ -446,6 +482,7 @@ export default function ExpCalculatorClient() {
             { name: 'VIP 사우나', value: totalExpSources.vipSauna, textClass: 'text-red-400', bgClass: 'bg-red-400' },
             { name: '상급 EXP 쿠폰', value: totalExpSources.expCoupon, textClass: 'text-teal-400', bgClass: 'bg-teal-400' },
             { name: '메카베리 농장', value: totalExpSources.farm, textClass: 'text-pink-400', bgClass: 'bg-pink-400' },
+            { name: '블루베리 농장', value: totalExpSources.blueberry, textClass: 'text-violet-400', bgClass: 'bg-violet-400' },
             { name: '익스프레스 부스터', value: totalExpSources.booster, textClass: 'text-green-400', bgClass: 'bg-green-400' },
             { name: 'VIP/헥사 부스터', value: totalExpSources.vipBooster, textClass: 'text-indigo-300', bgClass: 'bg-indigo-300' },
             { name: '🦋 체인지 버닝: 루시드', value: totalExpSources.lucidBurning, textClass: 'text-purple-400', bgClass: 'bg-purple-400' },
@@ -456,7 +493,7 @@ export default function ExpCalculatorClient() {
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, useMechaberryFarm, mechaberryFarmCount, epicDungeonBonus15, epicDungeonBonus20, epicDungeonBonus25, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -475,7 +512,7 @@ export default function ExpCalculatorClient() {
             ['시간당 마릿수', `${formatNumber(mobsPerHour)}마리`],
             ['추가 경험치 (%)', `${additionalExpRate}%`],
             ['룬 해방', useRune ? 'O (4+1 사이클)' : 'X'],
-            ['엘라노스', useElanos ? 'O' : 'X'],
+            ['상인단의 물자 지원', useElanos ? 'O' : 'X'],
             ['버닝 필드', burningFieldStage > 0 ? `${burningFieldStage}단계 (+${burningFieldStage * 10}%)` : '0단계'],
             [],
             ['[일일 컨텐츠]'],
@@ -486,7 +523,7 @@ export default function ExpCalculatorClient() {
             ['그란디스 일퀘', useGrandisQuest ? `O (이벤트 +${grandisEventSkillLevel}%)` : 'X'],
             [],
             ['[주간/에픽 컨텐츠]'],
-            ['에픽던전 보너스', `1.5배: ${epicDungeonBonus15 ? 'O' : 'X'} / 2배: ${epicDungeonBonus20 ? 'O' : 'X'} / 2.5배: ${epicDungeonBonus25 ? 'O' : 'X'}`],
+            ['에픽던전 보너스', `${epicDungeonMultiplier.toFixed(2)}배 (아티팩트:${useEpicArtifact ? 'O' : 'X'} / 코어:${epicCoreLevel}L)`],
             ['하이마운틴', useHighMountain ? `O (${highMountainReward === 'basic' ? '기본' : highMountainReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
             ['앵글러 컴퍼니', useAnglerCompany ? `O (${anglerCompanyReward === 'basic' ? '기본' : anglerCompanyReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
             ['악몽선경', useNightmareGarden ? `O (${nightmareGardenReward === 'basic' ? '기본' : nightmareGardenReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
@@ -495,6 +532,7 @@ export default function ExpCalculatorClient() {
             ['VIP 사우나', useVipSauna ? `${vipSaunaCount}장` : 'X'],
             ['상급 EXP 쿠폰', useAdvancedExpCoupon ? `${advancedExpCouponCount}개` : 'X'],
             ['메카베리 농장', useMechaberryFarm ? `${mechaberryFarmCount}회` : 'X'],
+            ['블루베리 농장', useBlueberryFarm ? `${blueberryFarmCount}회 (${blueberryUseLevel}레벨에 사용)` : 'X'],
             ['익스프레스 부스터', useExpressBooster ? `${expressBoosterCount}개` : 'X'],
             ['VIP/헥사 부스터', useVipBooster ? `${vipBoosterCount}개` : 'X'],
             ['🍓 황금 딸기 농장', useGoldenFarm ? `${goldenFarmCount}회 (${goldenFarmBonusRate}% 추가경험치)` : 'X']
@@ -588,101 +626,7 @@ export default function ExpCalculatorClient() {
                                 {currentLevel < 280 && targetLevel >= 260 && (
                                     <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer"><input type="checkbox" checked={useBurningBeyond} onChange={(e) => setUseBurningBeyond(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-purple-500" />✨ 버닝 비욘드 (Lv.260~280)</label>
                                 )}
-                                {(currentLevel >= 260 || targetLevel > 260) && (
-                                    <div className="space-y-1">
-                                        <div className="flex items-center justify-between">
-                                            <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer">
-                                                <input type="checkbox" checked={useLucidBurning} onChange={(e) => setUseLucidBurning(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-purple-500" />
-                                                🦋 체인지 버닝: 루시드
-                                            </label>
-                                            <span className="text-[10px] text-purple-400 bg-purple-900/30 border border-purple-700/30 px-2 py-0.5 rounded-full">3/19 ~ 6/17</span>
-                                        </div>
-                                        <p className="text-[10px] text-slate-500 ml-6">루시드로 변신해 드림 이터를 처치 — 본캐 레벨에 맞는 경험치 획득</p>
-                                        <p className="text-[10px] text-amber-500/80 ml-6">※ 경험치 계산은 <span className="font-semibold">Lv.260 이상</span>부터 적용됩니다</p>
-                                        {useLucidBurning && (
-                                            <div className="ml-6 mt-2 p-3 rounded-lg bg-slate-800/50 border border-purple-800/30 space-y-1.5">
-                                                <p className="text-[10px] text-slate-400 mb-1">참여 내용 선택 (복수 선택 가능)</p>
-                                                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer hover:text-white transition-colors">
-                                                    <input type="checkbox" checked={lucidBurningHunting} onChange={(e) => setLucidBurningHunting(e.target.checked)} className="w-3.5 h-3.5 rounded" />
-                                                    🐛 드림 이터 사냥 (주간 25,000마리 × 13주)
-                                                </label>
-                                                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer hover:text-white transition-colors">
-                                                    <input type="checkbox" checked={lucidBurningWeeklyMission} onChange={(e) => setLucidBurningWeeklyMission(e.target.checked)} className="w-3.5 h-3.5 rounded" />
-                                                    📋 주간 미션 올클리어 (매주 × 13주)
-                                                </label>
-                                                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer hover:text-white transition-colors">
-                                                    <input type="checkbox" checked={lucidBurningSeasonMission} onChange={(e) => setLucidBurningSeasonMission(e.target.checked)} className="w-3.5 h-3.5 rounded" />
-                                                    🏆 시즌 미션 올클리어 (이벤트 기간 1회)
-                                                </label>
-                                                <div className="flex items-center justify-between pt-2 border-t border-slate-700/60">
-                                                    <span className="text-[10px] text-purple-400">→ 계산에 포함될 총 경험치</span>
-                                                    <span className="text-xs font-bold text-purple-300">{lucidTotalPreview > 0 ? lucidTotalPreview >= 1e12 ? `약 ${(lucidTotalPreview / 1e12).toFixed(1)}조` : `약 ${(lucidTotalPreview / 1e8).toFixed(0)}억` : '-'}</span>
-                                                </div>
-                                                {lucidOnlyResult && (
-                                                    <div className="mt-2 rounded-lg p-3 bg-purple-950/50 border border-purple-700/40">
-                                                        <p className="text-xs text-purple-400 font-medium mb-2">🦋 루시드 버닝만으로 달성 가능 (사냥 제외)</p>
-                                                        <div className="flex items-center justify-between gap-2">
-                                                            <span className="text-xs text-slate-300">현재 Lv.{currentLevel} ({currentLevelExp}%)</span>
-                                                            <span className="text-sm text-slate-400">→</span>
-                                                            <span className="text-base font-bold text-purple-200">Lv.{lucidOnlyResult.level} <span className="text-xs font-normal text-purple-400">+ {lucidOnlyResult.pct.toFixed(1)}%</span></span>
-                                                        </div>
-                                                        {lucidOnlyResult.gained > 0 ? (
-                                                            <p className="text-sm font-semibold text-emerald-400 mt-2 text-center">✨ +{lucidOnlyResult.gained}레벨 상승 예상</p>
-                                                        ) : (
-                                                            <p className="text-xs text-slate-500 mt-2 text-center">레벨업에는 부족한 경험치입니다</p>
-                                                        )}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-                                {currentLevel <= 259 && (
-                                    <div className="space-y-1">
-                                        <div className="flex items-center justify-between">
-                                            <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer">
-                                                <input type="checkbox" checked={useGoldenFarm} onChange={(e) => setUseGoldenFarm(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-yellow-500 focus:ring-yellow-400" />
-                                                🍓 황금 딸기 농장 이용권
-                                            </label>
-                                            <span className="text-[10px] text-yellow-500 bg-yellow-900/30 border border-yellow-700/30 px-2 py-0.5 rounded-full">Lv.200~259</span>
-                                        </div>
-                                        <p className="text-[10px] text-slate-500 ml-6">이용권 1회당 경험치 획득 (딸농은 기본 400% 추가 경험치 버프 적용)</p>
-                                        <p className="text-[10px] text-amber-500/80 ml-6">💡 딸농 입장 후 쓸만한 홀리심볼 사용 → 상태창에서 추가 경험치 %를 확인 후 입력하세요</p>
-                                        {useGoldenFarm && (
-                                            <div className="ml-6 mt-2 p-3 rounded-lg bg-slate-800/50 border border-yellow-800/30 space-y-2">
-                                                <div className="flex items-center gap-3">
-                                                    <label className="text-xs text-slate-400 whitespace-nowrap">이용권 회수</label>
-                                                    <input type="number" min="1" value={goldenFarmCount} onFocus={(e) => e.target.select()} onChange={(e) => setGoldenFarmCount(Math.max(1, Number(e.target.value)))} className="w-20 bg-slate-700 border border-slate-600 rounded text-xs px-2 py-1.5 text-white focus:border-yellow-500" />
-                                                    <span className="text-xs text-slate-500">회</span>
-                                                </div>
-                                                <div className="flex items-center gap-3">
-                                                    <label className="text-xs text-slate-400 whitespace-nowrap">추가 경험치</label>
-                                                    <input type="number" min="400" step="10" value={goldenFarmBonusRate} onFocus={(e) => e.target.select()} onChange={(e) => setGoldenFarmBonusRate(Number(e.target.value))} onBlur={(e) => setGoldenFarmBonusRate(Math.max(400, Number(e.target.value)))} className="w-20 bg-slate-700 border border-slate-600 rounded text-xs px-2 py-1.5 text-white focus:border-yellow-500" />
-                                                    <span className="text-xs text-slate-500">% <span className="text-yellow-600/70">(min 400%)</span></span>
-                                                </div>
-                                                <div className="flex items-center justify-between pt-2 border-t border-slate-700/60">
-                                                    <span className="text-[10px] text-yellow-500">→ 계산에 포함될 총 경험치</span>
-                                                    <span className="text-xs font-bold text-yellow-300">{goldenFarmPreview > 0 ? goldenFarmPreview >= 1e12 ? `약 ${(goldenFarmPreview/1e12).toFixed(1)}조` : goldenFarmPreview >= 1e8 ? `약 ${(goldenFarmPreview/1e8).toFixed(1)}억` : `${Math.round(goldenFarmPreview).toLocaleString('ko-KR')}` : '-'}</span>
-                                                </div>
-                                                {goldenFarmOnlyResult && (
-                                                    <div className="mt-2 rounded-lg p-3 bg-yellow-950/50 border border-yellow-700/40">
-                                                        <p className="text-xs text-yellow-400 font-medium mb-2">🍓 딸기 농장만으로 달성 가능 (사냥 제외)</p>
-                                                        <div className="flex items-center justify-between gap-2">
-                                                            <span className="text-xs text-slate-300">현재 Lv.{currentLevel} ({currentLevelExp}%)</span>
-                                                            <span className="text-sm text-slate-400">→</span>
-                                                            <span className="text-base font-bold text-yellow-200">Lv.{goldenFarmOnlyResult.level} <span className="text-xs font-normal text-yellow-400">+ {goldenFarmOnlyResult.pct.toFixed(1)}%</span></span>
-                                                        </div>
-                                                        {goldenFarmOnlyResult.gained > 0 ? (
-                                                            <p className="text-sm font-semibold text-emerald-400 mt-2 text-center">✨ +{goldenFarmOnlyResult.gained}레벨 상승 예상</p>
-                                                        ) : (
-                                                            <p className="text-xs text-slate-500 mt-2 text-center">레벨업에는 부족한 경험치입니다</p>
-                                                        )}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
+
                             </div>
                         </div>
 
@@ -711,7 +655,7 @@ export default function ExpCalculatorClient() {
                                                 </label>
                                                 <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer p-2 bg-slate-800 border border-slate-700 rounded-lg hover:border-green-500 transition-colors">
                                                     <input type="checkbox" checked={useElanos} onChange={(e) => setUseElanos(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-green-600 focus:ring-green-500" />
-                                                    <span>🦁 엘라노스 추가 경험치 (하루 20번) <span className="text-slate-500 text-xs ml-1">약 10,000마리분</span></span>
+                                                    <span>📦 상인단의 물자 지원 (하루 10번) <span className="text-slate-500 text-xs ml-1">약 10,000마리분</span></span>
                                                 </label>
                                                 <div className="flex items-center justify-between p-2 bg-slate-800 border border-slate-700 rounded-lg">
                                                     <label className="flex items-center gap-2 text-xs text-slate-300">
@@ -753,15 +697,15 @@ export default function ExpCalculatorClient() {
                                         <label className="text-xs text-slate-400">몬스터파크</label>
                                         <div className="flex items-center gap-1">
                                             <span className="text-[10px] text-slate-500">이벤트 +</span>
-                                            <select
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                max="100"
                                                 value={mpEventSkillLevel}
-                                                onChange={(e) => setMpEventSkillLevel(Number(e.target.value))}
-                                                className="h-8 bg-slate-800 border border-slate-700 rounded text-xs px-1 text-right text-white focus:outline-none focus:border-blue-500"
-                                            >
-                                                {[0, 10, 20, 30, 40, 50, 60, 70, 80].map(v => (
-                                                    <option key={v} value={v}>{v}</option>
-                                                ))}
-                                            </select>
+                                                onFocus={(e) => e.target.select()}
+                                                onChange={(e) => setMpEventSkillLevel(Math.max(0, Number(e.target.value)))}
+                                                className="w-16 h-8 bg-slate-800 border border-slate-700 rounded text-xs px-2 text-right text-white focus:outline-none focus:border-blue-500"
+                                            />
                                             <span className="text-xs text-slate-500">%</span>
                                         </div>
                                     </div>
@@ -790,38 +734,38 @@ export default function ExpCalculatorClient() {
                                 )}
                                 <div className="pt-2 border-t border-slate-800 space-y-2">
                                     <div className="flex items-center justify-between">
-                                        <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useArcaneQuest} onChange={(e) => setUseArcaneQuest(e.target.checked)} /> 아케인 일일 퀘스트</label>
+                                        <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useArcaneQuest} onChange={(e) => setUseArcaneQuest(e.target.checked)} /> 아케인 일퀘</label>
                                         {useArcaneQuest && (
                                             <div className="flex items-center gap-1">
                                                 <span className="text-[10px] text-slate-500">이벤트 +</span>
-                                                <select
+                                                <input
+                                                    type="number"
+                                                    min="0"
+                                                    max="100"
                                                     value={arcaneEventSkillLevel}
-                                                    onChange={(e) => setArcaneEventSkillLevel(Number(e.target.value))}
-                                                    className="h-8 bg-slate-800 border border-slate-700 rounded text-xs px-1 text-right text-white focus:outline-none focus:border-blue-500"
-                                                >
-                                                    {[0, 10, 20, 30, 40, 50, 60, 70].map(v => (
-                                                        <option key={v} value={v}>{v}</option>
-                                                    ))}
-                                                </select>
+                                                    onFocus={(e) => e.target.select()}
+                                                    onChange={(e) => setArcaneEventSkillLevel(Math.max(0, Number(e.target.value)))}
+                                                    className="w-16 h-8 bg-slate-800 border border-slate-700 rounded text-xs px-2 text-right text-white focus:outline-none focus:border-blue-500"
+                                                />
                                                 <span className="text-xs text-slate-500">%</span>
                                             </div>
                                         )}
                                     </div>
                                     {targetLevel >= 260 && (
                                         <div className="flex items-center justify-between">
-                                            <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useGrandisQuest} onChange={(e) => setUseGrandisQuest(e.target.checked)} /> 그란디스 일일 퀘스트</label>
+                                            <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useGrandisQuest} onChange={(e) => setUseGrandisQuest(e.target.checked)} /> 그란디스 일퀘</label>
                                             {useGrandisQuest && (
                                                 <div className="flex items-center gap-1">
                                                     <span className="text-[10px] text-slate-500">이벤트 +</span>
-                                                    <select
+                                                    <input
+                                                        type="number"
+                                                        min="0"
+                                                        max="100"
                                                         value={grandisEventSkillLevel}
-                                                        onChange={(e) => setGrandisEventSkillLevel(Number(e.target.value))}
-                                                        className="h-8 bg-slate-800 border border-slate-700 rounded text-xs px-1 text-right text-white focus:outline-none focus:border-blue-500"
-                                                    >
-                                                        {[0, 10, 20, 30, 40, 50, 60, 70].map(v => (
-                                                            <option key={v} value={v}>{v}</option>
-                                                        ))}
-                                                    </select>
+                                                        onFocus={(e) => e.target.select()}
+                                                        onChange={(e) => setGrandisEventSkillLevel(Math.max(0, Number(e.target.value)))}
+                                                        className="w-16 h-8 bg-slate-800 border border-slate-700 rounded text-xs px-2 text-right text-white focus:outline-none focus:border-blue-500"
+                                                    />
                                                     <span className="text-xs text-slate-500">%</span>
                                                 </div>
                                             )}
@@ -839,10 +783,31 @@ export default function ExpCalculatorClient() {
                                             에픽 던전 보너스
                                             <span className="block text-[10px] text-slate-500">(이벤트 고대의 힘 활성화)</span>
                                         </p>
-                                        <div className="flex gap-2 flex-wrap">
-                                            <label className="flex items-center gap-1 text-xs text-indigo-300"><input type="checkbox" checked={epicDungeonBonus15} onChange={(e) => setEpicDungeonBonus15(e.target.checked)} />1.5배</label>
-                                            <label className="flex items-center gap-1 text-xs text-indigo-300"><input type="checkbox" checked={epicDungeonBonus20} onChange={(e) => setEpicDungeonBonus20(e.target.checked)} />2배</label>
-                                            <label className="flex items-center gap-1 text-xs text-indigo-300"><input type="checkbox" checked={epicDungeonBonus25} onChange={(e) => setEpicDungeonBonus25(e.target.checked)} />2.5배</label>
+                                        <div className="space-y-2 mt-1">
+                                            <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={useEpicArtifact}
+                                                    onChange={(e) => setUseEpicArtifact(e.target.checked)}
+                                                    className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500"
+                                                />
+                                                아티팩트 활성화 (+150%)
+                                            </label>
+                                            <div className="flex items-center justify-between gap-2">
+                                                <span className="text-xs text-slate-400">코어 레벨</span>
+                                                <select
+                                                    value={epicCoreLevel}
+                                                    onChange={(e) => setEpicCoreLevel(Number(e.target.value))}
+                                                    className="bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white focus:outline-none focus:border-indigo-500 outline-none"
+                                                >
+                                                    <option value={0}>미활성화 (+0%)</option>
+                                                    <option value={1}>1레벨 (+2%)</option>
+                                                    <option value={2}>2레벨 (+5%)</option>
+                                                    <option value={3}>3레벨 (+10%)</option>
+                                                    <option value={4}>4레벨 (+20%)</option>
+                                                    <option value={5}>5레벨 (+30%)</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="pt-2 border-t border-slate-800 space-y-2">
@@ -886,6 +851,39 @@ export default function ExpCalculatorClient() {
                                     <div className="p-3 bg-slate-800 rounded-lg">
                                         <label className="flex items-center gap-2 text-xs text-pink-300 mb-2"><input type="checkbox" checked={useMechaberryFarm} onChange={(e) => setUseMechaberryFarm(e.target.checked)} /> 🍓 메카베리 농장</label>
                                         {useMechaberryFarm && <div className="flex items-center gap-2"><input type="number" value={mechaberryFarmCount} onChange={(e) => setMechaberryFarmCount(Number(e.target.value))} className="w-16 bg-slate-700 border-slate-600 rounded text-xs px-2 py-1" /><span className="text-xs">회</span></div>}
+                                    </div>
+                                )}
+                                {targetLevel >= 260 && (
+                                    <div className="p-3 bg-slate-800 rounded-lg">
+                                        <label className="flex items-center gap-2 text-xs text-violet-300 mb-2"><input type="checkbox" checked={useBlueberryFarm} onChange={(e) => setUseBlueberryFarm(e.target.checked)} /> 🍇 블루베리 농장</label>
+                                        {useBlueberryFarm && (
+                                            <div className="space-y-2 mt-1">
+                                                <div className="flex items-center gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        value={blueberryFarmCount} 
+                                                        onFocus={(e) => e.target.select()} 
+                                                        onChange={(e) => setBlueberryFarmCount(Number(e.target.value))} 
+                                                        onBlur={(e) => setBlueberryFarmCount(Math.max(1, Number(e.target.value) || 1))}
+                                                        className="w-16 bg-slate-700 border-slate-600 rounded text-xs px-2 py-1 text-white text-center" 
+                                                    />
+                                                    <span className="text-xs text-slate-400">회 사용</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        min="260" 
+                                                        max="299" 
+                                                        value={blueberryUseLevel} 
+                                                        onFocus={(e) => e.target.select()} 
+                                                        onChange={(e) => setBlueberryUseLevel(Number(e.target.value))} 
+                                                        onBlur={(e) => setBlueberryUseLevel(Math.max(260, Math.min(299, Number(e.target.value) || 270)))}
+                                                        className="w-16 bg-slate-700 border-slate-600 rounded text-xs px-2 py-1 text-white text-center" 
+                                                    />
+                                                    <span className="text-xs text-slate-400">레벨에 사용</span>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                                 {targetLevel >= 260 && (
