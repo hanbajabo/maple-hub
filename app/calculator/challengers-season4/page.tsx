@@ -333,7 +333,7 @@ export default function ChallengersCalculator() {
       <div className="fixed bottom-10 right-1/4 w-[400px] h-[400px] bg-purple-900/5 rounded-full blur-[100px] pointer-events-none z-0" />
 
       <header className="w-full max-w-5xl flex justify-between items-center px-6 py-4 sticky top-0 z-50 bg-[#080711]/90 backdrop-blur-md border-b border-slate-800/80 mx-auto">
-        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-indigo-400 font-semibold group">
+        <Link prefetch={false} href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-indigo-400 font-semibold group">
           <ArrowLeft className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" />
           <span>홈으로 돌아가기</span>
         </Link>
@@ -675,7 +675,7 @@ export default function ChallengersCalculator() {
 
         {/* Return to guide button */}
         <div className="mt-6 flex justify-center">
-            <Link
+            <Link prefetch={false}
                 href="/blog/challengers-world-season4-overdrive"
                 className="inline-flex items-center gap-3 px-6 py-3 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 hover:text-indigo-100 border border-indigo-500/40 hover:border-indigo-400 rounded-xl font-semibold transition-all group text-sm md:text-base"
             >
@@ -809,7 +809,7 @@ export default function ChallengersCalculator() {
 
         {/* Return to guide button (Bottom) */}
         <div className="mt-10 flex justify-center pb-6">
-            <Link
+            <Link prefetch={false}
                 href="/blog/challengers-world-season4-overdrive"
                 className="inline-flex items-center gap-3 px-6 py-3 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 hover:text-indigo-100 border border-indigo-500/40 hover:border-indigo-400 rounded-xl font-semibold transition-all group text-sm md:text-base"
             >

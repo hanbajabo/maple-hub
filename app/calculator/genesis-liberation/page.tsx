@@ -115,14 +115,14 @@ export default function GenesisLiberationPage() {
                     {/* 네비게이션 버튼 */}
                     <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">
-                            <Link
+                            <Link prefetch={false}
                                 href="/"
                                 className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors flex items-center gap-2"
                             >
                                 <span>🏠</span>
                                 <span>홈</span>
                             </Link>
-                            <Link
+                            <Link prefetch={false}
                                 href="/blog"
                                 className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors flex items-center gap-2"
                             >
@@ -130,7 +130,7 @@ export default function GenesisLiberationPage() {
                                 <span>블로그</span>
                             </Link>
                         </div>
-                        <Link
+                        <Link prefetch={false}
                             href="/blog/genesis-liberation-calculator"
                             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-2"
                         >

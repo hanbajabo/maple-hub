@@ -116,7 +116,7 @@ export default function OverdrivePreEventChecklist() {
             {/* 상단 네비게이션 */}
             <div className="border-b border-slate-800 bg-slate-950/60 backdrop-blur-sm sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <Link href="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                    <Link prefetch={false} href="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
                         <ArrowLeft className="w-5 h-5" />
                         <span className="text-base">블로그로 돌아가기</span>
                     </Link>
@@ -639,7 +639,7 @@ export default function OverdrivePreEventChecklist() {
 
                 {/* 블로그 메인으로 */}
                 <div className="border-t border-slate-700 pt-8 text-center">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 px-8 py-4 bg-purple-600 text-white rounded-xl font-bold text-lg hover:bg-purple-500 transition-colors"
                     >

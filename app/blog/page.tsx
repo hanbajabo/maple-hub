@@ -99,7 +99,7 @@ export default function BlogPage() {
                             )}
                         </div>
 
-                        <Link href={`/blog/${heroPost.slug}`}>
+                        <Link prefetch={false} href={`/blog/${heroPost.slug}`}>
                             <button className="px-6 py-2.5 sm:px-8 sm:py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 group text-sm sm:text-base">
                                 <span>지금 확인하기</span>
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -165,7 +165,7 @@ export default function BlogPage() {
                     <section className="mb-20 animate-fade-in">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {allSearchResults.map((post) => (
-                                <Link
+                                <Link prefetch={false}
                                     key={post.slug}
                                     href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
                                     className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-blue-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/20"
@@ -237,7 +237,7 @@ export default function BlogPage() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {testworldPosts.map((post) => (
-                                        <Link
+                                        <Link prefetch={false}
                                             key={post.slug}
                                             href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
                                             className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-cyan-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-900/20"
@@ -308,7 +308,7 @@ export default function BlogPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {levelingPosts.map((post) => (
-                                    <Link
+                                    <Link prefetch={false}
                                         key={post.slug}
                                         href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
                                         className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-orange-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-900/20"
@@ -371,7 +371,7 @@ export default function BlogPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {eventPosts.map((post) => (
-                                    <Link
+                                    <Link prefetch={false}
                                         key={post.slug}
                                         href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
                                         className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-blue-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-900/20"
@@ -434,7 +434,7 @@ export default function BlogPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                 {equipmentPosts.map((post) => (
-                                    <Link
+                                    <Link prefetch={false}
                                         key={post.slug}
                                         href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
                                         className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-purple-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-900/20"
@@ -486,7 +486,7 @@ export default function BlogPage() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {storyPosts.map((post) => (
-                                        <Link
+                                        <Link prefetch={false}
                                             key={post.slug}
                                             href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
                                             className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-red-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-900/20"
@@ -538,7 +538,7 @@ export default function BlogPage() {
                                     메이플 AI가 당신의 캐릭터를 정밀 분석해드립니다.<br />
                                     장비, 스탯, 스킬까지 완벽한 성장 로드맵을 제시합니다.
                                 </p>
-                                <Link href="/">
+                                <Link prefetch={false} href="/">
                                     <button className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all shadow-xl hover:shadow-2xl flex items-center gap-3 mx-auto group">
                                         <span className="text-lg">무료로 진단 시작</span>
                                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

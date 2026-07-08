@@ -10,7 +10,7 @@ export default function ChangeBurningLucidWeek1GuidePage() {
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-purple-950/20 to-slate-950 text-white pb-20">
             {/* Header */}
             <header className="w-full max-w-7xl flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 mx-auto">
-                <Link href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-purple-400">
+                <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-purple-400">
                     <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span className="text-xs sm:text-base md:text-lg font-bold">블로그로 돌아가기</span>
                 </Link>
@@ -514,12 +514,12 @@ export default function ChangeBurningLucidWeek1GuidePage() {
                             23주년 모든 이벤트 상세 정보와 최단기 보상 스케줄을 확인해보세요!
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                            <Link href="/blog/testworld-23rd-anniversary">
+                            <Link prefetch={false} href="/blog/testworld-23rd-anniversary">
                                 <button className="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-bold rounded-xl transition-all shadow-xl hover:-translate-y-1">
                                     🍁 23주년 이벤트 총정리 보기
                                 </button>
                             </Link>
-                            <Link href="/blog/change-burning-lucid-guide">
+                            <Link prefetch={false} href="/blog/change-burning-lucid-guide">
                                 <button className="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-bold rounded-xl transition-all hover:-translate-y-1">
                                     🦋 루시드 이벤트 기본 가이드
                                 </button>

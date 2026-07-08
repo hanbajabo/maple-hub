@@ -20,7 +20,7 @@ export default function ChangeBurningLucidGuide() {
             {/* Header */}
             <div className="border-b border-purple-900/50 bg-slate-950/80 backdrop-blur-sm sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <Link href="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                    <Link prefetch={false} href="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
                         <ArrowLeft className="w-4 h-4" />
                         <span className="text-sm">블로그로 돌아가기</span>
                     </Link>
@@ -1566,7 +1566,7 @@ export default function ChangeBurningLucidGuide() {
                                     메이플스토리 경험치 계산기로 직접 확인해보세요.
                                 </p>
                             </div>
-                            <Link
+                            <Link prefetch={false}
                                 href="/guide/exp-calculator"
                                 className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black rounded-xl transition-all shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 text-sm whitespace-nowrap group"
                             >
@@ -1620,7 +1620,7 @@ export default function ChangeBurningLucidGuide() {
 
                 {/* Footer CTA */}
                 <div className="border-t border-slate-700 pt-8 mt-12 text-center">
-                    <Link href="/blog" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg font-bold hover:bg-purple-500 transition-colors">
+                    <Link prefetch={false} href="/blog" className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg font-bold hover:bg-purple-500 transition-colors">
                         <ArrowLeft className="w-5 h-5" />
                         블로그 메인으로
                     </Link>

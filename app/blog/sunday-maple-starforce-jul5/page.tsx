@@ -12,7 +12,7 @@ export default function SundayMapleStarforceJul5Page() {
 
       {/* 뒤로가기 헤더 */}
       <header className="w-full max-w-7xl flex justify-between items-center px-6 py-4 sticky top-0 z-50 bg-[#080711]/90 backdrop-blur-md border-b border-slate-700 mx-auto">
-        <Link href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-amber-400 font-semibold group">
+        <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-amber-400 font-semibold group">
           <ArrowLeft className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" />
           <span>블로그 홈으로</span>
         </Link>
@@ -565,7 +565,7 @@ export default function SundayMapleStarforceJul5Page() {
                       스타포스를 진행할 때, 어떤 아이템에 파괴 방지를 할 지, 파괴 후 아이템 복구 할 때, 12성으로 그냥 복구 할지 아니면 확정 복구를 할 지에 따라서 기댓값도 굉장히 많이 달라집니다. 해당 강화와 관련해서 스타포스 기댓값 계산기를 만들었으니 활용해보세요.
                     </p>
                   </div>
-                  <Link
+                  <Link prefetch={false}
                     href="/tools/starforce"
                     className="shrink-0 px-5 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-cyan-900/20 text-center"
                   >
@@ -650,7 +650,7 @@ export default function SundayMapleStarforceJul5Page() {
 
         {/* 하단 네비게이션 */}
         <div className="flex justify-center mt-12">
-          <Link
+          <Link prefetch={false}
             href="/blog"
             className="flex items-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold rounded-xl border border-slate-600 hover:border-amber-500/50 transition-all"
           >

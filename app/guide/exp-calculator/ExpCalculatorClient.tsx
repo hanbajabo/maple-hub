@@ -552,7 +552,7 @@ export default function ExpCalculatorClient() {
             <div className="sticky top-0 z-50 bg-[#1a1b1e]/80 backdrop-blur-md border-b border-slate-800">
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between mb-4">
-                        <Link href="/" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"><ArrowLeft className="w-4 h-4" /><span>메인으로</span></Link>
+                        <Link prefetch={false} href="/" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"><ArrowLeft className="w-4 h-4" /><span>메인으로</span></Link>
                         <button onClick={exportToExcel} disabled={calculatedData.totalExpNeeded === 0} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 disabled:text-slate-500 rounded-lg transition-colors text-sm font-medium"><Download className="w-4 h-4" />엑셀 내보내기</button>
                     </div>
                     <div className="flex flex-col gap-2">

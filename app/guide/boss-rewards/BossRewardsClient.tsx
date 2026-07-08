@@ -24,7 +24,7 @@ export default function BossRewardsClient() {
             <div className="sticky top-0 z-50 bg-[#1a1b1e]/80 backdrop-blur-md border-b border-slate-800">
                 <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between mb-4">
-                        <Link href="/guide" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                        <Link prefetch={false} href="/guide" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
                             <ArrowLeft className="w-4 h-4" />
                             <span>가이드 홈</span>
                         </Link>

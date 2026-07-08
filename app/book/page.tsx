@@ -110,7 +110,7 @@ export default function BookIndexPage() {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 book-grid">
 
                     {/* ── 기획서 1: 이를 악물고 살아가는가 ── */}
-                    <Link href="/book/wp-k3j7m2n9p4" className="group h-full">
+                    <Link prefetch={false} href="/book/wp-k3j7m2n9p4" className="group h-full">
                         <div className="book-card">
                             <div className="flex items-start justify-between mb-4">
                                 <div

@@ -42,7 +42,7 @@ export default function GenesisLiberationCalculatorPost() {
                             <h3 className="text-xl font-bold text-white mb-2">🎯 계산기 바로 사용하기</h3>
                             <p className="text-purple-200">주차별 보스 격파 계획을 세우고 정확한 해방 완료 일정을 확인하세요</p>
                         </div>
-                        <Link
+                        <Link prefetch={false}
                             href="/calculator/genesis-liberation"
                             className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-colors"
                         >
@@ -233,7 +233,7 @@ export default function GenesisLiberationCalculatorPost() {
                     <p className="text-purple-200 mb-6">
                         주차별 보스 격파 스케줄을 설정하고 챌린저스 시즌3 내 제네시스 무기 해방을 완료하세요
                     </p>
-                    <Link
+                    <Link prefetch={false}
                         href="/calculator/genesis-liberation"
                         className="inline-block px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg rounded-lg transition-colors"
                     >
@@ -243,7 +243,7 @@ export default function GenesisLiberationCalculatorPost() {
 
                 {/* 푸터 */}
                 <footer className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-500">
-                    <Link href="/blog" className="hover:text-purple-400">
+                    <Link prefetch={false} href="/blog" className="hover:text-purple-400">
                         ← 블로그 목록으로 돌아가기
                     </Link>
                 </footer>

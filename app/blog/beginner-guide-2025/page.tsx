@@ -15,7 +15,7 @@ export default function BeginnerGuidePage() {
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4"
                     >
@@ -525,8 +525,8 @@ export default function BeginnerGuidePage() {
                                 달성한 자신을 발견하게 될 것입니다.
                             </p>
                             <p className="text-slate-400 text-sm">
-                                더 자세한 정보가 필요하다면 <Link href="/guide" className="text-blue-400 hover:text-blue-300 underline">메이플 AI 가이드</Link>를
-                                참고하시거나, <Link href="/" className="text-blue-400 hover:text-blue-300 underline">캐릭터 진단</Link>을 받아보세요!
+                                더 자세한 정보가 필요하다면 <Link prefetch={false} href="/guide" className="text-blue-400 hover:text-blue-300 underline">메이플 AI 가이드</Link>를
+                                참고하시거나, <Link prefetch={false} href="/" className="text-blue-400 hover:text-blue-300 underline">캐릭터 진단</Link>을 받아보세요!
                             </p>
                         </div>
                     </section>
@@ -535,7 +535,7 @@ export default function BeginnerGuidePage() {
                 {/* Share & Navigation */}
                 <div className="border-t border-slate-800 pt-8 mt-12">
                     <div className="flex justify-between items-center">
-                        <Link
+                        <Link prefetch={false}
                             href="/blog"
                             className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
                         >

@@ -29,7 +29,7 @@ export default function NewNameAuctionAnalysisPage() {
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4"
                     >
@@ -973,14 +973,14 @@ export default function NewNameAuctionAnalysisPage() {
                 {/* Footer */}
                 <div className="border-t border-slate-700 pt-8 mt-12">
                     <div className="flex justify-between items-center">
-                        <Link
+                        <Link prefetch={false}
                             href="/blog"
                             className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
                         >
                             <ArrowLeft className="w-4 h-4" />
                             <span>블로그 목록으로</span>
                         </Link>
-                        <Link
+                        <Link prefetch={false}
                             href="/"
                             className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors"
                         >

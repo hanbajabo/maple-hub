@@ -319,7 +319,7 @@ export default function OverdriveHyperburningJobGuide() {
             {/* 헤더 */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <Link href="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-2">
+                    <Link prefetch={false} href="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-2">
                         <ArrowLeft className="w-4 h-4" />
                         <span className="text-sm">블로그로 돌아가기</span>
                     </Link>

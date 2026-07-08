@@ -68,7 +68,7 @@ export default function CooltimeHatGuidePage() {
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <Link
+                    <Link prefetch={false}
                         href="/guide"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4"
                     >
@@ -298,7 +298,7 @@ export default function CooltimeHatGuidePage() {
                     <p className="text-slate-300 mb-6">
                         메이플 AI로 실시간 캐릭터 분석을 받아보세요
                     </p>
-                    <Link
+                    <Link prefetch={false}
                         href="/"
                         className="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-colors shadow-lg"
                     >

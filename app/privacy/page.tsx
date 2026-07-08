@@ -5,7 +5,7 @@ export default function PrivacyPolicy() {
         <main className="min-h-screen bg-slate-950 text-slate-300 p-6 sm:p-12 font-sans">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-8">
-                    <Link href="/" className="text-maple-orange hover:underline font-bold text-lg">
+                    <Link prefetch={false} href="/" className="text-maple-orange hover:underline font-bold text-lg">
                         ← 메인으로 돌아가기
                     </Link>
                 </div>

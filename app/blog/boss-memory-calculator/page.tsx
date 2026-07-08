@@ -376,7 +376,7 @@ export default function BossMemoryCalculator() {
             <header className="bg-black/30 backdrop-blur-md border-b border-purple-500/20 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-1.5 sm:py-2 md:py-3">
                     <div className="flex items-center justify-between gap-1 sm:gap-2">
-                        <Link href="/blog" className="text-purple-300 hover:text-purple-100 transition-colors flex items-center gap-1 text-xs sm:text-sm md:text-base">
+                        <Link prefetch={false} href="/blog" className="text-purple-300 hover:text-purple-100 transition-colors flex items-center gap-1 text-xs sm:text-sm md:text-base">
                             <span className="text-base sm:text-lg md:text-xl">←</span>
                             <span className="font-semibold">블로그<span className="hidden sm:inline">로</span></span>
                         </Link>

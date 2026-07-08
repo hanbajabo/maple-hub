@@ -433,7 +433,7 @@ export default function ChallengersWorldCalculator() {
             <header className="bg-black/30 backdrop-blur-md border-b border-purple-500/20 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3 md:py-4">
                     <div className="flex items-center justify-between gap-2">
-                        <Link href="/blog" className="text-purple-300 hover:text-purple-100 transition-colors flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
+                        <Link prefetch={false} href="/blog" className="text-purple-300 hover:text-purple-100 transition-colors flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
                             <span className="text-lg sm:text-xl md:text-2xl">←</span>
                             <span className="font-semibold">블로그로<span className="hidden xs:inline"> 돌아가기</span></span>
                         </Link>
@@ -1173,7 +1173,7 @@ export default function ChallengersWorldCalculator() {
                     <p className="text-sm">
                         챌린저스 월드 시즌 3 | 2025년 12월 18일 ~ 2026년 4월 16일
                     </p>
-                    <Link href="/blog" className="text-purple-400 hover:text-purple-300 text-sm mt-2 inline-block">
+                    <Link prefetch={false} href="/blog" className="text-purple-400 hover:text-purple-300 text-sm mt-2 inline-block">
                         메이플AI 블로그로 돌아가기 →
                     </Link>
                 </div>

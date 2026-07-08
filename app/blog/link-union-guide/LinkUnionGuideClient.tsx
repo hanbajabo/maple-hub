@@ -9,7 +9,7 @@ export default function LinkUnionGuideClient() {
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <Link href="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4">
+                    <Link prefetch={false} href="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4">
                         <ArrowLeft className="w-4 h-4" />
                         <span className="text-sm">블로그로 돌아가기</span>
                     </Link>
@@ -636,7 +636,7 @@ export default function LinkUnionGuideClient() {
                         메이플 AI로 내 캐릭터를 분석하고<br />
                         링크 스킬과 유니온 효과를 한눈에 확인하세요!
                     </p>
-                    <Link href="/" className="inline-block px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-colors shadow-lg">
+                    <Link prefetch={false} href="/" className="inline-block px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-colors shadow-lg">
                         지금 진단 받기 →
                     </Link>
                 </div>

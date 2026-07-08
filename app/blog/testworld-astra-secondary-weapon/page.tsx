@@ -21,7 +21,7 @@ export default function AstraSecondaryWeaponGuide() {
             <article className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
                 {/* 헤더 */}
                 <header className="mb-8 sm:mb-12">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors mb-6"
                     >
@@ -483,7 +483,7 @@ export default function AstraSecondaryWeaponGuide() {
                         <p className="text-slate-300 mb-4 sm:mb-6 text-sm sm:text-base">
                             그란디스의 힘이 담긴 최강 보조무기, 지금 바로 시작하세요! 🛡️
                         </p>
-                        <Link
+                        <Link prefetch={false}
                             href="/blog"
                             className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-6 sm:px-8 rounded-lg transition-all duration-300 hover:scale-105 text-sm sm:text-base"
                         >

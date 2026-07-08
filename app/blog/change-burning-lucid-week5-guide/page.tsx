@@ -9,7 +9,7 @@ export default function ChangeBurningLucidWeek5GuidePage() {
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-purple-950/20 to-slate-950 text-white pb-20">
             {/* Header */}
             <header className="w-full max-w-7xl flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 mx-auto">
-                <Link href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-purple-400">
+                <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-purple-400">
                     <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span className="text-xs sm:text-base md:text-lg font-bold">블로그로 돌아가기</span>
                 </Link>
@@ -615,17 +615,17 @@ export default function ChangeBurningLucidWeek5GuidePage() {
                             이전 주차 공략도 함께 확인해보세요!
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                            <Link href="/blog/change-burning-lucid-week4-guide">
+                            <Link prefetch={false} href="/blog/change-burning-lucid-week4-guide">
                                 <button className="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-bold rounded-xl transition-all shadow-xl hover:-translate-y-1">
                                     🦋 4주차 공략 보기
                                 </button>
                             </Link>
-                            <Link href="/blog/change-burning-lucid-week3-guide">
+                            <Link prefetch={false} href="/blog/change-burning-lucid-week3-guide">
                                 <button className="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-bold rounded-xl transition-all hover:-translate-y-1">
                                     🦋 3주차 공략 보기
                                 </button>
                             </Link>
-                            <Link href="/blog/change-burning-lucid-week2-guide">
+                            <Link prefetch={false} href="/blog/change-burning-lucid-week2-guide">
                                 <button className="w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-bold rounded-xl transition-all hover:-translate-y-1">
                                     🦋 2주차 공략 보기
                                 </button>

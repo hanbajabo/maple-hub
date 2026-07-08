@@ -22,7 +22,7 @@ export default function SolHecatePost() {
             <article className="relative max-w-4xl mx-auto px-4 sm:px-6">
                 {/* 헤더 섹션 */}
                 <header className="mb-8 sm:mb-12">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-6 group"
                     >
@@ -320,7 +320,7 @@ export default function SolHecatePost() {
                             새로운 파트너 솔 헤카테와 함께<br />
                             더 높은 곳을 향해 나아가세요!
                         </p>
-                        <Link
+                        <Link prefetch={false}
                             href="/blog"
                             className="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl transition-all hover:scale-105 shadow-lg shadow-purple-900/40"
                         >

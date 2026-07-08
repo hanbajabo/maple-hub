@@ -10,7 +10,7 @@ export default function HyperburningJobs2025v2() {
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-2 sm:mb-4"
                     >
@@ -56,7 +56,7 @@ export default function HyperburningJobs2025v2() {
                         </li>
                     </ul>
                     <div className="mt-4 pt-4 border-t border-white/10">
-                        <Link href="/job-ranking" className="inline-flex items-center justify-center w-full sm:w-auto gap-2 px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold transition-colors text-sm">
+                        <Link prefetch={false} href="/job-ranking" className="inline-flex items-center justify-center w-full sm:w-auto gap-2 px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold transition-colors text-sm">
                             <BarChart2 className="w-4 h-4" />
                             실시간 랭킹 확인하러 가기
                         </Link>
@@ -194,7 +194,7 @@ export default function HyperburningJobs2025v2() {
                     <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-8 text-center shadow-lg shadow-purple-500/20">
                         <h3 className="text-2xl font-black text-white mb-2">당신의 직업을 찾아드립니다</h3>
                         <p className="text-indigo-100 mb-6">AI와 빅데이터가 분석한 2025년 최고의 직업</p>
-                        <Link
+                        <Link prefetch={false}
                             href="/job-ranking"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-white text-purple-600 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg"
                         >
@@ -206,14 +206,14 @@ export default function HyperburningJobs2025v2() {
                 {/* Footer CTA */}
                 <div className="border-t border-slate-700 pt-8 mt-12">
                     <div className="flex justify-between items-center">
-                        <Link
+                        <Link prefetch={false}
                             href="/blog"
                             className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
                         >
                             <ArrowLeft className="w-4 h-4" />
                             블로그 목록
                         </Link>
-                        <Link
+                        <Link prefetch={false}
                             href="/blog/hyperburning-jobs-2025"
                             className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors"
                         >

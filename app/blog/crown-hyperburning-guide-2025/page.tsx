@@ -11,7 +11,7 @@ export default function CrownHyperburningGuide2025() {
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-2 sm:mb-4"
                     >
@@ -487,13 +487,13 @@ export default function CrownHyperburningGuide2025() {
                             이 가이드대로만 진행하신다면 누구보다 빠르게 260레벨의 고지에 도달하실 수 있을 거예요!
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                            <Link
+                            <Link prefetch={false}
                                 href="/job-ranking"
                                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-orange-600 rounded-full font-bold text-sm sm:text-base hover:bg-gray-100 transition-colors shadow-lg"
                             >
                                 🚀 직업 추천 보러가기
                             </Link>
-                            <Link
+                            <Link prefetch={false}
                                 href="/blog/hyperburning-jobs-2025-v2"
                                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-orange-800 text-white rounded-full font-bold text-sm sm:text-base hover:bg-orange-900 transition-colors"
                             >
@@ -506,7 +506,7 @@ export default function CrownHyperburningGuide2025() {
                 {/* Footer CTA */}
                 <div className="border-t border-slate-700 pt-8 mt-12">
                     <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                        <Link
+                        <Link prefetch={false}
                             href="/blog"
                             className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
                         >

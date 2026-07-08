@@ -314,7 +314,7 @@ export default function FinalCommonCoreDamageAdjustmentPage() {
 
             {/* 헤더 */}
             <header className="w-full sm:max-w-7xl flex items-center px-3 sm:px-6 lg:px-8 py-3 sm:py-4 sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 mx-auto">
-                <Link href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                     <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span className="text-sm sm:text-lg font-bold">블로그로 돌아가기</span>
                 </Link>
@@ -453,7 +453,7 @@ export default function FinalCommonCoreDamageAdjustmentPage() {
                 </section>
 
                 <div className="border-t border-slate-800 pt-6">
-                    <Link href="/blog" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm">
+                    <Link prefetch={false} href="/blog" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm">
                         <ArrowLeft className="w-4 h-4" />
                         블로그 목록으로 돌아가기
                     </Link>

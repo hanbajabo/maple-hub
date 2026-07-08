@@ -10,7 +10,7 @@ export default function Testworld23rdAnniversaryPage() {
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white pb-20">
             {/* Header */}
             <header className="w-full max-w-7xl flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 mx-auto">
-                <Link href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-purple-400">
+                <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-purple-400">
                     <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span className="text-xs sm:text-base md:text-lg font-bold">블로그로 돌아가기</span>
                 </Link>
@@ -776,7 +776,7 @@ export default function Testworld23rdAnniversaryPage() {
                         <p className="text-sm sm:text-base text-slate-300 mb-6">
                             메이플 AI에서 내 캐릭터를 진단하고 완벽한 육성 계획을 세워보세요!
                         </p>
-                        <Link href="/">
+                        <Link prefetch={false} href="/">
                             <button className="px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white font-bold rounded-xl transition-all shadow-xl hover:-translate-y-1">
                                 무료 캐릭터 진단 시작하기
                             </button>

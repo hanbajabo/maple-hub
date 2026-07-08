@@ -10,7 +10,7 @@ export default function TestworldUpdate197Page() {
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
             {/* Header */}
             <header className="w-full sm:max-w-7xl flex justify-between items-center px-3 sm:px-6 lg:px-8 py-3 sm:py-4 sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50 mx-auto">
-                <Link href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                     <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span className="text-sm sm:text-lg font-bold">블로그로 돌아가기</span>
                 </Link>
@@ -517,7 +517,7 @@ export default function TestworldUpdate197Page() {
                             메이플 AI에서 내 캐릭터를 진단하고,<br className="sm:hidden" />
                             새로운 업데이트를 대비하세요!
                         </p>
-                        <Link href="/">
+                        <Link prefetch={false} href="/">
                             <button className="px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-lg sm:rounded-xl transition-all shadow-xl hover:shadow-2xl">
                                 무료 진단 시작하기
                             </button>
@@ -527,7 +527,7 @@ export default function TestworldUpdate197Page() {
 
                 {/* Back to Blog */}
                 <div className="text-center pt-8 border-t border-slate-800">
-                    <Link href="/blog" className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
+                    <Link prefetch={false} href="/blog" className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
                         <ArrowLeft className="w-4 h-4" />
                         블로그 목록으로 돌아가기
                     </Link>

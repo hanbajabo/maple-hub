@@ -14,7 +14,7 @@ export default function FreeToPlayGuidePage() {
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4"
                     >
@@ -476,7 +476,7 @@ export default function FreeToPlayGuidePage() {
                                 새 서버에서 도전해보세요. 여러분도 충분히 할 수 있습니다!
                             </p>
                             <p className="text-slate-400 text-sm">
-                                더 많은 팁이 필요하다면 <Link href="/guide" className="text-blue-400 hover:text-blue-300 underline">메이플 AI 가이드</Link>를
+                                더 많은 팁이 필요하다면 <Link prefetch={false} href="/guide" className="text-blue-400 hover:text-blue-300 underline">메이플 AI 가이드</Link>를
                                 참고하세요!
                             </p>
                         </div>
@@ -486,7 +486,7 @@ export default function FreeToPlayGuidePage() {
                 {/* Share & Navigation */}
                 <div className="border-t border-slate-800 pt-8 mt-12">
                     <div className="flex justify-between items-center">
-                        <Link
+                        <Link prefetch={false}
                             href="/blog"
                             className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
                         >

@@ -120,7 +120,7 @@ export default function BossEquipmentProgressionPage() {
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <Link href="/guide" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4">
+                    <Link prefetch={false} href="/guide" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4">
                         <ArrowLeft className="w-4 h-4" />
                         <span className="text-sm">가이드 목록으로</span>
                     </Link>
@@ -307,7 +307,7 @@ export default function BossEquipmentProgressionPage() {
                 <div className="mt-16 bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-2xl p-8 text-center">
                     <h3 className="text-2xl font-bold text-white mb-4">내 장비는 몇 단계?</h3>
                     <p className="text-slate-300 mb-6">메이플 AI로 실시간 장비 진단을 받아보세요. 현재 착용한 장비의 가치를 정확하게 분석해드립니다.</p>
-                    <Link href="/" className="inline-block px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-colors shadow-lg">
+                    <Link prefetch={false} href="/" className="inline-block px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition-colors shadow-lg">
                         지금 무료로 진단 받기 →
                     </Link>
                 </div>

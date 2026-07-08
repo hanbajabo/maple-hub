@@ -159,7 +159,7 @@ export default function NewBmExpEfficiency2026() {
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
                 <div className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-6">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 text-slate-200 hover:text-white transition-colors mb-2 sm:mb-4"
                     >
@@ -187,7 +187,7 @@ export default function NewBmExpEfficiency2026() {
                     <div className="bg-blue-900/30 border border-blue-500/40 rounded-lg p-4 mt-4">
                         <p className="text-sm text-white">
                             💡 <strong className="text-blue-400">이 글은</strong>{' '}
-                            <Link href="/blog/exp-product-efficiency" className="text-purple-400 underline hover:text-purple-300">
+                            <Link prefetch={false} href="/blog/exp-product-efficiency" className="text-purple-400 underline hover:text-purple-300">
                                 메이플 경험치 상품 효율 완벽 분석
                             </Link>
                             의 후속편입니다. 기존 기준(상급 EXP 환산, 1억 메소 = 1,500캐시)을 동일하게 적용합니다.
@@ -835,14 +835,14 @@ export default function NewBmExpEfficiency2026() {
 
                 {/* Footer CTA */}
                 <div className="border-t border-slate-700 pt-8 mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg font-bold hover:bg-purple-500 transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5" />
                         블로그 메인으로
                     </Link>
-                    <Link
+                    <Link prefetch={false}
                         href="/blog/exp-product-efficiency"
                         className="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white rounded-lg font-bold hover:bg-slate-600 transition-colors"
                     >

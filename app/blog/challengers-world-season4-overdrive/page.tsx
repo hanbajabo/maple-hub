@@ -10,7 +10,7 @@ export default function ChallengersWorldSeason4Page() {
       <div className="fixed bottom-10 right-1/4 w-[400px] h-[400px] bg-cyan-900/5 rounded-full blur-[100px] pointer-events-none z-0" />
 
       <header className="w-full max-w-7xl flex justify-between items-center px-6 py-4 sticky top-0 z-50 bg-[#080711]/90 backdrop-blur-md border-b border-slate-800/80 mx-auto">
-        <Link href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-purple-400 font-semibold group">
+        <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-purple-400 font-semibold group">
           <ArrowLeft className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" />
           <span>블로그 홈으로</span>
         </Link>
@@ -850,7 +850,7 @@ export default function ChallengersWorldSeason4Page() {
               </div>
 
               <div className="mt-8 flex justify-center">
-                <Link 
+                <Link prefetch={false} 
                   href="/calculator/challengers-season4"
                   className="inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-cyan-500/20 via-indigo-500/20 to-purple-500/20 hover:from-cyan-500/35 hover:via-indigo-500/35 hover:to-purple-500/35 text-cyan-200 hover:text-white border border-cyan-500/30 hover:border-cyan-500/50 rounded-xl font-bold transition-all shadow-lg shadow-indigo-950/40 text-sm md:text-base group"
                 >
@@ -1176,7 +1176,7 @@ export default function ChallengersWorldSeason4Page() {
           </div>
 
           <div className="mt-8 flex justify-center">
-            <Link 
+            <Link prefetch={false} 
               href="/calculator/challengers-season4"
               className="inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20 hover:from-emerald-500/35 hover:via-teal-500/35 hover:to-cyan-500/35 text-emerald-200 hover:text-white border border-emerald-500/30 hover:border-emerald-500/50 rounded-xl font-bold transition-all shadow-lg shadow-teal-950/40 text-sm md:text-base group"
             >

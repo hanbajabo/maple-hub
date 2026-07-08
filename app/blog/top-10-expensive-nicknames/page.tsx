@@ -15,7 +15,7 @@ export default function Top10ExpensiveNicknamesPage() {
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4"
                     >
@@ -554,7 +554,7 @@ export default function Top10ExpensiveNicknamesPage() {
                     <section className="mb-8">
                         <div className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-xl p-6">
                             <h3 className="text-lg font-bold text-purple-400 mb-4">📚 관련 글</h3>
-                            <Link
+                            <Link prefetch={false}
                                 href="/blog/new-name-auction-season-analysis"
                                 className="block p-4 bg-slate-800/50 hover:bg-slate-800 rounded-lg transition-colors group"
                             >

@@ -102,7 +102,7 @@ export default function PortfolioIndexPage() {
                 {/* 포트폴리오 카드 그리드 */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 portfolio-grid">
                     {/* 포트폴리오 1: 넥슨 (기술/시스템) */}
-                    <Link href="/pf/nx-k8m2x9q4p7" className="group h-full">
+                    <Link prefetch={false} href="/pf/nx-k8m2x9q4p7" className="group h-full">
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-blue-500/20 p-4 rounded-xl card-icon-container">
@@ -138,7 +138,7 @@ export default function PortfolioIndexPage() {
                     </Link>
 
                     {/* 포트폴리오 2: 커뮤니티/운영 */}
-                    <Link href="/pf/cm-w3r5t8y2u6" className="group h-full">
+                    <Link prefetch={false} href="/pf/cm-w3r5t8y2u6" className="group h-full">
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-green-500/20 p-4 rounded-xl card-icon-container">
@@ -174,7 +174,7 @@ export default function PortfolioIndexPage() {
                     </Link>
 
                     {/* 포트폴리오 3: 시스템 디자인 */}
-                    <Link href="/pf/ob-g5h6i7j8k9" className="group h-full">
+                    <Link prefetch={false} href="/pf/ob-g5h6i7j8k9" className="group h-full">
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-purple-500/20 p-4 rounded-xl card-icon-container">
@@ -210,7 +210,7 @@ export default function PortfolioIndexPage() {
                     </Link>
 
                     {/* 포트폴리오 4: 신규 컨텐츠 제안 (Limited World) */}
-                    <Link href="/pf/lw-j7k2l5m9" className="group h-full">
+                    <Link prefetch={false} href="/pf/lw-j7k2l5m9" className="group h-full">
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-red-500/20 p-4 rounded-xl card-icon-container">
@@ -246,7 +246,7 @@ export default function PortfolioIndexPage() {
                     </Link>
 
                     {/* 포트폴리오 5: 신규 이벤트 제안 (Dimension Invader) */}
-                    <Link href="/pf/di-x9y8z7w6" className="group h-full">
+                    <Link prefetch={false} href="/pf/di-x9y8z7w6" className="group h-full">
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-indigo-500/20 p-4 rounded-xl card-icon-container">
@@ -282,7 +282,7 @@ export default function PortfolioIndexPage() {
                     </Link>
 
                     {/* 포트폴리오 6: M.T.C (전술 훈련소) */}
-                    <Link href="/pf/mtc-a1b2c3d4e5" className="group h-full">
+                    <Link prefetch={false} href="/pf/mtc-a1b2c3d4e5" className="group h-full">
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-orange-500/20 p-4 rounded-xl card-icon-container">
@@ -318,7 +318,7 @@ export default function PortfolioIndexPage() {
                     </Link>
 
                     {/* 포트폴리오 7: MATRIX PATHFINDER */}
-                    <Link href="/pf/mp-h3x4m5a6t7" className="group h-full">
+                    <Link prefetch={false} href="/pf/mp-h3x4m5a6t7" className="group h-full">
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-emerald-500/20 p-4 rounded-xl card-icon-container">
@@ -354,7 +354,7 @@ export default function PortfolioIndexPage() {
                     </Link>
 
                     {/* 포트폴리오 8: 주간 보스 수배 */}
-                    <Link href="/pf/bw-w4n5t6e7d8" className="group h-full">
+                    <Link prefetch={false} href="/pf/bw-w4n5t6e7d8" className="group h-full">
                         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl portfolio-card h-full flex flex-col">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="bg-amber-500/20 p-4 rounded-xl card-icon-container">

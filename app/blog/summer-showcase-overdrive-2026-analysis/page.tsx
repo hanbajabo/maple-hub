@@ -49,7 +49,7 @@ export default function SummerShowcaseOverdrive2026AnalysisPage() {
 
             {/* Header */}
             <header className="w-full max-w-7xl flex justify-between items-center px-6 py-4 sticky top-0 z-50 bg-[#080711]/90 backdrop-blur-md border-b border-slate-800/80 mx-auto">
-                <Link href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-purple-400 font-semibold group">
+                <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-purple-400 font-semibold group">
                     <ArrowLeft className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" />
                     <span>블로그 홈으로</span>
                 </Link>

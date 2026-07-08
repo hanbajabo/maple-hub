@@ -14,7 +14,7 @@ export default function CrownShowcasePage() {
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <Link
+                    <Link prefetch={false}
                         href="/blog"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4"
                     >
@@ -138,7 +138,7 @@ export default function CrownShowcasePage() {
                         </p>
 
                         <p className="text-blue-300 text-sm mt-4 italic">
-                            💡 레벨링이 고민이신가요? <Link href="/blog/beginner-guide-2025" className="text-blue-400 hover:text-blue-300 underline">초보자 200레벨 완벽 가이드</Link>를 참고하세요!
+                            💡 레벨링이 고민이신가요? <Link prefetch={false} href="/blog/beginner-guide-2025" className="text-blue-400 hover:text-blue-300 underline">초보자 200레벨 완벽 가이드</Link>를 참고하세요!
                         </p>
                     </section>
 
@@ -177,7 +177,7 @@ export default function CrownShowcasePage() {
                         </p>
 
                         <p className="text-blue-300 text-sm mt-4 italic">
-                            💡 보스 준비가 필요하신가요? <Link href="/guide/boss-tier-guide" className="text-blue-400 hover:text-blue-300 underline">보스 난이도별 가이드</Link>를 확인하세요!
+                            💡 보스 준비가 필요하신가요? <Link prefetch={false} href="/guide/boss-tier-guide" className="text-blue-400 hover:text-blue-300 underline">보스 난이도별 가이드</Link>를 확인하세요!
                         </p>
                     </section>
 
@@ -208,7 +208,7 @@ export default function CrownShowcasePage() {
                         </p>
 
                         <p className="text-blue-300 text-sm mt-4 italic">
-                            💡 헥사 스킬이 궁금하신가요? <Link href="/guide/hexa-skill-priority" className="text-blue-400 hover:text-blue-300 underline">직업별 헥사 스킬 우선순위</Link>를 확인하세요!
+                            💡 헥사 스킬이 궁금하신가요? <Link prefetch={false} href="/guide/hexa-skill-priority" className="text-blue-400 hover:text-blue-300 underline">직업별 헥사 스킬 우선순위</Link>를 확인하세요!
                         </p>
                     </section>
 
@@ -252,7 +252,7 @@ export default function CrownShowcasePage() {
                         </p>
 
                         <p className="text-blue-300 text-sm mt-4 italic">
-                            💡 직업 선택이 고민되시나요? <Link href="/job-ranking" className="text-blue-400 hover:text-blue-300 underline">2025 직업 추천 순위</Link>를 확인하세요!
+                            💡 직업 선택이 고민되시나요? <Link prefetch={false} href="/job-ranking" className="text-blue-400 hover:text-blue-300 underline">2025 직업 추천 순위</Link>를 확인하세요!
                         </p>
                     </section>
 
@@ -325,14 +325,14 @@ export default function CrownShowcasePage() {
                 {/* Footer */}
                 <div className="border-t border-slate-700 pt-8 mt-12">
                     <div className="flex justify-between items-center">
-                        <Link
+                        <Link prefetch={false}
                             href="/blog"
                             className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
                         >
                             <ArrowLeft className="w-4 h-4" />
                             <span>블로그 목록으로</span>
                         </Link>
-                        <Link
+                        <Link prefetch={false}
                             href="/job-ranking"
                             className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors"
                         >

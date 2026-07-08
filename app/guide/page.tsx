@@ -143,7 +143,7 @@ export default function GuidePage() {
             {/* Header */}
             <div className="border-b border-slate-800 bg-slate-950/50 backdrop-blur-sm sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-                    <Link
+                    <Link prefetch={false}
                         href="/"
                         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-4"
                     >
@@ -183,7 +183,7 @@ export default function GuidePage() {
                 {/* Guide Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {guides.map((guide) => (
-                        <Link
+                        <Link prefetch={false}
                             key={guide.id}
                             href={guide.id.startsWith('..') ? guide.id : `/guide/${guide.id}`}
                             className="group bg-slate-800/40 hover:bg-slate-800/60 border border-slate-700 hover:border-orange-500/50 rounded-2xl p-4 sm:p-6 transition-all duration-300 shadow-lg hover:shadow-orange-500/10 flex flex-col h-full"

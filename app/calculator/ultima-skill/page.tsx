@@ -15,11 +15,11 @@ export default function UltimaSkillCalculatorPage() {
             
             {/* 상단 네비게이션 (뒤로가기) */}
             <div className="max-w-4xl mx-auto relative z-10 flex items-center gap-3 mb-8">
-                <Link href="/blog" className="flex items-center gap-2 px-4 py-2 bg-slate-900/50 hover:bg-slate-800/80 border border-slate-700/50 hover:border-indigo-500/50 rounded-xl text-sm font-bold text-indigo-300 hover:text-indigo-200 transition-all shadow-sm group">
+                <Link prefetch={false} href="/blog" className="flex items-center gap-2 px-4 py-2 bg-slate-900/50 hover:bg-slate-800/80 border border-slate-700/50 hover:border-indigo-500/50 rounded-xl text-sm font-bold text-indigo-300 hover:text-indigo-200 transition-all shadow-sm group">
                     <ArrowLeft className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" />
                     <span>블로그 홈</span>
                 </Link>
-                <Link href="/" className="flex items-center gap-2 px-4 py-2 bg-slate-900/50 hover:bg-slate-800/80 border border-slate-700/50 hover:border-slate-600 rounded-xl text-sm font-bold text-slate-300 hover:text-white transition-all shadow-sm">
+                <Link prefetch={false} href="/" className="flex items-center gap-2 px-4 py-2 bg-slate-900/50 hover:bg-slate-800/80 border border-slate-700/50 hover:border-slate-600 rounded-xl text-sm font-bold text-slate-300 hover:text-white transition-all shadow-sm">
                     <Home className="w-4 h-4" />
                     <span>메인 홈</span>
                 </Link>

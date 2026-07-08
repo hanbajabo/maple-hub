@@ -10,7 +10,7 @@ export default function MiracleTimeGuidePage() {
       <div className="fixed bottom-10 right-1/4 w-[400px] h-[400px] bg-purple-900/10 rounded-full blur-[100px] pointer-events-none z-0" />
 
       <header className="w-full max-w-7xl flex justify-between items-center px-6 py-4 sticky top-0 z-50 bg-[#080711]/90 backdrop-blur-md border-b border-slate-700 mx-auto">
-        <Link href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-amber-400 font-semibold group">
+        <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-amber-400 font-semibold group">
           <ArrowLeft className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" />
           <span>블로그 홈으로</span>
         </Link>

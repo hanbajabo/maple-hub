@@ -161,7 +161,7 @@ export default function JobRankingPage() {
                                 평가 기준을 직접 선택하여 나만의 맞춤형 순위를 확인하세요!
                             </p>
                         </div>
-                        <Link
+                        <Link prefetch={false}
                             href="/"
                             className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white transition"
                         >
