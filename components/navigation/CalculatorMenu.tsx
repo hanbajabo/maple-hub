@@ -125,7 +125,10 @@ export default function CalculatorMenu() {
                                 <Image src="/images/exp-calculator-icon.png" alt="EXP Calc" fill className="object-contain" />
                             </div>
                             <div className="flex flex-col min-w-0">
-                                <span className="font-semibold text-sm">경험치 계산기</span>
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-semibold text-sm">경험치 계산기</span>
+                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
+                                </div>
                                 <div className="flex items-center gap-1 mt-0.5 flex-wrap">
                                     <span className="text-[10px] text-orange-400 font-medium">오버드라이브 업데이트!</span>
                                 </div>
