@@ -319,7 +319,7 @@ export default function ExpCalculatorClient() {
     const [currentLevelExp, setCurrentLevelExp] = useState(0); // 현재 레벨 진행도 (%)
     const [targetLevel, setTargetLevel] = useState(210);
     const [useHyperBurning, setUseHyperBurning] = useState(false); // 하이퍼버닝 사용 여부
-    const [useBurningBeyond, setUseBurningBeyond] = useState(false); // 버닝 비욘드 (Lv.260~270 1+1) 사용 여부
+    const [useBurningBeyond, setUseBurningBeyond] = useState(false); // 버닝 비욘드 (Lv.260~280 1+1) 사용 여부
 
     // 사냥 효율 입력 방식 (3가지 모드)
     const [huntingMode, setHuntingMode] = useState<'percent' | 'manual' | 'namuwiki'>('namuwiki'); // 사냥 모드
@@ -615,7 +615,7 @@ export default function ExpCalculatorClient() {
                 let levelUpBonus = 1;
                 if (useHyperBurning && currentSimLevel >= 200 && currentSimLevel < 260) {
                     levelUpBonus = 5; // 1+4
-                } else if (useBurningBeyond && currentSimLevel >= 260 && currentSimLevel < 270) {
+                } else if (useBurningBeyond && currentSimLevel >= 260 && currentSimLevel < 280) {
                     levelUpBonus = 2; // 1+1
                 }
                 currentSimLevel += levelUpBonus;
@@ -845,8 +845,8 @@ export default function ExpCalculatorClient() {
                                     </div>
                                 )}
 
-                                {/* 버닝 비욘드 (Lv.260~270) */}
-                                {currentLevel < 270 && targetLevel >= 260 && (
+                                {/* 버닝 비욘드 (Lv.260~280) */}
+                                {currentLevel < 280 && targetLevel >= 260 && (
                                     <div className="pt-4 border-t border-slate-800">
                                         <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-2 cursor-pointer">
                                             <input
@@ -855,7 +855,7 @@ export default function ExpCalculatorClient() {
                                                 onChange={(e) => setUseBurningBeyond(e.target.checked)}
                                                 className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-purple-500 focus:ring-offset-slate-900"
                                             />
-                                            ✨ 버닝 비욘드 (Lv.260~270)
+                                            ✨ 버닝 비욘드 (Lv.260~280)
                                         </label>
                                         {useBurningBeyond && (
                                             <div className="mt-2 p-3 bg-purple-500/10 border border-purple-500/30 rounded-lg">

@@ -103,11 +103,11 @@ export default function ExpCalculatorClient() {
             // 사실 루시드는 260부터 적용이라 하이퍼 버닝과 겹칠 일은 없지만 범용성/정확도를 위해 추가
             if (useHyperBurning && lv >= 200 && lv < 260) {
                 lv = Math.min(lv + 4, 260); // 260까지만 적용
-            } else if (useBurningBeyond && lv >= 260 && lv <= 269) {
-                // 버닝 비욘드 추가 레벨업 (260~269 구간에서 1업 시 +1업)
-                // 269에서 레벨업하면 270이 되고 +1업 해서 271이 되는 것이 아님 (최대 적용은 269렙에서 업할때이므로 도달렙 270까지만.)
+            } else if (useBurningBeyond && lv >= 260 && lv <= 279) {
+                // 버닝 비욘드 추가 레벨업 (260~279 구간에서 1업 시 +1업)
+                // 279에서 레벨업하면 280이 되고 +1업 해서 281이 되는 것이 아님 (최대 적용은 279렙에서 업할때이므로 도달렙 280까지만.)
                 lv++; // 1+1 이므로 1업 추가
-                if (lv > 270) lv = 270; // 제한
+                if (lv > 280) lv = 280; // 제한
             }
 
             const next = EXP_DATA.find(d => d.level === lv);
@@ -152,9 +152,9 @@ export default function ExpCalculatorClient() {
                     // 버닝 효과 적용
                     if (useHyperBurning && lv >= 200 && lv < 260) {
                         lv = Math.min(lv + 4, 260); // 260까지만 적용
-                    } else if (useBurningBeyond && lv >= 260 && lv <= 269) {
+                    } else if (useBurningBeyond && lv >= 260 && lv <= 279) {
                         lv++;
-                        if (lv > 270) lv = 270;
+                        if (lv > 280) lv = 280;
                     }
                 } else {
                     break;
@@ -410,7 +410,7 @@ export default function ExpCalculatorClient() {
 
                 let levelUpBonus = 1;
                 if (useHyperBurning && currentSimLevel >= 200 && currentSimLevel < 260) levelUpBonus = 5;
-                else if (useBurningBeyond && currentSimLevel >= 260 && currentSimLevel < 270) levelUpBonus = 2;
+                else if (useBurningBeyond && currentSimLevel >= 260 && currentSimLevel < 280) levelUpBonus = 2;
 
                 if (levelUpBonus > 1) {
                     for (let i = 1; i < levelUpBonus; i++) {
@@ -585,8 +585,8 @@ export default function ExpCalculatorClient() {
                                 {currentLevel < 260 && targetLevel > 200 && (
                                     <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer"><input type="checkbox" checked={useHyperBurning} onChange={(e) => setUseHyperBurning(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-red-600 focus:ring-red-500" />🔥 하이퍼버닝 (Lv.200~260)</label>
                                 )}
-                                {currentLevel < 270 && targetLevel >= 260 && (
-                                    <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer"><input type="checkbox" checked={useBurningBeyond} onChange={(e) => setUseBurningBeyond(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-purple-500" />✨ 버닝 비욘드 (Lv.260~270)</label>
+                                {currentLevel < 280 && targetLevel >= 260 && (
+                                    <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer"><input type="checkbox" checked={useBurningBeyond} onChange={(e) => setUseBurningBeyond(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-purple-500" />✨ 버닝 비욘드 (Lv.260~280)</label>
                                 )}
                                 {(currentLevel >= 260 || targetLevel > 260) && (
                                     <div className="space-y-1">
@@ -977,7 +977,7 @@ export default function ExpCalculatorClient() {
                         </div>
                         <div>
                             <h3 className="text-slate-400 font-semibold mb-2">🔥 하이퍼버닝 & 버닝비욘드 경험치 반영</h3>
-                            <p>하이퍼버닝(Lv.200~260, 1레벨업 시 5레벨 보너스)과 버닝비욘드(Lv.260~270, 2레벨 보너스)를 선택하면 레벨 구간별 소요 일수가 자동으로 단축됩니다. 버닝 이벤트 기간에 최적화된 레벨업 계획을 바로 확인하세요.</p>
+                            <p>하이퍼버닝(Lv.200~260, 1레벨업 시 5레벨 보너스)과 버닝비욘드(Lv.260~280, 2레벨 보너스)를 선택하면 레벨 구간별 소요 일수가 자동으로 단축됩니다. 버닝 이벤트 기간에 최적화된 레벨업 계획을 바로 확인하세요.</p>
                         </div>
                         <div>
                             <h3 className="text-slate-400 font-semibold mb-2">🦋 체인지버닝 루시드 경험치 계산</h3>
