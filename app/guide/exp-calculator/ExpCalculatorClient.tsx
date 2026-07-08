@@ -642,7 +642,18 @@ export default function ExpCalculatorClient() {
                                 {huntingMode === 'calculate' && (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div><label className="text-xs text-slate-400 mb-1 block">하루 사냥 시간 (시간)</label><input type="number" min="0" max="24" step="0.5" value={dailyHuntingHours} onChange={(e) => setDailyHuntingHours(Math.max(0, Math.min(24, Number(e.target.value))))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-green-500" /></div>
-                                        <div><label className="text-xs text-slate-400 mb-1 block">시간당 마릿수</label><input type="number" min="0" step="100" value={mobsPerHour} onChange={(e) => setMobsPerHour(Math.max(0, Number(e.target.value)))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-green-500" /></div>
+                                        <div>
+                                            <label className="text-xs text-slate-400 mb-1 block">시간당 마릿수</label>
+                                            <input type="number" min="0" step="100" value={mobsPerHour} onChange={(e) => setMobsPerHour(Math.max(0, Number(e.target.value)))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-green-500" />
+                                            <Link 
+                                                href="/guide/hunting-field-calculator" 
+                                                target="_blank" 
+                                                prefetch={false}
+                                                className="text-xs sm:text-sm text-green-400 hover:text-green-300 hover:underline mt-1.5 flex items-center gap-1 w-fit transition-colors font-medium"
+                                            >
+                                                🔍 사냥터별 시간당 마릿수 확인하기
+                                            </Link>
+                                        </div>
                                         <div className="sm:col-span-2"><label className="text-xs text-slate-400 mb-1 block">추가 경험치 (%)</label><input type="number" min="0" value={additionalExpRate} onChange={(e) => setAdditionalExpRate(Math.max(0, Number(e.target.value)))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-green-500" /></div>
                                         <div className="sm:col-span-2 mt-2 space-y-2">
                                             <div className="grid grid-cols-1 gap-2">
