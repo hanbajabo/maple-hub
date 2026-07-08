@@ -14,6 +14,7 @@ import { EXPRESS_BOOSTER_EXP } from '@/data/express-booster-exp';
 import { MONSTER_EXP, MonsterExp } from '@/data/monster-exp';
 import { getLucidBurningExp, calcLucidBurningTotal } from '@/data/lucid-burning-exp';
 import { calcGoldenFarmTotal, getGoldenFarmExp } from '@/data/golden-farm-exp';
+import { SPECTER_BLAST_EXP } from '@/data/specter-blast-exp';
 import {
     EXP_DATA, getMonsterParkExp, getGrandisDailyQuest, getArcaneDailyQuest,
     EXTREME_MONSTER_PARK_EXP, MONSTER_PARK_EXP, ARCANE_DAILY_QUEST, GRANDIS_DAILY_QUEST
@@ -30,6 +31,14 @@ const BLUEBERRY_EXP_TABLE: Record<number, number> = {
     285: 2.1917, 286: 1.9924, 287: 1.8113, 288: 1.6466, 289: 1.4969,
     290: 0.7411, 291: 0.6737, 292: 0.6124, 293: 0.5568, 294: 0.5062,
     295: 0.2506, 296: 0.2278, 297: 0.2071, 298: 0.1883, 299: 0.1255,
+};
+
+// 성장의 비약 (200~279) 경험치 테이블 (280~299레벨)
+const GROWTH_POTION_200_279_EXP: Record<number, number> = {
+    280: 49.505, 281: 45.005, 282: 40.913, 283: 37.194, 284: 33.813,
+    285: 16.739, 286: 15.217, 287: 13.834, 288: 12.576, 289: 11.433,
+    290: 5.660,  291: 5.145,  292: 4.678,  293: 4.252,  294: 3.866,
+    295: 1.914,  296: 1.740,  297: 1.582,  298: 1.438,  299: 0.959
 };
 
 export default function ExpCalculatorClient() {
@@ -67,6 +76,11 @@ export default function ExpCalculatorClient() {
     const [anglerCompanyReward, setAnglerCompanyReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
     const [useNightmareGarden, setUseNightmareGarden] = useState(false);
     const [nightmareGardenReward, setNightmareGardenReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
+    const [useSpecterBlast, setUseSpecterBlast] = useState(false);
+
+    const [useGrowthPotion, setUseGrowthPotion] = useState(false);
+    const [growthPotionCount, setGrowthPotionCount] = useState(2);
+    const [growthPotionUseLevel, setGrowthPotionUseLevel] = useState(279);
 
     const [useVipSauna, setUseVipSauna] = useState(false);
     const [vipSaunaCount, setVipSaunaCount] = useState(1);
@@ -237,9 +251,9 @@ export default function ExpCalculatorClient() {
 
         let daysNeeded = 0, hoursNeeded = 0, totalHuntingHours = 0;
         const monsterParkBreakdown: Array<{ level: number; area: string; exp: number; days: number }> = [];
-        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0, blueberry: 0 };
+        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0, blueberry: 0, specterBlast: 0, growthPotion: 0 };
 
-        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useBlueberryFarm || useLucidBurning || useGoldenFarm) {
+        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useBlueberryFarm || useLucidBurning || useGoldenFarm || useSpecterBlast || useGrowthPotion) {
             let remainingExp = totalExpNeeded;
             let currentSimLevel = currentLevel;
             let currentSimLevelProgress = currentLevelExp;
@@ -253,7 +267,8 @@ export default function ExpCalculatorClient() {
                 sauna: useVipSauna ? vipSaunaCount : 0,
                 coupon: useAdvancedExpCoupon ? advancedExpCouponCount : 0,
                 farm: useMechaberryFarm ? mechaberryFarmCount : 0,
-                blueberry: useBlueberryFarm ? blueberryFarmCount : 0
+                blueberry: useBlueberryFarm ? blueberryFarmCount : 0,
+                growthPotion: useGrowthPotion ? growthPotionCount : 0
             };
             let carriedOverExp = 0;
 
@@ -324,6 +339,25 @@ export default function ExpCalculatorClient() {
                         }
                         
                         inventory.coupon = 0;
+                    }
+                }
+                if (inventory.growthPotion > 0 && currentSimLevel >= growthPotionUseLevel) {
+                    const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                    let amount = 0;
+                    if (currentSimLevel < 280) {
+                        amount = levelTotalExp;
+                    } else {
+                        const pct = GROWTH_POTION_200_279_EXP[currentSimLevel] || 0;
+                        amount = levelTotalExp * (pct / 100);
+                    }
+                    carriedOverExp += amount;
+                    totalExpSources.growthPotion += amount;
+                    inventory.growthPotion--;
+                    
+                    const existingNote = levelBreakdown.find(x => x.level === currentSimLevel);
+                    const noteText = `🧪 성장의 비약 (200~279) 사용`;
+                    if (existingNote) {
+                        existingNote.note = existingNote.note ? `${existingNote.note}, ${noteText}` : noteText;
                     }
                 }
                 if (inventory.farm > 0) {
@@ -405,6 +439,13 @@ export default function ExpCalculatorClient() {
                     }
                 }
 
+                let dailySpecterBlastExpSim = 0;
+                if (useSpecterBlast && currentSimLevel >= 260 && currentSimLevel < 300) {
+                    const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                    const blastPct = SPECTER_BLAST_EXP[currentSimLevel] || 0;
+                    dailySpecterBlastExpSim = (levelTotalExp * (blastPct / 100)) / 7;
+                }
+
                 if (mpData.area !== currentMonsterParkArea && (monsterParkCountWeek > 0 || monsterParkCountSun > 0)) {
                     if (currentMonsterParkArea && monsterParkDayCount > 0) monsterParkBreakdown[monsterParkBreakdown.length - 1].days = monsterParkDayCount;
                     monsterParkBreakdown.push({ level: currentSimLevel, area: mpData.area, exp: mpData.exp, days: 0 });
@@ -445,7 +486,7 @@ export default function ExpCalculatorClient() {
                     }
                 }
 
-                const dailyTotalExp = dailyHuntingExp + dailyQuestExp + dailyMonsterParkExpSim + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim + dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim + dailyExtremeMpExpSim;
+                const dailyTotalExp = dailyHuntingExp + dailyQuestExp + dailyMonsterParkExpSim + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim + dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim + dailyExtremeMpExpSim + dailySpecterBlastExpSim;
 
                 const currentLevelDataSim = EXP_DATA.find(d => d.level === currentSimLevel);
                 if (!currentLevelDataSim || (dailyTotalExp <= 0 && carriedOverExp <= 0)) break;
@@ -466,6 +507,7 @@ export default function ExpCalculatorClient() {
                         totalExpSources.monsterPark += (dailyMonsterParkExpSim + dailyExtremeMpExpSim) * daysForThisLevel;
                         totalExpSources.dailyQuest += (dailyQuestExp + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim) * daysForThisLevel;
                         totalExpSources.epicDungeon += (dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim) * daysForThisLevel;
+                        totalExpSources.specterBlast += dailySpecterBlastExpSim * daysForThisLevel;
                     }
                 }
 
@@ -518,6 +560,8 @@ export default function ExpCalculatorClient() {
             { name: '블루베리 농장', value: totalExpSources.blueberry, textClass: 'text-violet-400', bgClass: 'bg-violet-400' },
             { name: '익스프레스 부스터', value: totalExpSources.booster, textClass: 'text-green-400', bgClass: 'bg-green-400' },
             { name: 'VIP/헥사 부스터', value: totalExpSources.vipBooster, textClass: 'text-indigo-300', bgClass: 'bg-indigo-300' },
+            { name: '스펙터 블래스트', value: totalExpSources.specterBlast, textClass: 'text-fuchsia-400', bgClass: 'bg-fuchsia-400' },
+            { name: '성장의 비약 (200~279)', value: totalExpSources.growthPotion, textClass: 'text-rose-400', bgClass: 'bg-rose-400' },
             { name: '🦋 체인지 버닝: 루시드', value: totalExpSources.lucidBurning, textClass: 'text-purple-400', bgClass: 'bg-purple-400' },
             { name: '🍓 황금 딸기 농장', value: totalExpSources.goldenFarm, textClass: 'text-yellow-300', bgClass: 'bg-yellow-300' }
         ];
@@ -526,7 +570,7 @@ export default function ExpCalculatorClient() {
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -560,6 +604,7 @@ export default function ExpCalculatorClient() {
             ['하이마운틴', useHighMountain ? `O (${highMountainReward === 'basic' ? '기본' : highMountainReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
             ['앵글러 컴퍼니', useAnglerCompany ? `O (${anglerCompanyReward === 'basic' ? '기본' : anglerCompanyReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
             ['악몽선경', useNightmareGarden ? `O (${nightmareGardenReward === 'basic' ? '기본' : nightmareGardenReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
+            ['스펙터 블래스트', useSpecterBlast ? 'O (주간)' : 'X'],
             [],
             ['[소비 아이템]'],
             ['VIP 사우나', useVipSauna ? `${vipSaunaCount}장` : 'X'],
@@ -568,7 +613,8 @@ export default function ExpCalculatorClient() {
             ['블루베리 농장', useBlueberryFarm ? `${blueberryFarmCount}회 (${blueberryUseLevel}레벨에 사용)` : 'X'],
             ['익스프레스 부스터', useExpressBooster ? `${expressBoosterCount}개` : 'X'],
             ['VIP/헥사 부스터', useVipBooster ? `${vipBoosterCount}개` : 'X'],
-            ['🍓 황금 딸기 농장', useGoldenFarm ? `${goldenFarmCount}회 (${goldenFarmBonusRate}% 추가경험치)` : 'X']
+            ['🍓 황금 딸기 농장', useGoldenFarm ? `${goldenFarmCount}회 (${goldenFarmBonusRate}% 추가경험치)` : 'X'],
+            ['성장의 비약 (200~279)', useGrowthPotion ? `${growthPotionCount}개 (${growthPotionUseLevel}레벨에 사용)` : 'X']
         ];
 
         // Sheet 2: 결과 요약 및 경험치 분석
@@ -871,21 +917,42 @@ export default function ExpCalculatorClient() {
                                         </div>
                                     </div>
                                     <div className="pt-2 border-t border-slate-800 space-y-2">
-                                        <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useHighMountain} onChange={(e) => setUseHighMountain(e.target.checked)} /> 🏔️ 하이마운틴</label>
+                                        <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                            <input type="checkbox" checked={useHighMountain} onChange={(e) => setUseHighMountain(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                                            <span>🏔️ 하이마운틴</span>
+                                        </label>
                                         {useHighMountain && <select value={highMountainReward} onChange={(e) => setHighMountainReward(e.target.value as any)} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white outline-none"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
 
                                         {targetLevel >= 270 && (
                                             <>
-                                                <label className="flex items-center gap-2 text-xs text-slate-300 mt-2"><input type="checkbox" checked={useAnglerCompany} onChange={(e) => setUseAnglerCompany(e.target.checked)} /> 🏭 앵글러 컴퍼니</label>
+                                                <label className="flex items-center gap-2 text-xs text-slate-300 mt-2 cursor-pointer">
+                                                    <input type="checkbox" checked={useAnglerCompany} onChange={(e) => setUseAnglerCompany(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                                                    <span>🏭 앵글러 컴퍼니</span>
+                                                </label>
                                                 {useAnglerCompany && <select value={anglerCompanyReward} onChange={(e) => setAnglerCompanyReward(e.target.value as any)} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white outline-none"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
                                             </>
                                         )}
                                         {targetLevel >= 280 && (
                                             <>
-                                                <label className="flex items-center gap-2 text-xs text-slate-300 mt-2"><input type="checkbox" checked={useNightmareGarden} onChange={(e) => setUseNightmareGarden(e.target.checked)} /> 🌌 악몽선경</label>
+                                                <label className="flex items-center gap-2 text-xs text-slate-300 mt-2 cursor-pointer">
+                                                    <input type="checkbox" checked={useNightmareGarden} onChange={(e) => setUseNightmareGarden(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                                                    <span>🌌 악몽선경</span>
+                                                </label>
                                                 {useNightmareGarden && <select value={nightmareGardenReward} onChange={(e) => setNightmareGardenReward(e.target.value as any)} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white outline-none"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
                                             </>
                                         )}
+                                    </div>
+                                    <div className="pt-3 border-t border-slate-800 space-y-2">
+                                        <p className="text-xs font-bold text-slate-400">💥 주간 미니게임</p>
+                                        <div className="p-3 bg-slate-800/40 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
+                                            <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                                <input type="checkbox" checked={useSpecterBlast} onChange={(e) => setUseSpecterBlast(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                                                <div className="flex flex-col">
+                                                    <span className="font-semibold text-slate-200">스펙터 블래스트 (주간 1회)</span>
+                                                    <span className="text-[10px] text-slate-500 mt-0.5">레벨별 주간 고정 비율 경험치 적용 (도핑 미적용)</span>
+                                                </div>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             )}
@@ -985,6 +1052,40 @@ export default function ExpCalculatorClient() {
                                         <span>⚡ VIP/헥사 부스터 <span className="text-[10px] block opacity-70">룬 효과 활성화 때만 사용</span></span>
                                     </label>
                                     {useVipBooster && <div className="flex items-center gap-2"><input type="number" min="1" value={vipBoosterCount} onChange={(e) => setVipBoosterCount(Math.max(1, Number(e.target.value)))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">개</span></div>}
+                                </div>
+                                <div className="p-3 bg-slate-800 rounded-lg">
+                                    <label className="flex items-center gap-2 text-xs text-rose-300 mb-2">
+                                        <input type="checkbox" checked={useGrowthPotion} onChange={(e) => setUseGrowthPotion(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-rose-600 focus:ring-rose-500 cursor-pointer" />
+                                        <span>🧪 성장의 비약 (200~279)</span>
+                                    </label>
+                                    {useGrowthPotion && (
+                                        <div className="space-y-2 mt-1">
+                                            <div className="flex items-center gap-2">
+                                                <input 
+                                                    type="number" 
+                                                    value={growthPotionCount} 
+                                                    onFocus={(e) => e.target.select()} 
+                                                    onChange={(e) => setGrowthPotionCount(Number(e.target.value))} 
+                                                    onBlur={(e) => setGrowthPotionCount(Math.max(1, Number(e.target.value) || 1))}
+                                                    className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
+                                                />
+                                                <span className="text-xs text-slate-400">개 사용</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <input 
+                                                    type="number" 
+                                                    min="200" 
+                                                    max="299" 
+                                                    value={growthPotionUseLevel} 
+                                                    onFocus={(e) => e.target.select()} 
+                                                    onChange={(e) => setGrowthPotionUseLevel(Number(e.target.value))} 
+                                                    onBlur={(e) => setGrowthPotionUseLevel(Math.max(200, Math.min(299, Number(e.target.value) || 279)))}
+                                                    className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
+                                                />
+                                                <span className="text-xs text-slate-400">레벨에 사용</span>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
