@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowLeft, Calculator, TrendingUp, Clock, Download, Info, Zap, Calendar, ChevronDown } from 'lucide-react';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import { InArticleAd } from '@/components/AdSense';
 import { HUNTING_EXP_DATA, getHuntingDataForLevel, formatHuntingTime } from '@/data/hunting-exp-rates';
@@ -72,6 +72,7 @@ export default function ExpCalculatorClient() {
     const [vipSaunaCount, setVipSaunaCount] = useState(1);
     const [useAdvancedExpCoupon, setUseAdvancedExpCoupon] = useState(false);
     const [advancedExpCouponCount, setAdvancedExpCouponCount] = useState(1);
+    const [advancedUseLevel, setAdvancedUseLevel] = useState(260);
     const [useMechaberryFarm, setUseMechaberryFarm] = useState(false);
     const [mechaberryFarmCount, setMechaberryFarmCount] = useState(3);
     const [useBlueberryFarm, setUseBlueberryFarm] = useState(false);
@@ -95,6 +96,16 @@ export default function ExpCalculatorClient() {
     const [useGoldenFarm, setUseGoldenFarm] = useState(false);
     const [goldenFarmCount, setGoldenFarmCount] = useState(1);
     const [goldenFarmBonusRate, setGoldenFarmBonusRate] = useState(400);
+
+    // 챌린저스 월드 시즌4 남은 일수 계산
+    const [remainingDays, setRemainingDays] = useState<number | null>(null);
+    useEffect(() => {
+        const targetDate = new Date("2026-09-17T04:00:00+09:00");
+        const now = new Date();
+        const diffMs = targetDate.getTime() - now.getTime();
+        const days = diffMs <= 0 ? 0 : Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+        setRemainingDays(days);
+    }, []);
 
     // 체인지 버닝: 루시드 UI 프리뷰용 계산
     const lucidEntryForPreview = (currentLevel >= 260 || targetLevel > 260) ? getLucidBurningExp(Math.min(currentLevel, 295)) : null;
@@ -298,12 +309,20 @@ export default function ExpCalculatorClient() {
                         inventory.vipBooster = 0;
                     }
                 }
-                if (inventory.coupon > 0) {
+                if (inventory.coupon > 0 && currentSimLevel >= advancedUseLevel) {
                     const d = ADVANCED_EXP_COUPON.find(x => x.level === currentSimLevel);
                     if (d) {
                         const amount = d.exp * inventory.coupon;
                         carriedOverExp += amount;
                         totalExpSources.expCoupon += amount;
+                        
+                        // 레벨업 상세 내역에 비고 추가
+                        const existingNote = levelBreakdown.find(x => x.level === currentSimLevel);
+                        const noteText = `🎫 상급 EXP 쿠폰 ${inventory.coupon}개 사용`;
+                        if (existingNote) {
+                            existingNote.note = existingNote.note ? `${existingNote.note}, ${noteText}` : noteText;
+                        }
+                        
                         inventory.coupon = 0;
                     }
                 }
@@ -348,20 +367,32 @@ export default function ExpCalculatorClient() {
                 const skipHighMountain = (useAnglerCompany && currentSimLevel >= 270) || (useNightmareGarden && currentSimLevel >= 280 && isNightmareValid);
                 if (useHighMountain && currentSimLevel >= 260 && !skipHighMountain) {
                     const hmData = HIGH_MOUNTAIN_EXP.find(d => d.level === currentSimLevel);
-                    if (hmData) dailyHighMountainExpSim = ((highMountainReward === 'basic' ? hmData.basic : highMountainReward === 'stage1' ? hmData.bonus1 : hmData.bonus2) * epicDungeonMultiplier) / 7;
+                    if (hmData) {
+                        const baseMult = hmData.basic * epicDungeonMultiplier;
+                        const total = highMountainReward === 'basic' ? baseMult : highMountainReward === 'stage1' ? baseMult + (hmData.bonus1 - hmData.basic) : baseMult + (hmData.bonus2 - hmData.basic);
+                        dailyHighMountainExpSim = total / 7;
+                    }
                 }
 
                 let dailyAnglerCompanyExpSim = 0;
                 const skipAnglerCompany = useNightmareGarden && currentSimLevel >= 280 && isNightmareValid;
                 if (useAnglerCompany && currentSimLevel >= 270 && !skipAnglerCompany) {
                     const acData = ANGLER_COMPANY_EXP.find(d => d.level === currentSimLevel);
-                    if (acData) dailyAnglerCompanyExpSim = ((anglerCompanyReward === 'basic' ? acData.basic : anglerCompanyReward === 'stage1' ? acData.bonus1 : acData.bonus2) * epicDungeonMultiplier) / 7;
+                    if (acData) {
+                        const baseMult = acData.basic * epicDungeonMultiplier;
+                        const total = anglerCompanyReward === 'basic' ? baseMult : anglerCompanyReward === 'stage1' ? baseMult + (acData.bonus1 - acData.basic) : baseMult + (acData.bonus2 - acData.basic);
+                        dailyAnglerCompanyExpSim = total / 7;
+                    }
                 }
 
                 let dailyNightmareGardenExpSim = 0;
                 if (useNightmareGarden && currentSimLevel >= 280) {
                     const ngData = NIGHTMARE_GARDEN_EXP.find(d => d.level === currentSimLevel);
-                    if (ngData) dailyNightmareGardenExpSim = ((nightmareGardenReward === 'basic' ? ngData.basic : nightmareGardenReward === 'stage1' ? ngData.bonus1 : ngData.bonus2) * epicDungeonMultiplier) / 7;
+                    if (ngData) {
+                        const baseMult = ngData.basic * epicDungeonMultiplier;
+                        const total = nightmareGardenReward === 'basic' ? baseMult : nightmareGardenReward === 'stage1' ? baseMult + (ngData.bonus1 - ngData.basic) : baseMult + (ngData.bonus2 - ngData.basic);
+                        dailyNightmareGardenExpSim = total / 7;
+                    }
                 }
 
                 let dailyExtremeMpExpSim = 0;
@@ -493,7 +524,7 @@ export default function ExpCalculatorClient() {
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -530,7 +561,7 @@ export default function ExpCalculatorClient() {
             [],
             ['[소비 아이템]'],
             ['VIP 사우나', useVipSauna ? `${vipSaunaCount}장` : 'X'],
-            ['상급 EXP 쿠폰', useAdvancedExpCoupon ? `${advancedExpCouponCount}개` : 'X'],
+            ['상급 EXP 쿠폰', useAdvancedExpCoupon ? `${advancedExpCouponCount}개 (${advancedUseLevel}레벨에 사용)` : 'X'],
             ['메카베리 농장', useMechaberryFarm ? `${mechaberryFarmCount}회` : 'X'],
             ['블루베리 농장', useBlueberryFarm ? `${blueberryFarmCount}회 (${blueberryUseLevel}레벨에 사용)` : 'X'],
             ['익스프레스 부스터', useExpressBooster ? `${expressBoosterCount}개` : 'X'],
@@ -588,20 +619,36 @@ export default function ExpCalculatorClient() {
     return (
         <div className="min-h-screen bg-[#1a1b1e] text-slate-200">
             <div className="sticky top-0 z-50 bg-[#1a1b1e]/80 backdrop-blur-md border-b border-slate-800">
-                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div className="flex items-center justify-between mb-4">
-                        <Link prefetch={false} href="/" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"><ArrowLeft className="w-4 h-4" /><span>메인으로</span></Link>
-                        <button onClick={exportToExcel} disabled={calculatedData.totalExpNeeded === 0} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 disabled:text-slate-500 rounded-lg transition-colors text-sm font-medium"><Download className="w-4 h-4" />엑셀 내보내기</button>
+                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+                    <div className="flex items-center justify-between mb-3">
+                        <Link prefetch={false} href="/" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"><ArrowLeft className="w-4 h-4" /><span>메인으로</span></Link>
+                        <button onClick={exportToExcel} disabled={calculatedData.totalExpNeeded === 0} className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 disabled:text-slate-500 rounded-lg transition-colors text-sm font-medium"><Download className="w-4 h-4" /><span className="hidden sm:inline">엑셀 내보내기</span><span className="sm:hidden">엑셀</span></button>
                     </div>
-                    <div className="flex flex-col gap-2">
-                        <h1 className="text-3xl font-bold text-white flex items-center gap-2"><Calculator className="w-8 h-8 text-blue-500" />메이플스토리 경험치 계산기</h1>
-                        <p className="text-slate-400 text-sm">메이플 Lv.200~300 구간 목표 레벨까지 필요한 경험치와 예상 소요 시간을 계산하세요.</p>
+                    <div className="flex flex-col gap-1">
+                        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2"><Calculator className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500 flex-shrink-0" /><span>메이플스토리 경험치 계산기</span></h1>
+                        <p className="text-slate-400 text-xs sm:text-sm">메이플 Lv.200~300 구간 목표 레벨까지 필요한 경험치와 예상 소요 시간을 계산하세요.</p>
                     </div>
                 </div>
             </div>
 
             <main className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-32 xl:pb-8">
                 <div className="mb-6"><InArticleAd dataAdSlot="8162808816" /></div>
+                {remainingDays !== null && (
+                    <div className="bg-gradient-to-r from-slate-900 via-indigo-950/20 to-slate-900 border border-indigo-500/30 rounded-xl p-4 mb-6 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                            <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0">
+                                <img src="/images/challengers-icon.png" alt="Challengers World" className="object-contain w-full h-full" />
+                            </div>
+                            <div>
+                                <h4 className="text-sm font-bold text-white">챌린저스 월드 시즌4</h4>
+                                <p className="text-xs text-slate-400">2026년 06월 18일 12시 00분 ~ 2026년 09월 17일 04시 00분</p>
+                            </div>
+                        </div>
+                        <div className="bg-indigo-950 border border-indigo-500/40 rounded-lg px-4 py-2.5 text-center w-full sm:w-auto shadow-sm">
+                            <span className="text-sm font-extrabold text-yellow-400">현재 남은 챌린저스 월드 육성 일수 : {remainingDays}일</span>
+                        </div>
+                    </div>
+                )}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
                     <div className="space-y-6">
                         {/* 레벨 설정 */}
@@ -675,7 +722,7 @@ export default function ExpCalculatorClient() {
                                                     <select
                                                         value={burningFieldStage}
                                                         onChange={(e) => setBurningFieldStage(Number(e.target.value))}
-                                                        className="h-6 bg-slate-700 border border-slate-600 rounded text-xs px-2 text-white outline-none focus:border-red-500"
+                                                        className="h-9 bg-slate-700 border border-slate-600 rounded text-xs px-2 text-white outline-none focus:border-red-500"
                                                     >
                                                         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(v => (
                                                             <option key={v} value={v}>{v}단계 ({v * 10}%)</option>
@@ -704,7 +751,7 @@ export default function ExpCalculatorClient() {
                             <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg space-y-4">
                                 <h3 className="font-bold text-white flex items-center gap-2"><Calendar className="w-4 h-4 text-emerald-500" />일일 루틴</h3>
                                 <div>
-                                    <div className="flex justify-between items-center mb-1">
+                                    <div className="flex flex-wrap justify-between items-center gap-2 mb-1">
                                         <label className="text-xs text-slate-400">몬스터파크</label>
                                         <div className="flex items-center gap-1">
                                             <span className="text-[10px] text-slate-500">이벤트 +</span>
@@ -715,7 +762,7 @@ export default function ExpCalculatorClient() {
                                                 value={mpEventSkillLevel}
                                                 onFocus={(e) => e.target.select()}
                                                 onChange={(e) => setMpEventSkillLevel(Math.max(0, Number(e.target.value)))}
-                                                className="w-16 h-8 bg-slate-800 border border-slate-700 rounded text-xs px-2 text-right text-white focus:outline-none focus:border-blue-500"
+                                                className="w-16 h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 text-right text-white focus:outline-none focus:border-blue-500"
                                             />
                                             <span className="text-xs text-slate-500">%</span>
                                         </div>
@@ -724,13 +771,13 @@ export default function ExpCalculatorClient() {
                                     <div className="grid grid-cols-2 gap-2 mb-2">
                                         <div>
                                             <label className="text-[10px] text-slate-500 block mb-1">평일 (월~토)</label>
-                                            <select value={monsterParkCountWeek} onChange={(e) => setMonsterParkCountWeek(Number(e.target.value))} className="w-full bg-slate-800 border border-slate-700 rounded text-sm px-2 py-1 text-white">
+                                            <select value={monsterParkCountWeek} onChange={(e) => setMonsterParkCountWeek(Number(e.target.value))} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-sm px-2 py-1 text-white outline-none">
                                                 {[0, 1, 2, 3, 4, 5, 6, 7].map(c => <option key={c} value={c}>{c}회 {c === 2 ? '(무료)' : ''}</option>)}
                                             </select>
                                         </div>
                                         <div>
                                             <label className="text-[10px] text-slate-500 block mb-1">일요일</label>
-                                            <select value={monsterParkCountSun} onChange={(e) => setMonsterParkCountSun(Number(e.target.value))} className="w-full bg-slate-800 border border-slate-700 rounded text-sm px-2 py-1 text-white">
+                                            <select value={monsterParkCountSun} onChange={(e) => setMonsterParkCountSun(Number(e.target.value))} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-sm px-2 py-1 text-white outline-none">
                                                 {[0, 1, 2, 3, 4, 5, 6, 7].map(c => <option key={c} value={c}>{c}회 {c === 2 ? '(무료)' : ''}</option>)}
                                             </select>
                                         </div>
@@ -744,7 +791,7 @@ export default function ExpCalculatorClient() {
                                     <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useExtremeMonsterPark} onChange={(e) => setUseExtremeMonsterPark(e.target.checked)} /> 👹 익스트림 몬스터파크 (주간 1회)</label>
                                 )}
                                 <div className="pt-2 border-t border-slate-800 space-y-2">
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex flex-wrap items-center justify-between gap-1">
                                         <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useArcaneQuest} onChange={(e) => setUseArcaneQuest(e.target.checked)} /> 아케인 일퀘</label>
                                         {useArcaneQuest && (
                                             <div className="flex items-center gap-1">
@@ -756,14 +803,14 @@ export default function ExpCalculatorClient() {
                                                     value={arcaneEventSkillLevel}
                                                     onFocus={(e) => e.target.select()}
                                                     onChange={(e) => setArcaneEventSkillLevel(Math.max(0, Number(e.target.value)))}
-                                                    className="w-16 h-8 bg-slate-800 border border-slate-700 rounded text-xs px-2 text-right text-white focus:outline-none focus:border-blue-500"
+                                                    className="w-16 h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 text-right text-white focus:outline-none focus:border-blue-500"
                                                 />
                                                 <span className="text-xs text-slate-500">%</span>
                                             </div>
                                         )}
                                     </div>
                                     {targetLevel >= 260 && (
-                                        <div className="flex items-center justify-between">
+                                        <div className="flex flex-wrap items-center justify-between gap-1">
                                             <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useGrandisQuest} onChange={(e) => setUseGrandisQuest(e.target.checked)} /> 그란디스 일퀘</label>
                                             {useGrandisQuest && (
                                                 <div className="flex items-center gap-1">
@@ -775,7 +822,7 @@ export default function ExpCalculatorClient() {
                                                         value={grandisEventSkillLevel}
                                                         onFocus={(e) => e.target.select()}
                                                         onChange={(e) => setGrandisEventSkillLevel(Math.max(0, Number(e.target.value)))}
-                                                        className="w-16 h-8 bg-slate-800 border border-slate-700 rounded text-xs px-2 text-right text-white focus:outline-none focus:border-blue-500"
+                                                        className="w-16 h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 text-right text-white focus:outline-none focus:border-blue-500"
                                                     />
                                                     <span className="text-xs text-slate-500">%</span>
                                                 </div>
@@ -809,7 +856,7 @@ export default function ExpCalculatorClient() {
                                                 <select
                                                     value={epicCoreLevel}
                                                     onChange={(e) => setEpicCoreLevel(Number(e.target.value))}
-                                                    className="bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white focus:outline-none focus:border-indigo-500 outline-none"
+                                                    className="h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white focus:outline-none focus:border-indigo-500 outline-none"
                                                 >
                                                     <option value={0}>미활성화 (+0%)</option>
                                                     <option value={1}>1레벨 (+2%)</option>
@@ -823,18 +870,18 @@ export default function ExpCalculatorClient() {
                                     </div>
                                     <div className="pt-2 border-t border-slate-800 space-y-2">
                                         <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useHighMountain} onChange={(e) => setUseHighMountain(e.target.checked)} /> 🏔️ 하이마운틴</label>
-                                        {useHighMountain && <select value={highMountainReward} onChange={(e) => setHighMountainReward(e.target.value as any)} className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
+                                        {useHighMountain && <select value={highMountainReward} onChange={(e) => setHighMountainReward(e.target.value as any)} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white outline-none"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
 
                                         {targetLevel >= 270 && (
                                             <>
                                                 <label className="flex items-center gap-2 text-xs text-slate-300 mt-2"><input type="checkbox" checked={useAnglerCompany} onChange={(e) => setUseAnglerCompany(e.target.checked)} /> 🏭 앵글러 컴퍼니</label>
-                                                {useAnglerCompany && <select value={anglerCompanyReward} onChange={(e) => setAnglerCompanyReward(e.target.value as any)} className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
+                                                {useAnglerCompany && <select value={anglerCompanyReward} onChange={(e) => setAnglerCompanyReward(e.target.value as any)} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white outline-none"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
                                             </>
                                         )}
                                         {targetLevel >= 280 && (
                                             <>
                                                 <label className="flex items-center gap-2 text-xs text-slate-300 mt-2"><input type="checkbox" checked={useNightmareGarden} onChange={(e) => setUseNightmareGarden(e.target.checked)} /> 🌌 악몽선경</label>
-                                                {useNightmareGarden && <select value={nightmareGardenReward} onChange={(e) => setNightmareGardenReward(e.target.value as any)} className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
+                                                {useNightmareGarden && <select value={nightmareGardenReward} onChange={(e) => setNightmareGardenReward(e.target.value as any)} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white outline-none"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
                                             </>
                                         )}
                                     </div>
@@ -845,28 +892,55 @@ export default function ExpCalculatorClient() {
                         {/* 소비 아이템 (2 Columns) */}
                         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-6 shadow-lg">
                             <h3 className="font-bold text-white mb-4 flex items-center gap-2">🧪 소비 아이템</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {targetLevel >= 260 && (
                                     <div className="p-3 bg-slate-800 rounded-lg">
-                                        <label className="flex items-center gap-2 text-xs text-orange-300 mb-2"><input type="checkbox" checked={useVipSauna} onChange={(e) => setUseVipSauna(e.target.checked)} /> ♨️ VIP 사우나</label>
-                                        {useVipSauna && <div className="flex items-center gap-2"><input type="number" value={vipSaunaCount} onChange={(e) => setVipSaunaCount(Number(e.target.value))} className="w-16 bg-slate-700 border-slate-600 rounded text-xs px-2 py-1" /><span className="text-xs">장</span></div>}
+                                        <label className="flex items-center gap-2 text-xs text-orange-300 mb-2"><input type="checkbox" checked={useVipSauna} onChange={(e) => setUseVipSauna(e.target.checked)} className="w-4 h-4 flex-shrink-0" /> ♨️ VIP 사우나</label>
+                                        {useVipSauna && <div className="flex items-center gap-2"><input type="number" value={vipSaunaCount} onChange={(e) => setVipSaunaCount(Number(e.target.value))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">장</span></div>}
                                     </div>
                                 )}
                                 {targetLevel >= 260 && (
                                     <div className="p-3 bg-slate-800 rounded-lg">
-                                        <label className="flex items-center gap-2 text-xs text-teal-300 mb-2"><input type="checkbox" checked={useAdvancedExpCoupon} onChange={(e) => setUseAdvancedExpCoupon(e.target.checked)} /> 🎫 상급 EXP 쿠폰</label>
-                                        {useAdvancedExpCoupon && <div className="flex items-center gap-2"><input type="number" value={advancedExpCouponCount} onChange={(e) => setAdvancedExpCouponCount(Number(e.target.value))} className="w-16 bg-slate-700 border-slate-600 rounded text-xs px-2 py-1" /><span className="text-xs">개</span></div>}
+                                        <label className="flex items-center gap-2 text-xs text-teal-300 mb-2"><input type="checkbox" checked={useAdvancedExpCoupon} onChange={(e) => setUseAdvancedExpCoupon(e.target.checked)} className="w-4 h-4 flex-shrink-0" /> 🎫 상급 EXP 쿠폰</label>
+                                        {useAdvancedExpCoupon && (
+                                            <div className="space-y-2 mt-1">
+                                                <div className="flex items-center gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        value={advancedExpCouponCount} 
+                                                        onFocus={(e) => e.target.select()} 
+                                                        onChange={(e) => setAdvancedExpCouponCount(Number(e.target.value))} 
+                                                        onBlur={(e) => setAdvancedExpCouponCount(Math.max(1, Number(e.target.value) || 1))}
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center" 
+                                                    />
+                                                    <span className="text-xs text-slate-400">개 사용</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        min="260" 
+                                                        max="299" 
+                                                        value={advancedUseLevel} 
+                                                        onFocus={(e) => e.target.select()} 
+                                                        onChange={(e) => setAdvancedUseLevel(Number(e.target.value))} 
+                                                        onBlur={(e) => setAdvancedUseLevel(Math.max(260, Math.min(299, Number(e.target.value) || 260)))}
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center" 
+                                                    />
+                                                    <span className="text-xs text-slate-400">레벨에 사용</span>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                                 {targetLevel >= 280 && (
                                     <div className="p-3 bg-slate-800 rounded-lg">
-                                        <label className="flex items-center gap-2 text-xs text-pink-300 mb-2"><input type="checkbox" checked={useMechaberryFarm} onChange={(e) => setUseMechaberryFarm(e.target.checked)} /> 🍓 메카베리 농장</label>
-                                        {useMechaberryFarm && <div className="flex items-center gap-2"><input type="number" value={mechaberryFarmCount} onChange={(e) => setMechaberryFarmCount(Number(e.target.value))} className="w-16 bg-slate-700 border-slate-600 rounded text-xs px-2 py-1" /><span className="text-xs">회</span></div>}
+                                        <label className="flex items-center gap-2 text-xs text-pink-300 mb-2"><input type="checkbox" checked={useMechaberryFarm} onChange={(e) => setUseMechaberryFarm(e.target.checked)} className="w-4 h-4 flex-shrink-0" /> 🍓 메카베리 농장</label>
+                                        {useMechaberryFarm && <div className="flex items-center gap-2"><input type="number" value={mechaberryFarmCount} onChange={(e) => setMechaberryFarmCount(Number(e.target.value))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">회</span></div>}
                                     </div>
                                 )}
                                 {targetLevel >= 260 && (
                                     <div className="p-3 bg-slate-800 rounded-lg">
-                                        <label className="flex items-center gap-2 text-xs text-violet-300 mb-2"><input type="checkbox" checked={useBlueberryFarm} onChange={(e) => setUseBlueberryFarm(e.target.checked)} /> 🍇 블루베리 농장</label>
+                                        <label className="flex items-center gap-2 text-xs text-violet-300 mb-2"><input type="checkbox" checked={useBlueberryFarm} onChange={(e) => setUseBlueberryFarm(e.target.checked)} className="w-4 h-4 flex-shrink-0" /> 🍇 블루베리 농장</label>
                                         {useBlueberryFarm && (
                                             <div className="space-y-2 mt-1">
                                                 <div className="flex items-center gap-2">
@@ -876,7 +950,7 @@ export default function ExpCalculatorClient() {
                                                         onFocus={(e) => e.target.select()} 
                                                         onChange={(e) => setBlueberryFarmCount(Number(e.target.value))} 
                                                         onBlur={(e) => setBlueberryFarmCount(Math.max(1, Number(e.target.value) || 1))}
-                                                        className="w-16 bg-slate-700 border-slate-600 rounded text-xs px-2 py-1 text-white text-center" 
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center" 
                                                     />
                                                     <span className="text-xs text-slate-400">회 사용</span>
                                                 </div>
@@ -889,7 +963,7 @@ export default function ExpCalculatorClient() {
                                                         onFocus={(e) => e.target.select()} 
                                                         onChange={(e) => setBlueberryUseLevel(Number(e.target.value))} 
                                                         onBlur={(e) => setBlueberryUseLevel(Math.max(260, Math.min(299, Number(e.target.value) || 270)))}
-                                                        className="w-16 bg-slate-700 border-slate-600 rounded text-xs px-2 py-1 text-white text-center" 
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center" 
                                                     />
                                                     <span className="text-xs text-slate-400">레벨에 사용</span>
                                                 </div>
@@ -899,16 +973,16 @@ export default function ExpCalculatorClient() {
                                 )}
                                 {targetLevel >= 260 && (
                                     <div className="p-3 bg-slate-800 rounded-lg">
-                                        <label className="flex items-center gap-2 text-xs text-green-300 mb-2"><input type="checkbox" checked={useExpressBooster} onChange={(e) => setUseExpressBooster(e.target.checked)} /> 🎫 익스프레스 부스터</label>
-                                        {useExpressBooster && <div className="flex items-center gap-2"><input type="number" value={expressBoosterCount} onChange={(e) => setExpressBoosterCount(Number(e.target.value))} className="w-16 bg-slate-700 border-slate-600 rounded text-xs px-2 py-1" /><span className="text-xs">장</span></div>}
+                                        <label className="flex items-center gap-2 text-xs text-green-300 mb-2"><input type="checkbox" checked={useExpressBooster} onChange={(e) => setUseExpressBooster(e.target.checked)} className="w-4 h-4 flex-shrink-0" /> 🎫 익스프레스 부스터</label>
+                                        {useExpressBooster && <div className="flex items-center gap-2"><input type="number" value={expressBoosterCount} onChange={(e) => setExpressBoosterCount(Number(e.target.value))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">장</span></div>}
                                     </div>
                                 )}
                                 <div className="p-3 bg-slate-800 rounded-lg">
                                     <label className="flex items-center gap-2 text-xs text-indigo-300 mb-2">
-                                        <input type="checkbox" checked={useVipBooster} onChange={(e) => setUseVipBooster(e.target.checked)} />
+                                        <input type="checkbox" checked={useVipBooster} onChange={(e) => setUseVipBooster(e.target.checked)} className="w-4 h-4 flex-shrink-0" />
                                         <span>⚡ VIP/헥사 부스터 <span className="text-[10px] block opacity-70">룬 효과 활성화 때만 사용</span></span>
                                     </label>
-                                    {useVipBooster && <div className="flex items-center gap-2"><input type="number" min="1" value={vipBoosterCount} onChange={(e) => setVipBoosterCount(Math.max(1, Number(e.target.value)))} className="w-16 bg-slate-700 border-slate-600 rounded text-xs px-2 py-1" /><span className="text-xs">개</span></div>}
+                                    {useVipBooster && <div className="flex items-center gap-2"><input type="number" min="1" value={vipBoosterCount} onChange={(e) => setVipBoosterCount(Math.max(1, Number(e.target.value)))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">개</span></div>}
                                 </div>
                             </div>
                         </div>
@@ -933,7 +1007,7 @@ export default function ExpCalculatorClient() {
                             </div>
                         </div>
                         {/* Source Analysis Card */}
-                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-lg">
+                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-6 shadow-lg">
                             <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><Zap className="w-5 h-5 text-purple-500" />총 획득 경험치 분석 <span className="text-xs text-slate-400 font-normal ml-1">(Lv.{currentLevel} → Lv.{targetLevel})</span></h2>
                             <div className="space-y-3">
                                 {calculatedData.sourceBreakdown.length > 0 ? calculatedData.sourceBreakdown.map((item, idx) => (
