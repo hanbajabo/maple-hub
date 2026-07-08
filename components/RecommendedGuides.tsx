@@ -14,7 +14,7 @@ export default function RecommendedGuides() {
                     <span className="text-3xl">📝</span>
                     메이플 AI 블로그
                 </h2>
-                <Link href="/blog" className="self-end sm:self-auto text-slate-400 hover:text-maple-orange text-sm sm:text-base font-bold flex items-center gap-1 transition-colors">
+                <Link href="/blog" prefetch={false} className="self-end sm:self-auto text-slate-400 hover:text-maple-orange text-sm sm:text-base font-bold flex items-center gap-1 transition-colors">
                     블로그 홈
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -27,6 +27,7 @@ export default function RecommendedGuides() {
                     <Link
                         key={idx}
                         href={post.slug.startsWith('/') ? post.slug : `/blog/${post.slug}`}
+                        prefetch={false}
                         className={`group relative bg-slate-900/50 border border-slate-700/50 rounded-2xl p-5 hover:border-maple-orange hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden flex flex-col h-full`}
                     >
                         {/* Hover Gradient Effect */}

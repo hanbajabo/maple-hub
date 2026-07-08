@@ -165,12 +165,12 @@ export default function StarforceCalculatorComponent() {
                 {/* Header */}
                 <div>
                     <div className="flex items-center gap-3 mb-4 sm:mb-5">
-                        <Link href="/" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-xs font-medium group">
+                        <Link href="/" prefetch={false} className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-xs font-medium group">
                             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
                             홈으로 돌아가기
                         </Link>
                         <span className="text-slate-700 text-xs select-none">|</span>
-                        <Link href="/blog" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-xs font-medium group">
+                        <Link href="/blog" prefetch={false} className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-xs font-medium group">
                             <BookOpen className="w-3.5 h-3.5" />
                             블로그로 돌아가기
                         </Link>

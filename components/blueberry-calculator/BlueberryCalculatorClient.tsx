@@ -121,6 +121,7 @@ export default function BlueberryCalculatorClient() {
                     <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6">
                         <Link 
                             href="/" 
+                            prefetch={false}
                             className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-slate-900/60 hover:bg-slate-800 border border-slate-800 hover:border-indigo-500/50 rounded-xl transition-all duration-200 shadow-md backdrop-blur-sm"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400">
@@ -131,6 +132,7 @@ export default function BlueberryCalculatorClient() {
                         </Link>
                         <Link 
                             href="/blog" 
+                            prefetch={false}
                             className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-slate-900/60 hover:bg-slate-800 border border-slate-800 hover:border-indigo-500/50 rounded-xl transition-all duration-200 shadow-md backdrop-blur-sm"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-400">
@@ -332,7 +334,7 @@ export default function BlueberryCalculatorClient() {
                     </details>
 
                     <div className="mt-8 text-center px-2">
-                        <Link href="/blog/challengers-pass-efficiency-2026" className="inline-flex flex-col sm:flex-row items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-3 px-4 sm:px-6 rounded-xl transition-all border border-slate-700 hover:border-slate-500 shadow-sm text-sm sm:text-base w-full sm:w-auto">
+                        <Link href="/blog/challengers-pass-efficiency-2026" prefetch={false} className="inline-flex flex-col sm:flex-row items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-3 px-4 sm:px-6 rounded-xl transition-all border border-slate-700 hover:border-slate-500 shadow-sm text-sm sm:text-base w-full sm:w-auto">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><path d="m15 18-6-6 6-6"/></svg>
                             <span>챌린저스 패스 효율 완벽 분석 글로 돌아가기</span>
                         </Link>

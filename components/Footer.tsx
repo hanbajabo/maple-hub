@@ -19,16 +19,16 @@ export default function Footer() {
                 </div>
 
                 <div className="flex items-center gap-6">
-                    <Link href="/about" className="hover:text-slate-300 transition-colors">
+                    <Link href="/about" prefetch={false} className="hover:text-slate-300 transition-colors">
                         소개
                     </Link>
-                    <Link href="/privacy" className="hover:text-slate-300 transition-colors">
+                    <Link href="/privacy" prefetch={false} className="hover:text-slate-300 transition-colors">
                         개인정보처리방침
                     </Link>
-                    <Link href="/terms" className="hover:text-slate-300 transition-colors">
+                    <Link href="/terms" prefetch={false} className="hover:text-slate-300 transition-colors">
                         이용약관
                     </Link>
-                    <Link href="/contact" className="hover:text-slate-300 transition-colors">
+                    <Link href="/contact" prefetch={false} className="hover:text-slate-300 transition-colors">
                         문의하기
                     </Link>
                 </div>

@@ -16,7 +16,7 @@ export default function GlobalHeader() {
         <header className="w-full sticky top-0 z-[9999] bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex justify-between items-center">
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <Link href="/" prefetch={false} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src="/images/maple-ai-logo.jpg"
@@ -33,6 +33,7 @@ export default function GlobalHeader() {
                     {/* Blog */}
                     <Link
                         href="/blog"
+                        prefetch={false}
                         className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-emerald-900/20"
                     >
                         <span className="text-base sm:text-lg">📝</span>
@@ -42,6 +43,7 @@ export default function GlobalHeader() {
                     {/* Ranking */}
                     <Link
                         href="/ranking"
+                        prefetch={false}
                         className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-yellow-600/90 hover:bg-yellow-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-yellow-900/20"
                     >
                         <span className="text-base sm:text-lg">🏆</span>
@@ -54,6 +56,7 @@ export default function GlobalHeader() {
                     {/* Guide */}
                     <Link
                         href="/guide"
+                        prefetch={false}
                         className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-orange-600/90 hover:bg-orange-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg"
                     >
                         <span className="text-base sm:text-lg">📚</span>

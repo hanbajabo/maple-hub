@@ -54,6 +54,7 @@ export default function CalculatorMenu() {
                     <div className="py-2">
                         <Link
                             href="/blog/item-price-tracker-2026"
+                            prefetch={false}
                             onClick={close}
                             className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
                         >
@@ -66,6 +67,7 @@ export default function CalculatorMenu() {
 
                         <Link
                             href="/tools/starforce"
+                            prefetch={false}
                             onClick={close}
                             className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
                         >
@@ -81,6 +83,7 @@ export default function CalculatorMenu() {
 
                         <Link
                             href="/guide/hunting-field-calculator"
+                            prefetch={false}
                             onClick={close}
                             className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
                         >
@@ -96,6 +99,7 @@ export default function CalculatorMenu() {
 
                         <Link
                             href="/calculator/challengers-season4"
+                            prefetch={false}
                             onClick={close}
                             className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
                         >
@@ -113,6 +117,7 @@ export default function CalculatorMenu() {
 
                         <Link
                             href="/guide/exp-calculator"
+                            prefetch={false}
                             onClick={close}
                             className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
                         >
@@ -129,6 +134,7 @@ export default function CalculatorMenu() {
 
                         <Link
                             href="/calculator/ultima-skill"
+                            prefetch={false}
                             onClick={close}
                             className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
                         >
@@ -144,6 +150,7 @@ export default function CalculatorMenu() {
 
                         <Link
                             href="/calculator/genesis-liberation"
+                            prefetch={false}
                             onClick={close}
                             className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
                         >
@@ -161,6 +168,7 @@ export default function CalculatorMenu() {
 
                         <Link
                             href="/calculator/blueberry-farm"
+                            prefetch={false}
                             onClick={close}
                             className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors"
                         >

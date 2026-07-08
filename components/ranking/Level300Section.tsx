@@ -414,7 +414,7 @@ export default function Level300Section() {
                                                             {player.ranking}위
                                                         </td>
                                                         <td className="px-3 py-2 sm:px-6 sm:py-3 text-white text-xs sm:text-base whitespace-nowrap">
-                                                            <Link href={`/?name=${player.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                                                            <Link href={`/?name=${player.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                                                 {player.character_name}
                                                             </Link>
                                                         </td>
@@ -464,7 +464,7 @@ export default function Level300Section() {
                                                             {player.ranking}위
                                                         </td>
                                                         <td className="px-3 py-2 sm:px-6 sm:py-3 text-white text-xs sm:text-base whitespace-nowrap">
-                                                            <Link href={`/?name=${player.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                                                            <Link href={`/?name=${player.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                                                 {player.character_name}
                                                             </Link>
                                                         </td>
@@ -524,7 +524,7 @@ export default function Level300Section() {
                                 <tr key={index} className="border-b border-purple-700/30 hover:bg-purple-500/10">
                                     <td className="px-3 py-2 sm:px-6 sm:py-3 text-purple-300 font-semibold text-xs sm:text-base whitespace-nowrap">{worldName}</td>
                                     <td className="px-3 py-2 sm:px-6 sm:py-3 text-white text-xs sm:text-base whitespace-nowrap">
-                                        <Link href={`/?name=${player.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                                        <Link href={`/?name=${player.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                             {player.character_name}
                                         </Link>
                                     </td>
@@ -565,7 +565,7 @@ export default function Level300Section() {
                                     <td className="px-3 py-2 sm:px-6 sm:py-3 font-semibold text-purple-400 text-xs sm:text-base whitespace-nowrap">{index + 1}</td>
                                     <td className="px-3 py-2 sm:px-6 sm:py-3 font-semibold text-white text-xs sm:text-base whitespace-nowrap">{player.sub_class_name || player.class_name}</td>
                                     <td className="px-3 py-2 sm:px-6 sm:py-3 text-purple-200 text-xs sm:text-base whitespace-nowrap">
-                                        <Link href={`/?name=${player.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                                        <Link href={`/?name=${player.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                             {player.character_name}
                                         </Link>
                                     </td>
@@ -594,7 +594,7 @@ export default function Level300Section() {
                                     <td className="px-3 py-2 sm:px-6 sm:py-3 font-semibold text-purple-400 text-xs sm:text-base whitespace-nowrap">-</td>
                                     <td className="px-3 py-2 sm:px-6 sm:py-3 font-semibold text-white text-xs sm:text-base whitespace-nowrap">{player.sub_class_name || player.class_name}</td>
                                     <td className="px-3 py-2 sm:px-6 sm:py-3 text-purple-200 text-xs sm:text-base whitespace-nowrap">
-                                        <Link href={`/?name=${player.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                                        <Link href={`/?name=${player.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                             {player.character_name}
                                         </Link>
                                     </td>

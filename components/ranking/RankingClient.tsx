@@ -407,7 +407,7 @@ export default function RankingClient() {
                     <tr key={index} className={`border-b border-purple-700/30 transition-all ${getRankStyle(item.ranking)}`}>
                         <td className={rankIconClass}>{getRankIcon(item.ranking)}</td>
                         <td className={`${cellClass} font-semibold text-white`}>
-                            <Link href={`/?name=${item.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                            <Link href={`/?name=${item.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                 {item.character_name}
                             </Link>
                         </td>
@@ -426,7 +426,7 @@ export default function RankingClient() {
                     <tr key={index} className={`border-b border-purple-700/30 transition-all ${getRankStyle(item.ranking)}`}>
                         <td className={rankIconClass}>{getRankIcon(item.ranking)}</td>
                         <td className={`${cellClass} font-semibold text-white`}>
-                            <Link href={`/?name=${item.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                            <Link href={`/?name=${item.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                 {item.character_name}
                             </Link>
                         </td>
@@ -444,7 +444,7 @@ export default function RankingClient() {
                         <td className={`${cellClass} font-semibold text-white`}>{item.guild_name}</td>
                         <td className={cellClass}>{item.world_name}</td>
                         <td className={cellClass}>
-                            <Link href={`/?name=${item.guild_master_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                            <Link href={`/?name=${item.guild_master_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                 {item.guild_master_name}
                             </Link>
                         </td>
@@ -459,7 +459,7 @@ export default function RankingClient() {
                     <tr key={index} className={`border-b border-purple-700/30 transition-all ${getRankStyle(item.ranking)}`}>
                         <td className={rankIconClass}>{getRankIcon(item.ranking)}</td>
                         <td className={`${cellClass} font-semibold text-white`}>
-                            <Link href={`/?name=${item.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                            <Link href={`/?name=${item.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                 {item.character_name}
                             </Link>
                         </td>
@@ -476,7 +476,7 @@ export default function RankingClient() {
                     <tr key={index} className={`border-b border-purple-700/30 transition-all ${getRankStyle(item.ranking)}`}>
                         <td className={rankIconClass}>{getRankIcon(item.ranking)}</td>
                         <td className={`${cellClass} font-semibold text-white`}>
-                            <Link href={`/?name=${item.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                            <Link href={`/?name=${item.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                 {item.character_name}
                             </Link>
                         </td>
@@ -493,7 +493,7 @@ export default function RankingClient() {
                     <tr key={index} className={`border-b border-purple-700/30 transition-all ${getRankStyle(item.ranking)}`}>
                         <td className={rankIconClass}>{getRankIcon(item.ranking)}</td>
                         <td className={`${cellClass} font-semibold text-white`}>
-                            <Link href={`/?name=${item.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                            <Link href={`/?name=${item.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                 {item.character_name}
                             </Link>
                         </td>

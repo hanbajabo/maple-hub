@@ -162,7 +162,7 @@ export default function Level295Section() {
                                             {player.ranking}
                                         </td>
                                         <td className="px-3 py-2 sm:px-6 sm:py-3 font-semibold text-white text-xs sm:text-base whitespace-nowrap">
-                                            <Link href={`/?name=${player.character_name}`} className="hover:text-yellow-400 hover:underline cursor-pointer">
+                                            <Link href={`/?name=${player.character_name}`} prefetch={false} className="hover:text-yellow-400 hover:underline cursor-pointer">
                                                 {player.character_name}
                                             </Link>
                                         </td>
