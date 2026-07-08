@@ -110,7 +110,7 @@ function fieldKey(m: MapEntry): string {
 export default function HuntingFieldCalculatorClient() {
     const [level, setLevel] = useState<string>("230");
     const [bonusExp, setBonusExp] = useState<string>("0");
-    const [selected, setSelected] = useState<(MapEntry & { rank: number; exp30min: number; pct30min: number; burning: number }) | null>(null);
+    const [selected, setSelected] = useState<(MapEntry & { rank: number; exp1hour: number; pct1hour: number; burning: number }) | null>(null);
     const [hasSearched, setHasSearched] = useState(false);
     const [burningFields, setBurningFields] = useState<Record<string, number>>({});
 
@@ -150,22 +150,22 @@ export default function HuntingFieldCalculatorClient() {
     }, [hasSearched, levelNum]);
 
     // TOP 20 계산 (버닝 포함 실시간 재정렬)
-    const top20: (MapEntry & { rank: number; exp30min: number; pct30min: number; burning: number })[] = useMemo(() => {
+    const top20: (MapEntry & { rank: number; exp1hour: number; pct1hour: number; burning: number })[] = useMemo(() => {
         if (allMaps.length === 0) return [];
         const reqExp = levelExpData?.requiredExp ?? 1;
 
         const withExp = allMaps.map((m) => {
             const burning = burningFields[fieldKey(m)] ?? 0;
-            // avg_exp = 1젠당 경험치, 1분 = 8젠 → 30분치
+            // avg_exp = 1젠당 경험치, 1분 = 8젠 → 1시간치 (60분)
             // 버닝은 합적용: N단계 = +N×10% (버닝 1→+10%, 버닝 10→+100%)
-            const base30 = m.avg_exp * 8 * 30;
-            const withBonus = base30 * (1 + bonusNum / 100 + burning * 0.1);
+            const base60 = m.avg_exp * 8 * 60;
+            const withBonus = base60 * (1 + bonusNum / 100 + burning * 0.1);
             const pct = (withBonus / reqExp) * 100;
-            return { ...m, exp30min: withBonus, pct30min: pct, burning };
+            return { ...m, exp1hour: withBonus, pct1hour: pct, burning };
         });
 
         return withExp
-            .sort((a, b) => b.exp30min - a.exp30min)
+            .sort((a, b) => b.exp1hour - a.exp1hour)
             .slice(0, 20)
             .map((m, i) => ({ ...m, rank: i + 1 }));
     }, [allMaps, burningFields, bonusNum, levelExpData]);
@@ -181,7 +181,7 @@ export default function HuntingFieldCalculatorClient() {
                             메이플스토리 추천 사냥터 계산기
                         </h1>
                     </div>
-                    <p className="text-sm mt-1" style={{ color: "#94a3b8" }}>레벨과 추가 경험치 %를 입력하면 30분 기준 경험치 효율 TOP 20 사냥터를 추천해드려요</p>
+                    <p className="text-sm mt-1" style={{ color: "#94a3b8" }}>레벨과 추가 경험치 %를 입력하면 1시간 기준 경험치 효율 TOP 20 사냥터를 추천해드려요</p>
                 </div>
             </div>
 
@@ -293,7 +293,7 @@ export default function HuntingFieldCalculatorClient() {
                             <span className="text-lg sm:text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
                                 추천 사냥터 TOP 20
                             </span>
-                            <span className="text-[11px] sm:text-sm text-[#64748b] font-normal sm:ml-1">— 30분 기준 경험치 효율 순</span>
+                            <span className="text-[11px] sm:text-sm text-[#64748b] font-normal sm:ml-1">— 1시간 기준 경험치 효율 순</span>
                         </h2>
 
                         {top20.length === 0 ? (
@@ -338,7 +338,7 @@ export default function HuntingFieldCalculatorClient() {
                                                     </div>
                                                     <div className="flex flex-wrap gap-x-3 gap-y-1">
                                                         <span className="text-xs text-[#94a3b8]">몬스터 Lv.{field.level}</span>
-                                                        <span className="text-xs text-[#94a3b8]">🐾 {field.count}마리 / 최대 {(field.count * 240).toLocaleString()}</span>
+                                                        <span className="text-xs text-[#94a3b8]">🐾 {field.count}마리 / 최대 {(field.count * 480).toLocaleString()}</span>
                                                         <span className="text-xs" style={{ color: getTypeColor(field.type) }}>⚡ {getForceLabel(field.type)} {field.force}</span>
                                                     </div>
                                                 </div>
@@ -404,7 +404,7 @@ export default function HuntingFieldCalculatorClient() {
                     <ul className="m-0 pl-5 text-[13px] sm:text-sm text-[#f1f5f9] leading-relaxed list-disc">
                         <li className="mb-1.5"><strong className="text-white">기본 젠 기준:</strong> 일반적인 몬스터 리젠 시간은 7.5초이므로, <strong className="text-white">1분당 8젠(리젠)</strong>을 기준으로 계산합니다.</li>
                         <li className="mb-1.5"><strong className="text-white">최대 마릿수 가정:</strong> 맵에 스폰되는 최대 수치를 남김없이 사냥한다는 <strong className="text-white">&quot;풀젠 컷&quot;</strong>을 전제로 계산합니다.</li>
-                        <li className="mb-1.5"><strong className="text-white">버닝필드 합산:</strong> 직업별/이벤트별 추가 경험치에 사냥터별 버닝 경험치를 <strong className="text-white">합적용</strong>하여 최종 30분 기대 경험치를 보여줍니다.</li>
+                        <li className="mb-1.5"><strong className="text-white">버닝필드 합산:</strong> 직업별/이벤트별 추가 경험치에 사냥터별 버닝 경험치를 <strong className="text-white">합적용</strong>하여 최종 1시간 기대 경험치를 보여줍니다.</li>
                         <li><strong className="text-white">주의 안내:</strong> 본인의 직업, 빌드 숙련도에 따라 편차가 생길 수 있으므로 객관적 최대치 기준의 <strong className="text-white">참고용 지표</strong>로 활용해 주세요.</li>
                     </ul>
                 </div>
@@ -488,7 +488,7 @@ export default function HuntingFieldCalculatorClient() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5 mb-5">
                             {[
                                 { label: "몬스터 레벨", value: `Lv. ${selected.level}`, icon: "⚔️" },
-                                { label: "몬스터 수 (30분당 최대)", value: `${(selected.count * 240).toLocaleString()}마리`, icon: "🐾" },
+                                { label: "몬스터 수 (1시간당 최대)", value: `${(selected.count * 480).toLocaleString()}마리`, icon: "🐾" },
                                 { label: getForceLabel(selected.type), value: `${selected.force}`, icon: "⚡" },
                                 { label: "레벨 경험치 보정", value: `×${(selected.exp_mult / 100 + 1).toFixed(2)} (${selected.exp_mult > 0 ? "+" : ""}${selected.exp_mult}%)`, icon: "📈" },
                                 { label: "마리당 기본 경험치", value: formatExp(selected.exp), icon: "💰" },
@@ -501,18 +501,18 @@ export default function HuntingFieldCalculatorClient() {
                             ))}
                         </div>
 
-                        {/* 30분 경험치 하이라이트 */}
+                        {/* 1시간 경험치 하이라이트 */}
                         <div className="bg-gradient-to-br from-[#34d3991a] to-[#10b9810d] border border-[#34d3994d] rounded-2xl p-5 sm:p-6 mb-5">
                             <div className="text-xs sm:text-[13px] text-[#94a3b8] mb-1.5 flex items-center gap-1.5 font-medium">
-                                <span className="text-emerald-400">⏰</span> 30분 예상 획득 경험치 <span className="text-[11px] text-[#64748b]">(추가 {bonusNum}% 적용)</span>
+                                <span className="text-emerald-400">⏰</span> 1시간 예상 획득 경험치 <span className="text-[11px] text-[#64748b]">(추가 {bonusNum}% 적용)</span>
                             </div>
                             <div className="text-2xl sm:text-[32px] font-black tracking-tight text-[#34d399] leading-tight mb-2">
-                                {formatExp(Math.round(selected.exp30min))}
+                                {formatExp(Math.round(selected.exp1hour))}
                             </div>
                             {levelExpData && (
                                 <div className="text-sm sm:text-base font-bold text-[#fbbf24] flex items-center gap-2">
                                     <span className="text-[11px] px-1.5 py-0.5 bg-yellow-400/10 border border-yellow-400/20 rounded text-yellow-400 uppercase">Current</span>
-                                    {levelNum}레벨 기준 {selected.pct30min.toFixed(3)}%
+                                    {levelNum}레벨 기준 {selected.pct1hour.toFixed(3)}%
                                 </div>
                             )}
                         </div>
