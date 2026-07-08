@@ -348,14 +348,14 @@ export default function HuntingFieldCalculatorClient() {
                                             <div className="w-full sm:w-auto flex sm:flex-col justify-between items-end sm:text-right sm:min-w-[130px] border-t sm:border-t-0 border-white/5 pt-3 sm:pt-0 mt-1 sm:mt-0">
                                                 <div className="text-left sm:text-right block sm:hidden">
                                                     <div className="text-[11px] text-[#64748b]">{levelNum}레벨 기준</div>
-                                                    <div className="text-xs text-[#94a3b8]">30분 경험치</div>
+                                                    <div className="text-xs text-[#94a3b8]">1시간 경험치</div>
                                                 </div>
                                                 <div className="text-right">
                                                     <div className="text-lg sm:text-xl font-extrabold tabular-nums" style={{ color: burning > 0 ? "#fb923c" : "#34d399" }}>
-                                                        {formatExp(Math.round(field.exp30min))}
+                                                        {formatExp(Math.round(field.exp1hour))}
                                                     </div>
                                                     <div className="flex items-center justify-end gap-1.5">
-                                                        <span className="text-[13px] sm:text-sm font-bold text-[#fbbf24]">{field.pct30min.toFixed(2)}%</span>
+                                                        <span className="text-[13px] sm:text-sm font-bold text-[#fbbf24]">{field.pct1hour.toFixed(2)}%</span>
                                                         <span className="hidden sm:inline text-[11px] text-[#64748b]">{levelNum}L</span>
                                                     </div>
                                                 </div>
