@@ -27,7 +27,10 @@ export default function AdBanner({
         try {
             // AdSense 광고 로드
             if (typeof window !== 'undefined') {
-                (window.adsbygoogle = window.adsbygoogle || []).push({});
+                const insElements = document.querySelectorAll('ins.adsbygoogle:not([data-adsbygoogle-status="done"])');
+                if (insElements.length > 0) {
+                    (window.adsbygoogle = window.adsbygoogle || []).push({});
+                }
             }
         } catch (err) {
             console.error('AdSense error:', err);

@@ -17,8 +17,13 @@ export default function AdBanner({
 }: AdBannerProps) {
     useEffect(() => {
         try {
-            // @ts-ignore
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            if (typeof window !== 'undefined') {
+                const insElements = document.querySelectorAll('ins.adsbygoogle:not([data-adsbygoogle-status="done"])');
+                if (insElements.length > 0) {
+                    // @ts-ignore
+                    (window.adsbygoogle = window.adsbygoogle || []).push({});
+                }
+            }
         } catch (err) {
             console.error('AdSense error:', err);
         }
