@@ -437,8 +437,10 @@ export default function ExpCalculatorClient() {
 
                         if (useElanos) {
                             // Elanos: Base + Additional + Burning (NO Rune)
+                            // 280레벨 이상 사냥터는 12,000마리분(1.2배 상향), 미만 사냥터는 10,000마리분 적용
+                            const mobMultiplier = currentSimLevel >= 280 ? 12000 : 10000;
                             const oneMobElanosExp = monsterData.exp * 1.2 * ((100 + additionalExpRate + burningBonus) / 100);
-                            dailyHuntingExp += oneMobElanosExp * 10000;
+                            dailyHuntingExp += oneMobElanosExp * mobMultiplier;
                         }
                     }
                 }
