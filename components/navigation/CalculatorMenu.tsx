@@ -127,7 +127,7 @@ export default function CalculatorMenu() {
                             <div className="flex flex-col min-w-0">
                                 <span className="font-semibold text-sm">경험치 계산기</span>
                                 <div className="flex items-center gap-1 mt-0.5 flex-wrap">
-                                    <span className="text-[10px] text-orange-400 font-medium">루시드 버닝 업데이트!</span>
+                                    <span className="text-[10px] text-orange-400 font-medium">오버드라이브 업데이트!</span>
                                 </div>
                             </div>
                         </Link>
