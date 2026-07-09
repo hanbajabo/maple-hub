@@ -329,14 +329,14 @@ export default function TestworldHexaSkill203Page() {
                                     </div>
 
                                     <div className="border-l-2 border-orange-500 pl-3">
-                                        <p className="font-bold text-orange-300">미하일 <span className="text-xs font-normal text-green-400 ml-1">🎉 버프</span></p>
+                                        <p className="font-bold text-orange-300">미하일 <span className="text-xs font-normal text-green-400 ml-1">🔧 개선</span></p>
                                         <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
                                             <li>• 로얄 가드 / 로얄 가드 VI: 공격력 증가 버프 지속 시간 <span className="text-green-400 font-bold">20초 → 60초</span></li>
                                         </ul>
                                     </div>
 
                                     <div className="border-l-2 border-pink-500 pl-3">
-                                        <p className="font-bold text-pink-300">메르세데스 <span className="text-xs font-normal text-green-400 ml-1">🎉 연계 버프</span></p>
+                                        <p className="font-bold text-pink-300">메르세데스 <span className="text-xs font-normal text-green-400 ml-1">🔧 연계 개선</span></p>
                                         <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
                                             <li>• <span className="text-green-400 font-semibold">리프 토네이도 VI / 거스트 다이브 VI</span>: 패시브 효과로 <span className="text-green-400 font-bold">베리안 서지의 데미지가 증가</span>하는 기능이 추가됩니다.</li>
                                         </ul>
