@@ -1196,6 +1196,12 @@ export default function ExpCalculatorClient() {
                                                     />
                                                     <span className="text-xs text-slate-400">레벨에 사용</span>
                                                 </div>
+                                                <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-0.5 text-[10px] text-orange-200/70 leading-normal font-normal">
+                                                    <p>• 챌린저스 패스 (EXP 지원 물품) : 총 14개</p>
+                                                    <p>• [출석 이벤트] 울티마 작전 일지 : 총 11개</p>
+                                                    <p>• 신입 용병 지원 이벤트 : 총 8개</p>
+                                                    <p>• 프리미엄 PC방 기프트샵 매주 구매 : 총 45개</p>
+                                                </div>
                                             </div>
                                         )}
                                     </div>
