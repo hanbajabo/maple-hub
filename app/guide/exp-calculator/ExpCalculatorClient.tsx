@@ -115,6 +115,7 @@ export default function ExpCalculatorClient() {
     const [expressBoosterCount, setExpressBoosterCount] = useState(1);
     const [useVipBooster, setUseVipBooster] = useState(false);
     const [vipBoosterCount, setVipBoosterCount] = useState(1);
+    const [vipBoosterUseLevel, setVipBoosterUseLevel] = useState(200);
     const [useElanos, setUseElanos] = useState(true);
     const [useRune, setUseRune] = useState(true);
     const [burningFieldStage, setBurningFieldStage] = useState(0);
@@ -343,7 +344,7 @@ export default function ExpCalculatorClient() {
                         inventory.sauna = 0;
                     }
                 }
-                if (inventory.vipBooster > 0) {
+                if (inventory.vipBooster > 0 && currentSimLevel >= vipBoosterUseLevel) {
                     const monsterData = MONSTER_EXP.find(d => d.level === currentSimLevel);
                     if (monsterData) {
                         // VIP Booster: 10x Mob EXP, 190 mobs
@@ -353,6 +354,13 @@ export default function ExpCalculatorClient() {
                         const amount = oneMobVipExp * 190 * inventory.vipBooster;
                         carriedOverExp += amount;
                         totalExpSources.vipBooster += amount;
+                        
+                        const existingNote = levelBreakdown.find(x => x.level === currentSimLevel);
+                        const noteText = `⚡ VIP/헥사 부스터 ${inventory.vipBooster}개 사용`;
+                        if (existingNote) {
+                            existingNote.note = existingNote.note ? `${existingNote.note}, ${noteText}` : noteText;
+                        }
+                        
                         inventory.vipBooster = 0;
                     }
                 }
@@ -671,7 +679,7 @@ export default function ExpCalculatorClient() {
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, vipSaunaUseLevel, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, useEpicWeek9Auto, remainingDays]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, vipSaunaUseLevel, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, vipBoosterUseLevel, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, useEpicWeek9Auto, remainingDays]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -712,7 +720,7 @@ export default function ExpCalculatorClient() {
             ['메카베리 농장', useMechaberryFarm ? `${mechaberryFarmCount}회` : 'X'],
             ['블루베리 농장', useBlueberryFarm ? `${blueberryFarmCount}회 (${blueberryUseLevel}레벨에 사용)` : 'X'],
             ['익스프레스 부스터', useExpressBooster ? `${expressBoosterCount}개` : 'X'],
-            ['VIP/헥사 부스터', useVipBooster ? `${vipBoosterCount}개` : 'X'],
+            ['VIP/헥사 부스터', useVipBooster ? `${vipBoosterCount}개 (${vipBoosterUseLevel}레벨에 사용)` : 'X'],
             ['🍓 황금 딸기 농장', useGoldenFarm ? `${goldenFarmCount}회 (${goldenFarmBonusRate}% 추가경험치)` : 'X'],
             ['성장의 비약 (200~269)', useGrowthPotion269 ? (useGrowthPotion269Finish284 ? `${growthPotion269Count}개 (284레벨 마무리용)` : `${growthPotion269Count}개 (${growthPotion269UseLevel}레벨에 사용)`) : 'X'],
             ['성장의 비약 (200~279)', useGrowthPotion ? (useGrowthPotionFinish284 ? `${growthPotionCount}개 (284레벨 마무리용)` : `${growthPotionCount}개 (${growthPotionUseLevel}레벨에 사용)`) : 'X']
@@ -1315,6 +1323,19 @@ export default function ExpCalculatorClient() {
                                                     className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
                                                 />
                                                 <span className="text-xs text-slate-400">개 사용</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <input 
+                                                    type="number" 
+                                                    min="200" 
+                                                    max="299" 
+                                                    value={vipBoosterUseLevel} 
+                                                    onFocus={(e) => e.target.select()} 
+                                                    onChange={(e) => setVipBoosterUseLevel(Number(e.target.value))} 
+                                                    onBlur={(e) => setVipBoosterUseLevel(Math.max(200, Math.min(299, Number(e.target.value) || 200)))}
+                                                    className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
+                                                />
+                                                <span className="text-xs text-slate-400">레벨에 사용</span>
                                             </div>
                                             <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-1.5 text-[10px] text-indigo-200/70 leading-normal font-normal">
                                                 <div>
