@@ -1,24 +1,87 @@
 'use client';
 
 import Link from 'next/link';
-import { Calendar, ArrowLeft, Sparkles, Zap, AlertCircle, Star, ExternalLink } from 'lucide-react';
+import { Calendar, ArrowLeft, Sparkles, Zap, AlertCircle, Star, ExternalLink, MessageSquare } from 'lucide-react';
 import { InArticleAd } from '@/components/AdSense';
 
 // 직업별 신규 HEXA 스킬 이미지 매핑 (첫 번째 추가 이미지)
 const hexaSkillData = [
     // 전사 계열
-    { job: '히어로', skill: '레이지 익스플로젼', desc: '찰나의 순간 극한의 일격이 모든 것을 압도한다.', color: 'red', imgs: ['/images/testworld-203/w_스킬_1141503히어로(6차)_추가.png'] },
-    { job: '팔라딘', skill: '디바인 컨버전스', desc: '성스러운 빛을 담은 망치를 연속으로 내리쳐 심판을 선고한다.', color: 'yellow', imgs: ['/images/testworld-203/w_스킬_1241506팔라딘(6차)_추가.png'] },
-    { job: '다크나이트', skill: '다크니스 오브 그레이스 / 비홀더 데버스테이션', desc: '다크니스 오브 그레이스: 어둠의 축복으로 계약의 힘이 강화된다. / 비홀더 데버스테이션: 계약 아래 복속된 비홀더의 진정한 힘이 개방된다.', color: 'purple', imgs: [
-        '/images/testworld-203/w_스킬_1341504다크나이트(6차)_추가.png',
-        '/images/testworld-203/w_스킬_1341505다크나이트(6차)_추가.png',
-    ]},
-    { job: '미하일', skill: '레디언스 오브 발러', desc: '단호한 수호의 의지가 거대한 빛의 검이 되어 전장을 가르며 솟아오른다.', color: 'orange', imgs: ['/images/testworld-203/w_스킬_51141505미하일(6차)_추가.png'] },
-    { job: '소울마스터', skill: '셀레스티얼 클리브', desc: '검격으로 우주를 새기고 마무리 일격으로 시공간을 가른다.', color: 'blue', imgs: ['/images/testworld-203/w_스킬_11141505소울마스터(6차)_추가.png'] },
-    { job: '블래스터', skill: '오버히트 펀치', desc: '한계를 넘어 과열된 에너지를 담아 강력한 펀치를 내리꽂는다.', color: 'cyan', imgs: ['/images/testworld-203/w_스킬_37141504블래스터(6차)_추가.png'] },
-    { job: '카이저', skill: '드라코닉 익스팅션', desc: '고대 용의 힘을 받아들여 전장의 적을 말살한다.', color: 'red', imgs: ['/images/testworld-203/w_스킬_61141503카이저(6차)_추가.png'] },
-    { job: '아델', skill: '에테르 뤼페', desc: '거대한 에테르 소드로 마력의 격류를 일으킨다.', color: 'slate', imgs: ['/images/testworld-203/w_스킬_151141503아델(6차)_추가.png'] },
-    { job: '렌', skill: '창룡파천검 : 만참', desc: '창룡의 기운을 머금은 검이 만물을 벤다.', color: 'purple', imgs: ['/images/testworld-203/w_스킬_161140507렌(6차)_추가.png'] },
+    { 
+        job: '히어로', 
+        skill: '레이지 익스플로젼', 
+        desc: '찰나의 순간 극한의 일격이 모든 것을 압도한다.', 
+        color: 'red', 
+        imgs: ['/images/testworld-203/w_스킬_1141503히어로(6차)_추가.png'],
+        reaction: '타격감과 연출 면에서는 히어로 특유의 묵직함이 살아있어 호평이 많습니다. 다만, 짧은 쿨타임의 깡딜기 구조 특성상 극딜 시 발생하는 시전 딜레이와 딜 누수 우려, 모험가 전사의 기동성 한계가 아쉽다는 의견이 공존합니다.'
+    },
+    { 
+        job: '팔라딘', 
+        skill: '디바인 컨버전스', 
+        desc: '성스러운 빛을 담은 망치를 연속으로 내리쳐 심판을 선고한다.', 
+        color: 'yellow', 
+        imgs: ['/images/testworld-203/w_스킬_1241506팔라딘(6차)_추가.png'],
+        reaction: '생존력과 홀리 유니티 파티 시너지에 강력한 극딜 누적기가 더해져 대체로 긍정적입니다. 단, 극딜 컷신과 그랜드 크로스 등 기존 극딜기 사이의 버프/시드링 타이밍 배분이 다소 까다로워져 운영 난이도가 올랐다는 분석이 나옵니다.'
+    },
+    { 
+        job: '다크나이트', 
+        skill: '다크니스 오브 그레이스 / 비홀더 데버스테이션', 
+        desc: '다크니스 오브 그레이스: 어둠의 축복으로 계약의 힘이 강화된다. / 비홀더 데버스테이션: 계약 아래 복속된 비홀더의 진정한 힘이 개방된다.', 
+        color: 'purple', 
+        imgs: [
+            '/images/testworld-203/w_스킬_1341504다크나이트(6차)_추가.png',
+            '/images/testworld-203/w_스킬_1341505다크나이트(6차)_추가.png',
+        ],
+        reaction: '평딜형 직업인데 120초 극딜 주기 스킬이 설계된 점에 대해 모순적이라는 지적이 많습니다. 리인카네이션 알터와 연계 시 평딜 기댓값에 대해 의견이 나뉘며, 연계 컨트롤로 인한 피로도 개선 요구가 지속되고 있습니다.'
+    },
+    { 
+        job: '미하일', 
+        skill: '레디언스 오브 발러', 
+        desc: '단호한 수호의 의지가 거대한 빛의 검이 되어 전장을 가르며 솟아오른다.', 
+        color: 'orange', 
+        imgs: ['/images/testworld-203/w_스킬_51141505미하일(6차)_추가.png'],
+        reaction: '로얄 가드 버프 지속 시간 60초 확대 개선과 맞물려 편의성 측면에서 엄청난 호평을 얻고 있습니다. 신규 스킬의 광범위한 딜링 성능과 미하일 고유의 단단한 생존 유틸이 완벽히 조화를 이룬다는 반응이 대다수입니다.'
+    },
+    { 
+        job: '소울마스터', 
+        skill: '셀레스티얼 클리브', 
+        desc: '검격으로 우주를 새기고 마무리 일격으로 시공간을 가른다.', 
+        color: 'blue', 
+        imgs: ['/images/testworld-203/w_스킬_11141505소울마스터(6차)_추가.png'],
+        reaction: '우주를 테마로 한 연출 퀄리티에 대한 평가는 대단히 높습니다. 엘리시온 등 기존 5차 극딜기와의 연계 매끄러움 및 시전 딜레이로 인한 딜 누수 연구가 진행 중이며, 실전 딜사이클 최적화가 필수라는 평입니다.'
+    },
+    { 
+        job: '블래스터', 
+        skill: '오버히트 펀치', 
+        desc: '한계를 넘어 과열된 에너지를 담아 강력한 펀치를 내리꽂는다.', 
+        color: 'cyan', 
+        imgs: ['/images/testworld-203/w_스킬_37141504블래스터(6차)_추가.png'],
+        reaction: '캔슬 피로도가 높은 와중에 강력한 단발성 공격기가 추가되어 순간적인 조작 부담을 덜었다는 점에서 환영받고 있습니다. 다만 극딜 타임 꼬임 여부에 대한 호불호와 이펙트/사운드 강화 요구가 있습니다.'
+    },
+    { 
+        job: '카이저', 
+        skill: '드라코닉 익스팅션', 
+        desc: '고대 용의 힘을 받아들여 전장의 적을 말살한다.', 
+        color: 'red', 
+        imgs: ['/images/testworld-203/w_스킬_61141503카이저(6차)_추가.png'],
+        reaction: '고대 용 이펙트의 웅장함은 합격점을 받았으나, 기가슬래셔 중심의 변신 및 게이지 딜링 구조를 근본적으로 해소하지 못해 아쉽다는 의견이 큽니다. 단순 범위와 수치 상향 외에 유틸리티 개선을 바라는 목소리가 많습니다.'
+    },
+    { 
+        job: '아델', 
+        skill: '에테르 뤼페', 
+        desc: '거대한 에테르 소드로 마력의 격류를 일으킨다.', 
+        color: 'slate', 
+        imgs: ['/images/testworld-203/w_스킬_151141503아델(6차)_추가.png'],
+        reaction: '거대한 검들의 수려한 연출은 호평이지만, 에테르 게이지 수급 문제와 오더 유지의 높은 조작 피로도가 개선되지 않아 실망스럽다는 의견이 보입니다. 딜 누수를 구조적으로 막을 유틸 개선이 부족하다는 지적이 있습니다.'
+    },
+    { 
+        job: '렌', 
+        skill: '창룡파천검 : 만참', 
+        desc: '창룡의 기운을 머금은 검이 만물을 벤다.', 
+        color: 'purple', 
+        imgs: ['/images/testworld-203/w_스킬_161140507렌(6차)_추가.png'],
+        reaction: '매화검 시전 시 추가타 형태로 자동 발동하는 패시브 형태라 조작 피로도가 전혀 없다는 부분에서 대호평입니다. 15초 내부 쿨타임 주기 관리가 실전 누적 딜량의 핵심 요인으로 꼽히며 긍정적인 평가가 우세합니다.'
+    },
     // 마법사 계열
     { job: '아크메이지(불,독)', skill: '인페르날 웨이브', desc: '화염과 독의 마력을 극한까지 끌어올려 마력의 파도를 일으킨다.', color: 'orange', imgs: ['/images/testworld-203/w_스킬_2141506아크메이지(불,독)(6차)_추가.png'] },
     { job: '아크메이지(썬,콜)', skill: '서브제로 퍼미네이션', desc: '극한의 냉기와 번개를 결합시켜 융합 폭발을 일으킨다.', color: 'cyan', imgs: ['/images/testworld-203/w_스킬_2241507아크메이지(썬,콜)(6차)_추가.png'] },
@@ -52,7 +115,14 @@ const hexaSkillData = [
     { job: '팬텀', skill: '플레슈 르투르', desc: '카드를 소환하여 사방으로 날린 뒤, 흩어진 카드를 일제히 거두어들이며 폭발시킨다.', color: 'yellow', imgs: ['/images/testworld-203/w_스킬_24141505팬텀(6차)_추가.png'] },
     { job: '카데나', skill: '체인아츠:토렌트', desc: 'A.D 오드넌스로 끌어모은 에너지를 체인으로 강하게 휘감아 억누른다.', color: 'pink', imgs: ['/images/testworld-203/w_스킬_64141505카데나(6차)_추가.png'] },
     { job: '칼리', skill: '헥스 : 듄 버스트', desc: '차크람이 모래 폭풍을 베어 가르며 적에게 모래 폭발을 일으킨다.', color: 'yellow', imgs: ['/images/testworld-203/w_스킬_154141506칼리(6차)_추가.png'] },
-    { job: '제로', skill: '타임 어소리티', desc: '거스를 수 없는 시간의 힘으로 적을 압도한다.', color: 'cyan', imgs: ['/images/testworld-203/w_스킬_101141506제로(6차)_추가.png'] },
+    { 
+        job: '제로', 
+        skill: '타임 어소리티', 
+        desc: '거스를 수 없는 시간의 힘으로 적을 압도한다.', 
+        color: 'cyan', 
+        imgs: ['/images/testworld-203/w_스킬_101141506제로(6차)_추가.png'],
+        reaction: '시간 제어자라는 독특한 컨셉의 이펙트 퀄리티에 대해서는 합격점을 받았습니다. 알파/베타 태그 연계 시스템과의 조화가 매끄러우며, 실전 딜링 구조에 큰 이질감 없이 녹아들어 무난하고 긍정적인 반응이 우세합니다.'
+    },
     // 해적 계열
     { job: '바이퍼', skill: '넵투누스 어드밴트', desc: '최초의 수룡 넵투누스의 기백이 깃들어 일정 시간 동안 수룡의 힘이 강화된다.', color: 'blue', imgs: ['/images/testworld-203/w_스킬_5141509바이퍼(6차)_추가.png'] },
     { job: '캡틴', skill: '에어리얼 봄바드먼트', desc: '창공의 폭격대에게 전장을 초토화시킬 공중 포격을 지시한다.', color: 'yellow', imgs: ['/images/testworld-203/w_스킬_5241505캡틴(6차)_추가.png'] },
@@ -62,14 +132,42 @@ const hexaSkillData = [
     { job: '엔젤릭버스터', skill: '팝핑 하트', desc: '메이플의 아이돌을 응원하는 팬들이 집결한다.', color: 'pink', imgs: ['/images/testworld-203/w_스킬_65141506엔젤릭버스터(6차)_추가.png'] },
     { job: '아크', skill: '원초의 격류', desc: '스펙터와 레프의 힘을 극대화하여 격류를 일으킨다.', color: 'blue', imgs: ['/images/testworld-203/w_스킬_155140505아크(6차)_추가.png'] },
     // 기사단/영웅 계열
-    { job: '아란', skill: '마하 언리시드', desc: '각성한 마하의 힘이 폴암에 깃들어 한계를 넘어선 초식을 그려낸다.', color: 'red', imgs: ['/images/testworld-203/w_스킬_21141505아란(6차)_추가.png'] },
+    { 
+        job: '아란', 
+        skill: '마하 언리시드', 
+        desc: '각성한 마하의 힘이 폴암에 깃들어 한계를 넘어선 초식을 그려낸다.', 
+        color: 'red', 
+        imgs: ['/images/testworld-203/w_스킬_21141505아란(6차)_추가.png'],
+        reaction: '폴암 정령 마하와의 공명 이펙트가 웅장하여 비주얼 면에서 큰 호평을 받고 있습니다. 아드레날린 모드 진입 시의 폭발적인 딜링 포텐셜이 크게 강화되었다는 긍정적인 피드백이 많으나, 사냥 시 범위 판정에 대한 소폭의 아쉬움도 제기됩니다.'
+    },
     { job: '메르세데스', skill: '베리안 서지', desc: '빛과 정령의 힘을 담아 전방의 적을 꿰뚫는다.', color: 'pink', imgs: ['/images/testworld-203/w_스킬_23141506메르세데스(6차)_추가.png'] },
     { job: '은월', skill: '연우격풍', desc: '은월의 깊은 그리움에 감응한 수호령이 동고동락한 벗의 모습으로 나타나 도움을 준다.', color: 'purple', imgs: ['/images/testworld-203/w_스킬_25141508은월(6차)_추가.png'] },
-    { job: '데몬 슬레이어', skill: '래쓰 오브 세이튼', desc: '데몬 포스를 담아 휘두른 일격으로 차원을 일그러뜨린다.', color: 'red', imgs: ['/images/testworld-203/w_스킬_31141505데몬_슬레이어(6차)_추가.png'] },
-    { job: '데몬 어벤져', skill: '래비드 카니지', desc: '분노에 가득 차 데스페라도를 휘갈기고, 검날창으로 내려찍어 적을 도륙낸다.', color: 'purple', imgs: ['/images/testworld-203/w_스킬_31241506데몬_어벤져(6차)_추가.png'] },
+    { 
+        job: '데몬 슬레이어', 
+        skill: '래쓰 오브 세이튼', 
+        desc: '데몬 포스를 담아 휘두른 일격으로 차원을 일그러뜨린다.', 
+        color: 'red', 
+        imgs: ['/images/testworld-203/w_스킬_31141505데몬_슬레이어(6차)_추가.png'],
+        reaction: '타격 이펙트의 박진감과 화려함은 최상급이라는 찬사를 받습니다. 다만 화면을 가득 채우는 이펙트로 인해 보스의 모션이나 장판 패턴이 가려져 가시성 문제를 호소하는 유저들이 많아, 이펙트 투명도 조절이 필수적이라는 평입니다.'
+    },
+    { 
+        job: '데몬 어벤져', 
+        skill: '래비드 카니지', 
+        desc: '분노에 가득 차 데스페라도를 휘갈기고, 검날창으로 내려찍어 적을 도륙낸다.', 
+        color: 'purple', 
+        imgs: ['/images/testworld-203/w_스킬_31241506데몬_어벤져(6차)_추가.png'],
+        reaction: 'HP 소모 리스크를 감수해야 하는 직업 특성상, 신규 스킬 시전 시 생존 리스크 관리와 누적 딜링 간의 조화에 대한 팁이 활발히 연구되고 있습니다. 극딜 압축 자체는 준수하게 잘 나왔으나, 보스전 실전 생존 편의성 면에서 좀 더 배려가 필요하다는 피드백이 있습니다.'
+    },
     { job: '라라', skill: '한아름 아우른 숨결', desc: '비옥한 대지의 숨결을 한아름 머금은 용맥을 분출시켜 운율을 즐기는 융합 토지령을 불러낸다.', color: 'green', imgs: ['/images/testworld-203/w_스킬_162141503라라(6차)_추가.png'] },
     { job: '호영', skill: '선기 : 사흉해방 도철', desc: '봉인된 도철을 해방하여 함께 전장을 압도한다.', color: 'orange', imgs: ['/images/testworld-203/w_스킬_164141505호영(6차)_추가.png'] },
-    { job: '레테', skill: '보이드 오리진', desc: '주인이 품은 근원적 공허함에 이끌린 마력이 소멸해가는 심상 세계를 창조한다.', color: 'slate', imgs: ['/images/testworld-203/w_스킬_192141504레테(6차)_추가.png'] },
+    { 
+        job: '레테', 
+        skill: '보이드 오리진', 
+        desc: '주인이 품은 근원적 공허함에 이끌린 마력이 소멸해가는 심상 세계를 창조한다.', 
+        color: 'slate', 
+        imgs: ['/images/testworld-203/w_스킬_192141504레테(6차)_추가.png'],
+        reaction: '1.2.203 대규모 수치 조정(바르가르 상향, 최종데미지 및 임프린트 조정)과 맞물려 실전 보스 딜러로서의 입지 변화에 대한 관심이 매우 뜨겁습니다. 신규 6차 스킬의 몽환적이고 어두운 공간 연출에 대한 극찬과 함께, 조정된 수치에 따른 실전 딜포텐셜 검증 글이 실시간으로 게시판을 채우고 있습니다.'
+    },
 ];
 
 const sections = [
@@ -153,8 +251,8 @@ export default function TestworldHexaSkill203Page() {
                                 <div key={label} className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-3 sm:p-4">
                                     <h3 className="font-bold text-base sm:text-lg text-slate-100 mb-3">{label}</h3>
                                     <div className="flex flex-col gap-4">
-                                        {jobs.map(({ job, skill, desc, imgs }) => (
-                                            <div key={job} className="bg-slate-900/60 rounded-lg p-3 flex flex-col items-center text-center">
+                                        {jobs.map(({ job, skill, desc, imgs, reaction }) => (
+                                            <div key={job} className="bg-slate-900/60 rounded-lg p-3 sm:p-4 flex flex-col items-center text-center">
                                                 <p className="font-bold text-sm text-slate-100 mb-0.5">{job}</p>
                                                 <p className="text-sm text-purple-300 font-semibold mb-2 leading-tight">{skill}</p>
                                                 <div className="flex flex-col items-center gap-4 w-full">
@@ -169,7 +267,7 @@ export default function TestworldHexaSkill203Page() {
                                                                     className="max-w-full h-auto rounded mx-auto"
                                                                 />
                                                                 {descParts[i] && (
-                                                                    <p className="text-slate-400 text-xs mt-2 mb-3 leading-relaxed max-w-xl text-center">
+                                                                    <p className="text-slate-400 text-xs mt-2 mb-1 leading-relaxed max-w-xl text-center">
                                                                         {descParts[i]}
                                                                     </p>
                                                                 )}
@@ -177,6 +275,18 @@ export default function TestworldHexaSkill203Page() {
                                                         );
                                                     })}
                                                 </div>
+
+                                                {reaction && (
+                                                    <div className="mt-3 w-full max-w-xl bg-slate-950/60 border border-purple-500/20 rounded-lg p-3 text-left">
+                                                        <p className="text-[10px] font-bold text-purple-400 mb-1.5 flex items-center gap-1.5 uppercase tracking-wider">
+                                                            <MessageSquare className="w-3 h-3 text-purple-400" />
+                                                            💬 인벤 커뮤니티 반응 및 평가
+                                                        </p>
+                                                        <p className="text-slate-300 text-xs leading-relaxed whitespace-pre-line">
+                                                            {reaction}
+                                                        </p>
+                                                    </div>
+                                                )}
                                             </div>
                                         ))}
                                     </div>
