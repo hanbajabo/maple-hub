@@ -792,16 +792,63 @@ export default function ExpCalculatorClient() {
                             <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><TrendingUp className="w-5 h-5 text-blue-500" />레벨 설정</h2>
                             <div className="space-y-4">
                                 <div>
-                                    <div className="flex items-center justify-between mb-2"><label className="text-sm font-medium text-slate-300">현재 레벨</label><span className="text-2xl font-bold text-blue-400">Lv.{currentLevel}</span></div>
-                                    <input type="range" min="200" max="299" step="1" value={currentLevel} onChange={(e) => { const newLevel = Number(e.target.value); setCurrentLevel(newLevel); if (newLevel >= targetLevel) setTargetLevel(Math.min(300, newLevel + 1)); }} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500" />
+                                    <div className="flex items-center justify-between mb-2">
+                                        <label className="text-sm font-medium text-slate-300">현재 레벨</label>
+                                        <div className="flex items-center gap-1">
+                                            <span className="text-sm text-slate-500 font-bold">Lv.</span>
+                                            <input 
+                                                type="number"
+                                                min="200"
+                                                max="299"
+                                                value={currentLevel || ''}
+                                                onChange={(e) => {
+                                                    const val = e.target.value === '' ? '' : Number(e.target.value);
+                                                    setCurrentLevel(val as any);
+                                                    if (val !== '' && val >= targetLevel) {
+                                                        setTargetLevel(Math.min(300, val + 1));
+                                                    }
+                                                }}
+                                                onBlur={() => {
+                                                    const val = Math.max(200, Math.min(299, Number(currentLevel) || 200));
+                                                    setCurrentLevel(val);
+                                                    if (val >= targetLevel) {
+                                                        setTargetLevel(Math.min(300, val + 1));
+                                                    }
+                                                }}
+                                                className="w-20 bg-slate-800 border border-slate-700 text-blue-400 font-extrabold text-lg text-center rounded px-2 py-1 focus:outline-none focus:border-blue-500 transition-colors"
+                                            />
+                                        </div>
+                                    </div>
+                                    <input type="range" min="200" max="299" step="1" value={currentLevel || 200} onChange={(e) => { const newLevel = Number(e.target.value); setCurrentLevel(newLevel); if (newLevel >= targetLevel) setTargetLevel(Math.min(300, newLevel + 1)); }} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500" />
                                 </div>
                                 <div>
                                     <label className="text-sm font-medium text-slate-300 mb-2 block">현재 레벨 진행도 (%)</label>
                                     <input type="number" min="0" max="99" step="1" value={currentLevelExp} onChange={(e) => setCurrentLevelExp(Math.min(99, Math.max(0, Number(e.target.value))))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="0" />
                                 </div>
                                 <div>
-                                    <div className="flex items-center justify-between mb-2"><label className="text-sm font-medium text-slate-300">목표 레벨</label><span className="text-2xl font-bold text-purple-400">Lv.{targetLevel}</span></div>
-                                    <input type="range" min={currentLevel + 1} max="300" step="1" value={targetLevel} onChange={(e) => setTargetLevel(Number(e.target.value))} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-500" />
+                                    <div className="flex items-center justify-between mb-2">
+                                        <label className="text-sm font-medium text-slate-300">목표 레벨</label>
+                                        <div className="flex items-center gap-1">
+                                            <span className="text-sm text-slate-500 font-bold">Lv.</span>
+                                            <input 
+                                                type="number"
+                                                min={(currentLevel || 200) + 1}
+                                                max="300"
+                                                value={targetLevel || ''}
+                                                onChange={(e) => {
+                                                    const val = e.target.value === '' ? '' : Number(e.target.value);
+                                                    setTargetLevel(val as any);
+                                                }}
+                                                onBlur={() => {
+                                                    const minTarget = (Number(currentLevel) || 200) + 1;
+                                                    const val = Math.max(minTarget, Math.min(300, Number(targetLevel) || minTarget));
+                                                    setTargetLevel(val);
+                                                }}
+                                                className="w-20 bg-slate-800 border border-slate-700 text-purple-400 font-extrabold text-lg text-center rounded px-2 py-1 focus:outline-none focus:border-purple-500 transition-colors"
+                                            />
+                                        </div>
+                                    </div>
+                                    <input type="range" min={(currentLevel || 200) + 1} max="300" step="1" value={targetLevel || 201} onChange={(e) => setTargetLevel(Number(e.target.value))} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-500" />
                                 </div>
                                 {currentLevel < 260 && targetLevel > 200 && (
                                     <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer"><input type="checkbox" checked={useHyperBurning} onChange={(e) => setUseHyperBurning(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-red-600 focus:ring-red-500" />🔥 하이퍼버닝 (Lv.200~260)</label>
