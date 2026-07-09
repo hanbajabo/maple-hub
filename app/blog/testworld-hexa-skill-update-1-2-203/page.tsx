@@ -313,146 +313,127 @@ export default function TestworldHexaSkill203Page() {
 
                             {/* 직업별 */}
                             <div className="bg-slate-800/50 rounded-lg p-3 sm:p-4">
-                                <h3 className="font-bold text-base text-slate-100 mb-3">⚔️ 직업별 수정 사항</h3>
-                                <div className="space-y-3">
-                                    {[
-                                        { job: '다크나이트', color: 'slate', items: ['비홀더스 퍼니시먼트: 이펙트가 변경됩니다.', '비홀더 쇼크 VI: 스킬 설명이 변경됩니다.'] },
-                                        { job: '아크메이지(썬,콜)', color: 'cyan', items: ['크라이오 쇼크: 타격 이펙트가 다른 캐릭터에게 어색하게 보이는 현상이 수정됩니다.'] },
-                                        { job: '보우마스터', color: 'green', items: ['애로우 레인: 가끔 몬스터가 없는 위치에 화살이 쏟아지는 영역이 생성되는 현상이 수정됩니다.'] },
-                                    ].map(({ job, color, items }) => (
-                                        <div key={job} className="border-l-2 border-slate-500 pl-3">
-                                            <p className="font-bold text-slate-200">{job}</p>
-                                            <ul className="text-slate-300 space-y-0.5 mt-1">{items.map(i => <li key={i}>• {i}</li>)}</ul>
-                                        </div>
-                                    ))}
-
+                                <h3 className="font-bold text-base text-slate-100 mb-4">⚔️ 직업별 수정 사항</h3>
+                                
+                                {/* 1. 주요 밸런스 패치 및 버프 (기본 노출) */}
+                                <div className="space-y-4 mb-6">
+                                    <h4 className="text-xs font-bold text-green-400 uppercase tracking-wider mb-2">💡 주요 밸런스 조정 및 버프</h4>
+                                    
                                     <div className="border-l-2 border-green-500 pl-3">
                                         <p className="font-bold text-green-300">신궁 <span className="text-xs font-normal text-green-400 ml-1">🎉 버프</span></p>
-                                        <ul className="text-slate-300 space-y-0.5 mt-1">
+                                        <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
                                             <li>• 스플릿 애로우 버프 지속 시간: <span className="text-green-400 font-bold">72초 → 120초</span></li>
                                             <li>• 스플릿 애로우 추가 공격 최대 횟수: <span className="text-green-400 font-bold">140회</span> 발동 가능</li>
                                             <li>• 스플릿 애로우 추가 공격 데미지: <span className="text-green-400 font-bold">1302% → 1631%</span></li>
                                         </ul>
                                     </div>
 
-                                    {[
-                                        { job: '나이트로드', items: ['스로우 블래스팅: 패시브 효과 발동 시 다른 캐릭터에게 어색하게 보이는 현상이 수정됩니다.'] },
-                                    ].map(({ job, items }) => (
-                                        <div key={job} className="border-l-2 border-slate-500 pl-3">
-                                            <p className="font-bold text-slate-200">{job}</p>
-                                            <ul className="text-slate-300 space-y-0.5 mt-1">{items.map(i => <li key={i}>• {i}</li>)}</ul>
-                                        </div>
-                                    ))}
-
-                                    <div className="border-l-2 border-purple-500 pl-3">
-                                        <p className="font-bold text-purple-300">섀도어</p>
-                                        <ul className="text-slate-300 space-y-0.5 mt-1">
-                                            <li>• 절개: 타격 이펙트가 가끔 다른 캐릭터에게 어색하게 보이는 현상이 수정됩니다.</li>
-                                            <li>• 쉐도우 어썰트: 연무장 스킬 내역 UI에 사용 횟수가 실제와 다르게 표시되는 현상이 수정됩니다.</li>
-                                            <li>• 커버트 쉐도우: 추가타 및 쉐도우 엣지의 타격 이펙트가 어색하게 보이는 현상이 수정됩니다.</li>
-                                        </ul>
-                                    </div>
-
-                                    {[
-                                        { job: '바이퍼', items: ['씨 서펜트 인레이지: 스킬 설명이 수정됩니다.', '씨 서펜트 VI: 스킬 설명이 수정됩니다.'] },
-                                        { job: '캐논슈터', items: ['미니 캐논볼: 자동 사용 모드에서 캐논 바주카 VI가 적중해도 사용되지 않는 현상이 수정됩니다.'] },
-                                    ].map(({ job, items }) => (
-                                        <div key={job} className="border-l-2 border-slate-500 pl-3">
-                                            <p className="font-bold text-slate-200">{job}</p>
-                                            <ul className="text-slate-300 space-y-0.5 mt-1">{items.map(i => <li key={i}>• {i}</li>)}</ul>
-                                        </div>
-                                    ))}
-
                                     <div className="border-l-2 border-orange-500 pl-3">
                                         <p className="font-bold text-orange-300">미하일 <span className="text-xs font-normal text-green-400 ml-1">🎉 버프</span></p>
-                                        <ul className="text-slate-300 space-y-0.5 mt-1">
+                                        <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
                                             <li>• 로얄 가드 / 로얄 가드 VI: 공격력 증가 버프 지속 시간 <span className="text-green-400 font-bold">20초 → 60초</span></li>
                                         </ul>
                                     </div>
 
-                                    {[
-                                        { job: '소울마스터', items: ['코스믹 버스트 / 코스믹 버스트 VI: 스킬 설명이 수정됩니다.'] },
-                                        { job: '나이트워커', items: ['쉐도우 스티치: 행동 불가 효과 종료 이후에도 이펙트가 지속되는 현상이 수정됩니다.'] },
-                                        { job: '아란', items: ['프로스트 블러스터: 스킬 사용 후 비욘더 시전 시 가끔 빙결참이 늦게 발동하는 현상이 수정됩니다.'] },
-                                        { job: '에반', items: ['조디악 레이: 솔 헤카테의 솔 에르다 입자로 마법진에 마력이 충전되는 현상이 수정됩니다.', '조디악 레이: 솔 헤카테 : 스틱스 / 플레게톤 시전 시 마법진에 마력이 각각 1 충전되도록 수정됩니다.'] },
-                                        { job: '루미너스', items: ['진리의 문: 스킬 알림이에 등록 가능한 현상이 수정됩니다.', '진리의 문: 시전 시 이퀄리브리엄 리버레이션의 캐릭터 이펙트가 출력되는 현상이 수정됩니다.'] },
-                                    ].map(({ job, items }) => (
-                                        <div key={job} className="border-l-2 border-slate-500 pl-3">
-                                            <p className="font-bold text-slate-200">{job}</p>
-                                            <ul className="text-slate-300 space-y-0.5 mt-1">{items.map(i => <li key={i}>• {i}</li>)}</ul>
-                                        </div>
-                                    ))}
-
                                     <div className="border-l-2 border-pink-500 pl-3">
-                                        <p className="font-bold text-pink-300">메르세데스</p>
-                                        <ul className="text-slate-300 space-y-0.5 mt-1">
-                                            <li>• 파이널 어택 / 어드밴스드 파이널 어택 / 어드밴스드 파이널 어택 VI: 가끔 연속 공격에 발동되지 않는 현상이 수정됩니다.</li>
-                                            <li>• 레전드리 스피어 / 래쓰 오브 엔릴 / 레전드리 스피어 VI / 래쓰 오브 엔릴 VI: 스킬 설명이 수정됩니다.</li>
+                                        <p className="font-bold text-pink-300">메르세데스 <span className="text-xs font-normal text-green-400 ml-1">🎉 연계 버프</span></p>
+                                        <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
                                             <li>• <span className="text-green-400 font-semibold">리프 토네이도 VI / 거스트 다이브 VI</span>: 패시브 효과로 <span className="text-green-400 font-bold">베리안 서지의 데미지가 증가</span>하는 기능이 추가됩니다.</li>
                                         </ul>
                                     </div>
 
                                     <div className="border-l-2 border-cyan-500 pl-3">
-                                        <p className="font-bold text-cyan-300">배틀메이지</p>
-                                        <ul className="text-slate-300 space-y-0.5 mt-1">
+                                        <p className="font-bold text-cyan-300">배틀메이지 <span className="text-xs font-normal text-amber-400 ml-1">⚡ 조정</span></p>
+                                        <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
                                             <li>• 어비셜 라이트닝: 명계의 번개 최대 발동 횟수 제한이 추가됩니다.</li>
                                             <li>• 어비셜 라이트닝: 명계의 번개 데미지 <span className="text-green-400 font-bold">1650% → 1980%</span></li>
                                         </ul>
                                     </div>
 
-                                    {[
-                                        { job: '와일드헌터', items: ['비스트 폼: 스킬 사용 시 재규어가 어색하게 보이는 현상이 수정됩니다.'] },
-                                        { job: '데몬 슬레이어', items: ['메타모포시스 VI: 자쿰(이지/노멀/카오스)에서 마기 이펙트 크기 및 출력 관련 현상이 수정됩니다.'] },
-                                    ].map(({ job, items }) => (
-                                        <div key={job} className="border-l-2 border-slate-500 pl-3">
-                                            <p className="font-bold text-slate-200">{job}</p>
-                                            <ul className="text-slate-300 space-y-0.5 mt-1">{items.map(i => <li key={i}>• {i}</li>)}</ul>
-                                        </div>
-                                    ))}
-
                                     <div className="border-l-2 border-pink-500 pl-3">
                                         <p className="font-bold text-pink-300">카인 <span className="text-xs font-normal text-green-400 ml-1">🎉 버프</span></p>
-                                        <ul className="text-slate-300 space-y-0.5 mt-1">
+                                        <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
                                             <li>• [발현] 스트라이크 애로우 / VI: 재발현 대기시간이 <span className="text-green-400 font-bold">삭제</span>됩니다.</li>
                                         </ul>
                                     </div>
 
-                                    {[
-                                        { job: '일리움', items: ['커스 마크 완성 VI: 발동 시 다른 캐릭터에게 동작이 어색하게 보이는 현상이 수정됩니다.'] },
-                                        { job: '칼리', items: ['보이드 러쉬 / 보이드 러쉬 VI: 림보(노멀/하드)에서 스틸 모드 사용 시 아래 방향키와 함께 스킬을 사용할 수 없는 현상이 수정됩니다.'] },
-                                    ].map(({ job, items }) => (
-                                        <div key={job} className="border-l-2 border-slate-500 pl-3">
-                                            <p className="font-bold text-slate-200">{job}</p>
-                                            <ul className="text-slate-300 space-y-0.5 mt-1">{items.map(i => <li key={i}>• {i}</li>)}</ul>
-                                        </div>
-                                    ))}
-
                                     <div className="border-l-2 border-green-500 pl-3">
-                                        <p className="font-bold text-green-300">라라</p>
-                                        <ul className="text-slate-300 space-y-0.5 mt-1">
-                                            <li>• 아름드리 나무: 스킬 설명이 수정됩니다.</li>
-                                            <li>• 아름드리 나무: <span className="text-green-400 font-semibold">맵 이동 시에도 버프가 유지</span>되도록 수정됩니다.</li>
-                                            <li>• 아름드리 나무: 영역이 삭제됩니다.</li>
+                                        <p className="font-bold text-green-300">라라 <span className="text-xs font-normal text-green-400 ml-1">🔧 개선</span></p>
+                                        <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
+                                            <li>• 아름드리 나무: <span className="text-green-400 font-semibold">맵 이동 시에도 버프가 유지</span>되도록 수정되며 영역이 삭제됩니다.</li>
                                         </ul>
                                     </div>
 
                                     <div className="border-l-2 border-red-500 pl-3">
-                                        <p className="font-bold text-red-300">레테</p>
-                                        <ul className="text-slate-300 space-y-0.5 mt-1">
-                                            <li>• 텔레포트: 다른 캐릭터에게 이펙트가 어색하게 보이는 현상이 수정됩니다.</li>
-                                            <li>• 인보크 : 바르가르: 데미지 <span className="text-green-400 font-bold">143% → 204%</span> ▲</li>
-                                            <li>• 드라이브 / 임펠 / 임펠 VI: 공격 속도 증가 효과가 별도 버프 아이콘으로 표기됩니다.</li>
-                                            <li>• 인보크 : 템플러 / 인보크 : 템플러 II: 데미지 공식이 변경됩니다.</li>
-                                            <li>• 레비테이트: 발판에 닿은 경우 체공이 종료되지 않는 현상이 수정됩니다.</li>
-                                            <li>• 이딕트 : 램페이지: 바르가르의 일반 몬스터 공격 시 데미지 <span className="text-red-400 font-bold">241%p → 210%p</span> ▼</li>
-                                            <li>• 인보크 : 바르가르 강화: 최종 데미지 증가량 <span className="text-red-400 font-bold">300% → 180%</span> ▼</li>
-                                            <li>• 오버로드 : 템플러 온슬로트 / 바르가르 트라이던트 / 인보크·오버로드 : 아즈라스: 사용 시 액션 딜레이만큼 임펠 효과가 적용되도록 변경됩니다.</li>
-                                            <li>• 체인 커맨드: 맹약 완성 후 재사용 대기시간 초기화 관련 현상 수정, 메이린에서 운명의 소용돌이 발생 시 맹약 완성이 발동되는 현상 수정.</li>
-                                            <li>• 임프린트 VI: 돌진하는 펠 데미지 <span className="text-red-400 font-bold">264% → 237%</span> ▼</li>
-                                            <li>• 인보크 : 바르가르 VI: 데미지 <span className="text-green-400 font-bold">242% → 346%</span> ▲, 일반 몬스터 공격 시 데미지 <span className="text-red-400 font-bold">543%p → 491%p</span> ▼</li>
+                                        <p className="font-bold text-red-300">레테 <span className="text-xs font-normal text-amber-400 ml-1">⚡ 수치 조정</span></p>
+                                        <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
+                                            <li>• 인보크 : 바르가르 데미지: <span className="text-green-400 font-bold">143% → 204%</span> ▲</li>
+                                            <li>• 인보크 : 바르가르 VI 데미지: <span className="text-green-400 font-bold">242% → 346%</span> ▲</li>
+                                            <li>• 인보크 : 바르가르 강화 최종뎀: <span className="text-red-400 font-bold">300% → 180%</span> ▼</li>
+                                            <li>• 임프린트 VI 돌진 데미지: <span className="text-red-400 font-bold">264% → 237%</span> ▼</li>
+                                            <li>• 이딕트 : 램페이지 일반몹 데미지: <span className="text-red-400 font-bold">241%p → 210%p</span> ▼</li>
+                                            <li>• 인보크 : 바르가르 VI 일반몹 데미지: <span className="text-red-400 font-bold">543%p → 491%p</span> ▼</li>
+                                            <li>• 드라이브 / 임펠 / 임펠 VI: 공속 효과가 별도 버프 아이콘으로 표기됩니다.</li>
                                         </ul>
                                     </div>
                                 </div>
+
+                                {/* 2. 버그 수정 및 기타 현상 수정 (상세 접기/펼치기 아코디언) */}
+                                <details className="group border-t border-slate-700/60 pt-4">
+                                    <summary className="flex items-center justify-between cursor-pointer list-none text-slate-400 hover:text-slate-300 transition-colors">
+                                        <span className="text-xs font-bold uppercase tracking-wider">🔧 기타 오류 수정 및 스킬 설명 변경 내역</span>
+                                        <span className="text-xs font-semibold px-2 py-0.5 bg-slate-800 rounded group-open:hidden">펼치기</span>
+                                        <span className="text-xs font-semibold px-2 py-0.5 bg-slate-800 rounded hidden group-open:block">접기</span>
+                                    </summary>
+                                    
+                                    <div className="space-y-3 mt-4 pt-2 border-t border-slate-800/50">
+                                        {[
+                                            { job: '다크나이트', items: ['비홀더스 퍼니시먼트: 이펙트가 변경됩니다.', '비홀더 쇼크 VI: 스킬 설명이 변경됩니다.'] },
+                                            { job: '아크메이지(썬,콜)', items: ['크라이오 쇼크: 타격 이펙트가 다른 캐릭터에게 어색하게 보이는 현상이 수정됩니다.'] },
+                                            { job: '보우마스터', items: ['애로우 레인: 가끔 몬스터가 없는 위치에 화살이 쏟아지는 영역이 생성되는 현상이 수정됩니다.'] },
+                                            { job: '나이트로드', items: ['스로우 블래스팅: 패시브 효과 발동 시 다른 캐릭터에게 어색하게 보이는 현상이 수정됩니다.'] },
+                                            { job: '섀도어', items: [
+                                                '절개: 타격 이펙트가 가끔 다른 캐릭터에게 어색하게 보이는 현상이 수정됩니다.',
+                                                '쉐도우 어썰트: 연무장 스킬 내역 UI에 사용 횟수가 실제와 다르게 표시되는 현상이 수정됩니다.',
+                                                '커버트 쉐도우: 추가타 및 쉐도우 엣지의 타격 이펙트가 어색하게 보이는 현상이 수정됩니다.'
+                                            ] },
+                                            { job: '바이퍼', items: ['씨 서펜트 인레이지 / VI: 스킬 설명이 수정됩니다.'] },
+                                            { job: '캐논슈터', items: ['미니 캐논볼: 자동 사용 모드에서 캐논 바주카 VI가 적중해도 사용되지 않는 현상이 수정됩니다.'] },
+                                            { job: '소울마스터', items: ['코스믹 버스트 / VI: 스킬 설명이 수정됩니다.'] },
+                                            { job: '나이트워커', items: ['쉐도우 스티치: 행동 불가 효과 종료 이후에도 이펙트가 지속되는 현상이 수정됩니다.'] },
+                                            { job: '아란', items: ['프로스트 블러스터: 스킬 사용 후 비욘더 시전 시 가끔 빙결참이 늦게 발동하는 현상이 수정됩니다.'] },
+                                            { job: '에반', items: [
+                                                '조디악 레이: 솔 헤카테의 솔 에르다 입자로 마법진에 마력이 충전되는 현상이 수정됩니다.',
+                                                '조디악 레이: 솔 헤카테 : 스틱스 / 플레게톤 시전 시 마법진에 마력이 각각 1 충전되도록 수정됩니다.'
+                                            ] },
+                                            { job: '루미너스', items: [
+                                                '진리의 문: 스킬 알림이에 등록 가능한 현상이 수정됩니다.',
+                                                '진리의 문: 시전 시 이퀄리브리엄 리버레이션의 캐릭터 이펙트가 출력되는 현상이 수정됩니다.'
+                                            ] },
+                                            { job: '메르세데스', items: [
+                                                '파이널 어택 / 어드밴스드 파이널 어택 / VI: 가끔 연속 공격에 발동되지 않는 현상이 수정됩니다.',
+                                                '레전드리 스피어 / 래쓰 오브 엔릴 / VI: 스킬 설명이 수정됩니다.'
+                                            ] },
+                                            { job: '와일드헌터', items: ['비스트 폼: 스킬 사용 시 재규어가 어색하게 보이는 현상이 수정됩니다.'] },
+                                            { job: '데몬 슬레이어', items: ['메타모포시스 VI: 자쿰에서 마기 이펙트 크기 및 출력 관련 현상이 수정됩니다.'] },
+                                            { job: '일리움', items: ['커스 마크 완성 VI: 발동 시 다른 캐릭터에게 동작이 어색하게 보이는 현상이 수정됩니다.'] },
+                                            { job: '칼리', items: ['보이드 러쉬 / VI: 림보에서 스틸 모드 사용 시 아래 방향키와 함께 스킬을 사용할 수 없는 현상이 수정됩니다.'] },
+                                            { job: '라라', items: ['아름드리 나무: 스킬 설명이 수정됩니다.'] },
+                                            { job: '레테', items: [
+                                                '텔레포트: 다른 캐릭터에게 이펙트가 어색하게 보이는 현상이 수정됩니다.',
+                                                '인보크 : 템플러 / II: 데미지 공식이 변경됩니다.',
+                                                '레비테이트: 발판에 닿은 경우 체공이 종료되지 않는 현상이 수정됩니다.',
+                                                '오버로드 : 템플러 온슬로트 / 바르가르 트라이던트 / 아즈라스: 사용 시 액션 딜레이만큼 임펠 효과가 적용되도록 변경됩니다.',
+                                                '체인 커맨드: 맹약 완성 후 쿨타임 초기화 및 메이린 맹약 완성 발동 버그 수정'
+                                            ] }
+                                        ].map(({ job, items }) => (
+                                            <div key={job} className="border-l border-slate-700/60 pl-3">
+                                                <p className="font-bold text-slate-300 text-xs sm:text-sm">{job}</p>
+                                                <ul className="text-slate-400 space-y-0.5 mt-1 text-xs">{items.map(i => <li key={i}>• {i}</li>)}</ul>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </details>
                             </div>
                         </div>
                     </div>
