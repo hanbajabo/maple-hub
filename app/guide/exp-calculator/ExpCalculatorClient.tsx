@@ -137,7 +137,7 @@ export default function ExpCalculatorClient() {
     const [showSpecterBlastTable, setShowSpecterBlastTable] = useState(false);
     useEffect(() => {
         const targetDate = new Date("2026-09-17T04:00:00+09:00");
-        const startDate = new Date("2026-06-18T12:00:00+09:00");
+        const startDate = new Date("2026-06-18T00:00:00+09:00");
         const now = new Date();
         
         const diffMs = targetDate.getTime() - now.getTime();
