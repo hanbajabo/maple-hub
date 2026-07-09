@@ -320,7 +320,7 @@ export default function TestworldHexaSkill203Page() {
                                     <h4 className="text-xs font-bold text-green-400 uppercase tracking-wider mb-2">💡 주요 밸런스 조정 및 버프</h4>
                                     
                                     <div className="border-l-2 border-green-500 pl-3">
-                                        <p className="font-bold text-green-300">신궁 <span className="text-xs font-normal text-green-400 ml-1">🎉 버프</span></p>
+                                        <p className="font-bold text-green-300">신궁 <span className="text-xs font-normal text-green-400 ml-1">🔧 개선</span></p>
                                         <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
                                             <li>• 스플릿 애로우 버프 지속 시간: <span className="text-green-400 font-bold">72초 → 120초</span></li>
                                             <li>• 스플릿 애로우 추가 공격 최대 횟수: <span className="text-green-400 font-bold">140회</span> 발동 가능</li>
