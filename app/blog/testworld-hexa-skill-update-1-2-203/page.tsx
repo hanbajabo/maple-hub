@@ -183,6 +183,8 @@ export default function TestworldHexaSkill203Page() {
                                 </div>
                             ))}
                         </div>
+                    </div>
+                </section>
 
                 {/* HEXA 스킬 강화 비용 */}
                 <section className="mb-8 sm:mb-12">
