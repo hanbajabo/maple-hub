@@ -369,6 +369,8 @@ export default function TestworldHexaSkill203Page() {
                                         <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
                                             <li>• 인보크 : 바르가르 데미지: <span className="text-green-400 font-bold">143% → 204%</span> ▲</li>
                                             <li>• 인보크 : 바르가르 VI 데미지: <span className="text-green-400 font-bold">242% → 346%</span> ▲</li>
+                                            <li>• 인보크 : 템플러 / II: 데미지 공식이 변경됩니다. <span className="text-amber-400 font-bold">⚡</span></li>
+                                            <li>• 오버로드 : 템플러 온슬로트 / 바르가르 트라이던트 / 아즈라스: 사용 시 액션 딜레이만큼 임펠 효과가 적용되도록 변경됩니다. <span className="text-green-400 font-bold">▲ 개선</span></li>
                                             <li>• 인보크 : 바르가르 강화 최종뎀: <span className="text-red-400 font-bold">300% → 180%</span> ▼</li>
                                             <li>• 임프린트 VI 돌진 데미지: <span className="text-red-400 font-bold">264% → 237%</span> ▼</li>
                                             <li>• 이딕트 : 램페이지 일반몹 데미지: <span className="text-red-400 font-bold">241%p → 210%p</span> ▼</li>
@@ -421,9 +423,7 @@ export default function TestworldHexaSkill203Page() {
                                             { job: '라라', items: ['아름드리 나무: 스킬 설명이 수정됩니다.'] },
                                             { job: '레테', items: [
                                                 '텔레포트: 다른 캐릭터에게 이펙트가 어색하게 보이는 현상이 수정됩니다.',
-                                                '인보크 : 템플러 / II: 데미지 공식이 변경됩니다.',
                                                 '레비테이트: 발판에 닿은 경우 체공이 종료되지 않는 현상이 수정됩니다.',
-                                                '오버로드 : 템플러 온슬로트 / 바르가르 트라이던트 / 아즈라스: 사용 시 액션 딜레이만큼 임펠 효과가 적용되도록 변경됩니다.',
                                                 '체인 커맨드: 맹약 완성 후 쿨타임 초기화 및 메이린 맹약 완성 발동 버그 수정'
                                             ] }
                                         ].map(({ job, items }) => (
