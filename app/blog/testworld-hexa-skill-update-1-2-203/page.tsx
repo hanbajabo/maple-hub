@@ -183,8 +183,87 @@ export default function TestworldHexaSkill203Page() {
                                 </div>
                             ))}
                         </div>
+
+                {/* HEXA 스킬 강화 비용 */}
+                <section className="mb-8 sm:mb-12">
+                    <div className="bg-gradient-to-br from-purple-900/20 to-slate-900/50 border-2 border-purple-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                            <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 text-purple-400" />
+                            <h2 className="text-xl sm:text-2xl font-bold text-purple-300">신규 HEXA 스킬 강화 비용 (1~30레벨)</h2>
+                        </div>
+                        <p className="text-sm text-slate-300 mb-5 leading-relaxed">
+                            신규 HEXA 공통/직업별 스킬을 활성화하고 30레벨 마스터까지 강화하는 데 필요한 <span className="text-yellow-300 font-bold">솔 에르다</span> 및 <span className="text-purple-300 font-bold">솔 에르다 조각</span> 비용 표입니다.
+                        </p>
+
+                        {/* 요약 박스 */}
+                        <div className="grid grid-cols-2 gap-3 mb-6">
+                            <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 text-center">
+                                <p className="text-xs text-slate-400 font-medium">총 필요 솔 에르다</p>
+                                <p className="text-xl font-bold text-yellow-400 mt-1">135개</p>
+                            </div>
+                            <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 text-center">
+                                <p className="text-xs text-slate-400 font-medium">총 필요 솔 에르다 조각</p>
+                                <p className="text-xl font-bold text-purple-400 mt-1">4,500개</p>
+                            </div>
+                        </div>
+
+                        {/* 비용 테이블 */}
+                        <div className="max-h-[400px] overflow-y-auto border border-slate-800 rounded-lg bg-slate-950/40">
+                            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                                <thead className="bg-slate-900 text-slate-300 sticky top-0 border-b border-slate-800">
+                                    <tr>
+                                        <th className="p-3 font-semibold">목표 레벨</th>
+                                        <th className="p-3 font-semibold text-yellow-400">솔 에르다</th>
+                                        <th className="p-3 font-semibold text-purple-400">솔 에르다 조각</th>
+                                        <th className="p-3 font-semibold text-slate-400">누적 조각</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-800 text-slate-200">
+                                    {[
+                                        { lv: 1, erda: 7, frag: 140, cum: 140 },
+                                        { lv: 2, erda: 1, frag: 25, cum: 165 },
+                                        { lv: 3, erda: 1, frag: 30, cum: 195 },
+                                        { lv: 4, erda: 1, frag: 35, cum: 230 },
+                                        { lv: 5, erda: 2, frag: 40, cum: 270 },
+                                        { lv: 6, erda: 2, frag: 45, cum: 315 },
+                                        { lv: 7, erda: 2, frag: 50, cum: 365 },
+                                        { lv: 8, erda: 3, frag: 55, cum: 420 },
+                                        { lv: 9, erda: 3, frag: 60, cum: 480 },
+                                        { lv: 10, erda: 9, frag: 170, cum: 650 },
+                                        { lv: 11, erda: 3, frag: 73, cum: 723 },
+                                        { lv: 12, erda: 3, frag: 81, cum: 804 },
+                                        { lv: 13, erda: 3, frag: 90, cum: 894 },
+                                        { lv: 14, erda: 3, frag: 98, cum: 992 },
+                                        { lv: 15, erda: 4, frag: 107, cum: 1099 },
+                                        { lv: 16, erda: 4, frag: 115, cum: 1214 },
+                                        { lv: 17, erda: 4, frag: 124, cum: 1338 },
+                                        { lv: 18, erda: 4, frag: 132, cum: 1470 },
+                                        { lv: 19, erda: 4, frag: 141, cum: 1611 },
+                                        { lv: 20, erda: 13, frag: 300, cum: 1911 },
+                                        { lv: 21, erda: 4, frag: 151, cum: 2062 },
+                                        { lv: 22, erda: 5, frag: 160, cum: 2222 },
+                                        { lv: 23, erda: 5, frag: 170, cum: 2392 },
+                                        { lv: 24, erda: 5, frag: 179, cum: 2571 },
+                                        { lv: 25, erda: 5, frag: 189, cum: 2760 },
+                                        { lv: 26, erda: 5, frag: 198, cum: 2958 },
+                                        { lv: 27, erda: 5, frag: 208, cum: 3166 },
+                                        { lv: 28, erda: 5, frag: 217, cum: 3383 },
+                                        { lv: 29, erda: 6, frag: 227, cum: 3610 },
+                                        { lv: 30, erda: 16, frag: 425, cum: 4500 }
+                                    ].map((row) => (
+                                        <tr key={row.lv} className="hover:bg-slate-900/30 transition-colors">
+                                            <td className="p-3 font-medium">Lv.{row.lv}</td>
+                                            <td className="p-3 text-yellow-300 font-semibold">{row.erda}</td>
+                                            <td className="p-3 text-purple-300 font-semibold">{row.frag}</td>
+                                            <td className="p-3 text-slate-400">{row.cum}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
+
 
                 <InArticleAd dataAdSlot="8162808816" className="my-8 sm:my-12" />
 
