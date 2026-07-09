@@ -133,13 +133,24 @@ export default function ExpCalculatorClient() {
 
     // 챌린저스 월드 시즌4 남은 일수 계산
     const [remainingDays, setRemainingDays] = useState<number | null>(null);
+    const [currentWeek, setCurrentWeek] = useState<number | null>(null);
     const [showSpecterBlastTable, setShowSpecterBlastTable] = useState(false);
     useEffect(() => {
         const targetDate = new Date("2026-09-17T04:00:00+09:00");
+        const startDate = new Date("2026-06-18T12:00:00+09:00");
         const now = new Date();
+        
         const diffMs = targetDate.getTime() - now.getTime();
         const days = diffMs <= 0 ? 0 : Math.ceil(diffMs / (1000 * 60 * 60 * 24));
         setRemainingDays(days);
+
+        const weekDiffMs = now.getTime() - startDate.getTime();
+        if (weekDiffMs >= 0) {
+            const calculatedWeek = Math.floor(weekDiffMs / (1000 * 60 * 60 * 24 * 7)) + 1;
+            setCurrentWeek(calculatedWeek);
+        } else {
+            setCurrentWeek(0);
+        }
     }, []);
 
     // 체인지 버닝: 루시드 UI 프리뷰용 계산
@@ -780,7 +791,14 @@ export default function ExpCalculatorClient() {
                                 <img src="/images/challengers-icon.png" alt="Challengers World" className="object-contain w-full h-full" />
                             </div>
                             <div>
-                                <h4 className="text-sm font-bold text-white">챌린저스 월드 시즌4</h4>
+                                <h4 className="text-sm font-bold text-white flex flex-wrap items-center gap-2">
+                                    <span>챌린저스 월드 시즌4</span>
+                                    {currentWeek !== null && currentWeek > 0 && (
+                                        <span className="text-[10px] font-extrabold px-1.5 py-0.5 bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 rounded shadow-sm">
+                                            {currentWeek}주차 진행중
+                                        </span>
+                                    )}
+                                </h4>
                                 <p className="text-xs text-slate-400">2026년 06월 18일 12시 00분 ~ 2026년 09월 17일 04시 00분</p>
                             </div>
                         </div>
