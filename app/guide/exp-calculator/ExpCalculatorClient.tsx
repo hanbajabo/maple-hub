@@ -1381,14 +1381,14 @@ export default function ExpCalculatorClient() {
                                                     <span className="text-xs text-slate-400">레벨에 사용</span>
                                                 </div>
                                             ) : (
-                                                <div className="text-[10px] text-rose-300 bg-rose-950/20 border border-rose-900/30 p-2 rounded leading-relaxed mt-1">
+                                                <div className="text-xs font-semibold text-rose-200 bg-rose-950/40 border border-rose-500/40 p-2.5 rounded-lg leading-relaxed mt-1 shadow-sm">
                                                     {useGrowthPotion && useGrowthPotionFinish284 ? (
                                                         <span>
-                                                            💡 Lv.284에서 <strong>{Math.max(0, Math.ceil((100 - (33.813 * growthPotionCount) - (4.949 * growthPotion269Count)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다. <span className="text-slate-400 font-normal text-[9px] block mt-0.5">(성장의 비약 200~279와 합동 계산됨)</span>
+                                                            💡 Lv.284에서 <strong className="text-rose-300 text-sm font-black">{Math.max(0, Math.ceil((100 - (33.813 * growthPotionCount) - (4.949 * growthPotion269Count)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다. <span className="text-slate-400 font-normal text-[10px] block mt-1">(성장의 비약 200~279와 합동 계산됨)</span>
                                                         </span>
                                                     ) : (
                                                         <span>
-                                                            💡 Lv.284에서 <strong>{Math.max(0, Math.ceil((100 - (4.949 * growthPotion269Count)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다.
+                                                            💡 Lv.284에서 <strong className="text-rose-300 text-sm font-black">{Math.max(0, Math.ceil((100 - (4.949 * growthPotion269Count)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다.
                                                         </span>
                                                     )}
                                                 </div>
@@ -1446,14 +1446,14 @@ export default function ExpCalculatorClient() {
                                                     <span className="text-xs text-slate-400">레벨에 사용</span>
                                                 </div>
                                             ) : (
-                                                <div className="text-[10px] text-rose-300 bg-rose-950/20 border border-rose-900/30 p-2 rounded leading-relaxed mt-1">
+                                                <div className="text-xs font-semibold text-rose-200 bg-rose-950/40 border border-rose-500/40 p-2.5 rounded-lg leading-relaxed mt-1 shadow-sm">
                                                     {useGrowthPotion269 && useGrowthPotion269Finish284 ? (
                                                         <span>
-                                                            💡 Lv.284에서 <strong>{Math.max(0, Math.ceil((100 - (33.813 * growthPotionCount) - (4.949 * growthPotion269Count)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다. <span className="text-slate-400 font-normal text-[9px] block mt-0.5">(성장의 비약 200~269와 합동 계산됨)</span>
+                                                            💡 Lv.284에서 <strong className="text-rose-300 text-sm font-black">{Math.max(0, Math.ceil((100 - (33.813 * growthPotionCount) - (4.949 * growthPotion269Count)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다. <span className="text-slate-400 font-normal text-[10px] block mt-1">(성장의 비약 200~269와 합동 계산됨)</span>
                                                         </span>
                                                     ) : (
                                                         <span>
-                                                            💡 Lv.284에서 <strong>{Math.max(0, Math.ceil((100 - (33.813 * growthPotionCount)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다.
+                                                            💡 Lv.284에서 <strong className="text-rose-300 text-sm font-black">{Math.max(0, Math.ceil((100 - (33.813 * growthPotionCount)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다.
                                                         </span>
                                                     )}
                                                 </div>
