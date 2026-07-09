@@ -78,9 +78,9 @@ export default function ExpCalculatorClient() {
     const [dailyQuestExp, setDailyQuestExp] = useState(0);
     const [useExtremeMonsterPark, setUseExtremeMonsterPark] = useState(false);
 
-    const [useEpicArtifact, setUseEpicArtifact] = useState(false);
+    const [useEpicArtifact, setUseEpicArtifact] = useState(true);
     const [epicCoreLevel, setEpicCoreLevel] = useState(0);
-    const [useEpicWeek9Auto, setUseEpicWeek9Auto] = useState(false);
+    const [useEpicWeek9Auto, setUseEpicWeek9Auto] = useState(true);
 
     const [useHighMountain, setUseHighMountain] = useState(false);
     const [highMountainReward, setHighMountainReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
