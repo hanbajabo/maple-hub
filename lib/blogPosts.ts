@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 7월 9일 테스트월드 1.2.203 전 직업 신규 HEXA 스킬
+    {
+        slug: 'testworld-hexa-skill-update-1-2-203',
+        title: '✨ 테스트월드 1.2.203 — 전 직업 신규 HEXA 스킬 추가 & 대규모 스킬 개선',
+        description: '2026년 7월 9일 테스트월드 업데이트! 히어로부터 레테까지 전 직업 신규 HEXA 스킬 추가. 신궁 스플릿 애로우 강화, 미하일 로얄 가드 60초로 확대, 최대 데미지 10조 상향, 레테 대규모 수치 조정 등 총정리.',
+        category: '업데이트 소식',
+        date: '2026년 7월 9일',
+        readTime: '7분',
+        thumbnail: '✨',
+        featured: true,
+        targetDate: '2026년 7월 23일',
+    },
     // 7월 5일 썬데이 메이플 샤이닝 스타포스 완벽 공략
     {
         slug: 'sunday-maple-starforce-jul5',
