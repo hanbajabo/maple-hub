@@ -157,21 +157,25 @@ export default function TestworldHexaSkill203Page() {
                                             <div key={job} className="bg-slate-900/60 rounded-lg p-3 flex flex-col items-center text-center">
                                                 <p className="font-bold text-sm text-slate-100 mb-0.5">{job}</p>
                                                 <p className="text-sm text-purple-300 font-semibold mb-2 leading-tight">{skill}</p>
-                                                <div className="flex flex-col items-center gap-3 w-full">
-                                                    {imgs.map((src, i) => (
-                                                        // eslint-disable-next-line @next/next/no-img-element
-                                                        <img
-                                                            key={i}
-                                                            src={src}
-                                                            alt={`${job} ${skill} ${i + 1}`}
-                                                            className="max-w-full h-auto rounded mx-auto"
-                                                        />
-                                                    ))}
-                                                </div>
-                                                <div className="text-slate-400 text-xs mt-2 leading-relaxed space-y-1">
-                                                    {desc.split(' / ').map((d, i) => (
-                                                        <p key={i}>{d}</p>
-                                                    ))}
+                                                <div className="flex flex-col items-center gap-4 w-full">
+                                                    {imgs.map((src, i) => {
+                                                        const descParts = desc.split(' / ');
+                                                        return (
+                                                            <div key={i} className="flex flex-col items-center w-full">
+                                                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                                <img
+                                                                    src={src}
+                                                                    alt={`${job} ${skill} ${i + 1}`}
+                                                                    className="max-w-full h-auto rounded mx-auto"
+                                                                />
+                                                                {descParts[i] && (
+                                                                    <p className="text-slate-400 text-xs mt-2 mb-3 leading-relaxed max-w-xl text-center">
+                                                                        {descParts[i]}
+                                                                    </p>
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })}
                                                 </div>
                                             </div>
                                         ))}
