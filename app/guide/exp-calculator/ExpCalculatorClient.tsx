@@ -361,41 +361,6 @@ export default function ExpCalculatorClient() {
                         inventory.coupon = 0;
                     }
                 }
-                if (useGrowthPotion269Finish274 && inventory.growthPotion269 > 0 && currentSimLevel === 274) {
-                    const thresholdPct = Math.max(0, Math.ceil((100 - (43.287 * inventory.growthPotion269)) * 10) / 10);
-                    if (currentSimLevelProgress >= thresholdPct) {
-                        const levelTotalExp = EXP_DATA.find(d => d.level === 274)?.requiredExp || 0;
-                        const amount = levelTotalExp * (43.287 / 100) * inventory.growthPotion269;
-                        carriedOverExp += amount;
-                        totalExpSources.growthPotion269 += amount;
-                        
-                        const existingNote = levelBreakdown.find(x => x.level === 274);
-                        const noteText = `🧪 성장의 비약 (200~269) ${inventory.growthPotion269}개 사용 (275레벨 즉시 달성)`;
-                        if (existingNote) {
-                            existingNote.note = existingNote.note ? `${existingNote.note}, ${noteText}` : noteText;
-                        }
-                        inventory.growthPotion269 = 0;
-                    }
-                }
-                if (!useGrowthPotion269Finish274 && inventory.growthPotion269 > 0 && currentSimLevel >= growthPotion269UseLevel) {
-                    const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
-                    let amount = 0;
-                    if (currentSimLevel < 270) {
-                        amount = levelTotalExp;
-                    } else {
-                        const pct = GROWTH_POTION_200_269_EXP[currentSimLevel] || 0;
-                        amount = levelTotalExp * (pct / 100);
-                    }
-                    carriedOverExp += amount;
-                    totalExpSources.growthPotion269 += amount;
-                    inventory.growthPotion269--;
-                    
-                    const existingNote = levelBreakdown.find(x => x.level === currentSimLevel);
-                    const noteText = `🧪 성장의 비약 (200~269) 사용`;
-                    if (existingNote) {
-                        existingNote.note = existingNote.note ? `${existingNote.note}, ${noteText}` : noteText;
-                    }
-                }
                 // 284레벨 마무리용 비약 합동 계산 처리 (레벨 단위 시뮬레이션 대응)
                 if (currentSimLevel === 284) {
                     let potion279_val = 0;
