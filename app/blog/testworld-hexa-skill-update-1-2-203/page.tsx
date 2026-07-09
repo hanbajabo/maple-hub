@@ -317,7 +317,7 @@ export default function TestworldHexaSkill203Page() {
                                 
                                 {/* 1. 주요 밸런스 패치 및 버프 (기본 노출) */}
                                 <div className="space-y-4 mb-6">
-                                    <h4 className="text-xs font-bold text-green-400 uppercase tracking-wider mb-2">💡 주요 밸런스 조정 및 버프</h4>
+                                    <h4 className="text-xs font-bold text-green-400 uppercase tracking-wider mb-2">💡 주요 밸런스 조정</h4>
                                     
                                     <div className="border-l-2 border-green-500 pl-3">
                                         <p className="font-bold text-green-300">신궁 <span className="text-xs font-normal text-green-400 ml-1">🔧 개선</span></p>
