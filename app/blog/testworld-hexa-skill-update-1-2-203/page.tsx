@@ -210,7 +210,7 @@ export default function TestworldHexaSkill203Page() {
                         </div>
 
                         {/* 비용 테이블 */}
-                        <div className="max-h-[400px] overflow-y-auto border border-slate-800 rounded-lg bg-slate-950/40">
+                        <div className="border border-slate-800 rounded-lg bg-slate-950/40">
                             <table className="w-full text-left border-collapse text-xs sm:text-sm">
                                 <thead className="bg-slate-900 text-slate-300 sticky top-0 border-b border-slate-800">
                                     <tr>
