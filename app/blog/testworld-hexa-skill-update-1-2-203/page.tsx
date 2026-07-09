@@ -222,7 +222,7 @@ export default function TestworldHexaSkill203Page() {
                                 </thead>
                                 <tbody className="divide-y divide-slate-800 text-slate-200">
                                     {[
-                                        { lv: 1, erda: 7, frag: 140, cum: 140 },
+                                        { lv: 1, erda: 7, frag: 140, cum: 140, highlight: true },
                                         { lv: 2, erda: 1, frag: 25, cum: 165 },
                                         { lv: 3, erda: 1, frag: 30, cum: 195 },
                                         { lv: 4, erda: 1, frag: 35, cum: 230 },
@@ -231,7 +231,7 @@ export default function TestworldHexaSkill203Page() {
                                         { lv: 7, erda: 2, frag: 50, cum: 365 },
                                         { lv: 8, erda: 3, frag: 55, cum: 420 },
                                         { lv: 9, erda: 3, frag: 60, cum: 480 },
-                                        { lv: 10, erda: 9, frag: 170, cum: 650 },
+                                        { lv: 10, erda: 9, frag: 170, cum: 650, highlight: true },
                                         { lv: 11, erda: 3, frag: 73, cum: 723 },
                                         { lv: 12, erda: 3, frag: 81, cum: 804 },
                                         { lv: 13, erda: 3, frag: 90, cum: 894 },
@@ -241,7 +241,7 @@ export default function TestworldHexaSkill203Page() {
                                         { lv: 17, erda: 4, frag: 124, cum: 1338 },
                                         { lv: 18, erda: 4, frag: 132, cum: 1470 },
                                         { lv: 19, erda: 4, frag: 141, cum: 1611 },
-                                        { lv: 20, erda: 13, frag: 300, cum: 1911 },
+                                        { lv: 20, erda: 13, frag: 300, cum: 1911, highlight: true },
                                         { lv: 21, erda: 4, frag: 151, cum: 2062 },
                                         { lv: 22, erda: 5, frag: 160, cum: 2222 },
                                         { lv: 23, erda: 5, frag: 170, cum: 2392 },
@@ -251,12 +251,28 @@ export default function TestworldHexaSkill203Page() {
                                         { lv: 27, erda: 5, frag: 208, cum: 3166 },
                                         { lv: 28, erda: 5, frag: 217, cum: 3383 },
                                         { lv: 29, erda: 6, frag: 227, cum: 3610 },
-                                        { lv: 30, erda: 16, frag: 425, cum: 4500 }
+                                        { lv: 30, erda: 16, frag: 425, cum: 4500, highlight: true }
                                     ].map((row) => (
-                                        <tr key={row.lv} className="hover:bg-slate-900/30 transition-colors">
-                                            <td className="p-3 font-medium">Lv.{row.lv}</td>
-                                            <td className="p-3 text-yellow-300 font-semibold">{row.erda}</td>
-                                            <td className="p-3 text-purple-300 font-semibold">{row.frag}</td>
+                                        <tr
+                                            key={row.lv}
+                                            className={`${
+                                                row.highlight
+                                                    ? 'bg-purple-950/40 border-y border-purple-500/30 hover:bg-purple-900/30 font-semibold'
+                                                    : 'hover:bg-slate-900/30'
+                                            } transition-colors`}
+                                        >
+                                            <td className="p-3">
+                                                <div className="flex items-center gap-1.5">
+                                                    <span>Lv.{row.lv}</span>
+                                                    {row.highlight && (
+                                                        <span className="px-1.5 py-0.5 bg-purple-500/30 text-purple-300 text-[10px] rounded-md font-bold uppercase tracking-wider">
+                                                            구간
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </td>
+                                            <td className="p-3 text-yellow-300 font-bold">{row.erda}</td>
+                                            <td className="p-3 text-purple-300 font-bold">{row.frag}</td>
                                             <td className="p-3 text-slate-400">{row.cum}</td>
                                         </tr>
                                     ))}
