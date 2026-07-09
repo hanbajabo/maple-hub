@@ -1355,6 +1355,12 @@ export default function ExpCalculatorClient() {
                                                     )}
                                                 </div>
                                             )}
+                                            <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-1 text-[10px] text-rose-200/70 leading-normal font-normal">
+                                                <p className="font-semibold text-rose-300">• [출석 이벤트] 울티마 작전 일지 (보급 일지)</p>
+                                                <p className="pl-2 text-[9px] opacity-90">매일 접속하여 보급품 수령(일주일 최대 5회) 횟수를 누적하면 무과금으로도 확정 획득할 수 있습니다.</p>
+                                                <p className="pl-2">- 25회차: 성장의 비약 (200~269) 1개</p>
+                                                <p className="pl-2">- 45회차: 성장의 비약 (200~269) 1개</p>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
@@ -1414,6 +1420,14 @@ export default function ExpCalculatorClient() {
                                                     )}
                                                 </div>
                                             )}
+                                            <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-1 text-[10px] text-rose-200/70 leading-normal font-normal">
+                                                <p className="font-semibold text-rose-300">• 챌린저스 패스 (EXP 지원 물품)</p>
+                                                <p className="pl-2 text-[9px] opacity-90">'챌린저스 EXP 패스(19,800 넥슨 캐시)'를 활성화한 후 최고 레벨을 달성하면 획득할 수 있습니다.</p>
+                                                <p className="pl-2 text-rose-200">- 30레벨 달성 시: 성장의 비약 (200~279) 1개</p>
+                                                <p className="font-semibold text-rose-300 mt-1.5">• [출석 이벤트] 울티마 작전 일지 (보급 일지)</p>
+                                                <p className="pl-2 text-[9px] opacity-90">매일 접속하여 보급품 수령(일주일 최대 5회) 횟수를 누적하면 무과금으로도 확정 획득할 수 있습니다.</p>
+                                                <p className="pl-2">- 60회차: 성장의 비약 (200~279) 1개</p>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
