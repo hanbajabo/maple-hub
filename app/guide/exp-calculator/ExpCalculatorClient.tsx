@@ -985,7 +985,6 @@ export default function ExpCalculatorClient() {
                                             </select>
                                         </div>
                                     </div>
-                                    </div>
                                 </div>
                                 {targetLevel >= 260 && (
                                     <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
