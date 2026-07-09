@@ -161,7 +161,8 @@ const GRANDIS_DAILY_QUEST = [
     { minLevel: 275, maxLevel: 279, exp: 32127015480, area: '도원경' },
     { minLevel: 280, maxLevel: 284, exp: 38593455264, area: '아르테리아' },
     { minLevel: 285, maxLevel: 289, exp: 45635222880, area: '카르시온' },
-    { minLevel: 290, maxLevel: 300, exp: 89730912960, area: '탈라하트' },
+    { minLevel: 290, maxLevel: 294, exp: 89730912960, area: '탈라하트' },
+    { minLevel: 295, maxLevel: 300, exp: 89730912960, area: '기어드락' },
 ];
 
 // 레벨에 따른 그란디스 일일 퀘스트 경험치 가져오기 (현재 레벨 이하 모든 지역 합계)

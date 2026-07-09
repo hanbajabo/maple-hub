@@ -41,6 +41,17 @@ const GROWTH_POTION_200_279_EXP: Record<number, number> = {
     295: 1.914,  296: 1.740,  297: 1.582,  298: 1.438,  299: 0.959
 };
 
+// 성장의 비약 (200~269) 경험치 테이블 (270~299레벨)
+const GROWTH_POTION_200_269_EXP: Record<number, number> = {
+    270: 45.045, 271: 44.599, 272: 44.157, 273: 43.720, 274: 43.287,
+    275: 21.429, 276: 19.481, 277: 17.710, 278: 16.100, 279: 14.637,
+    280: 7.246,  281: 6.587,  282: 5.988,  283: 5.444,  284: 4.949,
+    285: 2.450,  286: 2.227,  287: 2.025,  288: 1.841,  289: 1.673,
+    290: 0.828,  291: 0.753,  292: 0.685,  293: 0.622,  294: 0.566,
+    295: 0.280,  296: 0.255,  297: 0.231,  298: 0.210,  299: 0.140
+};
+
+
 export default function ExpCalculatorClient() {
     const [currentLevel, setCurrentLevel] = useState(200);
     const [currentLevelExp, setCurrentLevelExp] = useState(0);
@@ -69,6 +80,7 @@ export default function ExpCalculatorClient() {
 
     const [useEpicArtifact, setUseEpicArtifact] = useState(false);
     const [epicCoreLevel, setEpicCoreLevel] = useState(0);
+    const [useEpicWeek9Auto, setUseEpicWeek9Auto] = useState(false);
 
     const [useHighMountain, setUseHighMountain] = useState(false);
     const [highMountainReward, setHighMountainReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
@@ -81,6 +93,13 @@ export default function ExpCalculatorClient() {
     const [useGrowthPotion, setUseGrowthPotion] = useState(false);
     const [growthPotionCount, setGrowthPotionCount] = useState(2);
     const [growthPotionUseLevel, setGrowthPotionUseLevel] = useState(279);
+    const [useGrowthPotionFinish284, setUseGrowthPotionFinish284] = useState(false);
+
+    const [useGrowthPotion269, setUseGrowthPotion269] = useState(false);
+    const [growthPotion269Count, setGrowthPotion269Count] = useState(2);
+    const [growthPotion269UseLevel, setGrowthPotion269UseLevel] = useState(269);
+    const [useGrowthPotion269Finish284, setUseGrowthPotion269Finish284] = useState(false);
+
 
     const [useVipSauna, setUseVipSauna] = useState(false);
     const [vipSaunaCount, setVipSaunaCount] = useState(1);
@@ -251,9 +270,9 @@ export default function ExpCalculatorClient() {
 
         let daysNeeded = 0, hoursNeeded = 0, totalHuntingHours = 0;
         const monsterParkBreakdown: Array<{ level: number; area: string; exp: number; days: number }> = [];
-        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0, blueberry: 0, specterBlast: 0, growthPotion: 0 };
+        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0, blueberry: 0, specterBlast: 0, growthPotion: 0, growthPotion269: 0 };
 
-        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useBlueberryFarm || useLucidBurning || useGoldenFarm || useSpecterBlast || useGrowthPotion) {
+        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useBlueberryFarm || useLucidBurning || useGoldenFarm || useSpecterBlast || useGrowthPotion || useGrowthPotion269 || useGrowthPotionFinish284 || useGrowthPotion269Finish284) {
             let remainingExp = totalExpNeeded;
             let currentSimLevel = currentLevel;
             let currentSimLevelProgress = currentLevelExp;
@@ -268,7 +287,8 @@ export default function ExpCalculatorClient() {
                 coupon: useAdvancedExpCoupon ? advancedExpCouponCount : 0,
                 farm: useMechaberryFarm ? mechaberryFarmCount : 0,
                 blueberry: useBlueberryFarm ? blueberryFarmCount : 0,
-                growthPotion: useGrowthPotion ? growthPotionCount : 0
+                growthPotion: useGrowthPotion ? growthPotionCount : 0,
+                growthPotion269: useGrowthPotion269 ? growthPotion269Count : 0
             };
             let carriedOverExp = 0;
 
@@ -341,7 +361,101 @@ export default function ExpCalculatorClient() {
                         inventory.coupon = 0;
                     }
                 }
-                if (inventory.growthPotion > 0 && currentSimLevel >= growthPotionUseLevel) {
+                if (useGrowthPotion269Finish274 && inventory.growthPotion269 > 0 && currentSimLevel === 274) {
+                    const thresholdPct = Math.max(0, Math.ceil((100 - (43.287 * inventory.growthPotion269)) * 10) / 10);
+                    if (currentSimLevelProgress >= thresholdPct) {
+                        const levelTotalExp = EXP_DATA.find(d => d.level === 274)?.requiredExp || 0;
+                        const amount = levelTotalExp * (43.287 / 100) * inventory.growthPotion269;
+                        carriedOverExp += amount;
+                        totalExpSources.growthPotion269 += amount;
+                        
+                        const existingNote = levelBreakdown.find(x => x.level === 274);
+                        const noteText = `🧪 성장의 비약 (200~269) ${inventory.growthPotion269}개 사용 (275레벨 즉시 달성)`;
+                        if (existingNote) {
+                            existingNote.note = existingNote.note ? `${existingNote.note}, ${noteText}` : noteText;
+                        }
+                        inventory.growthPotion269 = 0;
+                    }
+                }
+                if (!useGrowthPotion269Finish274 && inventory.growthPotion269 > 0 && currentSimLevel >= growthPotion269UseLevel) {
+                    const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                    let amount = 0;
+                    if (currentSimLevel < 270) {
+                        amount = levelTotalExp;
+                    } else {
+                        const pct = GROWTH_POTION_200_269_EXP[currentSimLevel] || 0;
+                        amount = levelTotalExp * (pct / 100);
+                    }
+                    carriedOverExp += amount;
+                    totalExpSources.growthPotion269 += amount;
+                    inventory.growthPotion269--;
+                    
+                    const existingNote = levelBreakdown.find(x => x.level === currentSimLevel);
+                    const noteText = `🧪 성장의 비약 (200~269) 사용`;
+                    if (existingNote) {
+                        existingNote.note = existingNote.note ? `${existingNote.note}, ${noteText}` : noteText;
+                    }
+                }
+                // 284레벨 마무리용 비약 합동 계산 처리 (레벨 단위 시뮬레이션 대응)
+                if (currentSimLevel === 284) {
+                    let potion279_val = 0;
+                    let potion269_val = 0;
+                    if (useGrowthPotionFinish284 && inventory.growthPotion > 0) {
+                        potion279_val = 33.813 * inventory.growthPotion;
+                    }
+                    if (useGrowthPotion269Finish284 && inventory.growthPotion269 > 0) {
+                        potion269_val = 4.949 * inventory.growthPotion269;
+                    }
+                    
+                    if (potion279_val > 0 || potion269_val > 0) {
+                        const jointThreshold = Math.max(0, Math.ceil((100 - potion279_val - potion269_val) * 10) / 10);
+                        const levelTotalExp = EXP_DATA.find(d => d.level === 284)?.requiredExp || 0;
+                        
+                        // 비약이 기여하는 총 경험치량 일괄 계산 및 대입
+                        if (potion279_val > 0) {
+                            const amount = levelTotalExp * (33.813 / 100) * inventory.growthPotion;
+                            carriedOverExp += amount;
+                            totalExpSources.growthPotion += amount;
+                            inventory.growthPotion = 0;
+                        }
+                        if (potion269_val > 0) {
+                            const amount = levelTotalExp * (4.949 / 100) * inventory.growthPotion269;
+                            carriedOverExp += amount;
+                            totalExpSources.growthPotion269 += amount;
+                            inventory.growthPotion269 = 0;
+                        }
+                        
+                        const existingNote = levelBreakdown.find(x => x.level === 284);
+                        const noteText = `🧪 성장의 비약 마무리용 사용 (목표 사냥컷 ${jointThreshold}%)`;
+                        if (existingNote) {
+                            existingNote.note = existingNote.note ? `${existingNote.note}, ${noteText}` : noteText;
+                        }
+                    }
+                }
+
+                // 일반 성장의 비약 (200~269) 사용 처리
+                if (!useGrowthPotion269Finish284 && inventory.growthPotion269 > 0 && currentSimLevel >= growthPotion269UseLevel) {
+                    const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                    let amount = 0;
+                    if (currentSimLevel < 270) {
+                        amount = levelTotalExp;
+                    } else {
+                        const pct = GROWTH_POTION_200_269_EXP[currentSimLevel] || 0;
+                        amount = levelTotalExp * (pct / 100);
+                    }
+                    carriedOverExp += amount;
+                    totalExpSources.growthPotion269 += amount;
+                    inventory.growthPotion269--;
+                    
+                    const existingNote = levelBreakdown.find(x => x.level === currentSimLevel);
+                    const noteText = `🧪 성장의 비약 (200~269) 사용`;
+                    if (existingNote) {
+                        existingNote.note = existingNote.note ? `${existingNote.note}, ${noteText}` : noteText;
+                    }
+                }
+
+                // 일반 성장의 비약 (200~279) 사용 처리
+                if (!useGrowthPotionFinish284 && inventory.growthPotion > 0 && currentSimLevel >= growthPotionUseLevel) {
                     const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
                     let amount = 0;
                     if (currentSimLevel < 280) {
@@ -399,10 +513,16 @@ export default function ExpCalculatorClient() {
                 const nightmareData = NIGHTMARE_GARDEN_EXP.find(d => d.level === currentSimLevel);
                 const isNightmareValid = nightmareData && nightmareData.basic > 0;
                 const skipHighMountain = (useAnglerCompany && currentSimLevel >= 270) || (useNightmareGarden && currentSimLevel >= 280 && isNightmareValid);
+                
+                // 9주차 자동 활성화에 따른 에픽 던전 보너스 동적 계산
+                const isWeek9Active = (remainingDays ?? 70) - dayCount <= 35;
+                const isEpicActive = useEpicArtifact && (!useEpicWeek9Auto || isWeek9Active);
+                const epicDungeonMultiplierSim = 1.0 + (isEpicActive ? 1.5 : 0.0) + epicCoreBonus;
+
                 if (useHighMountain && currentSimLevel >= 260 && !skipHighMountain) {
                     const hmData = HIGH_MOUNTAIN_EXP.find(d => d.level === currentSimLevel);
                     if (hmData) {
-                        const baseMult = hmData.basic * epicDungeonMultiplier;
+                        const baseMult = hmData.basic * epicDungeonMultiplierSim;
                         const total = highMountainReward === 'basic' ? baseMult : highMountainReward === 'stage1' ? baseMult + (hmData.bonus1 - hmData.basic) : baseMult + (hmData.bonus2 - hmData.basic);
                         dailyHighMountainExpSim = total / 7;
                     }
@@ -413,7 +533,7 @@ export default function ExpCalculatorClient() {
                 if (useAnglerCompany && currentSimLevel >= 270 && !skipAnglerCompany) {
                     const acData = ANGLER_COMPANY_EXP.find(d => d.level === currentSimLevel);
                     if (acData) {
-                        const baseMult = acData.basic * epicDungeonMultiplier;
+                        const baseMult = acData.basic * epicDungeonMultiplierSim;
                         const total = anglerCompanyReward === 'basic' ? baseMult : anglerCompanyReward === 'stage1' ? baseMult + (acData.bonus1 - acData.basic) : baseMult + (acData.bonus2 - acData.basic);
                         dailyAnglerCompanyExpSim = total / 7;
                     }
@@ -423,7 +543,7 @@ export default function ExpCalculatorClient() {
                 if (useNightmareGarden && currentSimLevel >= 280) {
                     const ngData = NIGHTMARE_GARDEN_EXP.find(d => d.level === currentSimLevel);
                     if (ngData) {
-                        const baseMult = ngData.basic * epicDungeonMultiplier;
+                        const baseMult = ngData.basic * epicDungeonMultiplierSim;
                         const total = nightmareGardenReward === 'basic' ? baseMult : nightmareGardenReward === 'stage1' ? baseMult + (ngData.bonus1 - ngData.basic) : baseMult + (ngData.bonus2 - ngData.basic);
                         dailyNightmareGardenExpSim = total / 7;
                     }
@@ -561,6 +681,7 @@ export default function ExpCalculatorClient() {
             { name: '익스프레스 부스터', value: totalExpSources.booster, textClass: 'text-green-400', bgClass: 'bg-green-400' },
             { name: 'VIP/헥사 부스터', value: totalExpSources.vipBooster, textClass: 'text-indigo-300', bgClass: 'bg-indigo-300' },
             { name: '스펙터 블래스트', value: totalExpSources.specterBlast, textClass: 'text-fuchsia-400', bgClass: 'bg-fuchsia-400' },
+            { name: '성장의 비약 (200~269)', value: totalExpSources.growthPotion269, textClass: 'text-rose-300', bgClass: 'bg-rose-300' },
             { name: '성장의 비약 (200~279)', value: totalExpSources.growthPotion, textClass: 'text-rose-400', bgClass: 'bg-rose-400' },
             { name: '🦋 체인지 버닝: 루시드', value: totalExpSources.lucidBurning, textClass: 'text-purple-400', bgClass: 'bg-purple-400' },
             { name: '🍓 황금 딸기 농장', value: totalExpSources.goldenFarm, textClass: 'text-yellow-300', bgClass: 'bg-yellow-300' }
@@ -570,7 +691,7 @@ export default function ExpCalculatorClient() {
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, useEpicWeek9Auto, remainingDays]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -600,7 +721,7 @@ export default function ExpCalculatorClient() {
             ['그란디스 일퀘', useGrandisQuest ? `O (이벤트 +${grandisEventSkillLevel}%)` : 'X'],
             [],
             ['[주간/에픽 컨텐츠]'],
-            ['에픽던전 보너스', `${epicDungeonMultiplier.toFixed(2)}배 (아티팩트:${useEpicArtifact ? 'O' : 'X'} / 코어:${epicCoreLevel}L)`],
+            ['에픽던전 보너스', `${epicDungeonMultiplier.toFixed(2)}배 (아티팩트:${useEpicArtifact ? (useEpicWeek9Auto ? '9주차부터' : 'O') : 'X'} / 코어:${epicCoreLevel}L)`],
             ['하이마운틴', useHighMountain ? `O (${highMountainReward === 'basic' ? '기본' : highMountainReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
             ['앵글러 컴퍼니', useAnglerCompany ? `O (${anglerCompanyReward === 'basic' ? '기본' : anglerCompanyReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
             ['악몽선경', useNightmareGarden ? `O (${nightmareGardenReward === 'basic' ? '기본' : nightmareGardenReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
@@ -614,7 +735,8 @@ export default function ExpCalculatorClient() {
             ['익스프레스 부스터', useExpressBooster ? `${expressBoosterCount}개` : 'X'],
             ['VIP/헥사 부스터', useVipBooster ? `${vipBoosterCount}개` : 'X'],
             ['🍓 황금 딸기 농장', useGoldenFarm ? `${goldenFarmCount}회 (${goldenFarmBonusRate}% 추가경험치)` : 'X'],
-            ['성장의 비약 (200~279)', useGrowthPotion ? `${growthPotionCount}개 (${growthPotionUseLevel}레벨에 사용)` : 'X']
+            ['성장의 비약 (200~269)', useGrowthPotion269 ? (useGrowthPotion269Finish284 ? `${growthPotion269Count}개 (284레벨 마무리용)` : `${growthPotion269Count}개 (${growthPotion269UseLevel}레벨에 사용)`) : 'X'],
+            ['성장의 비약 (200~279)', useGrowthPotion ? (useGrowthPotionFinish284 ? `${growthPotionCount}개 (284레벨 마무리용)` : `${growthPotionCount}개 (${growthPotionUseLevel}레벨에 사용)`) : 'X']
         ];
 
         // Sheet 2: 결과 요약 및 경험치 분석
@@ -831,16 +953,38 @@ export default function ExpCalculatorClient() {
                                         </div>
                                     </div>
                                     <div className="text-xs flex items-center gap-2">
-                                        <input type="checkbox" id="sunday" checked={useSundayMPBonus} onChange={(e) => setUseSundayMPBonus(e.target.checked)} />
+                                        <input 
+                                            type="checkbox" 
+                                            id="sunday" 
+                                            checked={useSundayMPBonus} 
+                                            onChange={(e) => setUseSundayMPBonus(e.target.checked)} 
+                                            className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                        />
                                         <label htmlFor="sunday" className="cursor-pointer text-slate-300">일요일 보너스 (1.5배)</label>
                                     </div>
                                 </div>
                                 {targetLevel >= 260 && (
-                                    <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useExtremeMonsterPark} onChange={(e) => setUseExtremeMonsterPark(e.target.checked)} /> 👹 익스트림 몬스터파크 (주간 1회)</label>
+                                    <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                        <input 
+                                            type="checkbox" 
+                                            checked={useExtremeMonsterPark} 
+                                            onChange={(e) => setUseExtremeMonsterPark(e.target.checked)} 
+                                            className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                        /> 
+                                        <span>👹 익스트림 몬스터파크 (주간 1회)</span>
+                                    </label>
                                 )}
                                 <div className="pt-2 border-t border-slate-800 space-y-2">
                                     <div className="flex flex-wrap items-center justify-between gap-1">
-                                        <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useArcaneQuest} onChange={(e) => setUseArcaneQuest(e.target.checked)} /> 아케인 일퀘</label>
+                                        <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                            <input 
+                                                type="checkbox" 
+                                                checked={useArcaneQuest} 
+                                                onChange={(e) => setUseArcaneQuest(e.target.checked)} 
+                                                className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                            /> 
+                                            <span>아케인 일퀘</span>
+                                        </label>
                                         {useArcaneQuest && (
                                             <div className="flex items-center gap-1">
                                                 <span className="text-[10px] text-slate-500">이벤트 +</span>
@@ -859,7 +1003,15 @@ export default function ExpCalculatorClient() {
                                     </div>
                                     {targetLevel >= 260 && (
                                         <div className="flex flex-wrap items-center justify-between gap-1">
-                                            <label className="flex items-center gap-2 text-xs text-slate-300"><input type="checkbox" checked={useGrandisQuest} onChange={(e) => setUseGrandisQuest(e.target.checked)} /> 그란디스 일퀘</label>
+                                            <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                                <input 
+                                                    type="checkbox" 
+                                                    checked={useGrandisQuest} 
+                                                    onChange={(e) => setUseGrandisQuest(e.target.checked)} 
+                                                    className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                /> 
+                                                <span>그란디스 일퀘</span>
+                                            </label>
                                             {useGrandisQuest && (
                                                 <div className="flex items-center gap-1">
                                                     <span className="text-[10px] text-slate-500">이벤트 +</span>
@@ -877,6 +1029,12 @@ export default function ExpCalculatorClient() {
                                             )}
                                         </div>
                                     )}
+                                </div>
+                                <div className="pt-3 border-t border-slate-700/60 mt-1">
+                                    <p className="text-[11px] text-amber-300/90 leading-relaxed">
+                                        💡 <strong>이벤트 + 입력 안내</strong><br />
+                                        인게임에서 본인의 <span className="text-indigo-300">유니온 아티팩트</span> 및 <span className="text-green-300">보약 스킬</span>의 추가 경험치 % 수치를 확인한 뒤, 아케인/그란디스 일퀘의 [이벤트 +] 칸에 직접 입력하시면 더욱 정확한 계산이 가능합니다.
+                                    </p>
                                 </div>
                             </div>
 
@@ -899,6 +1057,24 @@ export default function ExpCalculatorClient() {
                                                 />
                                                 아티팩트 활성화 (+150%)
                                             </label>
+                                            {useEpicArtifact && (
+                                                <div className="pl-6 space-y-1">
+                                                    <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer mt-1 bg-slate-800/80 p-1.5 rounded border border-slate-600/30">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={useEpicWeek9Auto}
+                                                            onChange={(e) => setUseEpicWeek9Auto(e.target.checked)}
+                                                            className="w-3.5 h-3.5 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                        />
+                                                        <span>📅 9주차(8/13)부터 자동 활성화</span>
+                                                    </label>
+                                                    {useEpicWeek9Auto && (
+                                                        <div className="text-[10px] text-indigo-200 bg-indigo-950/20 border border-indigo-900/30 p-2 rounded leading-relaxed mt-1 font-normal">
+                                                            💡 2026년 8월 13일(목) 이후 시뮬레이션 일차에 진입하면 자동으로 고대의 힘(+150%) 보너스가 적용됩니다.
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
                                             <div className="flex items-center justify-between gap-2">
                                                 <span className="text-xs text-slate-400">코어 레벨</span>
                                                 <select
@@ -941,6 +1117,9 @@ export default function ExpCalculatorClient() {
                                                 {useNightmareGarden && <select value={nightmareGardenReward} onChange={(e) => setNightmareGardenReward(e.target.value as any)} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white outline-none"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
                                             </>
                                         )}
+                                        <p className="text-[10px] text-indigo-300/80 leading-relaxed pt-1">
+                                            💡 여러 에픽 던전을 중복 체크하더라도, 캐릭터 레벨 구간별 입장 가능한 최상위 던전 1개의 경험치만 실시간 적용됩니다. (하위 던전 경험치는 자동 제외)
+                                        </p>
                                     </div>
                                     <div className="pt-3 border-t border-slate-800 space-y-2">
                                         <p className="text-xs font-bold text-slate-400">💥 주간 미니게임</p>
@@ -1055,6 +1234,65 @@ export default function ExpCalculatorClient() {
                                 </div>
                                 <div className="p-3 bg-slate-800 rounded-lg">
                                     <label className="flex items-center gap-2 text-xs text-rose-300 mb-2">
+                                        <input type="checkbox" checked={useGrowthPotion269} onChange={(e) => setUseGrowthPotion269(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-rose-500 focus:ring-rose-400 cursor-pointer" />
+                                        <span>🧪 성장의 비약 (200~269)</span>
+                                    </label>
+                                    {useGrowthPotion269 && (
+                                        <div className="space-y-2 mt-1">
+                                            <div className="flex items-center gap-2">
+                                                <input 
+                                                    type="number" 
+                                                    value={growthPotion269Count} 
+                                                    onFocus={(e) => e.target.select()} 
+                                                    onChange={(e) => setGrowthPotion269Count(Number(e.target.value))} 
+                                                    onBlur={(e) => setGrowthPotion269Count(Math.max(1, Number(e.target.value) || 1))}
+                                                    className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
+                                                />
+                                                <span className="text-xs text-slate-400">개 사용</span>
+                                            </div>
+
+                                            <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer mt-1 bg-slate-700/50 p-1.5 rounded border border-slate-600/30">
+                                                <input 
+                                                    type="checkbox" 
+                                                    checked={useGrowthPotion269Finish284} 
+                                                    onChange={(e) => setUseGrowthPotion269Finish284(e.target.checked)} 
+                                                    className="w-3.5 h-3.5 rounded bg-slate-700 border-slate-600 text-rose-500 focus:ring-rose-400 cursor-pointer" 
+                                                />
+                                                <span>284레벨 마무리용으로 사용 (285레벨 달성)</span>
+                                            </label>
+
+                                            {!useGrowthPotion269Finish284 ? (
+                                                <div className="flex items-center gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        min="200" 
+                                                        max="299" 
+                                                        value={growthPotion269UseLevel} 
+                                                        onFocus={(e) => e.target.select()} 
+                                                        onChange={(e) => setGrowthPotion269UseLevel(Number(e.target.value))} 
+                                                        onBlur={(e) => setGrowthPotion269UseLevel(Math.max(200, Math.min(299, Number(e.target.value) || 269)))}
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
+                                                    />
+                                                    <span className="text-xs text-slate-400">레벨에 사용</span>
+                                                </div>
+                                            ) : (
+                                                <div className="text-[10px] text-rose-300 bg-rose-950/20 border border-rose-900/30 p-2 rounded leading-relaxed mt-1">
+                                                    {useGrowthPotion && useGrowthPotionFinish284 ? (
+                                                        <span>
+                                                            💡 Lv.284에서 <strong>{Math.max(0, Math.ceil((100 - (33.813 * growthPotionCount) - (4.949 * growthPotion269Count)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다. <span className="text-slate-400 font-normal text-[9px] block mt-0.5">(성장의 비약 200~279와 합동 계산됨)</span>
+                                                        </span>
+                                                    ) : (
+                                                        <span>
+                                                            💡 Lv.284에서 <strong>{Math.max(0, Math.ceil((100 - (4.949 * growthPotion269Count)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다.
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="p-3 bg-slate-800 rounded-lg">
+                                    <label className="flex items-center gap-2 text-xs text-rose-300 mb-2">
                                         <input type="checkbox" checked={useGrowthPotion} onChange={(e) => setUseGrowthPotion(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-rose-600 focus:ring-rose-500 cursor-pointer" />
                                         <span>🧪 성장의 비약 (200~279)</span>
                                     </label>
@@ -1071,19 +1309,44 @@ export default function ExpCalculatorClient() {
                                                 />
                                                 <span className="text-xs text-slate-400">개 사용</span>
                                             </div>
-                                            <div className="flex items-center gap-2">
+
+                                            <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer mt-1 bg-slate-700/50 p-1.5 rounded border border-slate-600/30">
                                                 <input 
-                                                    type="number" 
-                                                    min="200" 
-                                                    max="299" 
-                                                    value={growthPotionUseLevel} 
-                                                    onFocus={(e) => e.target.select()} 
-                                                    onChange={(e) => setGrowthPotionUseLevel(Number(e.target.value))} 
-                                                    onBlur={(e) => setGrowthPotionUseLevel(Math.max(200, Math.min(299, Number(e.target.value) || 279)))}
-                                                    className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
+                                                    type="checkbox" 
+                                                    checked={useGrowthPotionFinish284} 
+                                                    onChange={(e) => setUseGrowthPotionFinish284(e.target.checked)} 
+                                                    className="w-3.5 h-3.5 rounded bg-slate-700 border-slate-600 text-rose-500 focus:ring-rose-400 cursor-pointer" 
                                                 />
-                                                <span className="text-xs text-slate-400">레벨에 사용</span>
-                                            </div>
+                                                <span>284레벨 마무리용으로 사용 (285레벨 달성)</span>
+                                            </label>
+
+                                            {!useGrowthPotionFinish284 ? (
+                                                <div className="flex items-center gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        min="200" 
+                                                        max="299" 
+                                                        value={growthPotionUseLevel} 
+                                                        onFocus={(e) => e.target.select()} 
+                                                        onChange={(e) => setGrowthPotionUseLevel(Number(e.target.value))} 
+                                                        onBlur={(e) => setGrowthPotionUseLevel(Math.max(200, Math.min(299, Number(e.target.value) || 279)))}
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
+                                                    />
+                                                    <span className="text-xs text-slate-400">레벨에 사용</span>
+                                                </div>
+                                            ) : (
+                                                <div className="text-[10px] text-rose-300 bg-rose-950/20 border border-rose-900/30 p-2 rounded leading-relaxed mt-1">
+                                                    {useGrowthPotion269 && useGrowthPotion269Finish284 ? (
+                                                        <span>
+                                                            💡 Lv.284에서 <strong>{Math.max(0, Math.ceil((100 - (33.813 * growthPotionCount) - (4.949 * growthPotion269Count)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다. <span className="text-slate-400 font-normal text-[9px] block mt-0.5">(성장의 비약 200~269와 합동 계산됨)</span>
+                                                        </span>
+                                                    ) : (
+                                                        <span>
+                                                            💡 Lv.284에서 <strong>{Math.max(0, Math.ceil((100 - (33.813 * growthPotionCount)) * 10) / 10).toFixed(1)}%</strong> 도달 즉시 사용되어 285레벨을 달성합니다.
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                 </div>
@@ -1166,8 +1429,8 @@ export default function ExpCalculatorClient() {
                             <p>하이퍼버닝(Lv.200~260, 1레벨업 시 5레벨 보너스)과 버닝비욘드(Lv.260~280, 2레벨 보너스)를 선택하면 레벨 구간별 소요 일수가 자동으로 단축됩니다. 버닝 이벤트 기간에 최적화된 레벨업 계획을 바로 확인하세요.</p>
                         </div>
                         <div>
-                            <h3 className="text-slate-400 font-semibold mb-2">🦋 체인지버닝 루시드 경험치 계산</h3>
-                            <p>2026년 3월 19일부터 6월 17일까지 진행되는 체인지버닝: 루시드 이벤트의 경험치를 반영할 수 있습니다. 드림 이터 사냥(주간 25,000마리), 주간 미션, 시즌 미션 경험치를 선택 적용하여 레벨업 소요 일수를 확인하세요. Lv.260 이상 캐릭터에 적용됩니다.</p>
+                            <h3 className="text-slate-400 font-semibold mb-2">🎮 챌린저스 월드 시즌4 경험치 연산</h3>
+                            <p>2026년 6월 18일부터 9월 17일까지 진행되는 챌린저스 월드 시즌4의 성장 혜택을 완벽하게 계산합니다. 남은 육성 기간(실시간 카운트다운) 내에 목표 레벨을 달성할 수 있는지 예측하고, 9주차(8/13) 이후 에픽 던전 고대의 힘(+150%) 자동 적용까지 시뮬레이션에 동적으로 연동해 줍니다.</p>
                         </div>
                         <div>
                             <h3 className="text-slate-400 font-semibold mb-2">📊 레벨별 필요 경험치 (주요 구간)</h3>
@@ -1175,7 +1438,7 @@ export default function ExpCalculatorClient() {
                         </div>
                         <div>
                             <h3 className="text-slate-400 font-semibold mb-2">🗺️ 몬스터파크 & 일일퀘스트 경험치</h3>
-                            <p>아케인리버(소멸의 여로~리멘)와 그란디스(세르니움~탈라하트) 지역의 일일퀘스트 및 몬스터파크 경험치를 레벨에 맞게 자동 적용합니다. 평일·일요일 몬파 횟수, 이벤트 보너스(%)까지 세밀하게 설정할 수 있습니다.</p>
+                            <p>아케인리버(소멸의 여로~리멘)와 그란디스(세르니움~기어드락) 지역의 일일퀘스트 및 몬스터파크 경험치를 레벨에 맞게 자동 적용합니다. 평일·일요일 몬파 횟수, 이벤트 보너스(%)까지 세밀하게 설정할 수 있습니다.</p>
                         </div>
                         <div>
                             <h3 className="text-slate-400 font-semibold mb-2">📥 엑셀로 저장하는 레벨업 계획표</h3>
