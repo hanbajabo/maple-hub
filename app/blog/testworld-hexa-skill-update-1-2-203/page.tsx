@@ -26,8 +26,8 @@ const hexaSkillData = [
     { job: '플레임위자드', skill: '이그니스 레퀴엠', desc: '근원의 불꽃으로 적을 섬멸한다.', color: 'red', imgs: ['/images/testworld-203/w_스킬_12141505플레임위자드(6차)_추가.png'] },
     { job: '루미너스', skill: '앱솔루트 스페이스', desc: '빛과 어둠을 초월한 마력으로 절대 공간을 펼쳐 적을 압도한다.', color: 'purple', imgs: ['/images/testworld-203/w_스킬_27141504루미너스(6차)_추가.png'] },
     { job: '에반', skill: '드래곤 소어 / 버티컬 피니셔 / 소어-돌아와!', desc: '드래곤 소어: 진화한 미르가 강하게 포효하고 날아오른다. / 버티컬 피니셔: 미르가 드래곤 소어 공격 중 에반의 마법과 공명해 한계를 해방한다. / 소어-돌아와!: 미르가 즉시 공격을 중단하고 에반의 곁으로 복귀한다.', color: 'blue', imgs: [
-        '/images/testworld-203/w_스킬_22200506에반(6차)_추가.png',
         '/images/testworld-203/w_스킬_22201505에반(6차)_추가.png',
+        '/images/testworld-203/w_스킬_22200506에반(6차)_추가.png',
         '/images/testworld-203/w_스킬_22200507에반(6차)_추가.png',
     ]},
     { job: '배틀메이지', skill: '모티스 엣지', desc: '암흑의 힘으로 짙게 물든 낫을 휘두른다.', color: 'cyan', imgs: ['/images/testworld-203/w_스킬_32141504배틀메이지(6차)_추가.png'] },
