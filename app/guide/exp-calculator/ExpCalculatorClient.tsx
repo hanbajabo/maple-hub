@@ -618,6 +618,9 @@ export default function ExpCalculatorClient() {
                         if (skippedItem) {
                             skippedItem.note = currentSimLevel < 260 ? '🔥 하이퍼버닝 보너스' : '✨ 버닝 비욘드 보너스';
                         }
+                        // 스킵된 레벨의 필요 경험치도 remainingExp에서 차감
+                        const skippedLevelData = EXP_DATA.find(d => d.level === skippedLevel);
+                        if (skippedLevelData) remainingExp -= skippedLevelData.requiredExp;
                     }
                 }
 
