@@ -24,8 +24,8 @@ const hexaSkillData = [
     { job: '루미너스', skill: '앱솔루트 스페이스', desc: '빛과 어둠을 초월한 마력으로 절대 공간을 펼쳐 적을 압도한다.', color: 'purple', imgs: ['/images/testworld-203/w_스킬_27141504루미너스(6차)_추가.png'] },
     { job: '에반', skill: '드래곤 소어 / 버티컬 피니셔 / 소어-돌아와!', desc: '드래곤 소어: 진화한 미르가 강하게 포효하고 날아오른다. / 버티컬 피니셔: 미르가 드래곤 소어 공격 중 에반의 마법과 공명해 한계를 해방한다. / 소어-돌아와!: 미르가 즉시 공격을 중단하고 에반의 곁으로 복귀한다.', color: 'blue', imgs: [
         '/images/testworld-203/w_스킬_22200506에반(6차)_추가.png',
-        '/images/testworld-203/w_스킬_22200507에반(6차)_추가.png',
         '/images/testworld-203/w_스킬_22201505에반(6차)_추가.png',
+        '/images/testworld-203/w_스킬_22200507에반(6차)_추가.png',
     ]},
     { job: '배틀메이지', skill: '모티스 엣지', desc: '암흑의 힘으로 짙게 물든 낫을 휘두른다.', color: 'cyan', imgs: ['/images/testworld-203/w_스킬_32141504배틀메이지(6차)_추가.png'] },
     { job: '일리움', skill: '글로리 윙 : 스플렌더', desc: '크리스탈의 힘이 강력하게 공명하여 일순간 공간을 장악한다.', color: 'green', imgs: ['/images/testworld-203/w_스킬_152140510일리움(6차)_추가.png'] },
