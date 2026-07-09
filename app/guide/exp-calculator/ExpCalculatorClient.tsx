@@ -103,6 +103,7 @@ export default function ExpCalculatorClient() {
 
     const [useVipSauna, setUseVipSauna] = useState(false);
     const [vipSaunaCount, setVipSaunaCount] = useState(1);
+    const [vipSaunaUseLevel, setVipSaunaUseLevel] = useState(260);
     const [useAdvancedExpCoupon, setUseAdvancedExpCoupon] = useState(false);
     const [advancedExpCouponCount, setAdvancedExpCouponCount] = useState(1);
     const [advancedUseLevel, setAdvancedUseLevel] = useState(260);
@@ -322,7 +323,7 @@ export default function ExpCalculatorClient() {
                         inventory.booster = 0;
                     }
                 }
-                if (inventory.sauna > 0) {
+                if (inventory.sauna > 0 && currentSimLevel >= vipSaunaUseLevel) {
                     const d = VIP_SAUNA_EXP.find(x => x.level === currentSimLevel);
                     if (d) {
                         const amount = d.expPerHour * 0.5 * inventory.sauna;
@@ -656,7 +657,7 @@ export default function ExpCalculatorClient() {
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, useEpicWeek9Auto, remainingDays]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, vipSaunaUseLevel, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, useEpicWeek9Auto, remainingDays]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -693,7 +694,7 @@ export default function ExpCalculatorClient() {
             ['스펙터 블래스트', useSpecterBlast ? 'O (주간)' : 'X'],
             [],
             ['[소비 아이템]'],
-            ['VIP 사우나', useVipSauna ? `${vipSaunaCount}장` : 'X'],
+            ['VIP 사우나', useVipSauna ? `${vipSaunaCount}장 (${vipSaunaUseLevel}레벨에 사용)` : 'X'],
             ['상급 EXP 쿠폰', useAdvancedExpCoupon ? `${advancedExpCouponCount}개 (${advancedUseLevel}레벨에 사용)` : 'X'],
             ['메카베리 농장', useMechaberryFarm ? `${mechaberryFarmCount}회` : 'X'],
             ['블루베리 농장', useBlueberryFarm ? `${blueberryFarmCount}회 (${blueberryUseLevel}레벨에 사용)` : 'X'],
@@ -1109,7 +1110,34 @@ export default function ExpCalculatorClient() {
                                 {targetLevel >= 260 && (
                                     <div className="p-3 bg-slate-800 rounded-lg">
                                         <label className="flex items-center gap-2 text-xs text-orange-300 mb-2"><input type="checkbox" checked={useVipSauna} onChange={(e) => setUseVipSauna(e.target.checked)} className="w-4 h-4 flex-shrink-0" /> ♨️ VIP 사우나</label>
-                                        {useVipSauna && <div className="flex items-center gap-2"><input type="number" value={vipSaunaCount} onChange={(e) => setVipSaunaCount(Number(e.target.value))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">장</span></div>}
+                                        {useVipSauna && (
+                                            <div className="space-y-2 mt-1">
+                                                <div className="flex items-center gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        value={vipSaunaCount} 
+                                                        onFocus={(e) => e.target.select()}
+                                                        onChange={(e) => setVipSaunaCount(Number(e.target.value))} 
+                                                        onBlur={(e) => setVipSaunaCount(Math.max(1, Number(e.target.value) || 1))}
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center" 
+                                                    />
+                                                    <span className="text-xs text-slate-400">장 사용</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        min="260" 
+                                                        max="299" 
+                                                        value={vipSaunaUseLevel} 
+                                                        onFocus={(e) => e.target.select()} 
+                                                        onChange={(e) => setVipSaunaUseLevel(Number(e.target.value))} 
+                                                        onBlur={(e) => setVipSaunaUseLevel(Math.max(260, Math.min(299, Number(e.target.value) || 260)))}
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center" 
+                                                    />
+                                                    <span className="text-xs text-slate-400">레벨에 사용</span>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                                 {targetLevel >= 260 && (
