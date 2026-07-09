@@ -9,7 +9,10 @@ const hexaSkillData = [
     // 전사 계열
     { job: '히어로', skill: '레이지 익스플로젼', desc: '찰나의 순간 극한의 일격이 모든 것을 압도한다.', color: 'red', imgs: ['/images/testworld-203/w_스킬_1141503히어로(6차)_추가.png'] },
     { job: '팔라딘', skill: '디바인 컨버전스', desc: '성스러운 빛을 담은 망치를 연속으로 내리쳐 심판을 선고한다.', color: 'yellow', imgs: ['/images/testworld-203/w_스킬_1241506팔라딘(6차)_추가.png'] },
-    { job: '다크나이트', skill: '다크니스 오브 그레이스', desc: '어둠의 축복으로 계약의 힘이 강화된다. 계약 아래 복속된 비홀더의 진정한 힘이 개방된다.', color: 'purple', imgs: ['/images/testworld-203/w_스킬_1341504다크나이트(6차)_추가.png'] },
+    { job: '다크나이트', skill: '다크니스 오브 그레이스 / 비홀더 데버스테이션', desc: '다크니스 오브 그레이스: 어둠의 축복으로 계약의 힘이 강화된다. / 비홀더 데버스테이션: 계약 아래 복속된 비홀더의 진정한 힘이 개방된다.', color: 'purple', imgs: [
+        '/images/testworld-203/w_스킬_1341504다크나이트(6차)_추가.png',
+        '/images/testworld-203/w_스킬_1341505다크나이트(6차)_추가.png',
+    ]},
     { job: '미하일', skill: '레디언스 오브 발러', desc: '단호한 수호의 의지가 거대한 빛의 검이 되어 전장을 가르며 솟아오른다.', color: 'orange', imgs: ['/images/testworld-203/w_스킬_51141505미하일(6차)_추가.png'] },
     { job: '소울마스터', skill: '셀레스티얼 클리브', desc: '검격으로 우주를 새기고 마무리 일격으로 시공간을 가른다.', color: 'blue', imgs: ['/images/testworld-203/w_스킬_11141505소울마스터(6차)_추가.png'] },
     { job: '블래스터', skill: '오버히트 펀치', desc: '한계를 넘어 과열된 에너지를 담아 강력한 펀치를 내리꽂는다.', color: 'cyan', imgs: ['/images/testworld-203/w_스킬_37141504블래스터(6차)_추가.png'] },
