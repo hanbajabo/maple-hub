@@ -1303,7 +1303,39 @@ export default function ExpCalculatorClient() {
                                         <input type="checkbox" checked={useVipBooster} onChange={(e) => setUseVipBooster(e.target.checked)} className="w-4 h-4 flex-shrink-0" />
                                         <span>⚡ VIP/헥사 부스터 <span className="text-[10px] block opacity-70">룬 효과 활성화 때만 사용</span></span>
                                     </label>
-                                    {useVipBooster && <div className="flex items-center gap-2"><input type="number" min="1" value={vipBoosterCount} onChange={(e) => setVipBoosterCount(Math.max(1, Number(e.target.value)))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">개</span></div>}
+                                    {useVipBooster && (
+                                        <div className="space-y-2 mt-1">
+                                            <div className="flex items-center gap-2">
+                                                <input 
+                                                    type="number" 
+                                                    min="1" 
+                                                    value={vipBoosterCount} 
+                                                    onFocus={(e) => e.target.select()}
+                                                    onChange={(e) => setVipBoosterCount(Math.max(1, Number(e.target.value)))} 
+                                                    className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
+                                                />
+                                                <span className="text-xs text-slate-400">개 사용</span>
+                                            </div>
+                                            <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-1.5 text-[10px] text-indigo-200/70 leading-normal font-normal">
+                                                <div>
+                                                    <p className="font-semibold text-indigo-300">• 챌린저스 패스 (기본 지원 물품) : 총 30개</p>
+                                                    <p className="pl-2 text-[9px] opacity-80">무료 기본 패스 보상 (1, 6, 11, 16, 21, 26레벨 달성 시 각 5개)</p>
+                                                </div>
+                                                <div>
+                                                    <p className="font-semibold text-indigo-300">• [출석 이벤트] 울티마 작전 일지 : 총 60개</p>
+                                                    <p className="pl-2 text-[9px] opacity-80">매일 보급품 수령 누적 (3, 13, 23, 33, 43, 53회차 달성 시 각 10개)</p>
+                                                </div>
+                                                <div>
+                                                    <p className="font-semibold text-indigo-300">• 신입 용병 지원 미션 : 총 40개</p>
+                                                    <p className="pl-2 text-[9px] opacity-80">신규 캐릭터 미션 클리어 (5차 전직: 10개 / 250레벨: 10개 / 카오스 벨룸 1인 격파: 20개)</p>
+                                                </div>
+                                                <div>
+                                                    <p className="font-semibold text-indigo-300">• 프리미엄 PC방 접속 이벤트 (기프트샵 주간 최대 10개)</p>
+                                                    <p className="pl-2 text-[9px] opacity-80">주말 30분/60분 누적 시 각 2개 (일 최대 4개) 및 코인 10개로 구매 (5주간 최대 50개 구매 가능)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="p-3 bg-slate-800 rounded-lg">
                                     <label className="flex items-center gap-2 text-xs text-rose-300 mb-2">
