@@ -71,7 +71,6 @@ export default function ExpCalculatorClient() {
     const [mpEventSkillLevel, setMpEventSkillLevel] = useState(0);
     const [arcaneEventSkillLevel, setArcaneEventSkillLevel] = useState(0);
     const [grandisEventSkillLevel, setGrandisEventSkillLevel] = useState(0);
-    const [useSundayMPBonus, setUseSundayMPBonus] = useState(false);
     const [useSundayMaple, setUseSundayMaple] = useState(false);
     const [useArcaneQuest, setUseArcaneQuest] = useState(false);
     const [useGrandisQuest, setUseGrandisQuest] = useState(false);
@@ -244,7 +243,7 @@ export default function ExpCalculatorClient() {
     const monsterParkData = useMemo(() => getMonsterParkExp(currentLevel), [currentLevel]);
     const monsterParkEventBonus = mpEventSkillLevel > 0 ? (mpEventSkillLevel / 100) : 0;
     const mondayToSaturdayMultiplier = 1.0 + monsterParkEventBonus;
-    const sundayMultiplier = (useSundayMPBonus ? 1.5 : 1.0) + monsterParkEventBonus;
+    const sundayMultiplier = 1.5 + monsterParkEventBonus;
     const dailyMonsterParkExp = (monsterParkData.exp * monsterParkCountWeek * mondayToSaturdayMultiplier * 6 + monsterParkData.exp * monsterParkCountSun * sundayMultiplier) / 7;
 
     const arcaneQuestEventBonus = arcaneEventSkillLevel > 0 ? (arcaneEventSkillLevel / 100) : 0;
@@ -672,7 +671,7 @@ export default function ExpCalculatorClient() {
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMPBonus, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, vipSaunaUseLevel, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, useEpicWeek9Auto, remainingDays]);
+    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, vipSaunaUseLevel, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, useEpicWeek9Auto, remainingDays]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -696,7 +695,6 @@ export default function ExpCalculatorClient() {
             [],
             ['[일일 컨텐츠]'],
             ['몬스터 파크', `평일 ${monsterParkCountWeek}회 / 일요일 ${monsterParkCountSun}회 (이벤트 +${mpEventSkillLevel}%)`],
-            ['일요일 보너스', useSundayMPBonus ? 'O' : 'X'],
             ['익스트림 몬파', useExtremeMonsterPark ? 'O (주간)' : 'X'],
             ['아케인 일퀘', useArcaneQuest ? `O (이벤트 +${arcaneEventSkillLevel}%)` : 'X'],
             ['그란디스 일퀘', useGrandisQuest ? `O (이벤트 +${grandisEventSkillLevel}%)` : 'X'],
@@ -987,15 +985,6 @@ export default function ExpCalculatorClient() {
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="text-xs flex items-center gap-2">
-                                        <input 
-                                            type="checkbox" 
-                                            id="sunday" 
-                                            checked={useSundayMPBonus} 
-                                            onChange={(e) => setUseSundayMPBonus(e.target.checked)} 
-                                            className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                                        />
-                                        <label htmlFor="sunday" className="cursor-pointer text-slate-300">일요일 보너스 (1.5배)</label>
                                     </div>
                                 </div>
                                 {targetLevel >= 260 && (
