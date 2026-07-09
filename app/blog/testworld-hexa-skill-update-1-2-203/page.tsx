@@ -40,7 +40,7 @@ const hexaSkillData = [
     { job: '윈드브레이커', skill: '실프스 브레스', desc: '바람의 요정 실프가 나타나 거대한 돌풍을 일으킨다. 돌풍은 작은 요정으로 자유롭게 흩어지며 적을 헤집는다.', color: 'cyan', imgs: ['/images/testworld-203/w_스킬_13141508윈드브레이커(6차)_추가.png'] },
     { job: '와일드헌터', skill: '레조넌스 : 와일드 피어스', desc: '깊어진 아실리와의 공명으로 자연의 힘을 석궁에 실어 공격한다. 화살이 지나간 자리에 스피릿 재규어가 등장한다.', color: 'orange', imgs: ['/images/testworld-203/w_스킬_33141502와일드헌터(6차)_추가.png'] },
     { job: '메카닉', skill: '버스터 스테이션', desc: '미사일 스테이션을 설치하여 무수한 폭격을 퍼붓는다.', color: 'blue', imgs: ['/images/testworld-203/w_스킬_35141505메카닉(6차)_추가.png'] },
-    { job: '카인', skill: '[발현] 스트라이크 임팩트 / [처형] 팬텀 레퀴엠', desc: '화살에 깃든 악의가 폭주하여 마룡이 현현한다. 두 개의 칼날로 난도질 후 죽음을 방출하여 적을 처형한다.', color: 'pink', imgs: [
+    { job: '카인', skill: '[발현] 스트라이크 임팩트 / [처형] 팬텀 레퀴엠', desc: '[발현] 스트라이크 임팩트: 화살에 깃든 악의가 폭주하여 마룡이 현현한다. / [처형] 팬텀 레퀴엠: 두 개의 칼날로 전방을 무자비하게 난도질한 후 죽음을 방출하여 모든 적을 처형한다.', color: 'pink', imgs: [
         '/images/testworld-203/w_스킬_63141509카인(6차)_추가.png',
         '/images/testworld-203/w_스킬_63141514카인(6차)_추가.png',
     ]},
@@ -168,7 +168,11 @@ export default function TestworldHexaSkill203Page() {
                                                         />
                                                     ))}
                                                 </div>
-                                                <p className="text-slate-400 text-xs mt-2 leading-relaxed">{desc}</p>
+                                                <div className="text-slate-400 text-xs mt-2 leading-relaxed space-y-1">
+                                                    {desc.split(' / ').map((d, i) => (
+                                                        <p key={i}>{d}</p>
+                                                    ))}
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
