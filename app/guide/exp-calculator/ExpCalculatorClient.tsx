@@ -891,10 +891,10 @@ export default function ExpCalculatorClient() {
                                 </div>
                                 {huntingMode === 'calculate' && (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div><label className="text-xs text-slate-400 mb-1 block">하루 사냥 시간 (시간)</label><input type="number" min="0" max="24" step="0.5" value={dailyHuntingHours} onChange={(e) => setDailyHuntingHours(Math.max(0, Math.min(24, Number(e.target.value))))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-green-500" /></div>
+                                        <div><label className="text-xs text-slate-400 mb-1 block">하루 사냥 시간 (시간)</label><input type="number" min="0" max="24" step="0.5" value={dailyHuntingHours} onFocus={(e) => e.target.select()} onChange={(e) => setDailyHuntingHours(Math.max(0, Math.min(24, Number(e.target.value))))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-green-500" /></div>
                                         <div>
                                             <label className="text-xs text-slate-400 mb-1 block">시간당 마릿수</label>
-                                            <input type="number" min="0" step="100" value={mobsPerHour} onChange={(e) => setMobsPerHour(Math.max(0, Number(e.target.value)))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-green-500" />
+                                            <input type="number" min="0" step="100" value={mobsPerHour} onFocus={(e) => e.target.select()} onChange={(e) => setMobsPerHour(Math.max(0, Number(e.target.value)))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-green-500" />
                                             <Link 
                                                 href="/guide/hunting-field-calculator" 
                                                 target="_blank" 
@@ -904,7 +904,7 @@ export default function ExpCalculatorClient() {
                                                 🔍 사냥터별 시간당 마릿수 확인하기
                                             </Link>
                                         </div>
-                                        <div className="sm:col-span-2"><label className="text-xs text-slate-400 mb-1 block">추가 경험치 (%)</label><input type="number" min="0" value={additionalExpRate} onChange={(e) => setAdditionalExpRate(Math.max(0, Number(e.target.value)))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-green-500" /></div>
+                                        <div className="sm:col-span-2"><label className="text-xs text-slate-400 mb-1 block">추가 경험치 (%)</label><input type="number" min="0" value={additionalExpRate} onFocus={(e) => e.target.select()} onChange={(e) => setAdditionalExpRate(Math.max(0, Number(e.target.value)))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-green-500" /></div>
                                         <div className="sm:col-span-2 mt-2 space-y-2">
                                             <div className="grid grid-cols-1 gap-2">
                                                 <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer p-2 bg-slate-800 border border-slate-700 rounded-lg hover:border-blue-500 transition-colors">
@@ -938,12 +938,12 @@ export default function ExpCalculatorClient() {
                                 )}
                                 {huntingMode === 'manual' && (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div><label className="text-xs text-slate-400 mb-1 block">시간당 경험치</label><input type="number" min="0" step="100000000" value={huntingExpPerHour} onChange={(e) => setHuntingExpPerHour(Math.max(0, Number(e.target.value)))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-yellow-500" /></div>
-                                        <div><label className="text-xs text-slate-400 mb-1 block">하루 사냥 시간</label><input type="number" min="0" max="24" value={dailyHuntingHours} onChange={(e) => setDailyHuntingHours(Math.max(0, Math.min(24, Number(e.target.value))))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-yellow-500" /></div>
+                                        <div><label className="text-xs text-slate-400 mb-1 block">시간당 경험치</label><input type="number" min="0" step="100000000" value={huntingExpPerHour} onFocus={(e) => e.target.select()} onChange={(e) => setHuntingExpPerHour(Math.max(0, Number(e.target.value)))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-yellow-500" /></div>
+                                        <div><label className="text-xs text-slate-400 mb-1 block">하루 사냥 시간</label><input type="number" min="0" max="24" value={dailyHuntingHours} onFocus={(e) => e.target.select()} onChange={(e) => setDailyHuntingHours(Math.max(0, Math.min(24, Number(e.target.value))))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-yellow-500" /></div>
                                     </div>
                                 )}
                                 {huntingMode === 'percent' && (
-                                    <div><label className="text-xs text-slate-400 mb-1 block">하루 경험치 (%)</label><input type="number" min="0" max="100" value={dailyLevelPercent} onChange={(e) => setDailyLevelPercent(Math.max(0, Math.min(100, Number(e.target.value))))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-purple-500" /></div>
+                                    <div><label className="text-xs text-slate-400 mb-1 block">하루 경험치 (%)</label><input type="number" min="0" max="100" value={dailyLevelPercent} onFocus={(e) => e.target.select()} onChange={(e) => setDailyLevelPercent(Math.max(0, Math.min(100, Number(e.target.value))))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:border-purple-500" /></div>
                                 )}
                             </div>
                         </div>
