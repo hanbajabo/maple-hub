@@ -103,7 +103,7 @@ export default function TestworldHexaSkill203Page() {
                     </div>
 
                     <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4 sm:mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 bg-clip-text text-transparent leading-tight">
-                        ✨ 테스트월드 1.2.203 — 전 직업 신규 HEXA 스킬 추가 & 대규모 스킬 개선
+                        ✨ 테스트월드 1.2.203 — 전 직업 신규 3차 HEXA 스킬 추가 & 스킬 개선
                     </h1>
 
                     <p className="text-sm sm:text-base md:text-lg text-slate-300 mb-6 leading-relaxed">
@@ -300,7 +300,7 @@ export default function TestworldHexaSkill203Page() {
                                 <ul className="space-y-2">
                                     <li className="flex items-start gap-2"><span className="text-slate-400 shrink-0 mt-0.5">•</span><span>캐릭터 정보의 스탯 공격력 설명이 변경됩니다.</span></li>
                                     <li className="flex items-start gap-2"><span className="text-slate-400 shrink-0 mt-0.5">•</span><span><span className="text-yellow-300 font-semibold">루나 게더링</span>: 펫의 아이템 줍기 스킬 사용이 불가능한 맵에서 사용 가능한 현상이 수정됩니다.</span></li>
-                                    <li className="flex items-start gap-2"><span className="text-red-400 shrink-0 mt-0.5">▼</span><span><span className="text-yellow-300 font-semibold">솔 헤카테 : 스틱스</span> 행동 불가 적용 후 저항 시간 <span className="text-red-400 font-bold">47초 → 39초</span>로 감소됩니다.</span></li>
+                                    <li className="flex items-start gap-2"><span className="text-purple-400 shrink-0 mt-0.5 font-bold text-xs bg-purple-950/50 border border-purple-500/30 px-1 rounded">저항</span><span><span className="text-yellow-300 font-semibold">솔 헤카테 : 스틱스</span> 행동 불가 적용 후 저항 시간 <span className="text-purple-400 font-bold">47초 → 39초</span>로 감소됩니다.</span></li>
                                     <li className="flex items-start gap-2"><span className="text-red-400 shrink-0 mt-0.5">▼</span>
                                         <div><span><span className="text-yellow-300 font-semibold">일부 특수 코어</span> 재발동 대기시간이 <span className="text-red-400 font-bold">120초</span>로 변경됩니다.</span>
                                         <p className="text-slate-400 text-xs mt-1">해당 코어: 폭주하는 힘 I · 치명적인 일격 I · 방어구 부수기 I/II · 보스 슬레이어 I/II/III · 컴백 · 끊임없는 공격 · 자동회복 · 견뎌내기/II · 한놈만 I · 근성 I · 일격필살 I · 반격 I</p></div>
