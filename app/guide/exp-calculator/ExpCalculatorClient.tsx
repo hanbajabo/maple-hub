@@ -133,6 +133,7 @@ export default function ExpCalculatorClient() {
 
     // 챌린저스 월드 시즌4 남은 일수 계산
     const [remainingDays, setRemainingDays] = useState<number | null>(null);
+    const [showSpecterBlastTable, setShowSpecterBlastTable] = useState(false);
     useEffect(() => {
         const targetDate = new Date("2026-09-17T04:00:00+09:00");
         const now = new Date();
@@ -1137,13 +1138,22 @@ export default function ExpCalculatorClient() {
                                     <div className="pt-3 border-t border-slate-800 space-y-2">
                                         <p className="text-xs font-bold text-slate-400">💥 주간 미니게임</p>
                                         <div className="p-3 bg-slate-800/40 border border-slate-800 rounded-lg hover:border-slate-700 transition-colors">
-                                            <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
-                                                <input type="checkbox" checked={useSpecterBlast} onChange={(e) => setUseSpecterBlast(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
-                                                <div className="flex flex-col">
-                                                    <span className="font-semibold text-slate-200">스펙터 블래스트 (주간 1회)</span>
-                                                    <span className="text-[10px] text-slate-500 mt-0.5">레벨별 주간 고정 비율 경험치 적용 (도핑 미적용)</span>
-                                                </div>
-                                            </label>
+                                            <div className="space-y-2">
+                                                <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                                    <input type="checkbox" checked={useSpecterBlast} onChange={(e) => setUseSpecterBlast(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                                                    <div className="flex flex-col">
+                                                        <span className="font-semibold text-slate-200">스펙터 블래스트 (주간 1회)</span>
+                                                        <span className="text-[10px] text-slate-500 mt-0.5">레벨별 주간 고정 비율 경험치 적용 (도핑 미적용)</span>
+                                                    </div>
+                                                </label>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowSpecterBlastTable(true)}
+                                                    className="text-[11px] text-indigo-400 hover:text-indigo-300 hover:underline flex items-center gap-1 font-medium pl-6 pt-0.5 transition-colors"
+                                                >
+                                                    🔍 스펙터 블래스터 레벨별 경험치 확인하기
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1512,6 +1522,93 @@ export default function ExpCalculatorClient() {
                     </button>
                 </div>
             </div>
+
+            {/* 스펙터 블래스트 경험치 표 모달 */}
+            {showSpecterBlastTable && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden flex flex-col shadow-2xl">
+                        <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+                            <h3 className="text-md font-bold text-white flex items-center gap-2">
+                                💥 스펙터 블래스트 레벨별 획득 경험치 (%)
+                            </h3>
+                            <button 
+                                onClick={() => setShowSpecterBlastTable(false)}
+                                className="text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 w-8 h-8 rounded-lg flex items-center justify-center transition-colors text-sm font-bold"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <div className="p-5 overflow-y-auto space-y-6">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                                {/* 260~269 */}
+                                <div className="space-y-1 bg-slate-950/40 p-3 rounded-lg border border-slate-800">
+                                    <h4 className="font-bold text-indigo-400 border-b border-indigo-900/40 pb-1 mb-2 text-center">260 ~ 269</h4>
+                                    {Array.from({ length: 10 }).map((_, i) => {
+                                        const lv = 260 + i;
+                                        return (
+                                            <div key={lv} className="flex justify-between py-0.5 border-b border-slate-900/30">
+                                                <span className="text-slate-400 font-medium">Lv.{lv}</span>
+                                                <span className="text-slate-200 font-semibold">{SPECTER_BLAST_EXP[lv]}%</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                {/* 270~279 */}
+                                <div className="space-y-1 bg-slate-950/40 p-3 rounded-lg border border-slate-800">
+                                    <h4 className="font-bold text-indigo-400 border-b border-indigo-900/40 pb-1 mb-2 text-center">270 ~ 279</h4>
+                                    {Array.from({ length: 10 }).map((_, i) => {
+                                        const lv = 270 + i;
+                                        return (
+                                            <div key={lv} className="flex justify-between py-0.5 border-b border-slate-900/30">
+                                                <span className="text-slate-400 font-medium">Lv.{lv}</span>
+                                                <span className="text-slate-200 font-semibold">{SPECTER_BLAST_EXP[lv]}%</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                {/* 280~289 */}
+                                <div className="space-y-1 bg-slate-950/40 p-3 rounded-lg border border-slate-800">
+                                    <h4 className="font-bold text-indigo-400 border-b border-indigo-900/40 pb-1 mb-2 text-center">280 ~ 289</h4>
+                                    {Array.from({ length: 10 }).map((_, i) => {
+                                        const lv = 280 + i;
+                                        return (
+                                            <div key={lv} className="flex justify-between py-0.5 border-b border-slate-900/30">
+                                                <span className="text-slate-400 font-medium">Lv.{lv}</span>
+                                                <span className="text-slate-200 font-semibold">{SPECTER_BLAST_EXP[lv]}%</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                {/* 290~299 */}
+                                <div className="space-y-1 bg-slate-950/40 p-3 rounded-lg border border-slate-800">
+                                    <h4 className="font-bold text-indigo-400 border-b border-indigo-900/40 pb-1 mb-2 text-center">290 ~ 299</h4>
+                                    {Array.from({ length: 10 }).map((_, i) => {
+                                        const lv = 290 + i;
+                                        return (
+                                            <div key={lv} className="flex justify-between py-0.5 border-b border-slate-900/30">
+                                                <span className="text-slate-400 font-medium">Lv.{lv}</span>
+                                                <span className="text-slate-200 font-semibold">{SPECTER_BLAST_EXP[lv]}%</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                            <p className="text-[11px] text-slate-500 text-center leading-relaxed">
+                                💡 스펙터 블래스트는 주간 1회 클리어 기준으로 제공되는 고정 경험치 비율(%)입니다.<br />
+                                몬스터 파크나 사냥터 추가 경험치 버프(도핑)에 영향을 받지 않습니다.
+                            </p>
+                        </div>
+                        <div className="p-4 border-t border-slate-800 flex justify-end">
+                            <button
+                                onClick={() => setShowSpecterBlastTable(false)}
+                                className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-xs font-bold text-white transition-colors"
+                            >
+                                닫기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
