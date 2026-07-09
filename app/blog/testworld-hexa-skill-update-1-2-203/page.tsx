@@ -107,7 +107,7 @@ export default function TestworldHexaSkill203Page() {
                     </h1>
 
                     <p className="text-sm sm:text-base md:text-lg text-slate-300 mb-6 leading-relaxed">
-                        2026년 7월 9일(목) 테스트월드가 업데이트됐습니다. 이번 패치의 핵심은 <span className="text-purple-300 font-bold">전 직업 신규 HEXA 스킬 추가</span>이며, 각종 스킬 수정과 연무장 개편, 최대 데미지 상향도 함께 포함되어 있습니다. 7월 23일 본섭 적용 예정이며, 중간에 7월 16일 2차 테스트월드가 한 차례 더 진행될 예정입니다.
+                        2026년 7월 9일(목) 테스트월드가 업데이트됐습니다. 이번 패치의 핵심은 <span className="text-purple-300 font-bold">전 직업 신규 3차 HEXA 스킬 추가</span>이며, 각종 스킬 수정과 연무장 개편, 최대 데미지 상향도 함께 포함되어 있습니다. 7월 23일 본섭 적용 예정이며, 중간에 7월 16일 2차 테스트월드가 한 차례 더 진행될 예정입니다.
                     </p>
 
                     {/* Update Schedule */}
@@ -129,7 +129,7 @@ export default function TestworldHexaSkill203Page() {
                     <div className="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 border-2 border-purple-500/50 rounded-xl sm:rounded-2xl p-4 sm:p-6">
                         <div className="flex items-center gap-3 mb-3">
                             <Sparkles className="w-7 h-7 sm:w-9 sm:h-9 text-purple-400" />
-                            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-400">신규 HEXA 스킬</h2>
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-400">신규 3차 HEXA 스킬</h2>
                         </div>
                         <p className="text-sm sm:text-base text-slate-300 mb-5 leading-relaxed">
                             총 <span className="text-purple-300 font-bold">48개 직업</span>에 신규 HEXA 스킬이 추가됩니다.
@@ -191,7 +191,7 @@ export default function TestworldHexaSkill203Page() {
                     <div className="bg-gradient-to-br from-purple-900/20 to-slate-900/50 border-2 border-purple-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-6">
                         <div className="flex items-center gap-3 mb-4">
                             <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 text-purple-400" />
-                            <h2 className="text-xl sm:text-2xl font-bold text-purple-300">신규 HEXA 스킬 강화 비용 (1~30레벨)</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold text-purple-300">신규 3차 HEXA 스킬 강화 비용 (1~30레벨)</h2>
                         </div>
                         <p className="text-sm text-slate-300 mb-5 leading-relaxed">
                             신규 HEXA 공통/직업별 스킬을 활성화하고 30레벨 마스터까지 강화하는 데 필요한 <span className="text-yellow-300 font-bold">솔 에르다</span> 및 <span className="text-purple-300 font-bold">솔 에르다 조각</span> 비용 표입니다.
