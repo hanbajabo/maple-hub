@@ -351,7 +351,7 @@ export default function TestworldHexaSkill203Page() {
                                     </div>
 
                                     <div className="border-l-2 border-pink-500 pl-3">
-                                        <p className="font-bold text-pink-300">카인 <span className="text-xs font-normal text-green-400 ml-1">🎉 버프</span></p>
+                                        <p className="font-bold text-pink-300">카인 <span className="text-xs font-normal text-green-400 ml-1">🔧 개선</span></p>
                                         <ul className="text-slate-300 space-y-0.5 mt-1 text-xs sm:text-sm">
                                             <li>• [발현] 스트라이크 애로우 / VI: 재발현 대기시간이 <span className="text-green-400 font-bold">삭제</span>됩니다.</li>
                                         </ul>
