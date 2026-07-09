@@ -1279,6 +1279,9 @@ export default function ExpCalculatorClient() {
                                                     />
                                                     <span className="text-xs text-slate-400">레벨에 사용</span>
                                                 </div>
+                                                <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-0.5 text-[10px] text-violet-200/70 leading-normal font-normal">
+                                                    <p>• 챌린저스 패스 (EXP 지원 물품) : 총 18개</p>
+                                                </div>
                                             </div>
                                         )}
                                     </div>
