@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 7월 9일 테스트월드 1.2.203 전사 직업 여론 긴급 분석
+    {
+        slug: 'testworld-warrior-6th-skill-reaction',
+        title: '🔥 【1차 테섭 긴급 분석】전사 직업군 신규 6차 스킬, 유저들은 어떻게 반응했나',
+        description: '2026년 7월 9일 테스트월드 1.2.203 업데이트! 인벤 전사 직업 게시판 실측 데이터를 바탕으로 히어로, 다크나이트, 카이저 등 12개 전사 직업군의 1차 여론을 가감 없이 긴급 해부합니다.',
+        category: '메이플 이야기',
+        date: '2026년 7월 9일',
+        readTime: '10분',
+        thumbnail: '🔥',
+        featured: true,
+        targetDate: '2026년 7월 23일',
+    },
     // 7월 9일 테스트월드 1.2.203 전 직업 신규 HEXA 스킬
     {
         slug: 'testworld-hexa-skill-update-1-2-203',

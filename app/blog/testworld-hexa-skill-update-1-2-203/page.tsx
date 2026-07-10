@@ -311,11 +311,11 @@ export default function TestworldHexaSkill203Page() {
                         <div className="grid grid-cols-2 gap-3 mb-6">
                             <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 text-center">
                                 <p className="text-xs text-slate-400 font-medium">총 필요 솔 에르다</p>
-                                <p className="text-xl font-bold text-yellow-400 mt-1">135개</p>
+                                <p className="text-xl font-bold text-yellow-400 mt-1">137개</p>
                             </div>
                             <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 text-center">
                                 <p className="text-xs text-slate-400 font-medium">총 필요 솔 에르다 조각</p>
-                                <p className="text-xl font-bold text-purple-400 mt-1">4,500개</p>
+                                <p className="text-xl font-bold text-purple-400 mt-1">4,035개</p>
                             </div>
                         </div>
 
@@ -361,7 +361,7 @@ export default function TestworldHexaSkill203Page() {
                                         { lv: 27, erda: 5, frag: 208, cum: 3166 },
                                         { lv: 28, erda: 5, frag: 217, cum: 3383 },
                                         { lv: 29, erda: 6, frag: 227, cum: 3610 },
-                                        { lv: 30, erda: 16, frag: 425, cum: 4500, highlight: true }
+                                        { lv: 30, erda: 16, frag: 425, cum: 4035, highlight: true }
                                     ].map((row) => (
                                         <tr
                                             key={row.lv}
