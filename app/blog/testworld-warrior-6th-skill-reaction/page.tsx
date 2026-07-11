@@ -211,7 +211,20 @@ const jobReactions = [
             '창 이펙트 제발 좀 바꿔줘',
             '데프(데몬 프렌지) 딸피 리스크에 비하면 신스킬은 메리트가 너무 부족함',
         ],
-        summary: <>키다운 스킬이지만, <strong>실드 체이싱이 부드럽게 사용</strong>되는 것에 대한 스킬 자체로써 긍정적인 평가가 보입니다. 하지만 대다수의 유저들은 이번 신규 스킬의 이펙트에 대해 <strong>강한 불호</strong>를 보이고 있습니다. 특히 데스페라도를 주무기로 사용하는 직업임에도 뜬금없이 마지막에 <strong>'창(검날창)'이 나오는 연출에 대한 거부감</strong>이 큽니다. 더불어, 데몬어벤져의 근본적인 문제인 <strong>HP 컨트롤(딸피)의 높은 리스크</strong>를 완화해 줄 실질적인 구조 개선이나 편의성 패치가 여전히 배제되어 아쉽다는 반응입니다.</>,
+        summary: <>
+            키다운 스킬이지만, <strong>실드 체이싱이 부드럽게 사용</strong>되는 것에 대한 스킬 자체로써 긍정적인 평가가 보입니다. 하지만 대다수의 유저들은 이번 신규 스킬의 이펙트에 대해 <strong>강한 불호</strong>를 보이고 있습니다. 특히 데스페라도를 주무기로 사용하는 직업임에도 뜬금없이 마지막에 <strong>'창(검날창)'이 나오는 연출에 대한 거부감</strong>이 큽니다. 더불어, 데몬어벤져의 근본적인 문제인 <strong>HP 컨트롤(딸피)의 높은 리스크</strong>를 완화해 줄 실질적인 구조 개선이나 편의성 패치가 여전히 배제되어 아쉽다는 반응입니다.
+            <div className="mt-4 pt-3 border-t border-rose-800/40">
+                <a 
+                    href="https://www.inven.co.kr/board/maple/2294/455950" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-rose-300 hover:text-rose-200 underline font-semibold transition-colors"
+                >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>버서크퓨리님의 풀이펙트 글 바로가기</span>
+                </a>
+            </div>
+        </>,
     },
     {
         job: '아란',
