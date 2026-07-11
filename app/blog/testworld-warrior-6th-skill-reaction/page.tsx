@@ -72,8 +72,8 @@ const jobReactions = [
     {
         job: '미하일',
         skill: '레디언스 오브 발러',
-        sentiment: 'negative',
-        sentimentLabel: '분노 + 허탈',
+        sentiment: 'critical',
+        sentimentLabel: '극심한 불만',
         colorClass: 'text-orange-300',
         bgClass: 'bg-orange-950/40',
         borderClass: 'border-orange-700/60',
@@ -360,14 +360,14 @@ export default function WarriorSkillReactionPage() {
                     {/* 전체 분위기 한눈에 보기 */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
                         <div className="bg-red-900/40 border border-red-700/60 rounded-xl p-4 text-center shadow-lg">
-                            <div className="text-2xl font-black text-red-300 mb-1">3개</div>
+                            <div className="text-2xl font-black text-red-300 mb-1">4개</div>
                             <div className="text-xs text-slate-300 mb-1 font-medium">극심한 불만</div>
-                            <div className="text-[10px] text-red-200">다크나이트, 카이저, 렌</div>
+                            <div className="text-[10px] text-red-200">다크나이트, 미하일, 카이저, 렌</div>
                         </div>
                         <div className="bg-orange-900/40 border border-orange-700/60 rounded-xl p-4 text-center shadow-lg">
-                            <div className="text-2xl font-black text-orange-300 mb-1">4개</div>
+                            <div className="text-2xl font-black text-orange-300 mb-1">3개</div>
                             <div className="text-xs text-slate-300 mb-1 font-medium">불만 우세</div>
-                            <div className="text-[10px] text-orange-200">히어로, 미하일, 블래스터, 데몬어벤져</div>
+                            <div className="text-[10px] text-orange-200">히어로, 블래스터, 데몬어벤져</div>
                         </div>
                         <div className="bg-yellow-900/40 border border-yellow-700/60 rounded-xl p-4 text-center shadow-lg">
                             <div className="text-2xl font-black text-yellow-300 mb-1">5개</div>
