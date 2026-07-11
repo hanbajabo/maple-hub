@@ -321,7 +321,20 @@ const jobReactions = [
             '신스킬 손대기 싫어짐',
             '베타 극딜 타임포스 부족 문제는 개선된 것 같긴 함',
         ],
-        summary: <>둥그런 원판이 돌아가는 <strong>"굴렁쇠" 연출</strong>에 대해 10년 가까이 애정으로 캐릭을 키운 올드 유저들마저 <strong>"게임을 접고 싶다", "신스킬이 너무 못생겨서 손대기 싫다"</strong>며 이펙트의 관련된 부정적 의견이 많습니다. 그 외에 신규 스킬 자체 데미지 보다는 <strong>데미지 10% + 포스 회복 효과를 통한 "유틸적인 부분이 보완 됐다라고 생각하는 것이 마음 편하다"라는 의견</strong>이 꽤 있습니다.</>,
+        summary: <>
+            둥그런 원판이 돌아가는 <strong>"굴렁쇠" 연출</strong>에 대해 10년 가까이 애정으로 캐릭을 키운 올드 유저들마저 <strong>"게임을 접고 싶다", "신스킬이 너무 못생겨서 손대기 싫다"</strong>며 이펙트의 관련된 부정적 의견이 많습니다. 그 외에 신규 스킬 자체 데미지 보다는 <strong>데미지 10% + 포스 회복 효과를 통한 "유틸적인 부분이 보완 됐다라고 생각하는 것이 마음 편하다"라는 의견</strong>이 꽤 있습니다.
+            <div className="mt-4 pt-3 border-t border-indigo-800/40">
+                <a 
+                    href="https://www.inven.co.kr/board/maple/2294/456370" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-indigo-300 hover:text-indigo-200 underline font-semibold transition-colors"
+                >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>김얼라님의 제로 이펙트 글 바로가기</span>
+                </a>
+            </div>
+        </>,
     },
     {
         job: '렌',
