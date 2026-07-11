@@ -245,7 +245,20 @@ const jobReactions = [
             '아란 6차는 진짜 잘 만든 것 같음',
             '코강 연동 버그는 빨리 고쳐줬으면',
         ],
-        summary: <><strong>코강 수치가 정상적으로 연동되는 버그 수정이 전제된다면</strong> 이번 전사 6차 스킬 중 <strong>가장 긍정적인 평가</strong>를 받고 있습니다. 리마스터 이후 상시 문제되던 <strong>'사신수' 관련 이펙트를 보완하는 스킬</strong>이며, 기존 딜 사이클과의 연계도 자연스럽다는 평가입니다. 다만, <strong>비욘더 3타 이후 4타의 백호는 지속 강화가 아니기에</strong> 이펙트가 따로 놀아 부자연스럽다는 의견이 있습니다.</>,
+        summary: <>
+            <strong>코강 수치가 정상적으로 연동되는 버그 수정이 전제된다면</strong> 이번 전사 6차 스킬 중 <strong>가장 긍정적인 평가</strong>를 받고 있습니다. 리마스터 이후 상시 문제되던 <strong>'사신수' 관련 이펙트를 보완하는 스킬</strong>이며, 기존 딜 사이클과의 연계도 자연스럽다는 평가입니다. 다만, <strong>비욘더 3타 이후 4타의 백호는 지속 강화가 아니기에</strong> 이펙트가 따로 놀아 부자연스럽다는 의견이 있습니다.
+            <div className="mt-4 pt-3 border-t border-green-800/40">
+                <a 
+                    href="https://www.inven.co.kr/board/maple/2294/456066" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-green-300 hover:text-green-200 underline font-semibold transition-colors"
+                >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>주머니속10원님의 아란 신스킬 모습 글 바로가기</span>
+                </a>
+            </div>
+        </>,
     },
     {
         job: '카이저',
