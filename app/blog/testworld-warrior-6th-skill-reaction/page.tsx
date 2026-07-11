@@ -67,7 +67,20 @@ const jobReactions = [
             '쇼크 타격 이펙트 사라질 때까지 임팩트 안 나가서 1.5초 락걸림',
             '퓨어 딜러 정체성인데 딜량 자체가 전반적으로 너무 약한 게 제일 큼',
         ],
-        summary: <><strong>퓨어 딜러 포지션임에도 체급이 낮은 부분</strong>에 대한 불만이 지배적입니다. 특히 <strong>신규 스킬이 버프 형태로 설계되었으나, 조작 시 스킬 연계 메커니즘이 원활하지 않아 심각한 역체감이 발생</strong>하고 있습니다. 대표적으로 임팩트 사용 시 쇼크가 발동되지 않고, 강화 쇼크로 인해 강화 임팩트의 사출 반응이 늦어지며, 강화 임팩트 시전 중에는 기존 임팩트를 사용하지 못하는 조작 연계 제한이 걸립니다. 가장 큰 오작동 요인은 쇼크의 타격 연출(눈 번쩍 이펙트)이 완전히 사라지기 전까지 <strong>약 1.5초 동안 임팩트가 입력되지 않는 불쾌한 락(Lock) 현상</strong>입니다.</>,
+        summary: <>
+            <strong>퓨어 딜러 포지션임에도 체급이 낮은 부분</strong>에 대한 불만이 지배적입니다. 특히 <strong>신규 스킬이 버프 형태로 설계되었으나, 조작 시 스킬 연계 메커니즘이 원활하지 않아 심각한 역체감이 발생</strong>하고 있습니다. 대표적으로 임팩트 사용 시 쇼크가 발동되지 않고, 강화 쇼크로 인해 강화 임팩트의 사출 반응이 늦어지며, 강화 임팩트 시전 중에는 기존 임팩트를 사용하지 못하는 조작 연계 제한이 걸립니다. 가장 큰 오작동 요인은 쇼크의 타격 연출(눈 번쩍 이펙트)이 완전히 사라지기 전까지 <strong>약 1.5초 동안 임팩트가 입력되지 않는 불쾌한 락(Lock) 현상</strong>입니다.
+            <div className="mt-4 pt-3 border-t border-purple-800/40">
+                <a 
+                    href="https://www.inven.co.kr/board/maple/2294/456167" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-purple-300 hover:text-purple-200 underline font-semibold transition-colors"
+                >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>진힐라님의 신스킬 분석글 바로가기</span>
+                </a>
+            </div>
+        </>,
     },
     {
         job: '미하일',
