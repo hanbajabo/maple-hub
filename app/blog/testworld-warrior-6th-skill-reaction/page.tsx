@@ -396,61 +396,58 @@ export default function WarriorSkillReactionPage() {
                     <div className="flex flex-wrap items-center gap-3 mb-6">
                         <span className="flex items-center gap-1.5 px-3.5 py-1 text-xs font-semibold bg-red-500/20 text-red-200 border border-red-500/40 rounded-full">
                             <Calendar className="w-3.5 h-3.5 text-red-300" />
-                            2026년 7월 10일
+                            2026년 7월 9일
                         </span>
                         <span className="px-3.5 py-1 text-xs font-bold bg-orange-500/20 text-orange-200 border border-orange-500/30 rounded-full">
-                            🔥 테섭 긴급 분석
+                            테섭 1차 긴급 분석
                         </span>
                         <span className="px-3.5 py-1 text-xs font-bold bg-slate-600/40 text-slate-200 border border-slate-500/40 rounded-full">
-                            인벤 게시판 실측 데이터
+                            인벤 직업 게시판 분석
                         </span>
                     </div>
 
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 leading-tight break-keep">
-                        <span className="bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
+                        <span className="block text-xl sm:text-2xl font-bold bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent mb-1">
+                            【1차 테섭 긴급 분석】
+                        </span>
+                        <span className="block bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
                             전사 직업군 신규 6차 스킬,
                         </span>
-                        <br />
-                        <span className="text-white text-2xl sm:text-3xl font-bold">
-                            유저들은 어떻게 반응했나
+                        <span className="block text-white font-bold">
+                            유저들은 어떻게 반응했나?
                         </span>
                     </h1>
 
                     <p className="text-base md:text-lg text-slate-200 mb-8 leading-relaxed break-keep border-l-4 border-red-500 pl-5 py-3 bg-red-950/30 rounded-r-lg">
                         2026년 7월 9일 오후 4시, 테스트서버 1.2.203 업데이트와 함께 전 직업 신규 6차 스킬이 공개되었습니다.
-                        전사 13개 직업의 인벤 직업 게시판을 <span className="text-white font-bold">실시간 크롤링 후 필터링</span>한 실측 여론을 할루시네이션 없이 정리합니다.
+                        전사 13개 직업의 인벤 직업 게시판의 여론을 취합하여 분석했습니다.
                     </p>
 
-                    {/* 방법론 안내 */}
+                    {/* 분석 범위 안내 */}
                     <div className="bg-slate-800/60 border border-slate-600/70 rounded-2xl p-5 backdrop-blur-sm mb-8">
-                        <p className="text-sm font-bold text-slate-100 mb-3 flex items-center gap-2">
+                        <p className="text-sm font-bold text-slate-100 mb-2 flex items-center gap-2">
                             <Info className="w-4 h-4 text-blue-300" />
-                            📌 데이터 수집 방법론
+                            분석 범위 안내
                         </p>
-                        <ul className="text-sm text-slate-300 space-y-1.5 pl-4 border-l-2 border-slate-600">
-                            <li>• 인벤 메이플스토리 전사 직업 게시판 (board ID: 2294) 직접 크롤링</li>
-                            <li>• 7월 9일 오후 4시 테섭 업데이트 이후 작성된 게시글만 필터링 (post ID ≥ 455730)</li>
-                            <li>• 13개 직업 각각 최소 13건 ~ 최대 49건의 게시글 제목 실측</li>
-                            <li>• 본문 내용은 보안 시스템으로 직접 수집 불가 — 제목 키워드 및 공개된 전분 수치 데이터 교차 분석</li>
-                        </ul>
+                        <p className="text-sm text-slate-300 leading-relaxed">
+                            1차 테스트월드 기준 신규 6차 스킬의 <strong className="text-slate-100">딜 점유율은 전반적으로 낮다는 평가</strong>가 많습니다.
+                            다만 이는 직업 전체에 공통 사항이므로 별도 항목으로 다루지 않았으며,
+                            본 분석에서는 <strong className="text-slate-100">신규 스킬의 설계·조작감·연계성</strong>과
+                            <strong className="text-slate-100"> 직업별 고유 이슈</strong>에 대한 유저 반응을 중심으로 정리했습니다.
+                        </p>
                     </div>
 
                     {/* 전체 분위기 한눈에 보기 */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+                    <div className="grid grid-cols-3 gap-3 mb-8">
                         <div className="bg-red-900/40 border border-red-700/60 rounded-xl p-4 text-center shadow-lg">
                             <div className="text-2xl font-black text-red-300 mb-1">4개</div>
                             <div className="text-xs text-slate-300 mb-1 font-medium">극심한 불만</div>
                             <div className="text-[10px] text-red-200">다크나이트, 미하일, 카이저, 렌</div>
                         </div>
                         <div className="bg-orange-900/40 border border-orange-700/60 rounded-xl p-4 text-center shadow-lg">
-                            <div className="text-2xl font-black text-orange-300 mb-1">3개</div>
-                            <div className="text-xs text-slate-300 mb-1 font-medium">불만 우세</div>
-                            <div className="text-[10px] text-orange-200">히어로, 블래스터, 데몬어벤져</div>
-                        </div>
-                        <div className="bg-yellow-900/40 border border-yellow-700/60 rounded-xl p-4 text-center shadow-lg">
-                            <div className="text-2xl font-black text-yellow-300 mb-1">5개</div>
-                            <div className="text-xs text-slate-300 mb-1 font-medium">아쉬움/호불호</div>
-                            <div className="text-[10px] text-yellow-200">팔라딘, 소울마스터, 아델, 데슬, 제로</div>
+                            <div className="text-2xl font-black text-orange-300 mb-1">8개</div>
+                            <div className="text-xs text-slate-300 mb-1 font-medium">불만·호불호</div>
+                            <div className="text-[10px] text-orange-200">히어로, 블래스터, 데몬어벤져, 팔라딘,<br />소울마스터, 아델, 데몬슬레이어, 제로</div>
                         </div>
                         <div className="bg-green-900/40 border border-green-700/60 rounded-xl p-4 text-center shadow-lg">
                             <div className="text-2xl font-black text-green-300 mb-1">1개</div>
