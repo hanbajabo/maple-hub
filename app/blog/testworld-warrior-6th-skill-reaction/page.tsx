@@ -101,7 +101,20 @@ const jobReactions = [
             '뎀감기인 로아이아스랑 배리어 유틸이 바인드 타이밍엔 무용지물이 됨',
             '풀패링 허수아비로 쳐도 최하위권인데 실전 구조는 더 기형적으로 변함',
         ],
-        summary: <>신규 스킬 추가에 따른 딜 상승량은 약 2%대로 미미한 가운데, 동반된 <strong>바인드 편의성 개선 패치</strong>(바인드 적용 시 맵 패턴 미출현)가 미하일에게는 <strong>실질적인 너프(약 1.5%~3%)로 작용하는 기형적인 구조적 모순</strong>이 발생했습니다. 미하일은 보스 패턴에 피격당하며 <strong>로얄가드 패링을 성공시켜야</strong> 핵심 딜링과 버프를 유지할 수 있는데, <strong>극딜 시 보스가 행동 불가에 걸려 가드를 터뜨릴 기회가 원천 봉쇄</strong>되기 때문입니다. 이로 인해 극딜 시 저점을 보완해주는 가드 시간 증가 혜택과 라이트 오브 커리지, 로아이아스 등 뎀감 보호막 유틸 또한 극딜 타임 내에선 사실상 무용지물이 되는 현상입니다.</>,
+        summary: <>
+            신규 스킬 추가에 따른 딜 상승량은 약 2%대로 미미한 가운데, 동반된 <strong>바인드 편의성 개선 패치</strong>(바인드 적용 시 맵 패턴 미출현)가 미하일에게는 <strong>실질적인 너프(약 1.5%~3%)로 작용하는 기형적인 구조적 모순</strong>이 발생했습니다. 미하일은 보스 패턴에 피격당하며 <strong>로얄가드 패링을 성공시켜야</strong> 핵심 딜링과 버프를 유지할 수 있는데, <strong>극딜 시 보스가 행동 불가에 걸려 가드를 터뜨릴 기회가 원천 봉쇄</strong>되기 때문입니다. 이로 인해 극딜 시 저점을 보완해주는 가드 시간 증가 혜택과 라이트 오브 커리지, 로아이아스 등 뎀감 보호막 유틸 또한 극딜 타임 내에선 사실상 무용지물이 되는 현상입니다.
+            <div className="mt-4 pt-3 border-t border-orange-800/40">
+                <a 
+                    href="https://www.inven.co.kr/board/maple/5974/6852311" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-orange-300 hover:text-orange-200 underline font-semibold transition-colors"
+                >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>갸미님의 미하일 논란 정리 글 바로가기</span>
+                </a>
+            </div>
+        </>,
     },
     {
         job: '소울마스터',
