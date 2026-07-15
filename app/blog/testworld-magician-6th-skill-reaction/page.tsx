@@ -9,8 +9,8 @@ const jobReactions = [
     {
         job: '불독',
         skill: '인페르날 웨이브',
-        sentiment: 'mixed',
-        sentimentLabel: '호불호 (이펙트 불만 및 딜 누수 우려)',
+        sentiment: 'negative',
+        sentimentLabel: '불만 우세 (이펙트 불만 및 딜 누수 우려)',
         colorClass: 'text-orange-300',
         bgClass: 'bg-orange-950/40',
         borderClass: 'border-orange-700/60',
@@ -247,8 +247,8 @@ const jobReactions = [
     {
         job: '키네시스',
         skill: '그래비티 오브젝트',
-        sentiment: 'negative',
-        sentimentLabel: '불만 우세 (이펙트 아쉬움 및 범위 협소)',
+        sentiment: 'mixed',
+        sentimentLabel: '아쉬움 우세 (이펙트 아쉬움 및 범위 협소)',
         colorClass: 'text-violet-300',
         bgClass: 'bg-violet-950/40',
         borderClass: 'border-violet-700/60',
@@ -336,14 +336,14 @@ const jobReactions = [
         job: '레테',
         skill: '보이드 오리진',
         sentiment: 'negative',
-        sentimentLabel: '불만 우세 (쿨뚝 강제 및 구조 모순)',
+        sentimentLabel: '불만 (신규 스킬의 구조 모순)',
         colorClass: 'text-rose-300',
         bgClass: 'bg-rose-950/40',
         borderClass: 'border-rose-700/60',
         headerBg: 'bg-rose-900/30',
         icon: '/images/testworld-203/w_스킬_192141504레테(6차)_추가.png',
         dilRate: '',
-        keyIssue: "임프린트 최종뎀 32% 감소 역시너지, 시퀀스 분리 및 마우스 우클릭 버프 해제 강제, 4~5초 쿨뚝 세팅 가중",
+        keyIssue: "신규 스킬의 역시너지 발생 부분과 마우스 우클릭 버프 해제 강제 이슈",
         posts: [
             '신6차 펠 최종뎀 감소 때문에 시퀀스 분리 필요한 거죠?',
             '다다익쿨 확정이죠? 5초 4초고민중인데',
@@ -352,7 +352,7 @@ const jobReactions = [
             '이번에 임프린트 너프 신6차 때문인거인가요',
         ],
         summary: <>
-            레테의 신규 6차 &lsquo;보이드 오리진&rsquo;이 추가되면서 <strong>임프린트 최종 데미지 감소 패널티와 이로 인한 극딜 사이클의 심각한 구조적 모순</strong>이 뜨거운 쟁점입니다. 6차 버프 동안 스택을 소모하는 펠의 최종뎀이 32% 감소하기 때문에, 입장 극딜 시 소모할 스택 부족과 맞물려 <strong>오히려 딜 손해를 보지 않으려면 버프 도중 마우스 우클릭으로 버프를 강제 해제해야 하는 기형적인 컨트롤</strong>이 발생하고 있습니다. 이러한 한계를 극복하기 위해 유저들 사이에서는 <strong>이딕트·오버로드 시전 구간과 임펠(인보크) 시전 구간 간의 효용 편차 해소</strong>를 통한 극딜 시퀀스 편입, <strong>체인커맨드 사용 시 임프린트 표식을 충분히 묻혀주는 기능 추가</strong>, <strong>오버로드 후 이딕트 1.8초 제한 삭제(또는 1초 이내 축소)</strong>, 그리고 <strong>체인커맨드:맹약완성 버프 지속시간 증가(또는 쿨감률 45% 상향)</strong> 등의 실질적인 구조 개선안이 제기되고 있습니다.
+            신규 스킬 이펙트는 예쁘다는 의견이 많습니다. 하지만 이 스킬은 스택을 소모하며 사용하는 극딜 버프인데, <strong>입장하여 극딜을 쓸 때 초반 스택이 부족하여 제대로 된 딜량이 나오지 않는 현상</strong>이 발생하고 있습니다. 그래서 입장 극딜 기준 <strong>이딕트 - 오버로드 - 1.8초 대기시간 동안 신규 6차 - 이딕트 - 오리진 - 오리진 끝난 후 이딕트 사용하기 직전 마우스 우클릭으로 신규 6차 버프 해제</strong>라는 기형적인 극딜 운용방법이 나온 상태입니다. 현재 이 문제를 해결하고 신규 6차 스킬이 나와야 한다는 의견이 큰 공감을 얻고 있습니다.
             <div className="mt-4 pt-3 border-t border-rose-800/40">
                 <a 
                     href="https://www.inven.co.kr/board/maple/2295/299049" 
@@ -585,7 +585,7 @@ export default function MagicianSkillReactionPage() {
                         <p>
                             공개된 마법사 11개 직업 신규 6차 스킬의 1차 인벤 여론을 종합하면,
                             <span className="text-red-300 font-bold"> 전반적으로 부정적인 피드백이 두드러집니다</span>.
-                            11개 중 2개 직업군이 극심한 불만(에반, 배틀메이지), 8개 직업군이 불만·호불호 여론을 보이고 있으며,
+                            11개 중 2개 직업군이 극심한 불만(에반, 배틀메이지), 7개 직업군이 불만 우세(불독, 썬콜, 비숍, 플위, 루미너스, 일리움, 레테), 1개 직업군이 아쉬움 우세(키네시스) 여론을 보이고 있으며,
                             명확한 호평을 얻은 직업은 라라 1개에 그쳤습니다.
                         </p>
 
@@ -602,7 +602,7 @@ export default function MagicianSkillReactionPage() {
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="text-red-300 font-bold shrink-0 text-base">3.</span>
-                                    <span><span className="text-white font-bold">조작 피로도 및 세팅 부담 가중</span> — 에반의 잔해 수동 캔슬과 썬콜의 수동 극딜 추가 모션 피로도, 그리고 레테의 4~5초 쿨감모자(쿨뚝) 셋팅 강제 현상 등 조작성과 비용 측면의 역체감이 심각합니다.</span>
+                                    <span><span className="text-white font-bold">조작 피로도 및 기형적 딜 사이클 강제</span> — 에반의 마나 오버로드 연계 시의 극심한 MP 부족과 돌아와 내부쿨 롤백으로 인한 조작성 저하, 썬콜의 수동 극딜 추가 모션 피로도, 그리고 레테의 딜 손실을 막기 위한 <strong>마우스 우클릭 버프 강제 해제(캔슬) 및 초반 스택 부족 현상</strong> 등 조작 측면의 역체감이 심각합니다.</span>
                                 </li>
                             </ol>
                         </div>
