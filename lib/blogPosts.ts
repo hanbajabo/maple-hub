@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 7월 15일 테스트월드 1.2.203 마법사 직업 여론 긴급 분석
+    {
+        slug: 'testworld-magician-6th-skill-reaction',
+        title: '🔮 【1차 테섭 긴급 분석】마법사 직업군 신규 6차 스킬, 유저들은 어떻게 반응했나?',
+        description: '2026년 7월 9일 테스트월드 1.2.203 업데이트! 인벤 마법사 직업 게시판의 여론을 취합하여 불독, 썬콜, 비숍, 에반, 레테 등 11개 마법사 직업군의 1차 반응을 가감 없이 분석합니다.',
+        category: '메이플 이야기',
+        date: '2026년 7월 15일',
+        readTime: '10분',
+        thumbnail: '🔮',
+        featured: true,
+        targetDate: '2026년 7월 23일',
+    },
     // 7월 9일 테스트월드 1.2.203 전사 직업 여론 긴급 분석
     {
         slug: 'testworld-warrior-6th-skill-reaction',
