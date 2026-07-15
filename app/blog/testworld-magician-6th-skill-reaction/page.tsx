@@ -151,7 +151,11 @@ const jobReactions = [
         bgClass: 'bg-blue-950/40',
         borderClass: 'border-blue-700/60',
         headerBg: 'bg-blue-900/30',
-        icon: '/images/testworld-203/w_스킬_22201505에반(6차)_추가.png',
+        icon: [
+            '/images/testworld-203/w_스킬_22201505에반(6차)_추가.png',
+            '/images/testworld-203/w_스킬_22200506에반(6차)_추가.png',
+            '/images/testworld-203/w_스킬_22200507에반(6차)_추가.png',
+        ],
         dilRate: '',
         keyIssue: "드래곤 소어 버프화 건의, 엘블 4스택 삭제 및 돌아와 내부쿨 제거 요구, MP 고갈 개선 제안",
         posts: [
@@ -523,12 +527,23 @@ export default function MagicianSkillReactionPage() {
                                             <span className="text-xs text-purple-300 font-bold flex items-center gap-1">
                                                 🖼️ 패치노트 신규 스킬 상세 명세 (툴팁 원본비율)
                                             </span>
-                                            <div className="overflow-x-auto">
-                                                <img
-                                                    src={job.icon}
-                                                    alt={`${job.job} ${job.skill} 스킬 상세 설명`}
-                                                    className="h-auto rounded-lg max-w-none sm:max-w-full select-none"
-                                                />
+                                            <div className="overflow-x-auto flex flex-wrap gap-4">
+                                                {Array.isArray(job.icon) ? (
+                                                    (job.icon as string[]).map((imgSrc, imgIdx) => (
+                                                        <img
+                                                            key={imgIdx}
+                                                            src={imgSrc}
+                                                            alt={`${job.job} ${job.skill} 스킬 상세 설명 ${imgIdx + 1}`}
+                                                            className="h-auto rounded-lg max-w-none sm:max-w-full select-none"
+                                                        />
+                                                    ))
+                                                ) : (
+                                                    <img
+                                                        src={job.icon as string}
+                                                        alt={`${job.job} ${job.skill} 스킬 상세 설명`}
+                                                        className="h-auto rounded-lg max-w-none sm:max-w-full select-none"
+                                                    />
+                                                )}
                                             </div>
                                         </div>
                                     )}
