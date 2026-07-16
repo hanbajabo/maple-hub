@@ -668,7 +668,7 @@ export default function HexaSkillBalanceJuly16() {
                         <span className="text-slate-500 text-sm">2026년 7월 16일 <span className="text-amber-400 font-bold ml-1.5">(7월 23일 적용 예정)</span></span>
                     </div>
                     <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">
-                        📢 【테섭 2차】신규 6차 HEXA 스킬 대규모 밸런스 조정 및 솔 에르다 요구량 완화 총정리
+                        【테섭 2차】 전직업 신규 6차 스킬 변경점 총정리
                     </h1>
                     <p className="text-lg text-slate-400">
                         1차 테스트서버 대비 솔 에르다 및 조각 요구량 인하! 패파 게이지 제거, 다크나이트/섀도어/아란 V매트릭스 코어 강화 미적용 조치 및 폭딜 상향 등 핵심 변경점을 모았습니다.
