@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Clock, Gift, AlertCircle, CheckCircle, Calendar, Sparkles, Zap, Trophy, Star, Swords } from 'lucide-react';
 import { InArticleAd } from '@/components/AdSense';
 
@@ -138,6 +139,19 @@ export default function SundayMapleSolErdaTimeJul19() {
                         </div>
                     </div>
                 </section>
+
+                {/* Event Schedule Image */}
+                <div className="mb-12 flex justify-center">
+                    <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 shadow-2xl max-w-2xl w-full">
+                        <Image
+                            src="/images/blog/sunday-maple-sol-erda-schedule-jul19.png"
+                            alt="솔 에르다 타임 일정 안내"
+                            width={800}
+                            height={450}
+                            className="mx-auto rounded-lg"
+                        />
+                    </div>
+                </div>
 
                 {/* Main Rewards - Sol Erda Time */}
                 <section className="mb-12">
