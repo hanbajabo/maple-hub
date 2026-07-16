@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 7월 19일 썬데이 메이플 솔 에르다 타임 이벤트 완벽 가이드
+    {
+        slug: 'sunday-maple-sol-erda-time-jul19-2026',
+        title: '⚡ 【7월 19일 이벤트】솔 에르다 타임 완벽 가이드! (솔 에르다 3배 + 몬파 400%)',
+        description: '2026년 7월 19일 일요일 썬데이 메이플: 솔 에르다 타임 이벤트 완벽 공략. 3시간 접속으로 솔 에르다 조각 100개 + 솔 에르다 1개 무료 획득 및 사냥 3배, 몬스터파크 400% 경험치 혜택 주의사항 총정리!',
+        category: '이벤트 가이드',
+        date: '2026년 7월 16일',
+        readTime: '6분',
+        thumbnail: '⚡',
+        featured: true,
+        targetDate: '2026년 7월 19일',
+    },
     // 7월 15일 테스트월드 1.2.203 마법사 직업 여론 긴급 분석
     {
         slug: 'testworld-magician-6th-skill-reaction',
