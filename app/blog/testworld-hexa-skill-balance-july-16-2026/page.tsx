@@ -696,7 +696,7 @@ export default function HexaSkillBalanceJuly16() {
                         <div className="bg-slate-950/60 rounded-xl p-5 border border-slate-800">
                             <p className="font-bold text-cyan-400 mb-2 flex items-center gap-1.5">
                                 <Swords className="w-4 h-4" />
-                                V매트릭스 강화 코어 미적용 & 퍼뎀 보정
+                                1차 테섭 피드백 반영 및 조정
                             </p>
                             <div className="text-sm text-slate-300 leading-relaxed space-y-1.5">
                                 <p>1차 테스트월드에서 받은 피드백을 반영하여 스킬 고유 퍼센트 데미지 수치 조정과 스킬 매커니즘 보정 패치를 진행했습니다.</p>
