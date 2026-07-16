@@ -425,7 +425,7 @@ export default function HexaSkillBalanceJuly16() {
             ]
         },
         {
-            group: '🏴‍☠️ 해적 및 기타 직업군',
+            group: '🏴‍☠️ 해적 직업군',
             borderColor: 'border-orange-500/40',
             bgGlow: 'from-orange-950/20 to-transparent',
             items: [
@@ -587,7 +587,7 @@ export default function HexaSkillBalanceJuly16() {
             ]
         },
         {
-            group: '🏴‍☠️ 해적 및 기타 직업군',
+            group: '🏴‍☠️ 해적 직업군',
             borderColor: 'border-orange-500/40',
             bgGlow: 'from-orange-950/20 to-transparent',
             items: [
