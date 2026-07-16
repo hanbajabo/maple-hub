@@ -232,7 +232,7 @@ export default function HexaSkillBalanceJuly16() {
                 },
                 {
                     job: '아델',
-                    changes: ['에테르 뤼페: 스킬 사용 중 게더링과 블로섬을 딜레이(시전 동작) 없이 즉시 시전할 수 있게 편의성 개선']
+                    changes: ['에테르 뤼페: 스킬 사용 중 게더링과 블로섬을 딜레이(시전 동작) 없이 즉시 시전할 수 있게 개선']
                 },
                 {
                     job: '데몬 슬레이어',
