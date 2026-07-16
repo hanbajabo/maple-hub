@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 7월 16일 테스트월드 신규 HEXA 밸런스 패치
+    {
+        slug: 'testworld-hexa-skill-balance-july-16-2026',
+        title: '📢 【테섭 2차】신규 6차 HEXA 스킬 대규모 밸런스 조정 및 솔 에르다 요구량 완화 총정리',
+        description: '2026년 7월 16일 테스트월드 업데이트! 1차 테섭 대비 신규 HEXA 스킬들의 솔 에르다와 조각 요구량이 크게 완화되었으며, 패파 게이지 제거, 다크나이트/섀도어/아란의 V매트릭스 강화 미적용 조치 및 데미지 버프 등 전 직업 대규모 밸런스 패치 소식을 상세히 정리합니다.',
+        category: '업데이트 소식',
+        date: '2026년 7월 16일',
+        readTime: '9분',
+        thumbnail: '📢',
+        featured: true,
+        targetDate: '2026년 7월 23일',
+    },
     // 7월 19일 썬데이 메이플 솔 에르다 타임 이벤트 완벽 가이드
     {
         slug: 'sunday-maple-sol-erda-time-jul19-2026',
