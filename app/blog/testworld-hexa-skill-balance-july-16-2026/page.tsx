@@ -515,6 +515,10 @@ export default function HexaSkillBalanceJuly16() {
                 {
                     job: '카이저',
                     changes: ['인퍼널 브레스 / VI / 얼티밋 인퍼널 브레스: 윌 오브 소드 VI의 드래곤 블로우를 발생시키는 기능 추가']
+                },
+                {
+                    job: '렌',
+                    changes: ['매화검 1초식 : 순인: 시전 시 가끔 순간 이동하지 않는 현상 수정']
                 }
             ]
         },
@@ -594,10 +598,6 @@ export default function HexaSkillBalanceJuly16() {
                 {
                     job: '캐논슈터',
                     changes: ['미니 캐논볼 / 미니 캐논볼 VI: 스킬 설명 수정']
-                },
-                {
-                    job: '렌',
-                    changes: ['매화검 1초식 : 순인: 시전 시 가끔 순간 이동하지 않는 현상 수정']
                 }
             ]
         }
