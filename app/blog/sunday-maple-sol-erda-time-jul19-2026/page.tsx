@@ -222,6 +222,22 @@ export default function SundayMapleSolErdaTimeJul19() {
                     </div>
                 </section>
 
+                {/* Event UI Image */}
+                <div className="mb-12 flex justify-center">
+                    <div className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 shadow-2xl">
+                        <Image
+                            src="/images/blog/sunday-maple-sol-erda-ui.png"
+                            alt="솔 에르다 타임 누적 시간 UI"
+                            width={400}
+                            height={600}
+                            className="mx-auto rounded-lg"
+                        />
+                        <p className="text-center text-slate-400 text-sm mt-4">
+                            💡 접속 시간을 실시간으로 확인할 수 있는 전용 UI
+                        </p>
+                    </div>
+                </div>
+
                 {/* Benefit 2 - Hunting x3 */}
                 <section className="mb-12">
                     <div className="bg-gradient-to-br from-orange-900/50 to-red-900/50 border-2 border-orange-500/50 rounded-2xl p-6 sm:p-8">
