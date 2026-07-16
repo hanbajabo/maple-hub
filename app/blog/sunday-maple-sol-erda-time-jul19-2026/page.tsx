@@ -272,7 +272,7 @@ export default function SundayMapleSolErdaTimeJul19() {
                             </div>
                             <div className="bg-green-900/20 border border-green-500/40 rounded-lg p-4">
                                 <p className="text-green-300 text-sm">
-                                    💡 <strong>메이플 어드벤처 - 아티팩트의 힘</strong> 사용 시 솔 에르다 획득량 증가 혜택과 함께 중복 적용 가능합니다.
+                                    💡 <strong>보약 스킬, 에테리온 아티팩트</strong> 솔 에르다 획득량 증가 혜택과 함께 중복 적용 가능합니다.
                                 </p>
                             </div>
                         </div>
