@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 7월 23일 미니게임 울티마 스쿼드
+    {
+        slug: 'ultima-squad-minigame-guide',
+        title: '【미니게임】 울티마 스쿼드 완벽 공략',
+        description: '2026년 7월 23일 추가되는 신규 미니게임 이벤트! 전사·궁수·마법사 3인의 용병을 키워 자동 전투 스테이지를 클리어하고, 솔 에르다·경험치 쿠폰 등 다양한 보상을 획득하세요. 용병 스킬 목록, 장비 단계별 잠재능력, 유틸리티 강화 비용, 코인샵 아이템까지 총정리!',
+        category: '이벤트 가이드',
+        date: '2026년 7월 18일',
+        readTime: '8분',
+        thumbnail: '⚔️',
+        featured: true,
+        targetDate: '2026년 7월 23일',
+    },
     // 7월 16일 테스트월드 신규 HEXA 밸런스 패치
     {
         slug: 'testworld-hexa-skill-balance-july-16-2026',
