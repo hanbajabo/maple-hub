@@ -451,63 +451,92 @@ export default function UltimaSquadMinigamePage() {
                             </h3>
                             <p className="text-xs text-slate-400 mb-4 leading-relaxed">
                                 ※ 본 표는 직접 플레이하면서 확인한 데이터를 기반으로 작성되었으므로 100% 정확하지 않을 수 있습니다.<br />
-                                ※ 무기의 최대 추가 옵션 수치는 현재까지 <strong>+4까지 확인</strong>되었으며, 실제 최대치 한계는 이보다 높을 수 있습니다.<br />
-                                ※ 3단계 방어구의 최대 추가 옵션 수치는 아직 미확인 상태이나, <strong>2단계 최고 추가 옵션(HP +12 / 방어력 +4)보다는 더 위로</strong> 나올 것으로 예상됩니다.
+                                ※ 무기의 최대 추가 옵션 수치는 현재까지 <strong className="text-slate-200">+4까지 확인</strong>되었으며, 실제 최대치 한계는 이보다 높을 수 있습니다.<br />
+                                ※ 3단계 방어구의 최대 추가 옵션 수치는 아직 미확인 상태이나, <strong className="text-slate-200">2단계 최고 추가 옵션(HP +12 / 방어력 +4)보다는 더 위로</strong> 나올 것으로 예상됩니다.
                             </p>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left border-collapse min-w-[500px] text-sm">
-                                    <thead>
-                                        <tr className="bg-slate-800/50 text-slate-300">
-                                            <th className="p-3 border border-slate-700 font-semibold">장비 단계</th>
-                                            <th className="p-3 border border-slate-700 font-semibold">부위</th>
-                                            <th className="p-3 border border-slate-700 font-semibold">기본 옵션</th>
-                                            <th className="p-3 border border-slate-700 font-semibold">최대 추가 옵션 (추옵)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="text-slate-300 divide-y divide-slate-800/50">
-                                        {/* 1단계 */}
-                                        <tr className="bg-slate-900/40">
-                                            <td className="p-3 border border-slate-700 font-bold" rowSpan={2}>1단계</td>
-                                            <td className="p-3 border border-slate-700">무기 ⚔️</td>
-                                            <td className="p-3 border border-slate-700">공격력 +9</td>
-                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4 (확인)</td>
-                                        </tr>
-                                        <tr className="bg-slate-900/40">
-                                            <td className="p-3 border border-slate-700">방어구 🎩🥊👟<br/>(모자/장갑/신발)</td>
-                                            <td className="p-3 border border-slate-700">최대 HP +45 / 방어력 +5</td>
-                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">최대 HP +10 / 방어력 +4</td>
-                                        </tr>
-                                        
-                                        {/* 2단계 */}
-                                        <tr className="bg-slate-950/40">
-                                            <td className="p-3 border border-slate-700 font-bold" rowSpan={2}>2단계</td>
-                                            <td className="p-3 border border-slate-700">무기 ⚔️</td>
-                                            <td className="p-3 border border-slate-700">공격력 +14</td>
-                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4 (확인)</td>
-                                        </tr>
-                                        <tr className="bg-slate-950/40">
-                                            <td className="p-3 border border-slate-700">방어구 🎩🥊👟<br/>(모자/장갑/신발)</td>
-                                            <td className="p-3 border border-slate-700">최대 HP +74 / 방어력 +10</td>
-                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">최대 HP +12 / 방어력 +4</td>
-                                        </tr>
 
-                                        {/* 3단계 */}
-                                        <tr className="bg-slate-900/40">
-                                            <td className="p-3 border border-slate-700 font-bold" rowSpan={2}>3단계</td>
-                                            <td className="p-3 border border-slate-700">무기 ⚔️</td>
-                                            <td className="p-3 border border-slate-700">공격력 +20</td>
-                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4 (확인)</td>
-                                        </tr>
-                                        <tr className="bg-slate-900/40">
-                                            <td className="p-3 border border-slate-700">방어구 🎩🥊👟<br/>(모자/장갑/신발)</td>
-                                            <td className="p-3 border border-slate-700">최대 HP +112 / 방어력 +15</td>
-                                            <td className="p-3 border border-slate-700 text-slate-400 italic">
-                                                미확인<br/>
-                                                <span className="text-xs text-amber-400/90 font-normal">(2단계 최고 추옵 이상 예상)</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            {/* 1단계 */}
+                            <div className="mb-3 rounded-xl overflow-hidden border border-sky-700/40">
+                                <div className="bg-sky-900/40 px-4 py-2 flex items-center gap-2 border-b border-sky-700/40">
+                                    <span className="text-sky-300 font-bold text-sm">1단계</span>
+                                    <span className="text-xs text-sky-400/70">Stage 1</span>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-700/50">
+                                    {/* 무기 */}
+                                    <div className="p-3 sm:p-4 bg-slate-900/50">
+                                        <p className="text-slate-400 text-xs mb-2 font-medium">⚔️ 무기</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">공격력 +9</span>
+                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 +4 (확인)</span>
+                                        </div>
+                                    </div>
+                                    {/* 방어구 */}
+                                    <div className="p-3 sm:p-4 bg-slate-900/30">
+                                        <p className="text-slate-400 text-xs mb-2 font-medium">🎩🥊👟 방어구 (모자/장갑/신발)</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">최대 HP +45</span>
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">방어력 +5</span>
+                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +10 / 방어력 +4</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 2단계 */}
+                            <div className="mb-3 rounded-xl overflow-hidden border border-violet-700/40">
+                                <div className="bg-violet-900/40 px-4 py-2 flex items-center gap-2 border-b border-violet-700/40">
+                                    <span className="text-violet-300 font-bold text-sm">2단계</span>
+                                    <span className="text-xs text-violet-400/70">Stage 2</span>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-700/50">
+                                    {/* 무기 */}
+                                    <div className="p-3 sm:p-4 bg-slate-900/50">
+                                        <p className="text-slate-400 text-xs mb-2 font-medium">⚔️ 무기</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">공격력 +14</span>
+                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 +4 (확인)</span>
+                                        </div>
+                                    </div>
+                                    {/* 방어구 */}
+                                    <div className="p-3 sm:p-4 bg-slate-900/30">
+                                        <p className="text-slate-400 text-xs mb-2 font-medium">🎩🥊👟 방어구 (모자/장갑/신발)</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">최대 HP +74</span>
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">방어력 +10</span>
+                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +12 / 방어력 +4</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 3단계 */}
+                            <div className="rounded-xl overflow-hidden border border-amber-700/40">
+                                <div className="bg-amber-900/40 px-4 py-2 flex items-center gap-2 border-b border-amber-700/40">
+                                    <span className="text-amber-300 font-bold text-sm">3단계</span>
+                                    <span className="text-xs text-amber-400/70">Stage 3</span>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-700/50">
+                                    {/* 무기 */}
+                                    <div className="p-3 sm:p-4 bg-slate-900/50">
+                                        <p className="text-slate-400 text-xs mb-2 font-medium">⚔️ 무기</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">공격력 +20</span>
+                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 +4 (확인)</span>
+                                        </div>
+                                    </div>
+                                    {/* 방어구 */}
+                                    <div className="p-3 sm:p-4 bg-slate-900/30">
+                                        <p className="text-slate-400 text-xs mb-2 font-medium">🎩🥊👟 방어구 (모자/장갑/신발)</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">최대 HP +112</span>
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">방어력 +15</span>
+                                            <span className="px-2.5 py-1 bg-slate-700/50 border border-slate-600/40 rounded-md text-slate-400 text-xs italic">
+                                                추옵 미확인
+                                                <span className="ml-1 text-amber-400/90 not-italic">(2단계 이상 예상)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
