@@ -807,7 +807,8 @@ export default function UltimaSquadMinigamePage() {
                                         </thead>
                                         <tbody className="text-slate-300 divide-y divide-slate-800/50">
                                             {[
-                                                { stage: '1-1 ~ 1-2', base: '30 골드', p5: '-', p10: '-' },
+                                                { stage: '1-1', base: '10 골드', p5: '-', p10: '-' },
+                                                { stage: '1-2', base: '30 골드', p5: '-', p10: '-' },
                                                 { stage: '1-3', base: '50 골드', p5: '-', p10: '-' },
                                                 { stage: '1-4', base: '70 골드', p5: '-', p10: '-' },
                                                 { stage: '1-5', base: '90 골드', p5: '94 골드', p10: '-' },
