@@ -681,24 +681,35 @@ export default function UltimaSquadMinigamePage() {
 
                         {/* 스테이지 구조 */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="bg-slate-950/60 border border-emerald-500/30 rounded-xl p-4">
-                                <h3 className="font-bold text-emerald-300 mb-2 text-sm">📊 스테이지 구조</h3>
-                                <ul className="text-slate-300 text-xs space-y-1.5 list-disc list-inside">
+                            <div className="bg-slate-950/60 border border-emerald-500/30 rounded-xl p-5">
+                                <h3 className="font-bold text-emerald-300 mb-2 text-base">📊 스테이지 구조</h3>
+                                <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
                                     <li><strong>일반 모드 + 카오스 모드</strong> 구분</li>
                                     <li>각 모드에 <strong>3개 지역</strong>, 각 지역 <strong>10개 스테이지</strong></li>
                                     <li>1~9 스테이지: 몬스터 무리 + 보스 등장</li>
                                     <li>10 스테이지: <strong>보스 스테이지</strong> (1종만 등장)</li>
                                 </ul>
                             </div>
-                            <div className="bg-slate-950/60 border border-blue-500/30 rounded-xl p-4">
-                                <h3 className="font-bold text-blue-300 mb-2 text-sm">⚡ 클리어 조건</h3>
-                                <ul className="text-slate-300 text-xs space-y-1.5 list-disc list-inside">
+                            <div className="bg-slate-950/60 border border-blue-500/30 rounded-xl p-5">
+                                <h3 className="font-bold text-blue-300 mb-2 text-base">⚡ 클리어 조건</h3>
+                                <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
                                     <li>용병 <strong>1명 이상 생존</strong> 상태로 모든 몬스터 처치 시 클리어</li>
                                     <li>클리어 시 <strong>자동으로 다음 스테이지</strong>로 이동</li>
                                     <li>전멸 시 <strong>이전에 클리어한 스테이지 -1 단계</strong>로 자동 이동 후 반복</li>
                                     <li>보스 스테이지는 <strong>최초 1회</strong>만 클리어 가능, 재입장 불가</li>
                                 </ul>
                             </div>
+                        </div>
+
+                        {/* 스테이지 맵 스크린샷 추가 */}
+                        <div className="relative w-full mx-auto my-4 rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                            <Image 
+                                src="/images/ultima-squad-map.jpg" 
+                                alt="스테이지 맵 UI 화면" 
+                                width={920}
+                                height={600}
+                                style={{ width: '100%', height: 'auto' }}
+                            />
                         </div>
 
                         {/* 일반 모드 보상 */}
