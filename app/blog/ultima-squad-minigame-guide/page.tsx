@@ -472,7 +472,10 @@ export default function UltimaSquadMinigamePage() {
                             <h3 className="font-bold text-purple-300 mb-3 text-base flex items-center gap-1.5">🎲 잠재능력 재설정 (훈련용 큐브)</h3>
                             <ul className="space-y-2 text-slate-200 text-sm list-disc list-inside mb-4 leading-relaxed">
                                 <li>훈련용 큐브를 사용하여 울티마 장비 잠재능력 재설정 가능</li>
-                                <li>훈련용 큐브는 <strong className="text-white">접속 상태</strong>에서만 획득 가능 (전투 중 드롭)</li>
+                                <li className="text-sm font-bold text-amber-300 mt-2 mb-2 bg-amber-950/40 p-2 rounded border border-amber-500/20 list-none -ml-4 flex items-center gap-1.5 shadow-sm">
+                                    <span>🚨</span>
+                                    <span>훈련용 큐브는 <strong className="text-white underline underline-offset-4 decoration-amber-500">접속 상태에서만</strong> 획득 가능합니다 (전투 중 드롭).</span>
+                                </li>
                                 <li>재설정 결과에서 <strong className="text-white">전/후 선택</strong> 후 적용 가능</li>
                                 <li>잠재능력 재설정 시 <strong className="text-red-400">등급은 상승하지 않음</strong></li>
                             </ul>
