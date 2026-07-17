@@ -307,14 +307,13 @@ export default function UltimaSquadMinigamePage() {
                         {/* 용병 기본 정보 */}
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             {[
-                                { type: '전사', icon: '⚔️', color: 'red', unlock: '최초 시작 시 지급', desc: '높은 HP와 방어력 기반의 근접 전투 담당' },
-                                { type: '궁수', icon: '🏹', color: 'emerald', unlock: '1-6 스테이지 클리어 후 골드로 영입', desc: '원거리 딜러. 폭풍의 시로 지속 딜 가능' },
-                                { type: '마법사', icon: '🔮', color: 'purple', unlock: '궁수 영입 후 2-6 클리어 시 골드로 영입', desc: '광역 마법 공격 및 힐 보유' },
-                            ].map(({ type, icon, color, unlock, desc }) => (
+                                { type: '전사', icon: '⚔️', color: 'red', unlock: '최초 시작 시 지급' },
+                                { type: '궁수', icon: '🏹', color: 'emerald', unlock: '1-6 스테이지 클리어 후 골드로 영입' },
+                                { type: '마법사', icon: '🔮', color: 'purple', unlock: '궁수 영입 후 2-6 클리어 시 골드로 영입' },
+                            ].map(({ type, icon, color, unlock }) => (
                                 <div key={type} className={`bg-slate-950/60 border border-${color}-500/30 rounded-xl p-4`}>
                                     <div className="text-3xl mb-2">{icon}</div>
-                                    <h3 className={`font-bold text-${color}-300 text-base mb-1`}>{type}</h3>
-                                    <p className="text-xs text-slate-400 mb-2">{desc}</p>
+                                    <h3 className={`font-bold text-${color}-300 text-base mb-2`}>{type}</h3>
                                     <div className={`text-xs bg-${color}-950/30 border border-${color}-800/30 rounded px-2 py-1 text-${color}-300`}>
                                         {unlock}
                                     </div>
