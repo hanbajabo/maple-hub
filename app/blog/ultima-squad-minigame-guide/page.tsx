@@ -325,7 +325,7 @@ export default function UltimaSquadMinigamePage() {
                         <div className="relative w-full max-w-[500px] mx-auto rounded-lg overflow-hidden border border-slate-800 shadow-md">
                             <Image 
                                 src="/images/ultima-squad-mercenaries-list.png" 
-                                alt="용병 선택 관리 화면" 
+                                alt="용병 및 스킬 관리 화면" 
                                 width={500}
                                 height={200}
                                 style={{ width: '100%', height: 'auto' }}
