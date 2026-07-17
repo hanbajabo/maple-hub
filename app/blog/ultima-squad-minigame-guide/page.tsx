@@ -284,8 +284,11 @@ export default function UltimaSquadMinigamePage() {
                             <div className="mt-3 p-3 bg-blue-950/20 border border-blue-800/30 rounded-lg">
                                 <p className="text-blue-300 text-sm font-medium">⚠️ 주의사항</p>
                                 <ul className="text-slate-400 text-xs mt-1 space-y-1 list-disc list-inside">
-                                    <li>오프라인 누적 시간은 기본 <strong className="text-white">최대 24시간</strong>까지 인정 (유틸리티 확장 후)</li>
-                                    <li>장비, 훈련용 큐브, 카오스 스쿼드 코인은 <strong className="text-white">접속 상태에서만</strong> 획득 가능</li>
+                                    <li>오프라인 누적 시간은 <strong className="text-white">기본 16시간 / 최대 24시간</strong>까지 인정 (유틸리티 확장 후)</li>
+                                    <li className="text-sm font-bold text-amber-300 mt-2 mb-2 bg-amber-950/40 p-2 rounded border border-amber-500/20 list-none -ml-4 flex items-center gap-1.5 shadow-sm">
+                                        <span>🚨</span>
+                                        <span>장비, 훈련용 큐브, 카오스 스쿼드 코인은 <strong className="text-white underline underline-offset-4 decoration-amber-500">접속 상태에서만</strong> 획득 가능합니다.</span>
+                                    </li>
                                     <li>캐시샵 이용 시간은 오프라인으로 취급 → EXP·골드만 일부 획득</li>
                                 </ul>
                             </div>
