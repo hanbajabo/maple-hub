@@ -867,9 +867,26 @@ export default function UltimaSquadMinigamePage() {
                         </div>
 
                         {/* 인벤토리 확장 */}
-                        <div className="bg-slate-950/60 border border-slate-700/50 rounded-xl p-4">
-                            <h3 className="font-bold text-slate-200 mb-3 text-sm">📦 인벤토리 슬롯 확장 (골드)</h3>
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        {/* 인벤토리 확장 */}
+                        <div className="bg-slate-950/60 border border-blue-500/30 rounded-xl p-5">
+                            <h3 className="font-bold text-blue-300 mb-2 text-base flex items-center gap-1.5">
+                                <span>📦</span>
+                                <span>인벤토리 슬롯 확장 비용 (골드 소모)</span>
+                            </h3>
+
+                            {/* 구간별 확장 방식 경고 상자 */}
+                            <div className="bg-blue-950/20 border border-blue-500/30 rounded-lg p-3 sm:p-4 mb-4">
+                                <p className="text-blue-300 text-sm font-bold flex items-center gap-1.5 mb-1">
+                                    <span>⚠️</span>
+                                    <span>주의사항 (확장 방식)</span>
+                                </p>
+                                <p className="text-slate-200 text-sm leading-relaxed">
+                                    해당 가격은 일시불 지불로 구간 전체가 한번에 확장되는 가격이 아니라, **해당 구간 내에서 [슬롯 1칸]을 확장할 때마다 소모되는 개당 비용**입니다.<br />
+                                    <span className="text-xs text-slate-400 mt-1 block">(예: 11칸째 확장 시 3만 골드 소모, 12칸째 확장 시에도 동일하게 3만 골드 소모)</span>
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                 {[
                                     { range: '11~29칸', price: '30,000' },
                                     { range: '30~49칸', price: '50,000' },
@@ -880,9 +897,9 @@ export default function UltimaSquadMinigamePage() {
                                     { range: '170~209칸', price: '1,000,000' },
                                     { range: '210~256칸', price: '1,500,000' },
                                 ].map((inv) => (
-                                    <div key={inv.range} className="bg-slate-900/40 border border-slate-700/30 rounded-lg px-3 py-2 text-center">
-                                        <p className="text-slate-300 text-xs font-medium">{inv.range}</p>
-                                        <p className="text-yellow-400 text-xs font-bold mt-0.5">{inv.price}G</p>
+                                    <div key={inv.range} className="bg-slate-900/40 border border-slate-700/30 rounded-xl px-3 py-3 text-center">
+                                        <p className="text-slate-200 text-sm font-semibold">{inv.range}</p>
+                                        <p className="text-yellow-400 text-sm font-bold font-mono mt-1">{inv.price} G</p>
                                     </div>
                                 ))}
                             </div>
