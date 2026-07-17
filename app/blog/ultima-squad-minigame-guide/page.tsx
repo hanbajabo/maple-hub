@@ -266,12 +266,21 @@ export default function UltimaSquadMinigamePage() {
 
                         <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
                             <h3 className="font-bold text-blue-300 mb-3">⏰ 오프라인 보상 시스템</h3>
-                            <ul className="space-y-2 text-slate-300 list-disc list-inside">
+                            <ul className="space-y-2 text-slate-300 list-disc list-inside mb-4">
                                 <li>접속하지 않은 동안에도 용병들이 <strong>자동 전투</strong>한 것으로 간주, EXP와 골드 획득</li>
                                 <li>용병 배치 후 전투 화면에 <strong>1회 이상 진입</strong>한 시점부터 오프라인 보상 적립 시작</li>
                                 <li>재접속 시 <strong>'오프라인 보상' 팝업</strong>으로 EXP·골드 및 레벨업 결과 확인 가능</li>
                                 <li>오프라인 보상은 <strong>마지막으로 클리어한 스테이지</strong> 기준으로 지급</li>
                             </ul>
+                            <div className="relative w-full max-w-[400px] mx-auto rounded-lg overflow-hidden border border-slate-800 shadow-md mb-4">
+                                <Image 
+                                    src="/images/ultima-squad-offline.png" 
+                                    alt="오프라인 보상 결과 팝업 화면" 
+                                    width={400}
+                                    height={320}
+                                    style={{ width: '100%', height: 'auto' }}
+                                />
+                            </div>
                             <div className="mt-3 p-3 bg-blue-950/20 border border-blue-800/30 rounded-lg">
                                 <p className="text-blue-300 text-sm font-medium">⚠️ 주의사항</p>
                                 <ul className="text-slate-400 text-xs mt-1 space-y-1 list-disc list-inside">
