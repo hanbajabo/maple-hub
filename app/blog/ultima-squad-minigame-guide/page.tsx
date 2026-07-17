@@ -785,6 +785,47 @@ export default function UltimaSquadMinigamePage() {
                                 </ul>
                             </div>
 
+                            {/* 몬스터 처치 획득 골드 정보 */}
+                            <div className="bg-slate-950/60 border border-yellow-500/30 rounded-xl p-5">
+                                <h3 className="font-bold text-yellow-300 mb-2 text-base flex items-center gap-1.5">
+                                    <span>🪙</span>
+                                    <span>몬스터 처치 시 획득 골드 정보 (1지역 기준)</span>
+                                </h3>
+                                <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+                                    ※ 직접 플레이하여 확인해주신 실측 데이터를 기반으로, [골드 획득량 증가] 배율을 역산하여 정리한 기본 골드 수치입니다.<br />
+                                    ※ 유틸리티의 [골드 획득량 증가] 레벨을 올리면 기본 획득 골드에 곱연산으로 반영됩니다.
+                                </p>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-left border-collapse min-w-[400px] text-sm">
+                                        <thead>
+                                            <tr className="bg-yellow-950/20 text-yellow-200">
+                                                <th className="p-3 border border-yellow-800/20 font-semibold">스테이지</th>
+                                                <th className="p-3 border border-yellow-800/20 font-semibold">기본 골드 (골획증 0%)</th>
+                                                <th className="p-3 border border-yellow-800/20 font-semibold">골획증 +5% 적용 시</th>
+                                                <th className="p-3 border border-yellow-800/20 font-semibold">골획증 +10% 적용 시</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-slate-300 divide-y divide-slate-800/50">
+                                            {[
+                                                { stage: '1-1 ~ 1-2', base: '30 골드', p5: '-', p10: '-' },
+                                                { stage: '1-3', base: '50 골드', p5: '-', p10: '-' },
+                                                { stage: '1-4', base: '70 골드', p5: '-', p10: '-' },
+                                                { stage: '1-5', base: '90 골드', p5: '94 골드', p10: '-' },
+                                                { stage: '1-6', base: '110 골드', p5: '115 골드', p10: '121 골드' },
+                                                { stage: '1-7', base: '130 골드', p5: '-', p10: '143 골드' },
+                                            ].map((row, idx) => (
+                                                <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
+                                                    <td className="p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
+                                                    <td className="p-3 border border-slate-700 font-semibold">{row.base}</td>
+                                                    <td className="p-3 border border-slate-700 text-slate-400">{row.p5}</td>
+                                                    <td className="p-3 border border-slate-700 text-slate-400">{row.p10}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
                             {/* 에스페시아 상자 */}
                             <div className="bg-slate-950/60 border border-orange-500/30 rounded-xl p-5">
                                 <h3 className="font-bold text-orange-300 mb-3 text-base flex items-center gap-1.5">
