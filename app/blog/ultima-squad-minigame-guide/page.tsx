@@ -834,6 +834,17 @@ export default function UltimaSquadMinigamePage() {
                     <div className="space-y-5 text-sm sm:text-base text-slate-200 leading-relaxed break-keep">
                         <p className="text-slate-400 text-sm">미니게임에서 획득한 <strong className="text-white">골드</strong>를 소모하여 유틸리티를 강화할 수 있습니다. 용병 관리 UI의 유틸리티 탭에서 확인하세요.</p>
 
+                        {/* 유틸리티 강화 UI 스크린샷 추가 */}
+                        <div className="relative w-full mx-auto my-4 rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                            <Image 
+                                src="/images/ultima-squad-utility.png" 
+                                alt="유틸리티 강화 UI 화면" 
+                                width={920}
+                                height={600}
+                                style={{ width: '100%', height: 'auto' }}
+                            />
+                        </div>
+
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {utilityData.map((util) => {
                                 const colorMap: Record<string, { border: string; header: string; badge: string; }> = {
@@ -867,7 +878,6 @@ export default function UltimaSquadMinigamePage() {
                         </div>
 
                         {/* 인벤토리 확장 */}
-                        {/* 인벤토리 확장 */}
                         <div className="bg-slate-950/60 border border-blue-500/30 rounded-xl p-5">
                             <h3 className="font-bold text-blue-300 mb-2 text-base flex items-center gap-1.5">
                                 <span>📦</span>
@@ -881,7 +891,7 @@ export default function UltimaSquadMinigamePage() {
                                     <span>주의사항 (확장 방식)</span>
                                 </p>
                                 <p className="text-slate-200 text-sm leading-relaxed">
-                                    해당 가격은 일시불 지불로 구간 전체가 한번에 확장되는 가격이 아니라, **해당 구간 내에서 [슬롯 1칸]을 확장할 때마다 소모되는 개당 비용**입니다.<br />
+                                    해당 가격은 일시불 지불로 구간 전체가 한번에 확장되는 가격이 아니라, <strong className="text-white underline underline-offset-4 decoration-blue-500">해당 구간 내에서 슬롯 1칸을 확장할 때마다 소모되는 개당 비용</strong>입니다.<br />
                                     <span className="text-xs text-slate-400 mt-1 block">(예: 11칸째 확장 시 3만 골드 소모, 12칸째 확장 시에도 동일하게 3만 골드 소모)</span>
                                 </p>
                             </div>
