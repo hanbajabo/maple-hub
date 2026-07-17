@@ -207,8 +207,9 @@ export default function UltimaSquadMinigamePage() {
                                 { num: '04', color: 'text-emerald-400', href: '#stage', label: '스테이지 구성 및 보상' },
                                 { num: '05', color: 'text-blue-400', href: '#combat', label: '전투 및 에스페시아 상자' },
                                 { num: '06', color: 'text-purple-400', href: '#utility', label: '유틸리티 강화 목록' },
-                                { num: '07', color: 'text-pink-400', href: '#chaos', label: '카오스 모드 & 코인샵' },
-                                { num: '08', color: 'text-red-400', href: '#coinshop', label: '울티마 스쿼드 코인샵' },
+                                { num: '07', color: 'text-green-400', href: '#strategy', label: '실전 공략 가이드 (초반 성장)' },
+                                { num: '08', color: 'text-pink-400', href: '#chaos', label: '카오스 모드 & 코인샵' },
+                                { num: '09', color: 'text-red-400', href: '#coinshop', label: '울티마 스쿼드 코인샵' },
                             ].map(({ num, color, href, label }) => (
                                 <li key={href} className="flex items-center gap-2 bg-slate-950/20 p-2.5 rounded-lg border border-slate-800/40 hover:border-orange-500/30 transition-colors">
                                     <span className={`${color} font-mono font-bold`}>{num}</span>
@@ -959,7 +960,147 @@ export default function UltimaSquadMinigamePage() {
                     </div>
                 </section>
 
-                {/* 7. 카오스 모드 */}
+                {/* 7. 실전 공략 가이드 */}
+                <section id="strategy" className="mb-14 scroll-mt-24 bg-slate-900/20 border border-slate-800/60 rounded-2xl p-4 sm:p-8 backdrop-blur-sm shadow-lg">
+                    <div className="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4">
+                        <Trophy className="w-6 h-6 text-green-400" />
+                        <h2 className="text-xl sm:text-2xl font-bold text-slate-100">7. 실전 공략 가이드 (초반 성장)</h2>
+                    </div>
+                    <div className="space-y-6 text-sm sm:text-base text-slate-200 leading-relaxed break-keep">
+
+                        {/* 출처 안내 */}
+                        <div className="bg-green-950/20 border border-green-700/30 rounded-xl p-3">
+                            <p className="text-green-300 text-sm font-bold flex items-center gap-1.5 mb-1">
+                                <span>📝</span>
+                                <span>플레이어 직접 실측 데이터 기반 공략</span>
+                            </p>
+                            <p className="text-slate-400 text-xs leading-relaxed">아래 공략은 전사 용병을 기준으로 직접 플레이하며 테스트한 실측 데이터입니다. 장비 강화 수치, 잠재능력 세팅에 따라 결과가 다를 수 있습니다.</p>
+                        </div>
+
+                        {/* 레벨별 스테이지 공략 */}
+                        <div>
+                            <h3 className="font-bold text-green-300 mb-3 text-base flex items-center gap-1.5">
+                                <span>⚔️</span>
+                                <span>전사 레벨별 클리어 가능 스테이지 (1단계 장비 기준)</span>
+                            </h3>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse min-w-[380px] text-sm">
+                                    <thead>
+                                        <tr className="bg-green-950/20 text-green-200">
+                                            <th className="p-3 border border-green-800/20 font-semibold">전사 레벨</th>
+                                            <th className="p-3 border border-green-800/20 font-semibold">장비 단계</th>
+                                            <th className="p-3 border border-green-800/20 font-semibold">클리어 가능 스테이지</th>
+                                            <th className="p-3 border border-green-800/20 font-semibold">비고</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-slate-300 divide-y divide-slate-800/50">
+                                        {[
+                                            { lv: 'LV 3', gear: '1단계 (기본템)', clear: '1-2 이하', note: '1-3 클리어 불가' },
+                                            { lv: 'LV 4', gear: '1단계 (추옵 최고)', clear: '1-2 이하', note: '1-3 클리어 불가' },
+                                            { lv: 'LV 5', gear: '1단계 (추옵 최고)', clear: '1-3 ~ 1-4', note: '1-5 이상 불가' },
+                                            { lv: 'LV 7', gear: '1단계 (추옵 최고)', clear: '1-5', note: '1-6 이상 불가' },
+                                            { lv: 'LV 8', gear: '2단계', clear: '1-5 이하', note: '1-6 클리어 불가' },
+                                            { lv: 'LV 9', gear: '2단계 (공격력 잠재)', clear: '1-5 이하', note: '1-6 실패' },
+                                            { lv: 'LV 9', gear: '2단계 (방어력 잠재)', clear: '1-6', note: '간신히 성공 (반복 시도 필요)' },
+                                            { lv: 'LV 9', gear: '2단계 + 궁수 구매', clear: '1-6', note: '1-7 실패 (전사 먼저 사망)' },
+                                        ].map((row, idx) => (
+                                            <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
+                                                <td className="p-3 border border-slate-700 font-bold text-white">{row.lv}</td>
+                                                <td className="p-3 border border-slate-700">{row.gear}</td>
+                                                <td className="p-3 border border-slate-700 font-semibold text-green-300">{row.clear}</td>
+                                                <td className="p-3 border border-slate-700 text-slate-400 text-xs">{row.note}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        {/* 실전 팁 */}
+                        <div className="space-y-3">
+                            <h3 className="font-bold text-green-300 mb-3 text-base flex items-center gap-1.5">
+                                <span>💡</span>
+                                <span>실전 공략 팁</span>
+                            </h3>
+
+                            <div className="bg-slate-950/60 border border-yellow-500/30 rounded-xl p-4 space-y-2">
+                                <p className="text-yellow-300 text-sm font-bold">⚔️ LV 9 전사 1-6 스테이지 공략 핵심</p>
+                                <ul className="text-slate-200 text-sm space-y-1.5 list-disc list-inside leading-relaxed">
+                                    <li>잠재능력은 <strong className="text-white">공격력보다 방어력 위주</strong>로 세팅하는 것이 유리</li>
+                                    <li>한 번 아깝게 실패했다면 포기하지 말고 <strong className="text-white">반복 재도전</strong>할 것 — 운에 따라 성공하는 경우 있음</li>
+                                    <li>LV 9 기준 1-7 진입 시 전사가 먼저 사망 — <strong className="text-white">탱커 역할이 중요</strong>해지는 구간</li>
+                                    <li>LV 10 달성 후 배우는 탱커 전용 스킬 습득이 1-7 돌파의 핵심일 것으로 예상</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/60 border border-blue-500/30 rounded-xl p-4 space-y-2">
+                                <p className="text-blue-300 text-sm font-bold">🏹 궁수 용병 활용법</p>
+                                <ul className="text-slate-200 text-sm space-y-1.5 list-disc list-inside leading-relaxed">
+                                    <li>궁수는 약 <strong className="text-white">50만 골드</strong>에 구매 가능</li>
+                                    <li>LV 9 전사 + LV 2 궁수(스킬 배운 상태) 조합으로도 1-7 클리어는 실패</li>
+                                    <li>1-7부터는 단순 딜보다 <strong className="text-white">전사의 생존력(탱킹)</strong>이 더 중요한 요소</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        {/* 경험치 수급 전략 */}
+                        <div>
+                            <h3 className="font-bold text-green-300 mb-3 text-base flex items-center gap-1.5">
+                                <span>📈</span>
+                                <span>경험치 획득 전략 — 반복 vs 수동</span>
+                            </h3>
+                            <p className="text-slate-400 text-xs mb-4 leading-relaxed">
+                                ※ 아래 수치는 10분 단위로 직접 측정한 경험치 증가량입니다. 스테이지 상황, 용병 조합, 플레이 방식에 따라 달라질 수 있습니다.
+                            </p>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse min-w-[400px] text-sm">
+                                    <thead>
+                                        <tr className="bg-blue-950/20 text-blue-200">
+                                            <th className="p-3 border border-blue-800/20 font-semibold">조건</th>
+                                            <th className="p-3 border border-blue-800/20 font-semibold">시작 %</th>
+                                            <th className="p-3 border border-blue-800/20 font-semibold">10분 후 %</th>
+                                            <th className="p-3 border border-blue-800/20 font-semibold">획득 경험치(%)</th>
+                                            <th className="p-3 border border-blue-800/20 font-semibold">방식</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-slate-300 divide-y divide-slate-800/50">
+                                        {[
+                                            { cond: 'LV3 / 1-2 반복', start: '80%', after: '87%', gain: '+7%', mode: '자동 반복' },
+                                            { cond: 'LV3 / 1-3 수동', start: '87%', after: '97%', gain: '+10%', mode: '수동 (죽으면 1-3 재도전)' },
+                                            { cond: 'LV5 / 1-4 반복', start: '20%', after: '26%', gain: '+6%', mode: '자동 반복' },
+                                            { cond: 'LV5 / 1-5 수동', start: '27%', after: '33%', gain: '+6%', mode: '수동' },
+                                            { cond: 'LV7 / 1-5 반복', start: '49%', after: '53%', gain: '+4%', mode: '자동 반복' },
+                                            { cond: 'LV7 / 1-6 수동', start: '54%', after: '57%', gain: '+3%', mode: '수동' },
+                                        ].map((row, idx) => (
+                                            <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
+                                                <td className="p-3 border border-slate-700 font-semibold text-slate-200">{row.cond}</td>
+                                                <td className="p-3 border border-slate-700 text-center">{row.start}</td>
+                                                <td className="p-3 border border-slate-700 text-center font-bold text-green-300">{row.after}</td>
+                                                <td className="p-3 border border-slate-700 text-center font-bold text-yellow-300">{row.gain}</td>
+                                                <td className="p-3 border border-slate-700 text-slate-400 text-xs">{row.mode}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div className="mt-4 bg-amber-950/20 border border-amber-700/30 rounded-xl p-4">
+                                <p className="text-amber-300 text-sm font-bold flex items-center gap-1.5 mb-2">
+                                    <span>⚡</span>
+                                    <span>경험치 효율 핵심 결론</span>
+                                </p>
+                                <ul className="text-slate-200 text-sm space-y-1.5 list-disc list-inside leading-relaxed">
+                                    <li>일반적으로는 <strong className="text-white">클리어 못 하는 스테이지 바로 직전</strong>을 자동 반복하는 것이 효율적</li>
+                                    <li>단, <strong className="text-yellow-300">LV3 구간에서는 예외</strong> — 1-3을 수동으로 도전하는 방식이 1-2 자동반복보다 경험치 효율이 더 높음</li>
+                                    <li>수동 플레이 시 죽어도 바로 해당 스테이지로 재도전하면 자동 반복과 비교해 더 빠른 레벨업 가능</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                {/* 8. 카오스 모드 */}
                 <section id="chaos" className="mb-14 scroll-mt-24 bg-gradient-to-br from-red-950/30 to-slate-900/30 border border-red-500/40 rounded-2xl p-4 sm:p-8 backdrop-blur-sm shadow-lg">
                     <div className="flex items-center gap-3 mb-6 border-b border-red-800/30 pb-4">
                         <Star className="w-6 h-6 text-red-400" />
