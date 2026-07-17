@@ -630,8 +630,8 @@ export default function UltimaSquadMinigamePage() {
                                     />
                                 </div>
 
-                                <p className="text-slate-200 text-sm leading-relaxed mt-3">
-                                    같은 단계의 장비 <strong className="text-white">9개</strong>를 합성하여 <strong className="text-emerald-300">1단계 상위 장비</strong> 1개 획득.<br />
+                                <p className="text-slate-100 text-base sm:text-lg font-semibold leading-relaxed mt-4 bg-emerald-950/20 p-3 rounded-lg border border-emerald-800/20">
+                                    같은 단계의 장비 <strong className="text-white underline underline-offset-4 decoration-emerald-500">9개</strong>를 합성하여 <strong className="text-emerald-400">1단계 상위 장비</strong> 1개 획득.<br />
                                     단, <strong className="text-white">8단계 장비 9개</strong> 합성 시 8단계 장비 1개 획득.
                                 </p>
                             </div>
@@ -654,8 +654,8 @@ export default function UltimaSquadMinigamePage() {
                                     />
                                 </div>
 
-                                <p className="text-slate-200 text-sm leading-relaxed mt-3">
-                                    장비를 분해하여 <strong className="text-orange-300">골드 획득</strong>.<br />
+                                <p className="text-slate-100 text-base sm:text-lg font-semibold leading-relaxed mt-4 bg-orange-950/20 p-3 rounded-lg border border-orange-800/20">
+                                    장비를 분해하여 <strong className="text-orange-400">골드 획득</strong>.<br />
                                     장비의 단계에 따라 획득 골드 양이 달라집니다.
                                 </p>
                             </div>
