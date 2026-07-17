@@ -758,33 +758,69 @@ export default function UltimaSquadMinigamePage() {
                     </div>
                     <div className="space-y-5 text-sm sm:text-base text-slate-200 leading-relaxed break-keep">
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="bg-slate-950/60 border border-red-500/30 rounded-xl p-4">
-                                <h3 className="font-bold text-red-300 mb-2 text-sm">⚔️ 전투 기본 규칙</h3>
-                                <ul className="text-slate-300 text-xs space-y-1.5 list-disc list-inside">
-                                    <li>용병 배치 시 <strong>자동으로 전투 시작</strong></li>
-                                    <li>전투 불능 시 <strong>자동으로 부활</strong> (부활 시간 있음)</li>
+                        <div className="space-y-6">
+                            {/* 전투 기본 규칙 */}
+                            <div className="bg-slate-950/60 border border-red-500/30 rounded-xl p-5">
+                                <h3 className="font-bold text-red-300 mb-3 text-base flex items-center gap-1.5">
+                                    <span>⚔️</span>
+                                    <span>전투 기본 규칙</span>
+                                </h3>
+
+                                {/* 전투 기본 규칙 스크린샷 */}
+                                <div className="relative w-full mx-auto my-4 rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                    <Image 
+                                        src="/images/ultima-squad-combat.png" 
+                                        alt="전투 기본 화면" 
+                                        width={920}
+                                        height={600}
+                                        style={{ width: '100%', height: 'auto' }}
+                                    />
+                                </div>
+
+                                <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed mt-4">
+                                    <li>용병 배치 시 <strong className="text-white">자동으로 전투 시작</strong></li>
+                                    <li>전투 불능 시 <strong className="text-white">자동으로 부활</strong> (부활 시간 있음)</li>
                                     <li>마지막 용병 전투 불능 = 스테이지 클리어 실패</li>
-                                    <li>반복 플레이 버튼으로 <strong>같은 스테이지 반복 가능</strong></li>
+                                    <li>반복 플레이 버튼으로 <strong className="text-white">같은 스테이지 반복 가능</strong></li>
                                 </ul>
                             </div>
-                            <div className="bg-slate-950/60 border border-orange-500/30 rounded-xl p-4">
-                                <h3 className="font-bold text-orange-300 mb-2 text-sm">📦 에스페시아 상자</h3>
-                                <ul className="text-slate-300 text-xs space-y-1.5 list-disc list-inside">
-                                    <li><strong>매일 자정 기준 1회</strong> 소환 가능</li>
+
+                            {/* 에스페시아 상자 */}
+                            <div className="bg-slate-950/60 border border-orange-500/30 rounded-xl p-5">
+                                <h3 className="font-bold text-orange-300 mb-3 text-base flex items-center gap-1.5">
+                                    <span>📦</span>
+                                    <span>에스페시아 상자</span>
+                                </h3>
+
+                                {/* 에스페시아 상자 스크린샷 */}
+                                <div className="relative w-full mx-auto my-4 rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                    <Image 
+                                        src="/images/ultima-squad-especia.png" 
+                                        alt="에스페시아 상자 소환 화면" 
+                                        width={920}
+                                        height={600}
+                                        style={{ width: '100%', height: 'auto' }}
+                                    />
+                                </div>
+
+                                <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed mt-4 mb-4">
+                                    <li><strong className="text-white underline underline-offset-4 decoration-orange-500">매일 자정 기준 1회</strong> 소환 가능</li>
                                     <li>용병들이 공격하면 레어~레전드리로 성장</li>
                                     <li>처치 시: EXP, 장비, 훈련용 큐브, 골드 획득</li>
                                     <li>높은 스테이지일수록 더 많은 경험치·골드 획득</li>
                                 </ul>
-                            </div>
-                        </div>
 
-                        <div className="bg-amber-950/20 border border-amber-700/30 rounded-xl p-3">
-                            <p className="text-amber-300 text-xs font-medium">⚠️ 에스페시아 상자 소환 불가 상황</p>
-                            <ul className="text-slate-400 text-xs mt-1 list-disc list-inside space-y-0.5">
-                                <li>각 지역의 10번째 <strong className="text-white">보스 스테이지</strong>에서는 소환 불가</li>
-                                <li>각 스테이지 마지막 <strong className="text-white">보스 등장 직전</strong>에는 소환 불가</li>
-                            </ul>
+                                <div className="bg-amber-950/20 border border-amber-700/30 rounded-xl p-4">
+                                    <p className="text-amber-300 text-sm font-bold flex items-center gap-1.5 mb-1.5">
+                                        <span>⚠️</span>
+                                        <span>에스페시아 상자 소환 불가 상황</span>
+                                    </p>
+                                    <ul className="text-slate-200 text-sm list-disc list-inside space-y-1 leading-relaxed">
+                                        <li>각 지역의 10번째 <strong className="text-white">보스 스테이지</strong>에서는 소환 불가</li>
+                                        <li>각 스테이지 마지막 <strong className="text-white">보스 등장 직전</strong>에는 소환 불가</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
