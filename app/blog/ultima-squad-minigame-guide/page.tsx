@@ -281,9 +281,12 @@ export default function UltimaSquadMinigamePage() {
                                     style={{ width: '100%', height: 'auto' }}
                                 />
                             </div>
-                            <div className="mt-3 p-3 bg-blue-950/20 border border-blue-800/30 rounded-lg">
-                                <p className="text-blue-300 text-sm font-medium">⚠️ 주의사항</p>
-                                <ul className="text-slate-400 text-xs mt-1 space-y-1 list-disc list-inside">
+                            <div className="mt-4 p-4 sm:p-5 bg-blue-950/25 border border-blue-500/30 rounded-xl shadow-md">
+                                <p className="text-blue-300 text-base font-bold mb-2 flex items-center gap-1.5">
+                                    <span>⚠️</span>
+                                    <span>주의사항</span>
+                                </p>
+                                <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
                                     <li>오프라인 누적 시간은 <strong className="text-white">기본 16시간 / 최대 24시간</strong>까지 인정 (유틸리티 확장 후)</li>
                                     <li className="text-sm font-bold text-amber-300 mt-2 mb-2 bg-amber-950/40 p-2 rounded border border-amber-500/20 list-none -ml-4 flex items-center gap-1.5 shadow-sm">
                                         <span>🚨</span>
@@ -417,13 +420,16 @@ export default function UltimaSquadMinigamePage() {
                             ))}
                         </div>
 
-                        <div className="bg-amber-950/20 border border-amber-700/30 rounded-xl p-4">
-                            <p className="text-amber-300 text-sm font-medium mb-1">💡 장비 획득 관련 정보</p>
-                            <ul className="text-slate-400 text-xs space-y-1 list-disc list-inside">
+                        <div className="bg-amber-950/25 border border-amber-500/30 rounded-xl p-5 shadow-lg">
+                            <p className="text-amber-300 text-base font-bold mb-2 flex items-center gap-1.5">
+                                <span>💡</span>
+                                <span>장비 획득 관련 정보</span>
+                            </p>
+                            <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
                                 <li>기본으로 제공되는 인벤토리 <strong className="text-white">10칸</strong> (유틸리티로 최대 256칸까지 확장)</li>
                                 <li>장비 획득 시 기본 옵션 수치가 결정되며, 같은 단계의 장비도 수치 차이 발생</li>
                                 <li>장착한 <strong className="text-white">무기의 외형</strong>만 전투 중 용병에게 반영됨</li>
-                                <li>인벤토리가 가득 차면 더 이상 장비 획득 불가 ⚠️</li>
+                                <li className="text-red-400 font-bold">인벤토리가 가득 차면 전투를 진행해도 장비를 더 이상 획득할 수 없습니다. ⚠️</li>
                             </ul>
                         </div>
 
@@ -462,19 +468,19 @@ export default function UltimaSquadMinigamePage() {
                         </div>
 
                         {/* 잠재능력 재설정 */}
-                        <div className="bg-slate-950/60 border border-slate-700/50 rounded-xl p-4">
-                            <h3 className="font-bold text-purple-300 mb-3 text-sm">🎲 잠재능력 재설정 (훈련용 큐브)</h3>
-                            <ul className="space-y-1.5 text-slate-300 text-xs list-disc list-inside mb-3">
+                        <div className="bg-slate-950/60 border border-slate-700/50 rounded-xl p-5">
+                            <h3 className="font-bold text-purple-300 mb-3 text-base flex items-center gap-1.5">🎲 잠재능력 재설정 (훈련용 큐브)</h3>
+                            <ul className="space-y-2 text-slate-200 text-sm list-disc list-inside mb-4 leading-relaxed">
                                 <li>훈련용 큐브를 사용하여 울티마 장비 잠재능력 재설정 가능</li>
                                 <li>훈련용 큐브는 <strong className="text-white">접속 상태</strong>에서만 획득 가능 (전투 중 드롭)</li>
                                 <li>재설정 결과에서 <strong className="text-white">전/후 선택</strong> 후 적용 가능</li>
-                                <li>잠재능력 재설정 시 <strong className="text-red-300">등급은 상승하지 않음</strong></li>
+                                <li>잠재능력 재설정 시 <strong className="text-red-400">등급은 상승하지 않음</strong></li>
                             </ul>
                             <div>
-                                <p className="text-slate-300 text-xs font-medium mb-2">✅ 잠재능력 옵션 목록</p>
-                                <div className="flex flex-wrap gap-1.5">
+                                <p className="text-slate-200 text-sm font-semibold mb-2">✅ 잠재능력 옵션 목록</p>
+                                <div className="flex flex-wrap gap-2">
                                     {potentialOptions.map((opt) => (
-                                        <span key={opt} className="px-2 py-1 bg-purple-950/30 border border-purple-800/30 rounded-md text-purple-300 text-xs">
+                                        <span key={opt} className="px-3 py-1 bg-purple-950/30 border border-purple-800/30 rounded-md text-purple-300 text-sm">
                                             {opt}
                                         </span>
                                     ))}
@@ -484,16 +490,16 @@ export default function UltimaSquadMinigamePage() {
 
                         {/* 합성 & 분해 */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="bg-slate-950/60 border border-emerald-500/30 rounded-xl p-4">
-                                <h3 className="font-bold text-emerald-300 mb-2 text-sm">⚗️ 장비 합성</h3>
-                                <p className="text-slate-300 text-xs leading-relaxed">
+                            <div className="bg-slate-950/60 border border-emerald-500/30 rounded-xl p-5">
+                                <h3 className="font-bold text-emerald-300 mb-2 text-base">⚗️ 장비 합성</h3>
+                                <p className="text-slate-200 text-sm leading-relaxed">
                                     같은 단계의 장비 <strong className="text-white">9개</strong>를 합성하여 <strong className="text-emerald-300">1단계 상위 장비</strong> 1개 획득.<br />
                                     단, <strong className="text-white">8단계 장비 9개</strong> 합성 시 8단계 장비 1개 획득.
                                 </p>
                             </div>
-                            <div className="bg-slate-950/60 border border-orange-500/30 rounded-xl p-4">
-                                <h3 className="font-bold text-orange-300 mb-2 text-sm">🔨 장비 분해</h3>
-                                <p className="text-slate-300 text-xs leading-relaxed">
+                            <div className="bg-slate-950/60 border border-orange-500/30 rounded-xl p-5">
+                                <h3 className="font-bold text-orange-300 mb-2 text-base">🔨 장비 분해</h3>
+                                <p className="text-slate-200 text-sm leading-relaxed">
                                     장비를 분해하여 <strong className="text-orange-300">골드 획득</strong>.<br />
                                     장비의 단계에 따라 획득 골드 양이 달라짐.
                                 </p>
