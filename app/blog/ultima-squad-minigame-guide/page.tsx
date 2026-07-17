@@ -420,6 +420,17 @@ export default function UltimaSquadMinigamePage() {
                             ))}
                         </div>
 
+                        {/* 장착 장비 스크린샷 추가 */}
+                        <div className="relative w-full max-w-[320px] mx-auto rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                            <Image 
+                                src="/images/ultima-squad-equipment.png" 
+                                alt="장착 장비 UI 화면" 
+                                width={320}
+                                height={240}
+                                style={{ width: '100%', height: 'auto' }}
+                            />
+                        </div>
+
                         <div className="bg-amber-950/25 border border-amber-500/30 rounded-xl p-5 shadow-lg">
                             <p className="text-amber-300 text-base font-bold mb-2 flex items-center gap-1.5">
                                 <span>💡</span>
