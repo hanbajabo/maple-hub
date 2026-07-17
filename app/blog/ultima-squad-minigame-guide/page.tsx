@@ -322,6 +322,17 @@ export default function UltimaSquadMinigamePage() {
                             ))}
                         </div>
 
+                        {/* 용병 목록 스크린샷 추가 */}
+                        <div className="relative w-full max-w-[500px] mx-auto rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                            <Image 
+                                src="/images/ultima-squad-mercenaries-list.png" 
+                                alt="용병 선택 관리 화면" 
+                                width={500}
+                                height={200}
+                                style={{ width: '100%', height: 'auto' }}
+                            />
+                        </div>
+
                         <div className="bg-slate-950/40 border border-slate-700/50 rounded-xl p-4">
                             <h3 className="font-bold text-slate-200 mb-2">용병 성장 핵심 정보</h3>
                             <ul className="space-y-1.5 text-slate-300 text-sm list-disc list-inside">
