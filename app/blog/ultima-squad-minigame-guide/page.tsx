@@ -586,6 +586,18 @@ export default function UltimaSquadMinigamePage() {
                                 <li>재설정 결과에서 <strong className="text-white">전/후 선택</strong> 후 적용 가능</li>
                                 <li>잠재능력 재설정 시 <strong className="text-red-400">등급은 상승하지 않음</strong></li>
                             </ul>
+                            
+                            {/* 잠재능력 재설정 스크린샷 추가 */}
+                            <div className="relative w-full max-w-[680px] mx-auto my-4 rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                <Image 
+                                    src="/images/ultima-squad-potential.png" 
+                                    alt="잠재능력 재설정 UI 화면" 
+                                    width={680}
+                                    height={510}
+                                    style={{ width: '100%', height: 'auto' }}
+                                />
+                            </div>
+
                             <div>
                                 <p className="text-slate-200 text-sm font-semibold mb-2">✅ 잠재능력 옵션 목록</p>
                                 <div className="flex flex-wrap gap-2">
