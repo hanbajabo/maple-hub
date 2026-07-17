@@ -611,19 +611,52 @@ export default function UltimaSquadMinigamePage() {
                         </div>
 
                         {/* 합성 & 분해 */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-6">
+                            {/* 장비 합성 */}
                             <div className="bg-slate-950/60 border border-emerald-500/30 rounded-xl p-5">
-                                <h3 className="font-bold text-emerald-300 mb-2 text-base">⚗️ 장비 합성</h3>
-                                <p className="text-slate-200 text-sm leading-relaxed">
+                                <h3 className="font-bold text-emerald-300 mb-3 text-base flex items-center gap-1.5">
+                                    <span>⚗️</span>
+                                    <span>장비 합성</span>
+                                </h3>
+                                
+                                {/* 장비 합성 스크린샷 */}
+                                <div className="relative w-full mx-auto my-4 rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                    <Image 
+                                        src="/images/ultima-squad-synthesis.png" 
+                                        alt="장비 합성 UI 화면" 
+                                        width={920}
+                                        height={600}
+                                        style={{ width: '100%', height: 'auto' }}
+                                    />
+                                </div>
+
+                                <p className="text-slate-200 text-sm leading-relaxed mt-3">
                                     같은 단계의 장비 <strong className="text-white">9개</strong>를 합성하여 <strong className="text-emerald-300">1단계 상위 장비</strong> 1개 획득.<br />
                                     단, <strong className="text-white">8단계 장비 9개</strong> 합성 시 8단계 장비 1개 획득.
                                 </p>
                             </div>
+
+                            {/* 장비 분해 */}
                             <div className="bg-slate-950/60 border border-orange-500/30 rounded-xl p-5">
-                                <h3 className="font-bold text-orange-300 mb-2 text-base">🔨 장비 분해</h3>
-                                <p className="text-slate-200 text-sm leading-relaxed">
+                                <h3 className="font-bold text-orange-300 mb-3 text-base flex items-center gap-1.5">
+                                    <span>🔨</span>
+                                    <span>장비 분해</span>
+                                </h3>
+
+                                {/* 장비 분해 스크린샷 */}
+                                <div className="relative w-full mx-auto my-4 rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                    <Image 
+                                        src="/images/ultima-squad-disassembly.png" 
+                                        alt="장비 분해 UI 화면" 
+                                        width={920}
+                                        height={600}
+                                        style={{ width: '100%', height: 'auto' }}
+                                    />
+                                </div>
+
+                                <p className="text-slate-200 text-sm leading-relaxed mt-3">
                                     장비를 분해하여 <strong className="text-orange-300">골드 획득</strong>.<br />
-                                    장비의 단계에 따라 획득 골드 양이 달라짐.
+                                    장비의 단계에 따라 획득 골드 양이 달라집니다.
                                 </p>
                             </div>
                         </div>
