@@ -588,12 +588,12 @@ export default function UltimaSquadMinigamePage() {
                             </ul>
                             
                             {/* 잠재능력 재설정 스크린샷 추가 */}
-                            <div className="relative w-full max-w-[680px] mx-auto my-4 rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                            <div className="relative w-full mx-auto my-4 rounded-lg overflow-hidden border border-slate-800 shadow-md">
                                 <Image 
                                     src="/images/ultima-squad-potential.png" 
                                     alt="잠재능력 재설정 UI 화면" 
-                                    width={680}
-                                    height={510}
+                                    width={920}
+                                    height={600}
                                     style={{ width: '100%', height: 'auto' }}
                                 />
                             </div>
