@@ -444,6 +444,72 @@ export default function UltimaSquadMinigamePage() {
                             </ul>
                         </div>
 
+                        {/* 장비 단계별 능력치 표 */}
+                        <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 sm:p-5">
+                            <h3 className="font-bold text-slate-100 mb-2 text-base flex items-center gap-1.5">
+                                🛡️ 울티마 장비 단계별 스탯 및 추가 옵션 (추옵)
+                            </h3>
+                            <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+                                ※ 본 표는 직접 플레이하면서 확인한 데이터를 기반으로 작성되었으므로 100% 정확하지 않을 수 있습니다.<br />
+                                ※ 3단계 방어구의 최대 추가 옵션 수치는 아직 미확인 상태이나, <strong>2단계 최고 추가 옵션(HP +12 / 방어력 +4)보다는 더 위로</strong> 나올 것으로 예상됩니다.
+                            </p>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse min-w-[500px] text-sm">
+                                    <thead>
+                                        <tr className="bg-slate-800/50 text-slate-300">
+                                            <th className="p-3 border border-slate-700 font-semibold">장비 단계</th>
+                                            <th className="p-3 border border-slate-700 font-semibold">부위</th>
+                                            <th className="p-3 border border-slate-700 font-semibold">기본 옵션</th>
+                                            <th className="p-3 border border-slate-700 font-semibold">최대 추가 옵션 (추옵)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-slate-300 divide-y divide-slate-800/50">
+                                        {/* 1단계 */}
+                                        <tr className="bg-slate-900/40">
+                                            <td className="p-3 border border-slate-700 font-bold" rowSpan={2}>1단계</td>
+                                            <td className="p-3 border border-slate-700">무기 ⚔️</td>
+                                            <td className="p-3 border border-slate-700">공격력 +9</td>
+                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4</td>
+                                        </tr>
+                                        <tr className="bg-slate-900/40">
+                                            <td className="p-3 border border-slate-700">방어구 🎩🥊👟<br/>(모자/장갑/신발)</td>
+                                            <td className="p-3 border border-slate-700">최대 HP +45 / 방어력 +5</td>
+                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">최대 HP +10 / 방어력 +4</td>
+                                        </tr>
+                                        
+                                        {/* 2단계 */}
+                                        <tr className="bg-slate-950/40">
+                                            <td className="p-3 border border-slate-700 font-bold" rowSpan={2}>2단계</td>
+                                            <td className="p-3 border border-slate-700">무기 ⚔️</td>
+                                            <td className="p-3 border border-slate-700">공격력 +14</td>
+                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4</td>
+                                        </tr>
+                                        <tr className="bg-slate-950/40">
+                                            <td className="p-3 border border-slate-700">방어구 🎩🥊👟<br/>(모자/장갑/신발)</td>
+                                            <td className="p-3 border border-slate-700">최대 HP +74 / 방어력 +10</td>
+                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">최대 HP +12 / 방어력 +4</td>
+                                        </tr>
+
+                                        {/* 3단계 */}
+                                        <tr className="bg-slate-900/40">
+                                            <td className="p-3 border border-slate-700 font-bold" rowSpan={2}>3단계</td>
+                                            <td className="p-3 border border-slate-700">무기 ⚔️</td>
+                                            <td className="p-3 border border-slate-700">공격력 +20</td>
+                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4</td>
+                                        </tr>
+                                        <tr className="bg-slate-900/40">
+                                            <td className="p-3 border border-slate-700">방어구 🎩🥊👟<br/>(모자/장갑/신발)</td>
+                                            <td className="p-3 border border-slate-700">최대 HP +112 / 방어력 +15</td>
+                                            <td className="p-3 border border-slate-700 text-slate-400 italic">
+                                                미확인<br/>
+                                                <span className="text-xs text-amber-400/90 font-normal">(2단계 최고 추옵 이상 예상)</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                         {/* 장비 단계 표 */}
                         <div>
                             <h3 className="font-bold text-slate-100 mb-3 text-base">🏆 장비 단계별 잠재능력</h3>
