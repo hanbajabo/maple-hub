@@ -451,6 +451,7 @@ export default function UltimaSquadMinigamePage() {
                             </h3>
                             <p className="text-xs text-slate-400 mb-4 leading-relaxed">
                                 ※ 본 표는 직접 플레이하면서 확인한 데이터를 기반으로 작성되었으므로 100% 정확하지 않을 수 있습니다.<br />
+                                ※ 무기의 최대 추가 옵션 수치는 현재까지 <strong>+4까지 확인</strong>되었으며, 실제 최대치 한계는 이보다 높을 수 있습니다.<br />
                                 ※ 3단계 방어구의 최대 추가 옵션 수치는 아직 미확인 상태이나, <strong>2단계 최고 추가 옵션(HP +12 / 방어력 +4)보다는 더 위로</strong> 나올 것으로 예상됩니다.
                             </p>
                             <div className="overflow-x-auto">
@@ -469,7 +470,7 @@ export default function UltimaSquadMinigamePage() {
                                             <td className="p-3 border border-slate-700 font-bold" rowSpan={2}>1단계</td>
                                             <td className="p-3 border border-slate-700">무기 ⚔️</td>
                                             <td className="p-3 border border-slate-700">공격력 +9</td>
-                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4</td>
+                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4 (확인)</td>
                                         </tr>
                                         <tr className="bg-slate-900/40">
                                             <td className="p-3 border border-slate-700">방어구 🎩🥊👟<br/>(모자/장갑/신발)</td>
@@ -482,7 +483,7 @@ export default function UltimaSquadMinigamePage() {
                                             <td className="p-3 border border-slate-700 font-bold" rowSpan={2}>2단계</td>
                                             <td className="p-3 border border-slate-700">무기 ⚔️</td>
                                             <td className="p-3 border border-slate-700">공격력 +14</td>
-                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4</td>
+                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4 (확인)</td>
                                         </tr>
                                         <tr className="bg-slate-950/40">
                                             <td className="p-3 border border-slate-700">방어구 🎩🥊👟<br/>(모자/장갑/신발)</td>
@@ -495,7 +496,7 @@ export default function UltimaSquadMinigamePage() {
                                             <td className="p-3 border border-slate-700 font-bold" rowSpan={2}>3단계</td>
                                             <td className="p-3 border border-slate-700">무기 ⚔️</td>
                                             <td className="p-3 border border-slate-700">공격력 +20</td>
-                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4</td>
+                                            <td className="p-3 border border-slate-700 text-orange-300 font-semibold">+4 (확인)</td>
                                         </tr>
                                         <tr className="bg-slate-900/40">
                                             <td className="p-3 border border-slate-700">방어구 🎩🥊👟<br/>(모자/장갑/신발)</td>
