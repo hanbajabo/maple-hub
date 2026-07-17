@@ -1019,6 +1019,17 @@ export default function UltimaSquadMinigamePage() {
                             </ul>
                         </div>
 
+                        {/* 코인샵 UI 스크린샷 추가 */}
+                        <div className="relative w-full mx-auto my-4 rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                            <Image 
+                                src="/images/ultima-squad-coinshop.png" 
+                                alt="울티마 스쿼드 코인샵 일반/스페셜 판매 상품 목록" 
+                                width={920}
+                                height={600}
+                                style={{ width: '100%', height: 'auto' }}
+                            />
+                        </div>
+
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse min-w-[500px] text-sm">
                                 <thead>
