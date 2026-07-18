@@ -1049,8 +1049,8 @@ export default function UltimaSquadMinigamePage() {
                                 </p>
                                 <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
                                     <li><strong className="text-white">성장 및 해금 여부에 따른 골드 수입량 증가</strong>: 초반 전사 단독(Lv.5)일 때보다 중반 전사/궁수 조합(Lv.9/Lv.2)이 갖춰진 상태에서 시간당 골드 획득량이 <strong className="text-yellow-300">약 1.54배 상승</strong>(7.8만G ➔ 12.0만G)합니다.</li>
-                                    <li><strong className="text-white">온라인 자동 방치와 효율 비교</strong>: 온라인 1-4 자동 반복 시 LV.5 전사는 1시간당 약 36% 획득하는 반면, 오프라인 시에는 1시간당 약 30.5% 획득하여 <strong className="text-green-300">온라인 대비 85% 수준 효율을 보입니다.</strong></li>
-                                    <li><strong className="text-white">결론</strong>: 상시 온라인을 유지하지 못하더라도, 오프라인 시간 증가 유틸리티를 잘 활용하면 온라인 방치와 큰 격차 없이 성장이 가능합니다.</li>
+                                    <li><strong className="text-white">온라인 자동 방치와 효율 비교</strong>: 온라인 1-4 자동 반복 시 LV.5 전사는 1시간당 약 36% 획득하는 반면, 오프라인 시에는 1시간당 약 30.5% 획득하여 <strong className="text-green-300">온라인 대비 85% 수준 효율을 보입니다.</strong> (단, LV.5 ➔ LV.7로 성장하면서 필요 경험치 통이 크게 늘어난 것을 평균 낸 효율이므로, 실제 경험치 획득 절대량 기준으로는 온라인 방치와 사실상 대등한 효율을 보입니다.)</li>
+                                    <li><strong className="text-white">결론</strong>: 상시 온라인을 유지하지 못하더라도, 오프라인 시간 증가 유틸리티를 잘 활용하면 온라인 방치와 거의 차이가 없는 수준으로 효율적인 성장이 가능합니다.</li>
                                 </ul>
                             </div>
                         </div>
