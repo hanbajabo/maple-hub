@@ -1237,6 +1237,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 13 전사 + LV 11 궁수', gear: '전사 2단계 (공격스킬) / 궁수 2단계', clear: '1-9', note: '극적으로 성공 (3회 수동 도전)' },
                                             { lv: 'LV 13 전사 + LV 11 궁수', gear: '전사 2단계 (공격스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패' },
                                             { lv: 'LV 13 전사 + LV 11 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패' },
+                                            { lv: 'LV 14 전사 + LV 12 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
