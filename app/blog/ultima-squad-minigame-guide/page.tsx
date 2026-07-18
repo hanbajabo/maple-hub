@@ -542,6 +542,41 @@ export default function UltimaSquadMinigamePage() {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* 4단계 */}
+                            <div className="rounded-xl overflow-hidden border border-emerald-700/40 mt-3">
+                                <div className="bg-emerald-900/40 px-4 py-2 flex items-center gap-2 border-b border-emerald-700/40">
+                                    <span className="text-emerald-300 font-bold text-sm">4단계</span>
+                                    <span className="text-xs text-emerald-400/70">Stage 4</span>
+                                    <span className="ml-auto text-xs px-2.5 py-0.5 bg-emerald-950/60 text-emerald-300 rounded-full border border-emerald-700/50 font-semibold">제한 레벨: Lv. 22 이상</span>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-700/50">
+                                    {/* 무기 */}
+                                    <div className="p-3 sm:p-4 bg-slate-900/50">
+                                        <p className="text-slate-400 text-xs mb-2 font-medium">⚔️ 무기</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2.5 py-1 bg-slate-700/50 border border-slate-600/40 rounded-md text-slate-400 text-xs italic">
+                                                공격력 미확인
+                                            </span>
+                                            <span className="px-2.5 py-1 bg-slate-700/50 border border-slate-600/40 rounded-md text-slate-400 text-xs italic">
+                                                추옵 미확인
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {/* 방어구 */}
+                                    <div className="p-3 sm:p-4 bg-slate-900/30">
+                                        <p className="text-slate-400 text-xs mb-2 font-medium">🎩🥊👟 방어구 (모자/장갑/신발)</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">최대 HP +158</span>
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">방어력 +20</span>
+                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +25 (확인)</span>
+                                            <span className="px-2.5 py-1 bg-slate-700/50 border border-slate-600/40 rounded-md text-slate-400 text-xs italic">
+                                                방어력 추옵 최대치 미확인
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {/* 장비 단계 표 */}
@@ -665,6 +700,7 @@ export default function UltimaSquadMinigamePage() {
                                         <p>🪙 <strong className="text-white">1단계</strong> 분해: <span className="text-orange-300 font-bold">660 골드</span></p>
                                         <p>🪙 <strong className="text-white">2단계</strong> 분해: <span className="text-orange-300 font-bold">1,400 골드</span></p>
                                         <p>🪙 <strong className="text-white">3단계</strong> 분해: <span className="text-orange-300 font-bold">2,970 골드</span></p>
+                                        <p>🪙 <strong className="text-white">4단계</strong> 분해: <span className="text-orange-300 font-bold">6,300 골드</span></p>
                                     </div>
                                 </div>
                             </div>
