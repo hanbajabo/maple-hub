@@ -850,22 +850,22 @@ export default function UltimaSquadMinigamePage() {
                                             </thead>
                                             <tbody className="text-slate-300 divide-y divide-slate-800/50">
                                                 {[
-                                                    { stage: '1-1', base: '10G', p5: '-', p10: '-', p20: '-' },
-                                                    { stage: '1-2', base: '30G', p5: '-', p10: '-', p20: '-' },
-                                                    { stage: '1-3', base: '50G', p5: '-', p10: '-', p20: '-' },
-                                                    { stage: '1-4', base: '70G', p5: '-', p10: '-', p20: '-' },
-                                                    { stage: '1-5', base: '90G', p5: '94G', p10: '-', p20: '-' },
-                                                    { stage: '1-6', base: '110G', p5: '115G', p10: '121G', p20: '-' },
-                                                    { stage: '1-7', base: '130G', p5: '-', p10: '143G', p20: '-' },
-                                                    { stage: '1-8', base: '150G', p5: '-', p10: '165G', p20: '-' },
-                                                    { stage: '1-9', base: '170G', p5: '-', p10: '-', p20: '204G' },
+                                                    { stage: '1-1', base: '10G', p5: '10G', p10: '11G', p20: '12G' },
+                                                    { stage: '1-2', base: '30G', p5: '31G', p10: '33G', p20: '36G' },
+                                                    { stage: '1-3', base: '50G', p5: '52G', p10: '55G', p20: '60G' },
+                                                    { stage: '1-4', base: '70G', p5: '73G', p10: '77G', p20: '84G' },
+                                                    { stage: '1-5', base: '90G', p5: '94G', p10: '99G', p20: '108G' },
+                                                    { stage: '1-6', base: '110G', p5: '115G', p10: '121G', p20: '132G' },
+                                                    { stage: '1-7', base: '130G', p5: '136G', p10: '143G', p20: '156G' },
+                                                    { stage: '1-8', base: '150G', p5: '157G', p10: '165G', p20: '180G' },
+                                                    { stage: '1-9', base: '170G', p5: '178G', p10: '187G', p20: '204G' },
                                                 ].map((row, idx) => (
                                                     <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                         <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold">{row.base}</td>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 text-slate-400">{row.p5}</td>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 text-slate-400">{row.p10}</td>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 text-slate-400">{row.p20}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-100">{row.base}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p5}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p10}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p20}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
