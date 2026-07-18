@@ -1216,9 +1216,26 @@ export default function UltimaSquadMinigamePage() {
                     <div className="space-y-5 text-sm sm:text-base text-slate-200 leading-relaxed break-keep">
 
                         <div className="bg-red-950/20 border border-red-800/30 rounded-xl p-4">
-                            <h3 className="font-bold text-red-300 mb-2 text-sm">🔓 카오스 모드 입장 조건</h3>
+                            <h3 className="font-bold text-red-300 mb-2 text-sm flex items-center gap-1.5">
+                                <span>🔓</span>
+                                <span>카오스 모드 입장 조건</span>
+                            </h3>
                             <p className="text-slate-300 text-sm">일반 모드의 <strong className="text-white">3-10 스테이지</strong>까지 모두 클리어하면 입장 가능합니다.</p>
-                            <p className="text-slate-500 text-xs mt-1">※ 테스트 월드에서는 카오스 모드 입장이 불가합니다.</p>
+                            
+                            {/* 카오스 모드 잠금 스크린샷 */}
+                            <div className="relative w-full max-w-md my-4 rounded-lg overflow-hidden border border-red-900/40 shadow-lg">
+                                <Image 
+                                    src="/images/ultima-squad-chaos-lock.png" 
+                                    alt="카오스 모드 테스트 서버 제한 알림" 
+                                    width={460}
+                                    height={120}
+                                    style={{ width: '100%', height: 'auto' }}
+                                />
+                            </div>
+
+                            <p className="text-slate-400 text-xs mt-1 leading-relaxed">
+                                ※ 테스트 월드에서는 카오스 모드 클릭 시 <strong className="text-white">"테스트 월드에서는 이용할 수 없습니다. 정식 서버에서 확인해 주세요."</strong>라는 안내 팝업이 출력되며 입장이 차단됩니다.
+                            </p>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
