@@ -1177,6 +1177,7 @@ export default function UltimaSquadMinigamePage() {
                                             { cond: 'LV5 / 1-5 수동', start: '27%', after: '33%', gain: '+6%', mode: '수동' },
                                             { cond: 'LV7 / 1-5 반복', start: '49%', after: '53%', gain: '+4%', mode: '자동 반복' },
                                             { cond: 'LV7 / 1-6 수동', start: '54%', after: '57%', gain: '+3%', mode: '수동' },
+                                            { cond: 'LV10 전사 + LV6 궁수 / 1-7 반복', start: '전사 34% / 궁수 92%', after: '전사 38% / 궁수 99%', gain: '전사 +4% / 궁수 +7%', mode: '자동 반복' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-3 border border-slate-700 font-semibold text-slate-200">{row.cond}</td>
