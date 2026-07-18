@@ -287,9 +287,9 @@ export default function UltimaSquadMinigamePage() {
                                     <span>⚠️</span>
                                     <span>주의사항</span>
                                 </p>
-                                <ul className="text-slate-100 text-sm space-y-2 list-disc list-inside leading-relaxed">
+                                <ul className="text-slate-100 text-base space-y-2 list-disc list-inside leading-relaxed">
                                     <li>오프라인 누적 시간은 <strong className="text-sky-300">기본 16시간 / 최대 24시간</strong>까지 인정 (유틸리티 확장 후)</li>
-                                    <li className="text-sm font-bold text-amber-300 mt-2 mb-2 bg-amber-950/40 p-2 rounded border border-amber-500/20 list-none -ml-4 flex items-center gap-1.5 shadow-sm">
+                                    <li className="text-base font-bold text-amber-300 mt-2 mb-2 bg-amber-950/40 p-2 rounded border border-amber-500/20 list-none -ml-4 flex items-center gap-1.5 shadow-sm">
                                         <span>🚨</span>
                                         <span>장비, 훈련용 큐브, 카오스 스쿼드 코인은 <strong className="text-white underline underline-offset-4 decoration-amber-500">접속 상태에서만</strong> 획득 가능합니다.</span>
                                     </li>
