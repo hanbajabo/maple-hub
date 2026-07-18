@@ -1004,6 +1004,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 9', gear: '2단계 (공격력 잠재)', clear: '1-5 이하', note: '1-6 실패' },
                                             { lv: 'LV 9', gear: '2단계 (방어력 잠재)', clear: '1-6', note: '간신히 성공 (반복 시도 필요)' },
                                             { lv: 'LV 9', gear: '2단계 + 궁수 구매', clear: '1-6', note: '1-7 실패 (전사 먼저 사망)' },
+                                            { lv: 'LV 10 전사 + LV 6 궁수', gear: '전사: 2단계 (방어스킬 장착) / 궁수: 1단계 (최고추옵)', clear: '1-7', note: '아슬아슬하게 성공' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-3 border border-slate-700 font-bold text-white">{row.lv}</td>
@@ -1030,7 +1031,7 @@ export default function UltimaSquadMinigamePage() {
                                     <li>잠재능력은 <strong className="text-white">공격력보다 방어력 위주</strong>로 세팅하는 것이 유리</li>
                                     <li>한 번 아깝게 실패했다면 포기하지 말고 <strong className="text-white">반복 재도전</strong>할 것 — 운에 따라 성공하는 경우 있음</li>
                                     <li>LV 9 기준 1-7 진입 시 전사가 먼저 사망 — <strong className="text-white">탱커 역할이 중요</strong>해지는 구간</li>
-                                    <li>LV 10 달성 후 배우는 탱커 전용 스킬 습득이 1-7 돌파의 핵심일 것으로 예상</li>
+                                    <li>LV 10 달성 후 배우는 <strong className="text-yellow-300">2번째 방어 스킬 장착</strong>이 1-7 돌파의 결정적 열쇠</li>
                                 </ul>
                             </div>
 
@@ -1038,8 +1039,8 @@ export default function UltimaSquadMinigamePage() {
                                 <p className="text-blue-300 text-sm font-bold">🏹 궁수 용병 활용법</p>
                                 <ul className="text-slate-200 text-sm space-y-1.5 list-disc list-inside leading-relaxed">
                                     <li>궁수는 약 <strong className="text-white">50만 골드</strong>에 구매 가능</li>
-                                    <li>LV 9 전사 + LV 2 궁수(스킬 배운 상태) 조합으로도 1-7 클리어는 실패</li>
-                                    <li>1-7부터는 단순 딜보다 <strong className="text-white">전사의 생존력(탱킹)</strong>이 더 중요한 요소</li>
+                                    <li>LV 9 전사 + LV 2 궁수 조합으로는 1-7 실패했으나, <strong className="text-white">LV 10 전사(2번째 방어 스킬 장착) + LV 6 궁수(1단계 최고 추옵)</strong>로 1-7 아슬하게 성공 완료</li>
+                                    <li>1-7부터는 단순 딜보다 <strong className="text-white">전사의 생존력(탱킹) 및 궁수의 서포트 레벨업</strong>이 핵심 요소</li>
                                 </ul>
                             </div>
                         </div>
