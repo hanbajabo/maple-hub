@@ -973,42 +973,7 @@ export default function UltimaSquadMinigamePage() {
                                 {/* 케이스 1 */}
                                 <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
                                     <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
-                                        <span>📊 오프라인 Case A (중반 구간)</span>
-                                        <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full">전사 L.9 + 궁수 L.2</span>
-                                    </div>
-                                    <div className="relative w-full rounded-lg overflow-hidden border border-slate-800 shadow-md">
-                                        <Image 
-                                            src="/images/ultima-squad-offline-1.png" 
-                                            alt="오프라인 보상 결과 1" 
-                                            width={400}
-                                            height={300}
-                                            style={{ width: '100%', height: 'auto' }}
-                                        />
-                                    </div>
-                                    <div className="space-y-1.5 text-xs sm:text-sm">
-                                        <div className="flex justify-between border-b border-slate-800/40 pb-1">
-                                            <span className="text-slate-400">오프라인 누적 시간</span>
-                                            <span className="text-slate-200 font-bold">5시간 10분 (310분)</span>
-                                        </div>
-                                        <div className="flex justify-between border-b border-slate-800/40 pb-1">
-                                            <span className="text-slate-400">획득 골드</span>
-                                            <span className="text-yellow-400 font-mono font-bold">622,240 G <span className="text-slate-500 text-xs font-normal">(시간당 120,433 G)</span></span>
-                                        </div>
-                                        <div className="flex justify-between border-b border-slate-800/40 pb-1">
-                                            <span className="text-slate-400">전사 경험치 획득</span>
-                                            <span className="text-green-400 font-bold">Lv.9 ➔ Lv.10 (+117%) <span className="text-slate-500 text-xs font-normal">(시간당 22.6%)</span></span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-slate-400">궁수 경험치 획득</span>
-                                            <span className="text-green-400 font-bold">Lv.2 ➔ Lv.6 (+424%) <span className="text-slate-500 text-xs font-normal">(시간당 82.0%)</span></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* 케이스 2 */}
-                                <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
-                                    <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
-                                        <span>📊 오프라인 Case B (초반 구간)</span>
+                                        <span>📊 오프라인 Case A (초반 구간)</span>
                                         <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full">전사 L.5 단독</span>
                                     </div>
                                     <div className="relative w-full rounded-lg overflow-hidden border border-slate-800 shadow-md">
@@ -1030,12 +995,47 @@ export default function UltimaSquadMinigamePage() {
                                             <span className="text-yellow-400 font-mono font-bold">421,591 G <span className="text-slate-500 text-xs font-normal">(시간당 78,072 G)</span></span>
                                         </div>
                                         <div className="flex justify-between border-b border-slate-800/40 pb-1">
-                                            <span className="text-slate-400">전사 경험치 획득</span>
+                                            <span className="text-slate-400">전사 경험치</span>
                                             <span className="text-green-400 font-bold">Lv.5 ➔ Lv.7 (+165%) <span className="text-slate-500 text-xs font-normal">(시간당 30.5%)</span></span>
                                         </div>
                                         <div className="flex justify-between">
-                                            <span className="text-slate-400">궁수 경험치 획득</span>
+                                            <span className="text-slate-400">궁수 경험치</span>
                                             <span className="text-slate-500">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* 케이스 2 */}
+                                <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
+                                    <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
+                                        <span>📊 오프라인 Case B (중반 구간)</span>
+                                        <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full">전사 L.9 + 궁수 L.2</span>
+                                    </div>
+                                    <div className="relative w-full rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                        <Image 
+                                            src="/images/ultima-squad-offline-1.png" 
+                                            alt="오프라인 보상 결과 1" 
+                                            width={400}
+                                            height={300}
+                                            style={{ width: '100%', height: 'auto' }}
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5 text-xs sm:text-sm">
+                                        <div className="flex justify-between border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400">오프라인 누적 시간</span>
+                                            <span className="text-slate-200 font-bold">5시간 10분 (310분)</span>
+                                        </div>
+                                        <div className="flex justify-between border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400">획득 골드</span>
+                                            <span className="text-yellow-400 font-mono font-bold">622,240 G <span className="text-slate-500 text-xs font-normal">(시간당 120,433 G)</span></span>
+                                        </div>
+                                        <div className="flex justify-between border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400">전사 경험치</span>
+                                            <span className="text-green-400 font-bold">Lv.9 ➔ Lv.10 (+117%) <span className="text-slate-500 text-xs font-normal">(시간당 22.6%)</span></span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-400">궁수 경험치</span>
+                                            <span className="text-green-400 font-bold">Lv.2 ➔ Lv.6 (+424%) <span className="text-slate-500 text-xs font-normal">(시간당 82.0%)</span></span>
                                         </div>
                                     </div>
                                 </div>
