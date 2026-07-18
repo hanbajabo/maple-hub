@@ -974,7 +974,7 @@ export default function UltimaSquadMinigamePage() {
                                 ※ 오프라인 상태일 때 누적되는 경험치와 골드의 시간당 효율을 직접 실측한 분석 데이터입니다.
                             </p>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-5">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
                                 {/* 케이스 1 */}
                                 <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
                                     <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
@@ -1075,7 +1075,7 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">골드 획득량 증가</span>
-                                            <span className="text-slate-200 font-bold">미확인</span>
+                                            <span className="text-slate-200 font-bold">10% (+2레벨)</span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">획득 골드</span>
@@ -1154,6 +1154,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 9 전사 + 궁수', gear: '2단계 + 궁수', clear: '1-6', note: '1-7 실패' },
                                             { lv: 'LV 10 전사 + LV 6 궁수', gear: '전사 2단계 (방어스킬) / 궁수 1단계 (최고추옵)', clear: '1-7', note: '아슬하게 성공' },
                                             { lv: 'LV 11 전사 + LV 9 궁수', gear: '전사 2단계 (방어스킬 2개) / 궁수 2단계', clear: '1-7 이하', note: '1-8 실패' },
+                                            { lv: 'LV 12 전사 + LV 9 궁수', gear: '전사 2단계 (방어스킬 2개) / 궁수 2단계', clear: '1-7 이하', note: '1-8 실패' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
