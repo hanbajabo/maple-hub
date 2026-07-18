@@ -168,7 +168,7 @@ export default function UltimaSquadMinigamePage() {
                     </div>
 
                     <p className="text-base md:text-lg text-slate-300 mb-8 leading-relaxed break-keep border-l-4 border-orange-500 pl-5 py-2 bg-orange-950/10 rounded-r-lg">
-                        미션 울티마 작전에 합류한 <strong className="text-orange-300">신입 용병들</strong>을 성장시키고, 자동 전투 미니게임을 통해 다양한 보상을 획득하세요!
+                        미션 울티마 작전에 합류한 <strong className="text-orange-300">신입 용병들</strong>을 성장시키고, <strong className="text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded">⚔️ 자동 전투 미니게임</strong>을 통해 다양한 보상을 획득하세요!
                         7월 23일 점검 후부터 8월 19일까지 진행되는 신규 미니게임 이벤트를 완벽하게 정리했습니다.
                     </p>
 
