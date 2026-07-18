@@ -974,7 +974,7 @@ export default function UltimaSquadMinigamePage() {
                                 <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
                                     <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
                                         <span>📊 오프라인 Case A (초반 구간)</span>
-                                        <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full">전사 L.5 단독</span>
+                                        <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full">전사 L.5 | 골획증 0%</span>
                                     </div>
                                     <div className="relative w-full rounded-lg overflow-hidden border border-slate-800 shadow-md">
                                         <Image 
@@ -989,6 +989,10 @@ export default function UltimaSquadMinigamePage() {
                                         <div className="flex justify-between border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400">오프라인 누적 시간</span>
                                             <span className="text-slate-200 font-bold">5시간 24분 (324분)</span>
+                                        </div>
+                                        <div className="flex justify-between border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400">골드 획득량 증가</span>
+                                            <span className="text-slate-200 font-bold">0% (미강화)</span>
                                         </div>
                                         <div className="flex justify-between border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400">획득 골드</span>
@@ -1009,7 +1013,7 @@ export default function UltimaSquadMinigamePage() {
                                 <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
                                     <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
                                         <span>📊 오프라인 Case B (중반 구간)</span>
-                                        <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full">전사 L.9 + 궁수 L.2</span>
+                                        <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full">전사 L.9 + 궁수 L.2 | 골획증 10%</span>
                                     </div>
                                     <div className="relative w-full rounded-lg overflow-hidden border border-slate-800 shadow-md">
                                         <Image 
@@ -1024,6 +1028,10 @@ export default function UltimaSquadMinigamePage() {
                                         <div className="flex justify-between border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400">오프라인 누적 시간</span>
                                             <span className="text-slate-200 font-bold">5시간 10분 (310분)</span>
+                                        </div>
+                                        <div className="flex justify-between border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400">골드 획득량 증가</span>
+                                            <span className="text-slate-200 font-bold">10% (+2레벨)</span>
                                         </div>
                                         <div className="flex justify-between border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400">획득 골드</span>
