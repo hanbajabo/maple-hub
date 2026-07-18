@@ -175,22 +175,22 @@ export default function UltimaSquadMinigamePage() {
                     {/* 기본 정보 요약 카드 */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
                         <div className="bg-slate-800/60 border border-orange-500/40 rounded-xl p-4 text-center">
-                            <div className="text-2xl mb-1">🎖️</div>
-                            <p className="text-xs text-orange-300/80 font-semibold mb-1">참여 조건</p>
-                            <p className="text-sm font-bold text-orange-300">101레벨 이상</p>
-                            <p className="text-xs text-slate-300 mt-1">미션 울티마 참여 또는<br/>제로 챕터2 완료</p>
+                            <div className="text-3xl mb-2">🎖️</div>
+                            <p className="text-sm text-orange-300/80 font-semibold mb-1">참여 조건</p>
+                            <p className="text-base font-bold text-orange-300">101레벨 이상</p>
+                            <p className="text-sm text-slate-300 mt-1">미션 울티마 참여 또는<br/>제로 챕터2 완료</p>
                         </div>
                         <div className="bg-slate-800/60 border border-amber-500/40 rounded-xl p-4 text-center">
-                            <div className="text-2xl mb-1">📅</div>
-                            <p className="text-xs text-amber-300/80 font-semibold mb-1">이벤트 기간</p>
-                            <p className="text-sm font-bold text-amber-300">7/23 ~ 8/19</p>
-                            <p className="text-xs text-slate-300 mt-1">점검 후 ~ 오후 11:59</p>
+                            <div className="text-3xl mb-2">📅</div>
+                            <p className="text-sm text-amber-300/80 font-semibold mb-1">이벤트 기간</p>
+                            <p className="text-base font-bold text-amber-300">7/23 ~ 8/19</p>
+                            <p className="text-sm text-slate-300 mt-1">점검 후 ~ 오후 11:59</p>
                         </div>
                         <div className="bg-slate-800/60 border border-yellow-500/40 rounded-xl p-4 text-center">
-                            <div className="text-2xl mb-1">🤝</div>
-                            <p className="text-xs text-yellow-300/80 font-semibold mb-1">기록 공유</p>
-                            <p className="text-sm font-bold text-yellow-300">메이플ID 공유</p>
-                            <p className="text-xs text-slate-300 mt-1">모든 캐릭터 간<br/>진행 기록 공유</p>
+                            <div className="text-3xl mb-2">🤝</div>
+                            <p className="text-sm text-yellow-300/80 font-semibold mb-1">기록 공유</p>
+                            <p className="text-base font-bold text-yellow-300">메이플ID 공유</p>
+                            <p className="text-sm text-slate-300 mt-1">모든 캐릭터 간<br/>진행 기록 공유</p>
                         </div>
                     </div>
 
