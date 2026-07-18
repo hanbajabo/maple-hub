@@ -265,13 +265,13 @@ export default function UltimaSquadMinigamePage() {
                             </ol>
                         </div>
 
-                        <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
-                            <h3 className="font-bold text-blue-300 mb-3">⏰ 오프라인 보상 시스템</h3>
-                            <ul className="space-y-2 text-slate-300 list-disc list-inside mb-4">
-                                <li>접속하지 않은 동안에도 용병들이 <strong>자동 전투</strong>한 것으로 간주, EXP와 골드 획득</li>
-                                <li>용병 배치 후 전투 화면에 <strong>1회 이상 진입</strong>한 시점부터 오프라인 보상 적립 시작</li>
-                                <li>재접속 시 <strong>'오프라인 보상' 팝업</strong>으로 EXP·골드 및 레벨업 결과 확인 가능</li>
-                                <li>오프라인 보상은 <strong>마지막으로 클리어한 스테이지</strong> 기준으로 지급</li>
+                        <div className="bg-slate-900/60 border border-blue-500/20 rounded-xl p-4">
+                            <h3 className="font-bold text-blue-300 mb-3 flex items-center gap-2">⏰ 오프라인 보상 시스템</h3>
+                            <ul className="space-y-2.5 text-slate-100 list-disc list-inside mb-4 leading-relaxed">
+                                <li>접속하지 않은 동안에도 용병들이 <strong className="text-amber-300">자동 전투</strong>한 것으로 간주, <strong className="text-yellow-300">EXP</strong>와 <strong className="text-yellow-300">골드</strong> 획득</li>
+                                <li>용병 배치 후 전투 화면에 <strong className="text-green-300">1회 이상 진입</strong>한 시점부터 오프라인 보상 적립 시작</li>
+                                <li>재접속 시 <strong className="text-sky-300">'오프라인 보상' 팝업</strong>으로 EXP·골드 및 레벨업 결과 확인 가능</li>
+                                <li>오프라인 보상은 <strong className="text-orange-300">마지막으로 클리어한 스테이지</strong> 기준으로 지급</li>
                             </ul>
                             <div className="relative w-full max-w-[400px] mx-auto rounded-lg overflow-hidden border border-slate-800 shadow-md mb-4">
                                 <Image 
@@ -283,17 +283,17 @@ export default function UltimaSquadMinigamePage() {
                                 />
                             </div>
                             <div className="mt-4 p-4 sm:p-5 bg-blue-950/25 border border-blue-500/30 rounded-xl shadow-md">
-                                <p className="text-blue-300 text-base font-bold mb-2 flex items-center gap-1.5">
+                                <p className="text-blue-200 text-base font-bold mb-2 flex items-center gap-1.5">
                                     <span>⚠️</span>
                                     <span>주의사항</span>
                                 </p>
-                                <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
-                                    <li>오프라인 누적 시간은 <strong className="text-white">기본 16시간 / 최대 24시간</strong>까지 인정 (유틸리티 확장 후)</li>
+                                <ul className="text-slate-100 text-sm space-y-2 list-disc list-inside leading-relaxed">
+                                    <li>오프라인 누적 시간은 <strong className="text-sky-300">기본 16시간 / 최대 24시간</strong>까지 인정 (유틸리티 확장 후)</li>
                                     <li className="text-sm font-bold text-amber-300 mt-2 mb-2 bg-amber-950/40 p-2 rounded border border-amber-500/20 list-none -ml-4 flex items-center gap-1.5 shadow-sm">
                                         <span>🚨</span>
                                         <span>장비, 훈련용 큐브, 카오스 스쿼드 코인은 <strong className="text-white underline underline-offset-4 decoration-amber-500">접속 상태에서만</strong> 획득 가능합니다.</span>
                                     </li>
-                                    <li>캐시샵 이용 시간은 오프라인으로 취급 → EXP·골드만 일부 획득</li>
+                                    <li>캐시샵 이용 시간은 오프라인으로 취급 → <strong className="text-yellow-300">EXP·골드만</strong> 일부 획득</li>
                                 </ul>
                             </div>
                         </div>
