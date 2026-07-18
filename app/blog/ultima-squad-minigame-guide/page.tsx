@@ -840,32 +840,35 @@ export default function UltimaSquadMinigamePage() {
                                 <div className="overflow-x-auto -mx-1">
                                     <table className="w-full text-left border-collapse min-w-[320px] text-xs sm:text-sm">
                                         <thead>
-                                            <tr className="bg-yellow-950/20 text-yellow-200">
-                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">스테이지</th>
-                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">기본 골드</th>
-                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+5%</th>
-                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="text-slate-300 divide-y divide-slate-800/50">
-                                            {[
-                                                { stage: '1-1', base: '10G', p5: '-', p10: '-' },
-                                                { stage: '1-2', base: '30G', p5: '-', p10: '-' },
-                                                { stage: '1-3', base: '50G', p5: '-', p10: '-' },
-                                                { stage: '1-4', base: '70G', p5: '-', p10: '-' },
-                                                { stage: '1-5', base: '90G', p5: '94G', p10: '-' },
-                                                { stage: '1-6', base: '110G', p5: '115G', p10: '121G' },
-                                                { stage: '1-7', base: '130G', p5: '-', p10: '143G' },
-                                                { stage: '1-8', base: '150G', p5: '-', p10: '165G' },
-                                            ].map((row, idx) => (
-                                                <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-semibold">{row.base}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-slate-400">{row.p5}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-slate-400">{row.p10}</td>
+                                                <tr className="bg-yellow-950/20 text-yellow-200">
+                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">스테이지</th>
+                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">기본 골드</th>
+                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+5%</th>
+                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
+                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+20%</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
+                                            </thead>
+                                            <tbody className="text-slate-300 divide-y divide-slate-800/50">
+                                                {[
+                                                    { stage: '1-1', base: '10G', p5: '-', p10: '-', p20: '-' },
+                                                    { stage: '1-2', base: '30G', p5: '-', p10: '-', p20: '-' },
+                                                    { stage: '1-3', base: '50G', p5: '-', p10: '-', p20: '-' },
+                                                    { stage: '1-4', base: '70G', p5: '-', p10: '-', p20: '-' },
+                                                    { stage: '1-5', base: '90G', p5: '94G', p10: '-', p20: '-' },
+                                                    { stage: '1-6', base: '110G', p5: '115G', p10: '121G', p20: '-' },
+                                                    { stage: '1-7', base: '130G', p5: '-', p10: '143G', p20: '-' },
+                                                    { stage: '1-8', base: '150G', p5: '-', p10: '165G', p20: '-' },
+                                                    { stage: '1-9', base: '170G', p5: '-', p10: '-', p20: '204G' },
+                                                ].map((row, idx) => (
+                                                    <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold">{row.base}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 text-slate-400">{row.p5}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 text-slate-400">{row.p10}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 text-slate-400">{row.p20}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -1191,6 +1194,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 10 전사 + LV 6 궁수', gear: '전사 2단계 (방어스킬) / 궁수 1단계 (최고추옵)', clear: '1-7', note: '아슬하게 성공' },
                                             { lv: 'LV 11 전사 + LV 9 궁수', gear: '전사 2단계 (방어스킬 2개) / 궁수 2단계', clear: '1-7 이하', note: '1-8 실패' },
                                             { lv: 'LV 12 전사 + LV 9 궁수', gear: '전사 2단계 (방어스킬 2개) / 궁수 2단계', clear: '1-7 이하', note: '1-8 실패' },
+                                            { lv: 'LV 12 전사 + LV 11 궁수', gear: '전사 2단계 (공격스킬 1개 장착) / 궁수 2단계', clear: '1-8', note: '성공' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
