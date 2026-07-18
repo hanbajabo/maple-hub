@@ -1267,7 +1267,7 @@ export default function UltimaSquadMinigamePage() {
                                     <tbody className="text-slate-300 divide-y divide-slate-800/50">
                                         {[
                                             { cond: 'LV3 / 1-2 반복', start: '80%', after: '87%', gain: '+7%', mode: '자동 반복' },
-                                            { cond: 'LV3 / 1-3 수동', start: '87%', after: '97%', gain: '+10%', mode: '수동 (1-3 재도전)' },
+                                            { cond: 'LV3 / 1-3 수동', start: '87%', after: '97%', gain: '+10%', mode: '수동 (1-3 재도전)', highlight: true },
                                             { cond: 'LV5 / 1-4 반복', start: '20%', after: '26%', gain: '+6%', mode: '자동 반복' },
                                             { cond: 'LV5 / 1-5 수동', start: '27%', after: '33%', gain: '+6%', mode: '수동' },
                                             { cond: 'LV7 / 1-5 반복', start: '49%', after: '53%', gain: '+4%', mode: '자동 반복' },
@@ -1275,15 +1275,18 @@ export default function UltimaSquadMinigamePage() {
                                             { cond: 'LV10 전사 + LV6 궁수 / 1-7 반복', start: '전사 34% / 궁수 92%', after: '전사 38% / 궁수 99%', gain: '전사 +4% / 궁수 +7%', mode: '자동 반복' },
                                             { cond: 'LV13 전사 + LV11 궁수 / 1-8 반복', start: '전사 0% / 궁수 7%', after: '전사 2% / 궁수 11%', gain: '전사 +2% / 궁수 +4%', mode: '자동 반복' },
                                             { cond: 'LV13 전사 + LV11 궁수 / 1-9 수동', start: '전사 3% / 궁수 12%', after: '전사 5% / 궁수 15%', gain: '전사 +2% / 궁수 +3%', mode: '수동' },
-                                        ].map((row, idx) => (
-                                            <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-200">{row.cond}</td>
-                                                <td className="p-2 sm:p-3 border border-slate-700 text-center whitespace-nowrap">{row.start}</td>
-                                                <td className="p-2 sm:p-3 border border-slate-700 text-center font-bold text-green-300 whitespace-nowrap">{row.after}</td>
-                                                <td className="p-2 sm:p-3 border border-slate-700 text-center font-bold text-yellow-300 whitespace-nowrap">{row.gain}</td>
-                                                <td className="p-2 sm:p-3 border border-slate-700 text-slate-400">{row.mode}</td>
-                                            </tr>
-                                        ))}
+                                        ].map((row, idx) => {
+                                            const isHighlight = 'highlight' in row && row.highlight;
+                                            return (
+                                                <tr key={idx} className={isHighlight ? 'bg-amber-900/25 border-amber-500/30' : (idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30')}>
+                                                    <td className={"p-2 sm:p-3 border border-slate-700 font-semibold " + (isHighlight ? 'text-amber-300 font-bold' : 'text-slate-200')}>{row.cond}</td>
+                                                    <td className={"p-2 sm:p-3 border border-slate-700 text-center whitespace-nowrap " + (isHighlight ? 'text-amber-200' : 'text-slate-300')}>{row.start}</td>
+                                                    <td className={"p-2 sm:p-3 border border-slate-700 text-center font-bold text-green-300 whitespace-nowrap"}>{row.after}</td>
+                                                    <td className={"p-2 sm:p-3 border border-slate-700 text-center font-bold text-yellow-300 whitespace-nowrap"}>{row.gain}</td>
+                                                    <td className={"p-2 sm:p-3 border border-slate-700 " + (isHighlight ? 'text-amber-400 font-semibold' : 'text-slate-400')}>{row.mode}</td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>
