@@ -1096,7 +1096,7 @@ export default function UltimaSquadMinigamePage() {
                                 <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
                                     <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
                                         <span>📊 오프라인 Case C (후반 구간)</span>
-                                        <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full">전사 L.10 + 궁수 L.7</span>
+                                        <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full">전사 L.10 + 궁수 L.7 | 골획증 10%</span>
                                     </div>
                                     <div className="relative w-full rounded-lg overflow-hidden border border-slate-800 shadow-md">
                                         <Image 
