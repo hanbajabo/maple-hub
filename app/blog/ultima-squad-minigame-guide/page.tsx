@@ -1276,10 +1276,10 @@ export default function UltimaSquadMinigamePage() {
                     </div>
                     <div className="space-y-5 text-sm sm:text-base text-slate-200 leading-relaxed break-keep">
 
-                        <div className="bg-amber-950/20 border border-amber-700/30 rounded-xl p-3 mb-4">
-                            <ul className="text-amber-300 text-xs space-y-1 list-disc list-inside">
-                                <li>모든 아이템 구매 가능 수량은 <strong>메이플ID 내 공유</strong></li>
-                                <li>구매한 모든 아이템은 <strong>2026년 8월 20일(목) 오전 2시</strong>까지만 사용 가능</li>
+                        <div className="bg-amber-950/20 border border-amber-700/40 rounded-xl p-4 mb-4">
+                            <ul className="text-amber-300 text-sm sm:text-base space-y-2 list-disc list-inside leading-relaxed font-semibold">
+                                <li>모든 아이템 구매 가능 수량은 <span className="text-white underline decoration-amber-500 underline-offset-4">메이플ID 내 공유</span></li>
+                                <li>구매한 모든 아이템은 <span className="text-white underline decoration-amber-500 underline-offset-4">2026년 8월 20일(목) 오전 2시</span>까지만 사용 가능</li>
                                 <li>월드 내 나의 캐릭터 간 이동만 가능한 아이템</li>
                             </ul>
                         </div>
