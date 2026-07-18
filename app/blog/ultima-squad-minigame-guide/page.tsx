@@ -780,8 +780,13 @@ export default function UltimaSquadMinigamePage() {
 
                                 <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed mt-4">
                                     <li>용병 배치 시 <strong className="text-white">자동으로 전투 시작</strong></li>
-                                    <li>전투 불능 시 <strong className="text-white">자동으로 부활</strong> (부활 시간 있음)</li>
-                                    <li>마지막 용병 전투 불능 = 스테이지 클리어 실패</li>
+                                    <li>전투 불능 시 <strong className="text-white">자동으로 부활</strong>
+                                        <ul className="mt-1 ml-4 space-y-0.5 list-none text-slate-400 text-xs">
+                                            <li>→ <strong className="text-sky-300">전장에 2명 이상</strong> 있을 시 부활 가능</li>
+                                            <li>→ 체력이 <strong className="text-yellow-300">일부만 회복</strong>된 상태로 부활</li>
+                                        </ul>
+                                    </li>
+                                    <li>마지막 용병 전투 불능 = <strong className="text-red-400">스테이지 클리어 실패</strong></li>
                                     <li>반복 플레이 버튼으로 <strong className="text-white">같은 스테이지 반복 가능</strong></li>
                                 </ul>
                             </div>
