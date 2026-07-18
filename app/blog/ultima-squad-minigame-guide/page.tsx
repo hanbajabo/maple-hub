@@ -1307,14 +1307,14 @@ export default function UltimaSquadMinigamePage() {
                                 </thead>
                                 <tbody className="text-slate-300">
                                     {coinShopItems.map((item, i) => (
-                                        <tr key={item.item} className={i % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
+                                        <tr key={item.item} className={item.currency === '스쿼드 코인' ? (i % 2 === 0 ? 'bg-yellow-950/10' : 'bg-yellow-950/5') : (i % 2 === 0 ? 'bg-red-950/20' : 'bg-red-950/10')}>
                                             <td className="p-3 border border-slate-700">
                                                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${item.currency === '스쿼드 코인' ? 'bg-yellow-950/50 text-yellow-300 border border-yellow-800/30' : 'bg-red-950/50 text-red-300 border border-red-800/30'}`}>
                                                     {item.currency}
                                                 </span>
                                             </td>
                                             <td className="p-3 border border-slate-700 font-medium">{item.item}</td>
-                                            <td className="p-3 border border-slate-700 text-center font-bold text-yellow-300">{item.price}코인</td>
+                                            <td className={`p-3 border border-slate-700 text-center font-bold ${item.currency === '스쿼드 코인' ? 'text-yellow-300' : 'text-red-300'}`}>{item.price}코인</td>
                                             <td className="p-3 border border-slate-700 text-center text-slate-400">{item.limit}</td>
                                         </tr>
                                     ))}
@@ -1323,15 +1323,64 @@ export default function UltimaSquadMinigamePage() {
                         </div>
 
                         {/* 솔 에르다 효율 하이라이트 */}
-                        <div className="bg-gradient-to-br from-indigo-950/40 to-purple-950/30 border-2 border-indigo-500/40 rounded-xl p-5">
-                            <p className="text-indigo-300 font-bold mb-2 text-base flex items-center gap-2">
+                        <div className="bg-gradient-to-br from-indigo-950/40 to-purple-950/30 border-2 border-indigo-500/40 rounded-xl p-5 space-y-4">
+                            <p className="text-indigo-300 font-bold text-base flex items-center gap-2">
                                 <Trophy className="w-5 h-5" /> 💡 핵심 보상: 솔 에르다
                             </p>
-                            <p className="text-slate-300 text-sm leading-relaxed">
-                                스쿼드 코인 <strong className="text-white">200코인</strong>으로 <strong className="text-indigo-300">솔 에르다 1개</strong> 구매 가능 (최대 10개).
-                                3-10 보스 클리어 보상으로 최대 1,200 스쿼드 코인을 획득할 수 있으므로,
-                                모든 스테이지를 클리어하면 <strong className="text-yellow-300">솔 에르다 최대 10개</strong>를 획득할 수 있습니다.
-                            </p>
+
+                            {/* 코인 획득 계산 */}
+                            <div>
+                                <p className="text-slate-400 text-xs font-semibold mb-2 uppercase tracking-wide">📥 전 스테이지 클리어 시 총 획득 스쿼드 코인</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                                    <div className="bg-slate-900/50 rounded-lg p-2.5 border border-slate-700/50">
+                                        <p className="text-slate-400 mb-1">1-1 ~ 1-9 (×9)</p>
+                                        <p className="text-white font-bold">100 × 9 = <span className="text-yellow-300">900코인</span></p>
+                                        <p className="text-slate-400 mt-1">1-10 보스</p>
+                                        <p className="text-white font-bold"><span className="text-yellow-300">500코인</span></p>
+                                    </div>
+                                    <div className="bg-slate-900/50 rounded-lg p-2.5 border border-slate-700/50">
+                                        <p className="text-slate-400 mb-1">2-1 ~ 2-9 (×9)</p>
+                                        <p className="text-white font-bold">200 × 9 = <span className="text-yellow-300">1,800코인</span></p>
+                                        <p className="text-slate-400 mt-1">2-10 보스</p>
+                                        <p className="text-white font-bold"><span className="text-yellow-300">900코인</span></p>
+                                    </div>
+                                    <div className="bg-slate-900/50 rounded-lg p-2.5 border border-slate-700/50">
+                                        <p className="text-slate-400 mb-1">3-1 ~ 3-9 (×9)</p>
+                                        <p className="text-white font-bold">300 × 9 = <span className="text-yellow-300">2,700코인</span></p>
+                                        <p className="text-slate-400 mt-1">3-10 보스</p>
+                                        <p className="text-white font-bold"><span className="text-yellow-300">1,200코인</span></p>
+                                    </div>
+                                </div>
+                                <div className="mt-2 bg-yellow-950/30 border border-yellow-700/40 rounded-lg p-2.5 text-center">
+                                    <span className="text-slate-400 text-xs">전 스테이지 합산 </span>
+                                    <span className="text-yellow-300 font-black text-sm">총 8,000 스쿼드 코인</span>
+                                </div>
+                            </div>
+
+                            {/* 코인샵 필요 코인 계산 */}
+                            <div>
+                                <p className="text-slate-400 text-xs font-semibold mb-2 uppercase tracking-wide">📤 코인샵 스쿼드 코인 아이템 전부 구매 시 필요 코인</p>
+                                <div className="space-y-1.5 text-xs">
+                                    <div className="flex justify-between items-center bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/40">
+                                        <span className="text-indigo-300 font-semibold">💎 솔 에르다 (최대 10개)</span>
+                                        <span className="text-white font-bold">200 × 10 = <span className="text-yellow-300">2,000코인</span></span>
+                                    </div>
+                                    <div className="flex justify-between items-center bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/40">
+                                        <span className="text-purple-300 font-semibold">🔮 솔 에르다 조각 교환권 (최대 400개)</span>
+                                        <span className="text-white font-bold">15 × 400 = <span className="text-yellow-300">6,000코인</span></span>
+                                    </div>
+                                    <div className="flex justify-between items-center bg-yellow-950/30 rounded-lg px-3 py-2 border border-yellow-700/40">
+                                        <span className="text-yellow-200 font-bold">합계</span>
+                                        <span className="text-yellow-300 font-black">8,000코인</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 결론 */}
+                            <div className="bg-green-950/40 border-2 border-green-500/50 rounded-xl p-3 text-center">
+                                <p className="text-green-300 font-black text-sm">✅ 모든 스테이지를 클리어하면 코인샵 스쿼드 코인 아이템을 전부 구매할 수 있습니다!</p>
+                                <p className="text-slate-400 text-xs mt-1">획득 8,000코인 = 필요 8,000코인 — 딱 맞습니다 🎯</p>
+                            </div>
                         </div>
                     </div>
                 </section>
