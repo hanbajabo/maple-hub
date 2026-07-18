@@ -569,7 +569,7 @@ export default function UltimaSquadMinigamePage() {
                                                 <tr key={g.stage} className={i % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                     <td className="p-3 border border-slate-700 font-bold">{g.stage}단계</td>
                                                     <td className={`p-3 border border-slate-700 font-semibold ${potentialColor[g.potential]}`}>{g.potential}</td>
-                                                    <td className="p-3 border border-slate-700 text-slate-400">{g.optionCount}</td>
+                                                    <td className="p-3 border border-slate-700 text-slate-100 font-semibold">{g.optionCount}</td>
                                                 </tr>
                                             );
                                         })}
