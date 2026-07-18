@@ -660,8 +660,8 @@ export default function UltimaSquadMinigamePage() {
 
                                 <div className="text-slate-100 text-base sm:text-lg font-semibold leading-relaxed mt-4 bg-orange-950/20 p-4 rounded-lg border border-orange-800/20">
                                     <p className="mb-2">장비를 분해하여 <strong className="text-orange-400">골드 획득</strong>. 장비의 단계에 따라 획득 골드 양이 달라집니다.</p>
-                                    <div className="bg-slate-900/60 p-3 rounded border border-orange-500/20 text-sm font-normal text-slate-300 space-y-1 mt-2">
-                                        <p className="text-xs text-slate-400 mb-1">※ 직접 플레이를 통해 확인한 단계별 분해 획득 골드 정보:</p>
+                                    <div className="bg-slate-900/60 p-4 rounded border border-orange-500/20 text-base font-normal text-slate-200 space-y-2 mt-2">
+                                        <p className="text-sm text-slate-400 mb-2">※ 직접 플레이를 통해 확인한 단계별 분해 획득 골드 정보:</p>
                                         <p>🪙 <strong className="text-white">1단계</strong> 분해: <span className="text-orange-300 font-bold">660 골드</span></p>
                                         <p>🪙 <strong className="text-white">2단계</strong> 분해: <span className="text-orange-300 font-bold">1,400 골드</span></p>
                                         <p>🪙 <strong className="text-white">3단계</strong> 분해: <span className="text-orange-300 font-bold">2,970 골드</span></p>
