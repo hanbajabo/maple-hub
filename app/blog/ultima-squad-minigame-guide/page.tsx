@@ -1238,6 +1238,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 13 전사 + LV 11 궁수', gear: '전사 2단계 (공격스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패' },
                                             { lv: 'LV 13 전사 + LV 11 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패' },
                                             { lv: 'LV 14 전사 + LV 12 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패' },
+                                            { lv: 'LV 14 전사 + LV 13 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패 (딜 부족)' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
@@ -1268,13 +1269,32 @@ export default function UltimaSquadMinigamePage() {
                                 </ul>
                             </div>
 
-                            <div className="bg-slate-950/60 border border-blue-500/30 rounded-xl p-4 space-y-2">
-                                <p className="text-blue-300 text-sm font-bold">🏹 궁수 용병 활용법</p>
-                                <ul className="text-slate-200 text-sm space-y-1.5 list-disc list-inside leading-relaxed">
-                                    <li>궁수는 약 <strong className="text-white">50만 골드</strong>에 구매 가능</li>
-                                    <li>LV 9 전사 + LV 2 궁수 조합으로는 1-7 실패했으나, <strong className="text-white">LV 10 전사(2번째 방어 스킬 장착) + LV 6 궁수(1단계 최고 추옵)</strong>로 1-7 아슬하게 성공 완료</li>
-                                    <li>1-7부터는 단순 딜보다 <strong className="text-white">전사의 생존력(탱킹) 및 궁수의 서포트 레벨업</strong>이 핵심 요소</li>
+                            <div className="bg-slate-950/60 border border-blue-500/30 rounded-xl p-4 space-y-3">
+                                <p className="text-blue-300 text-sm font-bold flex items-center gap-1.5">
+                                    <span>🏹</span>
+                                    <span>궁수 용병 활용법 및 보스전(1-10) 돌파 열쇠</span>
+                                </p>
+                                <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
+                                    <li>궁수는 약 <strong className="text-white">50만 골드</strong>에 구매 가능합니다.</li>
+                                    <li>LV 9 전사 + LV 2 궁수 조합으로는 1-7 실패했으나, <strong className="text-white">LV 10 전사(2번째 방어 스킬) + LV 6 궁수</strong>로 1-7 아슬하게 클리어 가능합니다.</li>
+                                    <li><strong>1-10 핑크빈 보스전 실패 사례 (LV 14 전사 + LV 13 궁수)</strong>: 전사가 방어 스킬로 버텨도 핑크빈 체력을 1/3도 못 깎고, 궁수는 보스 스킬 한 방에 의문사하는 현상이 발생합니다.</li>
+                                    <li>
+                                        <strong className="text-yellow-300">결정적인 돌파구</strong>: 궁수가 
+                                        <strong className="text-sky-300"> LV 15를 달성</strong>하여 액티브 스킬 <strong className="text-sky-300">‘폭풍의 시’</strong>를 배워야 클리어가 가능할 것으로 예상됩니다.
+                                        <ul className="mt-1 ml-4 space-y-0.5 list-none text-slate-400 text-xs">
+                                            <li>→ 폭풍의 시는 <strong className="text-orange-400">10 스테이지 보스 타격 시 1000% 데미지</strong>로 증폭 공격하는 보스 특화 스킬입니다.</li>
+                                        </ul>
+                                    </li>
                                 </ul>
+                                <div className="relative w-full max-w-[450px] mx-auto rounded-lg overflow-hidden border border-slate-800 shadow-md mt-2">
+                                    <Image 
+                                        src="/images/ultima-squad-skill-hurricane.png" 
+                                        alt="궁수 LV15 폭풍의 시 스킬 설명" 
+                                        width={450}
+                                        height={180}
+                                        style={{ width: '100%', height: 'auto' }}
+                                    />
+                                </div>
                             </div>
 
                             <div className="bg-slate-950/60 border border-emerald-500/30 rounded-xl p-4 space-y-2">
