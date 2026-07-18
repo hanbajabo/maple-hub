@@ -1183,21 +1183,21 @@ export default function UltimaSquadMinigamePage() {
                                     </thead>
                                     <tbody className="text-slate-300 divide-y divide-slate-800/50">
                                         {[
-                                            { lv: 'LV 3 전사', gear: '1단계 (기본템)', clear: '1-2 이하', note: '1-3 불가' },
-                                            { lv: 'LV 4 전사', gear: '1단계 (추옵 최고)', clear: '1-2 이하', note: '1-3 불가' },
+                                            { lv: 'LV 3 전사', gear: '1단계 (기본템)', clear: '1-2', note: '1-3 불가' },
+                                            { lv: 'LV 4 전사', gear: '1단계 (추옵 최고)', clear: '1-2', note: '1-3 불가' },
                                             { lv: 'LV 5 전사', gear: '1단계 (추옵 최고)', clear: '1-3 ~ 1-4', note: '1-5 이상 불가' },
                                             { lv: 'LV 7 전사', gear: '1단계 (추옵 최고)', clear: '1-5', note: '1-6 이상 불가' },
-                                            { lv: 'LV 8 전사', gear: '2단계', clear: '1-5 이하', note: '1-6 불가' },
-                                            { lv: 'LV 9 전사', gear: '2단계 (공격력 잠재)', clear: '1-5 이하', note: '1-6 실패' },
+                                            { lv: 'LV 8 전사', gear: '2단계', clear: '1-5', note: '1-6 불가' },
+                                            { lv: 'LV 9 전사', gear: '2단계 (공격력 잠재)', clear: '1-5', note: '1-6 실패' },
                                             { lv: 'LV 9 전사', gear: '2단계 (방어력 잠재)', clear: '1-6', note: '간신히 성공 (반복 필요)' },
                                             { lv: 'LV 9 전사 + 궁수', gear: '2단계 + 궁수', clear: '1-6', note: '1-7 실패' },
                                             { lv: 'LV 10 전사 + LV 6 궁수', gear: '전사 2단계 (방어스킬) / 궁수 1단계 (최고추옵)', clear: '1-7', note: '아슬하게 성공' },
-                                            { lv: 'LV 11 전사 + LV 9 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-7 이하', note: '1-8 실패' },
-                                            { lv: 'LV 12 전사 + LV 9 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-7 이하', note: '1-8 실패' },
+                                            { lv: 'LV 11 전사 + LV 9 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-7', note: '1-8 실패' },
+                                            { lv: 'LV 12 전사 + LV 9 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-7', note: '1-8 실패' },
                                             { lv: 'LV 12 전사 + LV 11 궁수', gear: '전사 2단계 (공격스킬) / 궁수 2단계', clear: '1-8', note: '성공' },
                                             { lv: 'LV 13 전사 + LV 11 궁수', gear: '전사 2단계 (공격스킬) / 궁수 2단계', clear: '1-9', note: '극적으로 성공 (3회 수동 도전)' },
-                                            { lv: 'LV 13 전사 + LV 11 궁수', gear: '전사 2단계 (공격스킬) / 궁수 2단계', clear: '1-9 이하', note: '1-10 (보스-핑크빈) 실패' },
-                                            { lv: 'LV 13 전사 + LV 11 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-9 이하', note: '1-10 (보스-핑크빈) 실패' },
+                                            { lv: 'LV 13 전사 + LV 11 궁수', gear: '전사 2단계 (공격스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패' },
+                                            { lv: 'LV 13 전사 + LV 11 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
