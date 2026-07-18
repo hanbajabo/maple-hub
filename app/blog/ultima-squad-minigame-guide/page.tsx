@@ -1169,7 +1169,7 @@ export default function UltimaSquadMinigamePage() {
                         <div>
                             <h3 className="font-bold text-green-300 mb-3 text-base flex items-center gap-1.5">
                                 <span>⚔️</span>
-                                <span>전사 레벨별 클리어 가능 스테이지 (1단계 장비 기준)</span>
+                                <span>레벨별 클리어 가능 스테이지 기록</span>
                             </h3>
                             <div className="overflow-x-auto -mx-1">
                                 <table className="w-full text-left border-collapse min-w-[340px] text-xs sm:text-sm">
@@ -1231,6 +1231,14 @@ export default function UltimaSquadMinigamePage() {
                                     <li>궁수는 약 <strong className="text-white">50만 골드</strong>에 구매 가능</li>
                                     <li>LV 9 전사 + LV 2 궁수 조합으로는 1-7 실패했으나, <strong className="text-white">LV 10 전사(2번째 방어 스킬 장착) + LV 6 궁수(1단계 최고 추옵)</strong>로 1-7 아슬하게 성공 완료</li>
                                     <li>1-7부터는 단순 딜보다 <strong className="text-white">전사의 생존력(탱킹) 및 궁수의 서포트 레벨업</strong>이 핵심 요소</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/60 border border-emerald-500/30 rounded-xl p-4 space-y-2">
+                                <p className="text-emerald-300 text-sm font-bold">💰 골드 파밍 극대화 팁 (정체 시)</p>
+                                <ul className="text-slate-200 text-sm space-y-1.5 list-disc list-inside leading-relaxed">
+                                    <li>다음 스테이지를 클리어하지 못하고 정체될 때는, 전사에게 <strong className="text-emerald-400">1번째 공격 스킬</strong>을 장착하는 것이 유리합니다.</li>
+                                    <li>생존 위주 세팅보다 몬스터 처치 속도를 올려 <strong className="text-yellow-300">골드를 훨씬 더 빠르고 효율적으로 수급</strong>할 수 있습니다.</li>
                                 </ul>
                             </div>
                         </div>
