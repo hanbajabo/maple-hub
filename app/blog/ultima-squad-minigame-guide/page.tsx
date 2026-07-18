@@ -1277,7 +1277,7 @@ export default function UltimaSquadMinigamePage() {
                                 <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
                                     <li>궁수는 약 <strong className="text-white">50만 골드</strong>에 구매 가능합니다.</li>
                                     <li>LV 9 전사 + LV 2 궁수 조합으로는 1-7 실패했으나, <strong className="text-white">LV 10 전사(2번째 방어 스킬) + LV 6 궁수</strong>로 1-7 아슬하게 클리어 가능합니다.</li>
-                                    <li><strong>1-10 핑크빈 보스전 실패 사례 (LV 14 전사 + LV 13 궁수)</strong>: 전사가 방어 스킬로 버텨도 핑크빈 체력을 1/3도 못 깎고, 궁수는 보스 스킬 한 방에 의문사하는 현상이 발생합니다.</li>
+                                    <li><strong>1-10 핑크빈 보스전 실패 사례 (LV 14 전사 + LV 13 궁수)</strong>: 전사가 방어 스킬로 버텨도 핑크빈 체력을 1/3도 못 깎고, 궁수는 보스 스킬 한 방에 끝이 납니다.</li>
                                     <li>
                                         <strong className="text-yellow-300">결정적인 돌파구</strong>: 궁수가 
                                         <strong className="text-sky-300"> LV 15를 달성</strong>하여 액티브 스킬 <strong className="text-sky-300">‘폭풍의 시’</strong>를 배워야 클리어가 가능할 것으로 예상됩니다.
