@@ -1169,6 +1169,45 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* 케이스 5 */}
+                                <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
+                                    <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
+                                        <span>📊 오프라인 Case E (후반 구간)</span>
+                                        <span className="text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full">전사 L.14 + 궁수 L.13 | 골획증 20%</span>
+                                    </div>
+                                    <div className="relative w-full rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                        <Image 
+                                            src="/images/ultima-squad-offline-5.png" 
+                                            alt="오프라인 보상 결과 5" 
+                                            width={400}
+                                            height={300}
+                                            style={{ width: '100%', height: 'auto' }}
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5 text-xs sm:text-sm">
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">오프라인 누적 시간</span>
+                                            <span className="text-slate-200 font-bold">7시간 52분 (472분)</span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">골드 획득량 증가</span>
+                                            <span className="text-slate-200 font-bold">20% (+4레벨)</span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">획득 골드</span>
+                                            <span className="text-yellow-400 font-mono font-bold">1,592,943 G <span className="text-slate-500 text-xs font-normal">(시간당 ~202,492 G)</span></span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">전사 경험치</span>
+                                            <span className="text-green-400 font-bold">Lv.14 ➔ Lv.15 (+129%) <span className="text-slate-500 text-xs font-normal">(시간당 ~16.4%)</span></span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3">
+                                            <span className="text-slate-400 shrink-0">궁수 경험치</span>
+                                            <span className="text-green-400 font-bold">Lv.13 ➔ Lv.14 (+151%) <span className="text-slate-500 text-xs font-normal">(시간당 ~19.2%)</span></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* 효율 분석 결론 */}
