@@ -948,6 +948,30 @@ export default function UltimaSquadMinigamePage() {
                                         <li>각 스테이지 마지막 <strong className="text-white">보스 등장 직전</strong>에는 소환 불가</li>
                                     </ul>
                                 </div>
+
+                                <div className="bg-orange-950/20 border border-orange-500/30 rounded-xl p-4 mt-4">
+                                    <p className="text-orange-300 text-sm font-bold flex items-center gap-1.5 mb-2">
+                                        <span>📈</span>
+                                        <span>에스페시아 에픽 상자 처치 경험치 획득 실측</span>
+                                    </p>
+                                    <p className="text-xs text-slate-400 mb-3 leading-relaxed">
+                                        ※ 직접 플레이하며 확인한 에스페시아 에픽 상자 처치 전/후 경험치 획득량 실측 데이터입니다.
+                                    </p>
+                                    <ul className="text-slate-200 text-sm list-disc list-inside space-y-1.5 leading-relaxed mb-3">
+                                        <li><strong>전사 Lv.18</strong>: 31% ➔ 81% (<strong className="text-yellow-300">+50%</strong> 획득)</li>
+                                        <li><strong>궁수 Lv.17</strong>: 35% ➔ 90% (<strong className="text-yellow-300">+55%</strong> 획득)</li>
+                                        <li>→ 에픽 상자 기준 단 1회 처치만으로도 캐릭터당 50% 이상의 폭발적인 경험치를 수급할 수 있으므로, 매일 빼놓지 않고 진행하는 것이 빠른 레벨업의 핵심입니다.</li>
+                                    </ul>
+                                    <div className="relative w-full max-w-[450px] mx-auto rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                        <Image 
+                                            src="/images/ultima-squad-especia-exp.png" 
+                                            alt="에스페시아 상자 처치 경험치 변화 실측" 
+                                            width={450}
+                                            height={150}
+                                            style={{ width: '100%', height: 'auto' }}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
