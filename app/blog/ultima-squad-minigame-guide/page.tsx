@@ -1361,6 +1361,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 16 전사 + LV 15 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-10', note: '보스전 최초 성공 (폭풍의 시 활성화)' },
                                             { lv: 'LV 16 전사 + LV 15 궁수', gear: '전사 2단계 (방어+공격 스킬) / 궁수 2단계 (공격스킬 2개)', clear: '2-1', note: '성공 (1-10 클리어로 스킬칸 확장)' },
                                             { lv: 'LV 17 전사 + LV 15 궁수', gear: '전사 3단계 (방어+공격 스킬) / 궁수 3단계 (공격스킬 2개)', clear: '2-2', note: '성공 (전사/궁수 올 3단계 장비 완료)' },
+                                            { lv: 'LV 18 전사 + LV 17 궁수', gear: '전사 3단계 (방어+공격 스킬) / 궁수 3단계 (공격스킬 2개)', clear: '2-2', note: '2-3 실패' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
