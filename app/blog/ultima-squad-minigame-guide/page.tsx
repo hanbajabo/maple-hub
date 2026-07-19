@@ -526,6 +526,7 @@ export default function UltimaSquadMinigamePage() {
                                         <div className="flex flex-wrap gap-2">
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">공격력 +20</span>
                                             <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 +4 (확인)</span>
+                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 공격력 +5 확인</span>
                                         </div>
                                     </div>
                                     {/* 방어구 */}
