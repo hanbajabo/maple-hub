@@ -953,16 +953,16 @@ export default function UltimaSquadMinigamePage() {
                                     <div className="border-b border-orange-500/10 pb-4">
                                         <p className="text-orange-300 text-sm font-bold flex items-center gap-1.5 mb-2">
                                             <span>📈</span>
-                                            <span>에스페시아 에픽 상자 처치 경험치 획득 실측</span>
+                                            <span>에스페시아 상자 처치 경험치 획득 실측</span>
                                         </p>
                                         <p className="text-xs text-slate-400 mb-1 leading-relaxed">
-                                            ※ 직접 플레이하며 확인한 에스페시아 에픽 상자 처치 전/후 경험치 획득량 실측 데이터입니다.
+                                            ※ 직접 플레이하며 확인한 에스페시아 상자 처치 전/후 경험치 획득량 실측 데이터입니다. 에스페시아 상자는 타격 시 랜덤한 등급(레어/에픽/유니크/레전드리)으로 성장하며, 유니크나 레전드리 등급으로 처치 시 아래 에픽 기준 실측치보다 더 많은 경험치를 획득할 수 있습니다.
                                         </p>
                                     </div>
 
                                     {/* 1차 실측 */}
                                     <div className="space-y-3">
-                                        <p className="text-yellow-400 text-xs font-bold">📊 에스페시아 에픽 상자 1차 실측 (초반 구간)</p>
+                                        <p className="text-yellow-400 text-xs font-bold">📊 에스페시아 상자 1차 실측 (에픽 등급 / 초반 구간)</p>
                                         <ul className="text-slate-200 text-sm list-disc list-inside space-y-1 leading-relaxed">
                                             <li><strong>전사 Lv.7</strong>: 69% ➔ Lv.8 41% (<strong className="text-yellow-300">+72%</strong> 획득)</li>
                                         </ul>
@@ -979,7 +979,7 @@ export default function UltimaSquadMinigamePage() {
 
                                     {/* 2차 실측 */}
                                     <div className="space-y-3 pt-4 border-t border-slate-800/60">
-                                        <p className="text-yellow-400 text-xs font-bold">📊 에스페시아 에픽 상자 2차 실측 (후반 구간)</p>
+                                        <p className="text-yellow-400 text-xs font-bold">📊 에스페시아 상자 2차 실측 (에픽 등급 / 후반 구간)</p>
                                         <ul className="text-slate-200 text-sm list-disc list-inside space-y-1 leading-relaxed">
                                             <li><strong>전사 Lv.18</strong>: 31% ➔ 81% (<strong className="text-yellow-300">+50%</strong> 획득)</li>
                                             <li><strong>궁수 Lv.17</strong>: 35% ➔ 90% (<strong className="text-yellow-300">+55%</strong> 획득)</li>
