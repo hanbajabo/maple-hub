@@ -1304,6 +1304,14 @@ export default function UltimaSquadMinigamePage() {
                                     <li>생존 위주 세팅보다 몬스터 처치 속도를 올려 <strong className="text-yellow-300">골드를 훨씬 더 빠르고 효율적으로 수급</strong>할 수 있습니다.</li>
                                 </ul>
                             </div>
+
+                            <div className="bg-slate-950/60 border border-purple-500/30 rounded-xl p-4 space-y-2">
+                                <p className="text-purple-300 text-sm font-bold">🛡️ 장비 합성 및 세팅 전략</p>
+                                <ul className="text-slate-200 text-sm space-y-1.5 list-disc list-inside leading-relaxed">
+                                    <li>적어도 전사 <strong className="text-purple-300">14레벨부터는 3단계 아이템</strong>을 맞추기 위해 계속 합성해야 합니다.</li>
+                                    <li>전사와 궁수의 3단계 아이템을 모두 확보하는 것이 1-10 핑크빈 보스전 돌파 및 파밍 정체 해소의 지름길입니다.</li>
+                                </ul>
+                            </div>
                         </div>
 
                         {/* 경험치 수급 전략 */}
@@ -1337,6 +1345,7 @@ export default function UltimaSquadMinigamePage() {
                                             { cond: 'LV10 전사 + LV6 궁수 / 1-7 반복', start: '전사 34% / 궁수 92%', after: '전사 38% / 궁수 99%', gain: '전사 +4% / 궁수 +7%', mode: '자동 반복' },
                                             { cond: 'LV13 전사 + LV11 궁수 / 1-8 반복', start: '전사 0% / 궁수 7%', after: '전사 2% / 궁수 11%', gain: '전사 +2% / 궁수 +4%', mode: '자동 반복' },
                                             { cond: 'LV13 전사 + LV11 궁수 / 1-9 수동', start: '전사 3% / 궁수 12%', after: '전사 5% / 궁수 15%', gain: '전사 +2% / 궁수 +3%', mode: '수동' },
+                                            { cond: 'LV14 전사 + LV13 궁수 / 1-9 반복', start: '전사 55% / 궁수 5%', after: '전사 57% / 궁수 8%', gain: '전사 +2% / 궁수 +3%', mode: '자동 반복' },
                                         ].map((row, idx) => {
                                             const isHighlight = 'highlight' in row && row.highlight;
                                             return (
