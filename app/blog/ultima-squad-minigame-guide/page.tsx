@@ -960,8 +960,25 @@ export default function UltimaSquadMinigamePage() {
                                         </p>
                                     </div>
 
-                                    {/* 1차 실측 */}
+                                    {/* 초기 생성 시 실측 */}
                                     <div className="space-y-3">
+                                        <p className="text-yellow-400 text-xs font-bold">📊 에스페시아 상자 생성 초기 실측 (에픽 등급)</p>
+                                        <ul className="text-slate-200 text-sm list-disc list-inside space-y-1 leading-relaxed">
+                                            <li><strong>전사 Lv.1 (0%)</strong> ➔ <strong>Lv.3 15%</strong> (총 <strong className="text-yellow-300">+215%</strong> 분량의 경험치 단숨에 획득!)</li>
+                                        </ul>
+                                        <div className="relative w-full max-w-[450px] mx-auto rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                            <Image 
+                                                src="/images/ultima-squad-especia-exp-0.png" 
+                                                alt="에스페시아 상자 초기 처치 경험치 변화 실측" 
+                                                width={450}
+                                                height={180}
+                                                style={{ width: '100%', height: 'auto' }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* 1차 실측 */}
+                                    <div className="space-y-3 pt-4 border-t border-slate-800/60">
                                         <p className="text-yellow-400 text-xs font-bold">📊 에스페시아 상자 1차 실측 (에픽 등급 / 초반 구간)</p>
                                         <ul className="text-slate-200 text-sm list-disc list-inside space-y-1 leading-relaxed">
                                             <li><strong>전사 Lv.7</strong>: 69% ➔ Lv.8 41% (<strong className="text-yellow-300">+72%</strong> 획득)</li>
