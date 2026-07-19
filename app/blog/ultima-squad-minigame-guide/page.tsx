@@ -1428,6 +1428,7 @@ export default function UltimaSquadMinigamePage() {
                                             { cond: 'LV13 전사 + LV11 궁수 / 1-8 반복', start: '전사 0% / 궁수 7%', after: '전사 2% / 궁수 11%', gain: '전사 +2% / 궁수 +4%', mode: '자동 반복' },
                                             { cond: 'LV13 전사 + LV11 궁수 / 1-9 수동', start: '전사 3% / 궁수 12%', after: '전사 5% / 궁수 15%', gain: '전사 +2% / 궁수 +3%', mode: '수동' },
                                             { cond: 'LV14 전사 + LV13 궁수 / 1-9 반복', start: '전사 55% / 궁수 5%', after: '전사 57% / 궁수 8%', gain: '전사 +2% / 궁수 +3%', mode: '자동 반복' },
+                                            { cond: 'LV16 전사 + LV15 궁수 / 2-1 반복', start: '전사 34% / 궁수 15%', after: '전사 36% / 궁수 18%', gain: '전사 +2% / 궁수 +3%', mode: '자동 반복' },
                                         ].map((row, idx) => {
                                             const isHighlight = 'highlight' in row && row.highlight;
                                             return (
