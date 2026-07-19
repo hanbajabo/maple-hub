@@ -625,6 +625,11 @@ export default function UltimaSquadMinigamePage() {
                                 </li>
                                 <li>재설정 결과에서 <strong className="text-white">전/후 선택</strong> 후 적용 가능</li>
                                 <li>잠재능력 재설정 시 <strong className="text-red-400">등급은 상승하지 않음</strong></li>
+                                <li>
+                                    <strong className="text-yellow-300">💡 훈련용 큐브 절약 팁</strong>: 
+                                    3단계 아이템부터는 잠재능력이 <strong className="text-white">2줄</strong>이 나오기 때문에, 이때 큐브로 2줄 유효 옵션을 뽑는 것이 핵심입니다. 
+                                    하지만 생각보다 원하는 옵션이 잘 안 나와 큐브 소모량이 매우 큽니다. 따라서 <strong className="text-white">2단계 아이템 구간에서는 최대한 큐브 사용을 자제하고 아껴두는 것</strong>이 훨씬 유리합니다.
+                                </li>
                             </ul>
                             
                             {/* 잠재능력 재설정 스크린샷 추가 */}
