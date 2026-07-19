@@ -935,7 +935,7 @@ export default function UltimaSquadMinigamePage() {
                                     <li><strong className="text-white underline underline-offset-4 decoration-orange-500">매일 자정 기준 1회</strong> 소환 가능</li>
                                     <li>용병들이 공격하면 레어~레전드리로 성장</li>
                                     <li>처치 시: EXP, 장비, 훈련용 큐브, 골드 획득</li>
-                                    <li>높은 스테이지일수록 더 많은 경험치·골드 획득</li>
+                                    <li><strong className="text-yellow-300">★ 높은 스테이지일수록 더 많은 경험치·골드 획득</strong></li>
                                 </ul>
 
                                 <div className="bg-amber-950/20 border border-amber-700/30 rounded-xl p-4">
