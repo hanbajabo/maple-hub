@@ -891,6 +891,7 @@ export default function UltimaSquadMinigamePage() {
                                         <tbody className="text-slate-300 divide-y divide-slate-800/50">
                                             {[
                                                 { stage: '2-1', base: '400G', p5: '420G', p10: '440G', p20: '480G' },
+                                                { stage: '2-2', base: '430G', p5: '451G', p10: '473G', p20: '516G' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                     <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
@@ -1312,6 +1313,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 14 전사 + LV 13 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패 (딜 부족)' },
                                             { lv: 'LV 15 전사 + LV 14 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-9', note: '1-10 (보스-핑크빈) 실패' },
                                             { lv: 'LV 16 전사 + LV 15 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-10', note: '보스전 최초 성공 (폭풍의 시 활성화)' },
+                                            { lv: 'LV 16 전사 + LV 15 궁수', gear: '전사 2단계 (방어+공격 스킬) / 궁수 2단계 (공격스킬 2개)', clear: '2-1', note: '성공 (1-10 클리어로 스킬칸 확장)' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
