@@ -1385,7 +1385,8 @@ export default function UltimaSquadMinigamePage() {
                                 <p className="text-purple-300 text-sm font-bold">🛡️ 장비 합성 및 세팅 전략</p>
                                 <ul className="text-slate-200 text-sm space-y-1.5 list-disc list-inside leading-relaxed">
                                     <li>적어도 전사 <strong className="text-purple-300">14레벨부터는 3단계 아이템</strong>을 맞추기 위해 계속 합성해야 합니다.</li>
-                                    <li>전사와 궁수의 3단계 아이템을 모두 확보하는 것이 1-10 핑크빈 보스전 돌파 및 파밍 정체 해소의 지름길입니다.</li>
+                                    <li>전사와 궁수의 3단계 아이템을 모두 확보하는 것이 중요합니다.</li>
+                                    <li>2지역(2-1 등) 진입 후에도 몬스터가 여전히 1단계 아이템을 주로 드롭하기 때문에, 미리 3단계 장비를 적극적으로 합성해서 맞춰두는 것이 성장과 클리어에 매우 유리합니다.</li>
                                 </ul>
                             </div>
                         </div>
