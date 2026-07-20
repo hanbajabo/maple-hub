@@ -624,9 +624,9 @@ export default function UltimaSquadMinigamePage() {
                                         </thead>
                                         <tbody className="text-slate-300">
                                             {[
-                                                { stage: '2단계', atk: '+4', def: '+10', hp: '+75', crit: '+3%' },
-                                                { stage: '3단계', atk: '+5', def: '+10', hp: '+75', crit: '+3%' },
-                                                { stage: '4단계', atk: '+6', def: '+20', hp: '+170', crit: '미확인' },
+                                                { stage: '2단계 (레어)', atk: '+4', def: '+10', hp: '+75', crit: '+3%' },
+                                                { stage: '3단계 (레어)', atk: '+5', def: '+10', hp: '+75', crit: '+3%' },
+                                                { stage: '4단계 (에픽)', atk: '+6 / +8 / +9 / +2%', def: '+20', hp: '+170', crit: '+3%' },
                                                 { stage: '5단계~', atk: '미확인', def: '미확인', hp: '미확인', crit: '미확인' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
@@ -640,9 +640,10 @@ export default function UltimaSquadMinigamePage() {
                                         </tbody>
                                     </table>
                                 </div>
-                                <p className="text-[11px] text-slate-400 mt-2 leading-relaxed">
-                                    ※ 잠재능력은 무기와 방어구 구분 없이 동일하게 적용됩니다. (예: 방어구에서도 공격력 획득 가능)
-                                </p>
+                                <div className="text-[11px] text-slate-400 mt-2 space-y-1 leading-relaxed">
+                                    <p>※ 잠재능력은 무기와 방어구 구분 없이 동일하게 적용됩니다. (예: 방어구에서도 공격력/마력 획득 가능)</p>
+                                    <p>※ <strong className="text-yellow-300">공격력과 마력 옵션은 별도로 존재</strong>합니다. (전사/궁수는 <span className="text-white">공격력</span>, 마법사는 <span className="text-purple-300">마력</span> 유효)</p>
+                                </div>
                             </div>
                         </div>
 
