@@ -1051,7 +1051,7 @@ export default function UltimaSquadMinigamePage() {
 
                                     {/* 3차 실측 */}
                                     <div className="space-y-3 pt-4 border-t border-slate-800/60">
-                                        <p className="text-yellow-400 text-xs font-bold">📊 에스페시아 상자 3차 실측 (Lv.20 이상 극후반 구간)</p>
+                                        <p className="text-yellow-400 text-xs font-bold">📊 에스페시아 상자 3차 실측 (에픽 등급 / Lv.20 이상 극후반 구간)</p>
                                         <ul className="text-slate-200 text-sm list-disc list-inside space-y-1 leading-relaxed">
                                             <li><strong>전사 Lv.20</strong>: 76% ➔ <strong>Lv.21 20%</strong> (<strong className="text-yellow-300">+44%</strong> 획득)</li>
                                             <li><strong>궁수 Lv.20</strong>: 1% ➔ 46% (<strong className="text-yellow-300">+45%</strong> 획득)</li>
