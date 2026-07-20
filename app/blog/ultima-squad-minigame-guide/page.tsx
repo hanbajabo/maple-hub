@@ -616,7 +616,7 @@ export default function UltimaSquadMinigamePage() {
                                         <thead>
                                             <tr className="bg-slate-800/50 text-slate-300">
                                                 <th className="p-2 sm:p-3 border border-slate-700 font-semibold">단계</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">공격력</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">공/마</th>
                                                 <th className="p-2 sm:p-3 border border-slate-700 font-semibold">방어력</th>
                                                 <th className="p-2 sm:p-3 border border-slate-700 font-semibold">최대 HP</th>
                                                 <th className="p-2 sm:p-3 border border-slate-700 font-semibold">크확</th>
