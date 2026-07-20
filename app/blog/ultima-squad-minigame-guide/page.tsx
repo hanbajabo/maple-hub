@@ -535,10 +535,7 @@ export default function UltimaSquadMinigamePage() {
                                         <div className="flex flex-wrap gap-2">
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">최대 HP +112</span>
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">방어력 +15</span>
-                                            <span className="px-2.5 py-1 bg-slate-700/50 border border-slate-600/40 rounded-md text-slate-400 text-xs italic">
-                                                추옵 미확인
-                                                <span className="ml-1 text-amber-400/90 not-italic">(2단계 이상 예상)</span>
-                                            </span>
+                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +16 / 방어력 +4</span>
                                         </div>
                                     </div>
                                 </div>
