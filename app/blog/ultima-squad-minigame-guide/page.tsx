@@ -1583,6 +1583,7 @@ export default function UltimaSquadMinigamePage() {
                                             { cond: 'LV16 전사 + LV15 궁수 / 2-1 반복', start: '전사 34% / 궁수 15%', after: '전사 36% / 궁수 18%', gain: '전사 +2% / 궁수 +3%', mode: '자동 반복' },
                                             { cond: 'LV20 전사 + LV19 궁수 / 2-3 반복', start: '전사 4% / 궁수 22%', after: '전사 5% / 궁수 23%', gain: '전사 +1% / 궁수 +1%', mode: '자동 반복' },
                                             { cond: 'LV20 전사 + LV19 궁수 / 2-4 수동', start: '전사 6% / 궁수 24%', after: '전사 7% / 궁수 25%', gain: '전사 +1% / 궁수 +1%', mode: '수동' },
+                                            { cond: 'LV20 전사 + LV19 궁수 / 2-1 반복', start: '전사 43% / 궁수 64%', after: '전사 45% / 궁수 67%', gain: '전사 +2% / 궁수 +3%', mode: '자동 (빠른 처치)', highlight: true },
                                         ].map((row, idx) => {
                                             const isHighlight = 'highlight' in row && row.highlight;
                                             return (
@@ -1604,8 +1605,16 @@ export default function UltimaSquadMinigamePage() {
                                     <span>⚡</span>
                                     <span>경험치 효율 핵심 결론</span>
                                 </p>
-                                <ul className="text-slate-200 text-sm space-y-1.5 list-disc list-inside leading-relaxed">
-                                    <li>일반적으로는 <strong className="text-white">클리어 못 하는 스테이지 바로 직전</strong>을 자동 반복하는 것이 효율적</li>
+                                <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
+                                    <li>
+                                        <strong className="text-yellow-300">🎯 사냥 속도 vs 스테이지 난이도 법칙 (실측 검증)</strong>: 
+                                        무조건 높은 스테이지(2-3, 2-4)를 고집하는 것보다, <strong className="text-white underline underline-offset-4 decoration-amber-500">몹이 원활하게 잘 잡히는 한 단계 낮은 스테이지(2-1)에서 사냥하는 것이 훨씬 빠릅니다.</strong>
+                                        <ul className="mt-1 ml-4 space-y-0.5 list-none text-slate-300 text-xs">
+                                            <li>→ <strong className="text-slate-400">2-3 / 2-4 사냥 시 (10분)</strong>: 전사 +1% / 궁수 +1% 획득 (딜 부족으로 처치 속도 지연)</li>
+                                            <li>→ <strong className="text-green-300">2-1 빠른 사냥 시 (10분)</strong>: 전사 +2% / 궁수 +3% 획득 <strong className="text-yellow-300">(최대 2~3배 효율 상승!)</strong></li>
+                                        </ul>
+                                    </li>
+                                    <li>일반적으로는 <strong className="text-white">클리어 못 하는 스테이지 바로 직전</strong>을 자동 반복하는 것이 효율적이나, 몬스터가 잘 죽지 않는 구간에 진입했다면 <strong className="text-white">처치 속도가 빠른 이전 사냥터로 내려가서 레벨업</strong>하는 것이 핵심 전략입니다.</li>
                                     <li>단, <strong className="text-yellow-300">LV3 구간에서는 예외</strong> — 1-3을 수동으로 도전하는 방식이 1-2 자동반복보다 경험치 효율이 더 높음</li>
                                     <li>수동 플레이 시 죽어도 바로 해당 스테이지로 재도전하면 자동 반복과 비교해 더 빠른 레벨업 가능</li>
                                 </ul>
