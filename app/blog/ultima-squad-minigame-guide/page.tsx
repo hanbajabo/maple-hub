@@ -1470,6 +1470,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 19 전사 + LV 18 궁수', gear: '전사 3단계 (방어+공격 스킬) / 궁수 3단계 (공격스킬 2개)', clear: '2-2', note: '2-3 실패 (여전히 스펙 부족으로 추가 레벨업 요구됨)' },
                                             { lv: 'LV 19 전사 + LV 19 궁수', gear: '전사 3단계 (방어+공격 스킬) / 궁수 3단계 (공격스킬 2개)', clear: '2-2', note: '2-3 실패 (궁수 레벨업 후에도 여전히 실패, 4단계 장비 장착 레벨인 Lv.22 달성 필요성 대두)' },
                                             { lv: 'LV 20 전사 + LV 19 궁수', gear: '전사 3단계 (방어+공격 스킬) / 궁수 3단계 (공격스킬 2개)', clear: '2-3', note: '성공 (전사 20레벨 달성으로 탱킹력 확보 후 클리어 성공)' },
+                                            { lv: 'LV 21 전사 + LV 20 궁수', gear: '전사 (방어+해머 스킬) / 궁수 (공격스킬 2개)', clear: '2-3', note: '2-4 실패 (2-4 진입 스펙 벽 확인)' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
