@@ -1535,6 +1535,7 @@ export default function UltimaSquadMinigamePage() {
                                 <ul className="text-slate-200 text-sm space-y-1.5 list-disc list-inside leading-relaxed">
                                     <li>다음 스테이지를 클리어하지 못하고 정체될 때는, 전사에게 <strong className="text-emerald-400">1번째 공격 스킬</strong>을 장착하는 것이 유리합니다.</li>
                                     <li>생존 위주 세팅보다 몬스터 처치 속도를 올려 <strong className="text-yellow-300">골드를 훨씬 더 빠르고 효율적으로 수급</strong>할 수 있습니다.</li>
+                                    <li>몬스터 처치 속도가 빠르면 드롭 장비 수급량이 늘어나 <strong className="text-white">장비 분해(골드 수급)</strong> 및 <strong className="text-white">장비 합성(상위 장비 제작)</strong>도 훨씬 원활하게 진행됩니다.</li>
                                 </ul>
                             </div>
 
@@ -1612,6 +1613,7 @@ export default function UltimaSquadMinigamePage() {
                                         <ul className="mt-1 ml-4 space-y-0.5 list-none text-slate-300 text-xs">
                                             <li>→ <strong className="text-slate-400">2-3 / 2-4 사냥 시 (10분)</strong>: 전사 +1% / 궁수 +1% 획득 (딜 부족으로 처치 속도 지연)</li>
                                             <li>→ <strong className="text-green-300">2-1 빠른 사냥 시 (10분)</strong>: 전사 +2% / 궁수 +3% 획득 <strong className="text-yellow-300">(최대 2~3배 효율 상승!)</strong></li>
+                                            <li>→ <strong className="text-purple-300">장비 분해 & 합성 선순환</strong>: 빠른 처치 시 드롭 장비 수급량이 급증하여 <strong className="text-white">장비 분해(골드 수급)</strong> 및 <strong className="text-white">상위 장비 합성</strong> 속도가 동시에 상승합니다.</li>
                                         </ul>
                                     </li>
                                     <li>일반적으로는 <strong className="text-white">클리어 못 하는 스테이지 바로 직전</strong>을 자동 반복하는 것이 효율적이나, 몬스터가 잘 죽지 않는 구간에 진입했다면 <strong className="text-white">처치 속도가 빠른 이전 사냥터로 내려가서 레벨업</strong>하는 것이 핵심 전략입니다.</li>
