@@ -846,19 +846,20 @@ export default function UltimaSquadMinigamePage() {
                                                     <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+5%</th>
                                                     <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
                                                     <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+20%</th>
+                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+25%</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="text-slate-300 divide-y divide-slate-800/50">
                                                 {[
-                                                    { stage: '1-1', base: '10G', p5: '10G', p10: '11G', p20: '12G' },
-                                                    { stage: '1-2', base: '30G', p5: '31G', p10: '33G', p20: '36G' },
-                                                    { stage: '1-3', base: '50G', p5: '52G', p10: '55G', p20: '60G' },
-                                                    { stage: '1-4', base: '70G', p5: '73G', p10: '77G', p20: '84G' },
-                                                    { stage: '1-5', base: '90G', p5: '94G', p10: '99G', p20: '108G' },
-                                                    { stage: '1-6', base: '110G', p5: '115G', p10: '121G', p20: '132G' },
-                                                    { stage: '1-7', base: '130G', p5: '136G', p10: '143G', p20: '156G' },
-                                                    { stage: '1-8', base: '150G', p5: '157G', p10: '165G', p20: '180G' },
-                                                    { stage: '1-9', base: '170G', p5: '178G', p10: '187G', p20: '204G' },
+                                                    { stage: '1-1', base: '10G', p5: '10G', p10: '11G', p20: '12G', p25: '12G' },
+                                                    { stage: '1-2', base: '30G', p5: '31G', p10: '33G', p20: '36G', p25: '37G' },
+                                                    { stage: '1-3', base: '50G', p5: '52G', p10: '55G', p20: '60G', p25: '62G' },
+                                                    { stage: '1-4', base: '70G', p5: '73G', p10: '77G', p20: '84G', p25: '87G' },
+                                                    { stage: '1-5', base: '90G', p5: '94G', p10: '99G', p20: '108G', p25: '112G' },
+                                                    { stage: '1-6', base: '110G', p5: '115G', p10: '121G', p20: '132G', p25: '137G' },
+                                                    { stage: '1-7', base: '130G', p5: '136G', p10: '143G', p20: '156G', p25: '162G' },
+                                                    { stage: '1-8', base: '150G', p5: '157G', p10: '165G', p20: '180G', p25: '187G' },
+                                                    { stage: '1-9', base: '170G', p5: '178G', p10: '187G', p20: '204G', p25: '212G' },
                                                 ].map((row, idx) => (
                                                     <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                         <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
@@ -866,6 +867,7 @@ export default function UltimaSquadMinigamePage() {
                                                         <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p5}</td>
                                                         <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p10}</td>
                                                         <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p20}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p25}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -886,13 +888,15 @@ export default function UltimaSquadMinigamePage() {
                                                 <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+5%</th>
                                                 <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
                                                 <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+20%</th>
+                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+25%</th>
                                             </tr>
                                         </thead>
                                         <tbody className="text-slate-300 divide-y divide-slate-800/50">
                                             {[
-                                                { stage: '2-1', base: '400G', p5: '420G', p10: '440G', p20: '480G' },
-                                                { stage: '2-2', base: '430G', p5: '451G', p10: '473G', p20: '516G' },
-                                                { stage: '2-3', base: '460G', p5: '483G', p10: '506G', p20: '552G' },
+                                                { stage: '2-1', base: '400G', p5: '420G', p10: '440G', p20: '480G', p25: '500G' },
+                                                { stage: '2-2', base: '430G', p5: '451G', p10: '473G', p20: '516G', p25: '537G' },
+                                                { stage: '2-3', base: '460G', p5: '483G', p10: '506G', p20: '552G', p25: '575G' },
+                                                { stage: '2-4', base: '490G', p5: '514G', p10: '539G', p20: '588G', p25: '612G' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                     <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
@@ -900,6 +904,7 @@ export default function UltimaSquadMinigamePage() {
                                                     <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p5}</td>
                                                     <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p10}</td>
                                                     <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p20}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p25}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -1426,6 +1431,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 18 전사 + LV 17 궁수', gear: '전사 3단계 (방어+공격 스킬) / 궁수 3단계 (공격스킬 2개)', clear: '2-2', note: '2-3 실패 (1차 도전)' },
                                             { lv: 'LV 19 전사 + LV 18 궁수', gear: '전사 3단계 (방어+공격 스킬) / 궁수 3단계 (공격스킬 2개)', clear: '2-2', note: '2-3 실패 (여전히 스펙 부족으로 추가 레벨업 요구됨)' },
                                             { lv: 'LV 19 전사 + LV 19 궁수', gear: '전사 3단계 (방어+공격 스킬) / 궁수 3단계 (공격스킬 2개)', clear: '2-2', note: '2-3 실패 (궁수 레벨업 후에도 여전히 실패, 4단계 장비 장착 레벨인 Lv.22 달성 필요성 대두)' },
+                                            { lv: 'LV 20 전사 + LV 19 궁수', gear: '전사 3단계 (방어+공격 스킬) / 궁수 3단계 (공격스킬 2개)', clear: '2-3', note: '성공 (전사 20레벨 달성으로 탱킹력 확보 후 클리어 성공)' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
