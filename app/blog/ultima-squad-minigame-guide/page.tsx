@@ -498,8 +498,6 @@ export default function UltimaSquadMinigamePage() {
                                         <div className="flex flex-wrap gap-2">
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">공격력 +14</span>
                                             <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 +4 (확인)</span>
-                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 공격력 +4 확인</span>
-                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 크리티컬 확률 +3% 확인</span>
                                         </div>
                                     </div>
                                     {/* 방어구 */}
@@ -509,7 +507,6 @@ export default function UltimaSquadMinigamePage() {
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">최대 HP +74</span>
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">방어력 +10</span>
                                             <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +12 / 방어력 +4</span>
-                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 방어력 +10 / HP +75 확인</span>
                                         </div>
                                     </div>
                                 </div>
@@ -529,8 +526,6 @@ export default function UltimaSquadMinigamePage() {
                                         <div className="flex flex-wrap gap-2">
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">공격력 +20</span>
                                             <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 +4 (확인)</span>
-                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 공격력 +5 확인</span>
-                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 크리티컬 확률 +3% 확인</span>
                                         </div>
                                     </div>
                                     {/* 방어구 */}
@@ -540,7 +535,6 @@ export default function UltimaSquadMinigamePage() {
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">최대 HP +112</span>
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">방어력 +15</span>
                                             <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +16 / 방어력 +4</span>
-                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 방어력 +10 / HP +75 확인</span>
                                         </div>
                                     </div>
                                 </div>
@@ -564,7 +558,6 @@ export default function UltimaSquadMinigamePage() {
                                             <span className="px-2.5 py-1 bg-slate-700/50 border border-slate-600/40 rounded-md text-slate-400 text-xs italic">
                                                 추옵 미확인
                                             </span>
-                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 공격력 +6 확인</span>
                                         </div>
                                     </div>
                                     {/* 방어구 */}
@@ -574,7 +567,6 @@ export default function UltimaSquadMinigamePage() {
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">최대 HP +158</span>
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">방어력 +20</span>
                                             <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +34 / 방어력 +4 확인</span>
-                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 방어력 +20 / HP +170 확인</span>
                                         </div>
                                     </div>
                                 </div>
@@ -582,36 +574,77 @@ export default function UltimaSquadMinigamePage() {
                         </div>
 
                         {/* 장비 단계 표 */}
-                        <div>
-                            <h3 className="font-bold text-slate-100 mb-3 text-base">🏆 장비 단계별 잠재능력</h3>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left border-collapse min-w-[400px] text-sm">
-                                    <thead>
-                                        <tr className="bg-slate-800/50 text-slate-300">
-                                            <th className="p-3 border border-slate-700 font-semibold">장비 단계</th>
-                                            <th className="p-3 border border-slate-700 font-semibold">잠재능력 등급</th>
-                                            <th className="p-3 border border-slate-700 font-semibold">옵션 수</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="text-slate-300">
-                                        {equipmentGrades.map((g, i) => {
-                                            const potentialColor: Record<string, string> = {
-                                                '-': 'text-slate-500',
-                                                '레어': 'text-sky-300',
-                                                '에픽': 'text-purple-300',
-                                                '유니크': 'text-yellow-300',
-                                                '레전드리': 'text-orange-300',
-                                            };
-                                            return (
-                                                <tr key={g.stage} className={i % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                    <td className="p-3 border border-slate-700 font-bold">{g.stage}단계</td>
-                                                    <td className={`p-3 border border-slate-700 font-semibold ${potentialColor[g.potential]}`}>{g.potential}</td>
-                                                    <td className="p-3 border border-slate-700 text-slate-100 font-semibold">{g.optionCount}</td>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 className="font-bold text-slate-100 mb-3 text-base">🏆 장비 단계별 잠재능력</h3>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-left border-collapse min-w-[300px] text-sm">
+                                        <thead>
+                                            <tr className="bg-slate-800/50 text-slate-300">
+                                                <th className="p-3 border border-slate-700 font-semibold">장비 단계</th>
+                                                <th className="p-3 border border-slate-700 font-semibold">잠재능력 등급</th>
+                                                <th className="p-3 border border-slate-700 font-semibold">옵션 수</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-slate-300">
+                                            {equipmentGrades.map((g, i) => {
+                                                const potentialColor: Record<string, string> = {
+                                                    '-': 'text-slate-500',
+                                                    '레어': 'text-sky-300',
+                                                    '에픽': 'text-purple-300',
+                                                    '유니크': 'text-yellow-300',
+                                                    '레전드리': 'text-orange-300',
+                                                };
+                                                return (
+                                                    <tr key={g.stage} className={i % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
+                                                        <td className="p-3 border border-slate-700 font-bold">{g.stage}단계</td>
+                                                        <td className={`p-3 border border-slate-700 font-semibold ${potentialColor[g.potential]}`}>{g.potential}</td>
+                                                        <td className="p-3 border border-slate-700 text-slate-100 font-semibold">{g.optionCount}</td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 className="font-bold text-slate-100 mb-3 text-base flex items-center gap-1.5">
+                                    <span>🔮</span>
+                                    <span>단계별 잠재능력 실측 옵션 (무기/방어구 공통)</span>
+                                </h3>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-left border-collapse min-w-[300px] text-sm">
+                                        <thead>
+                                            <tr className="bg-slate-800/50 text-slate-300">
+                                                <th className="p-3 border border-slate-700 font-semibold">단계</th>
+                                                <th className="p-3 border border-slate-700 font-semibold">공격력</th>
+                                                <th className="p-3 border border-slate-700 font-semibold">방어력</th>
+                                                <th className="p-3 border border-slate-700 font-semibold">최대 HP</th>
+                                                <th className="p-3 border border-slate-700 font-semibold">크확</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-slate-300">
+                                            {[
+                                                { stage: '2단계', atk: '+4', def: '+10', hp: '+75', crit: '+3%' },
+                                                { stage: '3단계', atk: '+5', def: '+10', hp: '+75', crit: '+3%' },
+                                                { stage: '4단계', atk: '+6', def: '+20', hp: '+170', crit: '미확인' },
+                                                { stage: '5단계~', atk: '미확인', def: '미확인', hp: '미확인', crit: '미확인' },
+                                            ].map((row, idx) => (
+                                                <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
+                                                    <td className="p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
+                                                    <td className="p-3 border border-slate-700 text-slate-300">{row.atk}</td>
+                                                    <td className="p-3 border border-slate-700 text-slate-300">{row.def}</td>
+                                                    <td className="p-3 border border-slate-700 text-slate-300">{row.hp}</td>
+                                                    <td className="p-3 border border-slate-700 text-slate-300">{row.crit}</td>
                                                 </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </table>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p className="text-[11px] text-slate-400 mt-2 leading-relaxed">
+                                    ※ 잠재능력은 무기와 방어구 구분 없이 동일하게 적용됩니다. (예: 방어구에서도 공격력 획득 가능)
+                                </p>
                             </div>
                         </div>
 
