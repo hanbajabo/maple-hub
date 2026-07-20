@@ -1049,8 +1049,26 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                     </div>
 
+                                    {/* 3차 실측 */}
+                                    <div className="space-y-3 pt-4 border-t border-slate-800/60">
+                                        <p className="text-yellow-400 text-xs font-bold">📊 에스페시아 상자 3차 실측 (Lv.20 이상 극후반 구간)</p>
+                                        <ul className="text-slate-200 text-sm list-disc list-inside space-y-1 leading-relaxed">
+                                            <li><strong>전사 Lv.20</strong>: 76% ➔ <strong>Lv.21 20%</strong> (<strong className="text-yellow-300">+44%</strong> 획득)</li>
+                                            <li><strong>궁수 Lv.20</strong>: 1% ➔ 46% (<strong className="text-yellow-300">+45%</strong> 획득)</li>
+                                        </ul>
+                                        <div className="relative w-full max-w-[450px] mx-auto rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                            <Image 
+                                                src="/images/ultima-squad-especia-exp-3.png" 
+                                                alt="에스페시아 상자 3차 처치 경험치 변화 실측" 
+                                                width={450}
+                                                height={150}
+                                                style={{ width: '100%', height: 'auto' }}
+                                            />
+                                        </div>
+                                    </div>
+
                                     <div className="pt-2 text-slate-300 text-xs leading-relaxed border-t border-slate-800/60">
-                                        💡 <strong className="text-orange-400">결론:</strong> 에픽 상자 기준 단 1회 처치만으로도 캐릭터당 50% ~ 70% 이상의 폭발적인 경험치를 수급할 수 있으므로, 매일 빼놓지 않고 진행하는 것이 빠른 레벨업의 핵심입니다.
+                                        💡 <strong className="text-orange-400">결론:</strong> 20레벨 이상의 고레벨 구간에서도 단 1회 처치만으로 캐릭터당 45% 내외의 압도적인 경험치를 획득할 수 있으므로, 매일 빼놓지 않고 진행하는 것이 빠른 레벨업의 핵심입니다.
                                     </div>
                                 </div>
                             </div>
