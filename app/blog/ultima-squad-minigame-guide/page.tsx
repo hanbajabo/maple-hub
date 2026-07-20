@@ -312,7 +312,7 @@ export default function UltimaSquadMinigamePage() {
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             {[
                                 { type: '전사', icon: '⚔️', color: 'red', unlock: '최초 시작 시 지급', role: '탱커 근접' },
-                                { type: '궁수', icon: '🏹', color: 'emerald', unlock: '1-6 스테이지 클리어 후 골드로 영입', role: '원거리 딜러' },
+                                { type: '궁수', icon: '🏹', color: 'emerald', unlock: '1-6 클리어 후 50만 골드로 영입', role: '원거리 딜러' },
                                 { type: '마법사', icon: '🔮', color: 'purple', unlock: '궁수 영입 후 2-6 클리어 시 골드로 영입', role: '힐링 보조 딜러' },
                             ].map(({ type, icon, color, unlock, role }) => (
                                 <div key={type} className={`bg-slate-950/60 border border-${color}-500/30 rounded-xl p-4`}>
@@ -1508,7 +1508,7 @@ export default function UltimaSquadMinigamePage() {
                                     <span>궁수 용병 활용법 및 보스전(1-10) 돌파 열쇠</span>
                                 </p>
                                 <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
-                                    <li>궁수는 약 <strong className="text-white">50만 골드</strong>에 구매 가능합니다.</li>
+                                    <li>궁수는 <strong className="text-white">50만 골드</strong>에 구매 가능합니다.</li>
                                     <li>LV 9 전사 + LV 2 궁수 조합으로는 1-7 실패했으나, <strong className="text-white">LV 10 전사(2번째 방어 스킬) + LV 6 궁수</strong>로 1-7 아슬하게 클리어 가능합니다.</li>
                                     <li><strong>1-10 핑크빈 보스전 실패 사례 (LV 14 전사 + LV 13 궁수)</strong>: 전사가 방어 스킬로 버텨도 핑크빈 체력을 1/3도 못 깎고, 궁수는 보스 스킬 한 방에 끝이 납니다.</li>
                                     <li>
