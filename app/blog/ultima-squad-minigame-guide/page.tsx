@@ -130,14 +130,14 @@ export default function UltimaSquadMinigamePage() {
             <div className="fixed top-1/2 left-0 w-[300px] h-[300px] bg-red-900/5 rounded-full blur-[80px] pointer-events-none z-0" />
 
             {/* 헤더 */}
-            <header className="w-full max-w-7xl flex justify-between items-center px-6 py-4 sticky top-0 z-50 bg-[#070610]/90 backdrop-blur-md border-b border-slate-800/80 mx-auto">
-                <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-orange-400 font-semibold group">
-                    <ArrowLeft className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" />
+            <header className="w-full max-w-7xl flex justify-between items-center px-4 sm:px-6 py-3.5 sm:py-4 sticky top-0 z-50 bg-[#070610]/90 backdrop-blur-md border-b border-slate-800/80 mx-auto">
+                <Link prefetch={false} href="/blog" className="flex items-center gap-2 hover:opacity-80 transition-opacity text-orange-400 font-semibold group text-sm sm:text-base">
+                    <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:-translate-x-1 transition-transform" />
                     <span>블로그 홈으로</span>
                 </Link>
             </header>
 
-            <main className="max-w-4xl mx-auto px-4 sm:px-6 py-12 relative z-10">
+            <main className="max-w-4xl mx-auto px-3 sm:px-6 py-6 sm:py-12 relative z-10">
 
                 {/* 타이틀 섹션 */}
                 <div className="mb-12">
@@ -577,13 +577,13 @@ export default function UltimaSquadMinigamePage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <h3 className="font-bold text-slate-100 mb-3 text-base">🏆 장비 단계별 잠재능력</h3>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full text-left border-collapse min-w-[300px] text-sm">
+                                <div className="overflow-x-auto -mx-1">
+                                    <table className="w-full text-left border-collapse min-w-[280px] text-xs sm:text-sm">
                                         <thead>
                                             <tr className="bg-slate-800/50 text-slate-300">
-                                                <th className="p-3 border border-slate-700 font-semibold">장비 단계</th>
-                                                <th className="p-3 border border-slate-700 font-semibold">잠재능력 등급</th>
-                                                <th className="p-3 border border-slate-700 font-semibold">옵션 수</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">장비 단계</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">잠재 등급</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">옵션 수</th>
                                             </tr>
                                         </thead>
                                         <tbody className="text-slate-300">
@@ -597,9 +597,9 @@ export default function UltimaSquadMinigamePage() {
                                                 };
                                                 return (
                                                     <tr key={g.stage} className={i % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                        <td className="p-3 border border-slate-700 font-bold">{g.stage}단계</td>
-                                                        <td className={`p-3 border border-slate-700 font-semibold ${potentialColor[g.potential]}`}>{g.potential}</td>
-                                                        <td className="p-3 border border-slate-700 text-slate-100 font-semibold">{g.optionCount}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 font-bold">{g.stage}단계</td>
+                                                        <td className={`p-2 sm:p-3 border border-slate-700 font-semibold ${potentialColor[g.potential]}`}>{g.potential}</td>
+                                                        <td className="p-2 sm:p-3 border border-slate-700 text-slate-100 font-semibold">{g.optionCount}</td>
                                                     </tr>
                                                 );
                                             })}
@@ -611,17 +611,17 @@ export default function UltimaSquadMinigamePage() {
                             <div>
                                 <h3 className="font-bold text-slate-100 mb-3 text-base flex items-center gap-1.5">
                                     <span>🔮</span>
-                                    <span>단계별 잠재능력 실측 옵션 (무기/방어구 공통)</span>
+                                    <span>단계별 잠재능력 실측 옵션 (공통)</span>
                                 </h3>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full text-left border-collapse min-w-[300px] text-sm">
+                                <div className="overflow-x-auto -mx-1">
+                                    <table className="w-full text-left border-collapse min-w-[280px] text-xs sm:text-sm">
                                         <thead>
                                             <tr className="bg-slate-800/50 text-slate-300">
-                                                <th className="p-3 border border-slate-700 font-semibold">단계</th>
-                                                <th className="p-3 border border-slate-700 font-semibold">공격력</th>
-                                                <th className="p-3 border border-slate-700 font-semibold">방어력</th>
-                                                <th className="p-3 border border-slate-700 font-semibold">최대 HP</th>
-                                                <th className="p-3 border border-slate-700 font-semibold">크확</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">단계</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">공격력</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">방어력</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">최대 HP</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">크확</th>
                                             </tr>
                                         </thead>
                                         <tbody className="text-slate-300">
@@ -632,11 +632,11 @@ export default function UltimaSquadMinigamePage() {
                                                 { stage: '5단계~', atk: '미확인', def: '미확인', hp: '미확인', crit: '미확인' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                    <td className="p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
-                                                    <td className="p-3 border border-slate-700 text-slate-300">{row.atk}</td>
-                                                    <td className="p-3 border border-slate-700 text-slate-300">{row.def}</td>
-                                                    <td className="p-3 border border-slate-700 text-slate-300">{row.hp}</td>
-                                                    <td className="p-3 border border-slate-700 text-slate-300">{row.crit}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 text-slate-300">{row.atk}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 text-slate-300">{row.def}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 text-slate-300">{row.hp}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 text-slate-300">{row.crit}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -878,15 +878,15 @@ export default function UltimaSquadMinigamePage() {
                                     ※ 유틸리티의 [골드 획득량 증가] 레벨을 올리면 기본 획득 골드에 곱연산으로 반영됩니다.
                                 </p>
                                 <div className="overflow-x-auto -mx-1">
-                                    <table className="w-full text-left border-collapse min-w-[320px] text-xs sm:text-sm">
+                                    <table className="w-full text-left border-collapse min-w-[300px] text-[11px] sm:text-sm">
                                         <thead>
-                                                <tr className="bg-yellow-950/20 text-yellow-200">
-                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">스테이지</th>
-                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">기본 골드</th>
-                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+5%</th>
-                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
-                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+20%</th>
-                                                    <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+25%</th>
+                                                <tr className="bg-yellow-950/20 text-yellow-200 text-center">
+                                                    <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap text-left">스테이지</th>
+                                                    <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">기본</th>
+                                                    <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+5%</th>
+                                                    <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
+                                                    <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+20%</th>
+                                                    <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+25%</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="text-slate-300 divide-y divide-slate-800/50">
@@ -902,12 +902,12 @@ export default function UltimaSquadMinigamePage() {
                                                     { stage: '1-9', base: '170G', p5: '178G', p10: '187G', p20: '204G', p25: '212G' },
                                                 ].map((row, idx) => (
                                                     <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-100">{row.base}</td>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p5}</td>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p10}</td>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p20}</td>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p25}</td>
+                                                        <td className="p-1.5 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
+                                                        <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-100 text-center">{row.base}</td>
+                                                        <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p5}</td>
+                                                        <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p10}</td>
+                                                        <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p20}</td>
+                                                        <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p25}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -920,15 +920,15 @@ export default function UltimaSquadMinigamePage() {
                                     <span>2지역 몬스터 처치 골드 정보 (실측)</span>
                                 </h4>
                                 <div className="overflow-x-auto -mx-1">
-                                    <table className="w-full text-left border-collapse min-w-[320px] text-xs sm:text-sm">
+                                    <table className="w-full text-left border-collapse min-w-[300px] text-[11px] sm:text-sm">
                                         <thead>
-                                            <tr className="bg-yellow-950/20 text-yellow-200">
-                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">스테이지</th>
-                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">기본 골드</th>
-                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+5%</th>
-                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
-                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+20%</th>
-                                                <th className="p-2 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+25%</th>
+                                            <tr className="bg-yellow-950/20 text-yellow-200 text-center">
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap text-left">스테이지</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">기본</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+5%</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+20%</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+25%</th>
                                             </tr>
                                         </thead>
                                         <tbody className="text-slate-300 divide-y divide-slate-800/50">
@@ -939,12 +939,12 @@ export default function UltimaSquadMinigamePage() {
                                                 { stage: '2-4', base: '490G', p5: '514G', p10: '539G', p20: '588G', p25: '612G' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-100">{row.base}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p5}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p10}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p20}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-slate-300">{row.p25}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-100 text-center">{row.base}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p5}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p10}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p20}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p25}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -1703,27 +1703,27 @@ export default function UltimaSquadMinigamePage() {
                             />
                         </div>
 
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse min-w-[500px] text-sm">
+                        <div className="overflow-x-auto -mx-1">
+                            <table className="w-full text-left border-collapse min-w-[320px] text-xs sm:text-sm">
                                 <thead>
                                     <tr className="bg-slate-800/50 text-slate-300">
-                                        <th className="p-3 border border-slate-700 font-semibold">화폐</th>
-                                        <th className="p-3 border border-slate-700 font-semibold">아이템</th>
-                                        <th className="p-3 border border-slate-700 font-semibold text-center">가격</th>
-                                        <th className="p-3 border border-slate-700 font-semibold text-center">구매 한도</th>
+                                        <th className="p-2 sm:p-3 border border-slate-700 font-semibold whitespace-nowrap">화폐</th>
+                                        <th className="p-2 sm:p-3 border border-slate-700 font-semibold">아이템</th>
+                                        <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-center whitespace-nowrap">가격</th>
+                                        <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-center whitespace-nowrap">구매 한도</th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-slate-300">
                                     {coinShopItems.map((item, i) => (
                                         <tr key={item.item} className={item.currency === '스쿼드 코인' ? (i % 2 === 0 ? 'bg-yellow-950/10' : 'bg-yellow-950/5') : (i % 2 === 0 ? 'bg-red-950/20' : 'bg-red-950/10')}>
-                                            <td className="p-3 border border-slate-700">
-                                                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${item.currency === '스쿼드 코인' ? 'bg-yellow-950/50 text-yellow-300 border border-yellow-800/30' : 'bg-red-950/50 text-red-300 border border-red-800/30'}`}>
+                                            <td className="p-2 sm:p-3 border border-slate-700 whitespace-nowrap">
+                                                <span className={`text-[11px] sm:text-xs px-2 py-0.5 rounded-full font-medium ${item.currency === '스쿼드 코인' ? 'bg-yellow-950/50 text-yellow-300 border border-yellow-800/30' : 'bg-red-950/50 text-red-300 border border-red-800/30'}`}>
                                                     {item.currency}
                                                 </span>
                                             </td>
-                                            <td className="p-3 border border-slate-700 font-medium">{item.item}</td>
-                                            <td className={`p-3 border border-slate-700 text-center font-bold ${item.currency === '스쿼드 코인' ? 'text-yellow-300' : 'text-red-300'}`}>{item.price}코인</td>
-                                            <td className="p-3 border border-slate-700 text-center text-slate-400">{item.limit}</td>
+                                            <td className="p-2 sm:p-3 border border-slate-700 font-medium">{item.item}</td>
+                                            <td className={`p-2 sm:p-3 border border-slate-700 text-center font-bold whitespace-nowrap ${item.currency === '스쿼드 코인' ? 'text-yellow-300' : 'text-red-300'}`}>{item.price}코인</td>
+                                            <td className="p-2 sm:p-3 border border-slate-700 text-center text-slate-400 whitespace-nowrap">{item.limit}</td>
                                         </tr>
                                     ))}
                                 </tbody>
