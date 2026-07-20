@@ -559,6 +559,7 @@ export default function UltimaSquadMinigamePage() {
                                             <span className="px-2.5 py-1 bg-slate-700/50 border border-slate-600/40 rounded-md text-slate-400 text-xs italic">
                                                 추옵 미확인
                                             </span>
+                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 공격력 +6 확인</span>
                                         </div>
                                     </div>
                                     {/* 방어구 */}
@@ -568,6 +569,7 @@ export default function UltimaSquadMinigamePage() {
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">최대 HP +158</span>
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">방어력 +20</span>
                                             <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +34 / 방어력 +4 확인</span>
+                                            <span className="px-2.5 py-1 bg-purple-900/40 border border-purple-500/30 rounded-md text-purple-300 text-xs font-semibold">잠재: 방어력 +20 / HP +170 확인</span>
                                         </div>
                                     </div>
                                 </div>
