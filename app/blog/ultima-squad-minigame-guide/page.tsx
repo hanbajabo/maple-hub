@@ -552,9 +552,7 @@ export default function UltimaSquadMinigamePage() {
                                     <div className="p-3 sm:p-4 bg-slate-900/50">
                                         <p className="text-slate-400 text-xs mb-2 font-medium">⚔️ 무기</p>
                                         <div className="flex flex-wrap gap-2">
-                                            <span className="px-2.5 py-1 bg-slate-700/50 border border-slate-600/40 rounded-md text-slate-400 text-xs italic">
-                                                공격력 미확인
-                                            </span>
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">공격력 +25</span>
                                             <span className="px-2.5 py-1 bg-slate-700/50 border border-slate-600/40 rounded-md text-slate-400 text-xs italic">
                                                 추옵 미확인
                                             </span>
