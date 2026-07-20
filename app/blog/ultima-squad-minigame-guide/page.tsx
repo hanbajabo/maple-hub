@@ -626,7 +626,7 @@ export default function UltimaSquadMinigamePage() {
                                             {[
                                                 { stage: '2단계 (레어)', atk: '+4', def: '+10', hp: '+75', crit: '+3%' },
                                                 { stage: '3단계 (레어)', atk: '+5', def: '+10', hp: '+75', crit: '+3%' },
-                                                { stage: '4단계 (에픽)', atk: '+6 / +8 / +9 / +2%', def: '+20', hp: '+170', crit: '+3%' },
+                                                { stage: '4단계 (에픽)', atk: '+9 / +2%', def: '+20', hp: '+170', crit: '+3%' },
                                                 { stage: '5단계~', atk: '미확인', def: '미확인', hp: '미확인', crit: '미확인' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
