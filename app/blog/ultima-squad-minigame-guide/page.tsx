@@ -1583,6 +1583,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 24 전사 + LV 23 궁수', gear: '전사 4단계 방어구 2개 (공격+해머 스킬) / 궁수 4단계 무기+방어구 2개 (공격스킬 2개)', clear: '2-6', note: '극적으로 성공 (전사 Lv.24 달성 후 2-6 겨우 돌파 성공! 4단계 장비 풀장착 시 훨씬 수월할 것으로 추정)' },
                                             { lv: 'LV 24 전사 + LV 23 궁수 + LV 7 마법사', gear: '전사 4단계 방어구 2개 / 궁수 4단계 무기+방어구 2개 / 마법사 (공격+힐링 스킬)', clear: '2-6', note: '2-7 실패 (마법사 400만G 영입 후 3인 조합으로 도전했으나 마법사 저레벨(Lv.7)로 인한 2-7 벽 확인)' },
                                             { lv: 'LV 25 전사 + LV 24 궁수 + LV 15 마법사', gear: '전사 4단계 방어구 2개 (공격+해머) / 궁수 4단계 무기+방어구 2개 / 마법사 3단계 풀셋 (공격+힐링)', clear: '2-7', note: '성공 (전사 Lv.25, 궁수 Lv.24 및 마법사 Lv.15+3단계 풀셋 성장으로 2-7 돌파 성공)' },
+                                            { lv: 'LV 25 전사 + LV 24 궁수 + LV 15 마법사', gear: '전사 4단계 방어구 2개 (공격+해머) / 궁수 4단계 무기+방어구 2개 / 마법사 3단계 풀셋 (공격+힐링)', clear: '2-7', note: '2-8 실패 (동일 세팅으로 2-7 클리어 후 2-8 도전했으나 난이도 벽 확인)' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
