@@ -66,8 +66,8 @@ export default function ExpCalculatorClient() {
     const [mobsPerHour, setMobsPerHour] = useState(0);
     const [additionalExpRate, setAdditionalExpRate] = useState(0);
 
-    const [monsterParkCountWeek, setMonsterParkCountWeek] = useState(2);
-    const [monsterParkCountSun, setMonsterParkCountSun] = useState(2);
+    const [monsterParkCountWeek, setMonsterParkCountWeek] = useState(0);
+    const [monsterParkCountSun, setMonsterParkCountSun] = useState(0);
     const [mpEventSkillLevel, setMpEventSkillLevel] = useState(0);
     const [arcaneEventSkillLevel, setArcaneEventSkillLevel] = useState(0);
     const [grandisEventSkillLevel, setGrandisEventSkillLevel] = useState(0);
@@ -75,9 +75,9 @@ export default function ExpCalculatorClient() {
     const [useArcaneQuest, setUseArcaneQuest] = useState(false);
     const [useGrandisQuest, setUseGrandisQuest] = useState(false);
     const [dailyQuestExp, setDailyQuestExp] = useState(0);
-    const [useExtremeMonsterPark, setUseExtremeMonsterPark] = useState(true);
+    const [useExtremeMonsterPark, setUseExtremeMonsterPark] = useState(false);
 
-    const [useEpicArtifact, setUseEpicArtifact] = useState(true);
+    const [useEpicArtifact, setUseEpicArtifact] = useState(false);
     const [epicCoreLevel, setEpicCoreLevel] = useState(0);
     const [useEpicWeek9Auto, setUseEpicWeek9Auto] = useState(true);
 
@@ -116,8 +116,8 @@ export default function ExpCalculatorClient() {
     const [useVipBooster, setUseVipBooster] = useState(false);
     const [vipBoosterCount, setVipBoosterCount] = useState(1);
     const [vipBoosterUseLevel, setVipBoosterUseLevel] = useState(200);
-    const [useElanos, setUseElanos] = useState(true);
-    const [useRune, setUseRune] = useState(true);
+    const [useElanos, setUseElanos] = useState(false);
+    const [useRune, setUseRune] = useState(false);
     const [burningFieldStage, setBurningFieldStage] = useState(0);
 
     // 체인지 버닝: 루시드
