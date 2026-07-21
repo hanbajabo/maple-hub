@@ -313,7 +313,7 @@ export default function UltimaSquadMinigamePage() {
                             {[
                                 { type: '전사', icon: '⚔️', color: 'red', unlock: '최초 시작 시 지급', role: '탱커 근접' },
                                 { type: '궁수', icon: '🏹', color: 'emerald', unlock: '1-6 클리어 후 50만 골드로 영입', role: '원거리 딜러' },
-                                { type: '마법사', icon: '🔮', color: 'purple', unlock: '궁수 영입 후 2-6 클리어 시 골드로 영입', role: '힐링 보조 딜러' },
+                                { type: '마법사', icon: '🔮', color: 'purple', unlock: '2-6 클리어 후 400만 골드로 영입', role: '힐링 보조 딜러' },
                             ].map(({ type, icon, color, unlock, role }) => (
                                 <div key={type} className={`bg-slate-950/60 border border-${color}-500/30 rounded-xl p-4`}>
                                     <div className="text-3xl mb-2">{icon}</div>
@@ -1534,6 +1534,7 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 22 전사 + LV 22 궁수', gear: '전사 (공격+해머 스킬) / 궁수 4단계 무기+방어구 1개 (공격스킬 2개)', clear: '2-4', note: '2-5 실패 (궁수 Lv.22 및 4단계 장비 세팅에도 2-5 스펙 벽 확인)' },
                                             { lv: 'LV 23 전사 + LV 22 궁수', gear: '전사 (공격+해머 스킬) / 궁수 4단계 무기+방어구 1개 (공격스킬 2개)', clear: '2-5', note: '성공 (전사 Lv.23 달성으로 스펙업 후 2-5 돌파 성공)' },
                                             { lv: 'LV 23 전사 + LV 23 궁수', gear: '전사 4단계 방어구 2개 (공격+해머 스킬) / 궁수 4단계 무기+방어구 2개 (공격스킬 2개)', clear: '2-5', note: '2-6 실패 (전사/궁수 Lv.23 및 4단계 장비 세팅에도 2-6 난이도 벽 확인)' },
+                                            { lv: 'LV 24 전사 + LV 23 궁수', gear: '전사 4단계 방어구 2개 (공격+해머 스킬) / 궁수 4단계 무기+방어구 2개 (공격스킬 2개)', clear: '2-6', note: '극적으로 성공 (전사 Lv.24 달성 후 2-6 겨우 돌파 성공! 4단계 장비 풀장착 시 훨씬 수월할 것으로 추정)' },
                                         ].map((row, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                 <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
