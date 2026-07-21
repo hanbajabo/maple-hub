@@ -937,6 +937,9 @@ export default function UltimaSquadMinigamePage() {
                                                 { stage: '2-3', base: '460G', p5: '483G', p10: '506G', p20: '552G', p25: '575G' },
                                                 { stage: '2-4', base: '490G', p5: '514G', p10: '539G', p20: '588G', p25: '612G' },
                                                 { stage: '2-5', base: '520G', p5: '546G', p10: '572G', p20: '624G', p25: '650G' },
+                                                { stage: '2-6', base: '550G', p5: '577G', p10: '605G', p20: '660G', p25: '687G' },
+                                                { stage: '2-7', base: '580G', p5: '609G', p10: '638G', p20: '696G', p25: '725G' },
+                                                { stage: '2-8', base: '610G', p5: '640G', p10: '671G', p20: '732G', p25: '762G' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                     <td className="p-1.5 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
