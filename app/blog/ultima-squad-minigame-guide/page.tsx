@@ -1451,6 +1451,49 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* 케이스 8 */}
+                                <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
+                                    <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
+                                        <span>📊 오프라인 Case H (마법사 포함 3인 스쿼드)</span>
+                                        <span className="text-xs bg-purple-500/10 text-purple-300 border border-purple-500/30 px-2 py-0.5 rounded-full">전사 L.24 + 궁수 L.23 + 마법사 L.8 | 골획증 25%</span>
+                                    </div>
+                                    <div className="relative w-full rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                        <Image 
+                                            src="/images/ultima-squad-offline-8.png" 
+                                            alt="오프라인 보상 결과 8" 
+                                            width={400}
+                                            height={300}
+                                            style={{ width: '100%', height: 'auto' }}
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5 text-xs sm:text-sm">
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">오프라인 누적 시간</span>
+                                            <span className="text-slate-200 font-bold">7시간 03분 (423분)</span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">골드 획득량 증가</span>
+                                            <span className="text-slate-200 font-bold">25% (+5레벨)</span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">획득 골드</span>
+                                            <span className="text-yellow-400 font-mono font-bold">5,631,220 G <span className="text-slate-500 text-xs font-normal">(시간당 ~798,754 G)</span></span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">전사 경험치</span>
+                                            <span className="text-green-400 font-bold">Lv.24 ➔ Lv.25 (+90%) <span className="text-slate-500 text-xs font-normal">(시간당 ~12.8%)</span></span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">궁수 경험치</span>
+                                            <span className="text-green-400 font-bold">Lv.23 ➔ Lv.24 (+93%) <span className="text-slate-500 text-xs font-normal">(시간당 ~13.2%)</span></span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3">
+                                            <span className="text-slate-400 shrink-0">마법사 경험치</span>
+                                            <span className="text-purple-300 font-bold">Lv.8 ➔ Lv.14 (+641%) <span className="text-slate-500 text-xs font-normal">(시간당 ~90.9%)</span></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* 효율 분석 결론 */}
@@ -1460,7 +1503,7 @@ export default function UltimaSquadMinigamePage() {
                                     <span>오프라인 효율 핵심 분석 요약</span>
                                 </p>
                                 <ul className="text-slate-200 text-sm space-y-2 list-disc list-inside leading-relaxed">
-                                    <li><strong className="text-white">성장 및 해금 여부에 따른 골드 수입량 증가</strong>: 초반 전사 단독(Lv.5)일 때보다 중반 전사/궁수 조합(Lv.9/Lv.2)이 갖춰진 상태에서 시간당 골드 획득량이 <strong className="text-yellow-300">약 1.54배 상승</strong>(7.8만G ➔ 12.0만G)하며, 21레벨 이상 극후반+골획증 25% 달성 시 시간당 <strong className="text-yellow-300">약 68.2만 골드</strong>까지 폭증합니다.</li>
+                                    <li><strong className="text-white">성장 및 해금 여부에 따른 골드 수입량 증가</strong>: 초반 전사 단독(Lv.5)일 때보다 중반 전사/궁수 조합(Lv.9/Lv.2)이 갖춰진 상태에서 시간당 골드 획득량이 <strong className="text-yellow-300">약 1.54배 상승</strong>(7.8만G ➔ 12.0만G)하며, 마법사 영입 후 3인 스쿼드 구축 시 시간당 <strong className="text-yellow-300">약 79.8만 골드</strong>까지 수급량이 폭증합니다.</li>
                                     <li><strong className="text-white">온라인 자동 방치와 효율 비교</strong>: 온라인 1-4 자동 반복 시 LV.5 전사는 1시간당 약 36% 획득하는 반면, 오프라인 시에는 1시간당 약 30.5% 획득하여 <strong className="text-green-300">온라인 대비 85% 수준 효율을 보입니다.</strong> <span className="text-yellow-400">(단, LV.5 ➔ LV.7로 성장하면서 필요 경험치 통이 크게 늘어난 것을 평균 낸 효율이므로, 실제 경험치 획득 절대량 기준으로는 온라인 방치와 사실상 대등한 효율을 보입니다.)</span></li>
                                     <li><strong className="text-white">결론</strong>: 상시 온라인을 유지하지 못하더라도, 오프라인 시간 증가 유틸리티를 잘 활용하면 온라인 방치와 거의 차이가 없는 수준으로 효율적인 성장이 가능합니다.</li>
                                 </ul>
