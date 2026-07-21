@@ -1703,6 +1703,7 @@ export default function UltimaSquadMinigamePage() {
                                             { cond: 'LV22 전사 + LV21 궁수 / 2-4 반복', start: '전사 43% / 궁수 77%', after: '전사 44% / 궁수 79%', gain: '전사 +1% / 궁수 +2%', mode: '자동 (높은 사냥터 처치 속도 지연)' },
                                             { cond: 'LV25 전사 + LV24 궁수 + LV15 마법사 / 2-3 반복', start: '전사 47% / 궁수 95% / 마법사 9%', after: '전사 49% / 궁수 97% / 마법사 14%', gain: '전사 +2% / 궁수 +2% / 마법사 +5%', mode: '자동 (마법사 힐링 보조 3인 스쿼드)' },
                                             { cond: 'LV25 전사 + LV24 궁수 + LV15 마법사 / 2-7 반복', start: '전사 49% / 궁수 97% / 마법사 15%', after: '전사 51% / 궁수 99% / 마법사 19%', gain: '전사 +2% / 궁수 +2% / 마법사 +4%', mode: '자동 (2-7 최고 사냥터 725G 파밍)' },
+                                            { cond: 'LV25 전사 + LV25 궁수 + LV15 마법사 / 2-2 반복', start: '전사 57% / 궁수 5% / 마법사 33%', after: '전사 59% / 궁수 8% / 마법사 39%', gain: '전사 +2% / 궁수 +3% / 마법사 +6%', mode: '자동 (빠른 처치로 궁수+3%/마법사+6% 경험치 극대화)', highlight: true },
                                         ].map((row, idx) => {
                                             const isHighlight = 'highlight' in row && row.highlight;
                                             return (
