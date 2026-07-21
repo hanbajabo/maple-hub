@@ -1647,6 +1647,7 @@ export default function UltimaSquadMinigamePage() {
                                             { cond: 'LV22 전사 + LV21 궁수 / 2-3 반복', start: '전사 34% / 궁수 67%', after: '전사 36% / 궁수 69%', gain: '전사 +2% / 궁수 +2%', mode: '자동 (4단계 장비 효과)' },
                                             { cond: 'LV22 전사 + LV21 궁수 / 2-2 반복', start: '전사 37% / 궁수 70%', after: '전사 39% / 궁수 73%', gain: '전사 +2% / 궁수 +3%', mode: '자동 (빠른 사냥터)', highlight: true },
                                             { cond: 'LV22 전사 + LV21 궁수 / 2-1 반복', start: '전사 40% / 궁수 74%', after: '전사 42% / 궁수 76%', gain: '전사 +2% / 궁수 +2%', mode: '자동 반복' },
+                                            { cond: 'LV22 전사 + LV21 궁수 / 2-4 반복', start: '전사 43% / 궁수 77%', after: '전사 44% / 궁수 79%', gain: '전사 +1% / 궁수 +2%', mode: '자동 (높은 사냥터 처치 속도 지연)' },
                                         ].map((row, idx) => {
                                             const isHighlight = 'highlight' in row && row.highlight;
                                             return (
