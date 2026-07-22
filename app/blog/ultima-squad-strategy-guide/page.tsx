@@ -203,31 +203,31 @@ export default function UltimaSquadStrategyGuidePage() {
                     <div className="overflow-x-auto mb-8">
                         <table className="w-full text-left border-collapse text-xs sm:text-sm min-w-[520px]">
                             <thead>
-                                <tr className="bg-slate-800/50 text-slate-300">
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">장비 단계</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">착용 레벨</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">무기 기본 공격력</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">방어구 기본 스탯</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">추옵 (실측)</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-right text-yellow-300">판매가</th>
+                                <tr className="bg-slate-800 text-slate-100 border-b border-slate-600">
+                                    <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-white">장비 단계</th>
+                                    <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-amber-300">착용 레벨</th>
+                                    <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-rose-300 text-center">무기 기본 공</th>
+                                    <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-sky-200">방어구 기본 스탯</th>
+                                    <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-emerald-300">추옵 (실측)</th>
+                                    <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-yellow-300 text-right">분해 골드</th>
                                 </tr>
                             </thead>
-                            <tbody className="text-slate-300">
+                            <tbody className="text-white">
                                 {[
-                                    { stage: '1단계', lv: '제한 없음', atk: '+9', armor: 'HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '-', highlight: false },
-                                    { stage: '2단계', lv: 'LV.8 이상', atk: '+14', armor: 'HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4', price: '미확인', highlight: false },
-                                    { stage: '3단계', lv: 'LV.15 이상', atk: '+20', armor: 'HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '미확인', highlight: false },
-                                    { stage: '4단계 ⭐', lv: 'LV.22 이상', atk: '+25', armor: 'HP +158 / 방어력 +20', pot: '무기 미확인 / 방어구 HP +34, 방어력 +4 확인', price: '미확인', highlight: true },
-                                    { stage: '5단계 ⭐', lv: 'LV.28 이상', atk: '+32', armor: '모자 HP +231, 방어 +25 / 장갑·신발 HP +231, 방어 +29', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4 확인', price: '13,370 G', highlight: true },
+                                    { stage: '1단계', lv: '제한 없음', atk: '+9', armor: 'HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '660 G', highlight: false },
+                                    { stage: '2단계', lv: 'LV.8 이상', atk: '+14', armor: 'HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4', price: '1,400 G', highlight: false },
+                                    { stage: '3단계', lv: 'LV.15 이상', atk: '+20', armor: 'HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '2,970 G', highlight: false },
+                                    { stage: '4단계 ⭐', lv: 'LV.22 이상', atk: '+25', armor: 'HP +158 / 방어력 +20', pot: '무기 공/마 +4 / 방어구 HP +34, 방어력 +4 확인', price: '6,300 G', highlight: true },
+                                    { stage: '5단계 ⭐', lv: 'LV.28 이상', atk: '+32', armor: 'HP +231 / 방어력 +25', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4 확인', price: '13,370 G', highlight: true },
                                     { stage: '6단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인', price: '미확인', highlight: false },
                                 ].map((row, idx) => (
-                                    <tr key={row.stage} className={`${row.highlight ? 'bg-amber-950/30 ring-1 ring-amber-500/30' : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}`}>
-                                        <td className={`p-2 sm:p-3 border border-slate-700 font-bold ${row.highlight ? 'text-amber-300' : 'text-slate-200'}`}>{row.stage}</td>
-                                        <td className={`p-2 sm:p-3 border border-slate-700 font-bold ${row.highlight ? 'text-amber-300' : 'text-slate-300'}`}>{row.lv}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700 text-center">{row.atk}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700 text-xs">{row.armor}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700 text-xs text-slate-400">{row.pot}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700 text-xs font-mono font-bold text-yellow-300 text-right">{row.price}</td>
+                                    <tr key={row.stage} className={`${row.highlight ? 'bg-amber-950/40 ring-1 ring-amber-500/40' : idx % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60'}`}>
+                                        <td className={`p-2.5 sm:p-3 border border-slate-700 font-extrabold ${row.highlight ? 'text-amber-300' : 'text-white'}`}>{row.stage}</td>
+                                        <td className="p-2.5 sm:p-3 border border-slate-700 font-bold text-amber-400">{row.lv}</td>
+                                        <td className="p-2.5 sm:p-3 border border-slate-700 text-center font-extrabold text-rose-400">{row.atk}</td>
+                                        <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-medium text-slate-100">{row.armor}</td>
+                                        <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-semibold text-emerald-300">{row.pot}</td>
+                                        <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-mono font-bold text-yellow-300 text-right">{row.price}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -292,10 +292,15 @@ export default function UltimaSquadStrategyGuidePage() {
                         ))}
                     </div>
 
-                    <div className="bg-slate-950/60 border border-amber-500/20 rounded-xl p-4 text-xs text-slate-400 space-y-1">
-                        <p>※ 잠재능력은 무기/방어구 구분 없이 동일 옵션 풀에서 출현합니다 (예: 방어구에서도 공격력 옵션 가능)</p>
-                        <p>※ 공격력 옵션과 마력 옵션은 별도 존재 — 전사/궁수는 <strong className="text-white">공격력</strong>, 마법사는 <strong className="text-purple-300">마력</strong> 위주로 확인</p>
-                        <p>※ 에픽 등급(4단계) 기준 공/마 최대 수치: <strong className="text-amber-300">+9 (고정) / +2% (퍼센트)</strong> 실측 확인 완료</p>
+                    <div className="bg-slate-900/80 p-4 rounded-xl border border-purple-500/40 text-xs sm:text-sm text-slate-200 space-y-2 leading-relaxed shadow-lg">
+                        <p className="font-bold text-purple-300 text-sm mb-2 flex items-center gap-1.5">
+                            <span>🎲</span>
+                            <span>잠재능력 실측 핵심 데이터 & 규칙</span>
+                        </p>
+                        <p className="text-slate-200">※ 잠재능력은 무기와 방어구 구분 없이 동일하게 적용됩니다. <span className="text-slate-400">(예: 방어구에서도 공격력/마력 획득 가능)</span></p>
+                        <p className="text-slate-200">※ <strong className="text-yellow-300 font-bold">공격력과 마력 옵션은 별도로 존재</strong>합니다. <span className="text-slate-400">(전사/궁수는 <strong className="text-white">공격력</strong>, 마법사는 <strong className="text-purple-300">마력</strong> 유효)</span></p>
+                        <p className="text-slate-200">※ <strong className="text-emerald-300 font-bold">공/마+%는 에픽 무기 잠재능력에서만 뜨는 것으로 확인</strong> / <strong className="text-sky-300 font-bold">방어구에서는 크확+2%까지 뜨는 것으로 확인</strong></p>
+                        <p className="text-slate-300 text-xs pt-1 border-t border-slate-700/60">※ 에픽 등급(4단계~5단계) 기준 공/마 최대 수치: <strong className="text-amber-300">+9 (고정) / +2% (퍼센트)</strong> (5단계 동일 등급 추정)</p>
                     </div>
                 </section>
 
@@ -312,36 +317,38 @@ export default function UltimaSquadStrategyGuidePage() {
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse text-xs sm:text-sm min-w-[480px]">
+                        <table className="w-full text-left border-collapse text-xs sm:text-sm min-w-[520px] shadow-md">
                             <thead>
-                                <tr className="bg-slate-800/50 text-slate-300">
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">스테이지</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-center">기본 골드</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-center">+5%</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-center">+10%</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-center">+20%</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-center text-yellow-300">+25% ★</th>
+                                <tr className="bg-slate-800 text-slate-100 border-b border-slate-600">
+                                    <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-white">스테이지</th>
+                                    <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-slate-100 text-center">기본 골드</th>
+                                    <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-slate-300 text-center">+5%</th>
+                                    <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-slate-300 text-center">+10%</th>
+                                    <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-slate-300 text-center">+20%</th>
+                                    <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-slate-200 text-center">+25%</th>
+                                    <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-amber-300 text-center">+30% (최대) ★</th>
                                 </tr>
                             </thead>
-                            <tbody className="text-slate-300">
+                            <tbody className="text-white">
                                 {[
-                                    { stage: '2-1', base: '400G', p5: '420G', p10: '440G', p20: '480G', p25: '500G', highlight: false },
-                                    { stage: '2-2', base: '430G', p5: '451G', p10: '473G', p20: '516G', p25: '537G', highlight: false },
-                                    { stage: '2-3', base: '460G', p5: '483G', p10: '506G', p20: '552G', p25: '575G', highlight: false },
-                                    { stage: '2-4', base: '490G', p5: '514G', p10: '539G', p20: '588G', p25: '612G', highlight: false },
-                                    { stage: '2-5', base: '520G', p5: '546G', p10: '572G', p20: '624G', p25: '650G', highlight: false },
-                                    { stage: '2-6', base: '550G', p5: '577G', p10: '605G', p20: '660G', p25: '687G', highlight: false },
-                                    { stage: '2-7 ⭐', base: '580G', p5: '609G', p10: '638G', p20: '696G', p25: '725G', highlight: true },
-                                    { stage: '2-8', base: '610G', p5: '640G', p10: '671G', p20: '732G', p25: '762G', highlight: false },
-                                    { stage: '2-9', base: '640G', p5: '672G', p10: '704G', p20: '768G', p25: '800G', highlight: false },
+                                    { stage: '2-1', base: '400G', p5: '420G', p10: '440G', p20: '480G', p25: '500G', p30: '520G', highlight: false },
+                                    { stage: '2-2', base: '430G', p5: '451G', p10: '473G', p20: '516G', p25: '537G', p30: '559G', highlight: false },
+                                    { stage: '2-3', base: '460G', p5: '483G', p10: '506G', p20: '552G', p25: '575G', p30: '598G', highlight: false },
+                                    { stage: '2-4', base: '490G', p5: '514G', p10: '539G', p20: '588G', p25: '612G', p30: '637G', highlight: false },
+                                    { stage: '2-5', base: '520G', p5: '546G', p10: '572G', p20: '624G', p25: '650G', p30: '676G', highlight: false },
+                                    { stage: '2-6', base: '550G', p5: '577G', p10: '605G', p20: '660G', p25: '687G', p30: '715G', highlight: false },
+                                    { stage: '2-7 ⭐', base: '580G', p5: '609G', p10: '638G', p20: '696G', p25: '725G', p30: '754G', highlight: true },
+                                    { stage: '2-8', base: '610G', p5: '640G', p10: '671G', p20: '732G', p25: '762G', p30: '793G', highlight: false },
+                                    { stage: '2-9', base: '640G', p5: '672G', p10: '704G', p20: '768G', p25: '800G', p30: '832G', highlight: false },
                                 ].map((row, idx) => (
-                                    <tr key={row.stage} className={`${row.highlight ? 'bg-yellow-950/30 ring-1 ring-yellow-500/30' : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}`}>
-                                        <td className={`p-2 sm:p-3 border border-slate-700 font-bold ${row.highlight ? 'text-yellow-300' : 'text-slate-200'}`}>{row.stage}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700 text-center">{row.base}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700 text-center">{row.p5}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700 text-center">{row.p10}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700 text-center">{row.p20}</td>
-                                        <td className={`p-2 sm:p-3 border border-slate-700 text-center font-bold ${row.highlight ? 'text-yellow-300' : 'text-slate-200'}`}>{row.p25}</td>
+                                    <tr key={row.stage} className={`${row.highlight ? 'bg-yellow-950/40 ring-1 ring-yellow-500/40' : idx % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60'}`}>
+                                        <td className={`p-2 sm:p-2.5 border border-slate-700 font-extrabold ${row.highlight ? 'text-yellow-300' : 'text-white'}`}>{row.stage}</td>
+                                        <td className="p-2 sm:p-2.5 border border-slate-700 text-center font-semibold text-slate-100">{row.base}</td>
+                                        <td className="p-2 sm:p-2.5 border border-slate-700 text-center font-semibold text-slate-300">{row.p5}</td>
+                                        <td className="p-2 sm:p-2.5 border border-slate-700 text-center font-semibold text-slate-300">{row.p10}</td>
+                                        <td className="p-2 sm:p-2.5 border border-slate-700 text-center font-semibold text-slate-300">{row.p20}</td>
+                                        <td className="p-2 sm:p-2.5 border border-slate-700 text-center font-semibold text-slate-200">{row.p25}</td>
+                                        <td className={`p-2 sm:p-2.5 border border-slate-700 text-center font-extrabold ${row.highlight ? 'text-yellow-300' : 'text-amber-300'}`}>{row.p30}</td>
                                     </tr>
                                 ))}
                             </tbody>

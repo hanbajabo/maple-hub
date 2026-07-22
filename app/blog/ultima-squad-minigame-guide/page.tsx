@@ -185,6 +185,7 @@ export default function UltimaSquadMinigamePage() {
                             <p className="text-sm text-amber-300/80 font-semibold mb-1">이벤트 기간</p>
                             <p className="text-base font-bold text-amber-300">7/23 ~ 8/19</p>
                             <p className="text-sm text-slate-300 mt-1">점검 후 ~ 오후 11:59</p>
+                            <p className="text-xs font-bold text-amber-400 mt-1">(총 28일간)</p>
                         </div>
                         <div className="bg-slate-800/60 border border-yellow-500/40 rounded-xl p-4 text-center">
                             <div className="text-3xl mb-2">🤝</div>
@@ -451,9 +452,7 @@ export default function UltimaSquadMinigamePage() {
                                 🛡️ 울티마 장비 단계별 스탯 및 추가 옵션 (추옵)
                             </h3>
                             <p className="text-xs text-slate-400 mb-4 leading-relaxed">
-                                ※ 본 표는 직접 플레이하면서 확인한 데이터를 기반으로 작성되었으므로 <strong className="text-orange-400">100% 정확하지 않을 수 있습니다.</strong><br />
-                                ※ 무기의 최대 추가 옵션 수치는 현재까지 <strong className="text-slate-200">+4까지 확인</strong>되었으며, 실제 최대치 한계는 이보다 높을 수 있습니다.<br />
-                                ※ 3단계 방어구의 최대 추가 옵션 수치는 아직 미확인 상태이나, <strong className="text-slate-200">2단계 최고 추가 옵션(HP +12 / 방어력 +4)보다는 더 위로</strong> 나올 것으로 예상됩니다.
+                                ※ 본 표는 직접 플레이하면서 확인한 데이터를 기반으로 작성되었으므로 <strong className="text-orange-400">100% 정확하지 않을 수 있습니다.</strong>
                             </p>
 
                             {/* 1단계 */}
@@ -584,49 +583,98 @@ export default function UltimaSquadMinigamePage() {
                                         <div className="flex flex-wrap gap-2">
                                             <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">공격력 +32</span>
                                             <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 +6 (확인)</span>
-                                            <span className="px-2.5 py-1 bg-yellow-950/60 border border-yellow-500/40 text-yellow-300 text-xs font-mono font-bold">판매/분해: 13,370 G</span>
                                         </div>
                                     </div>
                                     {/* 방어구 */}
                                     <div className="p-3 sm:p-4 bg-slate-900/30">
                                         <p className="text-slate-400 text-xs mb-2 font-medium">🎩🥊👟 방어구 (모자 / 장갑 / 신발)</p>
                                         <div className="flex flex-wrap gap-2">
-                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">모자: HP +231 / 방어 +25</span>
-                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">장갑·신발: HP +231 / 방어 +29</span>
-                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +38 / 방어력 +4 (최대)</span>
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">최대 HP +231</span>
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">방어력 +25</span>
+                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +38 / 방어력 +4 (확인)</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                        {/* 1. 단계별 장비 기본 스탯 (전체 너비 대형 종합 테이블) */}
+                        <div className="mb-6">
+                                <table className="w-full text-left border-collapse min-w-[550px] text-xs sm:text-sm shadow-md">
+                                    <thead>
+                                        <tr className="bg-slate-800 text-slate-100 border-b border-slate-600">
+                                            <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-white">장비 단계</th>
+                                            <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-amber-300">착용 레벨</th>
+                                            <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-rose-300 text-center">무기 기본 공</th>
+                                            <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-sky-200">방어구 기본 스탯 (모자/장갑/신발)</th>
+                                            <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-emerald-300">추옵 실측 확인</th>
+                                            <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-yellow-300 text-right">분해 골드</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-white">
+                                        {[
+                                            { stage: '1단계', lv: '제한 없음', atk: '+9', armor: '최대 HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '660 G' },
+                                            { stage: '2단계', lv: 'Lv. 8 이상', atk: '+14', armor: '최대 HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4', price: '1,400 G' },
+                                            { stage: '3단계', lv: 'Lv. 15 이상', atk: '+20', armor: '최대 HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '2,970 G' },
+                                            { stage: '4단계 ⭐', lv: 'Lv. 22 이상', atk: '+25', armor: '최대 HP +158 / 방어력 +20', pot: '무기 공/마 +4 / 방어구 HP +34, 방어력 +4', price: '6,300 G' },
+                                            { stage: '5단계 ⭐', lv: 'Lv. 28 이상', atk: '+32', armor: '최대 HP +231 / 방어력 +25', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4', price: '13,370 G' },
+                                            { stage: '6단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인', price: '미확인' },
+                                        ].map((row, idx) => (
+                                            <tr key={row.stage} className={row.stage.includes('⭐') ? 'bg-amber-950/40 ring-1 ring-amber-500/40' : idx % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60'}>
+                                                <td className="p-2.5 sm:p-3 border border-slate-700 font-extrabold text-white">{row.stage}</td>
+                                                <td className="p-2.5 sm:p-3 border border-slate-700 font-bold text-amber-300">{row.lv}</td>
+                                                <td className="p-2.5 sm:p-3 border border-slate-700 text-center font-extrabold text-rose-400">{row.atk}</td>
+                                                <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-medium text-slate-100">{row.armor}</td>
+                                                <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-semibold text-emerald-300">{row.pot}</td>
+                                                <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-mono font-bold text-yellow-300 text-right">{row.price}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        {/* 장비 단계 표 */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h3 className="font-bold text-slate-100 mb-3 text-base">🏆 장비 단계별 잠재능력</h3>
-                                <div className="overflow-x-auto -mx-1">
-                                    <table className="w-full text-left border-collapse min-w-[280px] text-xs sm:text-sm">
+                        {/* 2. 잠재능력 2열 그리드 (🏆 장비 단계별 잠재능력 & 🔮 단계별 잠재능력 실측 옵션) */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                            {/* 좌측: 🏆 장비 단계별 잠재능력 */}
+                            <div className="flex flex-col">
+                                <h3 className="font-bold text-slate-100 mb-3 text-base flex items-center gap-1.5">
+                                    <span>🏆</span>
+                                    <span>장비 단계별 잠재능력</span>
+                                </h3>
+                                <div className="overflow-x-auto -mx-1 flex-1">
+                                    <table className="w-full text-left border-collapse min-w-[300px] text-xs sm:text-sm shadow-md">
                                         <thead>
-                                            <tr className="bg-slate-800/50 text-slate-300">
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">장비 단계</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">잠재 등급</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">옵션 수</th>
+                                            <tr className="bg-slate-800 text-slate-100 border-b border-slate-600">
+                                                <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-white">장비 단계</th>
+                                                <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-amber-300">착용 레벨</th>
+                                                <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-sky-200">잠재 등급</th>
+                                                <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-emerald-300 text-center">옵션 수</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="text-slate-300">
-                                            {equipmentGrades.map((g, i) => {
+                                        <tbody className="text-white">
+                                            {[
+                                                { stage: '1단계', potential: '-', optionCount: '-', levelLimit: '제한 없음' },
+                                                { stage: '2단계', potential: '레어', optionCount: '1종', levelLimit: 'Lv. 8 이상' },
+                                                { stage: '3단계', potential: '레어', optionCount: '2종', levelLimit: 'Lv. 15 이상' },
+                                                { stage: '4단계', potential: '에픽', optionCount: '2종', levelLimit: 'Lv. 22 이상' },
+                                                { stage: '5단계', potential: '에픽', optionCount: '2종', levelLimit: 'Lv. 28 이상' },
+                                                { stage: '6단계', potential: '유니크', optionCount: '2종', levelLimit: '미확인' },
+                                                { stage: '7단계', potential: '레전드리', optionCount: '2종', levelLimit: '미확인' },
+                                                { stage: '8단계', potential: '레전드리', optionCount: '3종', levelLimit: '미확인' },
+                                            ].map((g, i) => {
                                                 const potentialColor: Record<string, string> = {
-                                                    '-': 'text-slate-500',
-                                                    '레어': 'text-sky-300',
-                                                    '에픽': 'text-purple-300',
-                                                    '유니크': 'text-yellow-300',
-                                                    '레전드리': 'text-orange-300',
+                                                    '-': 'text-slate-400',
+                                                    '레어': 'text-sky-300 font-bold',
+                                                    '에픽': 'text-purple-300 font-bold',
+                                                    '유니크': 'text-yellow-300 font-bold',
+                                                    '레전드리': 'text-orange-400 font-bold',
                                                 };
                                                 return (
-                                                    <tr key={g.stage} className={i % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 font-bold">{g.stage}단계</td>
-                                                        <td className={`p-2 sm:p-3 border border-slate-700 font-semibold ${potentialColor[g.potential]}`}>{g.potential}</td>
-                                                        <td className="p-2 sm:p-3 border border-slate-700 text-slate-100 font-semibold">{g.optionCount}</td>
+                                                    <tr key={g.stage} className={i % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60'}>
+                                                        <td className="p-2 sm:p-2.5 border border-slate-700 font-extrabold text-white">{g.stage}</td>
+                                                        <td className="p-2 sm:p-2.5 border border-slate-700 font-bold text-amber-300">{g.levelLimit}</td>
+                                                        <td className={`p-2 sm:p-2.5 border border-slate-700 ${potentialColor[g.potential]}`}>{g.potential}</td>
+                                                        <td className="p-2 sm:p-2.5 border border-slate-700 text-center font-bold text-emerald-300">{g.optionCount}</td>
                                                     </tr>
                                                 );
                                             })}
@@ -635,87 +683,56 @@ export default function UltimaSquadMinigamePage() {
                                 </div>
                             </div>
 
-                            {/* 단계별 아이템 기본 스탯 & 착용 레벨 */}
-                            <div className="md:col-span-2">
-                                <h3 className="font-bold text-slate-100 mb-3 text-base flex items-center gap-1.5">
-                                    <span>⚔️</span>
-                                    <span>단계별 장비 기본 스탯 & 착용 제한 레벨 (실측 데이터)</span>
-                                </h3>
-                                <div className="overflow-x-auto -mx-1 mb-6">
-                                    <table className="w-full text-left border-collapse min-w-[500px] text-xs sm:text-sm">
-                                        <thead>
-                                            <tr className="bg-slate-800/50 text-slate-300">
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">장비 단계</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">착용 레벨</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-center">무기 기본 공</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">방어구 기본 스탯 (모자/장갑/신발)</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">추옵 실측 확인</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-right text-yellow-300">판매 가격</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="text-slate-300">
-                                            {[
-                                                { stage: '1단계', lv: '제한 없음', atk: '+9', armor: '최대 HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '-' },
-                                                { stage: '2단계', lv: 'Lv. 8 이상', atk: '+14', armor: '최대 HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4', price: '미확인' },
-                                                { stage: '3단계', lv: 'Lv. 15 이상', atk: '+20', armor: '최대 HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '미확인' },
-                                                { stage: '4단계 ⭐', lv: 'Lv. 22 이상', atk: '+25', armor: '최대 HP +158 / 방어력 +20', pot: '무기 미확인 / 방어구 HP +34, 방어력 +4', price: '미확인' },
-                                                { stage: '5단계 ⭐', lv: 'Lv. 28 이상', atk: '+32', armor: '모자 HP +231, 방어 +25 / 장갑·신발 HP +231, 방어 +29', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4', price: '13,370 G' },
-                                                { stage: '6단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인', price: '미확인' },
-                                            ].map((row, idx) => (
-                                                <tr key={row.stage} className={row.stage.includes('⭐') ? 'bg-amber-950/30 ring-1 ring-amber-500/30' : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-bold text-amber-300">{row.lv}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-center font-semibold text-slate-100">{row.atk}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-xs text-slate-300">{row.armor}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-xs text-slate-400">{row.pot}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-xs font-mono font-bold text-yellow-300 text-right">{row.price}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div>
+                            {/* 우측: 🔮 단계별 잠재능력 실측 옵션 (공통) */}
+                            <div className="flex flex-col">
                                 <h3 className="font-bold text-slate-100 mb-3 text-base flex items-center gap-1.5">
                                     <span>🔮</span>
                                     <span>단계별 잠재능력 실측 옵션 (공통)</span>
                                 </h3>
-                                <div className="overflow-x-auto -mx-1">
-                                    <table className="w-full text-left border-collapse min-w-[280px] text-xs sm:text-sm">
+                                <div className="overflow-x-auto -mx-1 flex-1">
+                                    <table className="w-full text-left border-collapse min-w-[300px] text-xs sm:text-sm shadow-md">
                                         <thead>
-                                            <tr className="bg-slate-800/50 text-slate-300">
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">단계</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">공/마</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">방어력</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">최대 HP</th>
-                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">크확</th>
+                                            <tr className="bg-slate-800 text-slate-100 border-b border-slate-600">
+                                                <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-white">단계</th>
+                                                <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-rose-300 text-center">공/마</th>
+                                                <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-sky-200">방어력</th>
+                                                <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-emerald-300">최대 HP</th>
+                                                <th className="p-2 sm:p-2.5 border border-slate-700 font-bold text-yellow-300 text-center">크확</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="text-slate-300">
+                                        <tbody className="text-white">
                                             {[
                                                 { stage: '2단계 (레어)', atk: '+4', def: '+10', hp: '+75', crit: '+3%' },
                                                 { stage: '3단계 (레어)', atk: '+5', def: '+10', hp: '+75', crit: '+3%' },
                                                 { stage: '4단계 (에픽)', atk: '+9 / +2%', def: '+20', hp: '+170', crit: '+3%' },
-                                                { stage: '5단계~', atk: '미확인', def: '미확인', hp: '미확인', crit: '미확인' },
+                                                { stage: '5단계 (에픽 추정)', atk: '+9 / +2%', def: '+20', hp: '+170', crit: '+3%' },
+                                                { stage: '6단계~', atk: '미확인', def: '미확인', hp: '미확인', crit: '미확인' },
                                             ].map((row, idx) => (
-                                                <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-slate-300">{row.atk}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-slate-300">{row.def}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-slate-300">{row.hp}</td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-slate-300">{row.crit}</td>
+                                                <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60'}>
+                                                    <td className="p-2 sm:p-2.5 border border-slate-700 font-extrabold text-white">{row.stage}</td>
+                                                    <td className="p-2 sm:p-2.5 border border-slate-700 text-center font-extrabold text-rose-400">{row.atk}</td>
+                                                    <td className="p-2 sm:p-2.5 border border-slate-700 font-medium text-slate-100">{row.def}</td>
+                                                    <td className="p-2 sm:p-2.5 border border-slate-700 font-semibold text-emerald-300">{row.hp}</td>
+                                                    <td className="p-2 sm:p-2.5 border border-slate-700 text-center font-bold text-yellow-300">{row.crit}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
                                 </div>
-                                <div className="text-[11px] text-slate-400 mt-2 space-y-1 leading-relaxed">
-                                    <p>※ 잠재능력은 무기와 방어구 구분 없이 동일하게 적용됩니다. (예: 방어구에서도 공격력/마력 획득 가능)</p>
-                                    <p>※ <strong className="text-yellow-300">공격력과 마력 옵션은 별도로 존재</strong>합니다. (전사/궁수는 <span className="text-white">공격력</span>, 마법사는 <span className="text-purple-300">마력</span> 유효)</p>
-                                </div>
                             </div>
                         </div>
+
+                        {/* 3. 🎲 잠재능력 실측 핵심 데이터 & 규칙 (전체 너비 하단 배너) */}
+                        <div className="bg-slate-900/80 p-4 sm:p-5 rounded-xl border border-purple-500/40 text-xs sm:text-sm text-slate-200 space-y-2.5 leading-relaxed shadow-lg">
+                            <p className="font-bold text-purple-300 text-sm sm:text-base mb-2 flex items-center gap-1.5">
+                                <span>🎲</span>
+                                <span>잠재능력 실측 핵심 데이터 & 규칙</span>
+                            </p>
+                            <p className="text-slate-200">※ 잠재능력은 무기와 방어구 구분 없이 동일하게 적용됩니다. <span className="text-slate-400">(예: 방어구에서도 공격력/마력 획득 가능)</span></p>
+                            <p className="text-slate-200">※ <strong className="text-yellow-300 font-bold">공격력과 마력 옵션은 별도로 존재</strong>합니다. <span className="text-slate-400">(전사/궁수는 <strong className="text-white">공격력</strong>, 마법사는 <strong className="text-purple-300">마력</strong> 유효)</span></p>
+                            <p className="text-slate-200">※ <strong className="text-emerald-300 font-bold">공/마+%는 에픽 무기 잠재능력에서만 뜨는 것으로 확인</strong> / <strong className="text-sky-300 font-bold">방어구에서는 크확+2%까지 뜨는 것으로 확인</strong></p>
+                        </div>
+
 
                         {/* 잠재능력 재설정 */}
                         <div className="bg-slate-950/60 border border-slate-700/50 rounded-xl p-5">
@@ -957,19 +974,20 @@ export default function UltimaSquadMinigamePage() {
                                                     <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
                                                     <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+20%</th>
                                                     <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+25%</th>
+                                                    <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-bold whitespace-nowrap text-yellow-300 bg-yellow-900/40">+30% (최대)</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="text-slate-300 divide-y divide-slate-800/50">
                                                 {[
-                                                    { stage: '1-1', base: '10G', p5: '10G', p10: '11G', p20: '12G', p25: '12G' },
-                                                    { stage: '1-2', base: '30G', p5: '31G', p10: '33G', p20: '36G', p25: '37G' },
-                                                    { stage: '1-3', base: '50G', p5: '52G', p10: '55G', p20: '60G', p25: '62G' },
-                                                    { stage: '1-4', base: '70G', p5: '73G', p10: '77G', p20: '84G', p25: '87G' },
-                                                    { stage: '1-5', base: '90G', p5: '94G', p10: '99G', p20: '108G', p25: '112G' },
-                                                    { stage: '1-6', base: '110G', p5: '115G', p10: '121G', p20: '132G', p25: '137G' },
-                                                    { stage: '1-7', base: '130G', p5: '136G', p10: '143G', p20: '156G', p25: '162G' },
-                                                    { stage: '1-8', base: '150G', p5: '157G', p10: '165G', p20: '180G', p25: '187G' },
-                                                    { stage: '1-9', base: '170G', p5: '178G', p10: '187G', p20: '204G', p25: '212G' },
+                                                    { stage: '1-1', base: '10G', p5: '10G', p10: '11G', p20: '12G', p25: '12G', p30: '13G' },
+                                                    { stage: '1-2', base: '30G', p5: '31G', p10: '33G', p20: '36G', p25: '37G', p30: '39G' },
+                                                    { stage: '1-3', base: '50G', p5: '52G', p10: '55G', p20: '60G', p25: '62G', p30: '65G' },
+                                                    { stage: '1-4', base: '70G', p5: '73G', p10: '77G', p20: '84G', p25: '87G', p30: '91G' },
+                                                    { stage: '1-5', base: '90G', p5: '94G', p10: '99G', p20: '108G', p25: '112G', p30: '117G' },
+                                                    { stage: '1-6', base: '110G', p5: '115G', p10: '121G', p20: '132G', p25: '137G', p30: '143G' },
+                                                    { stage: '1-7', base: '130G', p5: '136G', p10: '143G', p20: '156G', p25: '162G', p30: '169G' },
+                                                    { stage: '1-8', base: '150G', p5: '157G', p10: '165G', p20: '180G', p25: '187G', p30: '195G' },
+                                                    { stage: '1-9', base: '170G', p5: '178G', p10: '187G', p20: '204G', p25: '212G', p30: '221G' },
                                                 ].map((row, idx) => (
                                                     <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                         <td className="p-1.5 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
@@ -978,6 +996,7 @@ export default function UltimaSquadMinigamePage() {
                                                         <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p10}</td>
                                                         <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p20}</td>
                                                         <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p25}</td>
+                                                        <td className="p-1.5 sm:p-3 border border-slate-700 font-bold text-yellow-300 text-center bg-yellow-950/30">{row.p30}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -999,19 +1018,20 @@ export default function UltimaSquadMinigamePage() {
                                                 <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
                                                 <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+20%</th>
                                                 <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+25%</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-bold whitespace-nowrap text-yellow-300 bg-yellow-900/40">+30% (최대)</th>
                                             </tr>
                                         </thead>
                                         <tbody className="text-slate-300 divide-y divide-slate-800/50">
                                             {[
-                                                { stage: '2-1', base: '400G', p5: '420G', p10: '440G', p20: '480G', p25: '500G' },
-                                                { stage: '2-2', base: '430G', p5: '451G', p10: '473G', p20: '516G', p25: '537G' },
-                                                { stage: '2-3', base: '460G', p5: '483G', p10: '506G', p20: '552G', p25: '575G' },
-                                                { stage: '2-4', base: '490G', p5: '514G', p10: '539G', p20: '588G', p25: '612G' },
-                                                { stage: '2-5', base: '520G', p5: '546G', p10: '572G', p20: '624G', p25: '650G' },
-                                                { stage: '2-6', base: '550G', p5: '577G', p10: '605G', p20: '660G', p25: '687G' },
-                                                { stage: '2-7', base: '580G', p5: '609G', p10: '638G', p20: '696G', p25: '725G' },
-                                                { stage: '2-8', base: '610G', p5: '640G', p10: '671G', p20: '732G', p25: '762G' },
-                                                { stage: '2-9', base: '640G', p5: '672G', p10: '704G', p20: '768G', p25: '800G' },
+                                                { stage: '2-1', base: '400G', p5: '420G', p10: '440G', p20: '480G', p25: '500G', p30: '520G' },
+                                                { stage: '2-2', base: '430G', p5: '451G', p10: '473G', p20: '516G', p25: '537G', p30: '559G' },
+                                                { stage: '2-3', base: '460G', p5: '483G', p10: '506G', p20: '552G', p25: '575G', p30: '598G' },
+                                                { stage: '2-4', base: '490G', p5: '514G', p10: '539G', p20: '588G', p25: '612G', p30: '637G' },
+                                                { stage: '2-5', base: '520G', p5: '546G', p10: '572G', p20: '624G', p25: '650G', p30: '676G' },
+                                                { stage: '2-6', base: '550G', p5: '577G', p10: '605G', p20: '660G', p25: '687G', p30: '715G' },
+                                                { stage: '2-7', base: '580G', p5: '609G', p10: '638G', p20: '696G', p25: '725G', p30: '754G' },
+                                                { stage: '2-8', base: '610G', p5: '640G', p10: '671G', p20: '732G', p25: '762G', p30: '793G' },
+                                                { stage: '2-9', base: '640G', p5: '672G', p10: '704G', p20: '768G', p25: '800G', p30: '832G' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                     <td className="p-1.5 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
@@ -1020,6 +1040,7 @@ export default function UltimaSquadMinigamePage() {
                                                     <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p10}</td>
                                                     <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p20}</td>
                                                     <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p25}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-bold text-yellow-300 text-center bg-yellow-950/30">{row.p30}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -1319,15 +1340,15 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">획득 골드</span>
-                                            <span className="text-yellow-400 font-mono font-bold">622,240 G <span className="text-slate-500 text-xs font-normal">(시간당 120,433 G)</span></span>
+                                            <span className="text-yellow-400 font-mono font-bold">622,240 G <span className="text-slate-200 text-xs font-semibold">(시간당 120,433 G)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">전사 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.9 ➔ Lv.10 (+117%) <span className="text-slate-500 text-xs font-normal">(시간당 22.6%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.9 ➔ Lv.10 (+117%) <span className="text-slate-200 text-xs font-semibold">(시간당 22.6%)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">궁수 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.2 ➔ Lv.6 (+424%) <span className="text-slate-500 text-xs font-normal">(시간당 82.0%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.2 ➔ Lv.6 (+424%) <span className="text-slate-200 text-xs font-semibold">(시간당 82.0%)</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1358,15 +1379,15 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">획득 골드</span>
-                                            <span className="text-yellow-400 font-mono font-bold">947,340 G <span className="text-slate-500 text-xs font-normal">(시간당 ~140,000 G)</span></span>
+                                            <span className="text-yellow-400 font-mono font-bold">947,340 G <span className="text-slate-200 text-xs font-semibold">(시간당 ~140,000 G)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">전사 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.10 ➔ Lv.11 (+129%) <span className="text-slate-500 text-xs font-normal">(시간당 ~19.1%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.10 ➔ Lv.11 (+129%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~19.1%)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">궁수 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.7 ➔ Lv.9 (+212%) <span className="text-slate-500 text-xs font-normal">(시간당 ~31.3%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.7 ➔ Lv.9 (+212%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~31.3%)</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1397,15 +1418,15 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">획득 골드</span>
-                                            <span className="text-yellow-400 font-mono font-bold">1,201,778 G <span className="text-slate-500 text-xs font-normal">(시간당 ~162,402 G)</span></span>
+                                            <span className="text-yellow-400 font-mono font-bold">1,201,778 G <span className="text-slate-200 text-xs font-semibold">(시간당 ~162,402 G)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">전사 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.13 ➔ Lv.14 (+116%) <span className="text-slate-500 text-xs font-normal">(시간당 ~15.7%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.13 ➔ Lv.14 (+116%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~15.7%)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">궁수 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.11 ➔ Lv.12 (+149%) <span className="text-slate-500 text-xs font-normal">(시간당 ~20.1%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.11 ➔ Lv.12 (+149%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~20.1%)</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1436,15 +1457,15 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">획득 골드</span>
-                                            <span className="text-yellow-400 font-mono font-bold">1,592,943 G <span className="text-slate-500 text-xs font-normal">(시간당 ~202,492 G)</span></span>
+                                            <span className="text-yellow-400 font-mono font-bold">1,592,943 G <span className="text-slate-200 text-xs font-semibold">(시간당 ~202,492 G)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">전사 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.14 ➔ Lv.15 (+129%) <span className="text-slate-500 text-xs font-normal">(시간당 ~16.4%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.14 ➔ Lv.15 (+129%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~16.4%)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">궁수 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.13 ➔ Lv.14 (+151%) <span className="text-slate-500 text-xs font-normal">(시간당 ~19.2%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.13 ➔ Lv.14 (+151%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~19.2%)</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1475,15 +1496,15 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">획득 골드</span>
-                                            <span className="text-yellow-400 font-mono font-bold">3,557,104 G <span className="text-slate-500 text-xs font-normal">(시간당 ~447,434 G)</span></span>
+                                            <span className="text-yellow-400 font-mono font-bold">3,557,104 G <span className="text-slate-200 text-xs font-semibold">(시간당 ~447,434 G)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">전사 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.17 ➔ Lv.18 (+108%) <span className="text-slate-500 text-xs font-normal">(시간당 ~15.1%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.17 ➔ Lv.18 (+108%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~15.1%)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">궁수 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.16 ➔ Lv.17 (+120%) <span className="text-slate-500 text-xs font-normal">(시간당 ~15.1%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.16 ➔ Lv.17 (+120%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~15.1%)</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1514,15 +1535,15 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">획득 골드</span>
-                                            <span className="text-yellow-400 font-mono font-bold">4,822,139 G <span className="text-slate-500 text-xs font-normal">(시간당 ~682,375 G)</span></span>
+                                            <span className="text-yellow-400 font-mono font-bold">4,822,139 G <span className="text-slate-200 text-xs font-semibold">(시간당 ~682,375 G)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">전사 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.21 ➔ Lv.22 (+99%) <span className="text-slate-500 text-xs font-normal">(시간당 ~14.0%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.21 ➔ Lv.22 (+99%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~14.0%)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">궁수 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.20 ➔ Lv.21 (+105%) <span className="text-slate-500 text-xs font-normal">(시간당 ~14.9%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.20 ➔ Lv.21 (+105%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~14.9%)</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1553,19 +1574,19 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">획득 골드</span>
-                                            <span className="text-yellow-400 font-mono font-bold">5,631,220 G <span className="text-slate-500 text-xs font-normal">(시간당 ~798,754 G)</span></span>
+                                            <span className="text-yellow-400 font-mono font-bold">5,631,220 G <span className="text-slate-200 text-xs font-semibold">(시간당 ~798,754 G)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">전사 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.24 ➔ Lv.25 (+90%) <span className="text-slate-500 text-xs font-normal">(시간당 ~12.8%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.24 ➔ Lv.25 (+90%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~12.8%)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">궁수 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.23 ➔ Lv.24 (+93%) <span className="text-slate-500 text-xs font-normal">(시간당 ~13.2%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.23 ➔ Lv.24 (+93%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~13.2%)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">마법사 경험치</span>
-                                            <span className="text-purple-300 font-bold">Lv.8 ➔ Lv.14 (+641%) <span className="text-slate-500 text-xs font-normal">(시간당 ~90.9%)</span></span>
+                                            <span className="text-purple-300 font-bold">Lv.8 ➔ Lv.14 (+641%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~90.9%)</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1574,7 +1595,17 @@ export default function UltimaSquadMinigamePage() {
                                 <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
                                     <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
                                         <span>📊 오프라인 Case I (2-9 클리어 후반 3인 스쿼드)</span>
-                                        <span className="text-xs bg-amber-500/10 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full">전사 L.27 + 궁수 L.26 + 마법사 L.18 | 2-9 파밍</span>
+                                        <span className="text-xs bg-amber-500/10 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full">전사 L.27 + 궁수 L.26 + 마법사 L.18 | 골획증 +30%</span>
+                                    </div>
+                                    {/* 오프라인 Case I 스크린샷 */}
+                                    <div className="relative w-full mx-auto my-2 rounded-lg overflow-hidden border border-slate-800 shadow-md">
+                                        <Image 
+                                            src="/images/ultima-squad-case-i.png" 
+                                            alt="오프라인 Case I 획득 결과 스크린샷" 
+                                            width={920}
+                                            height={400}
+                                            style={{ width: '100%', height: 'auto' }}
+                                        />
                                     </div>
                                     <div className="space-y-1.5 text-xs sm:text-sm">
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
@@ -1587,19 +1618,19 @@ export default function UltimaSquadMinigamePage() {
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">획득 골드</span>
-                                            <span className="text-yellow-400 font-mono font-bold">2,672,289 G <span className="text-slate-500 text-xs font-normal">(시간당 ~1,170,345 G)</span></span>
+                                            <span className="text-yellow-400 font-mono font-bold">2,672,289 G <span className="text-slate-200 text-xs font-semibold">(시간당 ~1,170,345 G)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">전사 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.27 ➔ Lv.27 (+35%) <span className="text-slate-500 text-xs font-normal">(시간당 ~15.3%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.27 ➔ Lv.27 (+35%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~15.3%)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
                                             <span className="text-slate-400 shrink-0">궁수 경험치</span>
-                                            <span className="text-green-400 font-bold">Lv.26 ➔ Lv.26 (+38%) <span className="text-slate-500 text-xs font-normal">(시간당 ~16.6%)</span></span>
+                                            <span className="text-green-400 font-bold">Lv.26 ➔ Lv.26 (+38%) <span className="text-slate-200 text-xs font-semibold">(시간당 ~16.6%)</span></span>
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">마법사 경험치</span>
-                                            <span className="text-purple-300 font-bold">Lv.18 ➔ Lv.19 (+68%) <span className="text-slate-500 text-xs font-normal">(1레벨업 + 시간당 ~73.6%)</span></span>
+                                            <span className="text-purple-300 font-bold">Lv.18 ➔ Lv.19 (+68%) <span className="text-slate-200 text-xs font-semibold">(1레벨업 + 시간당 ~73.6%)</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1847,13 +1878,24 @@ export default function UltimaSquadMinigamePage() {
                                             { cond: 'LV25 전사 + LV25 궁수 + LV15 마법사 / 2-2 반복', start: '전사 57% / 궁수 5% / 마법사 33%', after: '전사 59% / 궁수 8% / 마법사 39%', gain: '전사 +2% / 궁수 +3% / 마법사 +6%', mode: '자동 (빠른 처치로 궁수+3%/마법사+6% 경험치 극대화)', highlight: true },
                                         ].map((row, idx) => {
                                             const isHighlight = 'highlight' in row && row.highlight;
+
+                                            const formatCell = (text: string) => {
+                                                if (!text.includes('/')) return text;
+                                                const parts = text.split(' / ');
+                                                return parts.map((part, i) => (
+                                                    <span key={i} className={`block whitespace-nowrap ${part.includes('마법사') ? 'text-purple-300 font-bold bg-purple-950/40 px-1 py-0.5 rounded my-0.5 border border-purple-500/30' : ''}`}>
+                                                        {part}
+                                                    </span>
+                                                ));
+                                            };
+
                                             return (
-                                                <tr key={idx} className={isHighlight ? 'bg-amber-900/25 border-amber-500/30' : (idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30')}>
-                                                    <td className={"p-2 sm:p-3 border border-slate-700 font-semibold " + (isHighlight ? 'text-amber-300 font-bold' : 'text-slate-200')}>{row.cond}</td>
-                                                    <td className={"p-2 sm:p-3 border border-slate-700 text-center whitespace-nowrap " + (isHighlight ? 'text-amber-200' : 'text-slate-300')}>{row.start}</td>
-                                                    <td className={"p-2 sm:p-3 border border-slate-700 text-center font-bold text-green-300 whitespace-nowrap"}>{row.after}</td>
-                                                    <td className={"p-2 sm:p-3 border border-slate-700 text-center font-bold text-yellow-300 whitespace-nowrap"}>{row.gain}</td>
-                                                    <td className={"p-2 sm:p-3 border border-slate-700 " + (isHighlight ? 'text-amber-400 font-semibold' : 'text-slate-400')}>{row.mode}</td>
+                                                <tr key={idx} className={isHighlight ? 'bg-amber-950/40 ring-1 ring-amber-500/40' : (idx % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60')}>
+                                                    <td className={"p-2 sm:p-2.5 border border-slate-700 font-extrabold " + (isHighlight ? 'text-amber-300' : 'text-white')}>{row.cond}</td>
+                                                    <td className={"p-2 sm:p-2.5 border border-slate-700 text-center text-xs leading-snug " + (isHighlight ? 'text-amber-200 font-semibold' : 'text-slate-100 font-medium')}>{formatCell(row.start)}</td>
+                                                    <td className={"p-2 sm:p-2.5 border border-slate-700 text-center font-bold text-green-300 text-xs leading-snug"}>{formatCell(row.after)}</td>
+                                                    <td className={"p-2 sm:p-2.5 border border-slate-700 text-center font-bold text-yellow-300 text-xs leading-snug"}>{formatCell(row.gain)}</td>
+                                                    <td className={"p-2 sm:p-2.5 border border-slate-700 " + (isHighlight ? 'text-amber-300 font-bold' : 'text-slate-200')}>{row.mode}</td>
                                                 </tr>
                                             );
                                         })}
@@ -2072,9 +2114,9 @@ export default function UltimaSquadMinigamePage() {
                         자동 전투 기반 미니게임으로 오프라인에서도 꾸준히 성장 가능!<br />
                         스테이지를 클리어하며 용병을 키우고, <strong className="text-orange-300">솔 에르다</strong>와 다양한 버프 아이템을 획득하세요 🍁
                     </p>
-                    <div className="flex items-center justify-center gap-2 text-slate-500 text-xs">
-                        <ChevronRight className="w-4 h-4" />
-                        <span>이벤트 기간: 2026.07.23(목) 점검 후 ~ 08.19(수) 오후 11:59</span>
+                    <div className="flex items-center justify-center gap-2 text-slate-400 text-xs">
+                        <ChevronRight className="w-4 h-4 text-amber-400" />
+                        <span>이벤트 기간: 2026.07.23(목) 점검 후 ~ 08.19(수) 오후 11:59 <strong className="text-amber-400 font-bold">(총 28일간)</strong></span>
                     </div>
                 </div>
 
