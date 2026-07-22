@@ -89,17 +89,17 @@ export default function UltimaSquadStrategyGuidePage() {
                                 ]
                             },
                             {
-                                phase: '약 LV 10 ~ 15',
+                                phase: 'LV 8 ~ 15',
                                 color: 'border-emerald-500/40 bg-emerald-950/20',
                                 titleColor: 'text-emerald-300',
                                 badge: 'bg-emerald-900/50 text-emerald-300',
                                 icon: '🏹',
-                                title: '궁수 영입 — 약 100만 골드 필요',
+                                title: '궁수 영입 — 1-6 클리어 후 50만 골드 필요',
                                 items: [
-                                    '1구역 클리어 후 궁수 영입 가능 (1-10 클리어 후)',
-                                    '궁수 영입 비용: 약 100만 골드 (미리 모아두기!)',
-                                    'LV.2에서 「차지드 애로우」 (공격 스킬) 즉시 장착',
-                                    '영입 직후 2-1 ~ 2-2 반복으로 빠른 레벨업 진행',
+                                    '1-6 스테이지 클리어 후 궁수 영입 가능 (비용: 50만 골드)',
+                                    'LV.8 달성 시 2단계 장비(레어) 착용 가능',
+                                    '궁수 LV.2 달성 시 「차지드 애로우」 (공격 스킬) 즉시 장착',
+                                    '영입 직후 1-7 ~ 2-2 반복으로 빠른 레벨업 진행',
                                 ]
                             },
                             {
@@ -133,17 +133,18 @@ export default function UltimaSquadStrategyGuidePage() {
                                 ]
                             },
                             {
-                                phase: 'LV 26+',
+                                phase: 'LV 26 ~ 27+',
                                 color: 'border-purple-500/40 bg-purple-950/20',
                                 titleColor: 'text-purple-300',
                                 badge: 'bg-purple-900/50 text-purple-300',
                                 icon: '🏆',
-                                title: '2-8 클리어 및 2-9 도전 단계',
+                                title: '2-9 돌파 & 2-10(보스) 도전 단계',
                                 items: [
-                                    '전사 LV.26 + 궁수 LV.25 + 마법사 LV.16으로 2-8 겨우겨우 클리어 가능 (실측)',
-                                    '전사에 4단계 무기까지 장착하면 스펙업에 크게 도움됨',
-                                    'LV.17 마법사 부활 스킬 장착에도 2-9는 여전히 실패 — 추가 성장 필요',
-                                    '2-9 클리어는 더 높은 레벨 + 스킬 추가 해금이 필요할 것으로 예상',
+                                    '전사 LV.26 + 궁수 LV.25 + 마법사 LV.16으로 2-8 극적 클리어 성공 (실측)',
+                                    '전사 LV.27 + 궁수 LV.26(4단계풀셋) + 마법사 LV.18(3단계풀셋) 세팅 달성',
+                                    '🔑 핵심 수동 컨트롤: 마법사 힐+공격으로 버티다가 사망 시 부활 스킬로 스위칭 ➔ 부활 후 다시 공격 스킬로 체인징!',
+                                    '궁수 보스전 전용 「폭풍의 시」 체인징 스킬 컨트롤 병행',
+                                    '약 10회 반복 재도전 끝에 2-9 극적 돌파 성공! (2-10 2구역 보스는 추가 스펙업 필요)',
                                 ]
                             },
                         ].map((item, idx) => (
@@ -174,9 +175,9 @@ export default function UltimaSquadStrategyGuidePage() {
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             {[
-                                { label: '궁수 영입', cost: '~100만 골드', timing: '1-10 클리어 후', color: 'text-emerald-300' },
+                                { label: '궁수 영입', cost: '50만 골드', timing: '1-6 클리어 후', color: 'text-emerald-300' },
                                 { label: '마법사 영입', cost: '400만 골드', timing: '2-6 클리어 후', color: 'text-purple-300' },
-                                { label: '골획증 +25%', cost: '1,000만 골드', timing: '가능한 빨리', color: 'text-yellow-300' },
+                                { label: '골획증 +25%', cost: '1,330만 골드 (누적)', timing: '가능한 빨리', color: 'text-yellow-300' },
                             ].map((item, i) => (
                                 <div key={i} className="bg-slate-900/60 rounded-lg p-3 text-center">
                                     <p className={`font-bold text-base ${item.color}`}>{item.cost}</p>
@@ -197,33 +198,33 @@ export default function UltimaSquadStrategyGuidePage() {
 
                     {/* 단계별 장착 레벨 */}
                     <h3 className="font-bold text-slate-200 mb-3 text-base flex items-center gap-2">
-                        <Package className="w-4 h-4 text-amber-400" /> 단계별 아이템 착용 가능 레벨
+                        <Package className="w-4 h-4 text-amber-400" /> 단계별 아이템 착용 가능 레벨 & 스탯
                     </h3>
                     <div className="overflow-x-auto mb-8">
-                        <table className="w-full text-left border-collapse text-xs sm:text-sm min-w-[400px]">
+                        <table className="w-full text-left border-collapse text-xs sm:text-sm min-w-[520px]">
                             <thead>
                                 <tr className="bg-slate-800/50 text-slate-300">
                                     <th className="p-2 sm:p-3 border border-slate-700 font-semibold">장비 단계</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">착용 가능 레벨</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">잠재능력 등급</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">옵션 종류</th>
-                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">비고</th>
+                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">착용 레벨</th>
+                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">무기 기본 공격력</th>
+                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">방어구 기본 스탯</th>
+                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold">추옵 (실측)</th>
                                 </tr>
                             </thead>
                             <tbody className="text-slate-300">
                                 {[
-                                    { stage: '1단계', lv: 'LV.1~', pot: '-', opt: '-', note: '잠재 없음' },
-                                    { stage: '2단계', lv: 'LV.2~', pot: '레어', opt: '1종', note: '공/마 +4, 방어 +10, HP +75, 크확 +3%' },
-                                    { stage: '3단계', lv: '미확인', pot: '레어', opt: '2종', note: '공/마 +5, 방어 +10, HP +75, 크확 +3%' },
-                                    { stage: '4단계 ⭐', lv: 'LV.22~', pot: '에픽', opt: '2종', note: '공/마 +9 / +2%, 방어 +20, HP +170, 크확 +3%' },
-                                    { stage: '5단계~', lv: '미확인', pot: '에픽+', opt: '2종+', note: '미확인' },
+                                    { stage: '1단계', lv: '제한 없음', atk: '+9', armor: 'HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', highlight: false },
+                                    { stage: '2단계', lv: 'LV.8 이상', atk: '+14', armor: 'HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4', highlight: false },
+                                    { stage: '3단계', lv: 'LV.15 이상', atk: '+20', armor: 'HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', highlight: false },
+                                    { stage: '4단계 ⭐', lv: 'LV.22 이상', atk: '+25', armor: 'HP +158 / 방어력 +20', pot: '무기 미확인 / 방어구 HP +34, 방어력 +4 확인', highlight: true },
+                                    { stage: '5단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인', highlight: false },
                                 ].map((row, idx) => (
-                                    <tr key={row.stage} className={`${idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'} ${row.stage.includes('⭐') ? 'ring-1 ring-amber-500/30' : ''}`}>
-                                        <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700 font-bold text-amber-300">{row.lv}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700">{row.pot}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700">{row.opt}</td>
-                                        <td className="p-2 sm:p-3 border border-slate-700 text-slate-400 text-xs">{row.note}</td>
+                                    <tr key={row.stage} className={`${row.highlight ? 'bg-amber-950/30 ring-1 ring-amber-500/30' : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}`}>
+                                        <td className={`p-2 sm:p-3 border border-slate-700 font-bold ${row.highlight ? 'text-amber-300' : 'text-slate-200'}`}>{row.stage}</td>
+                                        <td className={`p-2 sm:p-3 border border-slate-700 font-bold ${row.highlight ? 'text-amber-300' : 'text-slate-300'}`}>{row.lv}</td>
+                                        <td className="p-2 sm:p-3 border border-slate-700 text-center">{row.atk}</td>
+                                        <td className="p-2 sm:p-3 border border-slate-700 text-xs">{row.armor}</td>
+                                        <td className="p-2 sm:p-3 border border-slate-700 text-xs text-slate-400">{row.pot}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -484,13 +485,34 @@ export default function UltimaSquadStrategyGuidePage() {
                                     { lv: 'LV23전사 + LV23궁수', gear: '전사 4단계 방어구2개 / 궁수 4단계 무기+방어구2개', clear: '2-5', note: '2-6 실패 — 레벨/스펙 벽', ok: false },
                                     { lv: 'LV24전사 + LV23궁수', gear: '전사 4단계 방어구2개 / 궁수 4단계 무기+방어구2개', clear: '2-6', note: '극적으로 성공! (겨우겨우)', ok: true },
                                 ].map((row, idx) => (
-                                    <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                        <td className="p-2 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
-                                        <td className="p-2 border border-slate-700 text-slate-400">{row.gear}</td>
-                                        <td className={`p-2 border border-slate-700 font-bold whitespace-nowrap ${row.ok ? 'text-green-400' : 'text-red-400'}`}>
-                                            {row.ok ? '✅ ' : '❌ '}{row.clear}
+                                    <tr 
+                                        key={idx} 
+                                        className={
+                                            row.ok 
+                                                ? 'bg-emerald-950/40 border-l-4 border-l-emerald-400 ring-1 ring-emerald-500/30 font-semibold' 
+                                                : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'
+                                        }
+                                    >
+                                        <td className={`p-2 border border-slate-700 font-bold whitespace-nowrap ${row.ok ? 'text-emerald-200' : 'text-white'}`}>{row.lv}</td>
+                                        <td className={`p-2 border border-slate-700 ${row.ok ? 'text-slate-200' : 'text-slate-400'}`}>{row.gear}</td>
+                                        <td className="p-2 border border-slate-700 font-semibold whitespace-nowrap">
+                                            {row.ok ? (
+                                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40 text-xs shadow-sm">
+                                                    ✅ {row.clear} 돌파!
+                                                </span>
+                                            ) : (
+                                                <span className="text-slate-300 text-xs">
+                                                    {row.clear}
+                                                </span>
+                                            )}
                                         </td>
-                                        <td className="p-2 border border-slate-700 text-slate-400">{row.note}</td>
+                                        <td className="p-2 border border-slate-700 text-xs">
+                                            {row.ok ? (
+                                                <span className="text-emerald-300 font-bold">{row.note}</span>
+                                            ) : (
+                                                <span className="text-red-400 font-medium">{row.note}</span>
+                                            )}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -518,14 +540,38 @@ export default function UltimaSquadStrategyGuidePage() {
                                     { lv: 'LV25전사+LV25궁수+LV15마법사', gear: '전사 4단계 방어구2개 / 궁수 4단계 무기+방어구2개 / 마법사 3단계풀셋', clear: '2-7', note: '2-8 실패 — 추가 스펙업 필요', ok: false },
                                     { lv: 'LV26전사+LV25궁수+LV16마법사', gear: '전사 4단계 무기+방어구2개 / 궁수 4단계 무기+방어구2개 / 마법사 3단계풀셋', clear: '2-8', note: '겨우겨우 성공! 전사 4단계 무기까지 풀세팅이 핵심', ok: true },
                                     { lv: 'LV26전사+LV25궁수+LV17마법사', gear: '전사 4단계 무기+방어구2개 / 궁수 4단계 무기+방어구2개 / 마법사 3단계풀셋(힐+부활)', clear: '2-8', note: '2-9 실패 — 부활 스킬 해금에도 벽 확인', ok: false },
+                                    { lv: 'LV26전사+LV26궁수+LV18마법사', gear: '전사 4단계 무기+방어구2개 / 궁수 4단계 풀셋 / 마법사 3단계풀셋(힐+부활)', clear: '2-8', note: '2-9 실패 — 궁수 4단계 풀셋 및 마법사 Lv.18 스펙업에도 2-9 벽 확인', ok: false },
+                                    { lv: 'LV27전사+LV26궁수+LV18마법사', gear: '전사 4단계 무기+방어구2개 / 궁수 4단계 풀셋 / 마법사 3단계풀셋(힐+공격 ➔ 사망 시 부활 수동 스위칭)', clear: '2-9', note: '10회 수동 컨트롤 재도전 끝에 2-9 극적 돌파 성공! (마법사 부활 스위칭 핵심)', ok: true },
+                                    { lv: 'LV27전사+LV26궁수+LV18마법사', gear: '전사 4단계 무기+방어구2개 / 궁수 4단계 풀셋 / 마법사 3단계풀셋(스킬 수동 스위칭)', clear: '2-9', note: '2-10 (2구역 보스) 실패 — 보스전 딜/탱킹 스펙 벽 확인', ok: false },
                                 ].map((row, idx) => (
-                                    <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                        <td className="p-2 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
-                                        <td className="p-2 border border-slate-700 text-slate-400">{row.gear}</td>
-                                        <td className={`p-2 border border-slate-700 font-bold whitespace-nowrap ${row.ok ? 'text-green-400' : 'text-red-400'}`}>
-                                            {row.ok ? '✅ ' : '❌ '}{row.clear}
+                                    <tr 
+                                        key={idx} 
+                                        className={
+                                            row.ok 
+                                                ? 'bg-emerald-950/40 border-l-4 border-l-emerald-400 ring-1 ring-emerald-500/30 font-semibold' 
+                                                : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'
+                                        }
+                                    >
+                                        <td className={`p-2 border border-slate-700 font-bold whitespace-nowrap ${row.ok ? 'text-emerald-200' : 'text-white'}`}>{row.lv}</td>
+                                        <td className={`p-2 border border-slate-700 ${row.ok ? 'text-slate-200' : 'text-slate-400'}`}>{row.gear}</td>
+                                        <td className="p-2 border border-slate-700 font-semibold whitespace-nowrap">
+                                            {row.ok ? (
+                                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40 text-xs shadow-sm">
+                                                    ✅ {row.clear} 돌파!
+                                                </span>
+                                            ) : (
+                                                <span className="text-slate-300 text-xs">
+                                                    {row.clear}
+                                                </span>
+                                            )}
                                         </td>
-                                        <td className="p-2 border border-slate-700 text-slate-400">{row.note}</td>
+                                        <td className="p-2 border border-slate-700 text-xs">
+                                            {row.ok ? (
+                                                <span className="text-emerald-300 font-bold">{row.note}</span>
+                                            ) : (
+                                                <span className="text-red-400 font-medium">{row.note}</span>
+                                            )}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -548,8 +594,8 @@ export default function UltimaSquadStrategyGuidePage() {
                                 color: 'border-yellow-500/40 bg-yellow-950/20',
                                 titleColor: 'text-yellow-300',
                                 points: [
-                                    '궁수 영입(~100만G)과 마법사 영입(400만G) 비용을 미리 준비',
-                                    '골드 획득량 증가(골획증)는 +25%까지 투자하면 장기적으로 가장 효율적',
+                                    '궁수 영입(1-6 클리어 후 50만G)과 마법사 영입(2-6 클리어 후 400만G) 비용을 미리 준비',
+                                    '골드 획득량 증가(골획증)는 +25%까지 투자하면 장기적으로 가장 효율적 (누적 1,330만G)',
                                     '오프라인 상태에서도 EXP+골드는 쌓이므로 항상 높은 스테이지 유지',
                                 ]
                             },
@@ -559,7 +605,8 @@ export default function UltimaSquadStrategyGuidePage() {
                                 color: 'border-amber-500/40 bg-amber-950/20',
                                 titleColor: 'text-amber-300',
                                 points: [
-                                    'LV.22 달성 전에 4단계 장비 미리 준비해두기 (큐브 굴리기)',
+                                    'LV.8 달성 시 2단계 장비(레어), LV.15 달성 시 3단계 장비(레어) 착용',
+                                    'LV.22 달성 전에 4단계 장비(에픽) 미리 준비해두기 (큐브 굴리기)',
                                     '전사: 방어구 추옵 「방어력 +20」 × 2개가 생존에 핵심',
                                     '궁수: 무기 추옵 「공격력 +9」가 DPS에 가장 중요',
                                     '마법사: 4단계 착용 전까지 3단계 풀셋으로 운영',
@@ -607,11 +654,11 @@ export default function UltimaSquadStrategyGuidePage() {
                                 color: 'border-orange-500/40 bg-orange-950/20',
                                 titleColor: 'text-orange-300',
                                 points: [
-                                    '① 전사 LV.20까지 → 1구역 클리어 → 궁수 영입',
-                                    '② 2인 스쿼드로 2-4~2-5 클리어 → LV.22에서 4단계 장비 착용',
-                                    '③ 2-6 클리어 → 마법사 영입(400만G) → 마법사 빠른 성장',
-                                    '④ 마법사 LV.15+3단계풀셋 달성 → 2-7 클리어 (안정 파밍 구간 진입)',
-                                    '⑤ 전사 LV.26+4단계 무기 → 2-8 클리어 (2-9 도전 준비)',
+                                    '① 전사 1-6 클리어 ➔ 궁수 영입(50만G) ➔ LV.8에서 2단계 장비 세팅',
+                                    '② 2인 스쿼드로 2-4~2-5 클리어 ➔ LV.22에서 4단계 장비 착용',
+                                    '③ 2-6 클리어 ➔ 마법사 영입(400만G) ➔ 마법사 빠른 성장',
+                                    '④ 마법사 LV.15+3단계풀셋 달성 ➔ 2-7 클리어 (안정 파밍 구간 진입)',
+                                    '⑤ 전사 LV.26+4단계 무기 ➔ 2-8 클리어 (2-9 도전 준비)',
                                 ]
                             },
                         ].map((item, i) => (

@@ -602,6 +602,44 @@ export default function UltimaSquadMinigamePage() {
                                                 );
                                             })}
                                         </tbody>
+                                     </table>
+                                </div>
+                            </div>
+
+                            {/* 단계별 아이템 기본 스탯 & 착용 레벨 */}
+                            <div className="md:col-span-2">
+                                <h3 className="font-bold text-slate-100 mb-3 text-base flex items-center gap-1.5">
+                                    <span>⚔️</span>
+                                    <span>단계별 장비 기본 스탯 & 착용 제한 레벨 (실측 데이터)</span>
+                                </h3>
+                                <div className="overflow-x-auto -mx-1 mb-6">
+                                    <table className="w-full text-left border-collapse min-w-[500px] text-xs sm:text-sm">
+                                        <thead>
+                                            <tr className="bg-slate-800/50 text-slate-300">
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">장비 단계</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">착용 레벨</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-center">무기 기본 공</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">방어구 기본 스탯 (모자/장갑/신발)</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold">추옵 실측 확인</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-slate-300">
+                                            {[
+                                                { stage: '1단계', lv: '제한 없음', atk: '+9', armor: '최대 HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4' },
+                                                { stage: '2단계', lv: 'Lv. 8 이상', atk: '+14', armor: '최대 HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4' },
+                                                { stage: '3단계', lv: 'Lv. 15 이상', atk: '+20', armor: '최대 HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4' },
+                                                { stage: '4단계 ⭐', lv: 'Lv. 22 이상', atk: '+25', armor: '최대 HP +158 / 방어력 +20', pot: '무기 미확인 / 방어구 HP +34, 방어력 +4' },
+                                                { stage: '5단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인' },
+                                            ].map((row, idx) => (
+                                                <tr key={row.stage} className={row.stage.includes('⭐') ? 'bg-amber-950/30 ring-1 ring-amber-500/30' : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 font-bold text-amber-300">{row.lv}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 text-center font-semibold text-slate-100">{row.atk}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 text-xs text-slate-300">{row.armor}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 text-xs text-slate-400">{row.pot}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -1587,14 +1625,47 @@ export default function UltimaSquadMinigamePage() {
                                             { lv: 'LV 25 전사 + LV 25 궁수 + LV 15 마법사', gear: '전사 4단계 방어구 2개 (공격+해머) / 궁수 4단계 무기+방어구 2개 / 마법사 3단계 풀셋 (공격+힐링)', clear: '2-7', note: '2-8 실패 (궁수 Lv.25 달성 및 4단계 무기+방어구 2개 세팅 후에도 여전히 2-8 스펙 벽 확인)' },
                                             { lv: 'LV 26 전사 + LV 25 궁수 + LV 16 마법사', gear: '전사 4단계 무기+방어구 2개 (공격+해머) / 궁수 4단계 무기+방어구 2개 / 마법사 3단계 풀셋 (공격+힐링)', clear: '2-8', note: '겨우겨우 성공 (전사 Lv.26+4단계 무기&방어구2개, 궁수 Lv.25, 마법사 Lv.16 스펙업 후 2-8 극적으로 돌파 성공!)' },
                                             { lv: 'LV 26 전사 + LV 25 궁수 + LV 17 마법사', gear: '전사 4단계 무기+방어구 2개 (공격+해머) / 궁수 4단계 무기+방어구 2개 / 마법사 3단계 풀셋 (힐링+부활)', clear: '2-8', note: '2-9 실패 (마법사 Lv.17 부활 스킬 해금 및 전사 4단계 무기+방어구 2개 세팅에도 2-9 스펙 벽 확인)' },
-                                        ].map((row, idx) => (
-                                            <tr key={idx} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
-                                                <td className="p-2 sm:p-3 border border-slate-700 font-bold text-white whitespace-nowrap">{row.lv}</td>
-                                                <td className="p-2 sm:p-3 border border-slate-700 text-slate-300">{row.gear}</td>
-                                                <td className="p-2 sm:p-3 border border-slate-700 font-semibold text-green-300 whitespace-nowrap">{row.clear}</td>
-                                                <td className="p-2 sm:p-3 border border-slate-700 text-slate-400">{row.note}</td>
-                                            </tr>
-                                        ))}
+                                            { lv: 'LV 26 전사 + LV 26 궁수 + LV 18 마법사', gear: '전사 4단계 무기+방어구 2개 (공격+해머) / 궁수 4단계 풀셋 (공격스킬 2개) / 마법사 3단계 풀셋 (힐링+부활)', clear: '2-8', note: '2-9 실패 (궁수 LV.26+4단계 풀셋 및 마법사 LV.18 스펙업 후에도 여전히 2-9 난이도 벽 확인)' },
+                                            { lv: 'LV 27 전사 + LV 26 궁수 + LV 18 마법사', gear: '전사 4단계 무기+방어구 2개 (공격+해머) / 궁수 4단계 풀셋 (보스 폭시 체인징) / 마법사 3단계 풀셋 (힐링+공격 ➔ 사망 시 부활 수동 스위칭)', clear: '2-9', note: '성공 (전사 LV.27 달성 & 마법사 부활 스킬 수동 컨트롤로 10회 반복 재도전 끝에 2-9 극적 돌파!)' },
+                                            { lv: 'LV 27 전사 + LV 26 궁수 + LV 18 마법사', gear: '전사 4단계 무기+방어구 2개 / 궁수 4단계 풀셋 / 마법사 3단계 풀셋 (스킬 수동 스위칭)', clear: '2-9', note: '2-10 (2구역 보스) 실패 (보스전 딜/탱킹 스펙 벽 확인)' },
+                                        ].map((row, idx) => {
+                                            const isSuccess = row.note.includes('성공') && !row.note.includes('실패');
+                                            return (
+                                                <tr 
+                                                    key={idx} 
+                                                    className={
+                                                        isSuccess 
+                                                            ? 'bg-emerald-950/40 border-l-4 border-l-emerald-400 ring-1 ring-emerald-500/30 font-semibold' 
+                                                            : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'
+                                                    }
+                                                >
+                                                    <td className={`p-2 sm:p-3 border border-slate-700 font-bold whitespace-nowrap ${isSuccess ? 'text-emerald-200' : 'text-white'}`}>
+                                                        {row.lv}
+                                                    </td>
+                                                    <td className={`p-2 sm:p-3 border border-slate-700 ${isSuccess ? 'text-slate-200' : 'text-slate-300'}`}>
+                                                        {row.gear}
+                                                    </td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 font-semibold whitespace-nowrap">
+                                                        {isSuccess ? (
+                                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40 text-xs shadow-sm">
+                                                                ✅ {row.clear} 클리어!
+                                                            </span>
+                                                        ) : (
+                                                            <span className="text-slate-300 text-xs">
+                                                                {row.clear}
+                                                            </span>
+                                                        )}
+                                                    </td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 text-xs">
+                                                        {isSuccess ? (
+                                                            <span className="text-emerald-300 font-bold">{row.note}</span>
+                                                        ) : (
+                                                            <span className="text-red-400 font-medium">{row.note}</span>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>

@@ -23,17 +23,6 @@ export const blogPosts: BlogPost[] = [
         featured: true,
         targetDate: '2026년 7월 23일',
     },
-    {
-        slug: 'ultima-squad-strategy-guide',
-        title: '【미니게임】 울티마 스쿼드 효율 전략 가이드 (실측 데이터)',
-        description: 'LV1부터 2구역 후반까지의 실전 성장 로드맵! 언제 궁수·마법사를 영입해야 하는지, 4단계 아이템은 몇 레벨에 착용 가능한지, 최적 잠재능력 추옵 조합은 무엇인지, 사냥터별 골드 및 경험치 효율 실측 데이터를 한눈에 정리했습니다.',
-        category: '이벤트 가이드',
-        date: '2026년 7월 22일',
-        readTime: '7분',
-        thumbnail: '📊',
-        featured: true,
-        targetDate: '2026년 7월 23일',
-    },
     // 7월 16일 테스트월드 신규 HEXA 밸런스 패치
     {
         slug: 'testworld-hexa-skill-balance-july-16-2026',
