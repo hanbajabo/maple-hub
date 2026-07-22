@@ -340,7 +340,8 @@ export default function UltimaSquadStrategyGuidePage() {
                                     { stage: '2-7 ⭐', base: '580G', p5: '609G', p10: '638G', p20: '696G', p25: '725G', p30: '754G', highlight: true },
                                     { stage: '2-8', base: '610G', p5: '640G', p10: '671G', p20: '732G', p25: '762G', p30: '793G', highlight: false },
                                     { stage: '2-9', base: '640G', p5: '672G', p10: '704G', p20: '768G', p25: '800G', p30: '832G', highlight: false },
-                                    { stage: '3-1 ⭐', base: '700G', p5: '735G', p10: '770G', p20: '840G', p25: '875G', p30: '910G', highlight: true },
+                                    { stage: '3-1', base: '700G', p5: '735G', p10: '770G', p20: '840G', p25: '875G', p30: '910G', highlight: false },
+                                    { stage: '3-2 ⭐', base: '750G', p5: '788G', p10: '825G', p20: '900G', p25: '938G', p30: '975G', highlight: true },
                                 ].map((row, idx) => (
                                     <tr key={row.stage} className={`${row.highlight ? 'bg-yellow-950/40 ring-1 ring-yellow-500/40' : idx % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60'}`}>
                                         <td className={`p-2 sm:p-2.5 border border-slate-700 font-extrabold ${row.highlight ? 'text-yellow-300' : 'text-white'}`}>{row.stage}</td>
