@@ -54,6 +54,35 @@ const jobSkillImageList = [
     ]
   },
   {
+    "file": "022_스킬_4241507[섀도어(6차)]_변경.png",
+    "src": "/images/blog/ver-1-2-417/022_%EC%8A%A4%ED%82%AC_4241507%5B%EC%84%80%EB%8F%84%EC%96%B4(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
+    "title": "스킬_4241507[섀도어(6차)]_변경",
+    "name": "섀도어 6차 (무아지경)",
+    "diffs": [
+      "암살 : 멸 데미지: 387% → <strong class='text-amber-300 font-bold'>400%</strong> (조정)",
+      "분쇄 : 멸 데미지: 1타 375% → <strong class='text-amber-300 font-bold'>388%</strong> / 2타 554% → <strong class='text-amber-300 font-bold'>567%</strong> (조정)"
+    ]
+  },
+  {
+    "file": "023_스킬_4241508[섀도어(6차)]_변경.png",
+    "src": "/images/blog/ver-1-2-417/023_%EC%8A%A4%ED%82%AC_4241508%5B%EC%84%80%EB%8F%84%EC%96%B4(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
+    "title": "스킬_4241508[섀도어(6차)]_변경",
+    "name": "섀도어 6차 (암살 : 멸)",
+    "diffs": [
+      "참격 데미지: 387% → <strong class='text-amber-300 font-bold'>400%</strong> (조정)"
+    ]
+  },
+  {
+    "file": "024_스킬_4241509[섀도어(6차)]_변경.png",
+    "src": "/images/blog/ver-1-2-417/024_%EC%8A%A4%ED%82%AC_4241509%5B%EC%84%80%EB%8F%84%EC%96%B4(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
+    "title": "스킬_4241509[섀도어(6차)]_변경",
+    "name": "섀도어 6차 (분쇄 : 멸)",
+    "diffs": [
+      "난격 데미지: 375% → <strong class='text-amber-300 font-bold'>388%</strong> (조정)",
+      "검영 데미지: 554% → <strong class='text-amber-300 font-bold'>567%</strong> (조정)"
+    ]
+  },
+  {
     "file": "026_스킬_15101026[스트라이커(2차)]_변경.png",
     "src": "/images/blog/ver-1-2-417/026_%EC%8A%A4%ED%82%AC_15101026%5B%EC%8A%A4%ED%8A%B8%EB%9D%BC%EC%9D%B4%EC%BB%A4(2%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_15101026[스트라이커(2차)]_변경",
@@ -344,7 +373,7 @@ export default function TestworldToLiveJul23Page() {
                         [ver 1.2.417] 테섭 → 본섭 변경점 총정리
                     </h1>
                     <p className="text-lg text-slate-300 leading-relaxed">
-                        테스터 서버(테섭) 대비 본 서버(본섭) 상경 과정에서 변경된 총 37개 실질 변경점(직업 스킬 13종, 미니게임 스킬 8종, 아이템 7종, 맵 지형 9종)을 1:1 대조하여 분석합니다.
+                        테스터 서버(테섭) 대비 본 서버(본섭) 상경 과정에서 변경된 총 40개 실질 변경점(직업 스킬 16종, 미니게임 스킬 8종, 아이템 7종, 맵 지형 9종)을 1:1 대조하여 분석합니다.
                     </p>
                 </header>
 
@@ -354,7 +383,7 @@ export default function TestworldToLiveJul23Page() {
                         <Swords className="w-8 h-8 text-amber-400" />
                         <div>
                             <h2 className="text-2xl sm:text-3xl font-bold text-white">1. 직업별 스킬 변경 사항 ({jobSkillImageList.length}개)</h2>
-                            <p className="text-sm text-slate-400">다크나이트, 불독, 비숍, 패스파인더, 메르세데스, 제로, 아델, 렌 등 직업 스킬 1:1 대조</p>
+                            <p className="text-sm text-slate-400">다크나이트, 불독, 비숍, 패스파인더, 섀도어(무아지경), 메르세데스, 제로, 아델, 렌 등 직업 스킬 1:1 대조</p>
                         </div>
                     </div>
 
