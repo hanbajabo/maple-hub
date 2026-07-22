@@ -629,7 +629,8 @@ export default function UltimaSquadMinigamePage() {
                                                 { stage: '2단계', lv: 'Lv. 8 이상', atk: '+14', armor: '최대 HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4' },
                                                 { stage: '3단계', lv: 'Lv. 15 이상', atk: '+20', armor: '최대 HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4' },
                                                 { stage: '4단계 ⭐', lv: 'Lv. 22 이상', atk: '+25', armor: '최대 HP +158 / 방어력 +20', pot: '무기 미확인 / 방어구 HP +34, 방어력 +4' },
-                                                { stage: '5단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인' },
+                                                { stage: '5단계 ⭐', lv: 'Lv. 28 이상', atk: '미확인', armor: '모자 HP +231, 방어 +25 / 장갑·신발 HP +231, 방어 +29', pot: '방어구 HP +38, 방어력 +4' },
+                                                { stage: '6단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={row.stage.includes('⭐') ? 'bg-amber-950/30 ring-1 ring-amber-500/30' : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                     <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
