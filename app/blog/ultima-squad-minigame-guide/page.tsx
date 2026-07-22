@@ -569,6 +569,35 @@ export default function UltimaSquadMinigamePage() {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* 5단계 */}
+                            <div className="rounded-xl overflow-hidden border border-purple-700/40 mt-3">
+                                <div className="bg-purple-900/40 px-4 py-2 flex items-center gap-2 border-b border-purple-700/40">
+                                    <span className="text-purple-300 font-bold text-sm">5단계 ⭐</span>
+                                    <span className="text-xs text-purple-400/70">Stage 5</span>
+                                    <span className="ml-auto text-xs px-2.5 py-0.5 bg-purple-950/60 text-purple-300 rounded-full border border-purple-700/50 font-semibold">제한 레벨: Lv. 28 이상</span>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-700/50">
+                                    {/* 무기 */}
+                                    <div className="p-3 sm:p-4 bg-slate-900/50">
+                                        <p className="text-slate-400 text-xs mb-2 font-medium">⚔️ 무기</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">공격력 +32</span>
+                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 +6 (확인)</span>
+                                            <span className="px-2.5 py-1 bg-yellow-950/60 border border-yellow-500/40 text-yellow-300 text-xs font-mono font-bold">판매/분해: 13,370 G</span>
+                                        </div>
+                                    </div>
+                                    {/* 방어구 */}
+                                    <div className="p-3 sm:p-4 bg-slate-900/30">
+                                        <p className="text-slate-400 text-xs mb-2 font-medium">🎩🥊👟 방어구 (모자 / 장갑 / 신발)</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">모자: HP +231 / 방어 +25</span>
+                                            <span className="px-2.5 py-1 bg-slate-800 rounded-md text-slate-200 text-xs font-medium">장갑·신발: HP +231 / 방어 +29</span>
+                                            <span className="px-2.5 py-1 bg-orange-900/40 border border-orange-500/30 rounded-md text-orange-300 text-xs font-semibold">추옵 HP +38 / 방어력 +4 (최대)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {/* 장비 단계 표 */}
@@ -781,6 +810,7 @@ export default function UltimaSquadMinigamePage() {
                                         <p>🪙 <strong className="text-white">2단계</strong> 분해: <span className="text-orange-300 font-bold">1,400 골드</span></p>
                                         <p>🪙 <strong className="text-white">3단계</strong> 분해: <span className="text-orange-300 font-bold">2,970 골드</span></p>
                                         <p>🪙 <strong className="text-white">4단계</strong> 분해: <span className="text-orange-300 font-bold">6,300 골드</span></p>
+                                        <p>🪙 <strong className="text-white">5단계</strong> 분해: <span className="text-orange-300 font-bold">13,370 골드</span></p>
                                     </div>
                                 </div>
                             </div>
