@@ -621,16 +621,17 @@ export default function UltimaSquadMinigamePage() {
                                                 <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-center">무기 기본 공</th>
                                                 <th className="p-2 sm:p-3 border border-slate-700 font-semibold">방어구 기본 스탯 (모자/장갑/신발)</th>
                                                 <th className="p-2 sm:p-3 border border-slate-700 font-semibold">추옵 실측 확인</th>
+                                                <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-right text-yellow-300">판매 가격</th>
                                             </tr>
                                         </thead>
                                         <tbody className="text-slate-300">
                                             {[
-                                                { stage: '1단계', lv: '제한 없음', atk: '+9', armor: '최대 HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4' },
-                                                { stage: '2단계', lv: 'Lv. 8 이상', atk: '+14', armor: '최대 HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4' },
-                                                { stage: '3단계', lv: 'Lv. 15 이상', atk: '+20', armor: '최대 HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4' },
-                                                { stage: '4단계 ⭐', lv: 'Lv. 22 이상', atk: '+25', armor: '최대 HP +158 / 방어력 +20', pot: '무기 미확인 / 방어구 HP +34, 방어력 +4' },
-                                                { stage: '5단계 ⭐', lv: 'Lv. 28 이상', atk: '+32', armor: '모자 HP +231, 방어 +25 / 장갑·신발 HP +231, 방어 +29', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4' },
-                                                { stage: '6단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인' },
+                                                { stage: '1단계', lv: '제한 없음', atk: '+9', armor: '최대 HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '-' },
+                                                { stage: '2단계', lv: 'Lv. 8 이상', atk: '+14', armor: '최대 HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4', price: '미확인' },
+                                                { stage: '3단계', lv: 'Lv. 15 이상', atk: '+20', armor: '최대 HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '미확인' },
+                                                { stage: '4단계 ⭐', lv: 'Lv. 22 이상', atk: '+25', armor: '최대 HP +158 / 방어력 +20', pot: '무기 미확인 / 방어구 HP +34, 방어력 +4', price: '미확인' },
+                                                { stage: '5단계 ⭐', lv: 'Lv. 28 이상', atk: '+32', armor: '모자 HP +231, 방어 +25 / 장갑·신발 HP +231, 방어 +29', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4', price: '13,370 G' },
+                                                { stage: '6단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인', price: '미확인' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={row.stage.includes('⭐') ? 'bg-amber-950/30 ring-1 ring-amber-500/30' : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                     <td className="p-2 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
@@ -638,6 +639,7 @@ export default function UltimaSquadMinigamePage() {
                                                     <td className="p-2 sm:p-3 border border-slate-700 text-center font-semibold text-slate-100">{row.atk}</td>
                                                     <td className="p-2 sm:p-3 border border-slate-700 text-xs text-slate-300">{row.armor}</td>
                                                     <td className="p-2 sm:p-3 border border-slate-700 text-xs text-slate-400">{row.pot}</td>
+                                                    <td className="p-2 sm:p-3 border border-slate-700 text-xs font-mono font-bold text-yellow-300 text-right">{row.price}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -1534,6 +1536,40 @@ export default function UltimaSquadMinigamePage() {
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">마법사 경험치</span>
                                             <span className="text-purple-300 font-bold">Lv.8 ➔ Lv.14 (+641%) <span className="text-slate-500 text-xs font-normal">(시간당 ~90.9%)</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* 케이스 9 */}
+                                <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 space-y-3">
+                                    <div className="text-sm font-bold text-slate-100 flex items-center justify-between">
+                                        <span>📊 오프라인 Case I (2-9 클리어 후반 3인 스쿼드)</span>
+                                        <span className="text-xs bg-amber-500/10 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full">전사 L.27 + 궁수 L.26 + 마법사 L.18 | 2-9 파밍</span>
+                                    </div>
+                                    <div className="space-y-1.5 text-xs sm:text-sm">
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">오프라인 누적 시간</span>
+                                            <span className="text-slate-200 font-bold">2시간 17분 (137분)</span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">골드 획득량 증가</span>
+                                            <span className="text-slate-200 font-bold">25% (+5레벨)</span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">획득 골드</span>
+                                            <span className="text-yellow-400 font-mono font-bold">2,672,289 G <span className="text-slate-500 text-xs font-normal">(시간당 ~1,170,345 G)</span></span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">전사 경험치</span>
+                                            <span className="text-green-400 font-bold">Lv.27 ➔ Lv.27 (+35%) <span className="text-slate-500 text-xs font-normal">(시간당 ~15.3%)</span></span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3 border-b border-slate-800/40 pb-1">
+                                            <span className="text-slate-400 shrink-0">궁수 경험치</span>
+                                            <span className="text-green-400 font-bold">Lv.26 ➔ Lv.26 (+38%) <span className="text-slate-500 text-xs font-normal">(시간당 ~16.6%)</span></span>
+                                        </div>
+                                        <div className="flex flex-wrap justify-between gap-x-3">
+                                            <span className="text-slate-400 shrink-0">마법사 경험치</span>
+                                            <span className="text-purple-300 font-bold">Lv.18 ➔ Lv.19 (+68%) <span className="text-slate-500 text-xs font-normal">(1레벨업 + 시간당 ~73.6%)</span></span>
                                         </div>
                                     </div>
                                 </div>

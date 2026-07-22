@@ -209,16 +209,17 @@ export default function UltimaSquadStrategyGuidePage() {
                                     <th className="p-2 sm:p-3 border border-slate-700 font-semibold">무기 기본 공격력</th>
                                     <th className="p-2 sm:p-3 border border-slate-700 font-semibold">방어구 기본 스탯</th>
                                     <th className="p-2 sm:p-3 border border-slate-700 font-semibold">추옵 (실측)</th>
+                                    <th className="p-2 sm:p-3 border border-slate-700 font-semibold text-right text-yellow-300">판매가</th>
                                 </tr>
                             </thead>
                             <tbody className="text-slate-300">
                                 {[
-                                    { stage: '1단계', lv: '제한 없음', atk: '+9', armor: 'HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', highlight: false },
-                                    { stage: '2단계', lv: 'LV.8 이상', atk: '+14', armor: 'HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4', highlight: false },
-                                    { stage: '3단계', lv: 'LV.15 이상', atk: '+20', armor: 'HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', highlight: false },
-                                    { stage: '4단계 ⭐', lv: 'LV.22 이상', atk: '+25', armor: 'HP +158 / 방어력 +20', pot: '무기 미확인 / 방어구 HP +34, 방어력 +4 확인', highlight: true },
-                                    { stage: '5단계 ⭐', lv: 'LV.28 이상', atk: '+32', armor: '모자 HP +231, 방어 +25 / 장갑·신발 HP +231, 방어 +29', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4 확인', highlight: true },
-                                    { stage: '6단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인', highlight: false },
+                                    { stage: '1단계', lv: '제한 없음', atk: '+9', armor: 'HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '-', highlight: false },
+                                    { stage: '2단계', lv: 'LV.8 이상', atk: '+14', armor: 'HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4', price: '미확인', highlight: false },
+                                    { stage: '3단계', lv: 'LV.15 이상', atk: '+20', armor: 'HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '미확인', highlight: false },
+                                    { stage: '4단계 ⭐', lv: 'LV.22 이상', atk: '+25', armor: 'HP +158 / 방어력 +20', pot: '무기 미확인 / 방어구 HP +34, 방어력 +4 확인', price: '미확인', highlight: true },
+                                    { stage: '5단계 ⭐', lv: 'LV.28 이상', atk: '+32', armor: '모자 HP +231, 방어 +25 / 장갑·신발 HP +231, 방어 +29', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4 확인', price: '13,370 G', highlight: true },
+                                    { stage: '6단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인', price: '미확인', highlight: false },
                                 ].map((row, idx) => (
                                     <tr key={row.stage} className={`${row.highlight ? 'bg-amber-950/30 ring-1 ring-amber-500/30' : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}`}>
                                         <td className={`p-2 sm:p-3 border border-slate-700 font-bold ${row.highlight ? 'text-amber-300' : 'text-slate-200'}`}>{row.stage}</td>
@@ -226,6 +227,7 @@ export default function UltimaSquadStrategyGuidePage() {
                                         <td className="p-2 sm:p-3 border border-slate-700 text-center">{row.atk}</td>
                                         <td className="p-2 sm:p-3 border border-slate-700 text-xs">{row.armor}</td>
                                         <td className="p-2 sm:p-3 border border-slate-700 text-xs text-slate-400">{row.pot}</td>
+                                        <td className="p-2 sm:p-3 border border-slate-700 text-xs font-mono font-bold text-yellow-300 text-right">{row.price}</td>
                                     </tr>
                                 ))}
                             </tbody>
