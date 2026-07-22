@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Swords, Package, MapPin, Sparkles, Calendar, Maximize2, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Swords, Package, MapPin, Sparkles, Calendar, Maximize2, CheckCircle2, Gamepad2 } from 'lucide-react';
 
-const skillImageList = [
+const jobSkillImageList = [
   {
     "file": "009_스킬_1341504[다크나이트(6차)]_변경.png",
     "src": "/images/blog/ver-1-2-417/009_%EC%8A%A4%ED%82%AC_1341504%5B%EB%8B%A4%ED%81%AC%EB%82%98%EC%9D%B4%ED%8A%B8(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
@@ -92,51 +92,6 @@ const skillImageList = [
     ]
   },
   {
-    "file": "041_스킬_80004271[기타]_변경.png",
-    "src": "/images/blog/ver-1-2-417/041_%EC%8A%A4%ED%82%AC_80004271%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
-    "title": "스킬_80004271[기타]_변경",
-    "name": "스킬_80004271[기타]_변경",
-    "diffs": [
-      "본섭 패치에 따른 수치 및 툴팁 문구 조정 적용"
-    ]
-  },
-  {
-    "file": "042_스킬_80004273[기타]_변경.png",
-    "src": "/images/blog/ver-1-2-417/042_%EC%8A%A4%ED%82%AC_80004273%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
-    "title": "스킬_80004273[기타]_변경",
-    "name": "스킬_80004273[기타]_변경",
-    "diffs": [
-      "본섭 패치에 따른 수치 및 툴팁 문구 조정 적용"
-    ]
-  },
-  {
-    "file": "044_스킬_80004278[기타]_변경.png",
-    "src": "/images/blog/ver-1-2-417/044_%EC%8A%A4%ED%82%AC_80004278%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
-    "title": "스킬_80004278[기타]_변경",
-    "name": "스킬_80004278[기타]_변경",
-    "diffs": [
-      "본섭 패치에 따른 수치 및 툴팁 문구 조정 적용"
-    ]
-  },
-  {
-    "file": "045_스킬_80004281[기타]_변경.png",
-    "src": "/images/blog/ver-1-2-417/045_%EC%8A%A4%ED%82%AC_80004281%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
-    "title": "스킬_80004281[기타]_변경",
-    "name": "스킬_80004281[기타]_변경",
-    "diffs": [
-      "본섭 패치에 따른 수치 및 툴팁 문구 조정 적용"
-    ]
-  },
-  {
-    "file": "047_스킬_80004285[기타]_변경.png",
-    "src": "/images/blog/ver-1-2-417/047_%EC%8A%A4%ED%82%AC_80004285%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
-    "title": "스킬_80004285[기타]_변경",
-    "name": "스킬_80004285[기타]_변경",
-    "diffs": [
-      "본섭 패치에 따른 수치 및 툴팁 문구 조정 적용"
-    ]
-  },
-  {
     "file": "051_스킬_151141503[아델(6차)]_변경.png",
     "src": "/images/blog/ver-1-2-417/051_%EC%8A%A4%ED%82%AC_151141503%5B%EC%95%84%EB%8D%B8(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_151141503[아델(6차)]_변경",
@@ -163,6 +118,53 @@ const skillImageList = [
     "name": "레테 (체인 커맨드)",
     "diffs": [
       "스킬 설명 문구 띄어쓰기 수정: 기존 '한 단계 씩' → <strong class='text-amber-300 font-bold'>'한 단계씩'</strong> 띄어쓰기 오기 보정"
+    ]
+  }
+];
+const miniGameSkillImageList = [
+  {
+    "file": "041_스킬_80004271[기타]_변경.png",
+    "src": "/images/blog/ver-1-2-417/041_%EC%8A%A4%ED%82%AC_80004271%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
+    "title": "스킬_80004271[기타]_변경",
+    "name": "미니게임 스킬 (데몬 베인)",
+    "diffs": [
+      "데미지 수치: 1500% → <strong class='text-amber-300 font-bold'>12000%</strong> (조정)"
+    ]
+  },
+  {
+    "file": "042_스킬_80004273[기타]_변경.png",
+    "src": "/images/blog/ver-1-2-417/042_%EC%8A%A4%ED%82%AC_80004273%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
+    "title": "스킬_80004273[기타]_변경",
+    "name": "미니게임 스킬 (체인 라이트닝)",
+    "diffs": [
+      "<strong class='text-amber-300 font-bold'>'재사용 대기시간 6초'</strong> 조건 신설 추가"
+    ]
+  },
+  {
+    "file": "044_스킬_80004278[기타]_변경.png",
+    "src": "/images/blog/ver-1-2-417/044_%EC%8A%A4%ED%82%AC_80004278%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
+    "title": "스킬_80004278[기타]_변경",
+    "name": "미니게임 스킬 (조디악 레이)",
+    "diffs": [
+      "데미지 수치: 1500% → <strong class='text-amber-300 font-bold'>12000%</strong> (조정)"
+    ]
+  },
+  {
+    "file": "045_스킬_80004281[기타]_변경.png",
+    "src": "/images/blog/ver-1-2-417/045_%EC%8A%A4%ED%82%AC_80004281%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
+    "title": "스킬_80004281[기타]_변경",
+    "name": "미니게임 스킬 (폭풍의 시)",
+    "diffs": [
+      "스킬 설명 띄어쓰기 수정: 기존 '몰아치 듯' → <strong class='text-amber-300 font-bold'>'몰아치듯'</strong> 붙여쓰기 보정"
+    ]
+  },
+  {
+    "file": "047_스킬_80004285[기타]_변경.png",
+    "src": "/images/blog/ver-1-2-417/047_%EC%8A%A4%ED%82%AC_80004285%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
+    "title": "스킬_80004285[기타]_변경",
+    "name": "미니게임 스킬 (드래곤 버스트)",
+    "diffs": [
+      "데미지 수치: 1200% → <strong class='text-amber-300 font-bold'>10000%</strong> (조정)"
     ]
   }
 ];
@@ -305,22 +307,22 @@ export default function TestworldToLiveJul23Page() {
                         [ver 1.2.417] 테섭 → 본섭 변경점 총정리
                     </h1>
                     <p className="text-lg text-slate-300 leading-relaxed">
-                        테스터 서버(테섭) 대비 본 서버(본섭) 상경 과정에서 변경된 총 33개 실질 변경점(스킬, 아이템, 맵 지형)을 1:1 대조하여 분석합니다.
+                        테스터 서버(테섭) 대비 본 서버(본섭) 상경 과정에서 변경된 총 33개 실질 변경점(직업 스킬, 미니게임 스킬, 아이템, 맵 지형)을 1:1 대조하여 분석합니다.
                     </p>
                 </header>
 
-                {/* Section 1: Skill Balance Images */}
+                {/* Section 1: Job Skill Balance Images */}
                 <section className="mb-16 space-y-10">
                     <div className="border-b border-slate-800 pb-4 flex items-center gap-3">
                         <Swords className="w-8 h-8 text-amber-400" />
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-bold text-white">1. 스킬 변경 사항 정밀 분석 ({skillImageList.length}개)</h2>
-                            <p className="text-sm text-slate-400">이미지 픽셀 직접 독해 및 대조 결과</p>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-white">1. 직업별 스킬 변경 사항 ({jobSkillImageList.length}개)</h2>
+                            <p className="text-sm text-slate-400">직업별 6차 & 5차 주요 스킬 변경점 정밀 분석</p>
                         </div>
                     </div>
 
                     <div className="space-y-10">
-                        {skillImageList.map((img, idx) => (
+                        {jobSkillImageList.map((img, idx) => (
                             <div key={idx} className="bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all p-6 shadow-xl">
                                 <div className="mb-4 flex items-center justify-between">
                                     <div className="flex items-center gap-2">
@@ -363,12 +365,66 @@ export default function TestworldToLiveJul23Page() {
                     </div>
                 </section>
 
-                {/* Section 2: Item Images */}
+                {/* Section 2: Mini-Game Skill Adjustments */}
+                <section className="mb-16 space-y-10">
+                    <div className="border-b border-slate-800 pb-4 flex items-center gap-3">
+                        <Gamepad2 className="w-8 h-8 text-cyan-400" />
+                        <div>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-white">2. 미니게임 스킬 조정 ({miniGameSkillImageList.length}개)</h2>
+                            <p className="text-sm text-slate-400">울티마 스쿼드 및 이벤트 미니게임 전용 스킬 데미지/쿨타임 조정</p>
+                        </div>
+                    </div>
+
+                    <div className="space-y-10">
+                        {miniGameSkillImageList.map((img, idx) => (
+                            <div key={idx} className="bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all p-6 shadow-xl">
+                                <div className="mb-4 flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-xs font-bold text-cyan-400 px-3 py-1 bg-cyan-500/10 rounded-md border border-cyan-500/20">
+                                            미니게임 #{idx + 1}
+                                        </span>
+                                        <span className="text-lg font-bold text-slate-100">{img.name || img.title}</span>
+                                    </div>
+                                    <span className="text-xs text-slate-400 flex items-center gap-1">
+                                        <Maximize2 className="w-3.5 h-3.5" /> 원본 해상도
+                                    </span>
+                                </div>
+
+                                {/* Image Box */}
+                                <div className="w-full bg-slate-950 rounded-xl overflow-x-auto border border-slate-800 p-4 flex justify-center mb-5">
+                                    <img
+                                        src={img.src}
+                                        alt={img.title}
+                                        className="max-w-none h-auto block rounded-md"
+                                        loading="lazy"
+                                    />
+                                </div>
+
+                                {/* Detailed Diff Analysis Box */}
+                                <div className="bg-slate-950/80 rounded-xl border border-cyan-500/30 p-4 sm:p-5">
+                                    <h4 className="text-sm font-bold text-cyan-400 flex items-center gap-2 mb-3">
+                                        <CheckCircle2 className="w-4 h-4 text-cyan-400" /> 🔍 미니게임 스킬 1:1 대조 결과
+                                    </h4>
+                                    <ul className="space-y-2 text-sm text-slate-200">
+                                        {img.diffs.map((diffItem, dIdx) => (
+                                            <li key={dIdx} className="flex items-start gap-2">
+                                                <span className="text-cyan-400 font-bold">•</span>
+                                                <span dangerouslySetInnerHTML={{ __html: diffItem }} />
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Section 3: Item Images */}
                 <section className="mb-16 space-y-10">
                     <div className="border-b border-slate-800 pb-4 flex items-center gap-3">
                         <Package className="w-8 h-8 text-emerald-400" />
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-bold text-white">2. 아이템 변경 & 신규 추가 ({itemImageList.length}개)</h2>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-white">3. 아이템 변경 & 신규 추가 ({itemImageList.length}개)</h2>
                             <p className="text-sm text-slate-400">소비, 기타, 캐시 아이템 대조</p>
                         </div>
                     </div>
@@ -400,12 +456,12 @@ export default function TestworldToLiveJul23Page() {
                     </div>
                 </section>
 
-                {/* Section 3: Map Images */}
+                {/* Section 4: Map Images */}
                 <section className="mb-16 space-y-10">
                     <div className="border-b border-slate-800 pb-4 flex items-center gap-3">
                         <MapPin className="w-8 h-8 text-rose-400" />
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-bold text-white">3. 맵 지형 및 구조 변경 ({mapImageList.length}개)</h2>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-white">4. 맵 지형 및 구조 변경 ({mapImageList.length}개)</h2>
                             <p className="text-sm text-slate-400">지형 및 레이아웃 대조</p>
                         </div>
                     </div>
