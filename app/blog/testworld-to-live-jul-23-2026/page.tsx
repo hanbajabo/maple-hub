@@ -136,7 +136,7 @@ const miniGameSkillImageList = [
     "file": "040_스킬_80004269[기타]_변경.png",
     "src": "/images/blog/ver-1-2-417/040_%EC%8A%A4%ED%82%AC_80004269%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_80004269[기타]_변경",
-    "name": "미니게임 스킬 (디바이드 / 무아지경 연계)",
+    "name": "미니게임 스킬 (디바이드)",
     "diffs": [
       "재사용 대기시간: 8초 → <strong class='text-cyan-300 font-bold'>6초</strong> (조정)"
     ]
@@ -145,7 +145,7 @@ const miniGameSkillImageList = [
     "file": "041_스킬_80004271[기타]_변경.png",
     "src": "/images/blog/ver-1-2-417/041_%EC%8A%A4%ED%82%AC_80004271%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_80004271[기타]_변경",
-    "name": "미니게임 스킬 (데몬 베인 / 무아지경 연계)",
+    "name": "미니게임 스킬 (데몬 베인)",
     "diffs": [
       "데미지 수치: 1500% → <strong class='text-cyan-300 font-bold'>12000%</strong> (조정)"
     ]
@@ -154,7 +154,7 @@ const miniGameSkillImageList = [
     "file": "042_스킬_80004273[기타]_변경.png",
     "src": "/images/blog/ver-1-2-417/042_%EC%8A%A4%ED%82%AC_80004273%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_80004273[기타]_변경",
-    "name": "미니게임 스킬 (체인 라이트닝 / 무아지경 연계)",
+    "name": "미니게임 스킬 (체인 라이트닝)",
     "diffs": [
       "<strong class='text-cyan-300 font-bold'>'재사용 대기시간 6초'</strong> 조건 신설 추가"
     ]
@@ -163,7 +163,7 @@ const miniGameSkillImageList = [
     "file": "043_스킬_80004276[기타]_변경.png",
     "src": "/images/blog/ver-1-2-417/043_%EC%8A%A4%ED%82%AC_80004276%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_80004276[기타]_변경",
-    "name": "미니게임 스킬 (플레임 스윕 / 무아지경 연계)",
+    "name": "미니게임 스킬 (플레임 스윕)",
     "diffs": [
       "재사용 대기시간: 8초 → <strong class='text-cyan-300 font-bold'>6초</strong> (조정)"
     ]
@@ -172,7 +172,7 @@ const miniGameSkillImageList = [
     "file": "044_스킬_80004278[기타]_변경.png",
     "src": "/images/blog/ver-1-2-417/044_%EC%8A%A4%ED%82%AC_80004278%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_80004278[기타]_변경",
-    "name": "미니게임 스킬 (조디악 레이 / 무아지경 연계)",
+    "name": "미니게임 스킬 (조디악 레이)",
     "diffs": [
       "데미지 수치: 1500% → <strong class='text-cyan-300 font-bold'>12000%</strong> (조정)"
     ]
@@ -181,7 +181,7 @@ const miniGameSkillImageList = [
     "file": "045_스킬_80004281[기타]_변경.png",
     "src": "/images/blog/ver-1-2-417/045_%EC%8A%A4%ED%82%AC_80004281%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_80004281[기타]_변경",
-    "name": "미니게임 스킬 (폭풍의 시 / 무아지경 연계)",
+    "name": "미니게임 스킬 (폭풍의 시)",
     "diffs": [
       "스킬 설명 띄어쓰기 수정: 기존 '몰아치 듯' → <strong class='text-cyan-300 font-bold'>'몰아치듯'</strong> 붙여쓰기 보정"
     ]
@@ -190,7 +190,7 @@ const miniGameSkillImageList = [
     "file": "046_스킬_80004282[기타]_변경.png",
     "src": "/images/blog/ver-1-2-417/046_%EC%8A%A4%ED%82%AC_80004282%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_80004282[기타]_변경",
-    "name": "미니게임 스킬 (볼텍스 스피어 / 무아지경 연계)",
+    "name": "미니게임 스킬 (볼텍스 스피어)",
     "diffs": [
       "재사용 대기시간: 8초 → <strong class='text-cyan-300 font-bold'>6초</strong> (조정)"
     ]
@@ -199,7 +199,7 @@ const miniGameSkillImageList = [
     "file": "047_스킬_80004285[기타]_변경.png",
     "src": "/images/blog/ver-1-2-417/047_%EC%8A%A4%ED%82%AC_80004285%5B%EA%B8%B0%ED%83%80%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_80004285[기타]_변경",
-    "name": "미니게임 스킬 (드래곤 버스트 / 무아지경 연계)",
+    "name": "미니게임 스킬 (드래곤 버스트)",
     "diffs": [
       "데미지 수치: 1200% → <strong class='text-cyan-300 font-bold'>10000%</strong> (조정)"
     ]
@@ -344,7 +344,7 @@ export default function TestworldToLiveJul23Page() {
                         [ver 1.2.417] 테섭 → 본섭 변경점 총정리
                     </h1>
                     <p className="text-lg text-slate-300 leading-relaxed">
-                        테스터 서버(테섭) 대비 본 서버(본섭) 상경 과정에서 변경된 총 37개 실질 변경점(직업 스킬 13종, 무아지경/미니게임 스킬 8종, 아이템 7종, 맵 지형 9종)을 1:1 대조하여 분석합니다.
+                        테스터 서버(테섭) 대비 본 서버(본섭) 상경 과정에서 변경된 총 37개 실질 변경점(직업 스킬 13종, 미니게임 스킬 8종, 아이템 7종, 맵 지형 9종)을 1:1 대조하여 분석합니다.
                     </p>
                 </header>
 
@@ -402,13 +402,13 @@ export default function TestworldToLiveJul23Page() {
                     </div>
                 </section>
 
-                {/* Section 2: Mini-Game & Muahjigyeong Skill Adjustments */}
+                {/* Section 2: Mini-Game Skill Adjustments */}
                 <section className="mb-16 space-y-10">
                     <div className="border-b border-slate-800 pb-4 flex items-center gap-3">
                         <Gamepad2 className="w-8 h-8 text-cyan-400" />
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-bold text-white">2. 무아지경 & 미니게임 스킬 조정 ({miniGameSkillImageList.length}개)</h2>
-                            <p className="text-sm text-slate-400">울티마 스쿼드 및 무아지경 이벤트 스킬 8종 전체 수치/쿨타임 대조 (디바이드, 데몬베인, 체라, 플스, 조디악, 폭시, 볼텍스, 드버)</p>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-white">2. 미니게임 스킬 조정 ({miniGameSkillImageList.length}개)</h2>
+                            <p className="text-sm text-slate-400">울티마 스쿼드 및 이벤트 미니게임 스킬 8종 전체 수치/쿨타임 대조 (디바이드, 데몬베인, 체라, 플스, 조디악, 폭시, 볼텍스, 드버)</p>
                         </div>
                     </div>
 
@@ -440,7 +440,7 @@ export default function TestworldToLiveJul23Page() {
                                 {/* Detailed Diff Analysis Box */}
                                 <div className="bg-slate-950/80 rounded-xl border border-cyan-500/30 p-4 sm:p-5">
                                     <h4 className="text-sm font-bold text-cyan-400 flex items-center gap-2 mb-3">
-                                        <CheckCircle2 className="w-4 h-4 text-cyan-400" /> 🔍 스킬 1:1 대조 결과
+                                        <CheckCircle2 className="w-4 h-4 text-cyan-400" /> 🔍 미니게임 스킬 1:1 대조 결과
                                     </h4>
                                     <ul className="space-y-2 text-sm text-slate-200">
                                         {img.diffs.map((diffItem, dIdx) => (
