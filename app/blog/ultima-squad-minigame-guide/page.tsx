@@ -1044,6 +1044,42 @@ export default function UltimaSquadMinigamePage() {
                                         </tbody>
                                     </table>
                                 </div>
+
+                                {/* 3지역 골드 정보 */}
+                                <h4 className="font-bold text-yellow-400 mt-6 mb-2 text-sm flex items-center gap-1">
+                                    <span>🪙</span>
+                                    <span>3지역 몬스터 처치 골드 정보 (실측)</span>
+                                </h4>
+                                <div className="overflow-x-auto -mx-1">
+                                    <table className="w-full text-left border-collapse min-w-[300px] text-[11px] sm:text-sm">
+                                        <thead>
+                                            <tr className="bg-yellow-950/20 text-yellow-200 text-center">
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap text-left">스테이지</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">기본</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+5%</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+10%</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+20%</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-semibold whitespace-nowrap">+25%</th>
+                                                <th className="p-1.5 sm:p-3 border border-yellow-800/20 font-bold whitespace-nowrap text-yellow-300 bg-yellow-900/40">+30% (최대)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-slate-300 divide-y divide-slate-800/50">
+                                            {[
+                                                { stage: '3-1', base: '728G', p5: '764G', p10: '801G', p20: '874G', p25: '910G', p30: '946G' },
+                                            ].map((row, idx) => (
+                                                <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-100 text-center">{row.base}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p5}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p10}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-slate-300 text-center">{row.p20}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-semibold text-yellow-400 font-bold text-center bg-yellow-950/20">{row.p25}</td>
+                                                    <td className="p-1.5 sm:p-3 border border-slate-700 font-bold text-yellow-300 text-center bg-yellow-950/30">{row.p30}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
 
                             {/* 에스페시아 상자 */}
