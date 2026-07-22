@@ -110,6 +110,26 @@ const jobSkillImageList = [
     ]
   },
   {
+    "file": "029_스킬_23141506[메르세데스(6차)]_변경.png",
+    "src": "/images/blog/ver-1-2-417/029_%EC%8A%A4%ED%82%AC_23141506%5B%EB%A9%94%EB%A5%B4%EC%84%B8%EB%8D%B0%EC%8A%A4(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
+    "title": "스킬_23141506[메르세데스(6차)]_변경",
+    "name": "메르세데스 6차 (베리안 서지)",
+    "diffs": [
+      "데미지 수치: 730% → <strong class='text-amber-300 font-bold'>830%</strong> (조정)"
+    ]
+  },
+  {
+    "file": "030_스킬_23141507[메르세데스(6차)]_변경.png",
+    "src": "/images/blog/ver-1-2-417/030_%EC%8A%A4%ED%82%AC_23141507%5B%EB%A9%94%EB%A5%B4%EC%84%B8%EB%8D%B0%EC%8A%A4(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
+    "title": "스킬_23141507[메르세데스(6차)]_변경",
+    "name": "메르세데스 6차 (베리안 서지 : 글로리)",
+    "diffs": [
+      "1타 데미지: 818% → <strong class='text-amber-300 font-bold'>790%</strong> (조정)",
+      "2타 데미지: 1440% → <strong class='text-amber-300 font-bold'>1450%</strong> (조정)",
+      "3타 데미지: 680% → <strong class='text-amber-300 font-bold'>667%</strong> (조정)"
+    ]
+  },
+  {
     "file": "037_스킬_65141506[엔젤릭버스터(6차)]_변경.png",
     "src": "/images/blog/ver-1-2-417/037_%EC%8A%A4%ED%82%AC_65141506%5B%EC%97%94%EC%A0%A4%EB%A6%AD%EB%B2%84%EC%8A%A4%ED%84%B0(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
     "title": "스킬_65141506[엔젤릭버스터(6차)]_변경",
@@ -373,7 +393,7 @@ export default function TestworldToLiveJul23Page() {
                         [ver 1.2.417] 테섭 → 본섭 변경점 총정리
                     </h1>
                     <p className="text-lg text-slate-300 leading-relaxed">
-                        테스터 서버(테섭) 대비 본 서버(본섭) 상경 과정에서 변경된 총 40개 실질 변경점(직업 스킬 16종, 미니게임 스킬 8종, 아이템 7종, 맵 지형 9종)을 1:1 대조하여 분석합니다.
+                        테스터 서버(테섭) 대비 본 서버(본섭) 상경 과정에서 변경된 총 42개 실질 변경점(직업 스킬 18종, 미니게임 스킬 8종, 아이템 7종, 맵 지형 9종)을 1:1 대조하여 분석합니다.
                     </p>
                 </header>
 
@@ -383,7 +403,7 @@ export default function TestworldToLiveJul23Page() {
                         <Swords className="w-8 h-8 text-amber-400" />
                         <div>
                             <h2 className="text-2xl sm:text-3xl font-bold text-white">1. 직업별 스킬 변경 사항 ({jobSkillImageList.length}개)</h2>
-                            <p className="text-sm text-slate-400">다크나이트, 불독, 비숍, 패스파인더, 섀도어(무아지경), 메르세데스, 제로, 아델, 렌 등 직업 스킬 1:1 대조</p>
+                            <p className="text-sm text-slate-400">다크나이트, 불독, 비숍, 패스파인더, 섀도어, 메르세데스, 제로, 아델, 렌 등 직업 스킬 1:1 대조</p>
                         </div>
                     </div>
 
