@@ -52,7 +52,7 @@ export default function UltimaSquadStrategyGuidePage() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 text-xs sm:text-sm">
+                        <div className="grid grid-cols-1 gap-3.5 text-xs sm:text-sm">
                             <div className="bg-slate-950/70 border border-emerald-500/40 rounded-xl p-3.5">
                                 <p className="font-bold text-emerald-300 text-sm mb-1.5 flex items-center gap-1.5">
                                     <span>🏹</span> <span>용병 영입 비용 80~50% 폭풍 인하</span>
