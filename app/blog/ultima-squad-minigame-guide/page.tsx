@@ -90,7 +90,7 @@ export default function UltimaSquadMinigamePage() {
             color: 'emerald',
             items: [
                 { effect: '+5%', price: '300,000' },
-                { effect: '+10%', price: '600,000' },
+                { effect: '+10%', price: '500,000' },
                 { effect: '+15%', price: '1,000,000' },
                 { effect: '+20%', price: '1,500,000' },
                 { effect: '+25%', price: '10,000,000' },
@@ -103,7 +103,7 @@ export default function UltimaSquadMinigamePage() {
             color: 'yellow',
             items: [
                 { effect: '+5%', price: '300,000' },
-                { effect: '+10%', price: '600,000' },
+                { effect: '+10%', price: '500,000' },
                 { effect: '+15%', price: '1,000,000' },
                 { effect: '+20%', price: '1,500,000' },
                 { effect: '+25%', price: '10,000,000' },
@@ -215,26 +215,6 @@ export default function UltimaSquadMinigamePage() {
                                 <ul className="space-y-1 text-slate-300">
                                     <li>• 궁수 영입: <span className="line-through text-slate-500">50만G</span> ➔ <strong className="text-emerald-300 font-bold">10만 (100,000) G</strong> (80% 인하)</li>
                                     <li>• 마법사 영입: <span className="line-through text-slate-500">400만G</span> ➔ <strong className="text-purple-300 font-bold">200만 (2,000,000) G</strong> (50% 인하)</li>
-                                </ul>
-                            </div>
-
-                            <div className="bg-slate-950/70 border border-indigo-500/40 rounded-xl p-3.5">
-                                <p className="font-bold text-indigo-300 text-sm mb-1.5 flex items-center gap-1.5">
-                                    <span>⚔️</span> <span>스킬 슬롯 확장 비용 파격 할인</span>
-                                </p>
-                                <ul className="space-y-1 text-slate-300">
-                                    <li>• 2슬롯 확장: <span className="line-through text-slate-500">150만G</span> ➔ <strong className="text-indigo-300 font-bold">25만 (250,000) G</strong> (83% 인하)</li>
-                                    <li>• 3슬롯 확장: <span className="line-through text-slate-500">700만G</span> ➔ <strong className="text-indigo-300 font-bold">300만 (3,000,000) G</strong> (57% 인하)</li>
-                                </ul>
-                            </div>
-
-                            <div className="bg-slate-950/70 border border-yellow-500/40 rounded-xl p-3.5">
-                                <p className="font-bold text-yellow-300 text-sm mb-1.5 flex items-center gap-1.5">
-                                     <span>💰</span> <span>오프라인 누적 시간 강화 비용 대폭 완화</span>
-                                </p>
-                                <ul className="space-y-1 text-slate-300">
-                                    <li>• 오프라인 24시간 풀확장 누적: <span className="line-through text-slate-500">1,350만G</span> ➔ <strong className="text-yellow-300 font-bold">650만G</strong> (50% 인하)</li>
-                                    <li>• 장비 드롭률 / 골드 획득량 강화 비용: 테스트월드 수치와 동일 적용</li>
                                 </ul>
                             </div>
 
