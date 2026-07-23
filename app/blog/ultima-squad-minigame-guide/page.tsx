@@ -218,6 +218,17 @@ export default function UltimaSquadMinigamePage() {
                                 </ul>
                             </div>
 
+                            <div className="bg-slate-950/70 border border-yellow-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-yellow-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>💰</span> <span>스킬 & 인벤토리 슬롯 확장 비용 대폭 완화</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 스킬 슬롯 2칸: <span className="line-through text-slate-500">150만G</span> ➔ <strong className="text-yellow-300 font-bold">25만 (250,000) G</strong> (83% 인하!)</li>
+                                    <li>• 스킬 슬롯 3칸: <span className="line-through text-slate-500">700만G</span> ➔ <strong className="text-yellow-300 font-bold">300만 (3,000,000) G</strong> (57% 인하)</li>
+                                    <li>• 초반 인벤토리(11~29칸): <span className="line-through text-slate-500">3만G</span> ➔ <strong className="text-yellow-300 font-bold">1만 (10,000) G</strong></li>
+                                </ul>
+                            </div>
+
                             <div className="bg-slate-950/70 border border-red-500/40 rounded-xl p-3.5">
                                 <p className="font-bold text-red-300 text-sm mb-1.5 flex items-center gap-1.5">
                                     <span>🔮</span> <span>스킬 습득 레벨 상향 조정 (버프)</span>
@@ -244,10 +255,10 @@ export default function UltimaSquadMinigamePage() {
                                 <p className="font-bold text-purple-300 text-sm mb-1.5 flex items-center gap-1.5">
                                     <span>⚙️</span> <span>오프라인 정산 & 카오스 모드 세부 규칙</span>
                                 </p>
-                                <ul className="space-y-1 text-slate-300">
-                                    <li>• 미 접속 중에도 오프라인 EXP/골드 자동 적립 (장비/큐브/코인 제외)</li>
-                                    <li>• 오프라인 보상 기준: 미클리어/보스전 진입 시 직전 클리어 스테이지 기준 지급</li>
-                                    <li>• 카오스 모드: 골드 미지급 ➔ 작은 카오스 코인 획득 (코인샵 이관 또는 교환권 선택 가능)</li>
+                                <ul className="space-y-1.5 text-slate-300">
+                                    <li>• <strong className="text-white">게임을 꺼도 쑥쑥!</strong> 단, 접속 종료 상태에서는 <strong className="text-yellow-300">경험치와 골드</strong>만 쌓입니다. (장비, 큐브, 코인은 접속 중에만 드롭)</li>
+                                    <li>• <strong className="text-white">오프라인 보상 기준:</strong> 현재 멈춰있는 스테이지가 아닌 <strong className="text-orange-300">'직전에 클리어 완료한'</strong> 스테이지의 보상 기준으로 쌓입니다.</li>
+                                    <li>• <strong className="text-white">카오스 모드:</strong> 몬스터가 <strong className="text-red-400">골드를 떨어뜨리지 않습니다!</strong> 대신 <strong className="text-purple-300">'작은 카오스 코인'</strong>이 드롭되며, 이 코인은 전용 코인샵에서 바로 사용할 수 있는 <strong className="text-amber-300">'카오스 스쿼드 코인'으로 전환</strong>하거나, 다른 캐릭터에게 <strong className="text-sky-300">교환권 형태</strong>로 넘겨줄 수 있습니다.</li>
                                 </ul>
                             </div>
                         </div>
@@ -460,7 +471,7 @@ export default function UltimaSquadMinigamePage() {
                                 <li>재사용 대기시간이 끝난 스킬이 여러 개이면 <strong>슬롯 순서대로</strong> 사용</li>
                                 <li>모든 스킬이 쿨타임 중이면 <strong>기본 공격 스킬</strong>로 자동 전환</li>
                                 <li>궁수 한정: 모든 스킬 쿨타임 중 폭풍의 시 장착 시 <strong>폭풍의 시</strong>로 대체 사용</li>
-                                <li>스킬 해제 시 <strong>5초의 재장착 대기시간</strong> 발생</li>
+                                <li>스킬 해제 시 <strong>3초의 재장착 대기시간</strong> 발생</li>
                                 <li>전투 중 새 스킬 장착 시 해당 스킬의 <strong>쿨타임만큼 대기</strong> 후 사용 가능</li>
                             </ul>
                         </div>
@@ -511,7 +522,7 @@ export default function UltimaSquadMinigamePage() {
                                 <li>기본으로 제공되는 인벤토리 <strong className="text-white">10칸</strong> (유틸리티로 최대 256칸까지 확장)</li>
                                 <li>장비 획득 시 기본 옵션 수치가 결정되며, 같은 단계의 장비도 수치 차이 발생</li>
                                 <li>장착한 <strong className="text-white">무기의 외형</strong>만 전투 중 용병에게 반영됨</li>
-                                <li className="text-red-400 font-bold">인벤토리가 가득 차면 전투를 진행해도 장비를 더 이상 획득할 수 없습니다. ⚠️</li>
+                                <li className="text-red-400 font-bold">인벤토리가 가득 차면 전투를 진행해도 장비를 더 이상 획득할 수 없고, 에스페시아 상자 소환 및 보스 스테이지 진입이 불가능합니다. ⚠️</li>
                             </ul>
                         </div>
 
@@ -629,7 +640,7 @@ export default function UltimaSquadMinigamePage() {
                                 <div className="bg-violet-900/40 px-4 py-2 flex items-center gap-2 border-b border-violet-700/40">
                                     <span className="text-violet-300 font-bold text-sm">2단계</span>
                                     <span className="text-xs text-violet-400/70">Stage 2</span>
-                                    <span className="ml-auto text-xs px-2.5 py-0.5 bg-violet-950/60 text-violet-300 rounded-full border border-violet-700/50 font-semibold">제한 레벨: Lv. 8 이상</span>
+                                    <span className="ml-auto text-xs px-2.5 py-0.5 bg-violet-950/60 text-violet-300 rounded-full border border-violet-700/50 font-semibold">제한 레벨: Lv. 6 이상</span>
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-700/50">
                                     {/* 무기 */}
@@ -752,7 +763,7 @@ export default function UltimaSquadMinigamePage() {
                                     <tbody className="text-white">
                                         {[
                                             { stage: '1단계', lv: '제한 없음', atk: '+9', armor: '최대 HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '660 G' },
-                                            { stage: '2단계', lv: 'Lv. 8 이상', atk: '+14', armor: '최대 HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4', price: '1,400 G' },
+                                            { stage: '2단계', lv: 'Lv. 6 이상', atk: '+14', armor: '최대 HP +74 / 방어력 +10', pot: '무기 공/마 +5 / 방어구 HP +12, 방어력 +4', price: '1,400 G' },
                                             { stage: '3단계', lv: 'Lv. 15 이상', atk: '+20', armor: '최대 HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '2,970 G' },
                                             { stage: '4단계 ⭐', lv: 'Lv. 22 이상', atk: '+25', armor: '최대 HP +158 / 방어력 +20', pot: '무기 공/마 +4 / 방어구 HP +34, 방어력 +4', price: '6,300 G' },
                                             { stage: '5단계 ⭐', lv: 'Lv. 28 이상', atk: '+32', armor: '최대 HP +231 / 방어력 +25', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4', price: '13,370 G' },
@@ -793,7 +804,7 @@ export default function UltimaSquadMinigamePage() {
                                         <tbody className="text-white">
                                             {[
                                                 { stage: '1단계', potential: '-', optionCount: '-', levelLimit: '제한 없음' },
-                                                { stage: '2단계', potential: '레어', optionCount: '1종', levelLimit: 'Lv. 8 이상' },
+                                                { stage: '2단계', potential: '레어', optionCount: '1종', levelLimit: 'Lv. 6 이상' },
                                                 { stage: '3단계', potential: '레어', optionCount: '2종', levelLimit: 'Lv. 15 이상' },
                                                 { stage: '4단계', potential: '에픽', optionCount: '2종', levelLimit: 'Lv. 22 이상' },
                                                 { stage: '5단계', potential: '에픽', optionCount: '2종', levelLimit: 'Lv. 28 이상' },
@@ -841,7 +852,7 @@ export default function UltimaSquadMinigamePage() {
                                         </thead>
                                         <tbody className="text-white">
                                             {[
-                                                { stage: '2단계 (레어)', atk: '+4', def: '+10', hp: '+75', crit: '+3%' },
+                                                { stage: '2단계 (레어)', atk: '+4 ~ +5', def: '+10', hp: '+75', crit: '+3%' },
                                                 { stage: '3단계 (레어)', atk: '+5', def: '+10', hp: '+75', crit: '+3%' },
                                                 { stage: '4단계 (에픽)', atk: '+9 / +2%', def: '+20', hp: '+170', crit: '+3%' },
                                                 { stage: '5단계 (에픽 추정)', atk: '+9 / +2%', def: '+20', hp: '+170', crit: '+3%' },
@@ -878,6 +889,7 @@ export default function UltimaSquadMinigamePage() {
                             <h3 className="font-bold text-purple-300 mb-3 text-base flex items-center gap-1.5">🎲 잠재능력 재설정 (훈련용 큐브)</h3>
                             <ul className="space-y-2 text-slate-200 text-sm list-disc list-inside mb-4 leading-relaxed">
                                 <li>훈련용 큐브를 사용하여 울티마 장비 잠재능력 재설정 가능</li>
+                                <li>잠재능력 재설정 탭에서 <strong>개당 20,000 골드</strong>를 사용하여 훈련용 큐브 구매 가능</li>
                                 <li className="text-sm font-bold text-amber-300 mt-2 mb-2 bg-amber-950/40 p-2 rounded border border-amber-500/20 list-none -ml-4 flex items-center gap-1.5 shadow-sm">
                                     <span>🚨</span>
                                     <span>훈련용 큐브는 <strong className="text-white underline underline-offset-4 decoration-amber-500">접속 상태에서만</strong> 획득 가능합니다 (전투 중 드롭).</span>
@@ -1423,13 +1435,13 @@ export default function UltimaSquadMinigamePage() {
 
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                 {[
-                                    { range: '11~29칸', price: '30,000' },
-                                    { range: '30~49칸', price: '50,000' },
-                                    { range: '50~69칸', price: '80,000' },
-                                    { range: '70~99칸', price: '150,000' },
+                                    { range: '11~29칸', price: '10,000' },
+                                    { range: '30~49칸', price: '60,000' },
+                                    { range: '50~69칸', price: '150,000' },
+                                    { range: '70~99칸', price: '200,000' },
                                     { range: '100~129칸', price: '300,000' },
-                                    { range: '130~169칸', price: '500,000' },
-                                    { range: '170~209칸', price: '1,000,000' },
+                                    { range: '130~169칸', price: '400,000' },
+                                    { range: '170~209칸', price: '500,000' },
                                     { range: '210~256칸', price: '1,500,000' },
                                 ].map((inv) => (
                                     <div key={inv.range} className="bg-slate-900/40 border border-slate-700/30 rounded-xl px-3 py-3 text-center">
@@ -1735,7 +1747,7 @@ export default function UltimaSquadMinigamePage() {
                                             src="/images/ultima-squad-offline-8.png" 
                                             alt="오프라인 보상 결과 8" 
                                             width={400}
-                                            height={300}
+height={300}
                                             style={{ width: '100%', height: 'auto' }}
                                         />
                                     </div>
@@ -1807,13 +1819,12 @@ export default function UltimaSquadMinigamePage() {
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">마법사 경험치</span>
                                             <span className="text-purple-300 font-bold">Lv.18 ➔ Lv.19 (+68%) <span className="text-slate-200 text-xs font-semibold">(1레벨업 + 시간당 ~73.6%)</span></span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             {/* 효율 분석 결론 */}
-                            <div className="bg-indigo-950/20 border border-indigo-700/30 rounded-lg p-3 sm:p-4">
+                            <div className="bg-indigo-950/20 border border-indigo-700/30 rounded-lg p-3 sm:p-4 mt-6">
                                 <p className="text-indigo-300 text-sm font-bold flex items-center gap-1.5 mb-2">
                                     <span>💡</span>
                                     <span>오프라인 효율 핵심 분석 요약</span>
@@ -1826,25 +1837,25 @@ export default function UltimaSquadMinigamePage() {
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                {/* 7. 실전 공략 가이드 */}
-                <section id="strategy" className="mb-14 scroll-mt-24 bg-slate-900/20 border border-slate-800/60 rounded-2xl p-4 sm:p-8 backdrop-blur-sm shadow-lg">
-                    <div className="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4">
-                        <Trophy className="w-6 h-6 text-green-400" />
-                        <h2 className="text-xl sm:text-2xl font-bold text-slate-100">7. 실전 공략 가이드 (초반 성장)</h2>
-                    </div>
-                    <div className="space-y-6 text-sm sm:text-base text-slate-200 leading-relaxed break-keep">
-
-                        {/* 출처 안내 */}
-                        <div className="bg-green-950/20 border border-green-700/30 rounded-xl p-3">
-                            <p className="text-green-300 text-sm font-bold flex items-center gap-1.5 mb-1">
-                                <span>📝</span>
-                                <span>플레이어 직접 실측 데이터 기반 공략</span>
-                            </p>
-                            <p className="text-slate-400 text-xs leading-relaxed">아래 공략은 전사 용병을 기준으로 직접 플레이하며 테스트한 실측 데이터입니다. 장비 강화 수치, 잠재능력 세팅에 따라 결과가 다를 수 있습니다.</p>
+                    {/* 7. 실전 공략 가이드 */}
+                    <section id="strategy" className="mb-14 scroll-mt-24 bg-slate-900/20 border border-slate-800/60 rounded-2xl p-4 sm:p-8 backdrop-blur-sm shadow-lg">
+                        <div className="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4">
+                            <Trophy className="w-6 h-6 text-green-400" />
+                            <h2 className="text-xl sm:text-2xl font-bold text-slate-100">7. 실전 공략 가이드 (초반 성장)</h2>
                         </div>
+                        <div className="space-y-6 text-sm sm:text-base text-slate-200 leading-relaxed break-keep">
 
+                            {/* 출처 안내 */}
+                            <div className="bg-green-950/20 border border-green-700/30 rounded-xl p-3">
+                                <p className="text-green-300 text-sm font-bold flex items-center gap-1.5 mb-1">
+                                    <span>📝</span>
+                                    <span>플레이어 직접 실측 데이터 기반 공략</span>
+                                </p>
+                                <p className="text-slate-400 text-xs leading-relaxed">아래 공략은 전사 용병을 기준으로 직접 플레이하며 테스트한 실측 데이터입니다. 장비 강화 수치, 잠재능력 세팅에 따라 결과가 다를 수 있습니다.</p>
+                            </div>
                         {/* 레벨별 스테이지 공략 */}
                         <div>
                             <h3 className="font-bold text-green-300 mb-3 text-base flex items-center gap-1.5">
@@ -1865,11 +1876,13 @@ export default function UltimaSquadMinigamePage() {
                                         {[
                                             { lv: 'LV 3 전사', gear: '1단계 (기본템)', clear: '1-2', note: '1-3 불가' },
                                             { lv: 'LV 4 전사', gear: '1단계 (추옵 최고)', clear: '1-2', note: '1-3 불가' },
-                                            { lv: 'LV 5 전사', gear: '1단계 (추옵 최고)', clear: '1-3 ~ 1-4', note: '1-5 이상 불가' },
+                                            { lv: 'LV 5 전사', gear: '1단계 (추옵 최고)', clear: '1-3', note: '1-4 불가' },
+                                            { lv: 'LV 6 전사', gear: '1단계 (추옵 최고)', clear: '1-4', note: '1-5 이상 불가' },
                                             { lv: 'LV 7 전사', gear: '1단계 (추옵 최고)', clear: '1-5', note: '1-6 이상 불가' },
                                             { lv: 'LV 8 전사', gear: '2단계', clear: '1-5', note: '1-6 불가' },
-                                            { lv: 'LV 9 전사', gear: '2단계 (공격력 잠재)', clear: '1-5', note: '1-6 실패' },
-                                            { lv: 'LV 9 전사', gear: '2단계 (방어력 잠재)', clear: '1-6', note: '간신히 성공 (반복 필요)' },
+                                            { lv: 'LV 9 전사', gear: '2단계 (방어력 잠재)', clear: '❌ 1-6 테섭은 성공', note: '테섭 때는 반복 후 간신히 성공! 본섭에서는 오류인지 안되는 것을 확인', failRed: true },
+                                            { lv: 'LV 9 전사(본섭)', gear: '2단계 (공격력 잠재)', clear: '✅ 1-6 클리어!', note: '본섭에서는 공격력 잠재능력으로 클리어되는 것 확인' },
+                                            { lv: 'LV 10 전사 (본섭)', gear: '1단계 3개 + 2단계 신발', clear: '✅ 1-6 클리어!', note: '🔥 본섭 실측: 간신히 성공 (반복 시 클리어)' },
                                             { lv: 'LV 9 전사 + 궁수', gear: '2단계 + 궁수', clear: '1-6', note: '1-7 실패' },
                                             { lv: 'LV 10 전사 + LV 6 궁수', gear: '전사 2단계 (방어스킬) / 궁수 1단계 (최고추옵)', clear: '1-7', note: '아슬하게 성공' },
                                             { lv: 'LV 11 전사 + LV 9 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-7', note: '1-8 실패' },
@@ -2037,6 +2050,8 @@ export default function UltimaSquadMinigamePage() {
                                             { cond: 'LV3 / 1-3 수동', start: '87%', after: '97%', gain: '+10%', mode: '수동 (1-3 재도전)', highlight: true },
                                             { cond: 'LV5 / 1-4 반복', start: '20%', after: '26%', gain: '+6%', mode: '자동 반복' },
                                             { cond: 'LV5 / 1-5 수동', start: '27%', after: '33%', gain: '+6%', mode: '수동' },
+                                            { cond: 'LV6 / 1-3 반복', start: '52%', after: '60%', gain: '+8%', mode: '자동 반복', highlight: true },
+                                            { cond: 'LV7 / 1-3 반복', start: '4%', after: '10%', gain: '+6%', mode: '자동 반복' },
                                             { cond: 'LV7 / 1-5 반복', start: '49%', after: '53%', gain: '+4%', mode: '자동 반복' },
                                             { cond: 'LV7 / 1-6 수동', start: '54%', after: '57%', gain: '+3%', mode: '수동' },
                                             { cond: 'LV10 전사 + LV6 궁수 / 1-7 반복', start: '전사 34% / 궁수 92%', after: '전사 38% / 궁수 99%', gain: '전사 +4% / 궁수 +7%', mode: '자동 반복' },

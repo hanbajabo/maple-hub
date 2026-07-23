@@ -63,6 +63,17 @@ export default function UltimaSquadStrategyGuidePage() {
                                 </ul>
                             </div>
 
+                            <div className="bg-slate-950/70 border border-yellow-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-yellow-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>💰</span> <span>스킬 & 인벤토리 슬롯 확장 비용 대폭 완화</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 스킬 슬롯 2칸: <span className="line-through text-slate-500">150만G</span> ➔ <strong className="text-yellow-300 font-bold">25만 (250,000) G</strong> (83% 인하!)</li>
+                                    <li>• 스킬 슬롯 3칸: <span className="line-through text-slate-500">700만G</span> ➔ <strong className="text-yellow-300 font-bold">300만 (3,000,000) G</strong> (57% 인하)</li>
+                                    <li>• 초반 인벤토리(11~29칸): <span className="line-through text-slate-500">3만G</span> ➔ <strong className="text-yellow-300 font-bold">1만 (10,000) G</strong></li>
+                                </ul>
+                            </div>
+
                             <div className="bg-slate-950/70 border border-red-500/40 rounded-xl p-3.5">
                                 <p className="font-bold text-red-300 text-sm mb-1.5 flex items-center gap-1.5">
                                     <span>🔮</span> <span>스킬 습득 레벨 상향 조정 (버프)</span>
@@ -89,10 +100,10 @@ export default function UltimaSquadStrategyGuidePage() {
                                 <p className="font-bold text-purple-300 text-sm mb-1.5 flex items-center gap-1.5">
                                     <span>⚙️</span> <span>오프라인 정산 & 카오스 모드 세부 규칙</span>
                                 </p>
-                                <ul className="space-y-1 text-slate-300">
-                                    <li>• 미 접속 중에도 오프라인 EXP/골드 자동 적립 (장비/큐브/코인 제외)</li>
-                                    <li>• 오프라인 보상 기준: 미클리어/보스전 진입 시 직전 클리어 스테이지 기준 지급</li>
-                                    <li>• 카오스 모드: 골드 미지급 ➔ 작은 카오스 코인 획득 (코인샵 이관 또는 교환권 선택 가능)</li>
+                                <ul className="space-y-1.5 text-slate-300">
+                                    <li>• <strong className="text-white">게임을 꺼도 쑥쑥!</strong> 단, 접속 종료 상태에서는 <strong className="text-yellow-300">경험치와 골드</strong>만 쌓입니다. (장비, 큐브, 코인은 접속 중에만 드롭)</li>
+                                    <li>• <strong className="text-white">오프라인 보상 기준:</strong> 현재 멈춰있는 스테이지가 아닌 <strong className="text-orange-300">'직전에 클리어 완료한'</strong> 스테이지의 보상 기준으로 쌓입니다.</li>
+                                    <li>• <strong className="text-white">카오스 모드:</strong> 몬스터가 <strong className="text-red-400">골드를 떨어뜨리지 않습니다!</strong> 대신 <strong className="text-purple-300">'작은 카오스 코인'</strong>이 드롭되며, 이 코인은 전용 코인샵에서 바로 사용할 수 있는 <strong className="text-amber-300">'카오스 스쿼드 코인'으로 전환</strong>하거나, 다른 캐릭터에게 <strong className="text-sky-300">교환권 형태</strong>로 넘겨줄 수 있습니다.</li>
                                 </ul>
                             </div>
                         </div>
@@ -155,7 +166,7 @@ export default function UltimaSquadStrategyGuidePage() {
                                 title: '궁수 영입 — 1-6 클리어 후 10만 골드 필요 (비용 완화)',
                                 items: [
                                     '1-6 스테이지 클리어 후 궁수 영입 가능 (비용: 10만 골드 - 기존 50만에서 완화)',
-                                    'LV.8 달성 시 2단계 장비(레어) 착용 가능',
+                                    'LV.6 달성 시 2단계 장비(레어) 착용 가능',
                                     '궁수 LV.2 달성 시 「차지드 애로우」 (공격 스킬) 즉시 장착',
                                     '영입 직후 1-7 ~ 2-2 반복으로 빠른 레벨업 진행',
                                 ]
@@ -288,7 +299,7 @@ export default function UltimaSquadStrategyGuidePage() {
                             <tbody className="text-white">
                                 {[
                                     { stage: '1단계', lv: '제한 없음', atk: '+9', armor: 'HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '660 G', highlight: false },
-                                    { stage: '2단계', lv: 'LV.8 이상', atk: '+14', armor: 'HP +74 / 방어력 +10', pot: '무기 공/마 +4 / 방어구 HP +12, 방어력 +4', price: '1,400 G', highlight: false },
+                                    { stage: '2단계', lv: 'LV.6 이상', atk: '+14', armor: 'HP +74 / 방어력 +10', pot: '무기 공/마 +5 / 방어구 HP +12, 방어력 +4', price: '1,400 G', highlight: false },
                                     { stage: '3단계', lv: 'LV.15 이상', atk: '+20', armor: 'HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '2,970 G', highlight: false },
                                     { stage: '4단계 ⭐', lv: 'LV.22 이상', atk: '+25', armor: 'HP +158 / 방어력 +20', pot: '무기 공/마 +4 / 방어구 HP +34, 방어력 +4 확인', price: '6,300 G', highlight: true },
                                     { stage: '5단계 ⭐', lv: 'LV.28 이상', atk: '+32', armor: 'HP +231 / 방어력 +25', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4 확인', price: '13,370 G', highlight: true },
@@ -692,7 +703,7 @@ export default function UltimaSquadStrategyGuidePage() {
                                 color: 'border-amber-500/40 bg-amber-950/20',
                                 titleColor: 'text-amber-300',
                                 points: [
-                                    'LV.8 달성 시 2단계 장비(레어), LV.15 달성 시 3단계 장비(레어) 착용',
+                                    'LV.6 달성 시 2단계 장비(레어), LV.15 달성 시 3단계 장비(레어) 착용',
                                     'LV.22 달성 전에 4단계 장비(에픽) 미리 준비해두기 (큐브 굴리기)',
                                     '전사: 방어구 추옵 「방어력 +20」 × 2개가 생존에 핵심',
                                     '궁수: 무기 추옵 「공격력 +9」가 DPS에 가장 중요',
@@ -741,7 +752,7 @@ export default function UltimaSquadStrategyGuidePage() {
                                 color: 'border-orange-500/40 bg-orange-950/20',
                                 titleColor: 'text-orange-300',
                                 points: [
-                                    '① 전사 1-6 클리어 ➔ 궁수 영입(10만G) ➔ LV.8에서 2단계 장비 세팅',
+                                    '① 전사 1-6 클리어 ➔ 궁수 영입(10만G) ➔ LV.6에서 2단계 장비 세팅',
                                     '② 2인 스쿼드로 2-4~2-5 클리어 ➔ LV.22에서 4단계 장비 착용',
                                     '③ 2-6 클리어 ➔ 마법사 영입(200만G) ➔ 마법사 빠른 성장',
                                     '④ 마법사 LV.15+3단계풀셋 달성 ➔ 2-7 클리어 (안정 파밍 구간 진입)',
