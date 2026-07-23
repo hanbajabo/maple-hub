@@ -579,6 +579,79 @@ export default function TestworldToLiveJul23Page() {
                     </div>
                 </section>
 
+                {/* Section 5: 2026 상반기 BEST 프리미엄 뷰티 (헤어 & 성형 쿠폰) */}
+                <section className="mb-16 space-y-8">
+                    <div className="border-b border-slate-800 pb-4 flex items-center gap-3">
+                        <Sparkles className="w-8 h-8 text-pink-400" />
+                        <div>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-white">5. 상반기 BEST 프리미엄 헤어 & 성형 쿠폰</h2>
+                            <p className="text-sm text-slate-400">2026년 7월 23일 캐시아이템 신규 업데이트 정보</p>
+                        </div>
+                    </div>
+
+                    {/* Info Card */}
+                    <div className="bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-slate-900 border border-pink-500/30 rounded-2xl p-6 shadow-xl space-y-4">
+                        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                            <div>
+                                <span className="text-xs font-bold text-pink-400 px-3 py-1 bg-pink-500/10 rounded-full border border-pink-500/30">
+                                    캐시 아이템 판매 정보
+                                </span>
+                                <h3 className="text-xl font-bold text-white mt-2">2026 상반기 BEST 프리미엄 뷰티</h3>
+                            </div>
+                            <div className="flex flex-wrap gap-3">
+                                <span className="px-3 py-1.5 bg-slate-800 rounded-lg text-xs font-bold text-amber-300 border border-amber-500/20">
+                                    💇‍♂️ 헤어 쿠폰: 5,500 캐시
+                                </span>
+                                <span className="px-3 py-1.5 bg-slate-800 rounded-lg text-xs font-bold text-pink-300 border border-pink-500/20">
+                                    💄 성형 쿠폰: 3,500 캐시
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-sm text-slate-300">
+                            <Calendar className="w-4 h-4 text-pink-400" />
+                            <span><strong>판매 기간:</strong> <strong className="text-amber-300">2026년 07월 23일 10시 00분 ~ 2026년 08월 19일 23시 59분</strong></span>
+                        </div>
+                    </div>
+
+                    {/* Images Container */}
+                    <div className="space-y-6">
+                        <div className="bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden p-4 shadow-xl flex justify-center">
+                            <img src="/images/blog/beauty-2026-first-half/beauty_header.png" alt="2026년 상반기 BEST 프리미엄 뷰티" className="w-full max-w-4xl h-auto rounded-xl" />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3">
+                                <h4 className="text-lg font-bold text-amber-300 flex items-center gap-2">
+                                    <span>👦 남자 헤어 (1위 ~ 10위)</span>
+                                </h4>
+                                <img src="/images/blog/beauty-2026-first-half/male_hair.png" alt="남자 헤어 순위" className="w-full h-auto rounded-xl border border-slate-800" />
+                            </div>
+                            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3">
+                                <h4 className="text-lg font-bold text-pink-300 flex items-center gap-2">
+                                    <span>👧 여자 헤어 (1위 ~ 10위)</span>
+                                </h4>
+                                <img src="/images/blog/beauty-2026-first-half/female_hair.png" alt="여자 헤어 순위" className="w-full h-auto rounded-xl border border-slate-800" />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3">
+                                <h4 className="text-lg font-bold text-amber-300 flex items-center gap-2">
+                                    <span>👦 남자 성형 (1위 ~ 10위)</span>
+                                </h4>
+                                <img src="/images/blog/beauty-2026-first-half/male_face.png" alt="남자 성형 순위" className="w-full h-auto rounded-xl border border-slate-800" />
+                            </div>
+                            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3">
+                                <h4 className="text-lg font-bold text-pink-300 flex items-center gap-2">
+                                    <span>👧 여자 성형 (1위 ~ 10위)</span>
+                                </h4>
+                                <img src="/images/blog/beauty-2026-first-half/female_face.png" alt="여자 성형 순위" className="w-full h-auto rounded-xl border border-slate-800" />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* Footer Banner */}
                 <footer className="mt-16 pt-8 border-t border-slate-800 text-center">
                     <p className="text-slate-400 text-sm mb-4">
