@@ -11,6 +11,17 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 7월 23일 전 직업 신규 6차 스킬 정리
+    {
+        slug: 'new-6th-skills-guide-2026',
+        title: '🍁 메이플스토리 전 직업 신규 6차 스킬 (3rd HEXA) 완벽 정리',
+        description: '전 직업 신규 6차 스킬(HEXA 코어 3차) 툴팁 및 스킬 성능 총정리! 히어로, 팔라딘, 불독, 섀도어, 아델, 렌 등 50여 종 직업별 스킬 툴팁 이미지와 쿨타임/데미지 수치를 한눈에 확인해보세요.',
+        category: '업데이트 소식',
+        date: '2026년 7월 23일',
+        readTime: '8분',
+        thumbnail: '🍁',
+        featured: true,
+    },
     // 7월 23일 본섭 변경 사항 총정리
     {
         slug: 'testworld-to-live-jul-23-2026',
