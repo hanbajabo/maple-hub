@@ -764,7 +764,7 @@ export default function UltimaSquadMinigamePage() {
                                         {[
                                             { stage: '1단계', lv: '제한 없음', atk: '+9', armor: '최대 HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '660 G' },
                                             { stage: '2단계', lv: 'Lv. 6 이상', atk: '+14', armor: '최대 HP +74 / 방어력 +10', pot: '무기 공/마 +5 / 방어구 HP +12, 방어력 +4', price: '1,400 G' },
-                                            { stage: '3단계', lv: 'Lv. 15 이상', atk: '+20', armor: '최대 HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '2,970 G' },
+                                            { stage: '3단계', lv: 'Lv. 12 이상', atk: '+20', armor: '최대 HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '2,970 G' },
                                             { stage: '4단계 ⭐', lv: 'Lv. 22 이상', atk: '+25', armor: '최대 HP +158 / 방어력 +20', pot: '무기 공/마 +4 / 방어구 HP +34, 방어력 +4', price: '6,300 G' },
                                             { stage: '5단계 ⭐', lv: 'Lv. 28 이상', atk: '+32', armor: '최대 HP +231 / 방어력 +25', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4', price: '13,370 G' },
                                             { stage: '6단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인', price: '미확인' },
@@ -805,7 +805,7 @@ export default function UltimaSquadMinigamePage() {
                                             {[
                                                 { stage: '1단계', potential: '-', optionCount: '-', levelLimit: '제한 없음' },
                                                 { stage: '2단계', potential: '레어', optionCount: '1종', levelLimit: 'Lv. 6 이상' },
-                                                { stage: '3단계', potential: '레어', optionCount: '2종', levelLimit: 'Lv. 15 이상' },
+                                                { stage: '3단계', potential: '레어', optionCount: '2종', levelLimit: 'Lv. 12 이상' },
                                                 { stage: '4단계', potential: '에픽', optionCount: '2종', levelLimit: 'Lv. 22 이상' },
                                                 { stage: '5단계', potential: '에픽', optionCount: '2종', levelLimit: 'Lv. 28 이상' },
                                                 { stage: '6단계', potential: '유니크', optionCount: '2종', levelLimit: '미확인' },
