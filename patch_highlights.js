@@ -2,24 +2,16 @@ const fs = require('fs');
 const f = 'C:/Users/USER/Desktop/maple-colosseum/maple-hub/app/blog/ultima-squad-minigame-guide/page.tsx';
 let c = fs.readFileSync(f, 'utf8');
 
-const anchor = `                        {/* 1. 단계별 장비 기본 스탯 (전체 너비 대형 종합 테이블) */}\r\n                        <div className="mb-6">\r\n                                <table`;
+const oldTip = `                                <li>\r\n                                    <strong className="text-yellow-300">💡 훈련용 큐브 절약 팁</strong>: \r\n                                    3단계 아이템부터는 잠재능력이 <strong className="text-white">2줄</strong>이 나오기 때문에, 이때 큐브로 2줄 유효 옵션을 뽑는 것이 핵심입니다. \r\n                                    하지만 생각보다 원하는 옵션이 잘 안 나와 큐브 소모량이 매우 큽니다. 따라서 <strong className="text-white">2단계 아이템 구간에서는 최대한 큐브 사용을 자제하고 아껴두는 것</strong>이 훨씬 유리합니다.\r\n                                </li>`;
 
-const replacement = `                        {/* 1. 단계별 장비 기본 스탯 (전체 너비 대형 종합 테이블) */}\r\n                        <div className="mb-6">\r\n                            {/* 본섭 변경 안내 배너 */}\r\n                            <div className="mb-3 p-3 bg-amber-950/40 border border-amber-500/40 rounded-xl flex items-start gap-2.5">\r\n                                <span className="text-amber-400 text-base mt-0.5 shrink-0">⚠️</span>\r\n                                <div className="text-xs sm:text-sm leading-relaxed space-y-1">\r\n                                    <p className="text-amber-300 font-bold">본섭 출시 후 착용 레벨 변경 안내</p>\r\n                                    <p className="text-slate-300">착용 레벨이 테섭 대비 본섭 출시 시 일부 변경되었습니다. 아래 수치는 본섭 기준으로 업데이트되었으나, 일부 단계는 추가 실측이 필요합니다.</p>\r\n                                    <ul className="text-slate-400 space-y-0.5 list-disc list-inside mt-1">\r\n                                        <li><span className="text-white font-semibold">3단계</span>: 테섭 <span className="line-through text-slate-500">Lv. 15 이상</span> → 본섭 <span className="text-emerald-300 font-bold">Lv. 12 이상</span> <span className="text-emerald-400">(본섭 실측 확인)</span></li>\r\n                                        <li><span className="text-yellow-300 font-semibold">그 외 단계</span>: 본섭 변경 여부 <span className="text-yellow-300 font-bold">추가 실측 확인 필요</span></li>\r\n                                    </ul>\r\n                                </div>\r\n                            </div>\r\n                                <table`;
+const newTip = `                                <li>\r\n                                    <strong className="text-yellow-300">💡 훈련용 큐브 절약 팁</strong>: \r\n                                    3단계 아이템부터는 잠재능력이 <strong className="text-white">2줄</strong>이 나오기 때문에, 이때 큐브로 2줄 유효 옵션을 뽑는 것이 핵심입니다. \r\n                                    하지만 생각보다 원하는 옵션이 잘 안 나와 큐브 소모량이 매우 큽니다. 따라서 <strong className="text-white">2단계 아이템 구간에서는 최대한 큐브 사용을 자제하고 아껴두는 것</strong>이 훨씬 유리합니다.\r\n                                </li>\r\n                                <li className="list-none -ml-4">\r\n                                    <div className="mt-2 p-3 bg-purple-950/40 border border-purple-500/30 rounded-xl flex items-start gap-2.5">\r\n                                        <span className="text-purple-300 text-base mt-0.5 shrink-0">⭐</span>\r\n                                        <div className="text-xs sm:text-sm leading-relaxed space-y-1.5">\r\n                                            <p className="text-purple-200 font-bold">본섭 기준 큐브 사용 전략 추천</p>\r\n                                            <p className="text-slate-300">본섭 출시 후 착용 렙제가 변경되면서 <strong className="text-white">3단계(Lv. 12)</strong>와 <strong className="text-white">4단계(Lv. 22 테섭 기준)</strong> 구간의 갭이 생각보다 큽니다.</p>\r\n                                            <p className="text-slate-300">큐브를 최대한 아껴두고, <strong className="text-emerald-300">에픽 잠재능력 2줄이 붙는 4단계 아이템부터 본격적으로 잠재능력을 뽑는 것</strong>을 강력히 추천합니다.</p>\r\n                                            <div className="flex flex-wrap gap-2 mt-1.5">\r\n                                                <span className="px-2.5 py-1 bg-slate-800 rounded-lg text-xs text-slate-400 font-medium">1~3단계: 큐브 자제 💤</span>\r\n                                                <span className="px-2.5 py-1 bg-emerald-900/50 border border-emerald-600/30 rounded-lg text-xs text-emerald-300 font-bold">4단계(에픽) 이상부터 집중 투자 ✅</span>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                </li>`;
 
-if (c.includes(anchor)) {
-  c = c.replace(anchor, replacement);
+if (c.includes(oldTip)) {
+  c = c.replace(oldTip, newTip);
   fs.writeFileSync(f, c, 'utf8');
-  console.log('SUCCESS: banner inserted');
+  console.log('SUCCESS');
 } else {
-  console.log('NOT FOUND');
-  // Try to find the anchor with LF only
-  const anchor2 = `                        {/* 1. 단계별 장비 기본 스탯 (전체 너비 대형 종합 테이블) */}\n                        <div className="mb-6">\n                                <table`;
-  if (c.includes(anchor2)) {
-    console.log('Found with LF');
-  } else {
-    console.log('Checking content around line 750...');
-    const idx = c.indexOf('1. 단계별 장비 기본 스탯');
-    console.log('Found at:', idx);
-    if (idx > 0) console.log(JSON.stringify(c.substring(idx - 50, idx + 200)));
-  }
+  console.log('NOT FOUND - checking raw content...');
+  const idx = c.indexOf('훈련용 큐브 절약 팁');
+  if (idx > 0) console.log(JSON.stringify(c.substring(idx - 100, idx + 300)));
 }
