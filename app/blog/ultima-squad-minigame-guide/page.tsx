@@ -65,8 +65,8 @@ export default function UltimaSquadMinigamePage() {
             icon: '⚔️',
             color: 'indigo',
             items: [
-                { effect: '2칸으로 증가', price: '250,000 G', note: '1-10 클리어 후 (기존 150만G ➔ 대폭 인하)' },
-                { effect: '3칸으로 증가', price: '3,000,000 G', note: '2-10 클리어 후 (기존 700만G ➔ 대폭 인하)' },
+                { effect: '2칸으로 증가', price: '250,000', note: '1-10 클리어 후 가능' },
+                { effect: '3칸으로 증가', price: '3,000,000', note: '2-10 클리어 후 가능' },
             ],
         },
         {
@@ -74,14 +74,14 @@ export default function UltimaSquadMinigamePage() {
             icon: '⏰',
             color: 'blue',
             items: [
-                { effect: '17시간', price: '300,000 G' },
-                { effect: '18시간', price: '400,000 G' },
-                { effect: '19시간', price: '500,000 G' },
-                { effect: '20시간', price: '800,000 G' },
-                { effect: '21시간', price: '1,000,000 G' },
-                { effect: '22시간', price: '1,500,000 G' },
-                { effect: '23시간', price: '1,700,000 G' },
-                { effect: '24시간 (최대)', price: '2,000,000 G', note: '총 누적 650만G (테섭 1,350만G 대비 50% 절감)' },
+                { effect: '17시간', price: '300,000' },
+                { effect: '18시간', price: '400,000' },
+                { effect: '19시간', price: '500,000' },
+                { effect: '20시간', price: '800,000' },
+                { effect: '21시간', price: '1,000,000' },
+                { effect: '22시간', price: '1,500,000' },
+                { effect: '23시간', price: '1,700,000' },
+                { effect: '24시간 (최대)', price: '2,000,000' },
             ],
         },
         {
@@ -89,12 +89,12 @@ export default function UltimaSquadMinigamePage() {
             icon: '📦',
             color: 'emerald',
             items: [
-                { effect: '+5%', price: '300,000 G' },
-                { effect: '+10%', price: '600,000 G' },
-                { effect: '+15%', price: '1,000,000 G' },
-                { effect: '+20%', price: '1,500,000 G', note: '테섭 1,000만G ➔ 본섭 150만G (85% 할인)' },
-                { effect: '+25%', price: '10,000,000 G', note: '테섭 2,000만G ➔ 본섭 1,000만G (50% 할인)' },
-                { effect: '+30%', price: '20,000,000 G', note: '테섭 5,000만G ➔ 본섭 2,000만G (60% 할인)' },
+                { effect: '+5%', price: '300,000' },
+                { effect: '+10%', price: '600,000' },
+                { effect: '+15%', price: '1,000,000' },
+                { effect: '+20%', price: '1,500,000' },
+                { effect: '+25%', price: '10,000,000' },
+                { effect: '+30%', price: '20,000,000' },
             ],
         },
         {
@@ -102,12 +102,12 @@ export default function UltimaSquadMinigamePage() {
             icon: '💰',
             color: 'yellow',
             items: [
-                { effect: '+5%', price: '300,000 G' },
-                { effect: '+10%', price: '600,000 G' },
-                { effect: '+15%', price: '1,000,000 G' },
-                { effect: '+20%', price: '1,500,000 G', note: '테섭 1,000만G ➔ 본섭 150만G (85% 할인)' },
-                { effect: '+25%', price: '10,000,000 G', note: '테섭 2,000만G ➔ 본섭 1,000만G (50% 할인)' },
-                { effect: '+30%', price: '20,000,000 G', note: '테섭 5,000만G ➔ 본섭 2,000만G (60% 할인)' },
+                { effect: '+5%', price: '300,000' },
+                { effect: '+10%', price: '600,000' },
+                { effect: '+15%', price: '1,000,000' },
+                { effect: '+20%', price: '1,500,000' },
+                { effect: '+25%', price: '10,000,000' },
+                { effect: '+30%', price: '20,000,000' },
             ],
         },
     ];
@@ -233,10 +233,10 @@ export default function UltimaSquadMinigamePage() {
                                      <span>💰</span> <span>유틸리티 고단계 강화 비용 대폭 완화</span>
                                 </p>
                                 <ul className="space-y-1 text-slate-300">
-                                    <li>• 골획증/드롭률 +20%: <span className="line-through text-slate-500">테섭 1,000만G</span> ➔ <strong className="text-yellow-300 font-bold">본섭 150만 (1,500,000) G</strong> (85% 인하!)</li>
-                                    <li>• 골획증/드롭률 +25%: <span className="line-through text-slate-500">테섭 2,000만G</span> ➔ <strong className="text-yellow-300 font-bold">본섭 1,000만 (10,000,000) G</strong> (50% 인하)</li>
-                                    <li>• 골획증/드롭률 +30%: <span className="line-through text-slate-500">테섭 5,000만G</span> ➔ <strong className="text-yellow-300 font-bold">본섭 2,000만 (20,000,000) G</strong> (60% 인하)</li>
-                                    <li>• 오프라인 24시간 풀확장: <span className="line-through text-slate-500">테섭 1,350만G</span> ➔ <strong className="text-yellow-300 font-bold">본섭 650만 (6,500,000) G</strong> (50% 인하)</li>
+                                    <li>• 골획증/드롭률 +20%: <span className="line-through text-slate-500">1,000만G</span> ➔ <strong className="text-yellow-300 font-bold">150만G</strong> (85% 인하!)</li>
+                                    <li>• 골획증/드롭률 +25%: <span className="line-through text-slate-500">2,000만G</span> ➔ <strong className="text-yellow-300 font-bold">1,000만G</strong> (50% 인하)</li>
+                                    <li>• 골획증/드롭률 +30%: <span className="line-through text-slate-500">5,000만G</span> ➔ <strong className="text-yellow-300 font-bold">2,000만G</strong> (60% 인하)</li>
+                                    <li>• 오프라인 24시간 풀확장: <span className="line-through text-slate-500">1,350만G</span> ➔ <strong className="text-yellow-300 font-bold">650만G</strong> (50% 인하)</li>
                                 </ul>
                             </div>
 
@@ -1415,7 +1415,7 @@ export default function UltimaSquadMinigamePage() {
                                                             <span className="ml-2 text-slate-500 text-xs">({item.note})</span>
                                                         )}
                                                     </div>
-                                                    <span className={`${c.badge} px-2 py-0.5 rounded-full font-mono font-bold`}>{item.price}</span>
+                                                    <span className={`${c.badge} px-2 py-0.5 rounded-full font-mono font-bold`}>{item.price} G</span>
                                                 </li>
                                             ))}
                                         </ul>
