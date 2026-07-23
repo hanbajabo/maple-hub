@@ -65,8 +65,8 @@ export default function UltimaSquadMinigamePage() {
             icon: '⚔️',
             color: 'indigo',
             items: [
-                { effect: '2칸으로 증가', price: '250,000 (25만G)', note: '1-10 클리어 후 (기존 150만G ➔ 대폭 인하)' },
-                { effect: '3칸으로 증가', price: '3,000,000 (300만G)', note: '2-10 클리어 후 (기존 700만G ➔ 대폭 인하)' },
+                { effect: '2칸으로 증가', price: '250,000 G', note: '1-10 클리어 후 (기존 150만G ➔ 대폭 인하)' },
+                { effect: '3칸으로 증가', price: '3,000,000 G', note: '2-10 클리어 후 (기존 700만G ➔ 대폭 인하)' },
             ],
         },
         {
@@ -74,14 +74,14 @@ export default function UltimaSquadMinigamePage() {
             icon: '⏰',
             color: 'blue',
             items: [
-                { effect: '17시간', price: '300,000' },
-                { effect: '18시간', price: '400,000' },
-                { effect: '19시간', price: '500,000' },
-                { effect: '20시간', price: '800,000' },
-                { effect: '21시간', price: '1,000,000' },
-                { effect: '22시간', price: '1,500,000' },
-                { effect: '23시간', price: '1,700,000' },
-                { effect: '24시간 (최대)', price: '2,000,000 (총 누적 650만G - 테섭 1,350만G 대비 50% 절감)' },
+                { effect: '17시간', price: '300,000 G' },
+                { effect: '18시간', price: '400,000 G' },
+                { effect: '19시간', price: '500,000 G' },
+                { effect: '20시간', price: '800,000 G' },
+                { effect: '21시간', price: '1,000,000 G' },
+                { effect: '22시간', price: '1,500,000 G' },
+                { effect: '23시간', price: '1,700,000 G' },
+                { effect: '24시간 (최대)', price: '2,000,000 G', note: '총 누적 650만G (테섭 1,350만G 대비 50% 절감)' },
             ],
         },
         {
@@ -89,12 +89,12 @@ export default function UltimaSquadMinigamePage() {
             icon: '📦',
             color: 'emerald',
             items: [
-                { effect: '+5%', price: '300,000' },
-                { effect: '+10%', price: '600,000' },
-                { effect: '+15%', price: '1,000,000' },
-                { effect: '+20%', price: '1,500,000 (기존 1,000만G ➔ 85% 파격 할인!)' },
-                { effect: '+25%', price: '10,000,000 (기존 2,000만G ➔ 50% 할인)' },
-                { effect: '+30%', price: '20,000,000 (기존 5,000만G ➔ 60% 할인)' },
+                { effect: '+5%', price: '300,000 G' },
+                { effect: '+10%', price: '600,000 G' },
+                { effect: '+15%', price: '1,000,000 G' },
+                { effect: '+20%', price: '1,500,000 G', note: '기존 1,000만G ➔ 85% 파격 할인!' },
+                { effect: '+25%', price: '10,000,000 G', note: '기존 2,000만G ➔ 50% 할인' },
+                { effect: '+30%', price: '20,000,000 G', note: '기존 5,000만G ➔ 60% 할인' },
             ],
         },
         {
@@ -102,12 +102,12 @@ export default function UltimaSquadMinigamePage() {
             icon: '💰',
             color: 'yellow',
             items: [
-                { effect: '+5%', price: '300,000' },
-                { effect: '+10%', price: '600,000' },
-                { effect: '+15%', price: '1,000,000' },
-                { effect: '+20%', price: '1,500,000 (기존 1,000만G ➔ 85% 파격 할인!)' },
-                { effect: '+25%', price: '10,000,000 (기존 2,000만G ➔ 50% 할인)' },
-                { effect: '+30%', price: '20,000,000 (기존 5,000만G ➔ 60% 할인)' },
+                { effect: '+5%', price: '300,000 G' },
+                { effect: '+10%', price: '600,000 G' },
+                { effect: '+15%', price: '1,000,000 G' },
+                { effect: '+20%', price: '1,500,000 G', note: '기존 1,000만G ➔ 85% 파격 할인!' },
+                { effect: '+25%', price: '10,000,000 G', note: '기존 2,000만G ➔ 50% 할인' },
+                { effect: '+30%', price: '20,000,000 G', note: '기존 5,000만G ➔ 60% 할인' },
             ],
         },
     ];
@@ -544,6 +544,89 @@ export default function UltimaSquadMinigamePage() {
                                 <li>장착한 <strong className="text-white">무기의 외형</strong>만 전투 중 용병에게 반영됨</li>
                                 <li className="text-red-400 font-bold">인벤토리가 가득 차면 전투를 진행해도 장비를 더 이상 획득할 수 없습니다. ⚠️</li>
                             </ul>
+                        </div>
+
+                        {/* 📌 스테이지별 드롭 장비 단계 공식 안내 */}
+                        <div className="bg-slate-950/60 border border-indigo-500/40 rounded-xl p-4 sm:p-5">
+                            <h3 className="font-bold text-indigo-300 mb-2 text-base flex items-center gap-1.5">
+                                <span>📜</span>
+                                <span>스테이지별 드롭되는 장비 단계 안내 (공식 패치 표 & 스크린샷)</span>
+                            </h3>
+                            <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+                                ※ 각 지역의 10 스테이지는 보스 스테이지로, 정해진 단계의 장비 중 1종이 확정 지급됩니다.
+                            </p>
+
+                            {/* 공식 스크린샷 */}
+                            <div className="relative w-full max-w-[500px] mx-auto rounded-lg overflow-hidden border border-indigo-600/40 shadow-lg mb-6">
+                                <Image 
+                                    src="/images/ultima-squad-stage-drop-gear.png" 
+                                    alt="스테이지별 드롭되는 장비 단계 공식 안내 화면" 
+                                    width={500}
+                                    height={800}
+                                    style={{ width: '100%', height: 'auto' }}
+                                />
+                            </div>
+
+                            {/* 2열 그리드 표 (일반 모드 vs 카오스 모드) */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                                {/* 일반 모드 */}
+                                <div className="border border-purple-800/40 rounded-xl overflow-hidden bg-purple-950/20">
+                                    <div className="bg-purple-900/40 px-4 py-2.5 font-bold text-purple-200 text-center border-b border-purple-800/40">
+                                        ⚔️ 일반 모드 드롭 장비 단계
+                                    </div>
+                                    <table className="w-full text-center border-collapse">
+                                        <thead>
+                                            <tr className="bg-purple-950/50 text-purple-300 font-semibold border-b border-purple-800/30">
+                                                <th className="p-2 border-r border-purple-800/20">지역</th>
+                                                <th className="p-2 border-r border-purple-800/20">스테이지</th>
+                                                <th className="p-2">드롭되는 장비 단계</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-purple-900/20 text-slate-300">
+                                            <tr><td rowSpan={4} className="p-2 border-r border-purple-800/20 font-bold bg-slate-900/40">1지역</td><td className="p-2 border-r border-purple-800/20">1-1</td><td className="p-2 text-slate-500">-</td></tr>
+                                            <tr><td className="p-2 border-r border-purple-800/20">1-2 ~ 1-6</td><td className="p-2">1단계</td></tr>
+                                            <tr><td className="p-2 border-r border-purple-800/20">1-7 ~ 1-9</td><td className="p-2">1~2단계</td></tr>
+                                            <tr className="bg-amber-950/30 font-bold text-amber-300"><td className="p-2 border-r border-purple-800/20">1-10 (보스)</td><td className="p-2">2단계 (확정)</td></tr>
+
+                                            <tr><td rowSpan={3} className="p-2 border-r border-purple-800/20 font-bold bg-slate-900/40">2지역</td><td className="p-2 border-r border-purple-800/20">2-1 ~ 2-6</td><td className="p-2">1~3단계</td></tr>
+                                            <tr><td className="p-2 border-r border-purple-800/20">2-7 ~ 2-9</td><td className="p-2">1~4단계</td></tr>
+                                            <tr className="bg-amber-950/30 font-bold text-amber-300"><td className="p-2 border-r border-purple-800/20">2-10 (보스)</td><td className="p-2">3단계 (확정)</td></tr>
+
+                                            <tr><td rowSpan={3} className="p-2 border-r border-purple-800/20 font-bold bg-slate-900/40">3지역</td><td className="p-2 border-r border-purple-800/20">3-1 ~ 3-6</td><td className="p-2">1~5단계</td></tr>
+                                            <tr><td className="p-2 border-r border-purple-800/20">3-7 ~ 3-9</td><td className="p-2">1~6단계</td></tr>
+                                            <tr className="bg-amber-950/30 font-bold text-amber-300"><td className="p-2 border-r border-purple-800/20">3-10 (보스)</td><td className="p-2">4단계 (확정)</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {/* 카오스 모드 */}
+                                <div className="border border-pink-800/40 rounded-xl overflow-hidden bg-pink-950/20">
+                                    <div className="bg-pink-900/40 px-4 py-2.5 font-bold text-pink-200 text-center border-b border-pink-800/40">
+                                        🔥 카오스 모드 드롭 장비 단계
+                                    </div>
+                                    <table className="w-full text-center border-collapse">
+                                        <thead>
+                                            <tr className="bg-pink-950/50 text-pink-300 font-semibold border-b border-pink-800/30">
+                                                <th className="p-2 border-r border-pink-800/20">지역</th>
+                                                <th className="p-2 border-r border-pink-800/20">스테이지</th>
+                                                <th className="p-2">드롭되는 장비 단계</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-pink-900/20 text-slate-300">
+                                            <tr><td rowSpan={2} className="p-2 border-r border-pink-800/20 font-bold bg-slate-900/40">1지역</td><td className="p-2 border-r border-pink-800/20">1-1 ~ 1-9</td><td className="p-2">1~6단계</td></tr>
+                                            <tr className="bg-amber-950/30 font-bold text-amber-300"><td className="p-2 border-r border-pink-800/20">1-10 (보스)</td><td className="p-2">6단계 (확정)</td></tr>
+
+                                            <tr><td rowSpan={3} className="p-2 border-r border-pink-800/20 font-bold bg-slate-900/40">2지역</td><td className="p-2 border-r border-pink-800/20">2-1 ~ 2-2</td><td className="p-2">1~6단계</td></tr>
+                                            <tr><td className="p-2 border-r border-pink-800/20">2-3 ~ 2-9</td><td className="p-2">1~7단계</td></tr>
+                                            <tr className="bg-amber-950/30 font-bold text-amber-300"><td className="p-2 border-r border-pink-800/20">2-10 (보스)</td><td className="p-2">7단계 (확정)</td></tr>
+
+                                            <tr><td rowSpan={3} className="p-2 border-r border-pink-800/20 font-bold bg-slate-900/40">3지역</td><td className="p-2 border-r border-pink-800/20">3-1 ~ 3-3</td><td className="p-2">1~7단계</td></tr>
+                                            <tr><td className="p-2 border-r border-pink-800/20">3-4 ~ 3-9</td><td className="p-2 font-bold text-rose-300">1~8단계</td></tr>
+                                            <tr className="bg-amber-950/30 font-bold text-amber-300"><td className="p-2 border-r border-pink-800/20">3-10 (보스)</td><td className="p-2 font-black text-yellow-300">8단계 (확정)</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
 
                         {/* 장비 단계별 능력치 표 */}
@@ -1352,7 +1435,7 @@ export default function UltimaSquadMinigamePage() {
                                                             <span className="ml-2 text-slate-500 text-xs">({item.note})</span>
                                                         )}
                                                     </div>
-                                                    <span className={`${c.badge} px-2 py-0.5 rounded-full font-mono font-bold`}>{item.price}G</span>
+                                                    <span className={`${c.badge} px-2 py-0.5 rounded-full font-mono font-bold`}>{item.price}</span>
                                                 </li>
                                             ))}
                                         </ul>
