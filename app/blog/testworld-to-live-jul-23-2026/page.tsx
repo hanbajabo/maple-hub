@@ -390,7 +390,7 @@ export default function TestworldToLiveJul23Page() {
                         </span>
                     </div>
                     <h1 className="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">
-                        [ver 1.2.417] 테섭 → 본섭 변경점 총정리
+                        [260723 기준] 테섭 → 본섭 변경점 총정리
                     </h1>
                     <p className="text-lg text-slate-300 leading-relaxed">
                         테스터 서버(테섭) 대비 본 서버(본섭) 상경 과정에서 변경된 총 {jobSkillImageList.length + miniGameSkillImageList.length + itemImageList.length + mapImageList.length}개 실질 변경점(직업 스킬 {jobSkillImageList.length}종, 미니게임 스킬 {miniGameSkillImageList.length}종, 아이템 {itemImageList.length}종, 맵 지형 {mapImageList.length}종)을 1:1 대조하여 분석합니다.
