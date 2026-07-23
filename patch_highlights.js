@@ -2,78 +2,24 @@ const fs = require('fs');
 const f = 'C:/Users/USER/Desktop/maple-colosseum/maple-hub/app/blog/ultima-squad-minigame-guide/page.tsx';
 let c = fs.readFileSync(f, 'utf8');
 
-// The map block starts at byte 163218 inside the file
-// Find the exact anchor string
-const anchor = `].map((row, idx) => {\r\n                                            const isSuccess = row.note.includes('성공') && !row.note.includes('실패');`;
-const si = c.indexOf(anchor);
-console.log('anchor found at:', si);
+const anchor = `                        {/* 1. 단계별 장비 기본 스탯 (전체 너비 대형 종합 테이블) */}\r\n                        <div className="mb-6">\r\n                                <table`;
 
-if (si === -1) {
-  console.log('ERROR: anchor not found');
-  process.exit(1);
+const replacement = `                        {/* 1. 단계별 장비 기본 스탯 (전체 너비 대형 종합 테이블) */}\r\n                        <div className="mb-6">\r\n                            {/* 본섭 변경 안내 배너 */}\r\n                            <div className="mb-3 p-3 bg-amber-950/40 border border-amber-500/40 rounded-xl flex items-start gap-2.5">\r\n                                <span className="text-amber-400 text-base mt-0.5 shrink-0">⚠️</span>\r\n                                <div className="text-xs sm:text-sm leading-relaxed space-y-1">\r\n                                    <p className="text-amber-300 font-bold">본섭 출시 후 착용 레벨 변경 안내</p>\r\n                                    <p className="text-slate-300">착용 레벨이 테섭 대비 본섭 출시 시 일부 변경되었습니다. 아래 수치는 본섭 기준으로 업데이트되었으나, 일부 단계는 추가 실측이 필요합니다.</p>\r\n                                    <ul className="text-slate-400 space-y-0.5 list-disc list-inside mt-1">\r\n                                        <li><span className="text-white font-semibold">3단계</span>: 테섭 <span className="line-through text-slate-500">Lv. 15 이상</span> → 본섭 <span className="text-emerald-300 font-bold">Lv. 12 이상</span> <span className="text-emerald-400">(본섭 실측 확인)</span></li>\r\n                                        <li><span className="text-yellow-300 font-semibold">그 외 단계</span>: 본섭 변경 여부 <span className="text-yellow-300 font-bold">추가 실측 확인 필요</span></li>\r\n                                    </ul>\r\n                                </div>\r\n                            </div>\r\n                                <table`;
+
+if (c.includes(anchor)) {
+  c = c.replace(anchor, replacement);
+  fs.writeFileSync(f, c, 'utf8');
+  console.log('SUCCESS: banner inserted');
+} else {
+  console.log('NOT FOUND');
+  // Try to find the anchor with LF only
+  const anchor2 = `                        {/* 1. 단계별 장비 기본 스탯 (전체 너비 대형 종합 테이블) */}\n                        <div className="mb-6">\n                                <table`;
+  if (c.includes(anchor2)) {
+    console.log('Found with LF');
+  } else {
+    console.log('Checking content around line 750...');
+    const idx = c.indexOf('1. 단계별 장비 기본 스탯');
+    console.log('Found at:', idx);
+    if (idx > 0) console.log(JSON.stringify(c.substring(idx - 50, idx + 200)));
+  }
 }
-
-// Find the end of the map block (the closing })} after the last </tr>)
-const blockStart = si;
-// Find closing })} 
-const endAnchor = `                                        })}\r\n                                    </tbody>`;
-const ei = c.indexOf(endAnchor, blockStart);
-console.log('end found at:', ei);
-
-if (ei === -1) {
-  console.log('ERROR: end anchor not found');
-  process.exit(1);
-}
-
-const newMapBlock = `].map((row, idx) => {
-                                            const isFailRed = 'failRed' in row && Boolean(row.failRed);
-                                            const isSuccess = !isFailRed && ('isGreen' in row ? Boolean(row.isGreen) : (row.note.includes('성공') && !row.note.includes('실패')));
-                                            return (
-                                                <tr
-                                                    key={idx}
-                                                    className={
-                                                        isFailRed
-                                                            ? 'bg-rose-950/40 border-l-4 border-l-rose-500 ring-1 ring-rose-500/40 font-semibold'
-                                                            : isSuccess
-                                                            ? 'bg-emerald-950/40 border-l-4 border-l-emerald-400 ring-1 ring-emerald-500/30 font-semibold'
-                                                            : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'
-                                                    }
-                                                >
-                                                    <td className={\`p-2 sm:p-3 border border-slate-700 font-bold whitespace-nowrap \${isFailRed ? 'text-rose-300' : isSuccess ? 'text-emerald-200' : 'text-white'}\`}>
-                                                        {row.lv}
-                                                    </td>
-                                                    <td className={\`p-2 sm:p-3 border border-slate-700 \${isFailRed ? 'text-rose-200/90' : isSuccess ? 'text-slate-200' : 'text-slate-300'}\`}>
-                                                        {row.gear}
-                                                    </td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 font-semibold whitespace-nowrap">
-                                                        {isFailRed ? (
-                                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold border border-rose-500/40 text-xs shadow-sm">
-                                                                {row.clear}
-                                                            </span>
-                                                        ) : isSuccess ? (
-                                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40 text-xs shadow-sm">
-                                                                {row.clear.startsWith('✅') ? row.clear : \`✅ \${row.clear} 클리어!\`}
-                                                            </span>
-                                                        ) : (
-                                                            <span className="text-slate-300 text-xs">
-                                                                {row.clear}
-                                                            </span>
-                                                        )}
-                                                    </td>
-                                                    <td className="p-2 sm:p-3 border border-slate-700 text-xs">
-                                                        {isFailRed ? (
-                                                            <span className="text-rose-300 font-bold">{row.note}</span>
-                                                        ) : isSuccess ? (
-                                                            <span className="text-emerald-300 font-bold">{row.note}</span>
-                                                        ) : (
-                                                            <span className="text-red-400 font-medium">{row.note}</span>
-                                                        )}
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>`;
-
-c = c.slice(0, si) + newMapBlock + c.slice(ei + endAnchor.length);
-fs.writeFileSync(f, c, 'utf8');
-console.log('SUCCESS: map block replaced!');
