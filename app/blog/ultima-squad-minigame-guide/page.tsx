@@ -409,24 +409,15 @@ export default function UltimaSquadMinigamePage() {
                             ))}
                         </div>
 
-                        {/* 용병 영입 비용 실측/공식 변경 안내 스크린샷 추가 */}
+                        {/* 용병 영입 비용 실측/공식 변경 안내 */}
                         <div className="bg-emerald-950/30 border border-emerald-500/40 rounded-xl p-4 sm:p-5">
                             <h3 className="font-bold text-emerald-300 mb-2 text-base flex items-center gap-1.5">
                                 <span>📢</span>
                                 <span>용병 영입 비용 난이도 완화 안내 (공식 패치 실측)</span>
                             </h3>
-                            <p className="text-xs sm:text-sm text-slate-300 mb-3 leading-relaxed">
+                            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                                 용병 영입에 필요한 골드 비용이 대폭 감소했습니다! <strong className="text-emerald-300">궁수는 10만 골드 (100,000 G)</strong>, <strong className="text-purple-300">마법사는 200만 골드 (2,000,000 G)</strong>로 감소하여 3인 스쿼드 구축 부담이 한결 줄었습니다.
                             </p>
-                            <div className="relative w-full max-w-[550px] mx-auto rounded-lg overflow-hidden border border-emerald-600/40 shadow-lg">
-                                <Image 
-                                    src="/images/ultima-squad-recruitment-cost.png" 
-                                    alt="용병 영입 비용 공식 화면 (궁수 100,000 / 마법사 2,000,000 골드)" 
-                                    width={550}
-                                    height={220}
-                                    style={{ width: '100%', height: 'auto' }}
-                                />
-                            </div>
                         </div>
 
                         {/* 용병 목록 스크린샷 추가 */}
@@ -550,22 +541,11 @@ export default function UltimaSquadMinigamePage() {
                         <div className="bg-slate-950/60 border border-indigo-500/40 rounded-xl p-4 sm:p-5">
                             <h3 className="font-bold text-indigo-300 mb-2 text-base flex items-center gap-1.5">
                                 <span>📜</span>
-                                <span>스테이지별 드롭되는 장비 단계 안내 (공식 패치 표 & 스크린샷)</span>
+                                <span>스테이지별 드롭되는 장비 단계 안내 (공식 패치 표)</span>
                             </h3>
                             <p className="text-xs text-slate-400 mb-4 leading-relaxed">
                                 ※ 각 지역의 10 스테이지는 보스 스테이지로, 정해진 단계의 장비 중 1종이 확정 지급됩니다.
                             </p>
-
-                            {/* 공식 스크린샷 */}
-                            <div className="relative w-full max-w-[500px] mx-auto rounded-lg overflow-hidden border border-indigo-600/40 shadow-lg mb-6">
-                                <Image 
-                                    src="/images/ultima-squad-stage-drop-gear.png" 
-                                    alt="스테이지별 드롭되는 장비 단계 공식 안내 화면" 
-                                    width={500}
-                                    height={800}
-                                    style={{ width: '100%', height: 'auto' }}
-                                />
-                            </div>
 
                             {/* 2열 그리드 표 (일반 모드 vs 카오스 모드) */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
