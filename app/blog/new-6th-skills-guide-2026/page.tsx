@@ -69,7 +69,7 @@ const skillList = [
     "skillName": "마테리얼 버스트",
     "src": "/images/blog/ver-1-2-417/019_%EC%8A%A4%ED%82%AC_3341506%5B%ED%8C%A8%EC%8A%A4%ED%8C%8C%EC%9D%B8%EB%8D%94(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
     "originalDesc": "스킬은 렐릭 마테리아를 소모합니다. 렐릭 마테리아는 <strong class='text-amber-300 font-bold'>2초</strong>마다 <strong class='text-amber-300 font-bold'>1개</strong>씩 생성되며 <strong class='text-amber-300 font-bold'>7개</strong>까지 보유 가능합니다.",
-    "liveChange": "폭발 화살 <strong class='text-amber-300 font-bold'>288%</strong>, 렐릭 마테리아 <strong class='text-amber-300 font-bold'>3.5초</strong>마다 최대 <strong class='text-amber-300 font-bold'>6개</strong>, 에인션트 버스트 <strong class='text-amber-300 font-bold'>910%</strong>, 폭쇄 <strong class='text-amber-300 font-bold'>1056%</strong>로 <strong class='text-amber-300 font-bold'>상향/조정</strong>되었습니다."
+    "liveChange": "폭발 화살 <strong class='text-amber-300 font-bold'>288%</strong>, 렐릭 마테리아 <strong class='text-amber-300 font-bold'>3.5초</strong>마다 최대 <strong class='text-amber-300 font-bold'>6개</strong>, 에인션트 버스트 <strong class='text-amber-300 font-bold'>910%</strong>, 폭쇄 <strong class='text-amber-300 font-bold'>1056%</strong>로 <strong class='text-amber-300 font-bold'>조정</strong>되었습니다."
   },
   {
     "id": 10,
@@ -84,7 +84,7 @@ const skillList = [
     "skillName": "무아지경",
     "src": "/images/blog/ver-1-2-417/022_%EC%8A%A4%ED%82%AC_4241507%5B%EC%84%80%EB%8F%84%EC%96%B4(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
     "originalDesc": "<strong class='text-amber-300 font-bold'>120초</strong> 쿨타임 <strong class='text-amber-300 font-bold'>극딜</strong> 스킬입니다. 사용 시 <strong class='text-amber-300 font-bold'>30회</strong> 동안 암살/분쇄 스킬이 <strong class='text-amber-300 font-bold'>강화됩니다</strong>. 지속시간 중 메소 익스플로젼 스킬이 자동으로 발동됩니다.",
-    "liveChange": "무아지경 - 참격/난격/검영 데미지가 본섭에서 각각 <strong class='text-amber-300 font-bold'>400%</strong> / <strong class='text-amber-300 font-bold'>388%</strong> / <strong class='text-amber-300 font-bold'>567%</strong>로 <strong class='text-amber-300 font-bold'>상향/조정</strong>되었습니다."
+    "liveChange": "무아지경 - 참격/난격/검영 데미지가 본섭에서 각각 <strong class='text-amber-300 font-bold'>400%</strong> / <strong class='text-amber-300 font-bold'>388%</strong> / <strong class='text-amber-300 font-bold'>567%</strong>로 <strong class='text-amber-300 font-bold'>조정</strong>되었습니다."
   },
   {
     "id": 14,
@@ -190,7 +190,7 @@ const skillList = [
     "skillName": "베리안 서지",
     "src": "/images/blog/ver-1-2-417/029_%EC%8A%A4%ED%82%AC_23141506%5B%EB%A9%94%EB%A5%B4%EC%84%B8%EB%8D%B0%EC%8A%A4(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
     "originalDesc": "엘리멘탈 고스트 지속시간 중 스킬이 <strong class='text-amber-300 font-bold'>강화</strong>합니다. 거스트 다이브, 라이트닝 엣지, 롤링 문썰트, 레전드리 스피어로 연계가 가능합니다.",
-    "liveChange": "베리안 서지의 데미지가 <strong class='text-amber-300 font-bold'>830%</strong>로 <strong class='text-amber-300 font-bold'>상향/조정</strong>되었습니다."
+    "liveChange": "베리안 서지의 데미지가 <strong class='text-amber-300 font-bold'>830%</strong>로 <strong class='text-amber-300 font-bold'>조정</strong>되었습니다."
   },
   {
     "id": 29,
@@ -291,7 +291,7 @@ const skillList = [
     "skillName": "타임 어소리티",
     "src": "/images/blog/ver-1-2-417/048_%EC%8A%A4%ED%82%AC_101141506%5B%EC%A0%9C%EB%A1%9C(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
     "originalDesc": "<strong class='text-amber-300 font-bold'>120초</strong> <strong class='text-amber-300 font-bold'>극딜</strong> <strong class='text-amber-300 font-bold'>버프 스킬</strong>입니다. 지속시간 동안 사출기가 <strong class='text-amber-300 font-bold'>21회</strong>까지 발동합니다.",
-    "liveChange": "시간의 메아리 잔상 데미지 <strong class='text-amber-300 font-bold'>258%</strong> <strong class='text-amber-300 font-bold'>상향</strong>, 발동 가능 횟수 최대 <strong class='text-amber-300 font-bold'>15번</strong>으로 본섭 패치 적용되었습니다."
+    "liveChange": "시간의 메아리 잔상 데미지 <strong class='text-amber-300 font-bold'>258%</strong> <strong class='text-amber-300 font-bold'>조정</strong>, 발동 가능 횟수 최대 <strong class='text-amber-300 font-bold'>15번</strong>으로 본섭 패치 적용되었습니다."
   },
   {
     "id": 46,
@@ -306,7 +306,7 @@ const skillList = [
     "skillName": "에레트 뤼페",
     "src": "/images/blog/ver-1-2-417/051_%EC%8A%A4%ED%82%AC_151141503%5B%EC%95%84%EB%8D%B8(6%EC%B0%A8)%5D_%EB%B3%80%EA%B2%BD.png",
     "originalDesc": "<strong class='text-amber-300 font-bold'>120초</strong> 쿨타임 키다운 <strong class='text-amber-300 font-bold'>극딜</strong> 스킬입니다.",
-    "liveChange": "키다운 지속 공격 데미지 <strong class='text-amber-300 font-bold'>875%</strong> <strong class='text-amber-300 font-bold'>상향</strong>, 키다운 종료 후 에테르 소드 데미지 <strong class='text-amber-300 font-bold'>673%</strong>로 본섭 반영되었습니다."
+    "liveChange": "키다운 지속 공격 데미지 <strong class='text-amber-300 font-bold'>875%</strong> <strong class='text-amber-300 font-bold'>조정</strong>, 키다운 종료 후 에테르 소드 데미지 <strong class='text-amber-300 font-bold'>673%</strong>로 본섭 반영되었습니다."
   },
   {
     "id": 48,
