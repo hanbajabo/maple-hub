@@ -40,6 +40,61 @@ export default function UltimaSquadStrategyGuidePage() {
                         <span className="text-amber-300">언제 무엇을 준비해야 하는지</span> 한눈에 확인하세요!
                     </p>
 
+                    {/* 🔥 7/23 본섭 정식 적용 변경 사항 (테스트월드 대비 완화 총정리) */}
+                    <div className="mb-8 bg-gradient-to-r from-amber-950/50 via-slate-900/80 to-amber-950/50 border-2 border-amber-500/60 rounded-2xl p-5 sm:p-6 shadow-xl backdrop-blur-md">
+                        <div className="flex items-center gap-2.5 mb-3 border-b border-amber-500/30 pb-3">
+                            <span className="text-2xl">🔥</span>
+                            <div>
+                                <h3 className="text-lg sm:text-xl font-extrabold text-amber-300">
+                                    7/23 본섭 정식 패치 변경 사항 (테스트월드 대비 난이도 파격 완화)
+                                </h3>
+                                <p className="text-xs text-slate-400">7월 23일(목) 정식 업데이트 반영 | 테스트월드 대비 달라진 주요 지출 & 스킬 해금 총정리</p>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm">
+                            <div className="bg-slate-950/70 border border-emerald-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-emerald-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>🏹</span> <span>용병 영입 비용 80~50% 폭풍 인하</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 궁수 영입: <span className="line-through text-slate-500">50만G</span> ➔ <strong className="text-emerald-300 font-bold">10만 (100,000) G</strong> (80% 인하)</li>
+                                    <li>• 마법사 영입: <span className="line-through text-slate-500">400만G</span> ➔ <strong className="text-purple-300 font-bold">200만 (2,000,000) G</strong> (50% 인하)</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/70 border border-indigo-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-indigo-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>⚔️</span> <span>스킬 슬롯 확장 비용 파격 할인</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 2슬롯 확장: <span className="line-through text-slate-500">150만G</span> ➔ <strong className="text-indigo-300 font-bold">25만 (250,000) G</strong> (83% 인하)</li>
+                                    <li>• 3슬롯 확장: <span className="line-through text-slate-500">700만G</span> ➔ <strong className="text-indigo-300 font-bold">300만 (3,000,000) G</strong> (57% 인하)</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/70 border border-yellow-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-yellow-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>💰</span> <span>유틸리티 고단계 강화 비용 대폭 완화</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 골획증/드롭률 +20%: <span className="line-through text-slate-500">1,000만G</span> ➔ <strong className="text-yellow-300 font-bold">150만G</strong> (85% 인하!)</li>
+                                    <li>• 오프라인 24시간 풀확장 누적: <span className="line-through text-slate-500">1,350만G</span> ➔ <strong className="text-yellow-300 font-bold">650만G</strong> (50% 인하)</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/70 border border-red-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-red-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>🔮</span> <span>스킬 습득 레벨 상향 조정 (버프)</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 마법사 핵심 부활기 「헤븐즈 도어」: <span className="line-through text-slate-500">Lv.17</span> ➔ <strong className="text-red-300 font-bold">Lv.16</strong> 습득</li>
+                                    <li>• 궁수 「볼텍스 스피어」: <span className="line-through text-slate-500">Lv.21</span> ➔ <strong className="text-emerald-300 font-bold">Lv.20</strong> 습득</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* 목차 */}
                     <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-4 sm:p-6 backdrop-blur-sm shadow-xl">
                         <p className="text-base font-bold text-slate-200 mb-4 flex items-center gap-2">

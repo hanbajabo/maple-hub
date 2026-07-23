@@ -16,17 +16,17 @@ export default function UltimaSquadMinigamePage() {
         궁수: [
             { name: '차지드 애로우', level: 2 },
             { name: '폭풍의 시', level: 15 },
-            { name: '볼텍스 스피어', level: 21 },
+            { name: '볼텍스 스피어', level: 20 },
             { name: '소울 컨트랙트', level: 31 },
-            { name: '엘리멘탈 고스트', level: 38 },
+            { name: '엘리멘탈 고스트', level: 37 },
             { name: '드래곤 버스트', level: 40 },
         ],
         마법사: [
             { name: '체인 라이트닝', level: 2 },
             { name: '힐', level: 7 },
-            { name: '헤븐즈 도어', level: 17 },
-            { name: '플레임 스윕', level: 25 },
-            { name: '프레이', level: 31 },
+            { name: '헤븐즈 도어 (부활)', level: 16 },
+            { name: '플레임 스윕', level: 24 },
+            { name: '프레이', level: 32 },
             { name: '조디악 레이', level: 40 },
         ],
     };
@@ -65,8 +65,8 @@ export default function UltimaSquadMinigamePage() {
             icon: '⚔️',
             color: 'indigo',
             items: [
-                { effect: '2칸으로 증가', price: '1,500,000', note: '1-10 클리어 후 가능' },
-                { effect: '3칸으로 증가', price: '7,000,000', note: '2-10 클리어 후 가능' },
+                { effect: '2칸으로 증가', price: '250,000 (25만G)', note: '1-10 클리어 후 (기존 150만G ➔ 대폭 인하)' },
+                { effect: '3칸으로 증가', price: '3,000,000 (300만G)', note: '2-10 클리어 후 (기존 700만G ➔ 대폭 인하)' },
             ],
         },
         {
@@ -81,7 +81,7 @@ export default function UltimaSquadMinigamePage() {
                 { effect: '21시간', price: '1,000,000' },
                 { effect: '22시간', price: '1,500,000' },
                 { effect: '23시간', price: '1,700,000' },
-                { effect: '24시간 (최대)', price: '2,000,000' },
+                { effect: '24시간 (최대)', price: '2,000,000 (총 누적 650만G - 테섭 1,350만G 대비 50% 절감)' },
             ],
         },
         {
@@ -90,11 +90,11 @@ export default function UltimaSquadMinigamePage() {
             color: 'emerald',
             items: [
                 { effect: '+5%', price: '300,000' },
-                { effect: '+10%', price: '500,000' },
+                { effect: '+10%', price: '600,000' },
                 { effect: '+15%', price: '1,000,000' },
-                { effect: '+20%', price: '1,500,000' },
-                { effect: '+25%', price: '10,000,000' },
-                { effect: '+30%', price: '20,000,000' },
+                { effect: '+20%', price: '1,500,000 (기존 1,000만G ➔ 85% 파격 할인!)' },
+                { effect: '+25%', price: '10,000,000 (기존 2,000만G ➔ 50% 할인)' },
+                { effect: '+30%', price: '20,000,000 (기존 5,000만G ➔ 60% 할인)' },
             ],
         },
         {
@@ -103,11 +103,11 @@ export default function UltimaSquadMinigamePage() {
             color: 'yellow',
             items: [
                 { effect: '+5%', price: '300,000' },
-                { effect: '+10%', price: '500,000' },
+                { effect: '+10%', price: '600,000' },
                 { effect: '+15%', price: '1,000,000' },
-                { effect: '+20%', price: '1,500,000' },
-                { effect: '+25%', price: '10,000,000' },
-                { effect: '+30%', price: '20,000,000' },
+                { effect: '+20%', price: '1,500,000 (기존 1,000만G ➔ 85% 파격 할인!)' },
+                { effect: '+25%', price: '10,000,000 (기존 2,000만G ➔ 50% 할인)' },
+                { effect: '+30%', price: '20,000,000 (기존 5,000만G ➔ 60% 할인)' },
             ],
         },
     ];
@@ -118,7 +118,7 @@ export default function UltimaSquadMinigamePage() {
         { currency: '카오스 스쿼드 코인', item: '상급 EXP 교환권 (100개 묶음)', price: 30, limit: '50개' },
         { currency: '카오스 스쿼드 코인', item: '경험치 4배 쿠폰 (30분)', price: 30, limit: '20개' },
         { currency: '카오스 스쿼드 코인', item: 'VIP 부스터', price: 20, limit: '100개' },
-        { currency: '카오스 스쿼드 코인', item: '경험치 3배 쿠폰 (30분)', price: 15, limit: '100개' },
+        { currency: '카오스 스쿼드 코인', item: '경험치 3배 쿠폰 (30분)', price: 15, limit: '200개' },
         { currency: '카오스 스쿼드 코인', item: '카오스 서큘레이터', price: 20, limit: '40개' },
     ];
 
@@ -192,6 +192,61 @@ export default function UltimaSquadMinigamePage() {
                             <p className="text-sm text-yellow-300/80 font-semibold mb-1">기록 공유</p>
                             <p className="text-base font-bold text-yellow-300">메이플ID 공유</p>
                             <p className="text-sm text-slate-300 mt-1">모든 캐릭터 간<br/>진행 기록 공유</p>
+                        </div>
+                    </div>
+
+                    {/* 🔥 7/23 본섭 정식 적용 변경 사항 (테스트월드 대비 완화 총정리) */}
+                    <div className="mb-8 bg-gradient-to-r from-amber-950/50 via-slate-900/80 to-amber-950/50 border-2 border-amber-500/60 rounded-2xl p-5 sm:p-6 shadow-xl backdrop-blur-md">
+                        <div className="flex items-center gap-2.5 mb-3 border-b border-amber-500/30 pb-3">
+                            <span className="text-2xl">🔥</span>
+                            <div>
+                                <h3 className="text-lg sm:text-xl font-extrabold text-amber-300">
+                                    7/23 본섭 정식 패치 변경 사항 (테스트월드 대비 난이도 파격 완화)
+                                </h3>
+                                <p className="text-xs text-slate-400">7월 23일(목) 정식 업데이트 반영 | 테스트월드 대비 달라진 주요 지출 & 스킬 해금 총정리</p>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm">
+                            <div className="bg-slate-950/70 border border-emerald-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-emerald-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>🏹</span> <span>용병 영입 비용 80~50% 폭풍 인하</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 궁수 영입: <span className="line-through text-slate-500">50만G</span> ➔ <strong className="text-emerald-300 font-bold">10만 (100,000) G</strong> (80% 인하)</li>
+                                    <li>• 마법사 영입: <span className="line-through text-slate-500">400만G</span> ➔ <strong className="text-purple-300 font-bold">200만 (2,000,000) G</strong> (50% 인하)</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/70 border border-indigo-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-indigo-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>⚔️</span> <span>스킬 슬롯 확장 비용 파격 할인</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 2슬롯 확장: <span className="line-through text-slate-500">150만G</span> ➔ <strong className="text-indigo-300 font-bold">25만 (250,000) G</strong> (83% 인하)</li>
+                                    <li>• 3슬롯 확장: <span className="line-through text-slate-500">700만G</span> ➔ <strong className="text-indigo-300 font-bold">300만 (3,000,000) G</strong> (57% 인하)</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/70 border border-yellow-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-yellow-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>💰</span> <span>유틸리티 고단계 강화 비용 대폭 완화</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 골획증/드롭률 +20%: <span className="line-through text-slate-500">1,000만G</span> ➔ <strong className="text-yellow-300 font-bold">150만G</strong> (85% 인하!)</li>
+                                    <li>• 오프라인 24시간 풀확장 누적: <span className="line-through text-slate-500">1,350만G</span> ➔ <strong className="text-yellow-300 font-bold">650만G</strong> (50% 인하)</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/70 border border-red-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-red-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>🔮</span> <span>스킬 습득 레벨 상향 조정 (버프)</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 마법사 핵심 부활기 「헤븐즈 도어」: <span className="line-through text-slate-500">Lv.17</span> ➔ <strong className="text-red-300 font-bold">Lv.16</strong> 습득</li>
+                                    <li>• 궁수 「볼텍스 스피어」: <span className="line-through text-slate-500">Lv.21</span> ➔ <strong className="text-emerald-300 font-bold">Lv.20</strong> 습득</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
