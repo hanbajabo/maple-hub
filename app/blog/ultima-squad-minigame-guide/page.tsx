@@ -207,7 +207,7 @@ export default function UltimaSquadMinigamePage() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 text-xs sm:text-sm">
                             <div className="bg-slate-950/70 border border-emerald-500/40 rounded-xl p-3.5">
                                 <p className="font-bold text-emerald-300 text-sm mb-1.5 flex items-center gap-1.5">
                                     <span>🏹</span> <span>용병 영입 비용 80~50% 폭풍 인하</span>
@@ -234,7 +234,9 @@ export default function UltimaSquadMinigamePage() {
                                 </p>
                                 <ul className="space-y-1 text-slate-300">
                                     <li>• 골획증/드롭률 +20%: <span className="line-through text-slate-500">1,000만G</span> ➔ <strong className="text-yellow-300 font-bold">150만G</strong> (85% 인하!)</li>
-                                    <li>• 오프라인 24시간 풀확장 누적: <span className="line-through text-slate-500">1,350만G</span> ➔ <strong className="text-yellow-300 font-bold">650만G</strong> (50% 인하)</li>
+                                    <li>• 골획증/드롭률 +25%: <span className="line-through text-slate-500">2,000만G</span> ➔ <strong className="text-yellow-300 font-bold">1,000만G</strong> (50% 인하)</li>
+                                    <li>• 골획증/드롭률 +30%: <span className="line-through text-slate-500">5,000만G</span> ➔ <strong className="text-yellow-300 font-bold">2,000만G</strong> (60% 인하)</li>
+                                    <li>• 오프라인 24시간 풀확장: <span className="line-through text-slate-500">1,350만G</span> ➔ <strong className="text-yellow-300 font-bold">650만G</strong> (50% 인하)</li>
                                 </ul>
                             </div>
 
@@ -244,7 +246,30 @@ export default function UltimaSquadMinigamePage() {
                                 </p>
                                 <ul className="space-y-1 text-slate-300">
                                     <li>• 마법사 핵심 부활기 「헤븐즈 도어」: <span className="line-through text-slate-500">Lv.17</span> ➔ <strong className="text-red-300 font-bold">Lv.16</strong> 습득</li>
+                                    <li>• 마법사 「플레임 스윕」: <span className="line-through text-slate-500">Lv.25</span> ➔ <strong className="text-purple-300 font-bold">Lv.24</strong> 습득</li>
                                     <li>• 궁수 「볼텍스 스피어」: <span className="line-through text-slate-500">Lv.21</span> ➔ <strong className="text-emerald-300 font-bold">Lv.20</strong> 습득</li>
+                                    <li>• 궁수 「엘리멘탈 고스트」: <span className="line-through text-slate-500">Lv.38</span> ➔ <strong className="text-emerald-300 font-bold">Lv.37</strong> 습득</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/70 border border-blue-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-blue-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>🛍️</span> <span>카오스 코인샵 구성품 수량 2배 증량</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 경험치 3배 쿠폰(30분): <span className="line-through text-slate-500">100개</span> ➔ <strong className="text-blue-300 font-bold">200개</strong> (2배 증량!)</li>
+                                    <li>• 솔 에르다: 10개 / 솔 에르다 조각: 400개 유지</li>
+                                </ul>
+                            </div>
+
+                            <div className="bg-slate-950/70 border border-purple-500/40 rounded-xl p-3.5">
+                                <p className="font-bold text-purple-300 text-sm mb-1.5 flex items-center gap-1.5">
+                                    <span>⚙️</span> <span>오프라인 정산 & 카오스 모드 세부 규칙</span>
+                                </p>
+                                <ul className="space-y-1 text-slate-300">
+                                    <li>• 미 접속 중에도 오프라인 EXP/골드 자동 적립 (장비/큐브/코인 제외)</li>
+                                    <li>• 오프라인 보상 기준: 미클리어/보스전 진입 시 직전 클리어 스테이지 기준 지급</li>
+                                    <li>• 카오스 모드: 골드 미지급 ➔ 작은 카오스 코인 획득 (코인샵 이관 또는 교환권 선택 가능)</li>
                                 </ul>
                             </div>
                         </div>
