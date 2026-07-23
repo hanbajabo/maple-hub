@@ -1818,7 +1818,7 @@ height={300}
                                         </div>
                                         <div className="flex flex-wrap justify-between gap-x-3">
                                             <span className="text-slate-400 shrink-0">마법사 경험치</span>
-                                            <span className="text-purple-300 font-bold">Lv.18 ➔ Lv.19 (+68%) <span className="text-slate-200 text-xs font-semibold">(1레벨업 + 시간당 ~73.6%)</span></span>
+                                        <span className="text-purple-300 font-bold">Lv.18 ➔ Lv.19 (+68%) <span className="text-slate-200 text-xs font-semibold">(1레벨업 + 시간당 ~73.6%)</span></span>
                                     </div>
                                 </div>
                             </div>
@@ -1881,8 +1881,8 @@ height={300}
                                             { lv: 'LV 7 전사', gear: '1단계 (추옵 최고)', clear: '1-5', note: '1-6 이상 불가' },
                                             { lv: 'LV 8 전사', gear: '2단계', clear: '1-5', note: '1-6 불가' },
                                             { lv: 'LV 9 전사', gear: '2단계 (방어력 잠재)', clear: '❌ 1-6 테섭은 성공', note: '테섭 때는 반복 후 간신히 성공! 본섭에서는 오류인지 안되는 것을 확인', failRed: true },
-                                            { lv: 'LV 9 전사(본섭)', gear: '2단계 (공격력 잠재)', clear: '✅ 1-6 클리어!', note: '본섭에서는 공격력 잠재능력으로 클리어되는 것 확인' },
-                                            { lv: 'LV 10 전사 (본섭)', gear: '1단계 3개 + 2단계 신발', clear: '✅ 1-6 클리어!', note: '🔥 본섭 실측: 간신히 성공 (반복 시 클리어)' },
+                                            { lv: 'LV 9 전사(본섭)', gear: '2단계 (공격력 잠재)', clear: '✅ 1-6 클리어!', note: '본섭에서는 공격력 잠재능력으로 클리어되는 것 확인', isGreen: true },
+                                            { lv: 'LV 10 전사 (본섭)', gear: '1단계 3개 + 2단계 신발', clear: '✅ 1-6 클리어!', note: '🔥 본섭 실측: 간신히 성공 (반복 시 클리어)', isGreen: true },
                                             { lv: 'LV 9 전사 + 궁수', gear: '2단계 + 궁수', clear: '1-6', note: '1-7 실패' },
                                             { lv: 'LV 10 전사 + LV 6 궁수', gear: '전사 2단계 (방어스킬) / 궁수 1단계 (최고추옵)', clear: '1-7', note: '아슬하게 성공' },
                                             { lv: 'LV 11 전사 + LV 9 궁수', gear: '전사 2단계 (방어스킬) / 궁수 2단계', clear: '1-7', note: '1-8 실패' },
@@ -1918,26 +1918,33 @@ height={300}
                                             { lv: 'LV 28 전사 + LV 28 궁수 + LV 21 마법사', gear: '전사 5단계 무기+4단계 방어구 2개 (방어+해머) / 궁수 5단계 모자+4단계 풀셋 (볼텍스+폭시) / 마법사 3단계 풀셋 (힐링+공격 ➔ 사망 시 부활 수동 스위칭)', clear: '2-10 (보스)', note: '대성공! 🎉 (뭔가 될 것 같은 느낌이 들어서 계속 반복 재도전 끝에 대략 8번쯤 도전했을 쯤 성공! 2-10 아르카나 정령 보스 극적 클리어!)' },
                                             { lv: 'LV 28 전사 + LV 28 궁수 + LV 21 마법사', gear: '전사 5단계 무기+5단계 방어구 1개+4단계 방어구 1개 (해머+오라+디바이드) / 궁수 5단계 모자+4단계 풀셋 (공격2개+폭시) / 마법사 3단계 풀셋 (힐링+공격+도어)', clear: '3-1', note: '성공! 🎉 (2-10 보스 클리어 후 스킬 3개 슬롯 해금! 3인 전원 스킬 3개 장착 세팅으로 3-1 돌파 성공!)' },
                                         ].map((row, idx) => {
-                                            const isSuccess = row.note.includes('성공') && !row.note.includes('실패');
+                                            const isFailRed = 'failRed' in row && Boolean(row.failRed);
+                                            const isSuccess = !isFailRed && ('isGreen' in row ? Boolean(row.isGreen) : (row.note.includes('성공') && !row.note.includes('실패')));
                                             return (
-                                                <tr 
-                                                    key={idx} 
+                                                <tr
+                                                    key={idx}
                                                     className={
-                                                        isSuccess 
-                                                            ? 'bg-emerald-950/40 border-l-4 border-l-emerald-400 ring-1 ring-emerald-500/30 font-semibold' 
+                                                        isFailRed
+                                                            ? 'bg-rose-950/40 border-l-4 border-l-rose-500 ring-1 ring-rose-500/40 font-semibold'
+                                                            : isSuccess
+                                                            ? 'bg-emerald-950/40 border-l-4 border-l-emerald-400 ring-1 ring-emerald-500/30 font-semibold'
                                                             : idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'
                                                     }
                                                 >
-                                                    <td className={`p-2 sm:p-3 border border-slate-700 font-bold whitespace-nowrap ${isSuccess ? 'text-emerald-200' : 'text-white'}`}>
+                                                    <td className={`p-2 sm:p-3 border border-slate-700 font-bold whitespace-nowrap ${isFailRed ? 'text-rose-300' : isSuccess ? 'text-emerald-200' : 'text-white'}`}>
                                                         {row.lv}
                                                     </td>
-                                                    <td className={`p-2 sm:p-3 border border-slate-700 ${isSuccess ? 'text-slate-200' : 'text-slate-300'}`}>
+                                                    <td className={`p-2 sm:p-3 border border-slate-700 ${isFailRed ? 'text-rose-200/90' : isSuccess ? 'text-slate-200' : 'text-slate-300'}`}>
                                                         {row.gear}
                                                     </td>
                                                     <td className="p-2 sm:p-3 border border-slate-700 font-semibold whitespace-nowrap">
-                                                        {isSuccess ? (
+                                                        {isFailRed ? (
+                                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold border border-rose-500/40 text-xs shadow-sm">
+                                                                {row.clear}
+                                                            </span>
+                                                        ) : isSuccess ? (
                                                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40 text-xs shadow-sm">
-                                                                ✅ {row.clear} 클리어!
+                                                                {row.clear.startsWith('✅') ? row.clear : `✅ ${row.clear} 클리어!`}
                                                             </span>
                                                         ) : (
                                                             <span className="text-slate-300 text-xs">
@@ -1946,7 +1953,9 @@ height={300}
                                                         )}
                                                     </td>
                                                     <td className="p-2 sm:p-3 border border-slate-700 text-xs">
-                                                        {isSuccess ? (
+                                                        {isFailRed ? (
+                                                            <span className="text-rose-300 font-bold">{row.note}</span>
+                                                        ) : isSuccess ? (
                                                             <span className="text-emerald-300 font-bold">{row.note}</span>
                                                         ) : (
                                                             <span className="text-red-400 font-medium">{row.note}</span>
