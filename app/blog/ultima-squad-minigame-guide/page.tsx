@@ -919,8 +919,8 @@ export default function UltimaSquadMinigamePage() {
                                         <span className="text-purple-300 text-base mt-0.5 shrink-0">⭐</span>
                                         <div className="text-xs sm:text-sm leading-relaxed space-y-1.5">
                                             <p className="text-purple-200 font-bold">본섭 기준 큐브 사용 전략 추천</p>
-                                            <p className="text-slate-300">본섭 출시 후 착용 렙제가 변경되면서 <strong className="text-white">3단계(Lv. 12)</strong>와 <strong className="text-white">4단계(Lv. 22 테섭 기준)</strong> 구간의 갭이 생각보다 큽니다.</p>
-                                            <p className="text-slate-300">큐브를 최대한 아껴두고, <strong className="text-emerald-300">에픽 잠재능력 2줄이 붙는 4단계 아이템부터 본격적으로 잠재능력을 뽑는 것</strong>을 강력히 추천합니다.</p>
+                                            <p className="text-slate-300">본섭 출시 후 착용 렙제가 변경되면서 장비 렙제가 낮아졌습니다. 장비 교체 주기가 빨라지면서 큐브를 최대한 아껴두는 것이 좋습니다.</p>
+                                            <p className="text-slate-300"><strong className="text-emerald-300">에픽 잠재능력 2줄이 붙는 4단계 아이템부터 본격적으로 잠재능력을 뽑는 것</strong>을 강력히 추천합니다.</p>
                                             <div className="flex flex-wrap gap-2 mt-1.5">
                                                 <span className="px-2.5 py-1 bg-slate-800 rounded-lg text-xs text-slate-400 font-medium">1~3단계: 큐브 자제 💤</span>
                                                 <span className="px-2.5 py-1 bg-emerald-900/50 border border-emerald-600/30 rounded-lg text-xs text-emerald-300 font-bold">4단계(에픽) 이상부터 집중 투자 ✅</span>
