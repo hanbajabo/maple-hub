@@ -78,10 +78,10 @@ export default function UltimaSquadStrategyGuidePage() {
                                     <span>💰</span> <span>유틸리티 고단계 강화 비용 대폭 완화</span>
                                 </p>
                                 <ul className="space-y-1 text-slate-300">
-                                    <li>• 골획증/드롭률 +20%: <span className="line-through text-slate-500">1,000만G</span> ➔ <strong className="text-yellow-300 font-bold">150만G</strong> (85% 인하!)</li>
-                                    <li>• 골획증/드롭률 +25%: <span className="line-through text-slate-500">2,000만G</span> ➔ <strong className="text-yellow-300 font-bold">1,000만G</strong> (50% 인하)</li>
-                                    <li>• 골획증/드롭률 +30%: <span className="line-through text-slate-500">5,000만G</span> ➔ <strong className="text-yellow-300 font-bold">2,000만G</strong> (60% 인하)</li>
-                                    <li>• 오프라인 24시간 풀확장: <span className="line-through text-slate-500">1,350만G</span> ➔ <strong className="text-yellow-300 font-bold">650만G</strong> (50% 인하)</li>
+                                    <li>• 골획증/드롭률 +20%: <span className="line-through text-slate-500">테섭 1,000만G</span> ➔ <strong className="text-yellow-300 font-bold">본섭 150만 (1,500,000) G</strong> (85% 인하!)</li>
+                                    <li>• 골획증/드롭률 +25%: <span className="line-through text-slate-500">테섭 2,000만G</span> ➔ <strong className="text-yellow-300 font-bold">본섭 1,000만 (10,000,000) G</strong> (50% 인하)</li>
+                                    <li>• 골획증/드롭률 +30%: <span className="line-through text-slate-500">테섭 5,000만G</span> ➔ <strong className="text-yellow-300 font-bold">본섭 2,000만 (20,000,000) G</strong> (60% 인하)</li>
+                                    <li>• 오프라인 24시간 풀확장: <span className="line-through text-slate-500">테섭 1,350만G</span> ➔ <strong className="text-yellow-300 font-bold">본섭 650만 (6,500,000) G</strong> (50% 인하)</li>
                                 </ul>
                             </div>
 
