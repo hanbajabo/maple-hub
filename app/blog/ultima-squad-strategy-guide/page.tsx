@@ -94,9 +94,9 @@ export default function UltimaSquadStrategyGuidePage() {
                                 titleColor: 'text-emerald-300',
                                 badge: 'bg-emerald-900/50 text-emerald-300',
                                 icon: '🏹',
-                                title: '궁수 영입 — 1-6 클리어 후 50만 골드 필요',
+                                title: '궁수 영입 — 1-6 클리어 후 10만 골드 필요 (비용 완화)',
                                 items: [
-                                    '1-6 스테이지 클리어 후 궁수 영입 가능 (비용: 50만 골드)',
+                                    '1-6 스테이지 클리어 후 궁수 영입 가능 (비용: 10만 골드 - 기존 50만에서 완화)',
                                     'LV.8 달성 시 2단계 장비(레어) 착용 가능',
                                     '궁수 LV.2 달성 시 「차지드 애로우」 (공격 스킬) 즉시 장착',
                                     '영입 직후 1-7 ~ 2-2 반복으로 빠른 레벨업 진행',
@@ -123,10 +123,10 @@ export default function UltimaSquadStrategyGuidePage() {
                                 titleColor: 'text-blue-300',
                                 badge: 'bg-blue-900/50 text-blue-300',
                                 icon: '⚔️',
-                                title: '2-6 클리어 후 마법사 영입 — 400만 골드 필요',
+                                title: '2-6 클리어 후 마법사 영입 — 200만 골드 필요 (비용 완화)',
                                 items: [
                                     '마법사 영입은 2-6 스테이지 클리어 후 해금됩니다',
-                                    '마법사 영입 비용: 400만 골드 (미리 모아두기!)',
+                                    '마법사 영입 비용: 200만 골드 (기존 400만에서 절반 완화!)',
                                     '마법사 LV.7 달성 시 「힐」 스킬 해금 → 파티 회복으로 생존력 대폭 향상',
                                     '마법사 LV.17 달성 시 「헤븐즈 도어(부활)」 스킬 해금',
                                     '마법사는 3단계 풀셋 장착을 최대한 빨리 완료하는 것이 목표',
@@ -190,8 +190,8 @@ export default function UltimaSquadStrategyGuidePage() {
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             {[
-                                { label: '궁수 영입', cost: '50만 골드', timing: '1-6 클리어 후', color: 'text-emerald-300' },
-                                { label: '마법사 영입', cost: '400만 골드', timing: '2-6 클리어 후', color: 'text-purple-300' },
+                                { label: '궁수 영입', cost: '10만 골드 (100,000G)', timing: '1-6 클리어 후', color: 'text-emerald-300' },
+                                { label: '마법사 영입', cost: '200만 골드 (2,000,000G)', timing: '2-6 클리어 후', color: 'text-purple-300' },
                                 { label: '골획증 +25%', cost: '1,330만 골드 (누적)', timing: '가능한 빨리', color: 'text-yellow-300' },
                             ].map((item, i) => (
                                 <div key={i} className="bg-slate-900/60 rounded-lg p-3 text-center">
@@ -623,7 +623,7 @@ export default function UltimaSquadStrategyGuidePage() {
                                 color: 'border-yellow-500/40 bg-yellow-950/20',
                                 titleColor: 'text-yellow-300',
                                 points: [
-                                    '궁수 영입(1-6 클리어 후 50만G)과 마법사 영입(2-6 클리어 후 400만G) 비용을 미리 준비',
+                                    '궁수 영입(1-6 클리어 후 10만G)과 마법사 영입(2-6 클리어 후 200만G) 비용을 미리 준비',
                                     '골드 획득량 증가(골획증)는 +25%까지 투자하면 장기적으로 가장 효율적 (누적 1,330만G)',
                                     '오프라인 상태에서도 EXP+골드는 쌓이므로 항상 높은 스테이지 유지',
                                 ]
@@ -683,9 +683,9 @@ export default function UltimaSquadStrategyGuidePage() {
                                 color: 'border-orange-500/40 bg-orange-950/20',
                                 titleColor: 'text-orange-300',
                                 points: [
-                                    '① 전사 1-6 클리어 ➔ 궁수 영입(50만G) ➔ LV.8에서 2단계 장비 세팅',
+                                    '① 전사 1-6 클리어 ➔ 궁수 영입(10만G) ➔ LV.8에서 2단계 장비 세팅',
                                     '② 2인 스쿼드로 2-4~2-5 클리어 ➔ LV.22에서 4단계 장비 착용',
-                                    '③ 2-6 클리어 ➔ 마법사 영입(400만G) ➔ 마법사 빠른 성장',
+                                    '③ 2-6 클리어 ➔ 마법사 영입(200만G) ➔ 마법사 빠른 성장',
                                     '④ 마법사 LV.15+3단계풀셋 달성 ➔ 2-7 클리어 (안정 파밍 구간 진입)',
                                     '⑤ 전사 LV.26+4단계 무기 ➔ 2-8 클리어 (2-9 도전 준비)',
                                 ]
