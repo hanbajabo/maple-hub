@@ -756,8 +756,9 @@ export default function UltimaSquadMinigamePage() {
                                     <p className="text-amber-300 font-bold">본섭 출시 후 착용 레벨 변경 안내</p>
                                     <p className="text-slate-300">착용 레벨이 테섭 대비 본섭 출시 시 일부 변경되었습니다. 아래 수치는 본섭 기준으로 업데이트되었으나, 일부 단계는 추가 실측이 필요합니다.</p>
                                     <ul className="text-slate-400 space-y-0.5 list-disc list-inside mt-1">
+                                        <li><span className="text-white font-semibold">2단계</span>: 테섭 <span className="line-through text-slate-500">Lv. 8 이상</span> → 본섭 <span className="text-emerald-300 font-bold">Lv. 6 이상</span> <span className="text-emerald-400">(본섭 실측 확인)</span></li>
                                         <li><span className="text-white font-semibold">3단계</span>: 테섭 <span className="line-through text-slate-500">Lv. 15 이상</span> → 본섭 <span className="text-emerald-300 font-bold">Lv. 12 이상</span> <span className="text-emerald-400">(본섭 실측 확인)</span></li>
-                                        <li><span className="text-yellow-300 font-semibold">그 외 단계</span>: 본섭 변경 여부 <span className="text-yellow-300 font-bold">추가 실측 확인 필요</span></li>
+                                        <li><span className="text-yellow-300 font-semibold">그 외 단계</span>: 본섭 변경 여부 <span className="text-rose-400 font-bold">추가 실측 확인 필요</span></li>
                                     </ul>
                                 </div>
                             </div>
