@@ -248,7 +248,9 @@ export default function UltimaSquadMinigamePage() {
                                 <ul className="space-y-1 text-slate-300">
                                     <li>• 2단계 장비: <span className="line-through text-slate-500">Lv. 8 이상</span> ➔ <strong className="text-orange-300 font-bold">Lv. 6 이상</strong> 착용 가능</li>
                                     <li>• 3단계 장비: <span className="line-through text-slate-500">Lv. 15 이상</span> ➔ <strong className="text-orange-300 font-bold">Lv. 12 이상</strong> 착용 가능</li>
-                                    <li>• 4~5단계 장비: 본섭 변경 여부 <strong className="text-red-400 font-bold">추가 실측 확인 필요</strong> (테섭 기준 Lv. 22, Lv. 28)</li>
+                                    <li>• 4단계 장비: <span className="line-through text-slate-500">Lv. 22 이상</span> ➔ <strong className="text-orange-300 font-bold">Lv. 18 이상</strong> 착용 가능</li>
+                                    <li>• 5단계 장비: <span className="line-through text-slate-500">Lv. 28 이상</span> ➔ <strong className="text-orange-300 font-bold">Lv. 24 이상</strong> 착용 가능</li>
+                                    <li>• 6단계 장비: <strong className="text-orange-300 font-bold">Lv. 32 이상</strong> / 7~8단계: <strong className="text-orange-300 font-bold">Lv. 40 이상</strong> (본섭 실측 확인)</li>
                                 </ul>
                             </div>
 
@@ -769,7 +771,10 @@ export default function UltimaSquadMinigamePage() {
                                     <ul className="text-slate-400 space-y-0.5 list-disc list-inside mt-1">
                                         <li><span className="text-white font-semibold">2단계</span>: 테섭 <span className="line-through text-slate-500">Lv. 8 이상</span> → 본섭 <span className="text-emerald-300 font-bold">Lv. 6 이상</span> <span className="text-emerald-400">(본섭 실측 확인)</span></li>
                                         <li><span className="text-white font-semibold">3단계</span>: 테섭 <span className="line-through text-slate-500">Lv. 15 이상</span> → 본섭 <span className="text-emerald-300 font-bold">Lv. 12 이상</span> <span className="text-emerald-400">(본섭 실측 확인)</span></li>
-                                        <li><span className="text-yellow-300 font-semibold">그 외 단계</span>: 본섭 변경 여부 <span className="text-rose-400 font-bold">추가 실측 확인 필요</span></li>
+                                        <li><span className="text-white font-semibold">4단계</span>: 테섭 <span className="line-through text-slate-500">Lv. 22 이상</span> → 본섭 <span className="text-emerald-300 font-bold">Lv. 18 이상</span> <span className="text-emerald-400">(본섭 실측 확인)</span></li>
+                                        <li><span className="text-white font-semibold">5단계</span>: 테섭 <span className="line-through text-slate-500">Lv. 28 이상</span> → 본섭 <span className="text-emerald-300 font-bold">Lv. 24 이상</span> <span className="text-emerald-400">(본섭 실측 확인)</span></li>
+                                        <li><span className="text-white font-semibold">6단계</span>: <span className="text-emerald-300 font-bold">Lv. 32 이상</span> / 7~8단계: <span className="text-emerald-300 font-bold">Lv. 40 이상</span> <span className="text-emerald-400">(본섭 실측 확인)</span></li>
+                                        <li><span className="text-yellow-300 font-semibold">방어구 착용 레벨</span>: 본섭 변경 여부 <span className="text-rose-400 font-bold">추가 실측 확인 필요</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -789,9 +794,11 @@ export default function UltimaSquadMinigamePage() {
                                             { stage: '1단계', lv: '제한 없음', atk: '+9', armor: '최대 HP +45 / 방어력 +5', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '660 G' },
                                             { stage: '2단계', lv: 'Lv. 6 이상', atk: '+14', armor: '최대 HP +74 / 방어력 +10', pot: '무기 공/마 +5 / 방어구 HP +12, 방어력 +4', price: '1,400 G' },
                                             { stage: '3단계', lv: 'Lv. 12 이상', atk: '+20', armor: '최대 HP +112 / 방어력 +15', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '2,970 G' },
-                                            { stage: '4단계 ⭐', lv: 'Lv. 22 이상(테섭)', atk: '+25', armor: '최대 HP +158 / 방어력 +20', pot: '무기 공/마 +4 / 방어구 HP +34, 방어력 +4', price: '6,300 G' },
-                                            { stage: '5단계 ⭐', lv: 'Lv. 28 이상(테섭)', atk: '+32', armor: '최대 HP +231 / 방어력 +25', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4', price: '13,370 G' },
-                                            { stage: '6단계~', lv: '미확인', atk: '미확인', armor: '미확인', pot: '미확인', price: '미확인' },
+                                            { stage: '4단계 ⭐', lv: 'Lv. 18 이상', atk: '+25 (최대 +31)', armor: '최대 HP +158 / 방어력 +20', pot: '무기 공/마 +4 / 방어구 HP +34, 방어력 +4', price: '6,300 G' },
+                                            { stage: '5단계 ⭐', lv: 'Lv. 24 이상', atk: '+32 (최대 +38)', armor: '최대 HP +231 / 방어력 +25', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4', price: '13,370 G' },
+                                            { stage: '6단계', lv: 'Lv. 32 이상', atk: '+65 (최대 +85)', armor: '미확인', pot: '미확인', price: '60,140 G' },
+                                            { stage: '7단계', lv: 'Lv. 40 이상', atk: '+111 (최대 +139)', armor: '미확인', pot: '미확인', price: '270,640 G' },
+                                            { stage: '8단계', lv: 'Lv. 40 이상', atk: '+165 (최대 +205)', armor: '미확인', pot: '미확인', price: '미확인' },
                                         ].map((row, idx) => (
                                             <tr key={row.stage} className={row.stage.includes('⭐') ? 'bg-amber-950/40 ring-1 ring-amber-500/40' : idx % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60'}>
                                                 <td className="p-2.5 sm:p-3 border border-slate-700 font-extrabold text-white">{row.stage}</td>
@@ -830,11 +837,11 @@ export default function UltimaSquadMinigamePage() {
                                                 { stage: '1단계', potential: '-', optionCount: '-', levelLimit: '제한 없음' },
                                                 { stage: '2단계', potential: '레어', optionCount: '1종', levelLimit: 'Lv. 6 이상' },
                                                 { stage: '3단계', potential: '레어', optionCount: '2종', levelLimit: 'Lv. 12 이상' },
-                                                { stage: '4단계', potential: '에픽', optionCount: '2종', levelLimit: 'Lv. 22 이상(테섭)' },
-                                                { stage: '5단계', potential: '에픽', optionCount: '2종', levelLimit: 'Lv. 28 이상(테섭)' },
-                                                { stage: '6단계', potential: '유니크', optionCount: '2종', levelLimit: '미확인' },
-                                                { stage: '7단계', potential: '레전드리', optionCount: '2종', levelLimit: '미확인' },
-                                                { stage: '8단계', potential: '레전드리', optionCount: '3종', levelLimit: '미확인' },
+                                                { stage: '4단계', potential: '에픽', optionCount: '2종', levelLimit: 'Lv. 18 이상' },
+                                                { stage: '5단계', potential: '에픽', optionCount: '2종', levelLimit: 'Lv. 24 이상' },
+                                                { stage: '6단계', potential: '유니크', optionCount: '2종', levelLimit: 'Lv. 32 이상' },
+                                                { stage: '7단계', potential: '레전드리', optionCount: '2종', levelLimit: 'Lv. 40 이상' },
+                                                { stage: '8단계', potential: '레전드리', optionCount: '3종', levelLimit: 'Lv. 40 이상' },
                                             ].map((g, i) => {
                                                 const potentialColor: Record<string, string> = {
                                                     '-': 'text-slate-400',
