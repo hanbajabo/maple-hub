@@ -4,28 +4,29 @@ import { useState, useMemo } from 'react';
 import { Clock, Coins, TrendingUp, Info, ChevronDown, Sparkles } from 'lucide-react';
 
 // ─── 스테이지 데이터 ───────────────────────────────────────────────────────────
-// exp: LV18 기준 한판당 경험치 실측값 두 번의 평균 (null = 미측정)
+// exp: LV18 기준 한판당 경험치 실측 획득량 (클리어 후 - 클리어 전), null = 미측정
+// expPredicted: 1-4~2-2 선형 추세 기반 예측값
 const STAGES = [
-    { id: '1-1', area: 1, gold: { 0: 10,  5: 10,  10: 11,  20: 12,  25: 12,  30: 13  }, exp: [18.672, 18.709] },
-    { id: '1-2', area: 1, gold: { 0: 30,  5: 31,  10: 33,  20: 36,  25: 37,  30: 39  }, exp: [18.737, 18.873] },
-    { id: '1-3', area: 1, gold: { 0: 50,  5: 52,  10: 55,  20: 60,  25: 62,  30: 65  }, exp: [18.886, 19.225] },
-    { id: '1-4', area: 1, gold: { 0: 70,  5: 73,  10: 77,  20: 84,  25: 87,  30: 91  }, exp: [19.313, 19.721] },
-    { id: '1-5', area: 1, gold: { 0: 90,  5: 94,  10: 99,  20: 108, 25: 112, 30: 117 }, exp: [19.826, 20.301] },
-    { id: '1-6', area: 1, gold: { 0: 110, 5: 115, 10: 121, 20: 132, 25: 137, 30: 143 }, exp: [20.519, 21.119] },
-    { id: '1-7', area: 1, gold: { 0: 130, 5: 136, 10: 143, 20: 156, 25: 162, 30: 169 }, exp: [21.292, 22.039] },
-    { id: '1-8', area: 1, gold: { 0: 150, 5: 157, 10: 165, 20: 180, 25: 187, 30: 195 }, exp: [22.107, 23.058] },
-    { id: '1-9', area: 1, gold: { 0: 170, 5: 178, 10: 187, 20: 204, 25: 212, 30: 221 }, exp: [23.188, 24.275] },
-    { id: '2-1', area: 2, gold: { 0: 400, 5: 420, 10: 440, 20: 480, 25: 500, 30: 520 }, exp: [24.489, 25.644] },
-    { id: '2-2', area: 2, gold: { 0: 430, 5: 451, 10: 473, 20: 516, 25: 537, 30: 559 }, exp: [25.820, 27.179] },
-    { id: '2-3', area: 2, gold: { 0: 460, 5: 483, 10: 506, 20: 552, 25: 575, 30: 598 }, exp: null },
-    { id: '2-4', area: 2, gold: { 0: 490, 5: 514, 10: 539, 20: 588, 25: 612, 30: 637 }, exp: null },
-    { id: '2-5', area: 2, gold: { 0: 520, 5: 546, 10: 572, 20: 624, 25: 650, 30: 676 }, exp: null },
-    { id: '2-6', area: 2, gold: { 0: 550, 5: 577, 10: 605, 20: 660, 25: 687, 30: 715 }, exp: null },
-    { id: '2-7', area: 2, gold: { 0: 580, 5: 609, 10: 638, 20: 696, 25: 725, 30: 754 }, exp: null },
-    { id: '2-8', area: 2, gold: { 0: 610, 5: 640, 10: 671, 20: 732, 25: 762, 30: 793 }, exp: null },
-    { id: '2-9', area: 2, gold: { 0: 640, 5: 672, 10: 704, 20: 768, 25: 800, 30: 832 }, exp: null },
-    { id: '3-1', area: 3, gold: { 0: 700, 5: 735, 10: 770, 20: 840, 25: 875, 30: 910 }, exp: null },
-    { id: '3-2', area: 3, gold: { 0: 750, 5: 788, 10: 825, 20: 900, 25: 938, 30: 975 }, exp: null },
+    { id: '1-1', area: 1, gold: { 0: 10,  5: 10,  10: 11,  20: 12,  25: 12,  30: 13  }, exp: 0.037,  expPredicted: false },
+    { id: '1-2', area: 1, gold: { 0: 30,  5: 31,  10: 33,  20: 36,  25: 37,  30: 39  }, exp: 0.136,  expPredicted: false },
+    { id: '1-3', area: 1, gold: { 0: 50,  5: 52,  10: 55,  20: 60,  25: 62,  30: 65  }, exp: 0.339,  expPredicted: false },
+    { id: '1-4', area: 1, gold: { 0: 70,  5: 73,  10: 77,  20: 84,  25: 87,  30: 91  }, exp: 0.408,  expPredicted: false },
+    { id: '1-5', area: 1, gold: { 0: 90,  5: 94,  10: 99,  20: 108, 25: 112, 30: 117 }, exp: 0.475,  expPredicted: false },
+    { id: '1-6', area: 1, gold: { 0: 110, 5: 115, 10: 121, 20: 132, 25: 137, 30: 143 }, exp: 0.600,  expPredicted: false },
+    { id: '1-7', area: 1, gold: { 0: 130, 5: 136, 10: 143, 20: 156, 25: 162, 30: 169 }, exp: 0.747,  expPredicted: false },
+    { id: '1-8', area: 1, gold: { 0: 150, 5: 157, 10: 165, 20: 180, 25: 187, 30: 195 }, exp: 0.951,  expPredicted: false },
+    { id: '1-9', area: 1, gold: { 0: 170, 5: 178, 10: 187, 20: 204, 25: 212, 30: 221 }, exp: 1.087,  expPredicted: false },
+    { id: '2-1', area: 2, gold: { 0: 400, 5: 420, 10: 440, 20: 480, 25: 500, 30: 520 }, exp: 1.155,  expPredicted: false },
+    { id: '2-2', area: 2, gold: { 0: 430, 5: 451, 10: 473, 20: 516, 25: 537, 30: 559 }, exp: 1.359,  expPredicted: false },
+    { id: '2-3', area: 2, gold: { 0: 460, 5: 483, 10: 506, 20: 552, 25: 575, 30: 598 }, exp: 1.495,  expPredicted: true  },
+    { id: '2-4', area: 2, gold: { 0: 490, 5: 514, 10: 539, 20: 588, 25: 612, 30: 637 }, exp: 1.632,  expPredicted: true  },
+    { id: '2-5', area: 2, gold: { 0: 520, 5: 546, 10: 572, 20: 624, 25: 650, 30: 676 }, exp: 1.768,  expPredicted: true  },
+    { id: '2-6', area: 2, gold: { 0: 550, 5: 577, 10: 605, 20: 660, 25: 687, 30: 715 }, exp: 1.904,  expPredicted: true  },
+    { id: '2-7', area: 2, gold: { 0: 580, 5: 609, 10: 638, 20: 696, 25: 725, 30: 754 }, exp: 2.040,  expPredicted: true  },
+    { id: '2-8', area: 2, gold: { 0: 610, 5: 640, 10: 671, 20: 732, 25: 762, 30: 793 }, exp: 2.176,  expPredicted: true  },
+    { id: '2-9', area: 2, gold: { 0: 640, 5: 672, 10: 704, 20: 768, 25: 800, 30: 832 }, exp: 2.312,  expPredicted: true  },
+    { id: '3-1', area: 3, gold: { 0: 700, 5: 735, 10: 770, 20: 840, 25: 875, 30: 910 }, exp: 2.448,  expPredicted: true  },
+    { id: '3-2', area: 3, gold: { 0: 750, 5: 788, 10: 825, 20: 900, 25: 938, 30: 975 }, exp: 2.584,  expPredicted: true  },
 ];
 
 const BONUS_OPTIONS = [
@@ -43,11 +44,6 @@ const AREA_COLORS: Record<number, { border: string; bg: string; badge: string; l
     3: { border: 'border-amber-700/40',  bg: 'bg-amber-900/20',  badge: 'bg-amber-900/60 text-amber-300 border-amber-700/50',   label: '3지역', dot: 'bg-amber-400'  },
 };
 
-function avgExp(exp: number[] | null) {
-    if (!exp) return null;
-    return exp.reduce((a, b) => a + b, 0) / exp.length;
-}
-
 function fmtTime(sec: number) {
     if (sec >= 60) {
         const m = Math.floor(sec / 60);
@@ -64,24 +60,23 @@ export default function UltimaSquadCalculator() {
 
     const refStage  = STAGES.find(s => s.id === refId)!;
     const refGold   = refStage.gold[bonus as keyof typeof refStage.gold];
-    const refExpAvg = avgExp(refStage.exp);
+    const refExp    = refStage.exp; // 실측 or 예측 경험치 %
     const refSec    = refTime ? parseFloat(refTime) : null;
 
     const refGPH = refSec && refSec > 0 ? (refGold * 60) / (refSec / 3600) : null;
-    const refEPH = refSec && refSec > 0 && refExpAvg ? refExpAvg / (refSec / 3600) : null;
+    const refEPH = refSec && refSec > 0 && refExp ? refExp / (refSec / 3600) : null;
     const refMPM = refSec && refSec > 0 ? 3600 / refSec : null;
 
     const results = useMemo(() => {
         return STAGES.map(stage => {
             const g = stage.gold[bonus as keyof typeof stage.gold];
-            const expAvg = avgExp(stage.exp);
             const breakevenGold = refSec && refSec > 0 ? refSec * (g / refGold) : null;
-            const breakevenExp  = refSec && refSec > 0 && refExpAvg && expAvg
-                ? refSec * (expAvg / refExpAvg)
+            const breakevenExp  = refSec && refSec > 0 && refExp && stage.exp
+                ? refSec * (stage.exp / refExp)
                 : null;
-            return { ...stage, goldPerKill: g, expAvg, breakevenGold, breakevenExp };
+            return { ...stage, goldPerKill: g, breakevenGold, breakevenExp };
         });
-    }, [bonus, refGold, refExpAvg, refSec]);
+    }, [bonus, refGold, refExp, refSec]);
 
     return (
         <div className="space-y-6">
@@ -124,7 +119,7 @@ export default function UltimaSquadCalculator() {
                         >
                             {STAGES.map(s => (
                                 <option key={s.id} value={s.id}>
-                                    스테이지 {s.id} — 1마리당 {s.gold[bonus as keyof typeof s.gold]}G{s.exp ? ` · 경험치 ${avgExp(s.exp)!.toFixed(2)}%` : ''}
+                                    스테이지 {s.id} — 1마리당 {s.gold[bonus as keyof typeof s.gold]}G{s.exp !== null ? ` · 경험치 ${s.expPredicted ? '~' : ''}${s.exp.toFixed(3)}%` : ''}
                                 </option>
                             ))}
                         </select>
@@ -240,17 +235,25 @@ export default function UltimaSquadCalculator() {
                                                 ) : '-'}
                                             </td>
                                             {/* 한판당 경험치 */}
-                                            <td className="p-2.5 border border-slate-700 text-right text-emerald-300 font-semibold">
-                                                {r.expAvg !== null
-                                                    ? <>{r.expAvg.toFixed(3)}%<span className="text-slate-500 text-[10px] ml-1">LV18</span></>
-                                                    : <span className="text-slate-600 text-xs">미측정</span>}
+                                            <td className="p-2.5 border border-slate-700 text-right font-semibold">
+                                                {r.exp !== null ? (
+                                                    r.expPredicted ? (
+                                                        <span className="text-slate-400">
+                                                            ~{r.exp.toFixed(3)}%
+                                                            <span className="text-slate-600 text-[10px] ml-1">예측</span>
+                                                        </span>
+                                                    ) : (
+                                                        <span className="text-emerald-300">
+                                                            {r.exp.toFixed(3)}%
+                                                            <span className="text-slate-500 text-[10px] ml-1">LV18</span>
+                                                        </span>
+                                                    )
+                                                ) : <span className="text-slate-600 text-xs">미측정</span>}
                                             </td>
                                             {/* 경험치 기준 타임 */}
                                             <td className="p-2.5 border border-slate-700 text-right font-bold">
                                                 {isRef ? (
-                                                    r.expAvg !== null
-                                                        ? <span className="text-sky-300">{refSec}초 (기준)</span>
-                                                        : <span className="text-slate-600 text-xs">미측정</span>
+                                                    <span className="text-sky-300">{refSec}초 (기준)</span>
                                                 ) : r.breakevenExp !== null ? (
                                                     <span className={r.breakevenExp > refSec ? 'text-emerald-300' : 'text-rose-400'}>
                                                         {fmtTime(r.breakevenExp)} 이내
