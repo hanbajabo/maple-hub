@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Clock, Coins, TrendingUp, Info, ChevronDown, Sparkles } from 'lucide-react';
 import { InArticleAd } from '@/components/AdSense';
+import Link from 'next/link';
 
 // ─── 스테이지 데이터 ───────────────────────────────────────────────────────────
 // exp: LV18 기준 한판당 경험치 실측 획득량 (클리어 후 - 클리어 전), null = 미측정
@@ -332,6 +333,18 @@ export default function UltimaSquadCalculator() {
                             기준보다 빠르게 클리어해야 함
                         </span>
                     </div>
+                </div>
+
+                {/* 공략글로 돌아가기 버튼 */}
+                <div className="mt-8 mb-4">
+                    <Link 
+                        href="/blog/ultima-squad-minigame-guide"
+                        prefetch={false}
+                        className="flex items-center justify-center gap-2 w-full bg-slate-800/80 hover:bg-slate-700/80 border border-slate-600/50 hover:border-orange-500/50 text-slate-200 hover:text-white font-bold py-4 rounded-xl transition-all shadow-md group"
+                    >
+                        <span>울티마 스쿼드 완벽 공략글로 돌아가기</span>
+                        <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </Link>
                 </div>
                 </>
             )}
