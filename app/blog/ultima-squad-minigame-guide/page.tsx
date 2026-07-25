@@ -193,6 +193,30 @@ export default function UltimaSquadMinigamePage() {
                         </div>
                     </div>
 
+
+                    {/* 계산기 출시 안내 */}
+                    <Link href="/calculator/ultima-squad" className="block mb-8 bg-gradient-to-r from-sky-900/40 via-indigo-900/40 to-purple-900/40 border border-indigo-500/50 rounded-2xl p-5 hover:border-indigo-400 transition-colors shadow-lg group">
+                        <div className="flex items-center gap-4">
+                            <div className="bg-indigo-950/80 p-3 rounded-xl border border-indigo-500/30 group-hover:scale-110 transition-transform">
+                                <span className="text-2xl">🧮</span>
+                            </div>
+                            <div>
+                                <div className="flex items-center gap-2 mb-1">
+                                    <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-indigo-300 transition-colors">
+                                        울티마 스쿼드 골드 효율 계산기 출시!
+                                    </h3>
+                                    <span className="bg-red-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-lg animate-pulse">NEW</span>
+                                </div>
+                                <p className="text-sm text-indigo-200/80">
+                                    내 클리어 타임을 입력하고 어떤 스테이지가 가장 골드 효율이 좋은지 바로 확인해보세요.
+                                </p>
+                            </div>
+                            <div className="ml-auto text-indigo-400 group-hover:translate-x-1 transition-transform hidden sm:block">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                            </div>
+                        </div>
+                    </Link>
+
                     {/* 🔥 7/23 본섭 정식 적용 변경 사항 (테스트월드 대비 완화 총정리) */}
                     <div className="mb-8 bg-gradient-to-r from-amber-950/50 via-slate-900/80 to-amber-950/50 border-2 border-amber-500/60 rounded-2xl p-5 sm:p-6 shadow-xl backdrop-blur-md">
                         <div className="flex items-center gap-2.5 mb-3 border-b border-amber-500/30 pb-3">
