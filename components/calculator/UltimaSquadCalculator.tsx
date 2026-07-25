@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Clock, Coins, TrendingUp, Info, ChevronDown, Sparkles } from 'lucide-react';
+import { InArticleAd } from '@/components/AdSense';
 
 // ─── 스테이지 데이터 ───────────────────────────────────────────────────────────
 // exp: LV18 기준 한판당 경험치 실측 획득량 (클리어 후 - 클리어 전), null = 미측정
@@ -58,6 +59,11 @@ export default function UltimaSquadCalculator() {
     const [refId, setRefId]         = useState<string>('1-5');
     const [refMin, setRefMin]       = useState<string>('');
     const [refSecInp, setRefSecInp] = useState<string>('');
+    const [isCalculated, setIsCalculated] = useState<boolean>(false);
+
+    useEffect(() => {
+        setIsCalculated(false);
+    }, [bonus, refId, refMin, refSecInp]);
 
     const refStage  = STAGES.find(s => s.id === refId)!;
     const refGold   = refStage.gold[bonus as keyof typeof refStage.gold];
@@ -155,8 +161,25 @@ export default function UltimaSquadCalculator() {
                     </div>
                 </div>
 
-                {/* 기준 효율 표시 */}
-                {refSec && refSec > 0 && (
+                {/* 계산하기 버튼 */}
+                <div className="pt-2">
+                    <button
+                        onClick={() => setIsCalculated(true)}
+                        disabled={!refSec || refSec <= 0}
+                        className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-500 text-white font-bold py-3.5 rounded-xl transition-colors shadow-lg active:scale-[0.98]"
+                    >
+                        계산하기
+                    </button>
+                </div>
+            </div>
+
+            {isCalculated && refSec && refSec > 0 && (
+                <>
+                    <div className="my-6">
+                        <InArticleAd />
+                    </div>
+
+                    {/* 기준 효율 표시 */}
                     <div className="mt-3 p-3 bg-sky-950/40 border border-sky-700/40 rounded-xl grid grid-cols-1 sm:grid-cols-3 gap-2">
                         <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-300">
                             <TrendingUp className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
@@ -182,11 +205,8 @@ export default function UltimaSquadCalculator() {
                             </span>
                         </div>
                     </div>
-                )}
-            </div>
 
             {/* ─── ③ 결과 테이블 ──────────────────────────────── */}
-            {refSec && refSec > 0 && (
                 <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-5 shadow-lg">
                     <h2 className="font-bold text-slate-100 text-sm mb-1 flex items-center gap-2">
                         <Info className="w-4 h-4 text-slate-400" />
@@ -310,6 +330,7 @@ export default function UltimaSquadCalculator() {
                         </span>
                     </div>
                 </div>
+                </>
             )}
         </div>
     );
