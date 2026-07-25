@@ -98,6 +98,24 @@ export default function CalculatorMenu() {
                         </Link>
 
                         <Link
+                            href="/calculator/ultima-squad"
+                            prefetch={false}
+                            onClick={close}
+                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
+                        >
+                            <div className="relative w-6 h-6 flex-shrink-0">
+                                <Image src="/images/ultima-squad-icon.png" alt="울티마 스쿼드" fill className="object-contain" />
+                            </div>
+                            <div className="flex flex-col min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-semibold text-sm">울티마 스쿼드 계산기</span>
+                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
+                                </div>
+                                <span className="text-[10px] text-slate-400 mt-0.5 truncate">스테이지별 골드 효율 비교</span>
+                            </div>
+                        </Link>
+
+                        <Link
                             href="/calculator/challengers-season4"
                             prefetch={false}
                             onClick={close}
@@ -148,24 +166,6 @@ export default function CalculatorMenu() {
                                     <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
                                 </div>
                                 <span className="text-[10px] text-slate-400 mt-0.5 truncate">울티마 작전 일지 최적 스킬트리</span>
-                            </div>
-                        </Link>
-
-                        <Link
-                            href="/calculator/ultima-squad"
-                            prefetch={false}
-                            onClick={close}
-                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
-                        >
-                            <div className="relative w-6 h-6 flex-shrink-0">
-                                <Image src="/images/ultima-squad-icon.png" alt="울티마 스쿼드" fill className="object-contain" />
-                            </div>
-                            <div className="flex flex-col min-w-0">
-                                <div className="flex items-center gap-1.5">
-                                    <span className="font-semibold text-sm">울티마 스쿼드 계산기</span>
-                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
-                                </div>
-                                <span className="text-[10px] text-slate-400 mt-0.5 truncate">스테이지별 골드 효율 비교</span>
                             </div>
                         </Link>
 
