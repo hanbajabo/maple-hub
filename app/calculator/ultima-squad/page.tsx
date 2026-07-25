@@ -53,6 +53,28 @@ export default function UltimaSquadCalculatorPage() {
                     </div>
                 </div>
                 <UltimaSquadCalculator />
+
+                {/* 클리어 타임 확인 방법 안내 */}
+                <div className="mt-12 mb-8 bg-slate-900/60 border border-slate-700/50 rounded-2xl p-5 sm:p-6 shadow-xl">
+                    <h2 className="text-lg sm:text-xl font-bold text-slate-100 mb-4 flex items-center gap-2">
+                        <span className="text-sky-400">💡</span>
+                        울티마 스쿼드 클리어 타임 확인 방법
+                    </h2>
+                    <div className="bg-slate-950/60 rounded-xl p-4 mb-4 border border-slate-800/60">
+                        <p className="text-slate-300 text-sm leading-relaxed break-keep">
+                            <strong className="text-sky-300">[맵]</strong> - 클리어한 <strong className="text-sky-300">[스테이지]</strong> 클릭 - <strong className="text-yellow-300">[베스트 클리어 타임]</strong> 부분을 확인하면 클리어 타임을 확인할 수 있습니다.
+                        </p>
+                    </div>
+                    <div className="relative w-full rounded-xl overflow-hidden border border-slate-700/50 shadow-md">
+                        <Image 
+                            src="/images/ultima-clear-time-guide.png" 
+                            alt="베스트 클리어 타임 확인 방법 안내" 
+                            width={1200}
+                            height={400}
+                            style={{ width: '100%', height: 'auto' }}
+                        />
+                    </div>
+                </div>
             </div>
         </main>
     );
