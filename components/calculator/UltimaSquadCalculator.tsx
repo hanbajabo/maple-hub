@@ -54,14 +54,18 @@ function fmtTime(sec: number) {
 }
 
 export default function UltimaSquadCalculator() {
-    const [bonus, setBonus]     = useState<number>(0);
-    const [refId, setRefId]     = useState<string>('1-5');
-    const [refTime, setRefTime] = useState<string>('');
+    const [bonus, setBonus]         = useState<number>(0);
+    const [refId, setRefId]         = useState<string>('1-5');
+    const [refMin, setRefMin]       = useState<string>('');
+    const [refSecInp, setRefSecInp] = useState<string>('');
 
     const refStage  = STAGES.find(s => s.id === refId)!;
     const refGold   = refStage.gold[bonus as keyof typeof refStage.gold];
     const refExp    = refStage.exp; // 실측 or 예측 경험치 %
-    const refSec    = refTime ? parseFloat(refTime) : null;
+    
+    const m = refMin ? parseInt(refMin) || 0 : 0;
+    const s = refSecInp ? parseFloat(refSecInp) || 0 : 0;
+    const refSec = (refMin || refSecInp) ? (m * 60 + s) : null;
 
     const refGPH = refSec && refSec > 0 ? (refGold * 60) / (refSec / 3600) : null;
     const refEPH = refSec && refSec > 0 && refExp ? refExp / (refSec / 3600) : null;
@@ -125,16 +129,29 @@ export default function UltimaSquadCalculator() {
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                     </div>
-                    <div className="flex items-center gap-2 sm:w-44">
-                        <input
-                            type="number"
-                            min="1"
-                            placeholder="클리어 타임"
-                            value={refTime}
-                            onChange={e => setRefTime(e.target.value)}
-                            className="w-full bg-slate-800/80 border border-slate-600/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-sky-500/70 focus:ring-1 focus:ring-sky-500/30 transition-all"
-                        />
-                        <span className="text-sm text-slate-400 shrink-0">초</span>
+                    <div className="flex flex-col sm:flex-row items-center gap-2 sm:w-64">
+                        <div className="flex items-center gap-2 w-full">
+                            <input
+                                type="number"
+                                min="0"
+                                placeholder="분"
+                                value={refMin}
+                                onChange={e => setRefMin(e.target.value)}
+                                className="w-full bg-slate-800/80 border border-slate-600/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-sky-500/70 focus:ring-1 focus:ring-sky-500/30 transition-all"
+                            />
+                            <span className="text-sm text-slate-400 shrink-0">분</span>
+                        </div>
+                        <div className="flex items-center gap-2 w-full">
+                            <input
+                                type="number"
+                                min="0"
+                                placeholder="초"
+                                value={refSecInp}
+                                onChange={e => setRefSecInp(e.target.value)}
+                                className="w-full bg-slate-800/80 border border-slate-600/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-sky-500/70 focus:ring-1 focus:ring-sky-500/30 transition-all"
+                            />
+                            <span className="text-sm text-slate-400 shrink-0">초</span>
+                        </div>
                     </div>
                 </div>
 
@@ -227,7 +244,7 @@ export default function UltimaSquadCalculator() {
                                             {/* 골드 기준 타임 */}
                                             <td className="p-2.5 border border-slate-700 text-right font-bold">
                                                 {isRef ? (
-                                                    <span className="text-sky-300">{refSec}초 (기준)</span>
+                                                    <span className="text-sky-300">{fmtTime(refSec!)} (기준)</span>
                                                 ) : r.breakevenGold !== null ? (
                                                     <span className={r.breakevenGold > refSec ? 'text-yellow-300' : 'text-rose-400'}>
                                                         {fmtTime(r.breakevenGold)} 이내
@@ -253,7 +270,7 @@ export default function UltimaSquadCalculator() {
                                             {/* 경험치 기준 타임 */}
                                             <td className="p-2.5 border border-slate-700 text-right font-bold">
                                                 {isRef ? (
-                                                    <span className="text-sky-300">{refSec}초 (기준)</span>
+                                                    <span className="text-sky-300">{fmtTime(refSec!)} (기준)</span>
                                                 ) : r.breakevenExp !== null ? (
                                                     <span className={r.breakevenExp > refSec ? 'text-emerald-300' : 'text-rose-400'}>
                                                         {fmtTime(r.breakevenExp)} 이내
