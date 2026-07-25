@@ -166,14 +166,7 @@ export default function UltimaSquadCalculator() {
                                                 />
                                                 <span className="text-xs text-slate-500 shrink-0">초</span>
                                             </div>
-                                            {stage.goldPerHour !== null && stage.runsPerHour !== null && (
-                                                <div className="mt-2 flex items-center justify-between">
-                                                    <span className="text-xs text-slate-400">{stage.runsPerHour.toFixed(1)}회/시간</span>
-                                                    <span className="text-xs font-bold text-emerald-400">
-                                                        {formatGold(stage.goldPerHour)}G/시간
-                                                    </span>
-                                                </div>
-                                            )}
+
                                         </div>
                                     ))}
                                 </div>
