@@ -784,21 +784,22 @@ export default function UltimaSquadMinigamePage() {
                                             <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-white">장비 단계</th>
                                             <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-amber-300">착용 레벨</th>
                                             <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-rose-300 text-center">무기 기본 공</th>
-                                            <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-sky-200">방어구 기본 스탯 (모자/장갑/신발)</th>
+                                            <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-sky-200 text-center">최대 HP</th>
+                                            <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-indigo-300 text-center">방어력</th>
                                             <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-emerald-300">추옵 실측 확인</th>
                                             <th className="p-2.5 sm:p-3 border border-slate-700 font-bold text-yellow-300 text-right">분해 골드</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-white">
                                         {[
-                                            { stage: '1단계', lv: '제한 없음', atk: '+9 (최대 +13)', armor: '최대 HP +45~+55 / 방어력 +5~+9', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '660 G' },
-                                            { stage: '2단계', lv: 'Lv. 6 이상', atk: '+14 (최대 +18)', armor: '최대 HP +74~+86 / 방어력 +10~+14', pot: '무기 공/마 +5 / 방어구 HP +12, 방어력 +4', price: '1,400 G' },
-                                            { stage: '3단계', lv: 'Lv. 12 이상', atk: '+20 (최대 +24)', armor: '최대 HP +112~+128 / 방어력 +15~+19', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '2,970 G' },
-                                            { stage: '4단계 ⭐', lv: 'Lv. 18 이상', atk: '+25 (최대 +31)', armor: '최대 HP +158~+192 / 방어력 +20~+24', pot: '무기 공/마 +4 / 방어구 HP +34, 방어력 +4', price: '6,300 G' },
-                                            { stage: '5단계 ⭐', lv: 'Lv. 24 이상', atk: '+32 (최대 +38)', armor: '최대 HP +231~+269 / 방어력 +128~+172', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4', price: '13,370 G' },
-                                            { stage: '6단계', lv: 'Lv. 32 이상', atk: '+65 (최대 +85)', armor: '최대 HP +762~+1038 / 방어력 +268~+303', pot: '무기 공/마 +20 / 방어구 HP +276, 방어력 +35 (계산값)', price: '60,140 G' },
-                                            { stage: '7단계', lv: 'Lv. 40 이상', atk: '+111 (최대 +139)', armor: '최대 HP +1360~+1840 / 방어력 +362~+398', pot: '무기 공/마 +28 / 방어구 HP +480, 방어력 +36 (계산값)', price: '270,640 G' },
-                                            { stage: '8단계', lv: 'Lv. 40 이상', atk: '+165 (최대 +205)', armor: '최대 HP +2040~+2760 / 방어력 +407~+443', pot: '무기 공/마 +40 / 방어구 HP +720, 방어력 +36 (계산값)', price: '1,217,890 G' },
+                                            { stage: '1단계', lv: '제한 없음', atk: '+9 (최대 +13)', hp: '+45~+55', def: '+5~+9', pot: '무기 공/마 +4 / 방어구 HP +10, 방어력 +4', price: '660 G' },
+                                            { stage: '2단계', lv: 'Lv. 6 이상', atk: '+14 (최대 +18)', hp: '+74~+86', def: '+10~+14', pot: '무기 공/마 +5 / 방어구 HP +12, 방어력 +4', price: '1,400 G' },
+                                            { stage: '3단계', lv: 'Lv. 12 이상', atk: '+20 (최대 +24)', hp: '+112~+128', def: '+15~+19', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '2,970 G' },
+                                            { stage: '4단계 ⭐', lv: 'Lv. 18 이상', atk: '+25 (최대 +31)', hp: '+158~+192', def: '+20~+24', pot: '무기 공/마 +4 / 방어구 HP +34, 방어력 +4', price: '6,300 G' },
+                                            { stage: '5단계 ⭐', lv: 'Lv. 24 이상', atk: '+32 (최대 +38)', hp: '+231~+269', def: '+128~+172', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4', price: '13,370 G' },
+                                            { stage: '6단계', lv: 'Lv. 32 이상', atk: '+65 (최대 +85)', hp: '+762~+1038', def: '+268~+303', pot: '무기 공/마 +20 / 방어구 HP +276, 방어력 +35', price: '60,140 G' },
+                                            { stage: '7단계', lv: 'Lv. 40 이상', atk: '+111 (최대 +139)', hp: '+1360~+1840', def: '+362~+398', pot: '무기 공/마 +28 / 방어구 HP +480, 방어력 +36', price: '270,640 G' },
+                                            { stage: '8단계', lv: 'Lv. 40 이상', atk: '+165 (최대 +205)', hp: '+2040~+2760', def: '+407~+443', pot: '무기 공/마 +40 / 방어구 HP +720, 방어력 +36', price: '1,217,890 G' },
                                         ].map((row, idx) => (
                                             <tr key={row.stage} className={row.stage.includes('⭐') ? 'bg-amber-950/40 ring-1 ring-amber-500/40' : idx % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60'}>
                                                 <td className="p-2.5 sm:p-3 border border-slate-700 font-extrabold text-white">{row.stage}</td>
@@ -813,7 +814,8 @@ export default function UltimaSquadMinigamePage() {
                                                         <span className="text-white">{row.atk}</span>
                                                     )}
                                                 </td>
-                                                <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-medium text-slate-100">{row.armor}</td>
+                                                <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-medium text-sky-200 text-center whitespace-nowrap">{row.hp}</td>
+                                                <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-medium text-indigo-300 text-center whitespace-nowrap">{row.def}</td>
                                                 <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-semibold text-emerald-300">{row.pot}</td>
                                                 <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-mono font-bold text-yellow-300 text-right">{row.price}</td>
                                             </tr>
