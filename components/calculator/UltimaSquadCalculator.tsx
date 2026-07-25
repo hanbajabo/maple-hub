@@ -150,11 +150,9 @@ export default function UltimaSquadCalculator() {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 p-3">
                                     {areaStages.map(stage => (
                                         <div key={stage.id} className="bg-slate-900/60 rounded-xl border border-slate-700/40 p-3">
-                                            <div className="flex items-center justify-between mb-2">
+                                            <div className="flex items-center gap-2 mb-2">
                                                 <span className="text-sm font-bold text-white">스테이지 {stage.id}</span>
-                                                <span className="text-xs text-yellow-400 font-semibold bg-yellow-950/40 px-2 py-0.5 rounded border border-yellow-700/30">
-                                                    {stage.goldPerKill}G/마리 → {formatGold(stage.totalGoldPerRun)}G
-                                                </span>
+                                                <span className="text-xs text-yellow-400 font-semibold">{stage.goldPerKill}G/마리</span>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <Clock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
