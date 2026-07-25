@@ -206,6 +206,9 @@ export default function UltimaSquadCalculator() {
                         </div>
                     </div>
 
+                    <p className="mt-2 mb-6 text-xs text-slate-400">
+                        ※ 마지막에 나오는 보스가 주는 메소는 포함하지 않았기 때문에 더 많은 골드를 획득할 수 있습니다.
+                    </p>
             {/* ─── ③ 결과 테이블 ──────────────────────────────── */}
                 <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-5 shadow-lg">
                     <h2 className="font-bold text-slate-100 text-sm mb-1 flex items-center gap-2">
