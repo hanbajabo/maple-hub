@@ -639,7 +639,8 @@ export default function UltimaSquadMinigamePage() {
                                 🛡️ 울티마 장비 단계별 스탯 및 추가 옵션 (추옵)
                             </h3>
                             <p className="text-xs text-slate-400 mb-4 leading-relaxed">
-                                ※ 본 표는 직접 플레이하면서 확인한 데이터를 기반으로 작성되었으므로 <strong className="text-orange-400">100% 정확하지 않을 수 있습니다.</strong>
+                                ※ 본 표는 직접 플레이하면서 확인한 데이터를 기반으로 작성되었으므로 <strong className="text-orange-400">100% 정확하지 않을 수 있습니다.</strong><br />
+                                ※ 메이플 인벤 <a href="https://www.inven.co.kr/board/maple/2304/47984" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300 underline underline-offset-4 hover:decoration-sky-300 transition-colors font-medium">[민트카닉]님 정보글</a>을 참고했습니다.
                             </p>
 
                             {/* 1단계 */}
