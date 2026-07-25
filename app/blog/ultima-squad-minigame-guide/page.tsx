@@ -578,7 +578,7 @@ export default function UltimaSquadMinigamePage() {
                                     <div className="bg-purple-900/40 px-4 py-2.5 font-bold text-purple-200 text-center border-b border-purple-800/40">
                                         ⚔️ 일반 모드 드롭 장비 단계
                                     </div>
-                                    <table className="w-full text-center border-collapse">
+                                    <div className="overflow-x-auto"><table className="w-full text-center border-collapse min-w-[360px]">
                                         <thead>
                                             <tr className="bg-purple-950/50 text-purple-300 font-semibold border-b border-purple-800/30">
                                                 <th className="p-2 border-r border-purple-800/20">지역</th>
@@ -608,7 +608,7 @@ export default function UltimaSquadMinigamePage() {
                                     <div className="bg-pink-900/40 px-4 py-2.5 font-bold text-pink-200 text-center border-b border-pink-800/40">
                                         🔥 카오스 모드 드롭 장비 단계
                                     </div>
-                                    <table className="w-full text-center border-collapse">
+                                    <div className="overflow-x-auto"><table className="w-full text-center border-collapse min-w-[360px]">
                                         <thead>
                                             <tr className="bg-pink-950/50 text-pink-300 font-semibold border-b border-pink-800/30">
                                                 <th className="p-2 border-r border-pink-800/20">지역</th>
@@ -868,7 +868,7 @@ export default function UltimaSquadMinigamePage() {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="overflow-x-auto -mx-1">
+                            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
                                 <table className="w-full text-left border-collapse min-w-[550px] text-xs sm:text-sm shadow-md">
                                     <thead>
                                         <tr className="bg-slate-800 text-slate-100 border-b border-slate-600">
@@ -942,7 +942,7 @@ export default function UltimaSquadMinigamePage() {
                                     <span>🏆</span>
                                     <span>장비 단계별 잠재능력</span>
                                 </h3>
-                                <div className="overflow-x-auto -mx-1 flex-1">
+                                <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 flex-1">
                                     <table className="w-full text-left border-collapse min-w-[300px] text-xs sm:text-sm shadow-md">
                                         <thead>
                                             <tr className="bg-slate-800 text-slate-100 border-b border-slate-600">
@@ -990,7 +990,7 @@ export default function UltimaSquadMinigamePage() {
                                     <span>🔮</span>
                                     <span>등급별 잠재능력 수치 (실측)</span>
                                 </h3>
-                                <div className="overflow-x-auto -mx-1 flex-1">
+                                <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 flex-1">
                                     <table className="w-full text-left border-collapse min-w-[340px] text-xs sm:text-sm shadow-md">
                                         <thead>
                                             <tr className="bg-slate-800 text-slate-100 border-b border-slate-600">
@@ -1283,7 +1283,7 @@ export default function UltimaSquadMinigamePage() {
                                     ※ 직접 플레이하여 확인해주신 실측 데이터를 기반으로, [골드 획득량 증가] 배율을 역산하여 정리한 기본 골드 수치입니다.<br />
                                     ※ 유틸리티의 [골드 획득량 증가] 레벨을 올리면 기본 획득 골드에 곱연산으로 반영됩니다.
                                 </p>
-                                <div className="overflow-x-auto -mx-1">
+                                <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
                                     <table className="w-full text-left border-collapse min-w-[300px] text-[11px] sm:text-sm">
                                         <thead>
                                                 <tr className="bg-yellow-950/20 text-yellow-200 text-center">
@@ -1327,7 +1327,7 @@ export default function UltimaSquadMinigamePage() {
                                     <span>🪙</span>
                                     <span>2지역 몬스터 처치 골드 정보 (실측)</span>
                                 </h4>
-                                <div className="overflow-x-auto -mx-1">
+                                <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
                                     <table className="w-full text-left border-collapse min-w-[300px] text-[11px] sm:text-sm">
                                         <thead>
                                             <tr className="bg-yellow-950/20 text-yellow-200 text-center">
@@ -1371,7 +1371,7 @@ export default function UltimaSquadMinigamePage() {
                                     <span>🪙</span>
                                     <span>3지역 몬스터 처치 골드 정보 (실측)</span>
                                 </h4>
-                                <div className="overflow-x-auto -mx-1">
+                                <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
                                     <table className="w-full text-left border-collapse min-w-[300px] text-[11px] sm:text-sm">
                                         <thead>
                                             <tr className="bg-yellow-950/20 text-yellow-200 text-center">
@@ -2030,7 +2030,7 @@ height={300}
                                 <span>⚔️</span>
                                 <span>레벨별 클리어 가능 스테이지 기록</span>
                             </h3>
-                            <div className="overflow-x-auto -mx-1">
+                            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
                                 <table className="w-full text-left border-collapse min-w-[340px] text-xs sm:text-sm">
                                     <thead>
                                         <tr className="bg-green-950/20 text-green-200">
@@ -2210,7 +2210,7 @@ height={300}
                             <p className="text-slate-400 text-xs mb-4 leading-relaxed">
                                 ※ 아래 수치는 10분 단위로 직접 측정한 경험치 증가량입니다. 스테이지 상황, 용병 조합, 플레이 방식에 따라 달라질 수 있습니다.
                             </p>
-                            <div className="overflow-x-auto -mx-1">
+                            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
                                 <table className="w-full text-left border-collapse min-w-[380px] text-xs sm:text-sm">
                                     <thead>
                                         <tr className="bg-blue-950/20 text-blue-200">
@@ -2391,7 +2391,7 @@ height={300}
                             />
                         </div>
 
-                        <div className="overflow-x-auto -mx-1">
+                        <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
                             <table className="w-full text-left border-collapse min-w-[320px] text-xs sm:text-sm">
                                 <thead>
                                     <tr className="bg-slate-800/50 text-slate-300">

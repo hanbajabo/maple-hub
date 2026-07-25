@@ -222,7 +222,7 @@ export default function UltimaSquadCalculator() {
                         보다 효율이 높습니다. 경험치는 LV18 기준 실측값입니다.
                     </p>
 
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
                         <table className="w-full text-left border-collapse text-xs sm:text-sm min-w-[640px]">
                             <thead>
                                 <tr className="bg-slate-800/80 border-b border-slate-700 text-slate-300">
