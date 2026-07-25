@@ -145,7 +145,7 @@ export default function UltimaSquadCalculator() {
                                 <div className={`${col.bg} px-4 py-2 flex items-center gap-2 border-b ${col.border}`}>
                                     <span className={`w-2 h-2 rounded-full ${col.dot}`} />
                                     <span className="text-sm font-bold text-slate-200">{col.label}</span>
-                                    <span className="text-xs text-slate-500 ml-1">몬스터 {areaStages.length * MONSTERS_PER_STAGE}마리 (스테이지당 {MONSTERS_PER_STAGE}마리)</span>
+                                    <span className="text-xs text-slate-500 ml-1">스테이지당 {MONSTERS_PER_STAGE}마리</span>
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 p-3">
                                     {areaStages.map(stage => (
