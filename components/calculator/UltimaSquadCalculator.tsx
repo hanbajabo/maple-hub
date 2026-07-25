@@ -9,26 +9,28 @@ import Link from 'next/link';
 // exp: LV18 기준 한판당 경험치 실측 획득량 (클리어 후 - 클리어 전), null = 미측정
 // expPredicted: 1-4~2-2 선형 추세 기반 예측값
 const STAGES = [
-    { id: '1-1', area: 1, gold: { 0: 10 , 5: 10 , 10: 11 , 15: 11 ,  20: 12,  25: 12,  30: 13  }, exp: 0.037,  expPredicted: false },
-    { id: '1-2', area: 1, gold: { 0: 30 , 5: 31 , 10: 33 , 15: 34 ,  20: 36,  25: 37,  30: 39  }, exp: 0.136,  expPredicted: false },
-    { id: '1-3', area: 1, gold: { 0: 50 , 5: 52 , 10: 55 , 15: 57 ,  20: 60,  25: 62,  30: 65  }, exp: 0.339,  expPredicted: false },
-    { id: '1-4', area: 1, gold: { 0: 70 , 5: 73 , 10: 77 , 15: 80 ,  20: 84,  25: 87,  30: 91  }, exp: 0.408,  expPredicted: false },
-    { id: '1-5', area: 1, gold: { 0: 90 , 5: 94 , 10: 99 , 15: 103,  20: 108, 25: 112, 30: 117 }, exp: 0.475,  expPredicted: false },
-    { id: '1-6', area: 1, gold: { 0: 110, 5: 115, 10: 121, 15: 126, 20: 132, 25: 137, 30: 143 }, exp: 0.600,  expPredicted: false },
-    { id: '1-7', area: 1, gold: { 0: 130, 5: 136, 10: 143, 15: 149, 20: 156, 25: 162, 30: 169 }, exp: 0.747,  expPredicted: false },
-    { id: '1-8', area: 1, gold: { 0: 150, 5: 157, 10: 165, 15: 172, 20: 180, 25: 187, 30: 195 }, exp: 0.951,  expPredicted: false },
-    { id: '1-9', area: 1, gold: { 0: 170, 5: 178, 10: 187, 15: 195, 20: 204, 25: 212, 30: 221 }, exp: 1.087,  expPredicted: false },
-    { id: '2-1', area: 2, gold: { 0: 400, 5: 420, 10: 440, 15: 459, 20: 480, 25: 500, 30: 520 }, exp: 1.155,  expPredicted: false },
-    { id: '2-2', area: 2, gold: { 0: 430, 5: 451, 10: 473, 15: 494, 20: 516, 25: 537, 30: 559 }, exp: 1.359,  expPredicted: false },
-    { id: '2-3', area: 2, gold: { 0: 460, 5: 483, 10: 506, 15: 529, 20: 552, 25: 575, 30: 598 }, exp: 1.495,  expPredicted: true  },
-    { id: '2-4', area: 2, gold: { 0: 490, 5: 514, 10: 539, 15: 563, 20: 588, 25: 612, 30: 637 }, exp: 1.632,  expPredicted: true  },
-    { id: '2-5', area: 2, gold: { 0: 520, 5: 546, 10: 572, 15: 598, 20: 624, 25: 650, 30: 676 }, exp: 1.768,  expPredicted: true  },
-    { id: '2-6', area: 2, gold: { 0: 550, 5: 577, 10: 605, 15: 632, 20: 660, 25: 687, 30: 715 }, exp: 1.904,  expPredicted: true  },
-    { id: '2-7', area: 2, gold: { 0: 580, 5: 609, 10: 638, 15: 667, 20: 696, 25: 725, 30: 754 }, exp: 2.040,  expPredicted: true  },
-    { id: '2-8', area: 2, gold: { 0: 610, 5: 640, 10: 671, 15: 701, 20: 732, 25: 762, 30: 793 }, exp: 2.176,  expPredicted: true  },
-    { id: '2-9', area: 2, gold: { 0: 640, 5: 672, 10: 704, 15: 736, 20: 768, 25: 800, 30: 832 }, exp: 2.312,  expPredicted: true  },
-    { id: '3-1', area: 3, gold: { 0: 700, 5: 735, 10: 770, 15: 804, 20: 840, 25: 875, 30: 910 }, exp: 2.448,  expPredicted: true  },
-    { id: '3-2', area: 3, gold: { 0: 750, 5: 788, 10: 825, 15: 862, 20: 900, 25: 938, 30: 975 }, exp: 2.584,  expPredicted: true  },
+
+    { id: '1-1', area: 1, gold: { 0: 10 , 5: 10 , 10: 11 , 15: 11 ,  20: 12,  25: 12,  30: 13  }, exp: { 18: 0.037, 20: 0.032, 21: 0.029 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '1-2', area: 1, gold: { 0: 30 , 5: 31 , 10: 33 , 15: 34 ,  20: 36,  25: 37,  30: 39  }, exp: { 18: 0.136, 20: 0.114, 21: 0.106 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '1-3', area: 1, gold: { 0: 50 , 5: 52 , 10: 55 , 15: 57 ,  20: 60,  25: 62,  30: 65  }, exp: { 18: 0.339, 20: 0.287, 21: 0.264 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '1-4', area: 1, gold: { 0: 70 , 5: 73 , 10: 77 , 15: 80 ,  20: 84,  25: 87,  30: 91  }, exp: { 18: 0.408, 20: 0.344, 21: 0.316 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '1-5', area: 1, gold: { 0: 90 , 5: 94 , 10: 99 , 15: 103,  20: 108, 25: 112, 30: 117 }, exp: { 18: 0.475, 20: 0.401, 21: 0.369 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '1-6', area: 1, gold: { 0: 110, 5: 115, 10: 121, 15: 126, 20: 132, 25: 137, 30: 143 }, exp: { 18: 0.600, 20: 0.573, 21: 0.528 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '1-7', area: 1, gold: { 0: 130, 5: 136, 10: 143, 15: 149, 20: 156, 25: 162, 30: 169 }, exp: { 18: 0.747, 20: 0.631, 21: 0.580 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '1-8', area: 1, gold: { 0: 150, 5: 157, 10: 165, 15: 172, 20: 180, 25: 187, 30: 195 }, exp: { 18: 0.951, 20: 0.802, 21: 0.739 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '1-9', area: 1, gold: { 0: 170, 5: 178, 10: 187, 15: 195, 20: 204, 25: 212, 30: 221 }, exp: { 18: 1.087, 20: 0.917, 21: 0.844 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '2-1', area: 2, gold: { 0: 400, 5: 420, 10: 440, 15: 459, 20: 480, 25: 500, 30: 520 }, exp: { 18: 1.155, 20: 0.974, 21: 0.897 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '2-2', area: 2, gold: { 0: 430, 5: 451, 10: 473, 15: 494, 20: 516, 25: 537, 30: 559 }, exp: { 18: 1.359, 20: 1.146, 21: 1.055 }, expPredicted: { 18: false, 20: false, 21: false } },
+    { id: '2-3', area: 2, gold: { 0: 460, 5: 483, 10: 506, 15: 529, 20: 552, 25: 575, 30: 598 }, exp: { 18: 1.495, 20: 1.203, 21: 1.107 }, expPredicted: { 18: true, 20: false, 21: false } },
+    { id: '2-4', area: 2, gold: { 0: 490, 5: 514, 10: 539, 15: 563, 20: 588, 25: 612, 30: 637 }, exp: { 18: 1.632, 20: 1.396, 21: 1.284 }, expPredicted: { 18: true, 20: true, 21: true } },
+    { id: '2-5', area: 2, gold: { 0: 520, 5: 546, 10: 572, 15: 598, 20: 624, 25: 650, 30: 676 }, exp: { 18: 1.768, 20: 1.512, 21: 1.391 }, expPredicted: { 18: true, 20: true, 21: true } },
+    { id: '2-6', area: 2, gold: { 0: 550, 5: 577, 10: 605, 15: 632, 20: 660, 25: 687, 30: 715 }, exp: { 18: 1.904, 20: 1.629, 21: 1.498 }, expPredicted: { 18: true, 20: true, 21: true } },
+    { id: '2-7', area: 2, gold: { 0: 580, 5: 609, 10: 638, 15: 667, 20: 696, 25: 725, 30: 754 }, exp: { 18: 2.040, 20: 1.745, 21: 1.605 }, expPredicted: { 18: true, 20: true, 21: true } },
+    { id: '2-8', area: 2, gold: { 0: 610, 5: 640, 10: 671, 15: 701, 20: 732, 25: 762, 30: 793 }, exp: { 18: 2.176, 20: 1.862, 21: 1.712 }, expPredicted: { 18: true, 20: true, 21: true } },
+    { id: '2-9', area: 2, gold: { 0: 640, 5: 672, 10: 704, 15: 736, 20: 768, 25: 800, 30: 832 }, exp: { 18: 2.312, 20: 1.978, 21: 1.819 }, expPredicted: { 18: true, 20: true, 21: true } },
+    { id: '3-1', area: 3, gold: { 0: 700, 5: 735, 10: 770, 15: 804, 20: 840, 25: 875, 30: 910 }, exp: { 18: 2.448, 20: 2.094, 21: 1.926 }, expPredicted: { 18: true, 20: true, 21: true } },
+    { id: '3-2', area: 3, gold: { 0: 750, 5: 788, 10: 825, 15: 862, 20: 900, 25: 938, 30: 975 }, exp: { 18: 2.584, 20: 2.211, 21: 2.033 }, expPredicted: { 18: true, 20: true, 21: true } },
+
 ];
 
 const BONUS_OPTIONS = [
@@ -57,6 +59,7 @@ function fmtTime(sec: number) {
 }
 
 export default function UltimaSquadCalculator() {
+    const [charLevel, setCharLevel] = useState<18 | 20 | 21>(18);
     const [bonus, setBonus]         = useState<number>(0);
     const [refId, setRefId]         = useState<string>('1-5');
     const [refMin, setRefMin]       = useState<string>('');
@@ -65,11 +68,11 @@ export default function UltimaSquadCalculator() {
 
     useEffect(() => {
         setIsCalculated(false);
-    }, [bonus, refId, refMin, refSecInp]);
+    }, [charLevel, bonus, refId, refMin, refSecInp]);
 
     const refStage  = STAGES.find(s => s.id === refId)!;
     const refGold   = refStage.gold[bonus as keyof typeof refStage.gold];
-    const refExp    = refStage.exp; // 실측 or 예측 경험치 %
+    const refExp    = refStage.exp[charLevel]; // 실측 or 예측 경험치 %
     
     const m = refMin ? parseInt(refMin) || 0 : 0;
     const s = refSecInp ? parseFloat(refSecInp) || 0 : 0;
@@ -83,15 +86,40 @@ export default function UltimaSquadCalculator() {
         return STAGES.map(stage => {
             const g = stage.gold[bonus as keyof typeof stage.gold];
             const breakevenGold = refSec && refSec > 0 ? refSec * (g / refGold) : null;
-            const breakevenExp  = refSec && refSec > 0 && refExp && stage.exp
-                ? refSec * (stage.exp / refExp)
+            const expVal = stage.exp[charLevel];
+            const breakevenExp  = refSec && refSec > 0 && refExp && expVal
+                ? refSec * (expVal / refExp)
                 : null;
-            return { ...stage, goldPerKill: g, breakevenGold, breakevenExp };
+            return { ...stage, goldPerKill: g, breakevenGold, breakevenExp, currentExp: expVal, currentExpPredicted: stage.expPredicted[charLevel] };
         });
-    }, [bonus, refGold, refExp, refSec]);
+    }, [charLevel, bonus, refGold, refExp, refSec]);
 
     return (
         <div className="space-y-6">
+
+            
+            {/* ─── 0. 캐릭터 레벨 ─────────────────────────────── */}
+            <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-5 shadow-lg">
+                <h2 className="font-bold text-slate-100 text-sm mb-3 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-emerald-400" />
+                    캐릭터 레벨
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                    {[18, 20, 21].map(lvl => (
+                        <button
+                            key={lvl}
+                            onClick={() => setCharLevel(lvl as 18 | 20 | 21)}
+                            className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold border transition-all ${
+                                charLevel === lvl
+                                    ? 'bg-emerald-500/20 border-emerald-400/60 text-emerald-300 shadow-md'
+                                    : 'bg-slate-800/60 border-slate-700/50 text-slate-400 hover:text-slate-200 hover:border-slate-600'
+                            }`}
+                        >
+                            LV.{lvl}
+                        </button>
+                    ))}
+                </div>
+            </div>
 
             {/* ─── ① 골드 보너스 ─────────────────────────────── */}
             <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-5 shadow-lg">
@@ -131,7 +159,7 @@ export default function UltimaSquadCalculator() {
                         >
                             {STAGES.map(s => (
                                 <option key={s.id} value={s.id}>
-                                    스테이지 {s.id} — 1마리당 {s.gold[bonus as keyof typeof s.gold]}G{s.exp !== null ? ` · 경험치 ${s.expPredicted ? '~' : ''}${s.exp.toFixed(3)}%` : ''}
+                                    스테이지 {s.id} — 1마리당 {s.gold[bonus as keyof typeof s.gold]}G{s.exp[charLevel] !== null ? ` · 경험치 ${s.expPredicted[charLevel] ? '~' : ''}${s.exp[charLevel].toFixed(3)}%` : ''}
                                 </option>
                             ))}
                         </select>
@@ -220,7 +248,7 @@ export default function UltimaSquadCalculator() {
                     <p className="text-xs text-slate-500 mb-4">
                         각 스테이지를 아래 시간 이내에 클리어하면
                         <span className="text-sky-400 font-semibold mx-1">스테이지 {refId} ({refSec}초)</span>
-                        보다 효율이 높습니다. 경험치는 LV18 기준 실측값입니다.
+                        보다 효율이 높습니다. 경험치는 선택한 레벨 기준 실측(또는 예측)값입니다.
                     </p>
 
                     <div className="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
@@ -279,16 +307,16 @@ export default function UltimaSquadCalculator() {
                                             </td>
                                             {/* 한판당 경험치 */}
                                             <td className="p-2.5 border border-slate-700 text-right font-semibold">
-                                                {r.exp !== null ? (
-                                                    r.expPredicted ? (
+                                                {r.currentExp !== null ? (
+                                                    r.currentExpPredicted ? (
                                                         <span className="text-slate-400">
-                                                            ~{r.exp.toFixed(3)}%
+                                                            ~{r.currentExp.toFixed(3)}%
                                                             <span className="text-slate-600 text-[10px] ml-1">예측</span>
                                                         </span>
                                                     ) : (
                                                         <span className="text-emerald-300">
-                                                            {r.exp.toFixed(3)}%
-                                                            <span className="text-slate-500 text-[10px] ml-1">LV18</span>
+                                                            {r.currentExp.toFixed(3)}%
+                                                            <span className="text-slate-500 text-[10px] ml-1">LV{charLevel}</span>
                                                         </span>
                                                     )
                                                 ) : <span className="text-slate-600 text-xs">미측정</span>}
