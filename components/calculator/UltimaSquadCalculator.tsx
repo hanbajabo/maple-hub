@@ -232,7 +232,8 @@ export default function UltimaSquadCalculator() {
                                     <th className="p-2.5 border border-slate-700 font-bold text-yellow-200 text-right">골드 기준 타임</th>
                                     <th className="p-2.5 border border-slate-700 font-bold text-emerald-300 text-right">한판당 경험치</th>
                                     <th className="p-2.5 border border-slate-700 font-bold text-emerald-200 text-right">경험치 기준 타임</th>
-                                    <th className="p-2.5 border border-slate-700 font-bold text-violet-300 text-right">필요 분당 처치</th>
+                                    <th className="p-2.5 border border-slate-700 font-bold text-yellow-100 text-right">필요 분당 처치<br/><span className="text-[10px] font-normal text-yellow-300/70">(골드 기준)</span></th>
+                                    <th className="p-2.5 border border-slate-700 font-bold text-emerald-100 text-right">필요 분당 처치<br/><span className="text-[10px] font-normal text-emerald-300/70">(경험치 기준)</span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -303,13 +304,23 @@ export default function UltimaSquadCalculator() {
                                                     <span className="text-slate-600 text-xs">미측정</span>
                                                 )}
                                             </td>
-                                            {/* 분당 처치 수 */}
-                                            <td className="p-2.5 border border-slate-700 text-right font-bold text-violet-300">
+                                            {/* 분당 처치 수 (골드) */}
+                                            <td className="p-2.5 border border-slate-700 text-right font-bold text-yellow-100">
                                                 {isRef
-                                                    ? `${(3600 / refSec).toFixed(1)}마리/분`
+                                                    ? <span className="text-sky-300">{`${(3600 / refSec).toFixed(1)}마리`}</span>
                                                     : r.breakevenGold !== null
-                                                        ? `${(3600 / r.breakevenGold).toFixed(1)}마리/분`
+                                                        ? `${(3600 / r.breakevenGold).toFixed(1)}마리`
                                                         : '-'}
+                                            </td>
+                                            {/* 분당 처치 수 (경험치) */}
+                                            <td className="p-2.5 border border-slate-700 text-right font-bold text-emerald-100">
+                                                {isRef
+                                                    ? <span className="text-sky-300">{`${(3600 / refSec).toFixed(1)}마리`}</span>
+                                                    : r.breakevenExp !== null
+                                                        ? `${(3600 / r.breakevenExp).toFixed(1)}마리`
+                                                        : (
+                                                            <span className="text-slate-600 text-xs">미측정</span>
+                                                        )}
                                             </td>
                                         </tr>
                                     );
