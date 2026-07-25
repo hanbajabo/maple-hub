@@ -119,9 +119,11 @@ export default function UltimaSquadCalculator() {
                         </button>
                     ))}
                 </div>
-                <div className="mt-3 text-xs text-slate-400 space-y-1">
+                <div className="mt-3 text-xs text-slate-400 space-y-1.5">
                     <p>※ 앞으로 직접 측정한 레벨별 실측 데이터가 계속 추가될 예정입니다.</p>
-                    <p>※ 20레벨 이후부터는 레벨이 올라도 스테이지 간 상대적인 사냥 효율이 거의 동일하므로, 본인과 가장 가까운 레벨을 선택해 주시면 됩니다.</p>
+                    <p className="text-emerald-300/90 font-semibold bg-emerald-500/10 inline-block px-2 py-1 rounded">
+                        ※ 20레벨 이후부터는 레벨이 올라도 스테이지 간 상대적인 사냥 효율이 거의 동일하므로, 본인과 가장 가까운 레벨을 선택해 주시면 됩니다.
+                    </p>
                 </div>
             </div>
 
