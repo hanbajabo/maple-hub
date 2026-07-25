@@ -4,8 +4,8 @@ import Link from "next/link";
 import { ArrowLeft, Home } from "lucide-react";
 
 export const metadata: Metadata = {
-    title: "울티마 스쿼드 골드 효율 계산기 | 메이플 AI",
-    description: "울티마 스쿼드 스테이지별 골드 효율을 계산하세요. 클리어 타임을 입력하면 가장 골드가 잘 벌리는 스테이지를 알려드립니다.",
+    title: "울티마 스쿼드 효율 계산기 | 메이플 AI",
+    description: "울티마 스쿼드 스테이지별 골드, 경험치, 마릿수 효율을 계산하세요. 클리어 타임을 입력하면 최적의 사냥터를 알려드립니다.",
 };
 
 export default function UltimaSquadCalculatorPage() {
@@ -33,10 +33,10 @@ export default function UltimaSquadCalculatorPage() {
                         <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-900/50 text-emerald-300 border border-emerald-700/50 font-semibold">울티마 스쿼드</span>
                     </div>
                     <h1 className="text-3xl sm:text-4xl font-black mb-3 bg-gradient-to-r from-yellow-400 via-amber-400 to-emerald-400 bg-clip-text text-transparent">
-                        울티마 스쿼드 골드 효율 계산기
+                        울티마 스쿼드 효율 계산기
                     </h1>
                     <p className="text-slate-300 text-sm sm:text-base border-l-4 border-yellow-500 pl-4 py-1 bg-yellow-950/20 rounded-r">
-                        클리어 타임을 입력하면 스테이지별 <strong className="text-yellow-300">시간당 골드 효율</strong>을 계산해드립니다. <br className="hidden sm:block" />
+                        클리어 타임을 입력하면 스테이지별 <strong className="text-yellow-300">시간당 골드, 경험치, 마릿수 효율</strong>을 계산해드립니다. <br className="hidden sm:block" />
                         어느 스테이지에서 사냥하는 것이 가장 이득인지 한눈에 확인하세요!
                     </p>
                 </div>

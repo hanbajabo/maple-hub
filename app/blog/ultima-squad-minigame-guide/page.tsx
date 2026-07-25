@@ -203,12 +203,12 @@ export default function UltimaSquadMinigamePage() {
                             <div>
                                 <div className="flex items-center gap-2 mb-1">
                                     <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-indigo-300 transition-colors">
-                                        울티마 스쿼드 골드 효율 계산기 출시!
+                                        울티마 스쿼드 효율 계산기 출시!
                                     </h3>
                                     <span className="bg-red-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-lg animate-pulse">NEW</span>
                                 </div>
                                 <p className="text-sm text-indigo-200/80">
-                                    내 클리어 타임을 입력하고 어떤 스테이지가 가장 골드 효율이 좋은지 바로 확인해보세요.
+                                    내 클리어 타임을 입력하고 어떤 스테이지가 가장 시간당 효율이 좋은지 바로 확인해보세요.
                                 </p>
                             </div>
                             <div className="ml-auto text-indigo-400 group-hover:translate-x-1 transition-transform hidden sm:block">

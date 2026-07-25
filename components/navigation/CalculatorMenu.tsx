@@ -111,7 +111,7 @@ export default function CalculatorMenu() {
                                     <span className="font-semibold text-sm">울티마 스쿼드 계산기</span>
                                     <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
                                 </div>
-                                <span className="text-[10px] text-slate-400 mt-0.5 truncate">스테이지별 골드 효율 비교</span>
+                                <span className="text-[10px] text-slate-400 mt-0.5 truncate">스테이지별 종합 효율 비교</span>
                             </div>
                         </Link>
 
