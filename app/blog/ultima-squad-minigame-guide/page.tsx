@@ -600,7 +600,7 @@ export default function UltimaSquadMinigamePage() {
                                             <tr><td className="p-2 border-r border-purple-800/20">3-7 ~ 3-9</td><td className="p-2">1~6단계</td></tr>
                                             <tr className="bg-amber-950/30 font-bold text-amber-300"><td className="p-2 border-r border-purple-800/20">3-10 (보스)</td><td className="p-2">4단계 (확정)</td></tr>
                                         </tbody>
-                                    </table>
+                                    </table></div>
                                 </div>
 
                                 {/* 카오스 모드 */}
@@ -628,7 +628,7 @@ export default function UltimaSquadMinigamePage() {
                                             <tr><td className="p-2 border-r border-pink-800/20">3-4 ~ 3-9</td><td className="p-2 font-bold text-rose-300">1~8단계</td></tr>
                                             <tr className="bg-amber-950/30 font-bold text-amber-300"><td className="p-2 border-r border-pink-800/20">3-10 (보스)</td><td className="p-2 font-black text-yellow-300">8단계 (확정)</td></tr>
                                         </tbody>
-                                    </table>
+                                    </table></div>
                                 </div>
                             </div>
                         </div>
