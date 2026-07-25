@@ -803,7 +803,16 @@ export default function UltimaSquadMinigamePage() {
                                             <tr key={row.stage} className={row.stage.includes('⭐') ? 'bg-amber-950/40 ring-1 ring-amber-500/40' : idx % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60'}>
                                                 <td className="p-2.5 sm:p-3 border border-slate-700 font-extrabold text-white">{row.stage}</td>
                                                 <td className="p-2.5 sm:p-3 border border-slate-700 font-bold text-amber-300">{row.lv}</td>
-                                                <td className="p-2.5 sm:p-3 border border-slate-700 text-center font-extrabold text-rose-400">{row.atk}</td>
+                                                <td className="p-2.5 sm:p-3 border border-slate-700 text-center font-extrabold">
+                                                    {row.atk.includes('(') ? (
+                                                        <>
+                                                            <span className="text-white">{row.atk.split(' (')[0]}</span>
+                                                            <span className="text-rose-400 font-bold text-xs ml-1">({row.atk.split('(')[1]}</span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-white">{row.atk}</span>
+                                                    )}
+                                                </td>
                                                 <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-medium text-slate-100">{row.armor}</td>
                                                 <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-semibold text-emerald-300">{row.pot}</td>
                                                 <td className="p-2.5 sm:p-3 border border-slate-700 text-xs sm:text-sm font-mono font-bold text-yellow-300 text-right">{row.price}</td>
