@@ -136,7 +136,7 @@ export default function UltimaSquadCalculator() {
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                     </div>
-                    <div className="flex flex-col sm:flex-row items-center gap-2 sm:w-64">
+                    <div className="flex items-center gap-2 w-full sm:w-64">
                         <div className="flex items-center gap-2 w-full">
                             <input
                                 type="number"
@@ -167,7 +167,7 @@ export default function UltimaSquadCalculator() {
                     <button
                         onClick={() => setIsCalculated(true)}
                         disabled={!refSec || refSec <= 0}
-                        className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-500 text-white font-bold py-3.5 rounded-xl transition-colors shadow-lg active:scale-[0.98]"
+                        className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-500 text-white font-bold text-base sm:text-lg py-3.5 rounded-xl transition-colors shadow-lg active:scale-[0.98]"
                     >
                         계산하기
                     </button>
