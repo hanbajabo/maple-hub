@@ -152,7 +152,7 @@ export default function UltimaSquadCalculator() {
                                         <div key={stage.id} className="bg-slate-900/60 rounded-xl border border-slate-700/40 p-3">
                                             <div className="flex items-center gap-2 mb-2">
                                                 <span className="text-sm font-bold text-white">스테이지 {stage.id}</span>
-                                                <span className="text-xs text-yellow-400 font-semibold">{stage.goldPerKill}G/마리</span>
+                                                <span className="text-xs text-yellow-400 font-semibold">1마리당 {stage.goldPerKill}G</span>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <Clock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
