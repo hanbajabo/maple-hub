@@ -157,7 +157,9 @@ export default function CalculatorMenu() {
                             onClick={close}
                             className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
                         >
-                            <span className="text-xl flex-shrink-0 text-center w-6">🪙</span>
+                            <div className="relative w-6 h-6 flex-shrink-0">
+                                <Image src="/images/ultima-squad-icon.png" alt="울티마 스쿼드" fill className="object-contain" />
+                            </div>
                             <div className="flex flex-col min-w-0">
                                 <div className="flex items-center gap-1.5">
                                     <span className="font-semibold text-sm">울티마 스쿼드 계산기</span>
