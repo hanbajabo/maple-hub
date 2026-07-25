@@ -1,6 +1,7 @@
 import UltimaSquadCalculator from "@/components/calculator/UltimaSquadCalculator";
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Home } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -39,6 +40,17 @@ export default function UltimaSquadCalculatorPage() {
                         클리어 타임을 입력하면 스테이지별 <strong className="text-yellow-300">시간당 골드, 경험치, 마릿수 효율</strong>을 계산해드립니다. <br className="hidden sm:block" />
                         어느 스테이지에서 사냥하는 것이 가장 이득인지 한눈에 확인하세요!
                     </p>
+
+                    <div className="mt-6 mb-2 relative w-full rounded-2xl overflow-hidden border border-slate-700/50 shadow-2xl">
+                        <Image 
+                            src="/images/ultima-squad-calculator-header.png" 
+                            alt="울티마 스쿼드 미니게임 플레이 화면" 
+                            width={1200}
+                            height={400}
+                            style={{ width: '100%', height: 'auto' }}
+                            priority
+                        />
+                    </div>
                 </div>
                 <UltimaSquadCalculator />
             </div>
