@@ -796,9 +796,9 @@ export default function UltimaSquadMinigamePage() {
                                             { stage: '3단계', lv: 'Lv. 12 이상', atk: '+20 (최대 +24)', armor: '최대 HP +112~+128 / 방어력 +15~+19', pot: '무기 공/마 +4 / 방어구 HP +16, 방어력 +4', price: '2,970 G' },
                                             { stage: '4단계 ⭐', lv: 'Lv. 18 이상', atk: '+25 (최대 +31)', armor: '최대 HP +158~+192 / 방어력 +20~+24', pot: '무기 공/마 +4 / 방어구 HP +34, 방어력 +4', price: '6,300 G' },
                                             { stage: '5단계 ⭐', lv: 'Lv. 24 이상', atk: '+32 (최대 +38)', armor: '최대 HP +231~+269 / 방어력 +128~+172', pot: '무기 공/마 +6 / 방어구 HP +38, 방어력 +4', price: '13,370 G' },
-                                            { stage: '6단계', lv: 'Lv. 32 이상', atk: '+65 (최대 +85)', armor: '최대 HP +762~+1038 / 방어력 +268~+303', pot: '미확인', price: '60,140 G' },
-                                            { stage: '7단계', lv: 'Lv. 40 이상', atk: '+111 (최대 +139)', armor: '최대 HP +1360~+1840 / 방어력 +362~+398', pot: '미확인', price: '270,640 G' },
-                                            { stage: '8단계', lv: 'Lv. 40 이상', atk: '+165 (최대 +205)', armor: '최대 HP +2040~+2760 / 방어력 +407~+443', pot: '미확인', price: '1,217,890 G' },
+                                            { stage: '6단계', lv: 'Lv. 32 이상', atk: '+65 (최대 +85)', armor: '최대 HP +762~+1038 / 방어력 +268~+303', pot: '무기 공/마 +20 / 방어구 HP +276, 방어력 +35 (계산값)', price: '60,140 G' },
+                                            { stage: '7단계', lv: 'Lv. 40 이상', atk: '+111 (최대 +139)', armor: '최대 HP +1360~+1840 / 방어력 +362~+398', pot: '무기 공/마 +28 / 방어구 HP +480, 방어력 +36 (계산값)', price: '270,640 G' },
+                                            { stage: '8단계', lv: 'Lv. 40 이상', atk: '+165 (최대 +205)', armor: '최대 HP +2040~+2760 / 방어력 +407~+443', pot: '무기 공/마 +40 / 방어구 HP +720, 방어력 +36 (계산값)', price: '1,217,890 G' },
                                         ].map((row, idx) => (
                                             <tr key={row.stage} className={row.stage.includes('⭐') ? 'bg-amber-950/40 ring-1 ring-amber-500/40' : idx % 2 === 0 ? 'bg-slate-900/60' : 'bg-slate-950/60'}>
                                                 <td className="p-2.5 sm:p-3 border border-slate-700 font-extrabold text-white">{row.stage}</td>
