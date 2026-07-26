@@ -1369,7 +1369,7 @@ export default function UltimaSquadMinigamePage() {
                                 {/* 3지역 골드 정보 */}
                                 <h4 className="font-bold text-yellow-400 mt-6 mb-2 text-sm flex items-center gap-1">
                                     <span>🪙</span>
-                                    <span>3지역 몬스터 처치 골드 정보 (실측)</span>
+                                    <span>3지역 몬스터 처치 골드 정보 (실측 + 예측)</span>
                                 </h4>
                                 <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
                                     <table className="w-full text-left border-collapse min-w-[300px] text-[11px] sm:text-sm">
@@ -1386,8 +1386,15 @@ export default function UltimaSquadMinigamePage() {
                                         </thead>
                                         <tbody className="text-slate-300 divide-y divide-slate-800/50">
                                             {[
-                                                { stage: '3-1', base: '700G', p5: '735G', p10: '770G', p20: '840G', p25: '875G', p30: '910G' },
-                                                { stage: '3-2', base: '750G', p5: '788G', p10: '825G', p20: '900G', p25: '938G', p30: '975G' },
+                                                { stage: '3-1', base: '700G',  p5: '735G',  p10: '770G',  p20: '840G',  p25: '875G',  p30: '910G'  },
+                                                { stage: '3-2', base: '750G',  p5: '788G',  p10: '825G',  p20: '900G',  p25: '938G',  p30: '975G'  },
+                                                { stage: '3-3', base: '800G',  p5: '840G',  p10: '880G',  p20: '960G',  p25: '1000G', p30: '1040G' },
+                                                { stage: '3-4', base: '850G',  p5: '892G',  p10: '935G',  p20: '1020G', p25: '1062G', p30: '1105G' },
+                                                { stage: '3-5', base: '900G',  p5: '945G',  p10: '990G',  p20: '1080G', p25: '1125G', p30: '1170G' },
+                                                { stage: '3-6', base: '950G',  p5: '997G',  p10: '1045G', p20: '1140G', p25: '1187G', p30: '1235G' },
+                                                { stage: '3-7', base: '1000G', p5: '1050G', p10: '1100G', p20: '1200G', p25: '1250G', p30: '1300G' },
+                                                { stage: '3-8', base: '1050G', p5: '1102G', p10: '1155G', p20: '1260G', p25: '1312G', p30: '1365G' },
+                                                { stage: '3-9', base: '1100G', p5: '1155G', p10: '1210G', p20: '1320G', p25: '1375G', p30: '1430G' },
                                             ].map((row, idx) => (
                                                 <tr key={row.stage} className={idx % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-950/30'}>
                                                     <td className="p-1.5 sm:p-3 border border-slate-700 font-bold text-slate-200">{row.stage}</td>
