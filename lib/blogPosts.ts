@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 8월 14일 모멘텀 패스 PLUS 가이드
+    {
+        slug: 'momentum-pass-plus-guide',
+        title: '🌀 모멘텀 패스 PLUS 완벽 가이드 — 주간 미션·레벨 보상·크림슨 메카베리 농장 총정리',
+        description: '8월 20일 시작! 주간 미션별 포인트 효율, 무료/프리미엄/프라임 패스 레벨 1~10 보상 총합, 크림슨 메카베리 농장 레벨별 경험치 배율(280~299)까지 한눈에 정리.',
+        category: '이벤트 가이드',
+        date: '2026년 8월 14일',
+        readTime: '5분',
+        thumbnail: '🌀',
+        featured: true,
+        targetDate: '2026년 8월 20일',
+    },
     // 8월 13일 울티마 유물 탐사 공략
     {
         slug: 'ultima-artifact-exploration-guide',
