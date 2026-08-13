@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 8월 13일 테스트월드 1.2.205 패치노트
+    {
+        slug: 'testworld-update-1-2-205',
+        title: '🗡️ 테스트월드 1.2.205 패치노트 정리 (신규 보스 벨로나, 마스터라벨 개편)',
+        description: '2026년 8월 13일 테스트월드 클라이언트 1.2.205 업데이트! 신규 보스 벨로나 추가, 울티마 유물 탐사 미니게임, 모멘텀 패스 PLUS, 마스터라벨 개편 + 플러스, 스킬 수정 사항 등 핵심 내용 총정리.',
+        category: '업데이트 소식',
+        date: '2026년 8월 13일',
+        readTime: '8분',
+        thumbnail: '⚔️',
+        featured: true,
+        targetDate: '2026년 8월 20일',
+    },
     // 7월 23일 전 직업 신규 6차 스킬 정리
     {
         slug: 'new-6th-skills-guide-2026',
