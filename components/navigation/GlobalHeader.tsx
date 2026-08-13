@@ -40,15 +40,6 @@ export default function GlobalHeader() {
                         <span className="hidden sm:inline">블로그</span>
                     </Link>
 
-                    {/* Ranking */}
-                    <Link
-                        href="/ranking"
-                        prefetch={false}
-                        className="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-yellow-600/90 hover:bg-yellow-500 text-white font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-lg shadow-yellow-900/20"
-                    >
-                        <span className="text-base sm:text-lg">🏆</span>
-                        <span className="hidden sm:inline">랭킹</span>
-                    </Link>
 
                     {/* Calculator Dropdown */}
                     <CalculatorMenu />
