@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 8월 13일 울티마 유물 탐사 공략
+    {
+        slug: 'ultima-artifact-exploration-guide',
+        title: '🗺️ 울티마 유물 탐사 완벽 공략 — 지도 크기별 사냥량·보상 총정리',
+        description: '8월 20일 추가! 5x5 / 10x10 / 15x15 지도 크기별 하루 필요 사냥량, 10판 최대 보상 총합, 특수 유물 활용법, 플레이 스타일별 추천 전략까지 완벽 정리.',
+        category: '이벤트 가이드',
+        date: '2026년 8월 13일',
+        readTime: '7분',
+        thumbnail: '🗺️',
+        featured: true,
+        targetDate: '2026년 8월 20일',
+    },
     // 8월 13일 테스트월드 1.2.205 패치노트
     {
         slug: 'testworld-update-1-2-205',
