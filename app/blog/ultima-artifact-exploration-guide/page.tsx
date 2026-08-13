@@ -136,6 +136,16 @@ export default function UltimaArtifactGuide() {
                         지도 크기별 <strong className="text-amber-300">하루 필요 사냥량</strong>부터 <strong className="text-yellow-300">최대 보상 총합</strong>,{' '}
                         <strong className="text-orange-300">특수 유물 활용법</strong>까지 한눈에 정리했습니다.
                     </p>
+
+                    {/* 대표 이미지 */}
+                    <div className="mt-6 relative w-full overflow-hidden rounded-2xl border border-amber-500/30 bg-slate-900/80 p-3 sm:p-4 text-center shadow-xl">
+                        <img 
+                            src="/images/blog/ultima-artifact-map.png" 
+                            alt="울티마 유물 탐사 지도 선택 (소형 5x5 / 중형 10x10 / 대형 15x15)" 
+                            className="w-full max-w-md mx-auto rounded-xl object-contain shadow-lg border border-slate-700/50" 
+                        />
+                        <p className="text-xs text-slate-400 mt-2 font-medium">▲ 울티마 유물 지도 선택 인게임 화면 (소형 5x5 / 중형 10x10 / 대형 15x15)</p>
+                    </div>
                 </div>
 
                 {/* 목차 */}
