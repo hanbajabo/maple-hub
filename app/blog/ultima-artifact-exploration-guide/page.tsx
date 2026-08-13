@@ -232,7 +232,7 @@ const MAP_DATA = [
 
 export default function UltimaArtifactGuide() {
     return (
-        <main className="w-full min-h-screen bg-[#080711] text-white py-12 px-4">
+        <main className="w-full min-h-screen bg-[#080711] text-white py-8 sm:py-12 px-4">
             <div className="fixed top-0 left-1/4 w-[600px] h-[600px] bg-amber-900/10 rounded-full blur-[140px] pointer-events-none z-0" />
             <div className="fixed bottom-0 right-1/4 w-[500px] h-[500px] bg-violet-900/10 rounded-full blur-[140px] pointer-events-none z-0" />
 
@@ -279,7 +279,7 @@ export default function UltimaArtifactGuide() {
                 </div>
 
                 {/* 목차 */}
-                <div className="mb-10 bg-slate-900/60 border border-slate-700/50 rounded-2xl p-5">
+                <div className="mb-10 bg-slate-900/60 border border-slate-700/50 rounded-2xl p-4 sm:p-5">
                     <h2 className="font-bold text-slate-100 text-sm mb-4 flex items-center gap-2">
                         <ChevronRight className="w-4 h-4 text-amber-400" /> 목차
                     </h2>
@@ -312,9 +312,9 @@ export default function UltimaArtifactGuide() {
                         </div>
                         <h2 className="text-xl font-black text-amber-300">이벤트 핵심 구조</h2>
                     </div>
-                    <div className="bg-slate-900/60 border border-amber-900/40 rounded-2xl p-5 space-y-4">
+                    <div className="bg-slate-900/60 border border-amber-900/40 rounded-2xl p-4 sm:p-5 space-y-4">
                         <div className="grid sm:grid-cols-3 gap-3">
-                            <div className="bg-slate-800/60 rounded-xl p-4 border border-amber-900/30 text-center">
+                            <div className="bg-slate-800/60 rounded-xl p-3 sm:p-4 border border-amber-900/30 text-center">
                                 <div className="text-2xl mb-1">🗓️</div>
                                 <p className="text-xs text-slate-200 mb-1">이벤트 기간</p>
                                 <p className="font-black text-white text-sm">8/20(목) ~ 9/16(수)</p>
@@ -322,7 +322,7 @@ export default function UltimaArtifactGuide() {
                             </div>
 
                             {/* 지도 획득 (특별 강조) */}
-                            <div className="bg-gradient-to-b from-amber-950/70 via-slate-900/90 to-amber-950/70 rounded-xl p-4 border-2 border-amber-400/80 text-center shadow-lg shadow-amber-950/50 relative overflow-hidden group">
+                            <div className="bg-gradient-to-b from-amber-950/70 via-slate-900/90 to-amber-950/70 rounded-xl p-3 sm:p-4 border-2 border-amber-400/80 text-center shadow-lg shadow-amber-950/50 relative overflow-hidden group">
                                 <div className="absolute -top-1 -right-1 bg-amber-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-bl-lg shadow">
                                     ★ 핵심 규칙
                                 </div>
@@ -334,7 +334,7 @@ export default function UltimaArtifactGuide() {
                                 </p>
                             </div>
 
-                            <div className="bg-slate-800/60 rounded-xl p-4 border border-amber-900/30 text-center">
+                            <div className="bg-slate-800/60 rounded-xl p-3 sm:p-4 border border-amber-900/30 text-center">
                                 <div className="text-2xl mb-1">👣</div>
                                 <p className="text-xs text-slate-200 mb-1">기본 탐색</p>
                                 <p className="font-black text-white text-sm">500마리 = 1칸</p>
@@ -351,7 +351,7 @@ export default function UltimaArtifactGuide() {
                             <p className="text-xs text-slate-200 mt-2 font-medium">▲ 유물 지도 보상 설정 화면(좌) 및 15x15 대형 지도 탐색 인게임 화면(우)</p>
                         </div>
 
-                        <div className="bg-amber-950/30 border border-amber-800/40 rounded-xl p-4">
+                        <div className="bg-amber-950/30 border border-amber-800/40 rounded-xl p-3 sm:p-4">
                             <p className="text-xs font-bold text-amber-300 mb-2">⚠️ 반드시 알아야 할 규칙</p>
                             <ul className="text-xs text-white space-y-1.5">
                                 <li className="flex items-start gap-2"><span className="text-amber-400 shrink-0 mt-0.5">•</span>현재 진행 중인 지도를 <strong className="text-amber-200">완성해야만</strong> 다음 지도를 시작할 수 있습니다.</li>
@@ -371,9 +371,9 @@ export default function UltimaArtifactGuide() {
                         </div>
                         <h2 className="text-xl font-black text-blue-300">지도 크기별 비교표 (10판 완주 기준)</h2>
                     </div>
-                    <div className="bg-slate-900/60 border border-blue-900/40 rounded-2xl p-5">
+                    <div className="bg-slate-900/60 border border-blue-900/40 rounded-2xl p-4 sm:p-5">
                         <div className="overflow-x-auto">
-                            <table className="w-full text-xs border-collapse min-w-[520px]">
+                            <table className="w-full text-xs border-collapse whitespace-nowrap min-w-[520px]">
                                 <thead>
                                     <tr className="bg-slate-800/80">
                                         <th className="p-3 border border-slate-700 text-left text-white font-bold">구분</th>
@@ -446,7 +446,7 @@ export default function UltimaArtifactGuide() {
                     </div>
 
                     {/* 특수 유물 상세 안내 */}
-                    <div className="mt-8 bg-slate-900/80 border border-violet-900/50 rounded-2xl p-5 space-y-4">
+                    <div className="mt-8 bg-slate-900/80 border border-violet-900/50 rounded-2xl p-4 sm:p-5 space-y-4">
                         <div className="flex items-center gap-2 mb-1">
                             <Zap className="w-5 h-5 text-yellow-400" />
                             <h3 className="text-lg font-black text-amber-300">💣 특수 유물 상세 안내</h3>
@@ -471,7 +471,7 @@ export default function UltimaArtifactGuide() {
 
                         {/* 특수 유물 6종 테이블 */}
                         <div className="overflow-x-auto">
-                            <table className="w-full text-xs border-collapse min-w-[580px]">
+                            <table className="w-full text-xs border-collapse whitespace-nowrap min-w-[580px]">
                                 <thead>
                                     <tr className="bg-slate-800/90 text-amber-300">
                                         <th className="p-2.5 border border-slate-700 text-left font-bold w-1/4">아이템명</th>
@@ -547,7 +547,7 @@ export default function UltimaArtifactGuide() {
                                 <p className="text-xs text-slate-200">{map.tag} · {map.tagSub}</p>
                             </div>
                         </div>
-                        <div className={`bg-slate-900/60 border border-white/20 rounded-2xl p-5 space-y-5 shadow-lg`}>
+                        <div className={`bg-slate-900/60 border border-white/20 rounded-2xl p-4 sm:p-5 space-y-5 shadow-lg`}>
                             {/* 사냥량 */}
                             <UltimaCalculator mapSize={map.size} ceiling={map.ceiling} color={map.color} />
                             {/* 보상 배치 */}
@@ -575,7 +575,7 @@ export default function UltimaArtifactGuide() {
                                 </div>
                             </div>
                             {/* 10판 총 보상 */}
-                            <div className={`bg-${map.color}-950/20 border border-${map.color}-800/30 rounded-xl p-4`}>
+                            <div className={`bg-${map.color}-950/20 border border-${map.color}-800/30 rounded-xl p-3 sm:p-4`}>
                                 <p className={`text-xs font-bold text-${map.color}-300 mb-2`}>🏆 10판 완주 시 총 보상 (완성 보상: 조각 교환권 선택 시)</p>
                                 <div className="flex flex-wrap gap-2">
                                     {map.totalRewards.map((reward) => (
@@ -603,7 +603,7 @@ export default function UltimaArtifactGuide() {
                         </div>
                         <h2 className="text-xl font-black text-yellow-300">특수 유물 활용법</h2>
                     </div>
-                    <div className="bg-slate-900/60 border border-yellow-900/40 rounded-2xl p-5 space-y-4">
+                    <div className="bg-slate-900/60 border border-yellow-900/40 rounded-2xl p-4 sm:p-5 space-y-4">
                         <div className="grid sm:grid-cols-2 gap-3">
                             {[
                                 { name: '⭐ 울티마 스페셜 봄', type: '수동', color: 'amber', effect: '지정 칸 중심 3×3 탐색 + 아이템 있으면 2배 획득', tip: '보상 미탐색 밀집 구역 중앙에 사용 → 큐브 2배 획득 노리기' },
@@ -645,7 +645,7 @@ export default function UltimaArtifactGuide() {
                         </div>
                         <h2 className="text-xl font-black text-violet-300">보상 배치 우선순위</h2>
                     </div>
-                    <div className="bg-slate-900/60 border border-violet-900/40 rounded-2xl p-5 space-y-3">
+                    <div className="bg-slate-900/60 border border-violet-900/40 rounded-2xl p-4 sm:p-5 space-y-3">
                         <p className="text-xs text-slate-200 mb-2">탐사 시작 전 배치할 보상을 정할 때 아래 순서대로 최대치를 채워 넣으세요.</p>
                         {[
                             { num: 1, name: '1순위: 대적자의 화이트 에디셔널 큐브', reason: '가장 희소하고 가격이 높음 → 5x5 / 10x10 / 15x15 모두 100% 풀배치 가능! ✨', color: 'purple' },
