@@ -6,9 +6,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+
   images: {
     // 이미지 최적화 완전 비활성화 (넥슨 API 이미지는 이미 최적화됨)
     unoptimized: true,
