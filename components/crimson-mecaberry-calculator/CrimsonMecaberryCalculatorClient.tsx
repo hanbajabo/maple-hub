@@ -192,7 +192,7 @@ export default function CrimsonMecaberryCalculatorClient() {
                     {/* 안내 */}
                     <div className="mb-6 bg-slate-800/60 border border-slate-700/50 rounded-xl p-4 text-sm text-slate-400 space-y-1">
                         <p>💡 <strong className="text-white">크림슨 메카베리 농장</strong>은 <strong className="text-red-300">280레벨 이상</strong>부터 사용 가능합니다.</p>
-                        <p>💡 모멘텀 패스 PLUS <strong className="text-white">기본 보상 1장</strong>, <strong className="text-white">프리미엄 패스</strong>에서 <strong className="text-yellow-300">6장</strong>, <strong className="text-white">프라임 패스</strong>에서 <strong className="text-yellow-300">11장</strong> — 총 <strong className="text-red-300">17장</strong> 획득 가능합니다.</p>
+                        <p>💡 모멘텀 패스 PLUS <strong className="text-white">기본 보상 1장</strong>, <strong className="text-white">프리미엄 패스</strong>에서 <strong className="text-yellow-300">5장</strong>, <strong className="text-white">프라임 패스</strong>에서 <strong className="text-yellow-300">11장</strong> — 총 <strong className="text-red-300">17장</strong> 획득 가능합니다.</p>
                     </div>
 
                     <button
