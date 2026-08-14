@@ -620,15 +620,15 @@ export default function MomentumPassPlusGuidePage() {
                     </div>
 
                     <div className="bg-slate-900/60 border border-slate-700/50 rounded-xl overflow-hidden shadow-inner overflow-x-auto">
-                        <table className="w-full text-xs sm:text-sm text-left text-white min-w-[620px]">
+                        <table className="w-full text-[10px] sm:text-sm text-left text-white min-w-[450px] sm:min-w-[620px]">
                             <thead className="bg-slate-800 font-bold">
                                 <tr>
-                                    <th className="px-3 py-3 border-b border-slate-700 whitespace-nowrap text-center">레벨</th>
-                                    <th className="px-3 py-3 border-b border-slate-700 whitespace-nowrap text-slate-400">메카베리 경험치</th>
-                                    <th className="px-3 py-3 border-b border-slate-700 whitespace-nowrap text-center text-slate-400">경험치 배율</th>
-                                    <th className="px-3 py-3 border-b border-slate-700 whitespace-nowrap text-red-300">크림슨 메카베리 경험치</th>
-                                    <th className="px-3 py-3 border-b border-slate-700 whitespace-nowrap text-center text-red-300">경험치 배율</th>
-                                    <th className="px-3 py-3 border-b border-slate-700 whitespace-nowrap text-center text-amber-300">경험치 증가</th>
+                                    <th className="px-1.5 sm:px-3 py-2 sm:py-3 border-b border-slate-700 whitespace-nowrap text-center">레벨</th>
+                                    <th className="px-1.5 sm:px-3 py-2 sm:py-3 border-b border-slate-700 whitespace-nowrap text-slate-400">메카베리 경험치</th>
+                                    <th className="px-1.5 sm:px-3 py-2 sm:py-3 border-b border-slate-700 whitespace-nowrap text-center text-slate-400">경험치 배율</th>
+                                    <th className="px-1.5 sm:px-3 py-2 sm:py-3 border-b border-slate-700 whitespace-nowrap text-red-300">크림슨 경험치</th>
+                                    <th className="px-1.5 sm:px-3 py-2 sm:py-3 border-b border-slate-700 whitespace-nowrap text-center text-red-300">경험치 배율</th>
+                                    <th className="px-1.5 sm:px-3 py-2 sm:py-3 border-b border-slate-700 whitespace-nowrap text-center text-amber-300">증가량</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-700/50">
@@ -636,14 +636,14 @@ export default function MomentumPassPlusGuidePage() {
                                     const isHighlight = row.level % 5 === 0;
                                     return (
                                         <tr key={i} className={`transition-colors ${isHighlight ? 'bg-slate-800/50 font-semibold' : 'hover:bg-slate-800/20'}`}>
-                                            <td className={`px-3 py-2.5 font-bold text-center ${isHighlight ? 'text-violet-300' : 'text-slate-300'}`}>{row.level}</td>
-                                            <td className="px-3 py-2.5 font-mono text-xs text-slate-400">{row.mecaberryExp}</td>
-                                            <td className="px-3 py-2.5 text-center text-slate-400">{row.mecaberryPct}</td>
-                                            <td className="px-3 py-2.5 font-mono text-xs sm:text-sm text-slate-200 font-medium">{row.crimsonExp}</td>
-                                            <td className="px-3 py-2.5 text-center font-bold text-red-300">{row.crimsonPct}</td>
-                                            <td className="px-3 py-2.5 text-center whitespace-nowrap">
-                                                <span className="inline-flex items-center gap-1 font-bold text-xs text-amber-300 bg-amber-950/40 border border-amber-500/30 px-2 py-0.5 rounded">
-                                                    {row.diffPct} <span className="text-[10px] text-yellow-400">({row.increasePct})</span>
+                                            <td className={`px-1.5 sm:px-3 py-2 sm:py-2.5 font-bold text-center ${isHighlight ? 'text-violet-300' : 'text-slate-300'}`}>{row.level}</td>
+                                            <td className="px-1.5 sm:px-3 py-2 sm:py-2.5 font-mono text-[9px] sm:text-xs text-slate-400">{row.mecaberryExp}</td>
+                                            <td className="px-1.5 sm:px-3 py-2 sm:py-2.5 text-center text-slate-400">{row.mecaberryPct}</td>
+                                            <td className="px-1.5 sm:px-3 py-2 sm:py-2.5 font-mono text-[9px] sm:text-sm text-slate-200 font-medium">{row.crimsonExp}</td>
+                                            <td className="px-1.5 sm:px-3 py-2 sm:py-2.5 text-center font-bold text-red-300">{row.crimsonPct}</td>
+                                            <td className="px-1.5 sm:px-3 py-2 sm:py-2.5 text-center whitespace-nowrap">
+                                                <span className="inline-flex items-center gap-1 font-bold text-[10px] sm:text-xs text-amber-300 bg-amber-950/40 border border-amber-500/30 px-1 sm:px-2 py-0.5 rounded">
+                                                    {row.diffPct} <span className="hidden sm:inline text-[9px] sm:text-[10px] text-yellow-400">({row.increasePct})</span>
                                                 </span>
                                             </td>
                                         </tr>
