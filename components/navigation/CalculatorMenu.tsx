@@ -188,15 +188,15 @@ export default function CalculatorMenu() {
                         </Link>
 
                         <Link
-                            href="/calculator/blueberry-farm"
+                            href="/calculator/crimson-mecaberry-farm"
                             prefetch={false}
                             onClick={close}
                             className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors"
                         >
-                            <span className="text-xl flex-shrink-0 text-center w-6">🍇</span>
+                            <span className="text-xl flex-shrink-0 text-center w-6">🍓</span>
                             <div className="flex flex-col min-w-0">
                                 <div className="flex items-center gap-1.5">
-                                    <span className="font-semibold text-sm">블루베리 농장 계산기</span>
+                                    <span className="font-semibold text-sm">크림슨 메카베리 계산기</span>
                                     <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
                                 </div>
                                 <span className="text-[10px] text-slate-400 mt-0.5">경험치 획득량 & 레벨업 계산</span>
