@@ -36,7 +36,7 @@ const SCHEDULE = [
             {
                 category: '신규 보스',
                 icon: '⚔️',
-                list: ['밸로나 (Lv.280 이상 / 최대 3인 / 이지·노멀·하드)'],
+                list: ['벨로나 (Lv.280 이상 / 최대 3인 / 이지·노멀·하드)'],
                 highlight: true,
             },
             {
@@ -62,7 +62,9 @@ const SCHEDULE = [
                     '마스터피스 20기 <마스터 어밴든 세트>',
                     '메이플 로얄 스타일 160기',
                     '신규 프리미엄 헤어&성형 쿠폰',
-                    '프리미엄/프라임 모멘텀 패스',
+                    '프리미엄 모멘텀 패스 (29,800 캐시) / 프라임 모멘텀 패스 (39,800 캐시)',
+                    '마스터라벨 성장 플러스 (30,000 캐시)',
+                    '마스터라벨 전투 플러스 (40,000 캐시)',
                 ],
             },
         ],
@@ -285,7 +287,7 @@ export default function August2026UpdateSchedule() {
                         📅 8월 업데이트 일정 완벽 정리
                     </h1>
                     <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-                        신규 보스 밸로나, 모멘텀 패스 PLUS, 미션 울티마 챕터 3까지!<br className="hidden sm:block" />
+                        신규 보스 벨로나, 모멘텀 패스 PLUS, 미션 울티마 챕터 3까지!<br className="hidden sm:block" />
                         8월~9월 주요 시작·종료 일정을 한눈에 확인하세요.
                     </p>
                 </header>
@@ -298,7 +300,7 @@ export default function August2026UpdateSchedule() {
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {[
-                            { icon: '⚔️', label: '신규 보스', value: '밸로나 (8/20)', color: 'text-red-300' },
+                            { icon: '⚔️', label: '신규 보스', value: '벨로나 (8/20)', color: 'text-red-300' },
                             { icon: '🌀', label: '신규 이벤트', value: '모멘텀 패스 PLUS', color: 'text-blue-300' },
                             { icon: '📖', label: '신규 스토리', value: '미션 울티마 챕터 3', color: 'text-yellow-300' },
                             { icon: '🛍️', label: '신규 캐시샵', value: '마스터피스 20기', color: 'text-purple-300' },
@@ -394,7 +396,79 @@ export default function August2026UpdateSchedule() {
 
                 <InArticleAd dataAdSlot="6849727140" />
 
+                {/* 마스터라벨 플러스 상세 */}
+                <section className="mb-10">
+                    <h2 className="text-lg sm:text-xl font-black text-white mb-5 flex items-center gap-2">
+                        <span>🏷️</span> 신규 캐시샵: 마스터라벨 플러스
+                    </h2>
+
+                    {/* 판매 정보 */}
+                    <div className="bg-gradient-to-br from-indigo-900/30 to-purple-900/20 border border-indigo-500/40 rounded-2xl p-5 mb-4">
+                        <div className="text-xs text-indigo-300 font-bold uppercase tracking-wider mb-3">📅 2026.08.20 점검 후 판매 시작</div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                            <div className="bg-slate-900/60 border border-emerald-500/30 rounded-xl p-4 text-center">
+                                <div className="text-xs text-slate-400 mb-1">마스터라벨 성장 플러스</div>
+                                <div className="text-xl font-black text-emerald-300">30,000 캐시</div>
+                                <div className="text-xs text-emerald-400/70 mt-1">추가 경험치 효과</div>
+                            </div>
+                            <div className="bg-slate-900/60 border border-red-500/30 rounded-xl p-4 text-center">
+                                <div className="text-xs text-slate-400 mb-1">마스터라벨 전투 플러스</div>
+                                <div className="text-xl font-black text-red-300">40,000 캐시</div>
+                                <div className="text-xs text-red-400/70 mt-1">공격력·올스탯 효과</div>
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap gap-2 text-xs text-slate-400">
+                            <span className="bg-slate-800/60 px-2.5 py-1 rounded-full">📍 캐시샵 &gt; 스페셜 &gt; 스페셜</span>
+                            <span className="bg-slate-800/60 px-2.5 py-1 rounded-full">⏳ 효과 기간 90일</span>
+                            <span className="bg-slate-800/60 px-2.5 py-1 rounded-full">🔒 넥슨캐시 전용 · 교환 불가</span>
+                        </div>
+                    </div>
+
+                    {/* 효과 표 */}
+                    <div className="bg-slate-900/60 border border-slate-700/50 rounded-xl overflow-hidden mb-4">
+                        <div className="bg-slate-800/80 px-4 py-2.5">
+                            <span className="text-sm font-black text-white">📊 착용 개수별 효과</span>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-xs sm:text-sm text-left min-w-[500px]">
+                                <thead>
+                                    <tr className="border-b border-slate-700 bg-slate-800/40">
+                                        <th className="px-3 py-2.5 text-center text-slate-400 font-bold whitespace-nowrap">착용 개수</th>
+                                        <th className="px-3 py-2.5 text-emerald-300 font-bold whitespace-nowrap">성장 플러스 효과</th>
+                                        <th className="px-3 py-2.5 text-red-300 font-bold whitespace-nowrap">전투 플러스 효과</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-700/40">
+                                    {[
+                                        { count: '1개', growth: '추가 경험치 25%', combat: '공격력/마력 +10, 올스탯 +15, 최대 HP/MP +750' },
+                                        { count: '2개', growth: '추가 경험치 40%', combat: '공격력/마력 +20, 올스탯 +40, 최대 HP/MP +2,000' },
+                                        { count: '3개', growth: '추가 경험치 55%', combat: '공격력/마력 +30, 올스탯 +65, 최대 HP/MP +3,250' },
+                                        { count: '4개', growth: '추가 경험치 70%', combat: '공격력/마력 +40, 올스탯 +90, 최대 HP/MP +4,500' },
+                                        { count: '5개', growth: '추가 경험치 100%', combat: '공격력/마력 +60, 올스탯 +140, 최대 HP/MP +7,000', highlight: true },
+                                    ].map((row, i) => (
+                                        <tr key={i} className={`transition-colors ${(row as any).highlight ? 'bg-yellow-900/20' : 'hover:bg-slate-800/20'}`}>
+                                            <td className={`px-3 py-2.5 text-center font-black ${(row as any).highlight ? 'text-yellow-300' : 'text-slate-300'}`}>{row.count}</td>
+                                            <td className={`px-3 py-2.5 font-semibold ${(row as any).highlight ? 'text-emerald-300' : 'text-emerald-400/80'}`}>{row.growth}</td>
+                                            <td className={`px-3 py-2.5 ${(row as any).highlight ? 'text-red-300' : 'text-slate-300'}`}>{row.combat}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {/* 유의사항 */}
+                    <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-4 space-y-1.5 text-xs text-slate-400">
+                        <div className="font-bold text-slate-300 mb-2">⚠️ 유의사항</div>
+                        <p>• 능력치 유효 기간이 만료되지 않은 마스터라벨 착용 시에만 효과 적용됩니다.</p>
+                        <p>• 동일 세트 여부와 관계없이 <strong className="text-white">착용 중인 개수</strong>에 따라 단계별 효과가 적용됩니다.</p>
+                        <p>• 적용 중 재구매는 불가하며, <strong className="text-white">적용 기간 종료 후</strong> 다시 구매할 수 있습니다.</p>
+                        <p>• 이벤트 리스트 캐시탭에서 착용 개수·획득 능력치·적용 기간을 확인할 수 있습니다.</p>
+                    </div>
+                </section>
+
                 {/* 주의사항 */}
+
                 <section className="mb-10 bg-amber-900/20 border border-amber-500/30 rounded-2xl p-5">
                     <h2 className="text-base font-black text-amber-300 mb-3 flex items-center gap-2">
                         <AlertCircle className="w-5 h-5" />
