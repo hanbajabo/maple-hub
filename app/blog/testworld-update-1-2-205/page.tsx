@@ -207,7 +207,10 @@ export default function TestworldUpdate1205Page() {
                         </div>
 
                         <div className="bg-amber-950/30 border border-amber-800/40 rounded-xl p-3">
-                            <p className="text-xs font-bold text-amber-300 mb-1">🏆 1인 선착순 격파 (하드, 월드 통합 10명)</p>
+                            <div className="flex items-center justify-between flex-wrap gap-1 mb-1">
+                                <p className="text-xs font-bold text-amber-300">🏆 1인 선착순 격파 (하드, 월드 통합 50명)</p>
+                                <span className="text-[10px] bg-red-500/30 text-red-300 border border-red-500/40 px-1.5 py-0.5 rounded font-bold">본섭 변경: 10명 → 50명</span>
+                            </div>
                             <p className="text-xs text-slate-300">약자멸시 칭호 / 광신도의 처형 피니시 어택 이펙트 / 저주로 물든 제단 커스텀 배경</p>
                             <p className="text-xs text-slate-500 mt-1">※ 8/27 이전 입장 후 이후 클리어 시 선착순 미션 불가</p>
                         </div>
@@ -570,8 +573,11 @@ export default function TestworldUpdate1205Page() {
                         </div>
 
                         <div>
-                            <h3 className="font-bold text-white text-sm mb-3">⭐ 마스터라벨 플러스 (캐시샵)</h3>
-                            <div className="grid sm:grid-cols-2 gap-3">
+                            <div className="flex items-center justify-between flex-wrap gap-1 mb-3">
+                                <h3 className="font-bold text-white text-sm">⭐ 마스터라벨 플러스 (캐시샵)</h3>
+                                <span className="text-[10px] bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 px-1.5 py-0.5 rounded font-bold">본섭 변경: 월드 단위 적용</span>
+                            </div>
+                            <div className="grid sm:grid-cols-2 gap-3 mb-3">
                                 <div className="bg-slate-800/60 rounded-xl p-3 border border-blue-900/30">
                                     <p className="text-xs font-bold text-blue-300 mb-1">성장 플러스 (30,000캐시)</p>
                                     <div className="text-xs text-slate-400 space-y-0.5">
@@ -587,7 +593,11 @@ export default function TestworldUpdate1205Page() {
                                     </div>
                                 </div>
                             </div>
-                            <p className="text-xs text-slate-500 mt-2">※ 90일 유효 / 캐릭터 단위 적용 / 능력치 유효 기간이 남은 마스터라벨 착용 시에만 적용</p>
+                            <div className="bg-slate-800/40 rounded-xl p-3 border border-slate-700/40 space-y-1.5 text-xs text-slate-300">
+                                <p>• <strong className="text-white">적용 단위:</strong> 캐릭터 단위에서 <span className="text-emerald-300 font-bold">월드 단위</span>로 변경 (계정 내 동일 월드 모든 캐릭터 적용)</p>
+                                <p>• <strong className="text-white">유효 기간:</strong> 90일 / 능력치 유효 기간이 남은 마스터라벨 착용 시 효과 적용</p>
+                                <p>• <strong className="text-white">챌린저스 월드 리프:</strong> 잔여 기간이 남은 마스터라벨 플러스를 <span className="text-amber-300 font-bold">추출권으로 변환</span>하여 이전 가능 (리프 후 추출권 사용 시 마스터라벨 플러스가 재활성화되며, 이미 활성화 중인 월드라면 잔여 기간에 합산)</p>
+                            </div>
                         </div>
                     </div>
                 </section>

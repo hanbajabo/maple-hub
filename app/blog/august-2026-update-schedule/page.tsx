@@ -458,8 +458,10 @@ export default function August2026UpdateSchedule() {
                     </div>
 
                     {/* 유의사항 */}
-                    <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-4 space-y-1.5 text-xs text-slate-400">
-                        <div className="font-bold text-slate-300 mb-2">⚠️ 유의사항</div>
+                    <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-4 space-y-1.5 text-xs text-slate-300">
+                        <div className="font-bold text-slate-100 mb-2">⚠️ 유의사항</div>
+                        <p>• 마스터라벨 플러스는 <strong className="text-emerald-300">월드 단위</strong>로 적용됩니다. (계정 내 동일 월드 모든 캐릭터 공유)</p>
+                        <p>• 챌린저스 월드에서 월드 리프 시, 잔여 기간이 남은 마스터라벨 플러스를 <strong className="text-amber-300">추출권으로 변환</strong>할 수 있습니다. (리프 후 사용 시 재활성화 / 활성화 중인 월드라면 기간 합산)</p>
                         <p>• 능력치 유효 기간이 만료되지 않은 마스터라벨 착용 시에만 효과 적용됩니다.</p>
                         <p>• 동일 세트 여부와 관계없이 <strong className="text-white">착용 중인 개수</strong>에 따라 단계별 효과가 적용됩니다.</p>
                         <p>• 적용 중 재구매는 불가하며, <strong className="text-white">적용 기간 종료 후</strong> 다시 구매할 수 있습니다.</p>
