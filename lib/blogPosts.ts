@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 8월 18일 8월 업데이트 일정 정리
+    {
+        slug: 'august-2026-update-schedule',
+        title: '📅 8월 업데이트 일정 완벽 정리 — 밸로나·모멘텀 패스 PLUS·미션 울티마 챕터 3',
+        description: '8/19 종료부터 9/17 종료까지! 신규 보스 밸로나, 모멘텀 패스 PLUS, 광신도의 자격, 울티마 유물 탐사 등 8~9월 전체 이벤트·캐시샵 시작·종료 일정을 한눈에 정리했습니다.',
+        category: '업데이트 소식',
+        date: '2026년 8월 18일',
+        readTime: '3분',
+        thumbnail: '📅',
+        featured: true,
+        targetDate: '2026년 8월 20일',
+    },
     // 8월 14일 모멘텀 패스 PLUS 가이드
     {
         slug: 'momentum-pass-plus-guide',
