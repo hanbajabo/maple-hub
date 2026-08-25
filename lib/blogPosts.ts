@@ -11,6 +11,50 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 8월 25일 제른 다르모어 스토리 4부
+    {
+        slug: 'gerand-darmoor-story-part-4',
+        title: '👑 제른 다르모어 스토리 완벽 분석 4부 — 대규모 선별과 10인의 사도, 그리고 오버시어 (최종장)',
+        description: '소모품에 불과했던 10인의 사도들과 카링의 토사구팽, 울티마 폴리스의 대규모 선별(휴거), 생명의 탑 정상 결전과 오버시어의 강림 선언까지 제른 다르모어 서사의 거대한 피날레 총정리.',
+        category: '메이플 이야기',
+        date: '2026년 8월 25일',
+        readTime: '7분',
+        thumbnail: '👑',
+        featured: true,
+    },
+    // 8월 25일 제른 다르모어 스토리 3부
+    {
+        slug: 'gerand-darmoor-story-part-3',
+        title: '🌌 제른 다르모어 스토리 완벽 분석 3부 — 신학자 애런, 그리고 대적자를 구원하다',
+        description: '세르니움의 친절한 신학자 애런의 충격적인 정체, 대적자를 향한 관찰과 시험, 봉인석(신의 창)을 박살 낸 진짜 이유와 오버시어의 족쇄를 끊어준 역설적인 구원까지 완벽 정리.',
+        category: '메이플 이야기',
+        date: '2026년 8월 25일',
+        readTime: '6분',
+        thumbnail: '🌌',
+        featured: true,
+    },
+    // 8월 25일 제른 다르모어 스토리 2부
+    {
+        slug: 'gerand-darmoor-story-part-2',
+        title: '🗡️ 제른 다르모어 스토리 완벽 분석 2부 — 힘의 포식자, 신들의 시대를 끝내다',
+        description: '고대 우든레프의 신 봉인과 크로니카 시간 강탈, 디멘션 게이트의 개방, 매그너스를 굴복시키고 헬리시움을 함락시킨 침공과 그란디스를 덮은 거대한 마력 장막까지 완벽 정리.',
+        category: '메이플 이야기',
+        date: '2026년 8월 25일',
+        readTime: '6분',
+        thumbnail: '🗡️',
+        featured: true,
+    },
+    // 8월 25일 제른 다르모어 스토리 1부
+    {
+        slug: 'gerand-darmoor-story-part-1',
+        title: '🥀 제른 다르모어 스토리 완벽 분석 1부 — 자기혐오에 빠진 왕자, 피의 정원사가 되다',
+        description: '하이레프의 왕자가 스스로 마력 날개를 찢어버린 이유, 세피로트의 정원사 애런과 소녀 아샤, 아버지를 미치게 만든 패륜과 우든레프를 함정에 빠뜨린 치밀한 선동까지 완벽 정리.',
+        category: '메이플 이야기',
+        date: '2026년 8월 25일',
+        readTime: '6분',
+        thumbnail: '🥀',
+        featured: true,
+    },
     // 8월 18일 8월 업데이트 일정 정리
     {
         slug: 'august-2026-update-schedule',
