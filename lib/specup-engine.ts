@@ -26,6 +26,10 @@ import {
     calculateCumulativeExpectedCost,
     calculateCumulativeExpectedCostDetailed,
 } from './starforce_db';
+import {
+    getLatestPrice,
+    getLatestEthernelPrice,
+} from './parsePriceData';
 
 // ─── 인터페이스 ────────────────────────────────────────────────────────────
 
@@ -102,39 +106,10 @@ export interface SpecUpAnalysisResult {
     recommendations: SpecUpRecommendation[];
 }
 
-// ─── 시세 테이블 (매일 DB 동기화 대상) ────────────────────────────────────
+// ─── 시세 조회 헬퍼 (https://maple.ai.kr/blog/item-price-tracker-2026 연동) ───
 
-const BASE_ITEM_PRICES: Record<string, number> = {
-    // 에테르넬 (부위별 동일 시세 가정)
-    '에테르넬': 520_000_000,
-    // 칠흑의 보스 세트
-    '루즈 컨트롤 머신 마크': 1_200_000_000,
-    '마력이 깃든 안대':       1_400_000_000,
-    '커맨더 포스 이어링':      1_100_000_000,
-    '고통의 근원':             1_300_000_000,
-    '거대한 공포':             1_500_000_000,
-    '몽환의 벨트':             1_100_000_000,
-    '미트라의 분노':           1_200_000_000,
-    // 광휘의 보스 세트
-    '황홀한 악몽':  49_000_000_000,
-    '죽음의 맹세':  48_000_000_000,
-    '근원의 속삭임': 50_000_000_000,
-    // 여명의 보스 세트
-    '데이브레이크 펜던트':       50_000_000,
-    '트와일라이트 마크':         60_000_000,
-    '에스텔라 이어링':           50_000_000,
-    '여명의 가디언 엔젤 링':     70_000_000,
-    // 카루타 (거의 무료)
-    '하이네스':   1_000_000,
-    '이글아이':   1_000_000,
-    '트릭스터':   1_000_000,
-};
-
-function getBasePrice(itemName: string): number {
-    for (const [key, price] of Object.entries(BASE_ITEM_PRICES)) {
-        if (itemName.includes(key)) return price;
-    }
-    return 10_000_000; // 기본 1,000만
+function getBasePrice(itemName: string, slot?: string, jobName?: string): number {
+    return getLatestPrice(itemName, slot, jobName);
 }
 
 function fmt(meso: number): string {
@@ -313,12 +288,15 @@ export function analyzeCharacterSpecUp(
 
         if (EXCLUDED_SLOTS.has(slot)) return;
 
+        // 슈페리얼 아이템(타일런트, 헬리시움, 노바)은 15성 한계 및 특수 스타포스 체계이므로 일반 17성 둘둘 제외
+        if (name.includes('타일런트') || name.includes('헬리시움') || name.includes('노바')) return;
+
         // ══════════════════════════════════════════════════════════════
         // CASE 1: 10~16성 → 17성 가성비 둘둘
         //   강화 비용: 실제 calculateCumulativeExpectedCost(0→toStar) - (0→fromStar) 차이
         // ══════════════════════════════════════════════════════════════
         if (star >= 10 && star < 17) {
-            const baseP = 0; // 기존 착용 템이므로 노작비 없음
+            const baseP = getBasePrice(name, slot, job);
 
             // 현재 별 → 17성 기댓값 (fromStar에서 시작)
             // 마르코프 기댓값: E[0→17] - E[0→fromStar] 방식으로 정확히 계산
@@ -330,8 +308,7 @@ export function analyzeCharacterSpecUp(
             const det17    = calculateCumulativeExpectedCostDetailed(lv, 17, { itemCost: 0 });
             const detFrom  = calculateCumulativeExpectedCostDetailed(lv, star, { itemCost: 0 });
             const sparesAvg = Math.max(0, det17.totalSpares - detFrom.totalSpares);
-            const restoreCost = sparesAvg * baseP;
-
+            const restoreCost = Math.round(sparesAvg * baseP);
             const totalMeso = sfMeso + restoreCost;
             const starsToGain = 17 - star;
 
@@ -347,26 +324,26 @@ export function analyzeCharacterSpecUp(
                 action: `${star}성 → 17성`,
                 category: '스타포스',
                 costBreakdown: {
-                    basePriceMeso: 0,
+                    basePriceMeso: baseP,
                     basePriceText: sparesAvg > 0
-                        ? `파괴 시 노작 필요 (경매장 ${fmt(getBasePrice(name))})`
+                        ? (baseP >= 100_000_000 ? `${fmt(baseP)} (오늘 경매장 시세 — 예비 노작 준비)` : `${fmt(baseP)} (오늘 경매장 시세)`)
                         : '0원 (파괴 확률 없음)',
                     starforceCostMeso: sfMeso,
                     starforceCostText: `${fmt(sfMeso)} (넥슨 공식 마르코프 기댓값)`,
                     sparesNeededAvg: sparesAvg,
                     sparesNeededText: sparesAvg > 0.01
-                        ? `평균 파괴 ${sparesAvg.toFixed(2)}개 → 복구비 ${fmt(sparesAvg * getBasePrice(name))}`
+                        ? `평균 파괴 ${sparesAvg.toFixed(2)}개 → 복구비 ${fmt(restoreCost)}`
                         : '파괴 없음 (0~14성 구간)',
-                    restoreCostMeso: Math.round(sparesAvg * getBasePrice(name)),
-                    restoreCostText: sparesAvg > 0.01
-                        ? `${fmt(Math.round(sparesAvg * getBasePrice(name)))} (평균 ${sparesAvg.toFixed(2)}개 파괴 × ${fmt(getBasePrice(name))})`
+                    restoreCostMeso: restoreCost,
+                    restoreCostText: restoreCost > 0
+                        ? `${fmt(restoreCost)} (평균 ${sparesAvg.toFixed(2)}개 파괴 × ${fmt(baseP)})`
                         : '0원',
                     potentialCostMeso: 0,
                     potentialCostText: '0원 (기존 잠재 보존)',
                     additionalCostMeso: 0,
                     additionalCostText: '0원',
-                    totalCostMeso: totalMeso + Math.round(sparesAvg * getBasePrice(name)),
-                    totalCostText: fmt(totalMeso + Math.round(sparesAvg * getBasePrice(name))),
+                    totalCostMeso: totalMeso,
+                    totalCostText: fmt(totalMeso),
                 },
                 gains: {
                     statText: `공격력 +${deltaAtk}, 주스탯 +${deltaMainStat}`,
@@ -387,7 +364,7 @@ export function analyzeCharacterSpecUp(
         // CASE 2: 17성 → 18성 안전 1업
         // ══════════════════════════════════════════════════════════════
         if (star === 17) {
-            const baseP = getBasePrice(name);
+            const baseP = getBasePrice(name, slot, job);
 
             const cost0to18 = calculateCumulativeExpectedCost(lv, 18, { itemCost: baseP });
             const cost0to17 = calculateCumulativeExpectedCost(lv, 17, { itemCost: baseP });
@@ -396,7 +373,7 @@ export function analyzeCharacterSpecUp(
             const det18  = calculateCumulativeExpectedCostDetailed(lv, 18, { itemCost: 0 });
             const det17d = calculateCumulativeExpectedCostDetailed(lv, 17, { itemCost: 0 });
             const sparesAvg  = Math.max(0, det18.totalSpares - det17d.totalSpares);
-            const restoreCost = sparesAvg * baseP;
+            const restoreCost = Math.round(sparesAvg * baseP);
             const totalMeso  = sfMeso + restoreCost;
 
             const isWeapon = slot === '무기';
@@ -455,7 +432,7 @@ export function analyzeCharacterSpecUp(
                            || name.includes('여명의 가디언');
 
         if (isEndTarget22 && star >= 15 && star < 22) {
-            const baseP = getBasePrice(name);
+            const baseP = getBasePrice(name, slot, job);
 
             const cost0to22   = calculateCumulativeExpectedCost(lv, 22, { itemCost: baseP });
             const cost0toFrom = calculateCumulativeExpectedCost(lv, star, { itemCost: baseP });
@@ -464,7 +441,7 @@ export function analyzeCharacterSpecUp(
             const det22  = calculateCumulativeExpectedCostDetailed(lv, 22, { itemCost: 0 });
             const detFr  = calculateCumulativeExpectedCostDetailed(lv, star, { itemCost: 0 });
             const sparesAvg  = Math.max(0, det22.totalSpares - detFr.totalSpares);
-            const restoreCost = sparesAvg * baseP;
+            const restoreCost = Math.round(sparesAvg * baseP);
             const totalMeso  = sfMeso + restoreCost;
 
             const deltaAtk  = (22 - star) * 8;
@@ -514,7 +491,7 @@ export function analyzeCharacterSpecUp(
         // ══════════════════════════════════════════════════════════════
         const ETH_SLOTS = new Set(['모자', '상의', '하의', '신발', '장갑', '망토', '어깨장식']);
         if (name.includes('앱솔랩스') && ETH_SLOTS.has(slot)) {
-            const ethPrice = getBasePrice('에테르넬'); // 5.2억
+            const ethPrice = getLatestEthernelPrice(slot, job); // 오늘자 직업/부위별 시세 연동
             const ethLevel = 250;
 
             // 에테르넬 0성→17성 강화 기댓값 (250제)
@@ -522,7 +499,7 @@ export function analyzeCharacterSpecUp(
 
             const detEth = calculateCumulativeExpectedCostDetailed(ethLevel, 17, { itemCost: 0 });
             const sparesAvg  = detEth.totalSpares;
-            const restoreCost = sparesAvg * ethPrice;
+            const restoreCost = Math.round(sparesAvg * ethPrice);
 
             // 현재 잠재 등급에 따라 큐브 비용 계산
             const existingGrade = grade;
@@ -547,7 +524,7 @@ export function analyzeCharacterSpecUp(
                 category: '장비 전환',
                 costBreakdown: {
                     basePriceMeso: ethPrice,
-                    basePriceText: `${fmt(ethPrice)} (오늘 에테 노작 시세)`,
+                    basePriceText: `${fmt(ethPrice)} (오늘 에테 ${slot} 시세)`,
                     starforceCostMeso: sfMeso,
                     starforceCostText: `${fmt(sfMeso)} (250제 0→17성 마르코프 기댓값)`,
                     sparesNeededAvg: sparesAvg,
@@ -582,7 +559,7 @@ export function analyzeCharacterSpecUp(
     // ═══════════════════════════════════════════════════════════════════
     const nightmareRing = equippedItems.find(i => i.name.includes('황홀한 악몽') && i.starforce < 25);
     if (nightmareRing) {
-        const baseP = getBasePrice('황홀한 악몽'); // 490억
+        const baseP = getBasePrice('황홀한 악몽', nightmareRing.slot, job);
         const lv    = nightmareRing.baseLevel || 250;
         const star  = nightmareRing.starforce;
 
@@ -593,7 +570,7 @@ export function analyzeCharacterSpecUp(
         const det25  = calculateCumulativeExpectedCostDetailed(lv, 25, { itemCost: 0 });
         const detFr  = calculateCumulativeExpectedCostDetailed(lv, star, { itemCost: 0 });
         const sparesAvg   = Math.max(0, det25.totalSpares - detFr.totalSpares);
-        const restoreCost = sparesAvg * baseP;
+        const restoreCost = Math.round(sparesAvg * baseP);
         const totalMeso   = sfMeso + restoreCost;
 
         const cpGain = estimateCombatPowerGain(40, 52, mainStat, subStat, job, bossDamage, finalDamage);
@@ -608,11 +585,11 @@ export function analyzeCharacterSpecUp(
             category: '엔드 강화',
             costBreakdown: {
                 basePriceMeso: baseP,
-                basePriceText: `${fmt(baseP)} (오늘 노작 시세)`,
+                basePriceText: `${fmt(baseP)} (오늘 경매장 시세)`,
                 starforceCostMeso: sfMeso,
                 starforceCostText: `${fmt(sfMeso)} (넥슨 공식 마르코프 기댓값)`,
                 sparesNeededAvg: sparesAvg,
-                sparesNeededText: `평균 파괴 ${sparesAvg.toFixed(1)}개 × ${fmt(baseP)} = ${fmt(restoreCost)}`,
+                sparesNeededText: `평균 파괴 ${sparesAvg.toFixed(1)}개 → 복구비 ${fmt(restoreCost)}`,
                 restoreCostMeso: restoreCost,
                 restoreCostText: `${fmt(restoreCost)} (파괴 복구비)`,
                 potentialCostMeso: 0,
