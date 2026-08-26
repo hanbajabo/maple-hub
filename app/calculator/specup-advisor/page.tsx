@@ -285,22 +285,26 @@ export default function SpecUpAdvisorPage() {
                                             </div>
                                         </div>
 
-                                        {/* 4-Pillar Cost Breakdown Grid */}
-                                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-xs">
+                                        {/* 5-Pillar Cost Breakdown Grid (정확값 기반) */}
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-xs">
                                             <div>
-                                                <div className="text-slate-400">1. 노작 원가 (시세)</div>
+                                                <div className="text-slate-400">① 노작 원가 (오늘 시세)</div>
                                                 <div className="font-bold text-slate-200 truncate">{rec.costBreakdown.basePriceText}</div>
                                             </div>
                                             <div>
-                                                <div className="text-slate-400">2. 스타포스 기댓값</div>
+                                                <div className="text-slate-400">② 스타포스 메소 기댓값 <span className="text-emerald-400 font-semibold">정확</span></div>
                                                 <div className="font-bold text-amber-300">{rec.costBreakdown.starforceCostText}</div>
                                             </div>
                                             <div>
-                                                <div className="text-slate-400">3. 윗잠 큐브 기댓값</div>
+                                                <div className="text-slate-400">③ 파괴 복구비</div>
+                                                <div className="font-bold text-orange-300 truncate">{rec.costBreakdown.sparesNeededText}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-slate-400">④ 윗잠 큐브 기댓값 <span className="text-emerald-400 font-semibold">정확</span></div>
                                                 <div className="font-bold text-blue-300 truncate">{rec.costBreakdown.potentialCostText}</div>
                                             </div>
                                             <div>
-                                                <div className="text-slate-400">4. 에디 큐브 기댓값</div>
+                                                <div className="text-slate-400">⑤ 에디셔널 큐브 기댓값 <span className="text-emerald-400 font-semibold">정확</span></div>
                                                 <div className="font-bold text-purple-300 truncate">{rec.costBreakdown.additionalCostText}</div>
                                             </div>
                                         </div>
@@ -317,6 +321,9 @@ export default function SpecUpAdvisorPage() {
                                                 <span className="text-xs text-slate-400 font-medium">
                                                     ({rec.gains.statText})
                                                 </span>
+                                            </div>
+                                            <div className="text-[10px] text-slate-500 italic shrink-0">
+                                                ⚠️ 전투력·딜 상승량은 추정값입니다
                                             </div>
                                         </div>
 
