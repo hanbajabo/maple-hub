@@ -348,19 +348,25 @@ export function analyzeCharacterSpecUp(
                 category: '스타포스',
                 costBreakdown: {
                     basePriceMeso: 0,
-                    basePriceText: '0원 (기존 착용 템)',
+                    basePriceText: sparesAvg > 0
+                        ? `파괴 시 노작 필요 (경매장 ${fmt(getBasePrice(name))})`
+                        : '0원 (파괴 확률 없음)',
                     starforceCostMeso: sfMeso,
                     starforceCostText: `${fmt(sfMeso)} (넥슨 공식 마르코프 기댓값)`,
                     sparesNeededAvg: sparesAvg,
-                    sparesNeededText: `평균 파괴 ${sparesAvg.toFixed(2)}개`,
-                    restoreCostMeso: 0,
-                    restoreCostText: '0원 (기존 템이라 노작비 없음)',
+                    sparesNeededText: sparesAvg > 0.01
+                        ? `평균 파괴 ${sparesAvg.toFixed(2)}개 → 복구비 ${fmt(sparesAvg * getBasePrice(name))}`
+                        : '파괴 없음 (0~14성 구간)',
+                    restoreCostMeso: Math.round(sparesAvg * getBasePrice(name)),
+                    restoreCostText: sparesAvg > 0.01
+                        ? `${fmt(Math.round(sparesAvg * getBasePrice(name)))} (평균 ${sparesAvg.toFixed(2)}개 파괴 × ${fmt(getBasePrice(name))})`
+                        : '0원',
                     potentialCostMeso: 0,
                     potentialCostText: '0원 (기존 잠재 보존)',
                     additionalCostMeso: 0,
                     additionalCostText: '0원',
-                    totalCostMeso: totalMeso,
-                    totalCostText: fmt(totalMeso),
+                    totalCostMeso: totalMeso + Math.round(sparesAvg * getBasePrice(name)),
+                    totalCostText: fmt(totalMeso + Math.round(sparesAvg * getBasePrice(name))),
                 },
                 gains: {
                     statText: `공격력 +${deltaAtk}, 주스탯 +${deltaMainStat}`,
@@ -406,14 +412,18 @@ export function analyzeCharacterSpecUp(
                 action: '17성 → 18성',
                 category: '안전 강화',
                 costBreakdown: {
-                    basePriceMeso: 0,
-                    basePriceText: '0원',
+                    basePriceMeso: baseP,
+                    basePriceText: baseP >= 100_000_000
+                        ? `${fmt(baseP)} (오늘 경매장 시세 — 예비 노작 준비 필수)`
+                        : baseP > 0
+                        ? `${fmt(baseP)} (오늘 경매장 시세)`
+                        : '0원 (무료 수급 가능)',
                     starforceCostMeso: sfMeso,
                     starforceCostText: `${fmt(sfMeso)} (넥슨 공식 마르코프 기댓값)`,
                     sparesNeededAvg: sparesAvg,
-                    sparesNeededText: `평균 파괴 ${sparesAvg.toFixed(2)}개 (노작 원가: ${fmt(baseP)})`,
+                    sparesNeededText: `평균 파괴 ${sparesAvg.toFixed(2)}개 → 파괴 복구비 ${fmt(restoreCost)}`,
                     restoreCostMeso: restoreCost,
-                    restoreCostText: restoreCost > 0 ? fmt(restoreCost) + ' (파괴 복구비)' : '0원 (무료 수급 가능)',
+                    restoreCostText: restoreCost > 0 ? `${fmt(restoreCost)} (평균 ${sparesAvg.toFixed(2)}개 파괴 × ${fmt(baseP)})` : '0원',
                     potentialCostMeso: 0,
                     potentialCostText: '0원 (기존 잠재 보존)',
                     additionalCostMeso: 0,
