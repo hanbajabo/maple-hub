@@ -124,14 +124,14 @@ export function getPriceData() {
                                     const thiefMatch = jobPrices.match(/도([\d.]+)/);
                                     const pirateMatch = jobPrices.match(/해([\d.]+)/);
 
-                                    if (warriorMatch && mageMatch && archerMatch && thiefMatch && pirateMatch) {
+                                    if (warriorMatch || mageMatch || archerMatch || thiefMatch || pirateMatch) {
                                         ethernelByJob.push({
                                             item: rawItemName, // 모자, 상의, etc.
-                                            warrior: parseFloat(warriorMatch[1]),
-                                            mage: parseFloat(mageMatch[1]),
-                                            archer: parseFloat(archerMatch[1]),
-                                            thief: parseFloat(thiefMatch[1]),
-                                            pirate: parseFloat(pirateMatch[1]),
+                                            warrior: warriorMatch ? parseFloat(warriorMatch[1]) : 0,
+                                            mage: mageMatch ? parseFloat(mageMatch[1]) : 0,
+                                            archer: archerMatch ? parseFloat(archerMatch[1]) : 0,
+                                            thief: thiefMatch ? parseFloat(thiefMatch[1]) : 0,
+                                            pirate: pirateMatch ? parseFloat(pirateMatch[1]) : 0,
                                         });
                                     }
                                 }

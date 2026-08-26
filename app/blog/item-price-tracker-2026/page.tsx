@@ -27,7 +27,15 @@ export default function ItemPriceTrackerPage() {
 
     // 현재 날짜 계산 (마지막 업데이트 날짜)
     const lastUpdateDate = priceData.length > 0 ? priceData[priceData.length - 1].date : '2026-01-01';
-    const lastUpdate = lastUpdateDate.replace(/-/g, '년 ').replace(/(\d+)$/, '$1일').replace(/(\d+)일/, (match, p1) => `${p1.replace(/^0/, '')}일`).replace(/(\d+) (\d+)일/, '$1년 $2월 ');
+    const formatKoreanDate = (dateStr: string) => {
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+            const [year, month, day] = parts;
+            return `${year}년 ${parseInt(month, 10)}월 ${parseInt(day, 10)}일`;
+        }
+        return dateStr;
+    };
+    const lastUpdate = formatKoreanDate(lastUpdateDate);
     const trackingStart = '2026년 1월 1일';
 
     return (

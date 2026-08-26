@@ -1,0 +1,40 @@
+name: Daily Item Price Sync
+
+on:
+  schedule:
+    # 매일 한국 시간 오전 10:30 (UTC 01:30) 실행
+    - cron: '30 1 * * *'
+    # 저녁 보조 동기화: 매일 한국 시간 오후 10:30 (UTC 13:30) 실행
+    - cron: '30 13 * * *'
+  workflow_dispatch: # GitHub 웹 UI에서 수동으로 'Run workflow' 버튼 클릭 가능
+
+permissions:
+  contents: write
+
+jobs:
+  sync-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Price Sync Script
+        run: node scripts/sync-daily-prices.js
+
+      - name: Commit and Push if updated
+        run: |
+          if [ -n "$(git status --porcelain data/item-price-trends-raw.md)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add data/item-price-trends-raw.md
+            git commit -m "chore(data): auto update daily item prices 📊"
+            git push
+            echo "Successfully committed and pushed updated price data!"
+          else
+            echo "No price updates found today."
+          fi
