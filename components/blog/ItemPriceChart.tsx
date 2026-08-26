@@ -311,17 +311,19 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
 
                     {/* 기간 내 가격 요약 스탯 */}
                     {periodStats && (
-                        <div className="grid grid-cols-3 sm:flex sm:items-center gap-1.5 sm:gap-3 text-[10px] sm:text-xs bg-slate-900/90 px-2.5 py-1.5 rounded-lg border border-slate-800 text-center sm:text-left">
-                            <div>
-                                <span className="text-slate-400">최저:</span>{' '}
+                        <div className="flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3.5 text-[11px] sm:text-xs bg-slate-900/90 px-3 py-1.5 rounded-lg border border-slate-800">
+                            <div className="flex items-center gap-1 whitespace-nowrap">
+                                <span className="text-slate-400">최저:</span>
                                 <span className="text-emerald-400 font-bold">{periodStats.min}</span>
                             </div>
-                            <div className="border-x border-slate-700/50 sm:border-x-0 sm:h-3 sm:w-px sm:bg-slate-700">
-                                <span className="text-slate-400">최고:</span>{' '}
+                            <div className="h-3 w-px bg-slate-700/80"></div>
+                            <div className="flex items-center gap-1 whitespace-nowrap">
+                                <span className="text-slate-400">최고:</span>
                                 <span className="text-red-400 font-bold">{periodStats.max}</span>
                             </div>
-                            <div>
-                                <span className="text-slate-400">변동:</span>{' '}
+                            <div className="h-3 w-px bg-slate-700/80"></div>
+                            <div className="flex items-center gap-1 whitespace-nowrap">
+                                <span className="text-slate-400">변동:</span>
                                 <span className={`font-bold ${
                                     Number(periodStats.changeRate) > 0 
                                         ? 'text-red-400' 
