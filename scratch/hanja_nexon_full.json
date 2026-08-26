@@ -1,0 +1,378 @@
+{
+  "basic": {
+    "date": null,
+    "character_name": "한자",
+    "world_name": "이노시스",
+    "character_gender": "남",
+    "character_class": "아란",
+    "character_class_level": "6",
+    "character_level": 291,
+    "character_exp": 275333797480194,
+    "character_exp_rate": "85.049",
+    "character_guild_name": "악동",
+    "character_image": "https://open.api.nexon.com/static/maplestory/character/look/AHLONOOMDIFGOCAHGEMDDDNBPMFEBIOADHBGFHOGIIMCFLILAJKIGEDIDLONPLPBKOKAJOKFHBBDIJLNIBGEFAMMPGHDPEOGLJGAMIAOGNFBHIHHKMPLMGCJHOBECIHNDIKFEPDEEAIOGBACKNLKLLGCGLAOMFDCMNLFGLEPPBBFHHFMHGDGODOFABDPHMCDLPMICIKOCIGBGJMJMCJFMJDHNDCPDMFNIAFHHGCBIGNNBIHOJLPEMDCGDLCGLFCBHNKLPJPGKCAFJOEHMCLNGJBEAFKCHBGEJNGMJNFCOEJINPMPMAKCIOKJAEHMICDLCIJNPNCKBNGJFGKEAKECJMLMGALPNJIAIGCPAINPLEPIINKPGAACCMBCLFNMACOOINPNGAJCAJMJMJPCHHCLANIDABEHHEKEGJLFENFLLKKLCILMNIJFDKPFKFBFGHHIALLFOFPPLDBAAAFLMLOPKFGLAMALNPNHBFOKKHEPOBOAODCJFKDLBCFILEEOOKNKNEKJMMHJKOEDIFMLLLPJEIBNAOJKCDAPBHAPJFAAEFHEGJBOHDNGCLFDHLNMBLCAOKFCJJNLAEBMIJPDBGCCEAAINHPECOJHFLICFGDMIGFJGFONMBBLNBPFGHNJOPMAPNEHLLPJMMOKHPJFGEOPGPMPDKPPKAMMNIGDKKEFAPEACMDOBJKEIDLADLHGCPMBMBDEGIBJDMABBFFLAJBDHOCFGJMJOKHPIJLMJHIDFONGJACBDLNPHCBBGKBNMLOCDFHJNLJMKDPIACOPGGHMFPKCJBFCPMIKLNFMBIICLBFIEOMHLLCCHAOCDHGMOECDHJIDKNPOJIFALBPGNECKFKOHBOJGHEDINDKMLDNMDCPGKKCOGGEOOJPMBIKLLJGNFKNAHFNFBIDBDNGMMEEIPFMLBLBMHKMOCPCFAKMOJKAADMHNFIGCDKIGHFLEDGBFBJBKOFFDKAEJIOAHCEOCLCNHFMIMGGGKFPPOCLGIDCNHMFOMAMDOEJIIHOIEEJDB?wmotion=W00",
+    "character_date_create": "2016-07-14T00:00+09:00",
+    "access_flag": "true",
+    "liberation_quest_clear": "1"
+  },
+  "stat": {
+    "date": null,
+    "character_class": "아란",
+    "final_stat": [
+      {
+        "stat_name": "최소 스탯공격력",
+        "stat_value": "61720804"
+      },
+      {
+        "stat_name": "최대 스탯공격력",
+        "stat_value": "68578669"
+      },
+      {
+        "stat_name": "데미지",
+        "stat_value": "146.00"
+      },
+      {
+        "stat_name": "보스 몬스터 데미지",
+        "stat_value": "304.00"
+      },
+      {
+        "stat_name": "최종 데미지",
+        "stat_value": "46.41"
+      },
+      {
+        "stat_name": "방어율 무시",
+        "stat_value": "92.77"
+      },
+      {
+        "stat_name": "크리티컬 확률",
+        "stat_value": "112"
+      },
+      {
+        "stat_name": "크리티컬 데미지",
+        "stat_value": "113.30"
+      },
+      {
+        "stat_name": "상태이상 내성",
+        "stat_value": "99"
+      },
+      {
+        "stat_name": "스탠스",
+        "stat_value": "100"
+      },
+      {
+        "stat_name": "방어력",
+        "stat_value": "94648"
+      },
+      {
+        "stat_name": "이동속도",
+        "stat_value": "170"
+      },
+      {
+        "stat_name": "점프력",
+        "stat_value": "123"
+      },
+      {
+        "stat_name": "스타포스",
+        "stat_value": "252"
+      },
+      {
+        "stat_name": "아케인포스",
+        "stat_value": "1400"
+      },
+      {
+        "stat_name": "어센틱포스",
+        "stat_value": "600"
+      },
+      {
+        "stat_name": "STR",
+        "stat_value": "53347"
+      },
+      {
+        "stat_name": "DEX",
+        "stat_value": "7702"
+      },
+      {
+        "stat_name": "INT",
+        "stat_value": "4961"
+      },
+      {
+        "stat_name": "LUK",
+        "stat_value": "4733"
+      },
+      {
+        "stat_name": "HP",
+        "stat_value": "85745"
+      },
+      {
+        "stat_name": "MP",
+        "stat_value": "30330"
+      },
+      {
+        "stat_name": "AP 배분 STR",
+        "stat_value": "1473"
+      },
+      {
+        "stat_name": "AP 배분 DEX",
+        "stat_value": "4"
+      },
+      {
+        "stat_name": "AP 배분 INT",
+        "stat_value": "4"
+      },
+      {
+        "stat_name": "AP 배분 LUK",
+        "stat_value": "4"
+      },
+      {
+        "stat_name": "AP 배분 HP",
+        "stat_value": "-486"
+      },
+      {
+        "stat_name": "AP 배분 MP",
+        "stat_value": "-393"
+      },
+      {
+        "stat_name": "아이템 드롭률",
+        "stat_value": "155"
+      },
+      {
+        "stat_name": "메소 획득량",
+        "stat_value": "139"
+      },
+      {
+        "stat_name": "버프 지속시간",
+        "stat_value": "40"
+      },
+      {
+        "stat_name": "공격 속도",
+        "stat_value": "8"
+      },
+      {
+        "stat_name": "일반 몬스터 데미지",
+        "stat_value": "113.00"
+      },
+      {
+        "stat_name": "재사용 대기시간 감소 (초)",
+        "stat_value": "0"
+      },
+      {
+        "stat_name": "재사용 대기시간 감소 (%)",
+        "stat_value": "5"
+      },
+      {
+        "stat_name": "재사용 대기시간 미적용",
+        "stat_value": "7"
+      },
+      {
+        "stat_name": "속성 내성 무시",
+        "stat_value": "5.00"
+      },
+      {
+        "stat_name": "상태이상 추가 데미지",
+        "stat_value": "0.00"
+      },
+      {
+        "stat_name": "무기 숙련도",
+        "stat_value": "90"
+      },
+      {
+        "stat_name": "추가 경험치 획득",
+        "stat_value": "131.50"
+      },
+      {
+        "stat_name": "공격력",
+        "stat_value": "5780"
+      },
+      {
+        "stat_name": "마력",
+        "stat_value": "1095"
+      },
+      {
+        "stat_name": "전투력",
+        "stat_value": "92016086"
+      },
+      {
+        "stat_name": "소환수 지속시간 증가",
+        "stat_value": "10"
+      }
+    ],
+    "remain_ap": 0
+  },
+  "hexa": {
+    "date": null,
+    "character_hexa_core_equipment": [
+      {
+        "hexa_core_name": "엔드 게임",
+        "hexa_core_level": 10,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "스킬 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "엔드 게임"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "프로스트 블러스터",
+        "hexa_core_level": 9,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "스킬 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "프로스트 블러스터"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "마하 언리시드",
+        "hexa_core_level": 7,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "스킬 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "마하 언리시드"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "비욘더 VI",
+        "hexa_core_level": 22,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "마스터리 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "비욘더 VI"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "부스트 엔드-헌터즈 타겟팅 VI",
+        "hexa_core_level": 20,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "마스터리 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "부스트 엔드-헌터즈 타겟팅 VI"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "하이퍼 부스트 엔드-라스트 스탠드 VI",
+        "hexa_core_level": 22,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "마스터리 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "하이퍼 부스트 엔드-라스트 스탠드 VI"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "프로즌 그라운드 VI/아드레날린 맥시멈 VI/파이널 어택 VI",
+        "hexa_core_level": 13,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "마스터리 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "프로즌 그라운드 VI"
+          },
+          {
+            "hexa_skill_id": "아드레날린 맥시멈 VI"
+          },
+          {
+            "hexa_skill_id": "파이널 어택 VI"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "부스트 엔드-아드레날린 서지",
+        "hexa_core_level": 2,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "강화 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "부스트 엔드-아드레날린 서지 강화"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "브랜디쉬 마하",
+        "hexa_core_level": 2,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "강화 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "브랜디쉬 마하 강화"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "파이널 비욘더-백호",
+        "hexa_core_level": 4,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "강화 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "파이널 비욘더-백호 강화"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "블리자드 템페스트",
+        "hexa_core_level": 2,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "강화 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "블리자드 템페스트 강화"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "솔 야누스",
+        "hexa_core_level": 10,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "공용 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "솔 야누스"
+          },
+          {
+            "hexa_skill_id": "솔 야누스 : 새벽"
+          },
+          {
+            "hexa_skill_id": "솔 야누스 : 황혼"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "솔 헤카테",
+        "hexa_core_level": 7,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "공용 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "솔 헤카테"
+          },
+          {
+            "hexa_skill_id": "솔 헤카테 : 스틱스"
+          },
+          {
+            "hexa_skill_id": "솔 헤카테 : 팩텀"
+          }
+        ]
+      },
+      {
+        "hexa_core_name": "프리드의 가호 VI",
+        "hexa_core_level": 6,
+        "hexa_core_event_level": 0,
+        "hexa_core_type": "공용 코어",
+        "linked_skill": [
+          {
+            "hexa_skill_id": "프리드의 가호 VI"
+          }
+        ]
+      }
+    ]
+  }
+}
