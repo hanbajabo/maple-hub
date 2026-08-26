@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { ChevronDown, TrendingDown, TrendingUp, Minus, Calendar, Clock, BarChart3, Filter } from 'lucide-react';
+import { ChevronDown, BarChart3, Clock, ArrowUpDown } from 'lucide-react';
 import {
     LineChart,
     Line,
@@ -83,7 +83,6 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
         const items = new Set<string>();
         const excludedKeywords = ['부티크', '솜사탕', '웨폰', '리3', '컨3', '프리렌', '슈타르크', '페른'];
 
-        // 최근 30일 내에 데이터가 있었던 아이템
         const recentDays = data.slice(-30);
         recentDays.forEach((day) => {
             Object.keys(day.items).forEach((item) => {
@@ -93,7 +92,6 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
             });
         });
 
-        // 칠흑, 광휘, 에테르넬 필수 품목은 데이터가 없어도 항상 목록에 유지
         const essentialItems = [
             ...Object.values(itemCategories['칠흑 세트']),
             ...Object.values(itemCategories['광휘 세트']),
@@ -119,21 +117,19 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
     );
     const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>('30d');
     const [isTableExpanded, setIsTableExpanded] = useState(false);
-    const [baselineDateIndex, setBaselineDateIndex] = useState(0);
 
-    // 에테르넬 가격 비교용 날짜 목록 및 선택 상태
+    // 에테르넬 가격 비교용 상태
     const ethernelDays = useMemo(() => {
         return data.filter(d => d.ethernelByJob && d.ethernelByJob.length > 0);
     }, [data]);
     const [ethBaseIndex, setEthBaseIndex] = useState(0);
     const [ethTargetIndex, setEthTargetIndex] = useState(-1);
 
-    // 품목이 변경될 때 테이블 접기 초기화
+    // 품목 변경 시 테이블 접기 초기화
     useEffect(() => {
         setIsTableExpanded(false);
     }, [selectedItem]);
 
-    // 현재 카테고리에 맞는 아이템 목록
     const filteredItems = useMemo(() => {
         if (selectedCategory === '전체') {
             return allItems;
@@ -149,7 +145,6 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
 
             let priceInfo = { ...(day.items[selectedItem] || {}) };
             
-            // 자석펫 3종이고 해당 데이터가 없으면 '자석펫' 평균값 사용
             const individualPets = ['아델레', '카이', '쁘띠 스노우'];
             if (individualPets.includes(selectedItem)) {
                 const avgPriceInfo = day.items['자석펫'] || {};
@@ -170,7 +165,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
         }).filter((item): item is NonNullable<typeof item> => item !== null);
     }, [data, selectedItem]);
 
-    // 기간 필터에 따른 차트 데이터 슬라이스
+    // 기간 필터에 따른 데이터
     const chartData = useMemo(() => {
         if (selectedPeriod === '7d') return allItemData.slice(-7);
         if (selectedPeriod === '14d') return allItemData.slice(-14);
@@ -179,16 +174,16 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
         return allItemData;
     }, [allItemData, selectedPeriod]);
 
-    // X축 레이블 간격 자동 최적화
+    // X축 눈금 자동 조절
     const xAxisInterval = useMemo(() => {
         const len = chartData.length;
         if (selectedPeriod === '7d' || selectedPeriod === '14d') return 0;
-        if (selectedPeriod === '30d') return Math.max(1, Math.floor(len / 8));
-        if (selectedPeriod === '90d') return Math.max(2, Math.floor(len / 8));
-        return Math.max(4, Math.floor(len / 10));
+        if (selectedPeriod === '30d') return Math.max(1, Math.floor(len / 6));
+        if (selectedPeriod === '90d') return Math.max(2, Math.floor(len / 6));
+        return Math.max(4, Math.floor(len / 8));
     }, [selectedPeriod, chartData.length]);
 
-    // 기간 내 최고가 / 최저가 / 변동률 계산
+    // 기간 통계
     const periodStats = useMemo(() => {
         if (chartData.length === 0) return null;
         const mainPrices = chartData.map(d => d.main).filter((p): p is number => p !== null && p > 0);
@@ -200,7 +195,12 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
         const last = mainPrices[mainPrices.length - 1];
         const changeRate = first > 0 ? ((last - first) / first * 100).toFixed(1) : '0';
 
-        return { min, max, first, last, changeRate };
+        const formatShort = (v: number) => {
+            if (v < 1 && v > 0) return `${Math.round(v * 10000).toLocaleString()}만`;
+            return `${v}억`;
+        };
+
+        return { min: formatShort(min), max: formatShort(max), changeRate };
     }, [chartData]);
 
     const isEthernel = selectedItem.startsWith('에테르넬');
@@ -208,9 +208,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
     const isScania = scaniaItems.includes(selectedItem);
     const mainServerLabel = isScania ? '스카니아' : '본섭';
 
-    // 테이블에 표시할 데이터 (접었을 때는 최근 14일, 펼치면 전체)
     const tableData = useMemo(() => {
-        // 최신 날짜가 위로 오도록 역순(Reverse)으로 복사
         const reversed = [...allItemData].reverse();
         if (!isTableExpanded) {
             return reversed.slice(0, 14);
@@ -219,16 +217,16 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
     }, [allItemData, isTableExpanded]);
 
     return (
-        <div className="w-full bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-2xl border border-slate-700 p-4 sm:p-6 md:p-8 my-4 sm:my-8 shadow-2xl">
-            {/* 상단 헤더 & 컨트롤 */}
-            <div className="mb-6">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div className="w-full bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-slate-700 p-3 sm:p-6 md:p-8 my-3 sm:my-8 shadow-2xl overflow-hidden">
+            {/* 상단 컨트롤 헤더 */}
+            <div className="mb-4 sm:mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 mb-3.5 sm:mb-4">
                     <div>
-                        <h3 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-                            <BarChart3 className="w-6 h-6 text-blue-400" />
-                            아이템 시세 추적 차트
+                        <h3 className="text-lg sm:text-2xl font-black text-white flex items-center gap-2">
+                            <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400 flex-shrink-0" />
+                            <span>아이템 시세 추적</span>
                         </h3>
-                        <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                        <p className="text-[11px] sm:text-sm text-slate-400 mt-0.5">
                             {isEthernel
                                 ? '에테르넬 5직업군 평균 시세 추이'
                                 : `챌린저스 vs ${mainServerLabel} 실시간 가격 비교`
@@ -236,12 +234,12 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                         </p>
                     </div>
 
-                    {/* 아이템 셀렉트 드롭다운 */}
+                    {/* 아이템 선택 드롭다운 */}
                     <div className="w-full sm:w-auto">
                         <select
                             value={selectedItem}
                             onChange={(e) => setSelectedItem(e.target.value)}
-                            className="w-full sm:w-64 bg-slate-950 border-2 border-blue-500/50 text-white py-2.5 px-3.5 rounded-xl font-bold cursor-pointer hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm shadow-lg"
+                            className="w-full sm:w-64 bg-slate-950 border-2 border-blue-500/50 text-white py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-xl font-bold cursor-pointer hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm shadow-md"
                         >
                             {filteredItems.map((item) => (
                                 <option key={item} value={item}>
@@ -252,8 +250,8 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                     </div>
                 </div>
 
-                {/* 카테고리 필터 태그 */}
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                {/* 카테고리 칩 (모바일 가로 스크롤) */}
+                <div className="flex overflow-x-auto no-scrollbar gap-1.5 pb-1 sm:flex-wrap touch-pan-x">
                     {['전체', '칠흑 세트', '광휘 세트', '에테르넬', '장신구', '기타 아이템'].map((category) => (
                         <button
                             key={category}
@@ -268,10 +266,11 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     setSelectedItem(newFilteredItems[0]);
                                 }
                             }}
-                            className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all ${selectedCategory === category
-                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50 scale-105'
-                                : 'bg-slate-700/70 text-slate-300 hover:bg-slate-600 hover:text-white'
-                                }`}
+                            className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all flex-shrink-0 ${
+                                selectedCategory === category
+                                    ? 'bg-blue-600 text-white shadow-md shadow-blue-900/50'
+                                    : 'bg-slate-700/70 text-slate-300 hover:bg-slate-600 hover:text-white'
+                            }`}
                         >
                             {category}
                         </button>
@@ -280,52 +279,49 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
             </div>
 
             {/* 📈 그래프 영역 */}
-            <div className="bg-slate-950/80 rounded-2xl p-4 sm:p-6 border border-slate-700/80 mb-8 shadow-inner">
-                {/* 차트 상단 툴바: 기간 선택 버튼 & 핵심 요약 */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-800">
-                    <div className="flex items-center gap-1.5">
-                        <span className="text-xs text-slate-400 font-semibold mr-1 flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5 text-blue-400" />
-                            조회 기간:
-                        </span>
-                        {(
-                            [
-                                { key: '7d', label: '7일' },
-                                { key: '14d', label: '14일' },
-                                { key: '30d', label: '1개월' },
-                                { key: '90d', label: '3개월' },
-                                { key: 'all', label: '전체 (1~8월)' },
-                            ] as const
-                        ).map((tab) => (
-                            <button
-                                key={tab.key}
-                                onClick={() => setSelectedPeriod(tab.key)}
-                                className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg text-xs font-bold transition-all ${
-                                    selectedPeriod === tab.key
-                                        ? 'bg-blue-500 text-white shadow-md shadow-blue-500/30 ring-1 ring-blue-400'
-                                        : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200'
-                                }`}
-                            >
-                                {tab.label}
-                            </button>
-                        ))}
+            <div className="bg-slate-950/80 rounded-xl sm:rounded-2xl p-3 sm:p-5 border border-slate-700/80 mb-6 sm:mb-8 shadow-inner">
+                {/* 차트 상단 툴바: 기간 선택 버튼 & 스탯 박스 */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-4 pb-3 border-b border-slate-800">
+                    {/* 기간 선택 버튼 (모바일 5열 균등 분할) */}
+                    <div className="w-full sm:w-auto">
+                        <div className="grid grid-cols-5 gap-1 sm:flex sm:items-center sm:gap-1.5">
+                            {(
+                                [
+                                    { key: '7d', label: '7일' },
+                                    { key: '14d', label: '14일' },
+                                    { key: '30d', label: '1개월' },
+                                    { key: '90d', label: '3개월' },
+                                    { key: 'all', label: '전체' },
+                                ] as const
+                            ).map((tab) => (
+                                <button
+                                    key={tab.key}
+                                    onClick={() => setSelectedPeriod(tab.key)}
+                                    className={`py-1 sm:py-1.5 px-1 sm:px-3 rounded-lg text-[11px] sm:text-xs font-bold text-center transition-all ${
+                                        selectedPeriod === tab.key
+                                            ? 'bg-blue-500 text-white shadow-sm ring-1 ring-blue-400'
+                                            : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200'
+                                    }`}
+                                >
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
                     {/* 기간 내 가격 요약 스탯 */}
                     {periodStats && (
-                        <div className="flex items-center gap-3 text-xs bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-800">
+                        <div className="grid grid-cols-3 sm:flex sm:items-center gap-1.5 sm:gap-3 text-[10px] sm:text-xs bg-slate-900/90 px-2.5 py-1.5 rounded-lg border border-slate-800 text-center sm:text-left">
                             <div>
                                 <span className="text-slate-400">최저:</span>{' '}
-                                <span className="text-emerald-400 font-bold">{periodStats.min}억</span>
+                                <span className="text-emerald-400 font-bold">{periodStats.min}</span>
                             </div>
-                            <div className="h-3 w-px bg-slate-700" />
-                            <div>
+                            <div className="border-x border-slate-700/50 sm:border-x-0 sm:h-3 sm:w-px sm:bg-slate-700">
                                 <span className="text-slate-400">최고:</span>{' '}
-                                <span className="text-red-400 font-bold">{periodStats.max}억</span>
+                                <span className="text-red-400 font-bold">{periodStats.max}</span>
                             </div>
-                            <div className="h-3 w-px bg-slate-700" />
                             <div>
-                                <span className="text-slate-400">기간변동:</span>{' '}
+                                <span className="text-slate-400">변동:</span>{' '}
                                 <span className={`font-bold ${
                                     Number(periodStats.changeRate) > 0 
                                         ? 'text-red-400' 
@@ -341,20 +337,20 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                 </div>
 
                 {/* 실제 Recharts 그래프 */}
-                <div className="h-[280px] sm:h-[340px] w-full">
+                <div className="h-[240px] sm:h-[320px] w-full -ml-2 sm:ml-0">
                     {isMounted ? (
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={chartData} margin={{ top: 10, right: 15, bottom: 5, left: -5 }}>
+                            <LineChart data={chartData} margin={{ top: 8, right: 8, bottom: 0, left: -22 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.3} />
                                 <XAxis
                                     dataKey="displayDate"
-                                    tick={{ fill: '#94a3b8', fontSize: 11 }}
+                                    tick={{ fill: '#94a3b8', fontSize: 10 }}
                                     stroke="#475569"
                                     interval={xAxisInterval}
-                                    tickMargin={8}
+                                    tickMargin={6}
                                 />
                                 <YAxis
-                                    tick={{ fill: '#94a3b8', fontSize: 11 }}
+                                    tick={{ fill: '#94a3b8', fontSize: 10 }}
                                     stroke="#475569"
                                     tickFormatter={(value) => `${value}억`}
                                     domain={['auto', 'auto']}
@@ -363,12 +359,19 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     contentStyle={{
                                         backgroundColor: '#090d16',
                                         border: '1px solid #3b82f6',
-                                        borderRadius: '12px',
+                                        borderRadius: '10px',
                                         color: '#f1f5f9',
                                         boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
-                                        fontSize: '12px',
+                                        fontSize: '11px',
+                                        padding: '8px 12px',
                                     }}
-                                    formatter={(value: any) => [`${value}억`, '']}
+                                    formatter={(value: any) => {
+                                        const num = Number(value);
+                                        if (num < 1 && num > 0) {
+                                            return [`${Math.round(num * 10000).toLocaleString()}만 (${num}억)`, ''];
+                                        }
+                                        return [`${value}억`, ''];
+                                    }}
                                     labelFormatter={(label, payload) => {
                                         if (payload && payload.length > 0 && payload[0].payload) {
                                             const rawDate = payload[0].payload.date;
@@ -377,16 +380,16 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                         return label;
                                     }}
                                 />
-                                <Legend wrapperStyle={{ paddingTop: '12px', fontSize: '12px' }} />
+                                <Legend wrapperStyle={{ paddingTop: '8px', fontSize: '11px' }} />
                                 {!isEthernel && (
                                     <Line
                                         type="monotone"
                                         dataKey="challenger"
                                         name="챌린저스"
                                         stroke="#ef4444"
-                                        strokeWidth={2.5}
-                                        dot={chartData.length <= 30 ? { fill: '#ef4444', r: 2.5 } : false}
-                                        activeDot={{ r: 5 }}
+                                        strokeWidth={2}
+                                        dot={chartData.length <= 20 ? { fill: '#ef4444', r: 2 } : false}
+                                        activeDot={{ r: 4 }}
                                         connectNulls
                                     />
                                 )}
@@ -395,28 +398,28 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     dataKey="main"
                                     name={isEthernel ? "본섭 평균 가격" : mainServerLabel}
                                     stroke="#3b82f6"
-                                    strokeWidth={2.5}
-                                    dot={chartData.length <= 30 ? { fill: '#3b82f6', r: 2.5 } : false}
-                                    activeDot={{ r: 5 }}
+                                    strokeWidth={2}
+                                    dot={chartData.length <= 20 ? { fill: '#3b82f6', r: 2 } : false}
+                                    activeDot={{ r: 4 }}
                                     connectNulls
                                 />
                             </LineChart>
                         </ResponsiveContainer>
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center text-slate-500">
+                        <div className="w-full h-full flex items-center justify-center text-slate-500 text-xs">
                             차트 로딩 중...
                         </div>
                     )}
                 </div>
             </div>
 
-            {/* 📋 일자별 시세 데이터 테이블 (최신 날짜순) */}
-            <div className="mt-8">
-                <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                        <span>📋</span> 일자별 시세 상세 내역
-                        <span className="text-xs text-slate-400 font-normal">
-                            ({isTableExpanded ? `전체 ${allItemData.length}일치` : `최신 14일치`})
+            {/* 📋 일자별 시세 상세 내역 */}
+            <div className="mt-6 sm:mt-8">
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
+                    <h4 className="text-xs sm:text-base font-bold text-white flex items-center gap-1.5">
+                        <span>📋</span> 일자별 시세 내역
+                        <span className="text-[11px] text-slate-400 font-normal">
+                            ({isTableExpanded ? `전체 ${allItemData.length}일` : `최신 14일`})
                         </span>
                     </h4>
                 </div>
@@ -426,15 +429,15 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                         <table className="w-full text-xs sm:text-sm">
                             <thead>
                                 <tr className="bg-slate-800/80 border-b border-slate-700 text-slate-300">
-                                    <th className="text-left p-3 sm:p-3.5 font-bold">날짜</th>
+                                    <th className="text-left p-2.5 sm:p-3.5 font-bold sticky left-0 bg-slate-800/95 z-10 whitespace-nowrap">날짜</th>
                                     {!isEthernel && (
-                                        <th className="text-right p-3 sm:p-3.5 text-red-400 font-bold">챌린저스</th>
+                                        <th className="text-right p-2.5 sm:p-3.5 text-red-400 font-bold whitespace-nowrap">챌린저스</th>
                                     )}
-                                    <th className="text-right p-3 sm:p-3.5 text-blue-400 font-bold">
+                                    <th className="text-right p-2.5 sm:p-3.5 text-blue-400 font-bold whitespace-nowrap">
                                         {isEthernel ? '본섭 평균' : mainServerLabel}
                                     </th>
                                     {!isEthernel && (
-                                        <th className="text-right p-3 sm:p-3.5 text-amber-300 font-bold">차이 (챌-본)</th>
+                                        <th className="text-right p-2.5 sm:p-3.5 text-amber-300 font-bold whitespace-nowrap">차이 (챌-본)</th>
                                     )}
                                 </tr>
                             </thead>
@@ -447,6 +450,12 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                         ? ((diff / row.main) * 100).toFixed(1)
                                         : '0';
 
+                                    const formatVal = (val: number | null) => {
+                                        if (val === null || val === undefined) return '-';
+                                        if (val < 1 && val > 0) return `${Math.round(val * 10000).toLocaleString()}만`;
+                                        return `${val}억`;
+                                    };
+
                                     return (
                                         <tr
                                             key={`${row.date}-${index}`}
@@ -454,30 +463,22 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                                 isFirst ? 'bg-blue-950/20' : ''
                                             }`}
                                         >
-                                            <td className="p-3 sm:p-3.5 text-slate-200 font-medium whitespace-nowrap">
+                                            <td className="p-2.5 sm:p-3.5 text-slate-200 font-medium whitespace-nowrap sticky left-0 bg-slate-900/95 z-10">
                                                 {row.date}
                                                 {isFirst && (
-                                                    <span className="ml-2 text-[10px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded font-bold">최신</span>
+                                                    <span className="ml-1.5 text-[9px] sm:text-[10px] bg-blue-500/20 text-blue-400 px-1 py-0.5 rounded font-bold">최신</span>
                                                 )}
                                             </td>
                                             {!isEthernel && (
-                                                <td className="p-3 sm:p-3.5 text-right text-red-400 font-bold whitespace-nowrap">
-                                                    {row.challenger !== null && row.challenger !== undefined ? (
-                                                        row.challenger < 1 && row.challenger > 0 
-                                                            ? `${Math.round(row.challenger * 10000).toLocaleString()}만` 
-                                                            : `${row.challenger}억`
-                                                    ) : '-'}
+                                                <td className="p-2.5 sm:p-3.5 text-right text-red-400 font-bold whitespace-nowrap">
+                                                    {formatVal(row.challenger)}
                                                 </td>
                                             )}
-                                            <td className="p-3 sm:p-3.5 text-right text-blue-400 font-bold whitespace-nowrap">
-                                                {row.main !== null && row.main !== undefined ? (
-                                                    row.main < 1 && row.main > 0 
-                                                        ? `${Math.round(row.main * 10000).toLocaleString()}만` 
-                                                        : `${row.main}억`
-                                                ) : '-'}
+                                            <td className="p-2.5 sm:p-3.5 text-right text-blue-400 font-bold whitespace-nowrap">
+                                                {formatVal(row.main)}
                                             </td>
                                             {!isEthernel && (
-                                                <td className="p-3 sm:p-3.5 text-right whitespace-nowrap">
+                                                <td className="p-2.5 sm:p-3.5 text-right whitespace-nowrap">
                                                     {row.challenger && row.main ? (
                                                         <div className="flex flex-col items-end">
                                                             <span className={`font-bold ${diff > 0 ? 'text-red-400' : diff < 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
@@ -499,29 +500,31 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                         </table>
                     </div>
 
-                    {/* 테이블 더보기 / 접기 버튼 */}
                     {allItemData.length > 14 && (
-                        <div className="p-3 bg-slate-950/60 border-t border-slate-800 text-center">
+                        <div className="p-2.5 sm:p-3 bg-slate-950/60 border-t border-slate-800 text-center">
                             <button
                                 onClick={() => setIsTableExpanded(!isTableExpanded)}
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-400 hover:text-blue-300 transition-colors py-1.5 px-4 rounded-lg bg-blue-950/40 border border-blue-800/50 hover:bg-blue-900/40"
+                                className="inline-flex items-center gap-1 text-xs font-bold text-blue-400 hover:text-blue-300 transition-colors py-1.5 px-3 rounded-lg bg-blue-950/40 border border-blue-800/50 hover:bg-blue-900/40"
                             >
-                                <ChevronDown className={`w-4 h-4 transform transition-transform ${isTableExpanded ? 'rotate-180' : ''}`} />
-                                <span>{isTableExpanded ? '과거 시세 표 간략히 접기' : `과거 시세 전체 보기 (+${allItemData.length - 14}개 날짜)`}</span>
+                                <ChevronDown className={`w-3.5 h-3.5 transform transition-transform ${isTableExpanded ? 'rotate-180' : ''}`} />
+                                <span>{isTableExpanded ? '과거 시세 접기' : `과거 시세 전체 보기 (+${allItemData.length - 14}일)`}</span>
                             </button>
                         </div>
                     )}
                 </div>
             </div>
 
-            {/* ⚔️ 에테르넬 직업별 가격표 (최신 업데이트 일자 기준) */}
+            {/* ⚔️ 에테르넬 직업별 시세표 (최신 본섭 기준) */}
             {data.length > 0 && data[data.length - 1].ethernelByJob && data[data.length - 1].ethernelByJob!.length > 0 && (
-                <div className="mt-10 pt-8 border-t border-slate-700">
-                    <h4 className="text-lg sm:text-xl font-black text-white mb-2 flex items-center gap-2">
-                        ⚔️ 에테르넬 장비 직업별 시세 (최신 본섭 기준)
-                    </h4>
-                    <p className="text-xs sm:text-sm text-slate-400 mb-4">
-                        최근 업데이트: <span className="text-blue-400 font-bold">{data[data.length - 1].date}</span> 기준 직업별 장비 가격입니다.
+                <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-slate-700">
+                    <div className="flex items-center justify-between mb-1.5">
+                        <h4 className="text-sm sm:text-xl font-black text-white flex items-center gap-1.5">
+                            ⚔️ 에테르넬 직업별 시세 (최신)
+                        </h4>
+                        <span className="text-[11px] text-blue-400 font-semibold">{data[data.length - 1].date} 기준</span>
+                    </div>
+                    <p className="text-[11px] sm:text-xs text-slate-400 mb-3">
+                        👈 모바일에서는 표를 좌우로 스크롤하여 5개 직업군 시세를 확인하세요 👉
                     </p>
 
                     <div className="overflow-x-auto">
@@ -529,12 +532,12 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                             <table className="w-full text-xs sm:text-sm">
                                 <thead>
                                     <tr className="bg-slate-800/80 border-b border-slate-700">
-                                        <th className="text-left p-3 sm:p-3.5 text-white font-bold sticky left-0 bg-slate-800/90">부위</th>
-                                        <th className="text-right p-3 sm:p-3.5 text-red-400 font-bold whitespace-nowrap">전사</th>
-                                        <th className="text-right p-3 sm:p-3.5 text-blue-400 font-bold whitespace-nowrap">마법사</th>
-                                        <th className="text-right p-3 sm:p-3.5 text-green-400 font-bold whitespace-nowrap">궁수</th>
-                                        <th className="text-right p-3 sm:p-3.5 text-purple-400 font-bold whitespace-nowrap">도적</th>
-                                        <th className="text-right p-3 sm:p-3.5 text-orange-400 font-bold whitespace-nowrap">해적</th>
+                                        <th className="text-left p-2.5 sm:p-3.5 text-white font-bold sticky left-0 bg-slate-800/95 z-10 whitespace-nowrap">부위</th>
+                                        <th className="text-right p-2.5 sm:p-3.5 text-red-400 font-bold whitespace-nowrap">전사</th>
+                                        <th className="text-right p-2.5 sm:p-3.5 text-blue-400 font-bold whitespace-nowrap">마법사</th>
+                                        <th className="text-right p-2.5 sm:p-3.5 text-green-400 font-bold whitespace-nowrap">궁수</th>
+                                        <th className="text-right p-2.5 sm:p-3.5 text-purple-400 font-bold whitespace-nowrap">도적</th>
+                                        <th className="text-right p-2.5 sm:p-3.5 text-orange-400 font-bold whitespace-nowrap">해적</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -554,14 +557,14 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                                     index % 2 === 0 ? 'bg-slate-900/30' : ''
                                                 }`}
                                             >
-                                                <td className="p-3 sm:p-3.5 text-white font-bold sticky left-0 bg-slate-900/95 whitespace-nowrap">
+                                                <td className="p-2.5 sm:p-3.5 text-white font-bold sticky left-0 bg-slate-900/95 z-10 whitespace-nowrap">
                                                     에테르넬 {item.item}
                                                 </td>
-                                                <td className="p-3 sm:p-3.5 text-right text-red-300 font-bold whitespace-nowrap">{formatPrice(item.warrior)}</td>
-                                                <td className="p-3 sm:p-3.5 text-right text-blue-300 font-bold whitespace-nowrap">{formatPrice(item.mage)}</td>
-                                                <td className="p-3 sm:p-3.5 text-right text-green-300 font-bold whitespace-nowrap">{formatPrice(item.archer)}</td>
-                                                <td className="p-3 sm:p-3.5 text-right text-purple-300 font-bold whitespace-nowrap">{formatPrice(item.thief)}</td>
-                                                <td className="p-3 sm:p-3.5 text-right text-orange-300 font-bold whitespace-nowrap">{formatPrice(item.pirate)}</td>
+                                                <td className="p-2.5 sm:p-3.5 text-right text-red-300 font-bold whitespace-nowrap">{formatPrice(item.warrior)}</td>
+                                                <td className="p-2.5 sm:p-3.5 text-right text-blue-300 font-bold whitespace-nowrap">{formatPrice(item.mage)}</td>
+                                                <td className="p-2.5 sm:p-3.5 text-right text-green-300 font-bold whitespace-nowrap">{formatPrice(item.archer)}</td>
+                                                <td className="p-2.5 sm:p-3.5 text-right text-purple-300 font-bold whitespace-nowrap">{formatPrice(item.thief)}</td>
+                                                <td className="p-2.5 sm:p-3.5 text-right text-orange-300 font-bold whitespace-nowrap">{formatPrice(item.pirate)}</td>
                                             </tr>
                                         );
                                     })}
@@ -570,12 +573,11 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                         </div>
                     </div>
 
-                    {/* 에테르넬 시세 안내 팁 */}
-                    <div className="mt-4 p-3 bg-purple-950/30 border border-purple-800/40 rounded-xl text-xs text-purple-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <span>💡 <strong>모자·상의·하의·견장</strong>은 공급 안정화로 <strong>수천만 메소대(0.15~0.27억)</strong>에 형성되어 있으며, <strong>장갑·신발·망토</strong>는 <strong>11~13억대</strong>에 거래됩니다.</span>
+                    <div className="mt-3 p-2.5 sm:p-3 bg-purple-950/30 border border-purple-800/40 rounded-xl text-[11px] sm:text-xs text-purple-200/80">
+                        💡 <strong>모자·상의·하의·견장</strong>은 <strong>수천만 메소대(0.15~0.27억)</strong>, <strong>장갑·신발·망토</strong>는 <strong>11~13억대</strong>에 거래됩니다.
                     </div>
 
-                    {/* 에테르넬 가격 변화 통계 (방어구 vs 고가 장비) - 인터랙티브 날짜 선택 지원 */}
+                    {/* 에테르넬 인터랙티브 가격 변화 비교 */}
                     {(() => {
                         if (ethernelDays.length === 0) return null;
 
@@ -625,34 +627,33 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                         const targetDateDisplay = targetDay.date;
 
                         return (
-                            <div className="mt-8 pt-6 border-t border-slate-700">
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                            <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-slate-700">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3.5">
                                     <div>
-                                        <h5 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                                        <h5 className="text-sm sm:text-lg font-bold text-white flex items-center gap-1.5">
                                             📈 에테르넬 평균 가격 변화 비교
                                         </h5>
-                                        <p className="text-xs text-slate-400 mt-0.5">
-                                            원하는 기준 날짜와 비교 날짜를 선택하여 가격 변동률을 확인하세요.
+                                        <p className="text-[11px] sm:text-xs text-slate-400">
+                                            원하는 기준 날짜와 비교 날짜를 선택하여 변동률을 확인하세요.
                                         </p>
                                     </div>
 
                                     {/* 빠른 프리셋 버튼 */}
-                                    <div className="flex flex-wrap items-center gap-1.5">
-                                        <span className="text-[11px] text-slate-400 font-semibold mr-0.5">프리셋:</span>
+                                    <div className="grid grid-cols-5 gap-1 w-full sm:flex sm:w-auto">
                                         {[
-                                            { label: '연초(1/1)', idx: 0 },
-                                            { label: '3개월 전', idx: Math.max(0, ethernelDays.length - 90) },
-                                            { label: '1개월 전', idx: Math.max(0, ethernelDays.length - 30) },
-                                            { label: '14일 전', idx: Math.max(0, ethernelDays.length - 14) },
-                                            { label: '7일 전', idx: Math.max(0, ethernelDays.length - 7) },
+                                            { label: '연초', idx: 0 },
+                                            { label: '3달전', idx: Math.max(0, ethernelDays.length - 90) },
+                                            { label: '1달전', idx: Math.max(0, ethernelDays.length - 30) },
+                                            { label: '14일전', idx: Math.max(0, ethernelDays.length - 14) },
+                                            { label: '7일전', idx: Math.max(0, ethernelDays.length - 7) },
                                         ].map((preset) => (
                                             <button
                                                 key={preset.label}
                                                 onClick={() => {
                                                     setEthBaseIndex(preset.idx);
-                                                    setEthTargetIndex(-1); // 최신으로 설정
+                                                    setEthTargetIndex(-1);
                                                 }}
-                                                className={`px-2 py-1 rounded text-[11px] font-bold transition-all ${
+                                                className={`py-1 px-1.5 sm:px-2.5 rounded text-[10px] sm:text-[11px] font-bold text-center transition-all ${
                                                     ethBaseIndex === preset.idx && ethTargetIndex === -1
                                                         ? 'bg-purple-600 text-white shadow-sm ring-1 ring-purple-400'
                                                         : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200'
@@ -664,16 +665,16 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     </div>
                                 </div>
 
-                                {/* 날짜 선택 셀렉트 박스 */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5 p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl">
+                                {/* 날짜 선택 드롭다운 */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 p-2.5 sm:p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl">
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-300 mb-1.5">
-                                            📅 시작 기준일 선택:
+                                        <label className="block text-[11px] sm:text-xs font-bold text-slate-300 mb-1">
+                                            📅 시작 기준일:
                                         </label>
                                         <select
                                             value={effectiveBaseIdx}
                                             onChange={(e) => setEthBaseIndex(Number(e.target.value))}
-                                            className="w-full bg-slate-900 border border-slate-700 text-slate-200 py-1.5 px-3 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
+                                            className="w-full bg-slate-900 border border-slate-700 text-slate-200 py-1.5 px-2.5 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-purple-500 cursor-pointer"
                                         >
                                             {ethernelDays.map((d, idx) => (
                                                 <option key={d.date} value={idx}>
@@ -684,13 +685,13 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-bold text-slate-300 mb-1.5">
-                                            📅 비교 종료일 선택:
+                                        <label className="block text-[11px] sm:text-xs font-bold text-slate-300 mb-1">
+                                            📅 비교 종료일:
                                         </label>
                                         <select
                                             value={effectiveTargetIdx}
                                             onChange={(e) => setEthTargetIndex(Number(e.target.value))}
-                                            className="w-full bg-slate-900 border border-slate-700 text-slate-200 py-1.5 px-3 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
+                                            className="w-full bg-slate-900 border border-slate-700 text-slate-200 py-1.5 px-2.5 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-purple-500 cursor-pointer"
                                         >
                                             {ethernelDays.map((d, idx) => (
                                                 <option key={d.date} value={idx}>
@@ -701,27 +702,27 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     </div>
                                 </div>
 
-                                {/* 비교 통계 카드 2종 */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* 결과 카드 2종 */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4">
                                     {/* 방어구 그룹 */}
-                                    <div className="bg-slate-800/40 rounded-xl border border-blue-500/30 p-4 shadow-lg">
-                                        <h6 className="text-sm font-bold text-blue-400 mb-3 flex items-center gap-1.5">
+                                    <div className="bg-slate-800/40 rounded-xl border border-blue-500/30 p-3 sm:p-4 shadow-md">
+                                        <h6 className="text-xs sm:text-sm font-bold text-blue-400 mb-2 flex items-center gap-1">
                                             🛡️ 방어구 (모자/상의/하의/견장)
                                         </h6>
-                                        <div className="space-y-2">
-                                            <div className="flex justify-between items-center text-xs sm:text-sm">
+                                        <div className="space-y-1.5 text-xs sm:text-sm">
+                                            <div className="flex justify-between items-center">
                                                 <span className="text-slate-400">기준 ({baseDateDisplay})</span>
                                                 <span className="font-bold text-white">{formatDisplayVal(armorStart)}</span>
                                             </div>
-                                            <div className="flex justify-between items-center text-xs sm:text-sm">
+                                            <div className="flex justify-between items-center">
                                                 <span className="text-slate-400">비교 ({targetDateDisplay})</span>
                                                 <span className="font-bold text-white">{formatDisplayVal(armorEnd)}</span>
                                             </div>
-                                            <div className="flex justify-between items-center pt-2.5 border-t border-slate-700/80">
-                                                <span className="text-xs text-slate-400 font-medium">
+                                            <div className="flex justify-between items-center pt-2 border-t border-slate-700/80">
+                                                <span className="text-[11px] text-slate-400 font-medium">
                                                     변화량 ({armorDiff > 0 ? `+${armorDiff}` : armorDiff}억)
                                                 </span>
-                                                <span className={`text-base sm:text-lg font-black ${
+                                                <span className={`text-sm sm:text-base font-black ${
                                                     Number(armorChange) > 0 
                                                         ? 'text-red-400' 
                                                         : Number(armorChange) < 0 
@@ -735,24 +736,24 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     </div>
 
                                     {/* 고가 장비 그룹 */}
-                                    <div className="bg-slate-800/40 rounded-xl border border-amber-500/30 p-4 shadow-lg">
-                                        <h6 className="text-sm font-bold text-amber-400 mb-3 flex items-center gap-1.5">
+                                    <div className="bg-slate-800/40 rounded-xl border border-amber-500/30 p-3 sm:p-4 shadow-md">
+                                        <h6 className="text-xs sm:text-sm font-bold text-amber-400 mb-2 flex items-center gap-1">
                                             💎 고가 장비 (신발/장갑/망토)
                                         </h6>
-                                        <div className="space-y-2">
-                                            <div className="flex justify-between items-center text-xs sm:text-sm">
+                                        <div className="space-y-1.5 text-xs sm:text-sm">
+                                            <div className="flex justify-between items-center">
                                                 <span className="text-slate-400">기준 ({baseDateDisplay})</span>
                                                 <span className="font-bold text-white">{formatDisplayVal(expensiveStart)}</span>
                                             </div>
-                                            <div className="flex justify-between items-center text-xs sm:text-sm">
+                                            <div className="flex justify-between items-center">
                                                 <span className="text-slate-400">비교 ({targetDateDisplay})</span>
                                                 <span className="font-bold text-white">{formatDisplayVal(expensiveEnd)}</span>
                                             </div>
-                                            <div className="flex justify-between items-center pt-2.5 border-t border-slate-700/80">
-                                                <span className="text-xs text-slate-400 font-medium">
+                                            <div className="flex justify-between items-center pt-2 border-t border-slate-700/80">
+                                                <span className="text-[11px] text-slate-400 font-medium">
                                                     변화량 ({expensiveDiff > 0 ? `+${expensiveDiff}` : expensiveDiff}억)
                                                 </span>
-                                                <span className={`text-base sm:text-lg font-black ${
+                                                <span className={`text-sm sm:text-base font-black ${
                                                     Number(expensiveChange) > 0 
                                                         ? 'text-red-400' 
                                                         : Number(expensiveChange) < 0 
