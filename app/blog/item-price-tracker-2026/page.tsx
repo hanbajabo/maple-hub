@@ -138,32 +138,6 @@ export default function ItemPriceTrackerPage() {
                     </div>
                 </div>
 
-                {/* AI 스펙업 진단기 바로가기 배너 */}
-                <div className="mb-6 sm:mb-8 bg-gradient-to-r from-emerald-900/40 via-teal-900/30 to-blue-900/40 border border-emerald-500/50 rounded-xl sm:rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg shadow-emerald-950/40">
-                    <div className="flex items-center gap-3.5">
-                        <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0 text-2xl">
-                            🔮
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-2">
-                                <span className="px-2 py-0.5 rounded bg-emerald-500/30 text-emerald-300 font-extrabold text-[10px] uppercase tracking-wider">NEW</span>
-                                <h3 className="text-sm sm:text-base font-black text-white">실시간 시세 기반 AI 스펙업 견적 진단기</h3>
-                            </div>
-                            <p className="text-xs text-slate-300 mt-0.5">
-                                본 시세 데이터와 넥슨 확률 엔진을 결합하여 내 캐릭터 최적의 1~5순위 가성비 스펙업 경로를 추천합니다.
-                            </p>
-                        </div>
-                    </div>
-                    <Link
-                        prefetch={false}
-                        href="/calculator/specup-advisor"
-                        className="w-full sm:w-auto shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs sm:text-sm text-center shadow-lg shadow-emerald-500/25 transition-all flex items-center justify-center gap-1.5"
-                    >
-                        <span>내 캐릭터 진단하기</span>
-                        <span>➔</span>
-                    </Link>
-                </div>
-
                 <AdBanner dataAdSlot="8162808816" className="mb-6 sm:mb-10" />
 
                 {/* 시세 데이터 차트 */}

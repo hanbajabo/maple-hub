@@ -68,21 +68,6 @@ export default function CalculatorMenu() {
                             </div>
                         </Link>
 
-                        <Link
-                            href="/calculator/specup-advisor"
-                            prefetch={false}
-                            onClick={close}
-                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-emerald-600/20 active:bg-emerald-600/30 transition-colors border-b border-white/5 bg-emerald-950/30"
-                        >
-                            <span className="text-xl flex-shrink-0">🎯</span>
-                            <div className="flex flex-col min-w-0">
-                                <div className="flex items-center gap-1.5">
-                                    <span className="font-bold text-sm text-emerald-300">스펙업 견적 & 진단기</span>
-                                    <span className="bg-emerald-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded animate-pulse shadow-sm flex-shrink-0">NEW AI</span>
-                                </div>
-                                <span className="text-[10px] text-slate-400 mt-0.5">내 템 스캔 & 가성비 순위</span>
-                            </div>
-                        </Link>
 
                         <Link
                             href="/tools/starforce"
