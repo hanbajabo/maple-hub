@@ -78,14 +78,58 @@ const DETAILED_TOP_50 = [
     { rank: 50, name: '구구단', world: '루나', job: '나이트로드', jobRank: '나로 5등', specRank: 68, highlight: false, note: '나이트로드 1위' },
 ];
 
+// 직업 배지 고대비 컬러 매핑
+const getJobBadgeClass = (job: string) => {
+    switch (job) {
+        case '칼리':
+            return 'bg-amber-500/25 text-amber-200 border-amber-400/60 font-black';
+        case '제논':
+            return 'bg-cyan-500/25 text-cyan-200 border-cyan-400/60 font-black';
+        case '아델':
+            return 'bg-purple-500/25 text-purple-200 border-purple-400/60 font-black';
+        case '카데나':
+            return 'bg-rose-500/25 text-rose-200 border-rose-400/60 font-black';
+        case '메르세데스':
+        case '보우마스터':
+        case '윈드브레이커':
+        case '카인':
+            return 'bg-emerald-500/25 text-emerald-200 border-emerald-400/60 font-black';
+        case '캐논슈터':
+        case '스트라이커':
+        case '카이저':
+        case '팔라딘':
+        case '히어로':
+        case '데몬어벤져':
+            return 'bg-orange-500/25 text-orange-200 border-orange-400/60 font-black';
+        case '불독':
+        case '썬콜':
+        case '비숍':
+        case '라라':
+        case '아크메이지(불,독)':
+        case '아크메이지(썬,콜)':
+            return 'bg-blue-500/25 text-blue-200 border-blue-400/60 font-black';
+        case '섀도어':
+        case '팬텀':
+        case '듀얼블레이드':
+        case '나이트워커':
+        case '나이트로드':
+        case '제로':
+            return 'bg-violet-500/25 text-violet-200 border-violet-400/60 font-black';
+        case '렌':
+            return 'bg-teal-500/25 text-teal-200 border-teal-400/60 font-black';
+        default:
+            return 'bg-slate-700 text-white border-slate-500 font-bold';
+    }
+};
+
 // 퍼클 인원수 순위 집계
 const GROUP_SUMMARY = [
-    { rankBadge: '1위 (7명)', jobs: ['제논'], count: 7, color: 'border-blue-500/50 bg-blue-950/40 text-blue-300' },
-    { rankBadge: '2위 (5명)', jobs: ['아델'], count: 5, color: 'border-purple-500/50 bg-purple-950/40 text-purple-300' },
-    { rankBadge: '3위 (4명)', jobs: ['카데나'], count: 4, color: 'border-rose-500/50 bg-rose-950/40 text-rose-300' },
-    { rankBadge: '4위 (각 3명)', jobs: ['듀얼블레이드', '제로', '캐논슈터', '팬텀'], count: 12, color: 'border-amber-500/50 bg-amber-950/40 text-amber-300' },
-    { rankBadge: '5위 (각 2명)', jobs: ['팔라딘', '불독', '비숍', '데몬어벤져'], count: 8, color: 'border-emerald-500/50 bg-emerald-950/40 text-emerald-300' },
-    { rankBadge: '단일 격파 (각 1명)', jobs: ['칼리', '메르세데스', '섀도어', '나이트워커', '윈드브레이커', '카이저', '라라', '카인', '보우마스터', '썬콜', '렌', '히어로', '스트라이커', '나이트로드'], count: 14, color: 'border-slate-700 bg-slate-900/50 text-slate-300' },
+    { rankBadge: '1위 (7명)', jobs: ['제논'], count: 7, color: 'border-cyan-500/60 bg-cyan-950/50 text-cyan-200' },
+    { rankBadge: '2위 (5명)', jobs: ['아델'], count: 5, color: 'border-purple-500/60 bg-purple-950/50 text-purple-200' },
+    { rankBadge: '3위 (4명)', jobs: ['카데나'], count: 4, color: 'border-rose-500/60 bg-rose-950/50 text-rose-200' },
+    { rankBadge: '4위 (각 3명)', jobs: ['듀얼블레이드', '제로', '캐논슈터', '팬텀'], count: 12, color: 'border-amber-500/60 bg-amber-950/50 text-amber-200' },
+    { rankBadge: '5위 (각 2명)', jobs: ['팔라딘', '불독', '비숍', '데몬어벤져'], count: 8, color: 'border-emerald-500/60 bg-emerald-950/50 text-emerald-200' },
+    { rankBadge: '단일 격파 (각 1명)', jobs: ['칼리', '메르세데스', '섀도어', '나이트워커', '윈드브레이커', '카이저', '라라', '카인', '보우마스터', '썬콜', '렌', '히어로', '스트라이커', '나이트로드'], count: 14, color: 'border-slate-600 bg-slate-900/80 text-slate-100' },
 ];
 
 // 퍼클 0명 직업군 목록
@@ -104,19 +148,19 @@ export default function BellonaClearRankingPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
             {/* 상단 네비게이션 */}
-            <div className="border-b border-slate-800 bg-slate-950/70 backdrop-blur-md sticky top-0 z-30">
+            <div className="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-30">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
                     <Link
                         prefetch={false}
                         href="/blog"
-                        className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-xs sm:text-sm font-medium"
+                        className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors text-xs sm:text-sm font-bold"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         <span>블로그 목록</span>
                     </Link>
                     <div className="flex items-center gap-2">
-                        <span className="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-xs font-black border border-rose-500/30 flex items-center gap-1">
-                            <Flame className="w-3 h-3 text-rose-400" />
+                        <span className="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-xs font-black border border-rose-500/40 flex items-center gap-1">
+                            <Flame className="w-3.5 h-3.5 text-rose-400" />
                             하드 벨로나 퍼클 랭킹
                         </span>
                     </div>
@@ -130,11 +174,11 @@ export default function BellonaClearRankingPage() {
                         <span className="px-3 py-1 bg-gradient-to-r from-red-600 to-rose-600 text-white text-xs font-black rounded-full shadow-lg shadow-red-900/40">
                             🔥 공식 퍼클 랭킹 전수조사
                         </span>
-                        <span className="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
+                        <span className="px-3 py-1 bg-slate-800 text-slate-200 text-xs font-bold rounded-full border border-slate-700">
                             이벤트 가이드
                         </span>
-                        <span className="text-slate-400 text-xs sm:text-sm flex items-center gap-1">
-                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                        <span className="text-slate-300 text-xs sm:text-sm flex items-center gap-1 font-semibold">
+                            <Calendar className="w-3.5 h-3.5 text-slate-300" />
                             2026년 8월 27일 기준 데이터
                         </span>
                     </div>
@@ -142,19 +186,19 @@ export default function BellonaClearRankingPage() {
                     <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-3">
                         ⚔️ 하드 벨로나 1인 격파 TOP 50 랭킹 분석
                     </h1>
-                    <p className="text-sm sm:text-base text-rose-400 font-bold mb-4">
+                    <p className="text-sm sm:text-base text-rose-400 font-extrabold mb-4">
                         직업별 점유 순위 · [직업 / 직업순위 / 환산순위] · 0명 직업군 총정리
                     </p>
 
-                    <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-4xl">
-                        2026년 9월 16일까지 진행되는 신규 최상위 보스 <strong className="text-rose-400">하드 벨로나 1인 파티 격파 이벤트</strong>!
+                    <p className="text-sm sm:text-base text-slate-200 leading-relaxed max-w-4xl font-medium">
+                        2026년 9월 16일까지 진행되는 신규 최상위 보스 <strong className="text-rose-400 font-black">하드 벨로나 1인 파티 격파 이벤트</strong>!
                         TOP 50 랭커들의 <strong>[직업 / 직업순위 / 환산순위]</strong>를 전수 조사하여,
                         제논 7명 독주 등 직업별 점유 순위와 퍼클 50인에 이름을 올리지 못한 직업군까지 완벽하게 파헤칩니다.
                     </p>
                 </header>
 
                 {/* 이벤트 공식 배너 */}
-                <div className="mb-10 sm:mb-14 relative overflow-hidden rounded-2xl border border-rose-500/40 shadow-2xl bg-gradient-to-br from-rose-950/40 via-purple-950/30 to-slate-950">
+                <div className="mb-10 sm:mb-14 relative overflow-hidden rounded-2xl border border-rose-500/50 shadow-2xl bg-gradient-to-br from-rose-950/50 via-purple-950/40 to-slate-950">
                     <div className="relative w-full aspect-[21/9] max-h-[320px]">
                         <Image
                             src="/images/blog/bellona/bellona-event-banner.png"
@@ -164,17 +208,17 @@ export default function BellonaClearRankingPage() {
                             priority
                         />
                     </div>
-                    <div className="p-4 sm:p-6 bg-slate-950/90 border-t border-rose-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="p-4 sm:p-6 bg-slate-950/95 border-t border-rose-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div className="space-y-1">
                             <div className="flex items-center gap-2">
                                 <span className="px-2 py-0.5 rounded bg-rose-500 text-white font-black text-[11px]">1인 파티 솔로</span>
                                 <h3 className="font-black text-base sm:text-lg text-white">하드 벨로나 격파 이벤트 (BOSS CLEAR EVENT)</h3>
                             </div>
-                            <p className="text-xs sm:text-sm text-slate-400">
+                            <p className="text-xs sm:text-sm text-slate-300 font-medium">
                                 📅 <strong>이벤트 시작일:</strong> <span className="text-rose-400 font-bold">2026년 8월 27일 (목) 오후 7시</span>
                             </p>
                         </div>
-                        <div className="px-4 py-2 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-extrabold shrink-0">
+                        <div className="px-4 py-2 rounded-xl bg-rose-500/20 border border-rose-500/50 text-rose-200 text-xs font-black shrink-0">
                             ⏳ 1인 파티 격파 50인 완료
                         </div>
                     </div>
@@ -193,17 +237,17 @@ export default function BellonaClearRankingPage() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mb-6">
                         {GROUP_SUMMARY.map((g, idx) => (
-                            <div key={idx} className={`p-4 rounded-xl border ${g.color} shadow-lg flex flex-col justify-between`}>
+                            <div key={idx} className={`p-4 sm:p-5 rounded-xl border ${g.color} shadow-lg flex flex-col justify-between`}>
                                 <div>
-                                    <div className="flex items-center justify-between mb-2">
-                                        <span className="font-black text-sm">{g.rankBadge}</span>
-                                        <span className="text-xs font-bold px-2 py-0.5 rounded bg-black/40">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <span className="font-black text-base text-white">{g.rankBadge}</span>
+                                        <span className="text-xs font-black px-2.5 py-1 rounded bg-black/60 text-white border border-white/20">
                                             총 {g.count}명 ({((g.count / 50) * 100).toFixed(0)}%)
                                         </span>
                                     </div>
                                     <div className="flex flex-wrap gap-1.5 mt-2">
                                         {g.jobs.map((j, i) => (
-                                            <span key={i} className="px-2 py-1 rounded bg-black/30 text-xs font-extrabold text-white border border-white/10">
+                                            <span key={i} className="px-2.5 py-1 rounded bg-slate-950/80 text-xs font-black text-white border border-white/20 shadow-sm">
                                                 {j}
                                             </span>
                                         ))}
@@ -214,77 +258,75 @@ export default function BellonaClearRankingPage() {
                     </div>
                 </section>
 
-
-
                 <InArticleAd dataAdSlot="6849727140" className="my-10" />
 
-                {/* 3. 인게임 랭킹 스크린샷 5분할 갤러리 */}
+                {/* 2. 인게임 랭킹 스크린샷 5분할 갤러리 */}
                 <section className="mb-12 sm:mb-16">
                     <div className="flex items-center justify-between gap-2 mb-6">
                         <div>
                             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
                                 📸 인게임 공식 랭킹 스크린샷 (1위 ~ 50위)
                             </h2>
-                            <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                            <p className="text-xs sm:text-sm text-slate-300 font-medium mt-1">
                                 메이플스토리 인게임 보스 클리어 이벤트 1인 파티 공식 UI
                             </p>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div className="bg-slate-900/90 border border-amber-500/40 rounded-xl overflow-hidden shadow-lg">
-                            <div className="bg-amber-500/20 px-3.5 py-2 border-b border-amber-500/30 flex items-center justify-between">
-                                <span className="text-xs font-black text-amber-300">1 ~ 10위 (강은호 ~ 나워)</span>
-                                <span className="text-[10px] text-amber-400 font-bold">1위 칼리 강은호</span>
+                        <div className="bg-slate-900 border border-amber-500/50 rounded-xl overflow-hidden shadow-xl">
+                            <div className="bg-amber-500/25 px-3.5 py-2 border-b border-amber-500/40 flex items-center justify-between">
+                                <span className="text-xs font-black text-amber-200">1 ~ 10위 (강은호 ~ 나워)</span>
+                                <span className="text-[10px] text-amber-300 font-black">1위 칼리 강은호</span>
                             </div>
-                            <div className="relative w-full aspect-[4/3]">
+                            <div className="relative w-full aspect-[4/3] bg-slate-950">
                                 <Image src="/images/blog/bellona/bellona-rank-1-10.png" alt="1~10위 스크린샷" fill className="object-contain p-2" />
                             </div>
                         </div>
 
-                        <div className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
-                            <div className="bg-slate-800/60 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
-                                <span className="text-xs font-black text-slate-200">11 ~ 20위 (물주 ~ 후닝)</span>
-                                <span className="text-[10px] text-slate-400">카데나/불독/비숍/카이저</span>
+                        <div className="bg-slate-900 border border-slate-700 rounded-xl overflow-hidden shadow-xl">
+                            <div className="bg-slate-800 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
+                                <span className="text-xs font-black text-white">11 ~ 20위 (물주 ~ 후닝)</span>
+                                <span className="text-[10px] text-slate-300 font-bold">카데나/불독/비숍/카이저</span>
                             </div>
-                            <div className="relative w-full aspect-[4/3]">
+                            <div className="relative w-full aspect-[4/3] bg-slate-950">
                                 <Image src="/images/blog/bellona/bellona-rank-11-20.png" alt="11~20위 스크린샷" fill className="object-contain p-2" />
                             </div>
                         </div>
 
-                        <div className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
-                            <div className="bg-slate-800/60 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
-                                <span className="text-xs font-black text-slate-200">21 ~ 30위 (남색 ~ 레망)</span>
-                                <span className="text-[10px] text-slate-400">카데나 3명/라라/제로/듀블</span>
+                        <div className="bg-slate-900 border border-slate-700 rounded-xl overflow-hidden shadow-xl">
+                            <div className="bg-slate-800 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
+                                <span className="text-xs font-black text-white">21 ~ 30위 (남색 ~ 레망)</span>
+                                <span className="text-[10px] text-slate-300 font-bold">카데나 3명/라라/제로/듀블</span>
                             </div>
-                            <div className="relative w-full aspect-[4/3]">
+                            <div className="relative w-full aspect-[4/3] bg-slate-950">
                                 <Image src="/images/blog/bellona/bellona-rank-21-30.png" alt="21~30위 스크린샷" fill className="object-contain p-2" />
                             </div>
                         </div>
 
-                        <div className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
-                            <div className="bg-slate-800/60 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
-                                <span className="text-xs font-black text-slate-200">31 ~ 40위 (완시 ~ 비숍)</span>
-                                <span className="text-[10px] text-slate-400">37위 신직업 렌(달개화)</span>
+                        <div className="bg-slate-900 border border-slate-700 rounded-xl overflow-hidden shadow-xl">
+                            <div className="bg-slate-800 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
+                                <span className="text-xs font-black text-white">31 ~ 40위 (완시 ~ 비숍)</span>
+                                <span className="text-[10px] text-emerald-300 font-black">37위 신직업 렌(달개화)</span>
                             </div>
-                            <div className="relative w-full aspect-[4/3]">
+                            <div className="relative w-full aspect-[4/3] bg-slate-950">
                                 <Image src="/images/blog/bellona/bellona-rank-31-40.png" alt="31~40위 스크린샷" fill className="object-contain p-2" />
                             </div>
                         </div>
 
-                        <div className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
-                            <div className="bg-slate-800/60 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
-                                <span className="text-xs font-black text-slate-200">41 ~ 50위 (오션 ~ 구구단)</span>
-                                <span className="text-[10px] text-slate-400">46위 박준호(환산 227등)</span>
+                        <div className="bg-slate-900 border border-slate-700 rounded-xl overflow-hidden shadow-xl">
+                            <div className="bg-slate-800 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
+                                <span className="text-xs font-black text-white">41 ~ 50위 (오션 ~ 구구단)</span>
+                                <span className="text-[10px] text-cyan-300 font-black">46위 박준호(환산 227등)</span>
                             </div>
-                            <div className="relative w-full aspect-[4/3]">
+                            <div className="relative w-full aspect-[4/3] bg-slate-950">
                                 <Image src="/images/blog/bellona/bellona-rank-41-50.png" alt="41~50위 스크린샷" fill className="object-contain p-2" />
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* 4. TOP 50 전수조사 데이터 테이블 [직업 / 직업순위 / 환산순위] */}
+                {/* 3. TOP 50 전수조사 고대비 데이터 테이블 [직업 / 직업순위 / 환산순위] */}
                 <section className="mb-12 sm:mb-16">
                     <div className="flex items-center gap-2 mb-4">
                         <Award className="w-6 h-6 text-purple-400" />
@@ -293,76 +335,75 @@ export default function BellonaClearRankingPage() {
                         </h2>
                     </div>
 
-                    <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/80 shadow-xl">
-                        <table className="w-full text-left text-xs sm:text-sm">
-                            <thead className="bg-slate-900 text-slate-300 font-bold border-b border-slate-800">
+                    <div className="overflow-x-auto rounded-xl border-2 border-slate-700 bg-slate-900 shadow-2xl">
+                        <table className="w-full text-left text-xs sm:text-sm border-collapse">
+                            <thead className="bg-slate-800 text-white font-black border-b-2 border-slate-600">
                                 <tr>
-                                    <th className="py-3 px-3 sm:px-4 text-center w-14">순위</th>
-                                    <th className="py-3 px-3 sm:px-4">닉네임 (월드)</th>
-                                    <th className="py-3 px-3 sm:px-4">직업</th>
-                                    <th className="py-3 px-3 sm:px-4 text-center">직업 내 순위</th>
-                                    <th className="py-3 px-3 sm:px-4 text-center">전체 환산 순위</th>
-                                    <th className="py-3 px-3 sm:px-4 hidden md:table-cell">특징 / 비고</th>
+                                    <th className="py-3.5 px-3 sm:px-4 text-center w-14 text-white">순위</th>
+                                    <th className="py-3.5 px-3 sm:px-4 text-white">닉네임 (월드)</th>
+                                    <th className="py-3.5 px-3 sm:px-4 text-white">직업</th>
+                                    <th className="py-3.5 px-3 sm:px-4 text-center text-white">직업 내 순위</th>
+                                    <th className="py-3.5 px-3 sm:px-4 text-center text-white">전체 환산 순위</th>
+                                    <th className="py-3.5 px-3 sm:px-4 hidden md:table-cell text-white">특징 / 비고</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-850">
+                            <tbody className="divide-y divide-slate-800">
                                 {DETAILED_TOP_50.map((row) => (
                                     <tr
                                         key={row.rank}
-                                        className={`hover:bg-slate-800/40 transition-colors ${
+                                        className={`transition-colors ${
                                             row.rank === 1
-                                                ? 'bg-amber-500/10 font-bold'
-                                                : row.rank <= 3
-                                                ? 'bg-slate-900/50'
-                                                : ''
-                                        }`}
+                                                ? 'bg-amber-500/20 border-l-4 border-amber-400'
+                                                : row.rank === 2
+                                                ? 'bg-slate-800/80 border-l-4 border-slate-300'
+                                                : row.rank === 3
+                                                ? 'bg-amber-900/30 border-l-4 border-amber-600'
+                                                : row.rank % 2 === 0
+                                                ? 'bg-slate-900/90'
+                                                : 'bg-slate-950/90'
+                                        } hover:bg-slate-800`}
                                     >
-                                        <td className="py-2.5 px-3 sm:px-4 text-center">
+                                        <td className="py-3 px-3 sm:px-4 text-center">
                                             {row.rank === 1 ? (
-                                                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-400 text-slate-950 font-black text-xs">
+                                                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-400 text-slate-950 font-black text-xs shadow-md">
                                                     1
                                                 </span>
                                             ) : row.rank === 2 ? (
-                                                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-300 text-slate-950 font-black text-xs">
+                                                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-200 text-slate-950 font-black text-xs shadow-md">
                                                     2
                                                 </span>
                                             ) : row.rank === 3 ? (
-                                                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-600 text-white font-black text-xs">
+                                                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-600 text-white font-black text-xs shadow-md">
                                                     3
                                                 </span>
                                             ) : (
-                                                <span className="text-slate-400 font-semibold">{row.rank}등</span>
+                                                <span className="text-white font-black text-xs sm:text-sm">{row.rank}등</span>
                                             )}
                                         </td>
-                                        <td className="py-2.5 px-3 sm:px-4 font-bold text-white">
-                                            <span>{row.name}</span>
-                                            <span className="text-slate-400 text-xs font-normal ml-1.5">({row.world})</span>
+                                        <td className="py-3 px-3 sm:px-4">
+                                            <span className="text-white font-black text-sm">{row.name}</span>
+                                            <span className="text-sky-300 text-xs font-extrabold ml-1.5 px-1.5 py-0.5 rounded bg-sky-950/80 border border-sky-700/60">
+                                                {row.world}
+                                            </span>
                                         </td>
-                                        <td className="py-2.5 px-3 sm:px-4">
-                                            <span className={`inline-block px-2 py-0.5 rounded text-xs font-bold ${
-                                                row.job === '칼리' ? 'bg-amber-400/20 text-amber-300 border border-amber-400/30' :
-                                                row.job === '제논' ? 'bg-blue-400/20 text-blue-300 border border-blue-400/30' :
-                                                row.job === '아델' ? 'bg-purple-400/20 text-purple-300 border border-purple-400/30' :
-                                                row.job === '카데나' ? 'bg-rose-400/20 text-rose-300 border border-rose-400/30' :
-                                                row.job === '렌' ? 'bg-emerald-400/20 text-emerald-300 border border-emerald-400/30' :
-                                                'bg-slate-800 text-slate-300'
-                                            }`}>
+                                        <td className="py-3 px-3 sm:px-4">
+                                            <span className={`inline-block px-2.5 py-1 rounded-md text-xs border shadow-sm ${getJobBadgeClass(row.job)}`}>
                                                 {row.job}
                                             </span>
                                         </td>
-                                        <td className="py-2.5 px-3 sm:px-4 text-center font-semibold text-slate-300">
+                                        <td className="py-3 px-3 sm:px-4 text-center font-black text-white text-xs sm:text-sm">
                                             {row.jobRank}
                                         </td>
-                                        <td className="py-2.5 px-3 sm:px-4 text-center">
-                                            <span className={`font-black ${
-                                                row.specRank <= 5 ? 'text-amber-400' :
-                                                row.specRank <= 20 ? 'text-emerald-400' :
-                                                row.specRank >= 100 ? 'text-rose-400' : 'text-blue-400'
+                                        <td className="py-3 px-3 sm:px-4 text-center">
+                                            <span className={`font-black text-xs sm:text-sm px-2.5 py-0.5 rounded border ${
+                                                row.specRank <= 5 ? 'text-amber-200 bg-amber-950/80 border-amber-500/60' :
+                                                row.specRank <= 20 ? 'text-emerald-200 bg-emerald-950/80 border-emerald-500/60' :
+                                                row.specRank >= 100 ? 'text-rose-200 bg-rose-950/80 border-rose-500/60' : 'text-sky-200 bg-sky-950/80 border-sky-500/60'
                                             }`}>
                                                 {row.specRank}등
                                             </span>
                                         </td>
-                                        <td className="py-2.5 px-3 sm:px-4 text-slate-400 text-xs hidden md:table-cell">
+                                        <td className="py-3 px-3 sm:px-4 text-slate-100 text-xs sm:text-sm font-semibold hidden md:table-cell">
                                             {row.note || '-'}
                                         </td>
                                     </tr>
@@ -372,29 +413,30 @@ export default function BellonaClearRankingPage() {
                     </div>
                 </section>
 
-                {/* 5. 퍼클에 없는 직업군 (0명) 목록 */}
-                <section className="mb-12 sm:mb-16 bg-gradient-to-br from-rose-950/30 via-slate-900 to-slate-950 p-5 sm:p-8 rounded-2xl border border-rose-500/30 shadow-xl">
+                {/* 4. 퍼클에 없는 직업군 (0명) 목록 */}
+                <section className="mb-12 sm:mb-16 bg-gradient-to-br from-rose-950/40 via-slate-900 to-slate-950 p-5 sm:p-8 rounded-2xl border-2 border-rose-500/40 shadow-2xl">
                     <div className="flex items-center gap-2 mb-3">
                         <AlertTriangle className="w-6 h-6 text-rose-400" />
                         <h2 className="text-xl sm:text-2xl font-black text-white">
                             🚫 하드 벨로나 퍼클 50인에 없는 직업군 (0명)
                         </h2>
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-400 mb-6">
+                    <p className="text-xs sm:text-sm text-slate-200 mb-6 font-medium">
                         최상위 50위권 격파자 명단에 단 한 명도 이름을 올리지 못한 직업군 목록입니다.
-                        (솔로 생존 유틸 부재, 딜 압축 부족 또는 최상위 랭커 템세팅 미완성 등의 요인)
                     </p>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
                         {MISSING_JOBS.map((cat, idx) => (
-                            <div key={idx} className="bg-slate-950/80 p-4 rounded-xl border border-slate-800 flex flex-col justify-between">
-                                <div className="text-xs font-black text-rose-400 mb-2 border-b border-slate-800 pb-1.5 flex items-center justify-between">
+                            <div key={idx} className="bg-slate-950 p-4 rounded-xl border border-slate-700 flex flex-col justify-between shadow-lg">
+                                <div className="text-xs font-black text-rose-300 mb-2 border-b border-slate-700 pb-1.5 flex items-center justify-between">
                                     <span>{cat.category}</span>
-                                    <span className="text-[10px] text-slate-500">{cat.jobs.length}개 직업</span>
+                                    <span className="text-[10px] text-slate-300 font-bold bg-rose-950/80 px-1.5 py-0.5 rounded border border-rose-800/60">
+                                        {cat.jobs.length}개 직업
+                                    </span>
                                 </div>
                                 <div className="flex flex-wrap gap-1.5">
                                     {cat.jobs.map((j, i) => (
-                                        <span key={i} className="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-xs border border-slate-800">
+                                        <span key={i} className="px-2.5 py-1 rounded bg-slate-800 text-white font-bold text-xs border border-slate-600 shadow-sm">
                                             {j}
                                         </span>
                                     ))}
