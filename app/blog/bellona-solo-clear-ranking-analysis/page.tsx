@@ -143,13 +143,13 @@ export default function BellonaClearRankingPage() {
                         ⚔️ 하드 벨로나 1인 격파 TOP 50 랭킹 분석
                     </h1>
                     <p className="text-sm sm:text-base text-rose-400 font-bold mb-4">
-                        직업별 점유 순위 · 환산 순위 대역전 · 0명 직업군 총정리
+                        직업별 점유 순위 · [직업 / 직업순위 / 환산순위] · 0명 직업군 총정리
                     </p>
 
                     <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-4xl">
                         2026년 9월 16일까지 진행되는 신규 최상위 보스 <strong className="text-rose-400">하드 벨로나 1인 파티 격파 이벤트</strong>!
                         TOP 50 랭커들의 <strong>[직업 / 직업순위 / 환산순위]</strong>를 전수 조사하여,
-                        제논의 7명 독주와 환산 순위를 뒤집은 초고난도 피지컬 직업, 그리고 퍼클 50인에 이름을 올리지 못한 직업군까지 완벽하게 파헤칩니다.
+                        제논 7명 독주 등 직업별 점유 순위와 퍼클 50인에 이름을 올리지 못한 직업군까지 완벽하게 파헤칩니다.
                     </p>
                 </header>
 
@@ -214,87 +214,7 @@ export default function BellonaClearRankingPage() {
                     </div>
                 </section>
 
-                {/* 2. 환산 순위를 뒤집은 피지컬 & 직업 성능 하이라이트 */}
-                <section className="mb-12 sm:mb-16 bg-gradient-to-br from-indigo-950/40 via-purple-950/30 to-slate-950 p-5 sm:p-8 rounded-2xl border border-indigo-500/40 shadow-xl">
-                    <div className="flex items-center gap-2 mb-3">
-                        <Zap className="w-6 h-6 text-amber-400" />
-                        <h2 className="text-xl sm:text-2xl font-black text-white">
-                            ⚡ 환산 순위 vs 격파 순위 대역전 TOP 5
-                        </h2>
-                    </div>
-                    <p className="text-xs sm:text-sm text-slate-400 mb-6 leading-relaxed">
-                        스펙(환산 주스탯) 순위가 100~200위권 밖임에도 불구하고, <strong>직업의 생존·유틸 성능과 경이로운 솔플 피지컬</strong>로
-                        퍼클 50인 안에 입성한 레전드 플레이어들입니다.
-                    </p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                        <div className="bg-slate-900/90 p-4 rounded-xl border border-rose-500/40">
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs font-black text-rose-400">🔥 최대 역전 1위 (+181계단)</span>
-                                <span className="text-xs text-slate-400">에오스 제논</span>
-                            </div>
-                            <div className="text-lg font-black text-white mt-1">박준호 (제논 12등)</div>
-                            <div className="mt-2 text-xs text-slate-300 font-bold bg-rose-950/60 p-2 rounded border border-rose-500/30">
-                                환산 <span className="text-rose-400 font-black">227등</span> ➔ 격파 <span className="text-emerald-400 font-black">46등</span> 달성!
-                            </div>
-                        </div>
-
-                        <div className="bg-slate-900/90 p-4 rounded-xl border border-amber-500/40">
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs font-black text-amber-400">⚡ 역전 2위 (+123계단)</span>
-                                <span className="text-xs text-slate-400">스카니아 제논</span>
-                            </div>
-                            <div className="text-lg font-black text-white mt-1">수다 (제논 10등)</div>
-                            <div className="mt-2 text-xs text-slate-300 font-bold bg-amber-950/60 p-2 rounded border border-amber-500/30">
-                                환산 <span className="text-amber-400 font-black">157등</span> ➔ 격파 <span className="text-emerald-400 font-black">34등</span> 달성!
-                            </div>
-                        </div>
-
-                        <div className="bg-slate-900/90 p-4 rounded-xl border border-purple-500/40">
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs font-black text-purple-400">⚡ 역전 3위 (+101계단)</span>
-                                <span className="text-xs text-slate-400">스카니아 제로</span>
-                            </div>
-                            <div className="text-lg font-black text-white mt-1">르헤솔 (제로 3등)</div>
-                            <div className="mt-2 text-xs text-slate-300 font-bold bg-purple-950/60 p-2 rounded border border-purple-500/30">
-                                환산 <span className="text-purple-400 font-black">144등</span> ➔ 격파 <span className="text-emerald-400 font-black">43등</span> 달성!
-                            </div>
-                        </div>
-
-                        <div className="bg-slate-900/90 p-4 rounded-xl border border-blue-500/40">
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs font-black text-blue-400">⚡ 역전 4위 (+82계단)</span>
-                                <span className="text-xs text-slate-400">스카니아 제논</span>
-                            </div>
-                            <div className="text-lg font-black text-white mt-1">후닝 (제논 5등)</div>
-                            <div className="mt-2 text-xs text-slate-300 font-bold bg-blue-950/60 p-2 rounded border border-blue-500/30">
-                                환산 <span className="text-blue-400 font-black">102등</span> ➔ 격파 <span className="text-emerald-400 font-black">20등</span> 달성!
-                            </div>
-                        </div>
-
-                        <div className="bg-slate-900/90 p-4 rounded-xl border border-emerald-500/40">
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs font-black text-emerald-400">⚡ 역전 5위 (+80계단)</span>
-                                <span className="text-xs text-slate-400">엘리시움 카데나</span>
-                            </div>
-                            <div className="text-lg font-black text-white mt-1">가을 (카데나 5등)</div>
-                            <div className="mt-2 text-xs text-slate-300 font-bold bg-emerald-950/60 p-2 rounded border border-emerald-500/30">
-                                환산 <span className="text-emerald-400 font-black">108등</span> ➔ 격파 <span className="text-emerald-400 font-black">28등</span> 달성!
-                            </div>
-                        </div>
-
-                        <div className="bg-slate-900/90 p-4 rounded-xl border border-amber-400/50">
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs font-black text-amber-300">👑 완벽한 1위 (스펙 1위 = 격파 1위)</span>
-                                <span className="text-xs text-slate-400">스카니아 칼리</span>
-                            </div>
-                            <div className="text-lg font-black text-white mt-1">강은호 (칼리 1등)</div>
-                            <div className="mt-2 text-xs text-slate-300 font-bold bg-amber-950/60 p-2 rounded border border-amber-500/30">
-                                환산 <span className="text-amber-400 font-black">1등</span> ➔ 격파 <span className="text-amber-400 font-black">1등</span> 완벽 증명!
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
                 <InArticleAd dataAdSlot="6849727140" className="my-10" />
 
