@@ -1,99 +1,103 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Trophy, Flame, Swords, Shield, Sparkles, TrendingUp, Users, Calendar, Crown, Award, ChevronRight, Zap } from 'lucide-react';
+import {
+    ArrowLeft, Trophy, Flame, Swords, Shield, Sparkles, TrendingUp, Users,
+    Calendar, Crown, Award, ChevronRight, Zap, AlertTriangle, Crosshair, BarChart3
+} from 'lucide-react';
 import { AdBanner, InArticleAd } from '@/components/AdSense';
 
 export const metadata: Metadata = {
-    title: '⚔️ 벨로나 1인 격파 이벤트 랭킹 TOP 50 완벽 분석 — 1위 칼리 강은호·제논 독주와 솔플 메타 | 메이플AI',
-    description: '2026년 9월 16일까지 진행되는 신규 최상위 보스 벨로나 1인 파티 격파 이벤트! 1위 강은호(칼리), 2위 제논은T, 3위 귤민 등 TOP 50 랭커들의 직업·서버별 분포 통계와 솔로 격파 핵심 메타 완벽 분석.',
+    title: '⚔️ 하드 벨로나 1인 격파(퍼클) TOP 50 완벽 분석 — 직업·직업순위·환산순위·미격파 직업 총정리 | 메이플AI',
+    description: '2026년 9월 16일까지 진행되는 신규 최상위 보스 벨로나 1인 격파 이벤트 TOP 50 랭커들의 직업·직업순위·환산순위 전수조사! 제논 7명 독주, 환산 순위를 뒤집은 피지컬 직업, 퍼클 0명 직업군 완벽 분석.',
     openGraph: {
-        title: '⚔️ 벨로나 1인 격파 이벤트 랭킹 TOP 50 완벽 분석 — 메이플AI',
-        description: '신규 최상위 보스 벨로나 1인 파티 격파 이벤트 TOP 50 랭킹 현황과 직업별 티어 통계 완벽 정리.',
+        title: '⚔️ 하드 벨로나 1인 격파(퍼클) TOP 50 완벽 분석 — 메이플AI',
+        description: '하드 벨로나 1인 파티 퍼클 TOP 50 [직업 / 직업순위 / 환산순위] 및 0명 직업군 총정리.',
         images: [
             {
                 url: '/images/blog/bellona/bellona-event-banner.png',
                 width: 1200,
                 height: 630,
-                alt: '벨로나 1인 격파 이벤트 랭킹 분석',
+                alt: '하드 벨로나 1인 격파 이벤트 랭킹 분석',
             },
         ],
     },
 };
 
-// 랭킹 50인 전체 데이터
-const TOP_50_RANKINGS = [
-    { rank: 1, name: '강은호', world: '스카니아', job: '칼리', highlight: true, note: '🏆 1인 격파 1위 달성' },
-    { rank: 2, name: '제논은T', world: '스카니아', job: '제논', highlight: true, note: '🥈 제논 최상위 랭커' },
-    { rank: 3, name: '귤민', world: '크로아', job: '메르세데스', highlight: true, note: '🥉 메르세데스 1위' },
-    { rank: 4, name: '아델', world: '스카니아', job: '아델', highlight: true, note: '전사 계열 최상위' },
-    { rank: 5, name: '쯔단', world: '크로아', job: '캐논마스터', highlight: true, note: '해적 원거리 극딜' },
-    { rank: 6, name: '고딩', world: '루나', job: '팔라딘', highlight: false, note: '팔라딘 생존 솔플' },
-    { rank: 7, name: '귀신', world: '베라', job: '섀도어', highlight: false, note: '섀도어 최상위' },
-    { rank: 8, name: '맑음', world: '크로아', job: '제논', highlight: false, note: '유명 네임드 랭커' },
-    { rank: 9, name: '카키', world: '스카니아', job: '팬텀', highlight: false, note: '팬텀 유틸 강세' },
-    { rank: 10, name: '나워', world: '루나', job: '나이트워커', highlight: false, note: '나이트워커 1위' },
-    { rank: 11, name: '물주', world: '베라', job: '팬텀', highlight: false },
-    { rank: 12, name: '식중팬', world: '루나', job: '카데나', highlight: false, note: '카데나 1위' },
-    { rank: 13, name: '진격캐넌', world: '루나', job: '캐논마스터', highlight: false },
-    { rank: 14, name: '세계', world: '엘리시움', job: '윈드브레이커', highlight: false, note: '윈브 1위' },
-    { rank: 15, name: '노노', world: '베라', job: '아크메이지(불,독)', highlight: false, note: '불독 1위' },
-    { rank: 16, name: '패릿', world: '스카니아', job: '아델', highlight: false },
-    { rank: 17, name: '서리', world: '스카니아', job: '제논', highlight: false },
-    { rank: 18, name: '성배', world: '크로아', job: '비숍', highlight: false, note: '비숍 솔플 격파' },
-    { rank: 19, name: '배배', world: '에오스', job: '카이저', highlight: false, note: '카이저 1위' },
-    { rank: 20, name: '후닝', world: '스카니아', job: '제논', highlight: false },
-    { rank: 21, name: '남색', world: '루나', job: '제논', highlight: false },
-    { rank: 22, name: '바붕', world: '루나', job: '카데나', highlight: false },
-    { rank: 23, name: '감팡검', world: '크로아', job: '아델', highlight: false },
-    { rank: 24, name: '상온', world: '크로아', job: '듀얼블레이더', highlight: false, note: '듀블 최상위' },
-    { rank: 25, name: '초코빵내꺼야', world: '엘리시움', job: '카데나', highlight: false },
-    { rank: 26, name: '쀼부', world: '에오스', job: '라라', highlight: false, note: '라라 1위' },
-    { rank: 27, name: '클라스', world: '스카니아', job: '제로', highlight: false, note: '제로 1위' },
-    { rank: 28, name: '가을', world: '엘리시움', job: '카데나', highlight: false },
-    { rank: 29, name: '게이', world: '루나', job: '아크메이지(불,독)', highlight: false },
-    { rank: 30, name: '레망', world: '크로아', job: '듀얼블레이더', highlight: false },
-    { rank: 31, name: '완시', world: '베라', job: '카인', highlight: false, note: '카인 1위' },
-    { rank: 32, name: '티엘', world: '에오스', job: '보우마스터', highlight: false, note: '보마 1위' },
-    { rank: 33, name: '작반', world: '엘리시움', job: '팬텀', highlight: false },
-    { rank: 34, name: '수다', world: '스카니아', job: '제논', highlight: false },
-    { rank: 35, name: '응급', world: '엘리시움', job: '아크메이지(썬,콜)', highlight: false, note: '썬콜 1위' },
-    { rank: 36, name: '발톱', world: '에오스', job: '데몬 어벤져', highlight: false, note: '데벤져 최상위' },
-    { rank: 37, name: '달개화', world: '루나', job: '렌', highlight: true, note: '✨ 신규 직업 렌 격파!' },
-    { rank: 38, name: '천원', world: '크로아', job: '데몬 어벤져', highlight: false },
-    { rank: 39, name: '박준형', world: '스카니아', job: '아델', highlight: false },
-    { rank: 40, name: '비숍', world: '스카니아', job: '비숍', highlight: false },
-    { rank: 41, name: '오션', world: '스카니아', job: '히어로', highlight: false, note: '히어로 1위' },
-    { rank: 42, name: '듀얼블레이더', world: '스카니아', job: '듀얼블레이더', highlight: false },
-    { rank: 43, name: '르헤솔', world: '스카니아', job: '제로', highlight: false },
-    { rank: 44, name: '집념', world: '루나', job: '아델', highlight: false },
-    { rank: 45, name: '웨스턴총냥이', world: '루나', job: '캐논마스터', highlight: false },
-    { rank: 46, name: '박준호', world: '에오스', job: '제논', highlight: false },
-    { rank: 47, name: '팔라딘', world: '루나', job: '팔라딘', highlight: false },
-    { rank: 48, name: '으찌', world: '베라', job: '제로', highlight: false },
-    { rank: 49, name: '최약체보스', world: '스카니아', job: '스트라이커', highlight: false, note: '스커 1위' },
-    { rank: 50, name: '구구단', world: '루나', job: '나이트로드', highlight: false, note: '나로 1위' },
+// 50인 전체 상세 데이터 (직업 / 직업순위 / 환산순위 / 닉네임 / 월드)
+const DETAILED_TOP_50 = [
+    { rank: 1, name: '강은호', world: '스카니아', job: '칼리', jobRank: '칼리 1등', specRank: 1, highlight: true, note: '🏆 환산 1등 + 격파 1등 완벽 증명' },
+    { rank: 2, name: '제논은T', world: '스카니아', job: '제논', jobRank: '제논 1등', specRank: 20, highlight: true, note: '🥈 환산 20등 ➔ 격파 2등 폭풍 견인' },
+    { rank: 3, name: '귤민', world: '크로아', job: '메르세데스', jobRank: '메르 1등', specRank: 3, highlight: true, note: '🥉 메르세데스 1위 & 궁수 1위' },
+    { rank: 4, name: '아델', world: '스카니아', job: '아델', jobRank: '아델 1등', specRank: 2, highlight: true, note: '전사 1위 & 환산 2위 랭커' },
+    { rank: 5, name: '쯔단', world: '크로아', job: '캐논슈터', jobRank: '캐슈 1등', specRank: 4, highlight: true, note: '해적 1위 & 원거리 극딜 폭격' },
+    { rank: 6, name: '고딩', world: '루나', job: '팔라딘', jobRank: '팔라딘 1등', specRank: 5, highlight: false, note: '팔라딘 생존 솔플 정점' },
+    { rank: 7, name: '귀신', world: '베라', job: '섀도어', jobRank: '섀도어 1등', specRank: 9, highlight: false, note: '도적 암살·절개 유틸' },
+    { rank: 8, name: '맑음', world: '크로아', job: '제논', jobRank: '제논 2등', specRank: 28, highlight: false, note: '환산 28등 ➔ 격파 8등' },
+    { rank: 9, name: '카키', world: '스카니아', job: '팬텀', jobRank: '팬텀 2등', specRank: 15, highlight: false, note: '팬텀 유틸 강세' },
+    { rank: 10, name: '나워', world: '루나', job: '나이트워커', jobRank: '나워 1등', specRank: 11, highlight: false, note: '나이트워커 1위' },
+    { rank: 11, name: '물주', world: '베라', job: '팬텀', jobRank: '팬텀 1등', specRank: 13, highlight: false, note: '팬텀 직업 1등' },
+    { rank: 12, name: '식중팬', world: '루나', job: '카데나', jobRank: '카데나 4등', specRank: 69, highlight: true, note: '⚡ 환산 69등 ➔ 격파 12등 피지컬!' },
+    { rank: 13, name: '진격캐넌', world: '루나', job: '캐논슈터', jobRank: '캐슈 2등', specRank: 10, highlight: false, note: '캐논슈터 네임드' },
+    { rank: 14, name: '세계', world: '엘리시움', job: '윈드브레이커', jobRank: '윈브 2등', specRank: 16, highlight: false, note: '윈브 솔플 격파' },
+    { rank: 15, name: '노노', world: '베라', job: '아크메이지(불,독)', jobRank: '불독 1등', specRank: 14, highlight: false, note: '불독 직업 1위' },
+    { rank: 16, name: '패릿', world: '스카니아', job: '아델', jobRank: '아델 3등', specRank: 17, highlight: false },
+    { rank: 17, name: '서리', world: '스카니아', job: '제논', jobRank: '제논 4등', specRank: 94, highlight: true, note: '⚡ 환산 94등 ➔ 격파 17등!' },
+    { rank: 18, name: '성배', world: '크로아', job: '비숍', jobRank: '비숍 1등', specRank: 7, highlight: false, note: '비숍 솔로 퍼클 달성' },
+    { rank: 19, name: '배배', world: '에오스', job: '카이저', jobRank: '카이저 1등', specRank: 24, highlight: false, note: '카이저 1위' },
+    { rank: 20, name: '후닝', world: '스카니아', job: '제논', jobRank: '제논 5등', specRank: 102, highlight: true, note: '⚡ 환산 102등 ➔ 격파 20등!' },
+    { rank: 21, name: '남색', world: '루나', job: '제논', jobRank: '제논 3등', specRank: 47, highlight: false, note: '환산 47등 ➔ 격파 21등' },
+    { rank: 22, name: '바붕', world: '루나', job: '카데나', jobRank: '카데나 2등', specRank: 45, highlight: false, note: '환산 45등 ➔ 격파 22등' },
+    { rank: 23, name: '감팡검', world: '크로아', job: '아델', jobRank: '아델 2등', specRank: 12, highlight: false },
+    { rank: 24, name: '상온', world: '크로아', job: '듀얼블레이드', jobRank: '듀블 2등', specRank: 30, highlight: false, note: '듀블 2위' },
+    { rank: 25, name: '초코빵내꺼야', world: '엘리시움', job: '카데나', jobRank: '카데나 3등', specRank: 48, highlight: false, note: '환산 48등 ➔ 격파 25등' },
+    { rank: 26, name: '쀼부', world: '에오스', job: '라라', jobRank: '라라 1등', specRank: 35, highlight: false, note: '라라 1위' },
+    { rank: 27, name: '클라스', world: '스카니아', job: '제로', jobRank: '제로 1등', specRank: 43, highlight: false, note: '제로 1위' },
+    { rank: 28, name: '가을', world: '엘리시움', job: '카데나', jobRank: '카데나 5등', specRank: 108, highlight: true, note: '⚡ 환산 108등 ➔ 격파 28등!' },
+    { rank: 29, name: '게이', world: '루나', job: '아크메이지(불,독)', jobRank: '불독 2등', specRank: 19, highlight: false },
+    { rank: 30, name: '레망', world: '크로아', job: '듀얼블레이드', jobRank: '듀블 1등', specRank: 25, highlight: false, note: '듀블 직업 1위' },
+    { rank: 31, name: '완시', world: '베라', job: '카인', jobRank: '카인 1등', specRank: 66, highlight: false, note: '카인 1위' },
+    { rank: 32, name: '티엘', world: '에오스', job: '보우마스터', jobRank: '보마 1등', specRank: 26, highlight: false, note: '보우마스터 1위' },
+    { rank: 33, name: '작반', world: '엘리시움', job: '팬텀', jobRank: '팬텀 4등', specRank: 58, highlight: false },
+    { rank: 34, name: '수다', world: '스카니아', job: '제논', jobRank: '제논 10등', specRank: 157, highlight: true, note: '⚡ 환산 157등 ➔ 격파 34등!' },
+    { rank: 35, name: '응급', world: '엘리시움', job: '아크메이지(썬,콜)', jobRank: '썬콜 3등', specRank: 74, highlight: false, note: '썬콜 1위' },
+    { rank: 36, name: '발톱', world: '에오스', job: '데몬어벤져', jobRank: '데벤 1등', specRank: 31, highlight: false, note: '데벤 1위' },
+    { rank: 37, name: '달개화', world: '루나', job: '렌', jobRank: '렌 1등', specRank: 44, highlight: true, note: '✨ 신규 직업 렌 퍼클 달성!' },
+    { rank: 38, name: '천원', world: '크로아', job: '데몬어벤져', jobRank: '데벤 3등', specRank: 55, highlight: false },
+    { rank: 39, name: '박준형', world: '스카니아', job: '아델', jobRank: '아델 5등', specRank: 59, highlight: false },
+    { rank: 40, name: '비숍', world: '스카니아', job: '비숍', jobRank: '비숍 2등', specRank: 8, highlight: false },
+    { rank: 41, name: '오션', world: '스카니아', job: '히어로', jobRank: '히어로 1등', specRank: 33, highlight: false, note: '히어로 1위' },
+    { rank: 42, name: '듀얼블레이더', world: '스카니아', job: '듀얼블레이드', jobRank: '듀블 4등', specRank: 40, highlight: false },
+    { rank: 43, name: '르헤솔', world: '스카니아', job: '제로', jobRank: '제로 3등', specRank: 144, highlight: true, note: '⚡ 환산 144등 ➔ 격파 43등!' },
+    { rank: 44, name: '집념', world: '루나', job: '아델', jobRank: '아델 10등', specRank: 103, highlight: true, note: '⚡ 환산 103등 ➔ 격파 44등!' },
+    { rank: 45, name: '웨스턴총냥이', world: '루나', job: '캐논슈터', jobRank: '캐슈 3등', specRank: 29, highlight: false },
+    { rank: 46, name: '박준호', world: '에오스', job: '제논', jobRank: '제논 12등', specRank: 227, highlight: true, note: '🔥 환산 227등 ➔ 격파 46등 대역전!' },
+    { rank: 47, name: '팔라딘', world: '루나', job: '팔라딘', jobRank: '팔라딘 2등', specRank: 22, highlight: false },
+    { rank: 48, name: '으찌', world: '베라', job: '제로', jobRank: '제로 2등', specRank: 67, highlight: false },
+    { rank: 49, name: '최약체보스', world: '스카니아', job: '스트라이커', jobRank: '스커 1등', specRank: 73, highlight: false, note: '스트라이커 1위' },
+    { rank: 50, name: '구구단', world: '루나', job: '나이트로드', jobRank: '나로 5등', specRank: 68, highlight: false, note: '나이트로드 1위' },
 ];
 
-// 직업별 점유 통계
-const JOB_STATISTICS = [
-    { job: '제논', count: 7, ratio: '14.0%', badge: '👑 압도적 1위', desc: '올스탯 극딜과 오버로드 모드, 무적 유틸의 완벽한 조화' },
-    { job: '아델', count: 5, ratio: '10.0%', badge: '🔥 전사 1위', desc: '다이디움 크로스, 레스토레이션 등 솔플 생존과 폭딜 겸비' },
-    { job: '카데나', count: 4, ratio: '8.0%', badge: '⚡ 극한의 피지컬', desc: '체인 이동기와 캔슬 폭딜로 최상위 보스 타임어택 독식' },
-    { job: '팬텀', count: 3, ratio: '6.0%', badge: '🛡️ 유틸 깡패', desc: '파컷 무적, 힐, 프리드의 가호 6중첩 등 생존력 종결' },
-    { job: '캐논마스터', count: 3, ratio: '6.0%', badge: '💣 초장거리 폭격', desc: '빅 휴즈 캐논볼의 다단히트와 긴 사거리로 안정적 딜링' },
-    { job: '듀얼블레이더', count: 3, ratio: '6.0%', badge: '🗡️ 더블 무적', desc: '사슬지옥 & 파이널 컷 듀얼 무적으로 패턴 무력화' },
-    { job: '제로', count: 3, ratio: '6.0%', badge: '⏳ 태그 & 바인드', desc: '알파/베타 듀얼 체력바와 연속 바인드로 패턴 제어' },
+// 퍼클 인원수 순위 집계
+const GROUP_SUMMARY = [
+    { rankBadge: '1위 (7명)', jobs: ['제논'], count: 7, color: 'border-blue-500/50 bg-blue-950/40 text-blue-300' },
+    { rankBadge: '2위 (5명)', jobs: ['아델'], count: 5, color: 'border-purple-500/50 bg-purple-950/40 text-purple-300' },
+    { rankBadge: '3위 (4명)', jobs: ['카데나'], count: 4, color: 'border-rose-500/50 bg-rose-950/40 text-rose-300' },
+    { rankBadge: '4위 (각 3명)', jobs: ['듀얼블레이드', '제로', '캐논슈터', '팬텀'], count: 12, color: 'border-amber-500/50 bg-amber-950/40 text-amber-300' },
+    { rankBadge: '5위 (각 2명)', jobs: ['팔라딘', '불독', '비숍', '데몬어벤져'], count: 8, color: 'border-emerald-500/50 bg-emerald-950/40 text-emerald-300' },
+    { rankBadge: '단일 격파 (각 1명)', jobs: ['칼리', '메르세데스', '섀도어', '나이트워커', '윈드브레이커', '카이저', '라라', '카인', '보우마스터', '썬콜', '렌', '히어로', '스트라이커', '나이트로드'], count: 14, color: 'border-slate-700 bg-slate-900/50 text-slate-300' },
 ];
 
-// 월드별 분포 통계
-const WORLD_STATISTICS = [
-    { world: '스카니아', count: 16, ratio: '32.0%', color: 'from-amber-500/30 to-amber-600/10', border: 'border-amber-500/40', text: 'text-amber-300' },
-    { world: '루나', count: 12, ratio: '24.0%', color: 'from-blue-500/30 to-blue-600/10', border: 'border-blue-500/40', text: 'text-blue-300' },
-    { world: '크로아', count: 9, ratio: '18.0%', color: 'from-purple-500/30 to-purple-600/10', border: 'border-purple-500/40', text: 'text-purple-300' },
-    { world: '베라', count: 5, ratio: '10.0%', color: 'from-emerald-500/30 to-emerald-600/10', border: 'border-emerald-500/40', text: 'text-emerald-300' },
-    { world: '엘리시움', count: 5, ratio: '10.0%', color: 'from-cyan-500/30 to-cyan-600/10', border: 'border-cyan-500/40', text: 'text-cyan-300' },
-    { world: '에오스', count: 4, ratio: '8.0%', color: 'from-rose-500/30 to-rose-600/10', border: 'border-rose-500/40', text: 'text-rose-300' },
+// 퍼클 0명 직업군 목록
+const MISSING_JOBS = [
+    { category: '모험가', jobs: ['다크나이트', '신궁', '패스파인더', '바이퍼', '캡틴'] },
+    { category: '시그너스 기사단', jobs: ['미하일', '소울마스터', '플레임위자드'] },
+    { category: '영웅', jobs: ['아란', '에반', '루미너스', '은월'] },
+    { category: '레지스탕스 & 데몬', jobs: ['블래스터', '배틀메이지', '와일드헌터', '메카닉', '데몬슬레이어'] },
+    { category: '노바', jobs: ['엔젤릭버스터'] },
+    { category: '레프', jobs: ['일리움', '아크'] },
+    { category: '아니마', jobs: ['호영'] },
+    { category: '기타 직업군', jobs: ['키네시스', '레테'] },
 ];
 
 export default function BellonaClearRankingPage() {
@@ -113,7 +117,7 @@ export default function BellonaClearRankingPage() {
                     <div className="flex items-center gap-2">
                         <span className="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-xs font-black border border-rose-500/30 flex items-center gap-1">
                             <Flame className="w-3 h-3 text-rose-400" />
-                            BOSS CLEAR EVENT
+                            하드 벨로나 퍼클 랭킹
                         </span>
                     </div>
                 </div>
@@ -124,33 +128,33 @@ export default function BellonaClearRankingPage() {
                 <header className="mb-8 sm:mb-12">
                     <div className="flex items-center gap-2 mb-3 flex-wrap">
                         <span className="px-3 py-1 bg-gradient-to-r from-red-600 to-rose-600 text-white text-xs font-black rounded-full shadow-lg shadow-red-900/40">
-                            🔥 최신 보스 랭킹
+                            🔥 공식 퍼클 랭킹 전수조사
                         </span>
                         <span className="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-semibold rounded-full border border-slate-700">
                             이벤트 가이드
                         </span>
                         <span className="text-slate-400 text-xs sm:text-sm flex items-center gap-1">
                             <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                            2026년 8월 27일 기준 랭킹
+                            2026년 8월 27일 기준 데이터
                         </span>
                     </div>
 
                     <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-4">
-                        ⚔️ 벨로나 1인 격파 이벤트 랭킹 TOP 50 완벽 분석
+                        ⚔️ 하드 벨로나 1인 격파(퍼클) TOP 50 완벽 분석
                         <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-purple-400 to-amber-300">
-                            1위 칼리 강은호 · 제논 7명 독주와 솔플 메타
+                            직업 · 직업순위 · 환산순위 & 0명 직업군 총정리
                         </span>
                     </h1>
 
                     <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-4xl">
-                        2026년 8월 20일 강림한 그란디스의 신규 최상위 보스 <strong className="text-rose-400">벨로나(Bellona)</strong>!
-                        현재 인게임에서 치열하게 진행 중인 <strong>1인 파티 솔로 격파 이벤트</strong>의 TOP 50 랭킹 현황과
-                        직업별 점유율, 랭커들의 빌드 및 솔플 공략 메타를 인게임 랭킹 데이터를 바탕으로 정밀 분석합니다.
+                        2026년 9월 16일까지 진행되는 신규 최상위 보스 <strong className="text-rose-400">하드 벨로나 1인 파티 격파 이벤트</strong>!
+                        TOP 50 랭커들의 <strong>[직업 / 직업순위 / 환산순위]</strong>를 전수 조사하여,
+                        제논의 7명 독주와 환산 순위를 뒤집은 초고난도 피지컬 직업, 그리고 퍼클 50인에 이름을 올리지 못한 직업군까지 완벽하게 파헤칩니다.
                     </p>
                 </header>
 
-                {/* 이벤트 배너 카드 */}
+                {/* 이벤트 공식 배너 */}
                 <div className="mb-10 sm:mb-14 relative overflow-hidden rounded-2xl border border-rose-500/40 shadow-2xl bg-gradient-to-br from-rose-950/40 via-purple-950/30 to-slate-950">
                     <div className="relative w-full aspect-[21/9] max-h-[320px]">
                         <Image
@@ -164,287 +168,209 @@ export default function BellonaClearRankingPage() {
                     <div className="p-4 sm:p-6 bg-slate-950/90 border-t border-rose-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                                <span className="px-2 py-0.5 rounded bg-rose-500 text-white font-black text-[11px]">1인 파티 전용</span>
-                                <h3 className="font-black text-base sm:text-lg text-white">벨로나 격파 이벤트 (BOSS CLEAR EVENT)</h3>
+                                <span className="px-2 py-0.5 rounded bg-rose-500 text-white font-black text-[11px]">1인 파티 솔로</span>
+                                <h3 className="font-black text-base sm:text-lg text-white">하드 벨로나 격파 이벤트 (BOSS CLEAR EVENT)</h3>
                             </div>
                             <p className="text-xs sm:text-sm text-slate-400">
                                 📅 <strong>이벤트 종료일:</strong> <span className="text-rose-400 font-bold">2026년 9월 16일 (수) 오후 11시 59분까지</span>
                             </p>
                         </div>
                         <div className="px-4 py-2 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-extrabold shrink-0">
-                            ⏳ 이벤트 마감까지 진행 중
+                            ⏳ 1인 파티 격파 50인 완료
                         </div>
                     </div>
                 </div>
 
                 <AdBanner dataAdSlot="8162808816" className="mb-10" />
 
-                {/* 1. TOP 5 핵심 요약 카드 */}
-                <section className="mb-12 sm:mb-16">
-                    <div className="flex items-center gap-2 mb-6">
-                        <Trophy className="w-6 h-6 text-amber-400" />
-                        <h2 className="text-xl sm:text-2xl font-black text-white">
-                            🏆 벨로나 1인 격파 TOP 5 명예의 전당
-                        </h2>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-                        {/* 1위 */}
-                        <div className="relative rounded-2xl p-4 sm:p-5 bg-gradient-to-b from-amber-500/20 via-slate-900 to-slate-950 border-2 border-amber-400 shadow-xl shadow-amber-500/10 flex flex-col justify-between">
-                            <div className="absolute -top-3 left-4 px-3 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-xs shadow-md">
-                                👑 1위
-                            </div>
-                            <div className="pt-2">
-                                <div className="text-xs text-amber-300 font-bold">스카니아</div>
-                                <div className="text-lg sm:text-xl font-black text-white mt-0.5">강은호</div>
-                                <div className="inline-block mt-2 px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 text-xs font-black border border-amber-400/40">
-                                    칼리 (Khali)
-                                </div>
-                            </div>
-                            <p className="text-[11px] text-slate-400 mt-3 pt-3 border-t border-slate-800 leading-relaxed">
-                                전 서버 최초 1위 달성! 칼리 특유의 차크람 기동성과 폭발적 단일 극딜로 벨로나 패턴 완벽 공략
-                            </p>
-                        </div>
-
-                        {/* 2위 */}
-                        <div className="relative rounded-2xl p-4 sm:p-5 bg-gradient-to-b from-slate-400/20 via-slate-900 to-slate-950 border border-slate-400 shadow-lg flex flex-col justify-between">
-                            <div className="absolute -top-3 left-4 px-3 py-0.5 rounded-full bg-slate-300 text-slate-950 font-black text-xs shadow-md">
-                                🥈 2위
-                            </div>
-                            <div className="pt-2">
-                                <div className="text-xs text-slate-300 font-bold">스카니아</div>
-                                <div className="text-lg sm:text-xl font-black text-white mt-0.5">제논은T</div>
-                                <div className="inline-block mt-2 px-2 py-0.5 rounded bg-blue-400/20 text-blue-300 text-xs font-black border border-blue-400/40">
-                                    제논 (Xenon)
-                                </div>
-                            </div>
-                            <p className="text-[11px] text-slate-400 mt-3 pt-3 border-t border-slate-800 leading-relaxed">
-                                제논 1위 랭커. 오버로드 모드와 초고스펙 올스탯 잠재력으로 강력한 솔로 화력 증명
-                            </p>
-                        </div>
-
-                        {/* 3위 */}
-                        <div className="relative rounded-2xl p-4 sm:p-5 bg-gradient-to-b from-amber-700/20 via-slate-900 to-slate-950 border border-amber-600 shadow-lg flex flex-col justify-between">
-                            <div className="absolute -top-3 left-4 px-3 py-0.5 rounded-full bg-amber-600 text-white font-black text-xs shadow-md">
-                                🥉 3위
-                            </div>
-                            <div className="pt-2">
-                                <div className="text-xs text-amber-400 font-bold">크로아</div>
-                                <div className="text-lg sm:text-xl font-black text-white mt-0.5">귤민</div>
-                                <div className="inline-block mt-2 px-2 py-0.5 rounded bg-emerald-400/20 text-emerald-300 text-xs font-black border border-emerald-400/40">
-                                    메르세데스
-                                </div>
-                            </div>
-                            <p className="text-[11px] text-slate-400 mt-3 pt-3 border-t border-slate-800 leading-relaxed">
-                                궁수 직업군 1위. 이슈타르의 링 무빙 딜링과 엘리멘탈 고스트 순간 극딜의 정점
-                            </p>
-                        </div>
-
-                        {/* 4위 */}
-                        <div className="rounded-2xl p-4 sm:p-5 bg-slate-900/80 border border-slate-800 shadow-md flex flex-col justify-between">
-                            <div>
-                                <div className="text-xs font-black text-purple-400">4위</div>
-                                <div className="text-xs text-slate-400 font-bold mt-1">스카니아</div>
-                                <div className="text-lg sm:text-xl font-black text-white mt-0.5">아델</div>
-                                <div className="inline-block mt-2 px-2 py-0.5 rounded bg-purple-400/20 text-purple-300 text-xs font-black border border-purple-400/40">
-                                    아델 (Adele)
-                                </div>
-                            </div>
-                            <p className="text-[11px] text-slate-400 mt-3 pt-3 border-t border-slate-800 leading-relaxed">
-                                전사 계열 최고 순위. 완벽한 밸런스와 오더·인피니트 무적 연계
-                            </p>
-                        </div>
-
-                        {/* 5위 */}
-                        <div className="rounded-2xl p-4 sm:p-5 bg-slate-900/80 border border-slate-800 shadow-md flex flex-col justify-between">
-                            <div>
-                                <div className="text-xs font-black text-rose-400">5위</div>
-                                <div className="text-xs text-slate-400 font-bold mt-1">크로아</div>
-                                <div className="text-lg sm:text-xl font-black text-white mt-0.5">쯔단</div>
-                                <div className="inline-block mt-2 px-2 py-0.5 rounded bg-rose-400/20 text-rose-300 text-xs font-black border border-rose-400/40">
-                                    캐논마스터
-                                </div>
-                            </div>
-                            <p className="text-[11px] text-slate-400 mt-3 pt-3 border-t border-slate-800 leading-relaxed">
-                                해적 1위. 벅 샷과 코코볼의 압도적인 단일 보스 다단히트 위력
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                {/* 2. 직업별 점유율 통계 & 차트 */}
-                <section className="mb-12 sm:mb-16 bg-gradient-to-br from-slate-900 via-indigo-950/30 to-slate-900 rounded-2xl p-5 sm:p-8 border border-indigo-500/30 shadow-xl">
-                    <div className="flex items-center gap-2 mb-2">
-                        <BarChartIcon className="w-6 h-6 text-indigo-400" />
-                        <h2 className="text-xl sm:text-2xl font-black text-white">
-                            📊 벨로나 1인 격파 TOP 50 직업별 점유율
-                        </h2>
-                    </div>
-                    <p className="text-xs sm:text-sm text-slate-400 mb-6">
-                        50인의 최상위 솔로 격파자 중 어떤 직업이 가장 많은 비중을 차지하고 있을까요?
-                    </p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        {JOB_STATISTICS.map((stat, idx) => (
-                            <div key={idx} className="bg-slate-950/80 rounded-xl p-4 border border-slate-800 flex items-start justify-between gap-3">
-                                <div>
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-black text-base text-white">{stat.job}</span>
-                                        <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-xs font-bold border border-indigo-500/30">
-                                            {stat.badge}
-                                        </span>
-                                    </div>
-                                    <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">{stat.desc}</p>
-                                </div>
-                                <div className="text-right shrink-0">
-                                    <div className="text-xl font-black text-indigo-300">{stat.count}명</div>
-                                    <div className="text-[11px] text-slate-500 font-bold">{stat.ratio}</div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* 직업별 분석 포인트 3대 요약 */}
-                    <div className="bg-slate-950/90 rounded-xl p-4 sm:p-5 border border-slate-800 space-y-2 text-xs sm:text-sm text-slate-300">
-                        <div className="flex items-start gap-2">
-                            <span className="text-amber-400 font-bold">1.</span>
-                            <span><strong className="text-amber-300">제논(7명)의 압도적인 독주:</strong> 올스탯 3중 퍼센트 템세팅의 고점과 오버로드 모드 극딜 화력, 사슬 이동 유틸이 결합해 최상위권을 휩쓸었습니다.</span>
-                        </div>
-                        <div className="flex items-start gap-2">
-                            <span className="text-purple-400 font-bold">2.</span>
-                            <span><strong className="text-purple-300">카데나(4명) & 칼리(1위):</strong> 복잡한 연계와 이동기를 보유한 하이엔드 피지컬 직업들이 벨로나의 정밀 회피 패턴에서 진가를 발휘했습니다.</span>
-                        </div>
-                        <div className="flex items-start gap-2">
-                            <span className="text-emerald-400 font-bold">3.</span>
-                            <span><strong className="text-emerald-300">신규 직업 렌(37위 달개화):</strong> 출시된 지 얼마 되지 않은 신규 직업 '렌'이 쟁쟁한 랭커들 사이에서 37위로 1인 격파에 성공하며 저력을 보여주었습니다.</span>
-                        </div>
-                    </div>
-                </section>
-
-                {/* 3. 서버(월드)별 격파자 분포 */}
+                {/* 1. 직업별 겹치는 순서 (점유율 요약) */}
                 <section className="mb-12 sm:mb-16">
                     <div className="flex items-center gap-2 mb-4">
-                        <Users className="w-6 h-6 text-blue-400" />
+                        <BarChart3 className="w-6 h-6 text-indigo-400" />
                         <h2 className="text-xl sm:text-2xl font-black text-white">
-                            🌐 월드(서버)별 격파자 분포 현황
+                            📊 하드 벨로나 퍼클 직업별 점유 순위 (50인 분포)
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-                        {WORLD_STATISTICS.map((w, idx) => (
-                            <div key={idx} className={`bg-gradient-to-br ${w.color} ${w.border} border rounded-xl p-3.5 text-center`}>
-                                <div className="text-xs text-slate-300 font-bold">{w.world}</div>
-                                <div className={`text-2xl font-black ${w.text} my-1`}>{w.count}명</div>
-                                <div className="text-[10px] text-slate-400 font-medium">점유율 {w.ratio}</div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 mb-6">
+                        {GROUP_SUMMARY.map((g, idx) => (
+                            <div key={idx} className={`p-4 rounded-xl border ${g.color} shadow-lg flex flex-col justify-between`}>
+                                <div>
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span className="font-black text-sm">{g.rankBadge}</span>
+                                        <span className="text-xs font-bold px-2 py-0.5 rounded bg-black/40">
+                                            총 {g.count}명 ({((g.count / 50) * 100).toFixed(0)}%)
+                                        </span>
+                                    </div>
+                                    <div className="flex flex-wrap gap-1.5 mt-2">
+                                        {g.jobs.map((j, i) => (
+                                            <span key={i} className="px-2 py-1 rounded bg-black/30 text-xs font-extrabold text-white border border-white/10">
+                                                {j}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         ))}
+                    </div>
+                </section>
+
+                {/* 2. 환산 순위를 뒤집은 피지컬 & 직업 성능 하이라이트 */}
+                <section className="mb-12 sm:mb-16 bg-gradient-to-br from-indigo-950/40 via-purple-950/30 to-slate-950 p-5 sm:p-8 rounded-2xl border border-indigo-500/40 shadow-xl">
+                    <div className="flex items-center gap-2 mb-3">
+                        <Zap className="w-6 h-6 text-amber-400" />
+                        <h2 className="text-xl sm:text-2xl font-black text-white">
+                            ⚡ 환산 순위 vs 격파 순위 대역전 TOP 5
+                        </h2>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-400 mb-6 leading-relaxed">
+                        스펙(환산 주스탯) 순위가 100~200위권 밖임에도 불구하고, <strong>직업의 생존·유틸 성능과 경이로운 솔플 피지컬</strong>로
+                        퍼클 50인 안에 입성한 레전드 플레이어들입니다.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                        <div className="bg-slate-900/90 p-4 rounded-xl border border-rose-500/40">
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs font-black text-rose-400">🔥 최대 역전 1위 (+181계단)</span>
+                                <span className="text-xs text-slate-400">에오스 제논</span>
+                            </div>
+                            <div className="text-lg font-black text-white mt-1">박준호 (제논 12등)</div>
+                            <div className="mt-2 text-xs text-slate-300 font-bold bg-rose-950/60 p-2 rounded border border-rose-500/30">
+                                환산 <span className="text-rose-400 font-black">227등</span> ➔ 격파 <span className="text-emerald-400 font-black">46등</span> 달성!
+                            </div>
+                        </div>
+
+                        <div className="bg-slate-900/90 p-4 rounded-xl border border-amber-500/40">
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs font-black text-amber-400">⚡ 역전 2위 (+123계단)</span>
+                                <span className="text-xs text-slate-400">스카니아 제논</span>
+                            </div>
+                            <div className="text-lg font-black text-white mt-1">수다 (제논 10등)</div>
+                            <div className="mt-2 text-xs text-slate-300 font-bold bg-amber-950/60 p-2 rounded border border-amber-500/30">
+                                환산 <span className="text-amber-400 font-black">157등</span> ➔ 격파 <span className="text-emerald-400 font-black">34등</span> 달성!
+                            </div>
+                        </div>
+
+                        <div className="bg-slate-900/90 p-4 rounded-xl border border-purple-500/40">
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs font-black text-purple-400">⚡ 역전 3위 (+101계단)</span>
+                                <span className="text-xs text-slate-400">스카니아 제로</span>
+                            </div>
+                            <div className="text-lg font-black text-white mt-1">르헤솔 (제로 3등)</div>
+                            <div className="mt-2 text-xs text-slate-300 font-bold bg-purple-950/60 p-2 rounded border border-purple-500/30">
+                                환산 <span className="text-purple-400 font-black">144등</span> ➔ 격파 <span className="text-emerald-400 font-black">43등</span> 달성!
+                            </div>
+                        </div>
+
+                        <div className="bg-slate-900/90 p-4 rounded-xl border border-blue-500/40">
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs font-black text-blue-400">⚡ 역전 4위 (+82계단)</span>
+                                <span className="text-xs text-slate-400">스카니아 제논</span>
+                            </div>
+                            <div className="text-lg font-black text-white mt-1">후닝 (제논 5등)</div>
+                            <div className="mt-2 text-xs text-slate-300 font-bold bg-blue-950/60 p-2 rounded border border-blue-500/30">
+                                환산 <span className="text-blue-400 font-black">102등</span> ➔ 격파 <span className="text-emerald-400 font-black">20등</span> 달성!
+                            </div>
+                        </div>
+
+                        <div className="bg-slate-900/90 p-4 rounded-xl border border-emerald-500/40">
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs font-black text-emerald-400">⚡ 역전 5위 (+80계단)</span>
+                                <span className="text-xs text-slate-400">엘리시움 카데나</span>
+                            </div>
+                            <div className="text-lg font-black text-white mt-1">가을 (카데나 5등)</div>
+                            <div className="mt-2 text-xs text-slate-300 font-bold bg-emerald-950/60 p-2 rounded border border-emerald-500/30">
+                                환산 <span className="text-emerald-400 font-black">108등</span> ➔ 격파 <span className="text-emerald-400 font-black">28등</span> 달성!
+                            </div>
+                        </div>
+
+                        <div className="bg-slate-900/90 p-4 rounded-xl border border-amber-400/50">
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs font-black text-amber-300">👑 완벽한 1위 (스펙 1위 = 격파 1위)</span>
+                                <span className="text-xs text-slate-400">스카니아 칼리</span>
+                            </div>
+                            <div className="text-lg font-black text-white mt-1">강은호 (칼리 1등)</div>
+                            <div className="mt-2 text-xs text-slate-300 font-bold bg-amber-950/60 p-2 rounded border border-amber-500/30">
+                                환산 <span className="text-amber-400 font-black">1등</span> ➔ 격파 <span className="text-amber-400 font-black">1등</span> 완벽 증명!
+                            </div>
+                        </div>
                     </div>
                 </section>
 
                 <InArticleAd dataAdSlot="6849727140" className="my-10" />
 
-                {/* 4. 인게임 공식 랭킹 스크린샷 갤러리 */}
+                {/* 3. 인게임 랭킹 스크린샷 5분할 갤러리 */}
                 <section className="mb-12 sm:mb-16">
                     <div className="flex items-center justify-between gap-2 mb-6">
                         <div>
                             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-                                📸 인게임 공식 랭킹 캡처 (1위 ~ 50위)
+                                📸 인게임 공식 랭킹 스크린샷 (1위 ~ 50위)
                             </h2>
                             <p className="text-xs sm:text-sm text-slate-400 mt-1">
-                                메이플스토리 인게임 보스 클리어 이벤트 UI 10위 단위 스크린샷
+                                메이플스토리 인게임 보스 클리어 이벤트 1인 파티 공식 UI
                             </p>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {/* 1~10위 */}
                         <div className="bg-slate-900/90 border border-amber-500/40 rounded-xl overflow-hidden shadow-lg">
                             <div className="bg-amber-500/20 px-3.5 py-2 border-b border-amber-500/30 flex items-center justify-between">
-                                <span className="text-xs font-black text-amber-300">TOP 1 ~ 10위 (최상위권)</span>
-                                <span className="text-[10px] text-amber-400 font-bold">1위 강은호</span>
+                                <span className="text-xs font-black text-amber-300">1 ~ 10위 (강은호 ~ 나워)</span>
+                                <span className="text-[10px] text-amber-400 font-bold">1위 칼리 강은호</span>
                             </div>
                             <div className="relative w-full aspect-[4/3]">
-                                <Image
-                                    src="/images/blog/bellona/bellona-rank-1-10.png"
-                                    alt="벨로나 1인 격파 랭킹 1위~10위 스크린샷"
-                                    fill
-                                    className="object-contain p-2"
-                                />
+                                <Image src="/images/blog/bellona/bellona-rank-1-10.png" alt="1~10위 스크린샷" fill className="object-contain p-2" />
                             </div>
                         </div>
 
-                        {/* 11~20위 */}
                         <div className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
                             <div className="bg-slate-800/60 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
-                                <span className="text-xs font-black text-slate-200">TOP 11 ~ 20위</span>
-                                <span className="text-[10px] text-slate-400">11위 물주 ~ 20위 후닝</span>
+                                <span className="text-xs font-black text-slate-200">11 ~ 20위 (물주 ~ 후닝)</span>
+                                <span className="text-[10px] text-slate-400">카데나/불독/비숍/카이저</span>
                             </div>
                             <div className="relative w-full aspect-[4/3]">
-                                <Image
-                                    src="/images/blog/bellona/bellona-rank-11-20.png"
-                                    alt="벨로나 1인 격파 랭킹 11위~20위 스크린샷"
-                                    fill
-                                    className="object-contain p-2"
-                                />
+                                <Image src="/images/blog/bellona/bellona-rank-11-20.png" alt="11~20위 스크린샷" fill className="object-contain p-2" />
                             </div>
                         </div>
 
-                        {/* 21~30위 */}
                         <div className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
                             <div className="bg-slate-800/60 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
-                                <span className="text-xs font-black text-slate-200">TOP 21 ~ 30위</span>
-                                <span className="text-[10px] text-slate-400">21위 남색 ~ 30위 레망</span>
+                                <span className="text-xs font-black text-slate-200">21 ~ 30위 (남색 ~ 레망)</span>
+                                <span className="text-[10px] text-slate-400">카데나 3명/라라/제로/듀블</span>
                             </div>
                             <div className="relative w-full aspect-[4/3]">
-                                <Image
-                                    src="/images/blog/bellona/bellona-rank-21-30.png"
-                                    alt="벨로나 1인 격파 랭킹 21위~30위 스크린샷"
-                                    fill
-                                    className="object-contain p-2"
-                                />
+                                <Image src="/images/blog/bellona/bellona-rank-21-30.png" alt="21~30위 스크린샷" fill className="object-contain p-2" />
                             </div>
                         </div>
 
-                        {/* 31~40위 */}
                         <div className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
                             <div className="bg-slate-800/60 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
-                                <span className="text-xs font-black text-slate-200">TOP 31 ~ 40위</span>
+                                <span className="text-xs font-black text-slate-200">31 ~ 40위 (완시 ~ 비숍)</span>
                                 <span className="text-[10px] text-slate-400">37위 신직업 렌(달개화)</span>
                             </div>
                             <div className="relative w-full aspect-[4/3]">
-                                <Image
-                                    src="/images/blog/bellona/bellona-rank-31-40.png"
-                                    alt="벨로나 1인 격파 랭킹 31위~40위 스크린샷"
-                                    fill
-                                    className="object-contain p-2"
-                                />
+                                <Image src="/images/blog/bellona/bellona-rank-31-40.png" alt="31~40위 스크린샷" fill className="object-contain p-2" />
                             </div>
                         </div>
 
-                        {/* 41~50위 */}
                         <div className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
                             <div className="bg-slate-800/60 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
-                                <span className="text-xs font-black text-slate-200">TOP 41 ~ 50위</span>
-                                <span className="text-[10px] text-slate-400">41위 오션 ~ 50위 구구단</span>
+                                <span className="text-xs font-black text-slate-200">41 ~ 50위 (오션 ~ 구구단)</span>
+                                <span className="text-[10px] text-slate-400">46위 박준호(환산 227등)</span>
                             </div>
                             <div className="relative w-full aspect-[4/3]">
-                                <Image
-                                    src="/images/blog/bellona/bellona-rank-41-50.png"
-                                    alt="벨로나 1인 격파 랭킹 41위~50위 스크린샷"
-                                    fill
-                                    className="object-contain p-2"
-                                />
+                                <Image src="/images/blog/bellona/bellona-rank-41-50.png" alt="41~50위 스크린샷" fill className="object-contain p-2" />
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* 5. TOP 50 전체 상세 데이터 테이블 */}
+                {/* 4. TOP 50 전수조사 데이터 테이블 [직업 / 직업순위 / 환산순위] */}
                 <section className="mb-12 sm:mb-16">
                     <div className="flex items-center gap-2 mb-4">
                         <Award className="w-6 h-6 text-purple-400" />
                         <h2 className="text-xl sm:text-2xl font-black text-white">
-                            📜 벨로나 1인 격파 TOP 50 전체 랭킹 명단
+                            📜 하드 벨로나 퍼클 50인 [직업 / 직업순위 / 환산순위] 전체 데이터
                         </h2>
                     </div>
 
@@ -452,15 +378,16 @@ export default function BellonaClearRankingPage() {
                         <table className="w-full text-left text-xs sm:text-sm">
                             <thead className="bg-slate-900 text-slate-300 font-bold border-b border-slate-800">
                                 <tr>
-                                    <th className="py-3 px-3.5 sm:px-4 text-center w-16">순위</th>
-                                    <th className="py-3 px-3.5 sm:px-4">닉네임</th>
-                                    <th className="py-3 px-3.5 sm:px-4">월드</th>
-                                    <th className="py-3 px-3.5 sm:px-4">직업</th>
-                                    <th className="py-3 px-3.5 sm:px-4 hidden sm:table-cell">비고 / 특징</th>
+                                    <th className="py-3 px-3 sm:px-4 text-center w-14">순위</th>
+                                    <th className="py-3 px-3 sm:px-4">닉네임 (월드)</th>
+                                    <th className="py-3 px-3 sm:px-4">직업</th>
+                                    <th className="py-3 px-3 sm:px-4 text-center">직업 내 순위</th>
+                                    <th className="py-3 px-3 sm:px-4 text-center">전체 환산 순위</th>
+                                    <th className="py-3 px-3 sm:px-4 hidden md:table-cell">특징 / 비고</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-850">
-                                {TOP_50_RANKINGS.map((row) => (
+                                {DETAILED_TOP_50.map((row) => (
                                     <tr
                                         key={row.rank}
                                         className={`hover:bg-slate-800/40 transition-colors ${
@@ -471,7 +398,7 @@ export default function BellonaClearRankingPage() {
                                                 : ''
                                         }`}
                                     >
-                                        <td className="py-2.5 px-3.5 sm:px-4 text-center">
+                                        <td className="py-2.5 px-3 sm:px-4 text-center">
                                             {row.rank === 1 ? (
                                                 <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-400 text-slate-950 font-black text-xs">
                                                     1
@@ -485,27 +412,38 @@ export default function BellonaClearRankingPage() {
                                                     3
                                                 </span>
                                             ) : (
-                                                <span className="text-slate-400 font-semibold">{row.rank}</span>
+                                                <span className="text-slate-400 font-semibold">{row.rank}등</span>
                                             )}
                                         </td>
-                                        <td className="py-2.5 px-3.5 sm:px-4 font-bold text-white">
-                                            {row.name}
+                                        <td className="py-2.5 px-3 sm:px-4 font-bold text-white">
+                                            <span>{row.name}</span>
+                                            <span className="text-slate-400 text-xs font-normal ml-1.5">({row.world})</span>
                                         </td>
-                                        <td className="py-2.5 px-3.5 sm:px-4 text-slate-300">
-                                            {row.world}
-                                        </td>
-                                        <td className="py-2.5 px-3.5 sm:px-4">
-                                            <span className={`inline-block px-2 py-0.5 rounded text-xs font-semibold ${
+                                        <td className="py-2.5 px-3 sm:px-4">
+                                            <span className={`inline-block px-2 py-0.5 rounded text-xs font-bold ${
                                                 row.job === '칼리' ? 'bg-amber-400/20 text-amber-300 border border-amber-400/30' :
                                                 row.job === '제논' ? 'bg-blue-400/20 text-blue-300 border border-blue-400/30' :
                                                 row.job === '아델' ? 'bg-purple-400/20 text-purple-300 border border-purple-400/30' :
                                                 row.job === '카데나' ? 'bg-rose-400/20 text-rose-300 border border-rose-400/30' :
+                                                row.job === '렌' ? 'bg-emerald-400/20 text-emerald-300 border border-emerald-400/30' :
                                                 'bg-slate-800 text-slate-300'
                                             }`}>
                                                 {row.job}
                                             </span>
                                         </td>
-                                        <td className="py-2.5 px-3.5 sm:px-4 text-slate-400 text-xs hidden sm:table-cell">
+                                        <td className="py-2.5 px-3 sm:px-4 text-center font-semibold text-slate-300">
+                                            {row.jobRank}
+                                        </td>
+                                        <td className="py-2.5 px-3 sm:px-4 text-center">
+                                            <span className={`font-black ${
+                                                row.specRank <= 5 ? 'text-amber-400' :
+                                                row.specRank <= 20 ? 'text-emerald-400' :
+                                                row.specRank >= 100 ? 'text-rose-400' : 'text-blue-400'
+                                            }`}>
+                                                {row.specRank}등
+                                            </span>
+                                        </td>
+                                        <td className="py-2.5 px-3 sm:px-4 text-slate-400 text-xs hidden md:table-cell">
                                             {row.note || '-'}
                                         </td>
                                     </tr>
@@ -515,40 +453,35 @@ export default function BellonaClearRankingPage() {
                     </div>
                 </section>
 
-                {/* 6. 벨로나 솔로 격파 핵심 메타 & 전략 분석 */}
-                <section className="mb-12 sm:mb-16 bg-gradient-to-br from-slate-900 to-slate-950 rounded-2xl p-5 sm:p-8 border border-slate-800 shadow-xl">
-                    <h2 className="text-xl sm:text-2xl font-black text-white mb-4 flex items-center gap-2">
-                        <Zap className="w-6 h-6 text-yellow-400" />
-                        🎯 벨로나 솔로 격파를 위한 핵심 메타 분석
-                    </h2>
+                {/* 5. 퍼클에 없는 직업군 (0명) 목록 */}
+                <section className="mb-12 sm:mb-16 bg-gradient-to-br from-rose-950/30 via-slate-900 to-slate-950 p-5 sm:p-8 rounded-2xl border border-rose-500/30 shadow-xl">
+                    <div className="flex items-center gap-2 mb-3">
+                        <AlertTriangle className="w-6 h-6 text-rose-400" />
+                        <h2 className="text-xl sm:text-2xl font-black text-white">
+                            🚫 하드 벨로나 퍼클 50인에 없는 직업군 (0명)
+                        </h2>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-400 mb-6">
+                        최상위 50위권 격파자 명단에 단 한 명도 이름을 올리지 못한 직업군 목록입니다.
+                        (솔로 생존 유틸 부재, 딜 압축 부족 또는 최상위 랭커 템세팅 미완성 등의 요인)
+                    </p>
 
-                    <div className="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                        <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                            <h3 className="font-bold text-base text-rose-400 mb-2">1. 즉사기 회피와 '짧은 쿨 무적기/이동기'의 중요성</h3>
-                            <p>
-                                벨로나는 그란디스 최상위 보스답게 전방위 마력 파동과 즉사급 장판 패턴을 쉴 새 없이 시전합니다.
-                                1인 파티에서는 어그로 분산이 불가능하므로 <strong>칼리, 제논, 카데나, 듀블, 팬텀</strong>처럼
-                                짧은 쿨타임의 무적기나 자유로운 공중 체공·캔슬 이동기를 가진 직업들이 월등히 높은 생존율과 딜 효율을 보였습니다.
-                            </p>
-                        </div>
-
-                        <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                            <h3 className="font-bold text-base text-blue-400 mb-2">2. 6차 헥사 스킬과 단일 극딜 압축</h3>
-                            <p>
-                                벨로나의 그로기(바인드) 타임은 매우 짧기 때문에 10~15초 이내에 6차 오리진 스킬과 주요 극딜기를
-                                압축하여 쏟아붓는 능력이 필수적입니다. 제논의 오버로드 모드 + 메가 스매셔 연계나 칼리의 헥사 차크람 폭딜이
-                                타임어택 상위권을 석권한 이유입니다.
-                            </p>
-                        </div>
-
-                        <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                            <h3 className="font-bold text-base text-amber-400 mb-2">3. 9월 16일 이벤트 마감 전까지의 랭킹 전망</h3>
-                            <p>
-                                벨로나 격파 이벤트는 <strong>2026년 9월 16일 오후 11시 59분까지</strong> 계속됩니다.
-                                썬데이 메이플 및 샤이닝 스타포스 이벤트를 거치며 유저들의 템세팅(에테르넬 및 22성 둘둘)이 완성됨에 따라
-                                마감 직전까지 치열한 타임어택 순위 갱신이 이어질 것으로 전망됩니다.
-                            </p>
-                        </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                        {MISSING_JOBS.map((cat, idx) => (
+                            <div key={idx} className="bg-slate-950/80 p-4 rounded-xl border border-slate-800 flex flex-col justify-between">
+                                <div className="text-xs font-black text-rose-400 mb-2 border-b border-slate-800 pb-1.5 flex items-center justify-between">
+                                    <span>{cat.category}</span>
+                                    <span className="text-[10px] text-slate-500">{cat.jobs.length}개 직업</span>
+                                </div>
+                                <div className="flex flex-wrap gap-1.5">
+                                    {cat.jobs.map((j, i) => (
+                                        <span key={i} className="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-xs border border-slate-800">
+                                            {j}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </section>
 
@@ -574,15 +507,5 @@ export default function BellonaClearRankingPage() {
                 </footer>
             </article>
         </div>
-    );
-}
-
-function BarChartIcon(props: any) {
-    return (
-        <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" x2="12" y1="20" y2="10"/>
-            <line x1="18" x2="18" y1="20" y2="4"/>
-            <line x1="6" x2="6" y1="20" y2="16"/>
-        </svg>
     );
 }
