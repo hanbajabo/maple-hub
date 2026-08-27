@@ -62,7 +62,7 @@ const DETAILED_TOP_50 = [
     { rank: 34, name: '수다', world: '스카니아', job: '제논', jobRank: '제논 10등', specRank: 157, highlight: true, note: '⚡ 환산 157등 ➔ 격파 34등!' },
     { rank: 35, name: '응급', world: '엘리시움', job: '아크메이지(썬,콜)', jobRank: '썬콜 3등', specRank: 74, highlight: false, note: '썬콜 1위' },
     { rank: 36, name: '발톱', world: '에오스', job: '데몬어벤져', jobRank: '데벤 1등', specRank: 31, highlight: false, note: '데벤 1위' },
-    { rank: 37, name: '달개화', world: '루나', job: '렌', jobRank: '렌 1등', specRank: 44, highlight: true, note: '✨ 신규 직업 렌 퍼클 달성!' },
+    { rank: 37, name: '달개화', world: '루나', job: '렌', jobRank: '렌 1등', specRank: 44, highlight: true, note: '렌 1위 퍼클 달성' },
     { rank: 38, name: '천원', world: '크로아', job: '데몬어벤져', jobRank: '데벤 3등', specRank: 55, highlight: false },
     { rank: 39, name: '박준형', world: '스카니아', job: '아델', jobRank: '아델 5등', specRank: 59, highlight: false },
     { rank: 40, name: '비숍', world: '스카니아', job: '비숍', jobRank: '비숍 2등', specRank: 8, highlight: false },
@@ -307,7 +307,7 @@ export default function BellonaClearRankingPage() {
                         <div className="bg-slate-900 border border-slate-700 rounded-xl overflow-hidden shadow-xl">
                             <div className="bg-slate-800 px-3.5 py-2 border-b border-slate-700 flex items-center justify-between">
                                 <span className="text-xs font-black text-white">31 ~ 40위 (완시 ~ 비숍)</span>
-                                <span className="text-[10px] text-emerald-300 font-black">37위 신직업 렌(달개화)</span>
+                                <span className="text-[10px] text-emerald-300 font-black">37위 렌(달개화)</span>
                             </div>
                             <div className="relative w-full aspect-[4/3] bg-slate-950">
                                 <Image src="/images/blog/bellona/bellona-rank-31-40.png" alt="31~40위 스크린샷" fill className="object-contain p-2" />
