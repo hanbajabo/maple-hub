@@ -171,7 +171,7 @@ export default function BellonaClearRankingPage() {
                                 <h3 className="font-black text-base sm:text-lg text-white">하드 벨로나 격파 이벤트 (BOSS CLEAR EVENT)</h3>
                             </div>
                             <p className="text-xs sm:text-sm text-slate-400">
-                                📅 <strong>이벤트 종료일:</strong> <span className="text-rose-400 font-bold">2026년 9월 16일 (수) 오후 11시 59분까지</span>
+                                📅 <strong>이벤트 시작일:</strong> <span className="text-rose-400 font-bold">2026년 9월 16일 (수) 오후 7시</span>
                             </p>
                         </div>
                         <div className="px-4 py-2 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-extrabold shrink-0">
