@@ -14,11 +14,11 @@ export const blogPosts: BlogPost[] = [
     // 8월 27일 벨로나 1인 격파 이벤트 랭킹 분석
     {
         slug: 'bellona-solo-clear-ranking-analysis',
-        title: '⚔️ 벨로나 1인 격파 이벤트 랭킹 TOP 50 완벽 분석 — 1위 칼리 강은호·제논 독주와 솔플 티어 통계',
-        description: '2026년 9월 16일까지 진행되는 신규 최상위 보스 벨로나 1인 파티 격파 이벤트! 1위 강은호(칼리), 2위 제논은T, 3위 귤민 등 TOP 50 랭커들의 직업·서버별 분포 통계와 솔로 격파 핵심 메타 완벽 분석.',
+        title: '⚔️ 하드 벨로나 1인 격파 TOP 50 랭킹 분석',
+        description: '2026년 9월 16일까지 진행되는 신규 최상위 보스 하드 벨로나 1인 격파 TOP 50 랭커들의 직업·환산 순위 전수조사와 0명 직업군 완벽 분석.',
         category: '이벤트 가이드',
         date: '2026년 8월 27일',
-        readTime: '6분',
+        readTime: '5분',
         thumbnail: '⚔️',
         featured: true,
     },

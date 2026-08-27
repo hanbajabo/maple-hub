@@ -8,10 +8,10 @@ import {
 import { AdBanner, InArticleAd } from '@/components/AdSense';
 
 export const metadata: Metadata = {
-    title: '⚔️ 하드 벨로나 1인 격파(퍼클) TOP 50 완벽 분석 — 직업·직업순위·환산순위·미격파 직업 총정리 | 메이플AI',
-    description: '2026년 9월 16일까지 진행되는 신규 최상위 보스 벨로나 1인 격파 이벤트 TOP 50 랭커들의 직업·직업순위·환산순위 전수조사! 제논 7명 독주, 환산 순위를 뒤집은 피지컬 직업, 퍼클 0명 직업군 완벽 분석.',
+    title: '⚔️ 하드 벨로나 1인 격파 TOP 50 랭킹 분석 | 메이플AI',
+    description: '신규 최상위 보스 하드 벨로나 1인 격파 이벤트 TOP 50 랭커들의 직업·직업순위·환산순위 전수조사 및 0명 직업군 완벽 분석.',
     openGraph: {
-        title: '⚔️ 하드 벨로나 1인 격파(퍼클) TOP 50 완벽 분석 — 메이플AI',
+        title: '⚔️ 하드 벨로나 1인 격파 TOP 50 랭킹 분석 — 메이플AI',
         description: '하드 벨로나 1인 파티 퍼클 TOP 50 [직업 / 직업순위 / 환산순위] 및 0명 직업군 총정리.',
         images: [
             {
@@ -139,13 +139,12 @@ export default function BellonaClearRankingPage() {
                         </span>
                     </div>
 
-                    <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-4">
-                        ⚔️ 하드 벨로나 1인 격파(퍼클) TOP 50 완벽 분석
-                        <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-purple-400 to-amber-300">
-                            직업 · 직업순위 · 환산순위 & 0명 직업군 총정리
-                        </span>
+                    <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-3">
+                        ⚔️ 하드 벨로나 1인 격파 TOP 50 랭킹 분석
                     </h1>
+                    <p className="text-sm sm:text-base text-rose-400 font-bold mb-4">
+                        직업별 점유 순위 · 환산 순위 대역전 · 0명 직업군 총정리
+                    </p>
 
                     <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-4xl">
                         2026년 9월 16일까지 진행되는 신규 최상위 보스 <strong className="text-rose-400">하드 벨로나 1인 파티 격파 이벤트</strong>!
