@@ -114,7 +114,7 @@ export default function ItemPriceTrackerPage() {
                                     <Star className="w-3.5 h-3.5 text-purple-400" />
                                     <p className="text-[10px] sm:text-xs">갱신 주기</p>
                                 </div>
-                                <p className="text-xs sm:text-base font-black text-purple-400 truncate">매일 10시</p>
+                                <p className="text-xs sm:text-base font-black text-purple-400 truncate">매일 11시</p>
                             </div>
                         </div>
 
