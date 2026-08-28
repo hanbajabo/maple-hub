@@ -2,9 +2,13 @@ name: Daily Item Price Sync
 
 on:
   schedule:
-    # 매일 한국 시간 오전 11:00 (UTC 02:00) 실행
+    # 매일 한국 시간 오전 11:00 (UTC 02:00)
     - cron: '0 2 * * *'
-    # 저녁 보조 동기화: 매일 한국 시간 오후 11:00 (UTC 14:00) 실행
+    # 매일 한국 시간 오후 02:00 (UTC 05:00) - 점심 보조
+    - cron: '0 5 * * *'
+    # 매일 한국 시간 오후 06:00 (UTC 09:00) - 저녁 보조
+    - cron: '0 9 * * *'
+    # 매일 한국 시간 오후 11:00 (UTC 14:00) - 심야 최종
     - cron: '0 14 * * *'
   workflow_dispatch: # GitHub 웹 UI에서 수동으로 'Run workflow' 버튼 클릭 가능
 
