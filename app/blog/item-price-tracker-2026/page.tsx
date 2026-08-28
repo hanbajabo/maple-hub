@@ -114,10 +114,7 @@ export default function ItemPriceTrackerPage() {
                                     <Star className="w-3.5 h-3.5 text-purple-400" />
                                     <p className="text-[10px] sm:text-xs">갱신 주기</p>
                                 </div>
-                                <div>
-                                    <p className="text-xs sm:text-base font-black text-purple-400">매일 데이터수집</p>
-                                    <p className="text-[9px] sm:text-[11px] text-purple-300/80 font-bold mt-0.5">11시 · 14시 · 18시 · 23시</p>
-                                </div>
+                                <p className="text-xs sm:text-base font-black text-purple-400 truncate">매일 데이터 수집중</p>
                             </div>
                         </div>
 
