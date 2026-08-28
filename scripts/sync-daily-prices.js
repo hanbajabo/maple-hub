@@ -140,6 +140,10 @@ const ethernelMap = {
 function toEok(price) {
     if (!price || isNaN(price)) return null;
     const eok = price / 100000000;
+    // 1억 미만 아이템(솔 에르다 조각 등)은 만 단위 정밀도를 위해 소수점 4자리 유지 (예: 6,730,000 -> 0.0673)
+    if (price < 100000000) {
+        return parseFloat(eok.toFixed(4));
+    }
     return parseFloat(eok.toFixed(2));
 }
 

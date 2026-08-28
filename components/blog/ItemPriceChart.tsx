@@ -355,7 +355,11 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                 <YAxis
                                     tick={{ fill: '#94a3b8', fontSize: 10 }}
                                     stroke="#475569"
-                                    tickFormatter={(value) => `${value}억`}
+                                    tickFormatter={(value) => {
+                                        const num = Number(value);
+                                        if (num < 1 && num > 0) return `${Math.round(num * 10000)}만`;
+                                        return `${value}억`;
+                                    }}
                                     domain={['auto', 'auto']}
                                 />
                                 <Tooltip
@@ -371,7 +375,7 @@ export default function ItemPriceChart({ data }: ItemPriceChartProps) {
                                     formatter={(value: any) => {
                                         const num = Number(value);
                                         if (num < 1 && num > 0) {
-                                            return [`${Math.round(num * 10000).toLocaleString()}만 (${num}억)`, ''];
+                                            return [`${Math.round(num * 10000).toLocaleString()}만 메소`, ''];
                                         }
                                         return [`${value}억`, ''];
                                     }}
