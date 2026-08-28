@@ -120,17 +120,23 @@ export default function ItemPriceTrackerPage() {
 
                         <div className="bg-slate-900/80 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-slate-800">
                             <p className="font-bold text-white text-xs sm:text-sm mb-2">📊 추적 품목 요약</p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-300">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-slate-300">
                                 <div>
-                                    <p className="text-blue-400 font-bold mb-1">🔥 주요 보스 장신구 & 시드링</p>
+                                    <p className="text-blue-400 font-bold mb-1">🔥 칠흑 & 광휘 & 보장</p>
                                     <p className="text-[11px] text-slate-400 leading-relaxed">
-                                        거공, 고근, 커포, 루컨마, 마깃안, 몽벨, 창뱃, 언더컨트롤, 리4, 컨4, 자석펫, 굶주리는 핏빛 원혼 등
+                                        거공, 고근, 커포, 루컨마, 마깃안, 몽벨, 창뱃, 언더컨트롤, 굶혈, 근원, 데브팬, 도미 등
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-purple-400 font-bold mb-1">⚔️ 에테르넬 35종 (7부위 × 5직업)</p>
+                                    <p className="text-purple-400 font-bold mb-1">⚔️ 에테르넬 35종</p>
                                     <p className="text-[11px] text-slate-400 leading-relaxed">
-                                        모자, 상의, 하의, 견장, 신발, 장갑, 망토 (전사/마법사/궁수/도적/해적)
+                                        모자, 상의, 하의, 견장, 신발, 장갑, 망토 (전/마/궁/도/해 5직업군)
+                                    </p>
+                                </div>
+                                <div>
+                                    <p className="text-amber-400 font-bold mb-1">🧪 소비/재료 & 시드링</p>
+                                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                                        솔 에르다 조각, 생명의 연마석, 신념의 연마석, 리4, 컨4, 자석펫, 익셉 해머
                                     </p>
                                 </div>
                             </div>

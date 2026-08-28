@@ -91,6 +91,8 @@ export function getPriceData(): PriceData[] {
                             '익셉 - 얼장': '익셉셔널 얼장',
                             '익셉 - 눈장': '익셉셔널 눈장',
                             '익셉 - 훈장': '익셉셔널 훈장',
+                            '에리온의 조각': '솔 에르다 조각',
+                            '솔 에르다 조각': '솔 에르다 조각',
                         };
 
                         if (nameAliases[itemName]) {
