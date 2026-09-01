@@ -331,5 +331,5 @@ export function getLatestPrice(itemName: string, slot?: string, jobName?: string
         return 2_000_000;
     }
 
-    return 10_000_000; // 기본 1,000만 메소
+    return 0; // 시세표에 없는 아이템은 0원으로 기본 처리
 }
