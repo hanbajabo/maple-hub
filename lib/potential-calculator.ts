@@ -363,14 +363,16 @@ export function calculateExactPotentialExpectation(
         }
     }
 
-    const expectedAttempts = totalProb > 0 ? Math.round(1 / totalProb) : 0;
+    const exactAttempts = totalProb > 0 ? (1 / totalProb) : 0;
+    const roundedAttempts = Math.round(exactAttempts * 100) / 100; // mesu.live는 소수점 둘째자리까지 반올림함
+    const expectedAttempts = Math.round(exactAttempts);
     const gradeKor = grade === 'LEGENDARY' ? '레전드리' : grade === 'UNIQUE' ? '유니크' : grade === 'EPIC' ? '에픽' : '레어';
     
     const costOnce = method === 'POTENTIAL'
         ? getPotentialResetCost(matchedLevel, gradeKor)
         : getAdditionalPotentialResetCost(matchedLevel, gradeKor);
 
-    const totalCostMeso = expectedAttempts * costOnce;
+    const totalCostMeso = Math.round(roundedAttempts * costOnce);
 
     return {
         probability: totalProb,
