@@ -29,6 +29,7 @@ import MapleStoryTrivia from "../components/MapleStoryTrivia";
 import CombatPowerRank, { TIERS } from "../components/CombatPowerRank";
 import WeaponDiagnosisModal from "../components/WeaponDiagnosisModal";
 import EquipmentOverviewModal from "../components/EquipmentOverviewModal";
+import TotalDiagnosisModal from "../components/TotalDiagnosisModal";
 import MainEquipmentGrid from "../components/MainEquipmentGrid";
 import PatchNotesModal from "../components/PatchNotesModal";
 
@@ -170,6 +171,7 @@ export default function Home() {
   const [linkSkillData, setLinkSkillData] = useState<any>(null);
   const [unionRaiderData, setUnionRaiderData] = useState<any>(null);
   const [isOverviewOpen, setIsOverviewOpen] = useState(false);
+  const [isTotalDiagnosisOpen, setIsTotalDiagnosisOpen] = useState(false);
   const [isPatchNotesOpen, setIsPatchNotesOpen] = useState(false);
 
   const [refreshKey, setRefreshKey] = useState(0);
@@ -1367,6 +1369,7 @@ export default function Home() {
                   equipmentGrid={equipmentGrid}
                   setSelectedWeapon={setSelectedWeapon}
                   setIsOverviewOpen={setIsOverviewOpen}
+                  setIsTotalDiagnosisOpen={setIsTotalDiagnosisOpen}
                   itemGrades={diagnosisReport?.itemGrades}
                 />
               )}
@@ -2039,6 +2042,13 @@ export default function Home() {
         onClose={() => setIsOverviewOpen(false)}
         equipmentGrid={equipmentGrid}
         setSelectedWeapon={setSelectedWeapon}
+      />
+
+      <TotalDiagnosisModal
+        isOpen={isTotalDiagnosisOpen}
+        onClose={() => setIsTotalDiagnosisOpen(false)}
+        equipmentGrid={equipmentGrid}
+        characterClass={character?.character_class || ""}
       />
 
       <PatchNotesModal

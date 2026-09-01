@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search } from 'lucide-react';
+import { Search, Calculator } from 'lucide-react';
 import { ItemData } from '../app/page';
 import { DiagnosisGrade } from '../lib/diagnosis/types';
 import { getWeaponTierLabel, getAddOptions, getEtcOptions, getArmorScoreLabel, getGradeColor } from "../lib/item_utils";
@@ -10,6 +10,7 @@ interface MainEquipmentGridProps {
     equipmentGrid: (ItemData | null)[];
     setSelectedWeapon: (item: ItemData | null) => void;
     setIsOverviewOpen: (isOpen: boolean) => void;
+    setIsTotalDiagnosisOpen: (isOpen: boolean) => void;
     itemGrades?: Record<string, DiagnosisGrade>;
 }
 
@@ -17,6 +18,7 @@ const MainEquipmentGrid: React.FC<MainEquipmentGridProps> = ({
     equipmentGrid,
     setSelectedWeapon,
     setIsOverviewOpen,
+    setIsTotalDiagnosisOpen,
     itemGrades
 }) => {
     // 메이플 잠재능력 색상 체계
@@ -37,13 +39,22 @@ const MainEquipmentGrid: React.FC<MainEquipmentGridProps> = ({
         <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 animate-in fade-in slide-in-from-bottom-6 delay-100">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-bold text-gray-300">착용 장비</h3>
-                <button
-                    onClick={() => setIsOverviewOpen(true)}
-                    className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg transition-colors flex items-center gap-2 border border-slate-700"
-                >
-                    <Search size={14} />
-                    한눈에 보기
-                </button>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => setIsTotalDiagnosisOpen(true)}
+                        className="px-3 py-1.5 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 text-sm rounded-lg transition-colors flex items-center gap-2 border border-yellow-500/30 font-bold"
+                    >
+                        <Calculator size={14} />
+                        총 기댓값 감정
+                    </button>
+                    <button
+                        onClick={() => setIsOverviewOpen(true)}
+                        className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg transition-colors flex items-center gap-2 border border-slate-700"
+                    >
+                        <Search size={14} />
+                        한눈에 보기
+                    </button>
+                </div>
             </div>
             <div className="grid grid-cols-5 gap-2">
                 {equipmentGrid.map((item, index) => {
