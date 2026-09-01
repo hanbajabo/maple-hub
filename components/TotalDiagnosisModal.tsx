@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Swords, X, Calculator, Loader2 } from 'lucide-react';
 import { ItemData } from '../app/page';
 import type { AppraisalResult } from '../lib/item-appraisal';
+import ItemDetailModal from './ItemDetailModal';
 
 interface TotalDiagnosisModalProps {
     isOpen: boolean;
@@ -44,6 +45,7 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
     const [results, setResults] = useState<AppraisalItem[]>([]);
     const [totalCost, setTotalCost] = useState(0);
     const [editingIdx, setEditingIdx] = useState<number | null>(null);
+    const [detailItem, setDetailItem] = useState<ItemData | null>(null);
 
     const handleOverridePrice = async (idx: number, priceStr: string) => {
         let price = parseInt(priceStr);
@@ -195,14 +197,18 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                     {/* Items Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                         {results.map((res, idx) => (
-                            <div key={idx} className="bg-slate-900 border border-slate-800 rounded-lg p-4 flex flex-col gap-3 hover:border-slate-600 transition-colors">
-                                <div className="flex gap-3 items-center border-b border-slate-800 pb-3">
+                            <div 
+                                key={idx} 
+                                className="bg-slate-900 border border-slate-800 rounded-lg p-4 flex flex-col gap-3 hover:border-slate-600 transition-colors cursor-pointer group"
+                                onClick={() => setDetailItem(res.item)}
+                            >
+                                <div className="flex gap-3 items-center border-b border-slate-800 pb-3 group-hover:border-slate-600 transition-colors">
                                     <div className="w-12 h-12 bg-slate-800 rounded-md flex items-center justify-center shrink-0 border border-slate-700">
                                         <img src={res.item.item_icon} alt={res.item.item_name} className="w-8 h-8 object-contain" />
                                     </div>
                                     <div className="flex flex-col flex-1 overflow-hidden">
-                                        <span className="text-xs text-slate-400">{res.item.item_equipment_slot}</span>
-                                        <span className="text-sm font-bold text-white truncate">{res.item.item_name}</span>
+                                        <span className="text-xs text-slate-400 group-hover:text-slate-300 transition-colors">{res.item.item_equipment_slot}</span>
+                                        <span className="text-sm font-bold text-white truncate group-hover:text-maple-orange transition-colors">{res.item.item_name}</span>
                                     </div>
                                     {res.result?.isCalculable && !isNaN(res.result.totalCost) ? (
                                         <div className="text-right">
@@ -219,7 +225,7 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                     <div className="flex justify-between items-center h-6">
                                         <span className="text-slate-500">노작 시세</span>
                                         {(!res.result?.details.basePrice.success || res.result?.details.basePrice.cost === 0 || editingIdx === idx) ? (
-                                            <div className="flex items-center gap-1">
+                                            <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
                                                 <input 
                                                     type="number" 
                                                     autoFocus
@@ -241,7 +247,10 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                         ) : (
                                             <span 
                                                 className="text-slate-300 hover:text-maple-orange cursor-pointer border-b border-transparent hover:border-maple-orange transition-colors"
-                                                onClick={() => setEditingIdx(idx)}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setEditingIdx(idx);
+                                                }}
                                                 title="클릭하여 노작 시세 수정"
                                             >
                                                 {formatMeso(res.result.details.basePrice.cost)}
@@ -272,6 +281,14 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                     </div>
                 </div>
             </div>
+
+            {/* 개별 아이템 상세 스탯 모달 */}
+            {detailItem && (
+                <ItemDetailModal 
+                    item={detailItem} 
+                    onClose={() => setDetailItem(null)} 
+                />
+            )}
         </div>
     );
 };

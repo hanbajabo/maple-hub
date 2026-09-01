@@ -27,7 +27,7 @@ import Footer from "../components/Footer";
 import MapleStoryTrivia from "../components/MapleStoryTrivia";
 
 import CombatPowerRank, { TIERS } from "../components/CombatPowerRank";
-import ItemDetailModal from "../components/ItemDetailModal";
+import WeaponDiagnosisModal from "../components/WeaponDiagnosisModal";
 import EquipmentOverviewModal from "../components/EquipmentOverviewModal";
 import TotalDiagnosisModal from "../components/TotalDiagnosisModal";
 import MainEquipmentGrid from "../components/MainEquipmentGrid";
@@ -2062,12 +2062,13 @@ export default function Home() {
       {/* Footer */}
       {/* Footer */}
       <Footer />
-      {/* Item Detail Modal */}
+      {/* Weapon Diagnosis Modal */}
       {
         selectedWeapon && (
-          <ItemDetailModal
+          <WeaponDiagnosisModal
             item={selectedWeapon}
             onClose={() => setSelectedWeapon(null)}
+            characterClass={character?.character_class || ""}
           />
         )
       }
