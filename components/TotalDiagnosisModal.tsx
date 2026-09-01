@@ -40,6 +40,39 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
     const [results, setResults] = useState<AppraisalItem[]>([]);
     const [totalCost, setTotalCost] = useState(0);
 
+    const handleOverridePrice = async (idx: number, priceStr: string) => {
+        const price = parseInt(priceStr);
+        if (isNaN(price) || price < 0) return;
+        
+        const itemRes = results[idx];
+        if (!itemRes) return;
+        
+        try {
+            const response = await fetch('/api/appraisal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ item: itemRes.item, characterClass, overrideBasePrice: price })
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                const newResults = [...results];
+                newResults[idx].result = result;
+                setResults(newResults);
+                
+                let newTotal = 0;
+                newResults.forEach(r => {
+                    if (r.result?.isCalculable && !isNaN(r.result.totalCost)) {
+                        newTotal += r.result.totalCost;
+                    }
+                });
+                setTotalCost(newTotal);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
     const startAnalysis = async () => {
         setIsAnalyzing(true);
         setProgress(0);
@@ -164,11 +197,35 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                 </div>
                                 
                                 <div className="space-y-1.5 text-xs">
-                                    <div className="flex justify-between items-center">
+                                    <div className="flex justify-between items-center h-6">
                                         <span className="text-slate-500">노작 시세</span>
-                                        <span className={res.result?.details.basePrice.success ? "text-slate-300" : "text-red-400"}>
-                                            {res.result?.details.basePrice.success ? formatMeso(res.result.details.basePrice.cost) : res.result?.details.basePrice.reason}
-                                        </span>
+                                        {(!res.result?.details.basePrice.success || res.result?.details.basePrice.cost === 0) ? (
+                                            <div className="flex items-center gap-1">
+                                                <input 
+                                                    type="number" 
+                                                    placeholder="직접 입력" 
+                                                    className="w-24 bg-slate-800 border border-slate-700 text-right px-1.5 py-0.5 rounded text-slate-300 text-xs focus:border-maple-orange focus:outline-none" 
+                                                    onBlur={(e) => handleOverridePrice(idx, e.target.value)} 
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter') {
+                                                            handleOverridePrice(idx, e.currentTarget.value);
+                                                            e.currentTarget.blur();
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <span 
+                                                className="text-slate-300 hover:text-maple-orange cursor-pointer border-b border-transparent hover:border-maple-orange transition-colors"
+                                                onClick={() => {
+                                                    const newPrice = prompt("노작 시세를 수정합니다 (숫자만 입력):", res.result?.details.basePrice.cost?.toString());
+                                                    if (newPrice) handleOverridePrice(idx, newPrice);
+                                                }}
+                                                title="클릭하여 수정"
+                                            >
+                                                {formatMeso(res.result.details.basePrice.cost)}
+                                            </span>
+                                        )}
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <span className="text-slate-500">스타포스 ({res.item.starforce}성)</span>

@@ -84,7 +84,57 @@ function extractTargetOptionSet(lines: string[]): TargetOptionSet {
     return combined;
 }
 
-export async function appraiseItemCost(item: any, characterClass: string): Promise<AppraisalResult> {
+import { getPotentialUpgradeRate, getPotentialResetCost, getPotentialGuaranteeCount, getAdditionalPotentialUpgradeRate, getAdditionalPotentialResetCost } from './cube_db';
+
+export function getTierUpCost(level: number, targetGrade: '에픽' | '유니크' | '레전드리', isAddi: boolean): number {
+    let totalCost = 0;
+    
+    // Rare to Epic
+    if (targetGrade === '에픽' || targetGrade === '유니크' || targetGrade === '레전드리') {
+        if (!isAddi) {
+            const prob = getPotentialUpgradeRate('레어', '에픽') / 100;
+            const cost = getPotentialResetCost(level, '레어');
+            const ceiling = getPotentialGuaranteeCount('레어', '에픽', 'MESO_RESET');
+            totalCost += (1/prob) > ceiling ? ceiling * cost : (1/prob) * cost;
+        } else {
+            const prob = getAdditionalPotentialUpgradeRate('레어', '에픽') / 100;
+            const cost = getAdditionalPotentialResetCost(level, '레어');
+            totalCost += (1/prob) * cost;
+        }
+    }
+    
+    // Epic to Unique
+    if (targetGrade === '유니크' || targetGrade === '레전드리') {
+        if (!isAddi) {
+            const prob = getPotentialUpgradeRate('에픽', '유니크') / 100;
+            const cost = getPotentialResetCost(level, '에픽');
+            const ceiling = getPotentialGuaranteeCount('에픽', '유니크', 'MESO_RESET');
+            totalCost += (1/prob) > ceiling ? ceiling * cost : (1/prob) * cost;
+        } else {
+            const prob = getAdditionalPotentialUpgradeRate('에픽', '유니크') / 100;
+            const cost = getAdditionalPotentialResetCost(level, '에픽');
+            totalCost += (1/prob) * cost;
+        }
+    }
+
+    // Unique to Legendary
+    if (targetGrade === '레전드리') {
+        if (!isAddi) {
+            const prob = getPotentialUpgradeRate('유니크', '레전드리') / 100;
+            const cost = getPotentialResetCost(level, '유니크');
+            const ceiling = getPotentialGuaranteeCount('유니크', '레전드리', 'MESO_RESET');
+            totalCost += (1/prob) > ceiling ? ceiling * cost : (1/prob) * cost;
+        } else {
+            const prob = getAdditionalPotentialUpgradeRate('유니크', '레전드리') / 100;
+            const cost = getAdditionalPotentialResetCost(level, '유니크');
+            totalCost += (1/prob) * cost;
+        }
+    }
+    
+    return totalCost;
+}
+
+export async function appraiseItemCost(item: any, characterClass: string, overrideBasePrice?: number): Promise<AppraisalResult> {
     const defaultResult: AppraisalResult = {
         starforceCost: 0,
         potentialCost: 0,
@@ -127,7 +177,12 @@ export async function appraiseItemCost(item: any, characterClass: string): Promi
     // 1. Base Item Cost (노작 시세)
     let basePrice = 0;
     try {
-        basePrice = await getLatestPrice(itemName, slot, characterClass);
+        if (overrideBasePrice !== undefined) {
+            basePrice = overrideBasePrice;
+        } else {
+            basePrice = await getLatestPrice(itemName, slot, characterClass);
+        }
+        
         defaultResult.baseItemCost = basePrice;
         defaultResult.details.basePrice.cost = basePrice;
         if (basePrice === 0) {
@@ -187,13 +242,22 @@ export async function appraiseItemCost(item: any, characterClass: string): Promi
                     'POTENTIAL'
                 );
                 
+                // 등급업 비용 추가
+                let tierUpGrade: '에픽' | '유니크' | '레전드리' | null = null;
+                if (gradeEn === 'EPIC') tierUpGrade = '에픽';
+                if (gradeEn === 'UNIQUE') tierUpGrade = '유니크';
+                if (gradeEn === 'LEGENDARY') tierUpGrade = '레전드리';
+                
+                const tierUpCost = tierUpGrade ? getTierUpCost(level, tierUpGrade, false) : 0;
+                const totalPotCost = potResult.totalCostMeso + tierUpCost;
+                
                 // 만약 기댓값이 너무 높거나 조합 불가(99억)면 예외 처리
                 if (potResult.totalCostMeso > 900000000000) { // 9,000억 이상은 오류이거나 특수 옵션
                     defaultResult.details.potential.success = false;
                     defaultResult.details.potential.reason = "계산 불가 특수 옵션 조합";
                 } else {
-                    defaultResult.potentialCost = potResult.totalCostMeso;
-                    defaultResult.details.potential.cost = potResult.totalCostMeso;
+                    defaultResult.potentialCost = totalPotCost;
+                    defaultResult.details.potential.cost = totalPotCost;
                 }
             } else {
                 defaultResult.details.potential.reason = "에픽 미만 (기댓값 미미)";
@@ -218,7 +282,7 @@ export async function appraiseItemCost(item: any, characterClass: string): Promi
                 if (addGrade === '레전드리' || addGrade === 'LEGENDARY') gradeEn = 'LEGENDARY';
                 if (addGrade === '유니크' || addGrade === 'UNIQUE') gradeEn = 'UNIQUE';
                 
-                const addResult = calculateExactPotentialExpectation(
+                const addiResult = calculateExactPotentialExpectation(
                     equipType,
                     gradeEn,
                     level,
@@ -226,12 +290,21 @@ export async function appraiseItemCost(item: any, characterClass: string): Promi
                     'ADDI_POTENTIAL'
                 );
                 
-                if (addResult.totalCostMeso > 900000000000) {
+                // 등급업 비용 추가
+                let tierUpGrade: '에픽' | '유니크' | '레전드리' | null = null;
+                if (gradeEn === 'EPIC') tierUpGrade = '에픽';
+                if (gradeEn === 'UNIQUE') tierUpGrade = '유니크';
+                if (gradeEn === 'LEGENDARY') tierUpGrade = '레전드리';
+                
+                const tierUpCost = tierUpGrade ? getTierUpCost(level, tierUpGrade, true) : 0;
+                const totalAddiCost = addiResult.totalCostMeso + tierUpCost;
+                
+                if (addiResult.totalCostMeso > 900000000000) {
                     defaultResult.details.additional.success = false;
                     defaultResult.details.additional.reason = "계산 불가 특수 옵션 조합";
                 } else {
-                    defaultResult.additionalCost = addResult.totalCostMeso;
-                    defaultResult.details.additional.cost = addResult.totalCostMeso;
+                    defaultResult.additionalCost = totalAddiCost;
+                    defaultResult.details.additional.cost = totalAddiCost;
                 }
             } else {
                 defaultResult.details.additional.reason = "에픽 미만 (기댓값 미미)";
