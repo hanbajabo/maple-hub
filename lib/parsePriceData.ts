@@ -194,6 +194,12 @@ export function getLatestItemPrices(): Record<string, number> {
         '창뱃':     ['창세의 뱃지'],
         '마도서':   ['저주받은 적의 마도서', '저주받은 청의 마도서', '저주받은 녹의 마도서', '저주받은 황의 마도서'],
         '언더컨트롤': ['컴플리트 언더컨트롤'],
+        '리4':      ['리스트레인트 링', '리스트레인트 링(4레벨)'],
+        '컨4':      ['컨티뉴어스 링', '컨티뉴어스 링(4레벨)'],
+        '웨폰 S 4': ['웨폰퍼프 - S 링', '웨폰퍼프 - S 링(4레벨)'],
+        '웨폰 I 4': ['웨폰퍼프 - I 링', '웨폰퍼프 - I 링(4레벨)'],
+        '웨폰 D 4': ['웨폰퍼프 - D 링', '웨폰퍼프 - D 링(4레벨)'],
+        '웨폰 L 4': ['웨폰퍼프 - L 링', '웨폰퍼프 - L 링(4레벨)'],
         '에테르넬 모자': ['에테르넬 모자'],
         '에테르넬 상의': ['에테르넬 상의'],
         '에테르넬 하의': ['에테르넬 하의'],
@@ -206,7 +212,19 @@ export function getLatestItemPrices(): Record<string, number> {
     const result: Record<string, number> = {};
 
     for (const [alias, canonicals] of Object.entries(ALIAS_TO_CANONICAL)) {
-        const info = items[alias];
+        let info = items[alias];
+        
+        // 최신 데이터에 해당 아이템 시세가 없으면 과거 데이터를 역순으로 탐색
+        if (!info || info.main == null || info.main <= 0) {
+            for (let i = data.length - 2; i >= 0; i--) {
+                const prevInfo = data[i].items[alias];
+                if (prevInfo?.main != null && prevInfo.main > 0) {
+                    info = prevInfo;
+                    break;
+                }
+            }
+        }
+
         if (info?.main != null && info.main > 0) {
             const mesoPrice = Math.round(info.main * 100_000_000); // 억 → 메소
             for (const canonical of canonicals) {
