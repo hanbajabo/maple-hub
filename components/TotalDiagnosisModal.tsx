@@ -46,14 +46,23 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
     const [editingIdx, setEditingIdx] = useState<number | null>(null);
 
     const handleOverridePrice = async (idx: number, priceStr: string) => {
-        const price = parseInt(priceStr);
-        if (isNaN(price) || price < 0) {
+        let price = parseInt(priceStr);
+        if (isNaN(price) || priceStr.trim() === '') {
+            price = 0; // 빈 값이면 0원으로 처리 (비워두기)
+        }
+        if (price < 0) {
             setEditingIdx(null);
             return;
         }
         
         const itemRes = results[idx];
         if (!itemRes) return;
+        
+        // 값이 변경되지 않았다면 굳이 API 호출 안 함
+        if (itemRes.result?.details.basePrice.cost === price && price !== 0) {
+            setEditingIdx(null);
+            return;
+        }
         
         try {
             const response = await fetch('/api/appraisal', {
