@@ -39,10 +39,14 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
     const [progress, setProgress] = useState(0);
     const [results, setResults] = useState<AppraisalItem[]>([]);
     const [totalCost, setTotalCost] = useState(0);
+    const [editingIdx, setEditingIdx] = useState<number | null>(null);
 
     const handleOverridePrice = async (idx: number, priceStr: string) => {
         const price = parseInt(priceStr);
-        if (isNaN(price) || price < 0) return;
+        if (isNaN(price) || price < 0) {
+            setEditingIdx(null);
+            return;
+        }
         
         const itemRes = results[idx];
         if (!itemRes) return;
@@ -67,9 +71,11 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                     }
                 });
                 setTotalCost(newTotal);
+                setEditingIdx(null);
             }
         } catch (e) {
             console.error(e);
+            setEditingIdx(null);
         }
     };
 
@@ -199,11 +205,13 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                 <div className="space-y-1.5 text-xs">
                                     <div className="flex justify-between items-center h-6">
                                         <span className="text-slate-500">노작 시세</span>
-                                        {(!res.result?.details.basePrice.success || res.result?.details.basePrice.cost === 0) ? (
+                                        {(!res.result?.details.basePrice.success || res.result?.details.basePrice.cost === 0 || editingIdx === idx) ? (
                                             <div className="flex items-center gap-1">
                                                 <input 
                                                     type="number" 
+                                                    autoFocus
                                                     placeholder="직접 입력" 
+                                                    defaultValue={res.result?.details.basePrice.cost > 0 ? res.result?.details.basePrice.cost : ''}
                                                     className="w-24 bg-slate-800 border border-slate-700 text-right px-1.5 py-0.5 rounded text-slate-300 text-xs focus:border-maple-orange focus:outline-none" 
                                                     onBlur={(e) => handleOverridePrice(idx, e.target.value)} 
                                                     onKeyDown={(e) => {
@@ -211,17 +219,17 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                                             handleOverridePrice(idx, e.currentTarget.value);
                                                             e.currentTarget.blur();
                                                         }
+                                                        if (e.key === 'Escape') {
+                                                            setEditingIdx(null);
+                                                        }
                                                     }}
                                                 />
                                             </div>
                                         ) : (
                                             <span 
                                                 className="text-slate-300 hover:text-maple-orange cursor-pointer border-b border-transparent hover:border-maple-orange transition-colors"
-                                                onClick={() => {
-                                                    const newPrice = prompt("노작 시세를 수정합니다 (숫자만 입력):", res.result?.details.basePrice.cost?.toString());
-                                                    if (newPrice) handleOverridePrice(idx, newPrice);
-                                                }}
-                                                title="클릭하여 수정"
+                                                onClick={() => setEditingIdx(idx)}
+                                                title="클릭하여 노작 시세 수정"
                                             >
                                                 {formatMeso(res.result.details.basePrice.cost)}
                                             </span>
