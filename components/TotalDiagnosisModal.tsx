@@ -17,16 +17,20 @@ interface AppraisalItem {
 
 const formatMeso = (meso: number) => {
     if (isNaN(meso) || meso === 0) return "0";
-    if (meso >= 100000000) { // 1억 이상
-        const uk = Math.floor(meso / 100000000);
-        const man = Math.floor((meso % 100000000) / 10000);
-        if (man > 0) return `${uk.toLocaleString()}억 ${man.toLocaleString()}만`;
-        return `${uk.toLocaleString()}억`;
-    }
-    if (meso >= 10000) { // 1만 이상
-        return `${Math.floor(meso / 10000).toLocaleString()}만`;
-    }
-    return meso.toLocaleString();
+    
+    const gyeong = Math.floor(meso / 10000000000000000);
+    const jo = Math.floor((meso % 10000000000000000) / 1000000000000);
+    const uk = Math.floor((meso % 1000000000000) / 100000000);
+    const man = Math.floor((meso % 100000000) / 10000);
+
+    const parts = [];
+    if (gyeong > 0) parts.push(`${gyeong.toLocaleString()}경`);
+    if (jo > 0) parts.push(`${jo.toLocaleString()}조`);
+    if (uk > 0) parts.push(`${uk.toLocaleString()}억`);
+    if (man > 0 && gyeong === 0) parts.push(`${man.toLocaleString()}만`);
+
+    if (parts.length === 0) return meso.toLocaleString();
+    return parts.join(' ');
 };
 
 const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({

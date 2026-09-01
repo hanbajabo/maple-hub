@@ -1215,16 +1215,19 @@ export default function CubeCalculatorPage() {
 
 function formatMeso(meso: number): string {
     if (!meso || meso <= 0) return '0 메소';
-    const jo = Math.floor(meso / 1_000_000_000_000);
-    const eok = Math.floor((meso % 1_000_000_000_000) / 100_000_000);
-    const man = Math.floor((meso % 100_000_000) / 10_000);
-    const won = Math.floor(meso % 10_000);
+    
+    const gyeong = Math.floor(meso / 10000000000000000);
+    const jo = Math.floor((meso % 10000000000000000) / 1000000000000);
+    const eok = Math.floor((meso % 1000000000000) / 100000000);
+    const man = Math.floor((meso % 100000000) / 10000);
+    const won = Math.floor(meso % 10000);
 
     const parts: string[] = [];
+    if (gyeong > 0) parts.push(`${gyeong.toLocaleString()}경`);
     if (jo > 0) parts.push(`${jo.toLocaleString()}조`);
     if (eok > 0) parts.push(`${eok.toLocaleString()}억`);
-    if (man > 0) parts.push(`${man.toLocaleString()}만`);
-    if (won > 0 && jo === 0 && eok === 0) parts.push(`${won.toLocaleString()}`);
+    if (man > 0 && gyeong === 0) parts.push(`${man.toLocaleString()}만`);
+    if (won > 0 && gyeong === 0 && jo === 0 && eok === 0 && man === 0) parts.push(`${won.toLocaleString()}`);
 
     return parts.length > 0 ? `${parts.join(' ')} 메소` : `${meso.toLocaleString()} 메소`;
 }
