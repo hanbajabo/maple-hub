@@ -73,15 +73,45 @@ function mapEquipmentSlotToEquipType(slot: string, name: string): string {
     return '무기'; // Default fallback
 }
 
-// 추출된 옵션을 TargetOptionSet 형태로 변환
-function extractTargetOptionSet(lines: string[]): TargetOptionSet {
+import { getValidStatTypesForClass, getMainStatTypesForClass } from './class_utils';
+import type { StatType } from './potential-calculator';
+
+// 추출된 옵션을 TargetOptionSet 형태로 변환 (직업별 유효 옵션만 필터링)
+function extractTargetOptionSet(lines: string[], characterClass: string): TargetOptionSet {
     let combined: TargetOptionSet = {};
     for (const line of lines) {
         if (!line || line.trim() === '') continue;
         const parsed = parseOptionString(line, 1);
         combined = combineStats(combined, parsed.stats) as TargetOptionSet;
     }
-    return combined;
+    
+    // 유효 옵션 필터링
+    const validStatTypes = getValidStatTypesForClass(characterClass);
+    const mainStats = getMainStatTypesForClass(characterClass);
+    let filteredCombined: TargetOptionSet = {};
+    
+    // 비제논 직업인 경우 올스탯을 주스탯으로 병합하여 특정 올스탯 조합만 강제하지 않도록 함
+    if (characterClass !== '제논') {
+        const primaryPct = mainStats.pct[0]; // e.g., 'STR %'
+        const primaryFlat = mainStats.flat[0]; // e.g., 'STR'
+        
+        if (combined['ALL %']) {
+            combined[primaryPct] = (combined[primaryPct] || 0) + combined['ALL %'];
+            delete combined['ALL %'];
+        }
+        if (combined['ALL']) {
+            combined[primaryFlat] = (combined[primaryFlat] || 0) + combined['ALL'];
+            delete combined['ALL'];
+        }
+    }
+    
+    for (const [key, value] of Object.entries(combined)) {
+        if (validStatTypes.includes(key as StatType)) {
+            filteredCombined[key as keyof TargetOptionSet] = value;
+        }
+    }
+    
+    return filteredCombined;
 }
 
 import { getPotentialUpgradeRate, getPotentialResetCost, getPotentialGuaranteeCount, getAdditionalPotentialUpgradeRate, getAdditionalPotentialResetCost } from './cube_db';
@@ -227,7 +257,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
         defaultResult.details.potential.reason = "윗잠 불가/미설정 장비";
     } else {
         try {
-            const potTarget = extractTargetOptionSet(potLines);
+            const potTarget = extractTargetOptionSet(potLines, characterClass);
             // 윗잠이 레어면 제외할지 고민... 보통 윗잠 레전/유니크/에픽까지만 기댓값이 큼
             if (['LEGENDARY', 'UNIQUE', 'EPIC'].includes(potGrade.toUpperCase()) || ['레전드리', '유니크', '에픽'].includes(potGrade)) {
                 let gradeEn: 'LEGENDARY' | 'UNIQUE' | 'EPIC' | 'RARE' = 'EPIC';
@@ -276,7 +306,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
         defaultResult.details.additional.reason = "아랫잠 불가/미설정 장비";
     } else {
         try {
-            const addTarget = extractTargetOptionSet(addLines);
+            const addTarget = extractTargetOptionSet(addLines, characterClass);
             if (['LEGENDARY', 'UNIQUE', 'EPIC'].includes(addGrade.toUpperCase()) || ['레전드리', '유니크', '에픽'].includes(addGrade)) {
                 let gradeEn: 'LEGENDARY' | 'UNIQUE' | 'EPIC' | 'RARE' = 'EPIC';
                 if (addGrade === '레전드리' || addGrade === 'LEGENDARY') gradeEn = 'LEGENDARY';

@@ -132,18 +132,38 @@ export function parseOptionString(name: string, probability: number): ParsedOpti
     // 8. 주스탯 % (STR, DEX, INT, LUK, HP)
     const strPctMatch = trimmed.match(/^STR\s*:\s*\+(\d+)%/);
     if (strPctMatch) stats['STR %'] = parseInt(strPctMatch[1], 10);
-
     const dexPctMatch = trimmed.match(/^DEX\s*:\s*\+(\d+)%/);
     if (dexPctMatch) stats['DEX %'] = parseInt(dexPctMatch[1], 10);
-
     const intPctMatch = trimmed.match(/^INT\s*:\s*\+(\d+)%/);
     if (intPctMatch) stats['INT %'] = parseInt(intPctMatch[1], 10);
-
     const lukPctMatch = trimmed.match(/^LUK\s*:\s*\+(\d+)%/);
     if (lukPctMatch) stats['LUK %'] = parseInt(lukPctMatch[1], 10);
-
     const hpPctMatch = trimmed.match(/^최대\s*HP\s*:\s*\+(\d+)%/);
     if (hpPctMatch) stats['HP %'] = parseInt(hpPctMatch[1], 10);
+
+    // 8.5. 깡스탯 (STR, DEX, INT, LUK, HP, ALL)
+    const strFlatMatch = trimmed.match(/^STR\s*:\s*\+(\d+)$/);
+    if (strFlatMatch) stats['STR'] = parseInt(strFlatMatch[1], 10);
+    const dexFlatMatch = trimmed.match(/^DEX\s*:\s*\+(\d+)$/);
+    if (dexFlatMatch) stats['DEX'] = parseInt(dexFlatMatch[1], 10);
+    const intFlatMatch = trimmed.match(/^INT\s*:\s*\+(\d+)$/);
+    if (intFlatMatch) stats['INT'] = parseInt(intFlatMatch[1], 10);
+    const lukFlatMatch = trimmed.match(/^LUK\s*:\s*\+(\d+)$/);
+    if (lukFlatMatch) stats['LUK'] = parseInt(lukFlatMatch[1], 10);
+    const hpFlatMatch = trimmed.match(/^최대\s*HP\s*:\s*\+(\d+)$/);
+    if (hpFlatMatch) stats['HP'] = parseInt(hpFlatMatch[1], 10);
+    const allFlatMatch = trimmed.match(/^올스탯\s*:\s*\+(\d+)$/);
+    if (allFlatMatch) stats['ALL'] = parseInt(allFlatMatch[1], 10);
+
+    // 8.6. 랩당 스탯
+    const levelStrMatch = trimmed.match(/캐릭터 기준 \d+레벨 당 STR\s*:\s*\+(\d+)/);
+    if (levelStrMatch) stats['STR'] = parseInt(levelStrMatch[1], 10) * 27; // 250렙 기준 27배
+    const levelDexMatch = trimmed.match(/캐릭터 기준 \d+레벨 당 DEX\s*:\s*\+(\d+)/);
+    if (levelDexMatch) stats['DEX'] = parseInt(levelDexMatch[1], 10) * 27;
+    const levelIntMatch = trimmed.match(/캐릭터 기준 \d+레벨 당 INT\s*:\s*\+(\d+)/);
+    if (levelIntMatch) stats['INT'] = parseInt(levelIntMatch[1], 10) * 27;
+    const levelLukMatch = trimmed.match(/캐릭터 기준 \d+레벨 당 LUK\s*:\s*\+(\d+)/);
+    if (levelLukMatch) stats['LUK'] = parseInt(levelLukMatch[1], 10) * 27;
 
     // 9. 크리티컬 데미지
     const cdMatch = trimmed.match(/크리티컬\s*데미지\s*:\s*\+(\d+)%/);
@@ -209,6 +229,7 @@ export function satisfiesCondition(
     target: TargetOptionSet
 ): boolean {
     const allPct = accumulated['ALL %'] ?? 0;
+    const allFlat = accumulated['ALL'] ?? 0;
 
     for (const [key, targetVal] of Object.entries(target)) {
         const statKey = key as StatType;
@@ -218,6 +239,10 @@ export function satisfiesCondition(
 
         if (['STR %', 'DEX %', 'INT %', 'LUK %'].includes(statKey)) {
             curVal += allPct;
+        }
+
+        if (['STR', 'DEX', 'INT', 'LUK'].includes(statKey)) {
+            curVal += allFlat;
         }
 
         if (curVal < targetNumber) {
