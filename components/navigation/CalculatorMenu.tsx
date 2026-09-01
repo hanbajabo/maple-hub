@@ -86,6 +86,22 @@ export default function CalculatorMenu() {
                         </Link>
 
                         <Link
+                            href="/calculator/cube-calculator"
+                            prefetch={false}
+                            onClick={close}
+                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
+                        >
+                            <span className="text-xl flex-shrink-0">🎲</span>
+                            <div className="flex flex-col min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-semibold text-sm">큐브 기댓값 계산기</span>
+                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
+                                </div>
+                                <span className="text-[10px] text-slate-400 mt-0.5">잠재 3줄 & 등급업 기댓값</span>
+                            </div>
+                        </Link>
+
+                        <Link
                             href="/guide/hunting-field-calculator"
                             prefetch={false}
                             onClick={close}

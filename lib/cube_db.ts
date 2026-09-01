@@ -6,9 +6,219 @@
 // https://maplestory.nexon.com/Guide/OtherProbability/cube/additional
 // ================================================================
 
-// ================================================================
-// 1. 메인 잠재능력 (블랙 큐브 / 재설정)
-// ================================================================
+export type OptionGrade = '노멀' | '레어' | '에픽' | '유니크' | '레전드리';
+export type ItemGrade = '레어' | '에픽' | '유니크' | '레전드리';
+
+// ─── 큐브 재설정 수단 정의 ───────────────────────────────────────────────
+
+export type PotentialCubeType =
+    | 'MESO_RESET'              // 메소 재설정 (블랙 큐브 방식)
+    | 'GOLD_CUBE'               // 골드 큐브 (명장의 큐브 동일)
+    | 'SILVER_CUBE'             // 실버 큐브 (장인의 큐브 동일)
+    | 'MEISTER_CUBE'            // (구) 명장의 큐브 하위호환 alias
+    | 'MASTER_CUBE'             // (구) 장인의 큐브 하위호환 alias
+    | 'OCCULT_CUBE'             // 수상한 큐브
+    | 'RED_CUBE'                // 레드 큐브
+    | 'ADDI_MESO_RESET'         // 에디셔널 메소 재설정
+    | 'ADDI_WHITE_CUBE'         // 화이트 에디셔널 큐브
+    | 'ADDI_NORMAL_CUBE'        // 에디셔널 큐브
+    | 'ADDI_OCCULT_CUBE';       // 수상한 에디셔널 큐브
+
+export interface CubeDefinition {
+    id: PotentialCubeType;
+    name: string;
+    image: string;
+    category: 'POTENTIAL' | 'ADDI_POTENTIAL';
+    maxGrade: ItemGrade;
+    rates: {
+        '레어->에픽'?: number;
+        '에픽->유니크'?: number;
+        '유니크->레전드리'?: number;
+    };
+    hasCeiling: boolean;
+    ceilings?: {
+        '레어->에픽'?: number;
+        '에픽->유니크'?: number;
+        '유니크->레전드리'?: number;
+    };
+    costType: 'MESO' | 'CUBE_COUNT';
+}
+
+export const CUBE_DEFINITIONS: Record<PotentialCubeType, CubeDefinition> = {
+    // 1. 일반 잠재능력
+    MESO_RESET: {
+        id: 'MESO_RESET',
+        name: '메소 재설정 (블랙 큐브)',
+        image: '/images/cubes/meso_cube.png',
+        category: 'POTENTIAL',
+        maxGrade: '레전드리',
+        rates: {
+            '레어->에픽': 15.0000001275,
+            '에픽->유니크': 3.5000,
+            '유니크->레전드리': 1.4000
+        },
+        hasCeiling: true,
+        ceilings: {
+            '레어->에픽': 10,
+            '에픽->유니크': 42,
+            '유니크->레전드리': 107
+        },
+        costType: 'MESO'
+    },
+    GOLD_CUBE: {
+        id: 'GOLD_CUBE',
+        name: '골드 큐브 (명장의 큐브 동일)',
+        image: '/images/cubes/gold_cube.png',
+        category: 'POTENTIAL',
+        maxGrade: '레전드리',
+        rates: {
+            '레어->에픽': 7.9994,
+            '에픽->유니크': 1.6959,
+            '유니크->레전드리': 0.1996
+        },
+        hasCeiling: false,
+        costType: 'CUBE_COUNT'
+    },
+    SILVER_CUBE: {
+        id: 'SILVER_CUBE',
+        name: '실버 큐브 (장인의 큐브 동일)',
+        image: '/images/cubes/silver_cube.png',
+        category: 'POTENTIAL',
+        maxGrade: '유니크',
+        rates: {
+            '레어->에픽': 4.7619,
+            '에픽->유니크': 1.1858
+        },
+        hasCeiling: false,
+        costType: 'CUBE_COUNT'
+    },
+    MEISTER_CUBE: {
+        id: 'MEISTER_CUBE',
+        name: '골드 큐브 (명장의 큐브 동일)',
+        image: '/images/cubes/gold_cube.png',
+        category: 'POTENTIAL',
+        maxGrade: '레전드리',
+        rates: {
+            '레어->에픽': 7.9994,
+            '에픽->유니크': 1.6959,
+            '유니크->레전드리': 0.1996
+        },
+        hasCeiling: false,
+        costType: 'CUBE_COUNT'
+    },
+    MASTER_CUBE: {
+        id: 'MASTER_CUBE',
+        name: '실버 큐브 (장인의 큐브 동일)',
+        image: '/images/cubes/silver_cube.png',
+        category: 'POTENTIAL',
+        maxGrade: '유니크',
+        rates: {
+            '레어->에픽': 4.7619,
+            '에픽->유니크': 1.1858
+        },
+        hasCeiling: false,
+        costType: 'CUBE_COUNT'
+    },
+    OCCULT_CUBE: {
+        id: 'OCCULT_CUBE',
+        name: '수상한 큐브',
+        image: '/images/cubes/occult_cube.png',
+        category: 'POTENTIAL',
+        maxGrade: '에픽',
+        rates: {
+            '레어->에픽': 0.9901
+        },
+        hasCeiling: false,
+        costType: 'CUBE_COUNT'
+    },
+    RED_CUBE: {
+        id: 'RED_CUBE',
+        name: '레드 큐브',
+        image: '/images/cubes/red_cube.png',
+        category: 'POTENTIAL',
+        maxGrade: '레전드리',
+        rates: {
+            '레어->에픽': 6.0000,
+            '에픽->유니크': 1.8000,
+            '유니크->레전드리': 0.3000
+        },
+        hasCeiling: false,
+        costType: 'CUBE_COUNT'
+    },
+
+    // 2. 에디셔널 잠재능력
+    ADDI_MESO_RESET: {
+        id: 'ADDI_MESO_RESET',
+        name: '메소 재설정(에디)',
+        image: '/images/cubes/white_addi_cube.png',
+        category: 'ADDI_POTENTIAL',
+        maxGrade: '레전드리',
+        rates: {
+            '레어->에픽': 2.3810,
+            '에픽->유니크': 0.9804,
+            '유니크->레전드리': 0.7000
+        },
+        hasCeiling: true,
+        ceilings: {
+            '레어->에픽': 62,
+            '에픽->유니크': 152,
+            '유니크->레전드리': 214
+        },
+        costType: 'MESO'
+    },
+    ADDI_WHITE_CUBE: {
+        id: 'ADDI_WHITE_CUBE',
+        name: '화이트 에디셔널 큐브',
+        image: '/images/cubes/white_addi_cube.png',
+        category: 'ADDI_POTENTIAL',
+        maxGrade: '레전드리',
+        rates: {
+            '레어->에픽': 4.7619,
+            '에픽->유니크': 1.9608,
+            '유니크->레전드리': 0.7000
+        },
+        hasCeiling: true,
+        ceilings: {
+            '레어->에픽': 31,
+            '에픽->유니크': 76,
+            '유니크->레전드리': 214
+        },
+        costType: 'CUBE_COUNT'
+    },
+    ADDI_NORMAL_CUBE: {
+        id: 'ADDI_NORMAL_CUBE',
+        name: '에디셔널 큐브',
+        image: '/images/cubes/addi_cube.png',
+        category: 'ADDI_POTENTIAL',
+        maxGrade: '레전드리',
+        rates: {
+            '레어->에픽': 4.7619,
+            '에픽->유니크': 1.9608,
+            '유니크->레전드리': 0.7000
+        },
+        hasCeiling: true,
+        ceilings: {
+            '레어->에픽': 31,
+            '에픽->유니크': 76,
+            '유니크->레전드리': 214
+        },
+        costType: 'CUBE_COUNT'
+    },
+    ADDI_OCCULT_CUBE: {
+        id: 'ADDI_OCCULT_CUBE',
+        name: '수상한 에디셔널 큐브',
+        image: '/images/cubes/addi_occult_cube.png',
+        category: 'ADDI_POTENTIAL',
+        maxGrade: '에픽',
+        rates: {
+            '레어->에픽': 4.7619
+        },
+        hasCeiling: false,
+        costType: 'CUBE_COUNT'
+    }
+};
+
+// ─── 등급업 확률 & 천장 ───────────────────────────────────────────────────
 
 export interface PotentialUpgradeRate {
     from_grade: '레어' | '에픽' | '유니크';
@@ -52,9 +262,6 @@ export const POTENTIAL_CEILING_COSTS = [
         costs: { '1~159': 36.38, '160~199': 38.65, '200~249': 40.93, '250~300': 45.48 }
     },
 ];
-
-export type OptionGrade = '노멀' | '레어' | '에픽' | '유니크' | '레전드리';
-export type ItemGrade = '레어' | '에픽' | '유니크' | '레전드리';
 
 export interface PotentialLineGradeRate {
     item_grade: ItemGrade;
@@ -102,14 +309,10 @@ export const POTENTIAL_RESET_COSTS: PotentialResetCost[] = [
     { min_level: 1, max_level: 159, costs: { '레어': 4000000, '에픽': 16000000, '유니크': 34000000, '레전드리': 40000000 } },
 ];
 
-// ================================================================
-// 2. 에디셔널 잠재능력 (에디셔널 큐브 / 재설정)
-// ================================================================
-
 export enum AdditionalCubeType {
-    RESET = 'reset',           // 에디셔널 잠재능력 재설정
-    NORMAL = 'normal',         // 에디셔널 큐브
-    WHITE = 'white'            // 화이트 에디셔널 큐브
+    RESET = 'reset',
+    NORMAL = 'normal',
+    WHITE = 'white'
 }
 
 export interface AdditionalPotentialUpgradeRate {
@@ -145,22 +348,40 @@ export const ADDITIONAL_POTENTIAL_CEILING_COSTS = [
 ];
 
 export const ADDITIONAL_POTENTIAL_RESET_COSTS: PotentialResetCost[] = [
-    { min_level: 250, max_level: 300, costs: { '레어': 16250000, '에픽': 45500000, '유니크': 55250000, '레전드리': 65000000 } },
-    { min_level: 200, max_level: 249, costs: { '레어': 14625000, '에픽': 40950000, '유니크': 49725000, '레전드리': 58500000 } },
-    { min_level: 160, max_level: 199, costs: { '레어': 13812000, '에픽': 38675000, '유니크': 46962500, '레전드리': 55250000 } },
-    { min_level: 1, max_level: 159, costs: { '레어': 13000000, '에픽': 36400000, '유니크': 44200000, '레전드리': 52000000 } },
+    { min_level: 250, max_level: 300, costs: { '레어': 12250000, '에픽': 34300000, '유니크': 83300000, '레전드리': 98000000 } },
+    { min_level: 200, max_level: 249, costs: { '레어': 11000000, '에픽': 30800000, '유니크': 74800000, '레전드리': 88000000 } },
+    { min_level: 160, max_level: 199, costs: { '레어': 10375000, '에픽': 29050000, '유니크': 70550000, '레전드리': 83000000 } },
+    { min_level: 1, max_level: 159, costs: { '레어': 9750000, '에픽': 27300000, '유니크': 66300000, '레전드리': 78000000 } },
 ];
 
 // ================================================================
 // 유틸리티 함수
 // ================================================================
 
-export function getPotentialUpgradeRate(from: '레어' | '에픽' | '유니크', to: '에픽' | '유니크' | '레전드리'): number {
-    return POTENTIAL_UPGRADE_RATES.find(r => r.from_grade === from && r.to_grade === to)?.probability ?? 0;
+export function getPotentialUpgradeRate(
+    from: '레어' | '에픽' | '유니크',
+    to: '에픽' | '유니크' | '레전드리',
+    cubeType: PotentialCubeType = 'MESO_RESET',
+    isMiracleTime: boolean = false
+): number {
+    const cube = CUBE_DEFINITIONS[cubeType] || CUBE_DEFINITIONS.MESO_RESET;
+    const key = `${from}->${to}` as '레어->에픽' | '에픽->유니크' | '유니크->레전드리';
+    let baseRate = cube.rates[key] ?? 0;
+    if (isMiracleTime) {
+        baseRate = Math.min(100.0, baseRate * 2);
+    }
+    return baseRate;
 }
 
-export function getPotentialGuaranteeCount(from: '레어' | '에픽' | '유니크', to: '에픽' | '유니크' | '레전드리'): number {
-    return POTENTIAL_GUARANTEE_SYSTEM.find(g => g.from_grade === from && g.to_grade === to)?.guarantee_count ?? 0;
+export function getPotentialGuaranteeCount(
+    from: '레어' | '에픽' | '유니크',
+    to: '에픽' | '유니크' | '레전드리',
+    cubeType: PotentialCubeType = 'MESO_RESET'
+): number {
+    const cube = CUBE_DEFINITIONS[cubeType] || CUBE_DEFINITIONS.MESO_RESET;
+    if (!cube.hasCeiling || !cube.ceilings) return 0;
+    const key = `${from}->${to}` as '레어->에픽' | '에픽->유니크' | '유니크->레전드리';
+    return cube.ceilings[key] ?? 0;
 }
 
 export function getPotentialLineGradeRates(grade: ItemGrade, line: 1 | 2 | 3) {
@@ -179,7 +400,11 @@ export function getPotentialResetCost(level: number, grade: '레어' | '에픽' 
     return POTENTIAL_RESET_COSTS.find(c => level >= c.min_level && level <= c.max_level)?.costs[grade] ?? 0;
 }
 
-export function getAdditionalPotentialUpgradeRate(from: '레어' | '에픽' | '유니크', to: '에픽' | '유니크' | '레전드리', type: AdditionalCubeType = AdditionalCubeType.NORMAL): number {
+export function getAdditionalPotentialUpgradeRate(
+    from: '레어' | '에픽' | '유니크',
+    to: '에픽' | '유니크' | '레전드리',
+    type: AdditionalCubeType = AdditionalCubeType.NORMAL
+): number {
     const rate = ADDITIONAL_POTENTIAL_UPGRADE_RATES.find(r => r.from_grade === from && r.to_grade === to);
     if (!rate) return 0;
     return type === AdditionalCubeType.RESET ? rate.reset_probability : rate.cube_probability;
