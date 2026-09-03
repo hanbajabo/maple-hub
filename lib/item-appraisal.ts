@@ -350,6 +350,15 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
         return { hasEscape: true, reason: `공격력/스탯 복합 다중 중첩(+${flatAttSum}, +${statSum}%)` };
     }
 
+    // 방어구/장신구 에디셔널 유니크 깡공+스탯% 복합 다중 중첩 검사 (예: 공14 + STR 4% + STR 4% = 환산 13.6% > 10%)
+    if (!isWSE && isAddi && grade === 'UNIQUE') {
+        const totalEqPct = (flatAttSum * 0.4) + statSum;
+        const maxEqPct = isLevel250Plus ? 12 : 10;
+        if (totalEqPct > maxEqPct && flatAttSum > 0 && statSum > 0) {
+            return { hasEscape: true, reason: `공격력/스탯 복합 다중 중첩(환산 ${totalEqPct.toFixed(1)}% > ${maxEqPct}%)` };
+        }
+    }
+
     // 방어구/장신구 에디셔널 에픽 쌍본옵 이탈 검사 (예: 공11 + STR 4%, 공11 + 공11, 4% + 4%)
     // 200제 이하: 공 11 이상, 스탯 4% 이상 / 250제: 공 12 이상, 스탯 5% 이상
     if (!isWSE && isAddi && grade === 'EPIC') {
