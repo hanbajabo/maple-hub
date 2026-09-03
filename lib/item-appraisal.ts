@@ -631,7 +631,8 @@ function extractTargetOptionSet(
     lines: string[], 
     characterClass: string, 
     mergeAllStat: boolean = true,
-    isWSE: boolean = false
+    isWSE: boolean = false,
+    isAddi: boolean = false
 ): TargetOptionSet {
     let combined: TargetOptionSet = {};
     for (const line of lines) {
@@ -678,14 +679,16 @@ function extractTargetOptionSet(
         // 1. 주스탯%, 올스탯%, 렙당 주스탯, 깡스탯 제외
         // 2. 깡공격력/깡마력(ATTACK, MAGIC_ATTACK) 제외 (유저 체감 잡옵, 핀포인트 기댓값 폭발 방지)
         // 3. 데미지%(DAMAGE) 제외 (보스전 보공 대비 효율 낮아 잡옵 취급)
+        // 4. 에디셔널 방어율 무시(IGNORE_DEFENSE) 제외 (에디 방무 3~5%는 수치 미미로 유저 체감 완전 잡옵)
         if (isWSE) {
             const isMainStatPct = ['STR %', 'DEX %', 'INT %', 'LUK %', 'HP %', 'ALL %'].includes(key);
             const isLevelStat = ['STR_PER_LEVEL', 'DEX_PER_LEVEL', 'INT_PER_LEVEL', 'LUK_PER_LEVEL'].includes(key);
             const isFlatStat = ['STR', 'DEX', 'INT', 'LUK', 'HP', 'ALL'].includes(key);
             const isFlatAttack = key === 'ATTACK' || key === 'MAGIC_ATTACK';
             const isDamage = key === 'DAMAGE';
+            const isAddiIed = isAddi && key === 'IGNORE_DEFENSE';
 
-            if (isMainStatPct || isLevelStat || isFlatStat || isFlatAttack || isDamage) {
+            if (isMainStatPct || isLevelStat || isFlatStat || isFlatAttack || isDamage || isAddiIed) {
                 continue;
             }
         }
@@ -1188,7 +1191,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
         defaultResult.details.additional.reason = "아랫잠 불가/미설정 장비";
     } else {
         try {
-            const addTarget = extractTargetOptionSet(addLines, characterClass, true, isWSE);
+            const addTarget = extractTargetOptionSet(addLines, characterClass, true, isWSE, true);
             console.log(`[API LOG] Item: ${itemName}, Class: ${characterClass}, AddLines:`, addLines, `AddTarget:`, addTarget);
             if (['LEGENDARY', 'UNIQUE', 'EPIC', 'RARE'].includes(addGrade.toUpperCase()) || ['레전드리', '유니크', '에픽', '레어'].includes(addGrade)) {
                 let gradeEn: 'LEGENDARY' | 'UNIQUE' | 'EPIC' | 'RARE' = 'RARE';
@@ -1316,7 +1319,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                         defaultResult.details.additional.optionCost = addiResult.totalCostMeso;
                         defaultResult.details.additional.expectedTries = addiResult.expectedAttempts;
                         
-                        const displayAddTarget = extractTargetOptionSet(addLines, characterClass, false, isWSE);
+                        const displayAddTarget = extractTargetOptionSet(addLines, characterClass, false, isWSE, true);
                         defaultResult.details.additional.targetOptionStr = formatTargetOptionSet(displayAddTarget, characterClass);
                     }
                 }
