@@ -239,15 +239,7 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                     <span className="text-sm font-bold text-green-300">{formatMesoStr(appraisalResult.details.potential.cost)} 메소</span>
                                 </div>
                                 <div className="flex flex-col text-[13px] text-slate-300 pl-1 space-y-1">
-                                    <div className="flex items-center">
-                                        <span className="text-slate-400 w-24 inline-block font-medium shrink-0">등업 비용:</span>
-                                        <span>{formatMesoStr(appraisalResult.details.potential.tierUpCost || 0)}</span>
-                                        {appraisalResult.appliedEvents?.isMiracleTime && (appraisalResult.details.potential.tierUpCost || 0) > 0 && (
-                                            <span className="text-[11px] text-purple-300 font-medium ml-2 bg-purple-950/70 px-1.5 py-0.5 rounded border border-purple-500/30">
-                                                미라클 2배 등업 적용
-                                            </span>
-                                        )}
-                                    </div>
+                                    <div><span className="text-slate-400 w-24 inline-block font-medium">등업 비용:</span> {formatMesoStr(appraisalResult.details.potential.tierUpCost || 0)}</div>
                                     {appraisalResult.appliedEvents?.isMiracleTime && (appraisalResult.details.potential.tierUpSavings || 0) > 0 && (
                                         <div className="text-purple-300 font-medium pt-0.5">
                                             <span className="text-purple-400/90 w-24 inline-block font-semibold">미라클 할인:</span>
@@ -270,15 +262,7 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                     <span className="text-sm font-bold text-blue-300">{formatMesoStr(appraisalResult.details.additional.cost)} 메소</span>
                                 </div>
                                 <div className="flex flex-col text-[13px] text-slate-300 pl-1 space-y-1">
-                                    <div className="flex items-center">
-                                        <span className="text-slate-400 w-24 inline-block font-medium shrink-0">등업 비용:</span>
-                                        <span>{formatMesoStr(appraisalResult.details.additional.tierUpCost || 0)}</span>
-                                        {appraisalResult.appliedEvents?.isMiracleTime && (appraisalResult.details.additional.tierUpCost || 0) > 0 && (
-                                            <span className="text-[11px] text-purple-300 font-medium ml-2 bg-purple-950/70 px-1.5 py-0.5 rounded border border-purple-500/30">
-                                                미라클 2배 등업 적용
-                                            </span>
-                                        )}
-                                    </div>
+                                    <div><span className="text-slate-400 w-24 inline-block font-medium">등업 비용:</span> {formatMesoStr(appraisalResult.details.additional.tierUpCost || 0)}</div>
                                     {appraisalResult.appliedEvents?.isMiracleTime && (appraisalResult.details.additional.tierUpSavings || 0) > 0 && (
                                         <div className="text-purple-300 font-medium pt-0.5">
                                             <span className="text-purple-400/90 w-24 inline-block font-semibold">미라클 할인:</span>
