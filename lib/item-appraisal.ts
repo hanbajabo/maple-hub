@@ -350,6 +350,31 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
         return { hasEscape: true, reason: `공격력/스탯 복합 다중 중첩(+${flatAttSum}, +${statSum}%)` };
     }
 
+    // 방어구/장신구 에디셔널 에픽 쌍본옵 이탈 검사 (예: 공11 + STR 4%, 공11 + 공11, 4% + 4%)
+    // 200제 이하: 공 11 이상, 스탯 4% 이상 / 250제: 공 12 이상, 스탯 5% 이상
+    if (!isWSE && isAddi && grade === 'EPIC') {
+        const minPrimeFlatAtt = isLevel250Plus ? 12 : 11;
+        const minPrimeStatPct = isLevel250Plus ? 5 : 4;
+        
+        let primeLineCount = 0;
+        for (const line of lines) {
+            if (!line) continue;
+            const parsed = parseOptionString(line, 1);
+            const fAtt = (parsed.stats.ATTACK || 0) + (parsed.stats.MAGIC_ATTACK || 0);
+            const sPct = (parsed.stats['STR %'] || 0) + (parsed.stats['DEX %'] || 0) + 
+                         (parsed.stats['INT %'] || 0) + (parsed.stats['LUK %'] || 0) + 
+                         (parsed.stats['HP %'] || 0) + (parsed.stats['ALL %'] || 0);
+            
+            if (fAtt >= minPrimeFlatAtt || sPct >= minPrimeStatPct) {
+                primeLineCount++;
+            }
+        }
+
+        if (primeLineCount >= 2) {
+            return { hasEscape: true, reason: '에디 에픽 쌍본옵 이탈 (공11+스탯4% 등)' };
+        }
+    }
+
     // 무기/보조무기/엠블렘(WSE) 에픽 깡공/깡마 다중 중첩 검사 (예: 공6%+공12+공12)
     // 깡공 2줄 이상 중첩 시 유니크 공% 1줄급으로 캡핑 적용
     if (isWSE && grade === 'EPIC') {
