@@ -92,8 +92,12 @@ export default function EquipmentAppraisalPage() {
                             {isLoading ? <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" /> : '진단하기'}
                         </button>
                     </form>
+                    <p className="text-center text-xs text-slate-400 mt-3.5 flex items-center justify-center gap-1.5">
+                        <span className="text-amber-400">💡</span>
+                        <span>혹시 진단 창에서 결과 값이 바로 나오지 않는다면 창 내의 <strong className="text-yellow-400">'다시 감정하기'</strong> 버튼을 눌러주세요.</span>
+                    </p>
                     {error && (
-                        <p className="text-red-400 text-center mt-4 text-sm bg-red-400/10 py-2 rounded-lg">{error}</p>
+                        <p className="text-red-400 text-center mt-3 text-sm bg-red-400/10 py-2 rounded-lg">{error}</p>
                     )}
                 </div>
 

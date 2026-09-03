@@ -450,6 +450,10 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                             * <span className="text-yellow-400/90 font-medium">{results.find(r => r.result?.priceDate)?.result?.priceDate}</span> 기준 경매장 노작 아이템 시세가 반영되어 있습니다.
                                         </p>
                                     )}
+                                    <p className="text-amber-300/90 flex items-center gap-1.5 font-medium">
+                                        <span>💡</span>
+                                        <span>혹시 결과 값이 나오지 않았다면 우측 <strong>'다시 감정하기'</strong> 버튼을 눌러주세요.</span>
+                                    </p>
                                     {isFromCache && (
                                         <p className="text-emerald-400/90 flex items-center gap-1.5 font-medium">
                                             <span>💾</span>
@@ -484,7 +488,28 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
 
                     {/* Items Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-                        {results.map((res, idx) => (
+                        {!isAnalyzing && results.length === 0 ? (
+                            <div className="col-span-full py-16 px-6 flex flex-col items-center justify-center text-center bg-slate-900/60 rounded-2xl border border-slate-800 space-y-4">
+                                <div className="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                                    <Calculator size={32} />
+                                </div>
+                                <div className="space-y-1.5 max-w-md">
+                                    <h4 className="text-lg font-bold text-white">결과 값이 아직 표시되지 않았나요?</h4>
+                                    <p className="text-sm text-slate-300 leading-relaxed">
+                                        일시적인 네트워크 지연 또는 넥슨 API 응답 지연일 수 있습니다.<br />
+                                        아래 <strong className="text-yellow-400 font-bold">'다시 감정하기'</strong> 버튼을 눌러 다시 시도해 주세요.
+                                    </p>
+                                </div>
+                                <button 
+                                    onClick={() => startAnalysis(undefined, undefined, true)}
+                                    className="px-6 py-3 bg-maple-orange hover:bg-orange-500 text-white font-bold rounded-xl shadow-lg transition-colors flex items-center gap-2"
+                                >
+                                    <Calculator size={18} />
+                                    다시 감정하기
+                                </button>
+                            </div>
+                        ) : (
+                            results.map((res, idx) => (
                             <div 
                                 key={idx} 
                                 className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-4 flex flex-col gap-3 transition-colors cursor-pointer group shadow-lg"
@@ -600,7 +625,7 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                     )}
                                 </div>
                             </div>
-                        ))}
+                        )))}
                     </div>
 
                     {/* 하단 애드센스 광고 배너 (모든 장비 카드 아래) */}
