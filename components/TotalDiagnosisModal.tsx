@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Swords, X, Calculator, Loader2 } from 'lucide-react';
 import { ItemData } from '../app/page';
 import type { AppraisalResult } from '../lib/item-appraisal';
@@ -57,6 +58,12 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
     const [detailItem, setDetailItem] = useState<ItemData | null>(null);
     const [isMiracleTime, setIsMiracleTime] = useState(false);
     const [isShining, setIsShining] = useState(false);
+    const [mounted, setMounted] = useState(false);
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleOverridePrice = async (idx: number, priceStr: string) => {
         let price = parseInt(priceStr);
@@ -174,6 +181,23 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
     };
 
     useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+            if (contentRef.current) {
+                contentRef.current.scrollTop = 0;
+            }
+            const handleEsc = (e: KeyboardEvent) => {
+                if (e.key === 'Escape') onClose();
+            };
+            window.addEventListener('keydown', handleEsc);
+            return () => {
+                document.body.style.overflow = 'unset';
+                window.removeEventListener('keydown', handleEsc);
+            };
+        }
+    }, [isOpen, onClose]);
+
+    useEffect(() => {
         if (isOpen && results.length === 0 && !isAnalyzing) {
             startAnalysis();
         }
@@ -201,11 +225,11 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
     const totalTierUpSavings = results.reduce((acc, r) => acc + (r.result?.savings?.tierUpSavings || 0), 0);
     const totalSavings = (isShining ? totalStarforceSavings : 0) + (isMiracleTime ? totalTierUpSavings : 0);
 
-    if (!isOpen) return null;
+    if (!isOpen || !mounted) return null;
 
-    return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-2" onClick={onClose}>
-            <div className="bg-slate-900 w-full max-w-7xl h-[90vh] rounded-2xl border border-slate-800 shadow-2xl flex flex-col overflow-hidden animate-in fade-in duration-200" onClick={e => e.stopPropagation()}>
+    return createPortal(
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/90 backdrop-blur-sm p-3 sm:p-6" onClick={onClose}>
+            <div className="bg-slate-900 w-full max-w-7xl h-[90vh] max-h-[90vh] rounded-2xl border border-slate-800 shadow-2xl flex flex-col overflow-hidden animate-in fade-in duration-200" onClick={e => e.stopPropagation()}>
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 shrink-0">
                     <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -218,7 +242,7 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 overflow-y-auto p-6 bg-slate-950 flex flex-col custom-scrollbar">
+                <div ref={contentRef} className="flex-1 overflow-y-auto p-6 bg-slate-950 flex flex-col custom-scrollbar">
                     
                     {/* Character Info */}
                     {characterInfo && (
@@ -245,11 +269,6 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                             </div>
                         </div>
                     )}
-
-                    {/* 캐릭터 정보와 진단 결과 사이 애드센스 광고 배너 */}
-                    <div className="mb-4">
-                        <AdBanner dataAdSlot="8162808816" className="w-full my-0" />
-                    </div>
 
                     {/* Top Summary Board */}
                     <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6 shadow-lg flex flex-col gap-4">
@@ -403,7 +422,7 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                             <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
                                                 <input 
                                                     type="number" 
-                                                    autoFocus
+                                                    autoFocus={editingIdx === idx}
                                                     placeholder="직접 입력" 
                                                     defaultValue={res.result?.details.basePrice.cost > 0 ? res.result?.details.basePrice.cost : ''}
                                                     className="w-24 bg-slate-800 border border-slate-700 text-right px-1.5 py-0.5 rounded text-slate-300 text-xs focus:border-amber-400 focus:outline-none" 
@@ -459,6 +478,11 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                             </div>
                         ))}
                     </div>
+
+                    {/* 하단 애드센스 광고 배너 (모든 장비 카드 아래) */}
+                    <div className="mt-8 pt-4 border-t border-slate-800/80">
+                        <AdBanner dataAdSlot="8162808816" className="w-full my-0" />
+                    </div>
                 </div>
             </div>
 
@@ -470,7 +494,8 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                     onClose={() => setDetailItem(null)} 
                 />
             )}
-        </div>
+        </div>,
+        document.body
     );
 };
 
