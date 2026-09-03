@@ -122,6 +122,22 @@ export default function CalculatorMenu() {
                         </Link>
 
                         <Link
+                            href="/calculator/bonus-stat"
+                            prefetch={false}
+                            onClick={close}
+                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
+                        >
+                            <span className="text-xl flex-shrink-0">🔥</span>
+                            <div className="flex flex-col min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-semibold text-sm">추가옵션 기댓값 계산기</span>
+                                    <span className="bg-amber-500 text-slate-950 text-[8px] font-black px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">HOT</span>
+                                </div>
+                                <span className="text-[10px] text-slate-400 mt-0.5">메소 재설정 & 환생의 불꽃</span>
+                            </div>
+                        </Link>
+
+                        <Link
                             href="/guide/hunting-field-calculator"
                             prefetch={false}
                             onClick={close}
