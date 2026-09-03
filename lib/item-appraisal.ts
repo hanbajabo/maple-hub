@@ -206,14 +206,14 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = 6;
                 maxSingleAttPct = 6;
                 maxSingleAllPct = 4;
-                maxStatSum = 12; // 13% 이상(6+6+3=15%, 6+6+6=18%)은 올이탈
-                maxAttSum = 12;
+                maxStatSum = 12;
+                maxAttSum = isWSE ? 6 : 12; // WSE는 공 7% 이상(6+3=9%, 6+3+3=12%) 감지 시 유니크/레전드리 캡 탐색
             } else if (grade === 'UNIQUE') {
                 maxSingleStatPct = 9;
                 maxSingleAttPct = 9;
                 maxSingleAllPct = 6;
-                maxStatSum = 21; // 22% 이상(9+9+6=24%, 9+9+9=27%)은 올이탈
-                maxAttSum = 21;
+                maxStatSum = 21;
+                maxAttSum = isWSE ? 15 : 21; // WSE는 공 16% 이상(9+6+6=21% 3줄 종결) 감지 시 레전드리 캡 탐색
             }
         } else {
             // 250제 이상 (에테르넬 등): 에픽 본옵 7%/하위 4%, 유니크 본옵 10%/하위 7%
@@ -221,14 +221,14 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = 7;
                 maxSingleAttPct = 7;
                 maxSingleAllPct = 5;
-                maxStatSum = 15; // 16% 이상(7+7+4=18%, 7+7+7=21%)은 올이탈
-                maxAttSum = 15;
+                maxStatSum = 15;
+                maxAttSum = isWSE ? 7 : 15; // WSE 250제: 공 8% 이상(7+4=11%) 감지 시 캡 탐색
             } else if (grade === 'UNIQUE') {
                 maxSingleStatPct = 10;
                 maxSingleAttPct = 10;
                 maxSingleAllPct = 7;
-                maxStatSum = 24; // 25% 이상(10+10+7=27%, 10+10+10=30%)은 올이탈
-                maxAttSum = 24;
+                maxStatSum = 24;
+                maxAttSum = isWSE ? 17 : 24; // WSE 250제: 공 18% 이상(10+7+7=24% 3줄 종결) 감지 시 레전드리 캡 탐색
             }
         }
     } else {
@@ -239,22 +239,22 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = isWSE ? 6 : 4;
                 maxSingleAttPct = isWSE ? 6 : 4;
                 maxSingleAllPct = 3;
-                maxStatSum = isWSE ? 12 : 6; // 방어구 주스탯 7% 이상(4+4=8%, 4+4+2=10%, 4+4+4=12%)은 이탈
-                maxAttSum = isWSE ? 12 : 6;
+                maxStatSum = isWSE ? 12 : 6;
+                maxAttSum = isWSE ? 6 : 6; // WSE 에디: 공 7% 이상(6+3=9%, 6+3+3=12%) 감지 시 유니크 캡 탐색
                 maxSinglePerLevel = 0;
                 maxPerLevelSum = 0;
                 maxSingleFlatAtt = isWSE ? 999 : 11;
-                maxFlatAttSum = isWSE ? 999 : 14; // 합산 15 이상 (예: 공10+공10=20) 감지
+                maxFlatAttSum = isWSE ? 999 : 14;
             } else if (grade === 'UNIQUE') {
                 maxSingleStatPct = isWSE ? 9 : 6;
                 maxSingleAttPct = isWSE ? 9 : 6;
                 maxSingleAllPct = 4;
-                maxStatSum = isWSE ? 21 : 14; // 방어구 주스탯 15% 이상(6+6+4=16%, 6+6+6=18%)은 이탈
-                maxAttSum = isWSE ? 21 : 14;
+                maxStatSum = isWSE ? 21 : 14;
+                maxAttSum = isWSE ? 15 : 14; // WSE 에디: 공 16% 이상(9+6+6=21% 3줄 종결) 감지 시 레전드리 캡 탐색
                 maxSinglePerLevel = 1;
-                maxPerLevelSum = 1; // 렙당 +2 이상은 올이탈
+                maxPerLevelSum = 1;
                 maxSingleFlatAtt = isWSE ? 999 : 14;
-                maxFlatAttSum = isWSE ? 999 : 21; // 합산 22 이상 감지
+                maxFlatAttSum = isWSE ? 999 : 21;
             }
         } else {
             // 250제 이상 (에테르넬 등): 방어구 본옵 5%/하위 3%, 무기 공% 본옵 7%/하위 4%
@@ -262,18 +262,18 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = isWSE ? 7 : 5;
                 maxSingleAttPct = isWSE ? 7 : 5;
                 maxSingleAllPct = 4;
-                maxStatSum = isWSE ? 15 : 8; // 방어구 주스탯 9% 이상(5+5=10%, 5+5+3=13%, 5+5+5=15%)은 올이탈
-                maxAttSum = isWSE ? 15 : 8;
+                maxStatSum = isWSE ? 15 : 8;
+                maxAttSum = isWSE ? 7 : 8; // WSE 에디 250제: 공 8% 이상 감지 시 캡 탐색
                 maxSinglePerLevel = 0;
                 maxPerLevelSum = 0;
                 maxSingleFlatAtt = isWSE ? 999 : 12;
-                maxFlatAttSum = isWSE ? 999 : 17; // 합산 18 이상 감지
+                maxFlatAttSum = isWSE ? 999 : 17;
             } else if (grade === 'UNIQUE') {
                 maxSingleStatPct = isWSE ? 10 : 7;
                 maxSingleAttPct = isWSE ? 10 : 7;
                 maxSingleAllPct = 5;
-                maxStatSum = isWSE ? 24 : 17; // 방어구 주스탯 18% 이상(7+7+5=19%, 7+7+7=21%)은 올이탈
-                maxAttSum = isWSE ? 24 : 17;
+                maxStatSum = isWSE ? 24 : 17;
+                maxAttSum = isWSE ? 17 : 17; // WSE 에디 250제: 공 18% 이상 감지 시 레전드리 캡 탐색
                 maxSinglePerLevel = 1;
                 maxPerLevelSum = 1;
                 maxSingleFlatAtt = isWSE ? 999 : 15;
@@ -348,6 +348,15 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
     // 방어구/장신구 깡공+스탯% 복합 다중 중첩 검사 (예: 올탯2%+공10+공10, 4%+공10+공10)
     if (!isWSE && isAddi && grade === 'EPIC' && flatAttSum >= 15 && statSum >= 2) {
         return { hasEscape: true, reason: `공격력/스탯 복합 다중 중첩(+${flatAttSum}, +${statSum}%)` };
+    }
+
+    // 무기/보조무기/엠블렘(WSE) 에픽 깡공/깡마 다중 중첩 검사 (예: 공6%+공12+공12)
+    // 깡공 2줄 이상 중첩 시 유니크 공% 1줄급으로 캡핑 적용
+    if (isWSE && grade === 'EPIC') {
+        const flatAttCount = lines.filter(l => l && (l.includes('공격력 : +') || l.includes('마력 : +')) && !l.includes('%')).length;
+        if (flatAttCount >= 2) {
+            return { hasEscape: true, reason: '무보엠 깡공 다중 중첩 (유니크 공% 치환)' };
+        }
     }
 
     // 에픽 기댓값 시도 횟수 안전망 (15,000회 초과 시 현실적 캡 필요)
@@ -527,6 +536,24 @@ function extractTargetOptionSet(
             combined[primaryPct] = (combined[primaryPct] || 0) + combined['ALL %'];
             delete combined['ALL %'];
         }
+    }
+
+    // 무기/보조무기/엠블렘(WSE)에서 깡공격력/깡마력 라인이 2줄 이상 중첩된 경우:
+    // (예: 에픽 공6% + 공12 + 공12 = 공 24 -> 공 3%급 가치이므로 공 9% 유니크급으로 환산)
+    if (isWSE) {
+        const flatAttLineCount = lines.filter(l => l && (l.includes('공격력 : +') || l.includes('마력 : +')) && !l.includes('%')).length;
+        const isMagicClass = characterClass.includes('아크메이지') || characterClass.includes('비숍') || 
+                            characterClass.includes('루미너스') || characterClass.includes('배틀메이지') || 
+                            characterClass.includes('플레임위자드') || characterClass.includes('에반') || 
+                            characterClass.includes('키네시스') || characterClass.includes('일리움') || 
+                            characterClass.includes('라라') || characterClass.includes('레테') || characterClass.includes('린');
+        const attKey = isMagicClass ? 'MAGIC_ATTACK %' : 'ATTACK %';
+        
+        if (flatAttLineCount >= 2) {
+            combined[attKey] = (combined[attKey] || 0) + 3;
+        }
+        delete combined['ATTACK'];
+        delete combined['MAGIC_ATTACK'];
     }
     
     for (const [key, value] of Object.entries(combined)) {
