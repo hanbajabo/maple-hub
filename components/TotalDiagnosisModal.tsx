@@ -509,10 +509,12 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                 </button>
                             </div>
                         ) : (
-                            results.map((res, idx) => (
+                            results.map((res, idx) => {
+                                const isEscapeCapped = !!(res.result?.details.potential.escapeCappingApplied || res.result?.details.additional.escapeCappingApplied);
+                                return (
                             <div 
                                 key={idx} 
-                                className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-4 flex flex-col gap-3 transition-colors cursor-pointer group shadow-lg"
+                                className={`bg-slate-900 border ${isEscapeCapped ? 'border-amber-500/40 hover:border-amber-500/70 shadow-amber-950/20' : 'border-slate-800 hover:border-slate-700'} rounded-xl p-4 flex flex-col gap-3 transition-colors cursor-pointer group shadow-lg`}
                                 onClick={() => setDetailItem(res.item)}
                             >
                                 {/* Header: Icon + Slot + Full Item Name */}
@@ -521,7 +523,14 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                         <img src={res.item.item_icon} alt={res.item.item_name} className="w-8 h-8 object-contain" />
                                     </div>
                                     <div className="flex flex-col flex-1 min-w-0">
-                                        <span className="text-[11px] text-slate-400 font-medium">{res.item.item_equipment_slot}</span>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-[11px] text-slate-400 font-medium">{res.item.item_equipment_slot}</span>
+                                            {isEscapeCapped && (
+                                                <span className="text-[10px] font-bold px-2 py-0.5 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded-full flex items-center gap-1 shadow-sm" title="이탈 옵션 감지 — 상위 등급 환산 최저 비용 캡 적용됨">
+                                                    ⚡ 보정 적용
+                                                </span>
+                                            )}
+                                        </div>
                                         <span className="text-sm font-bold text-white truncate group-hover:text-maple-orange transition-colors" title={res.item.item_name}>
                                             {res.item.item_name}{res.item.special_ring_level ? ` ${res.item.special_ring_level}레벨` : ''}
                                         </span>
@@ -606,13 +615,27 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                         </div>
                                     )}
                                     <div className="flex justify-between items-center">
-                                        <span className="text-slate-400 font-medium">잠재능력 ({res.item.potential_option_grade || '-'})</span>
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-slate-400 font-medium">잠재능력 ({res.item.potential_option_grade || '-'})</span>
+                                            {res.result?.details.potential.escapeCappingApplied && (
+                                                <span className="text-[9px] font-bold px-1.5 py-0.2 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded-full" title={`${res.result.details.potential.escapeCappingGrade} 환산 최저 비용 캡 적용`}>
+                                                    ⚡ {res.result.details.potential.escapeCappingGrade} 환산
+                                                </span>
+                                            )}
+                                        </div>
                                         <span className={res.result?.details.potential.success ? "text-slate-200 font-medium" : "text-red-400"}>
                                             {res.result?.details.potential.success ? (res.result.details.potential.cost > 0 ? formatMeso(res.result.details.potential.cost) : (res.result.details.potential.reason || '-')) : res.result?.details.potential.reason}
                                         </span>
                                     </div>
                                     <div className="flex justify-between items-center">
-                                        <span className="text-slate-400 font-medium">에디셔널 ({res.item.additional_potential_option_grade || '-'})</span>
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="text-slate-400 font-medium">에디셔널 ({res.item.additional_potential_option_grade || '-'})</span>
+                                            {res.result?.details.additional.escapeCappingApplied && (
+                                                <span className="text-[9px] font-bold px-1.5 py-0.2 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded-full" title={`${res.result.details.additional.escapeCappingGrade} 환산 최저 비용 캡 적용`}>
+                                                    ⚡ {res.result.details.additional.escapeCappingGrade} 환산
+                                                </span>
+                                            )}
+                                        </div>
                                         <span className={res.result?.details.additional.success ? "text-slate-200 font-medium" : "text-red-400"}>
                                             {res.result?.details.additional.success ? (res.result.details.additional.cost > 0 ? formatMeso(res.result.details.additional.cost) : (res.result.details.additional.reason || '-')) : res.result?.details.additional.reason}
                                         </span>
@@ -625,7 +648,8 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                     )}
                                 </div>
                             </div>
-                        )))}
+                            );
+                        }))}
                     </div>
 
                     {/* 하단 애드센스 광고 배너 (모든 장비 카드 아래) */}
