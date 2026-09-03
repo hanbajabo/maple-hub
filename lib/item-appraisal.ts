@@ -384,6 +384,36 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
         }
     }
 
+    // 방어구/장신구 에디셔널 유니크 쌍본옵 이탈 검사 (예: STR 6% + 9렙당 1, 공14 + 9렙당 1 등)
+    // 200제 이하: 공 14 이상, 스탯 6% 이상, 올스탯 5% 이상, 9렙당 1 이상
+    // 250제 이상: 공 15 이상, 스탯 7% 이상, 올스탯 6% 이상, 9렙당 1 이상
+    if (!isWSE && isAddi && grade === 'UNIQUE') {
+        const minPrimeFlatAtt = isLevel250Plus ? 15 : 14;
+        const minPrimeStatPct = isLevel250Plus ? 7 : 6;
+        const minPrimeAllPct = isLevel250Plus ? 6 : 5;
+        
+        let primeLineCount = 0;
+        for (const line of lines) {
+            if (!line) continue;
+            const parsed = parseOptionString(line, 1);
+            const fAtt = (parsed.stats.ATTACK || 0) + (parsed.stats.MAGIC_ATTACK || 0);
+            const sPct = (parsed.stats['STR %'] || 0) + (parsed.stats['DEX %'] || 0) + 
+                         (parsed.stats['INT %'] || 0) + (parsed.stats['LUK %'] || 0) + 
+                         (parsed.stats['HP %'] || 0);
+            const aPct = parsed.stats['ALL %'] || 0;
+            const pLvl = (parsed.stats['STR_PER_LEVEL'] || 0) + (parsed.stats['DEX_PER_LEVEL'] || 0) + 
+                         (parsed.stats['INT_PER_LEVEL'] || 0) + (parsed.stats['LUK_PER_LEVEL'] || 0);
+            
+            if (fAtt >= minPrimeFlatAtt || sPct >= minPrimeStatPct || aPct >= minPrimeAllPct || pLvl >= 1) {
+                primeLineCount++;
+            }
+        }
+
+        if (primeLineCount >= 2) {
+            return { hasEscape: true, reason: '에디 유니크 쌍본옵 이탈 (스탯% + 렙당스탯 등)' };
+        }
+    }
+
     // 무기/보조무기/엠블렘(WSE) 에픽 깡공/깡마 다중 중첩 검사 (예: 공6%+공12+공12)
     // 깡공 2줄 이상 중첩 시 유니크 공% 1줄급으로 캡핑 적용
     if (isWSE && grade === 'EPIC') {
@@ -486,7 +516,9 @@ export function convertToEquivalentMainStatTarget(
                              (parsed.stats['INT %'] || 0) + (parsed.stats['LUK %'] || 0) + 
                              (parsed.stats['HP %'] || 0);
                 const aPct = parsed.stats['ALL %'] || 0;
-                if (fAtt >= minPrimeFlat || sPct >= minPrimeStat || aPct >= minPrimeAll) {
+                const pLvl = (parsed.stats['STR_PER_LEVEL'] || 0) + (parsed.stats['DEX_PER_LEVEL'] || 0) + 
+                             (parsed.stats['INT_PER_LEVEL'] || 0) + (parsed.stats['LUK_PER_LEVEL'] || 0);
+                if (fAtt >= minPrimeFlat || sPct >= minPrimeStat || aPct >= minPrimeAll || pLvl >= 1) {
                     lowerPrimeCount++;
                 }
             } else {
