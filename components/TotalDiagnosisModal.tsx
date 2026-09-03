@@ -239,41 +239,42 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
     if (!isOpen || !mounted) return null;
 
     return createPortal(
-        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/90 backdrop-blur-sm p-3 sm:p-6" onClick={onClose}>
-            <div className="bg-slate-900 w-full max-w-7xl h-[90vh] max-h-[90vh] rounded-2xl border border-slate-800 shadow-2xl flex flex-col overflow-hidden animate-in fade-in duration-200" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/90 backdrop-blur-sm p-2 sm:p-4 md:p-6" onClick={onClose}>
+            <div className="bg-slate-900 w-full max-w-7xl h-[94vh] sm:h-[90vh] max-h-[94vh] rounded-xl sm:rounded-2xl border border-slate-800 shadow-2xl flex flex-col overflow-hidden animate-in fade-in duration-200" onClick={e => e.stopPropagation()}>
                 {/* Header */}
-                <div className="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 shrink-0">
-                    <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                        <Calculator className="text-maple-orange" size={20} />
-                        템셋 총 직작 가치 감정 (Beta)
+                <div className="px-3.5 sm:px-6 py-2.5 sm:py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 shrink-0">
+                    <h2 className="text-sm sm:text-lg md:text-xl font-bold text-white flex items-center gap-1.5 sm:gap-2 min-w-0">
+                        <Calculator className="text-maple-orange shrink-0" size={18} />
+                        <span className="whitespace-nowrap">템셋 총 직작 가치 감정</span>
+                        <span className="text-[10px] sm:text-xs px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30 font-bold shrink-0">Beta</span>
                     </h2>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-400 hover:text-white">
-                        <X size={20} />
+                    <button onClick={onClose} className="p-1.5 sm:p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-400 hover:text-white shrink-0 ml-2">
+                        <X size={18} />
                     </button>
                 </div>
 
                 {/* Content */}
-                <div ref={contentRef} className="flex-1 overflow-y-auto p-6 bg-slate-950 flex flex-col custom-scrollbar">
+                <div ref={contentRef} className="flex-1 overflow-y-auto p-3 sm:p-6 bg-slate-950 flex flex-col custom-scrollbar">
                     
                     {/* Character Info */}
                     {characterInfo && (
-                        <div className="flex items-center gap-4 mb-4 bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg">
+                        <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4 bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-4 shadow-lg">
                             {characterInfo.character_image && (
-                                <img src={characterInfo.character_image} alt={characterInfo.character_name} className="w-16 h-16 rounded-lg object-contain bg-slate-800" />
+                                <img src={characterInfo.character_image} alt={characterInfo.character_name} className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-contain bg-slate-800 shrink-0" />
                             )}
-                            <div className="flex flex-col">
+                            <div className="flex flex-col min-w-0">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-xl font-bold text-white">{characterInfo.character_name}</span>
-                                    <span className="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-300 font-medium">Lv.{characterInfo.character_level}</span>
+                                    <span className="text-base sm:text-xl font-bold text-white truncate">{characterInfo.character_name}</span>
+                                    <span className="text-[10px] sm:text-xs px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-medium shrink-0">Lv.{characterInfo.character_level}</span>
                                 </div>
-                                <div className="text-sm text-slate-400 mt-1 flex flex-wrap items-center gap-2">
+                                <div className="text-xs sm:text-sm text-slate-400 mt-0.5 sm:mt-1 flex flex-wrap items-center gap-1.5 sm:gap-2">
                                     <span>{characterInfo.world_name}</span>
                                     <span>•</span>
                                     <span>{characterClass}</span>
                                     {characterInfo.character_guild_name && (
                                         <>
                                             <span>•</span>
-                                            <span>{characterInfo.character_guild_name}</span>
+                                            <span className="truncate">{characterInfo.character_guild_name}</span>
                                         </>
                                     )}
                                 </div>
@@ -282,22 +283,24 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                     )}
 
                     {/* Top Summary Board */}
-                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6 shadow-lg flex flex-col gap-4">
-                        {/* 이벤트 토글 배너 */}
-                        <div className="flex flex-wrap gap-2">
+                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-3.5 sm:p-6 mb-4 sm:mb-6 shadow-lg flex flex-col gap-3 sm:gap-4">
+                        {/* 이벤트 토글 배너 - 모바일 그리드 */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             {/* 미라클 타임 토글 */}
                             <button
                                 onClick={() => handleMiracleToggle(!isMiracleTime)}
                                 disabled={isAnalyzing}
-                                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold border transition-all select-none ${
+                                className={`w-full flex items-center justify-between px-3.5 py-2 sm:py-2.5 rounded-xl text-xs font-bold border transition-all select-none ${
                                     isMiracleTime
                                         ? 'bg-purple-500/20 border-purple-400 text-purple-300 shadow-[0_0_8px_rgba(168,85,247,0.4)]'
                                         : 'bg-slate-800 border-slate-600 text-slate-400 hover:border-slate-500'
                                 }`}
                             >
-                                <span className="text-base">✨</span>
-                                미라클 타임 (등업 2배)
-                                <span className={`w-7 h-4 rounded-full flex items-center transition-all ${isMiracleTime ? 'bg-purple-500' : 'bg-slate-600'}`}>
+                                <span className="flex items-center gap-1.5 min-w-0">
+                                    <span className="text-sm shrink-0">✨</span>
+                                    <span className="whitespace-nowrap truncate">미라클 타임 (등업 2배)</span>
+                                </span>
+                                <span className={`w-7 h-4 rounded-full flex items-center shrink-0 transition-all ml-2 ${isMiracleTime ? 'bg-purple-500' : 'bg-slate-600'}`}>
                                     <span className={`w-3 h-3 bg-white rounded-full shadow transition-all mx-0.5 ${isMiracleTime ? 'translate-x-3' : 'translate-x-0'}`} />
                                 </span>
                             </button>
@@ -305,35 +308,40 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                             <button
                                 onClick={() => handleShiningToggle(!isShining)}
                                 disabled={isAnalyzing}
-                                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold border transition-all select-none ${
+                                className={`w-full flex items-center justify-between px-3.5 py-2 sm:py-2.5 rounded-xl text-xs font-bold border transition-all select-none ${
                                     isShining
                                         ? 'bg-yellow-500/20 border-yellow-400 text-yellow-300 shadow-[0_0_8px_rgba(234,179,8,0.4)]'
                                         : 'bg-slate-800 border-slate-600 text-slate-400 hover:border-slate-500'
                                 }`}
                             >
-                                <span className="text-base">🌟</span>
-                                샤이닝 스타포스 타임 (30% 할인)
-                                <span className={`w-7 h-4 rounded-full flex items-center transition-all ${isShining ? 'bg-yellow-500' : 'bg-slate-600'}`}>
+                                <span className="flex items-center gap-1.5 min-w-0">
+                                    <span className="text-sm shrink-0">🌟</span>
+                                    <span className="whitespace-nowrap truncate">샤이닝 스타포스 (30% 할인)</span>
+                                </span>
+                                <span className={`w-7 h-4 rounded-full flex items-center shrink-0 transition-all ml-2 ${isShining ? 'bg-yellow-500' : 'bg-slate-600'}`}>
                                     <span className={`w-3 h-3 bg-white rounded-full shadow transition-all mx-0.5 ${isShining ? 'translate-x-3' : 'translate-x-0'}`} />
                                 </span>
                             </button>
                         </div>
 
                         {/* 기댓값 총합 + 버튼 */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                            <div className="flex flex-col">
-                                <span className="text-slate-400 font-medium mb-1">
-                                    현재 장착 중인 전체 장비 기댓값 총합
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                            <div className="flex flex-col w-full sm:w-auto">
+                                <span className="text-xs sm:text-sm text-slate-400 font-medium mb-1 flex items-center flex-wrap gap-1">
+                                    <span>현재 장착 중인 전체 장비 기댓값 총합</span>
                                     {(isMiracleTime || isShining) && (
-                                        <span className="ml-2 text-xs text-yellow-400 font-semibold">(이벤트 할인 적용)</span>
+                                        <span className="text-[11px] text-yellow-400 font-semibold">(이벤트 할인 적용)</span>
                                     )}
                                 </span>
-                                <div className="flex items-end gap-3">
-                                    <span className="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 drop-shadow-md">
+                                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mt-0.5">
+                                    <span className="text-2xl sm:text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 drop-shadow-md break-keep">
                                         {formatMeso(totalCost)}
                                     </span>
-                                    <span className="text-xl text-yellow-500/80 font-bold mb-1">메소</span>
+                                    <span className="text-sm sm:text-xl text-yellow-500/80 font-bold whitespace-nowrap">
+                                        메소
+                                    </span>
                                 </div>
+                            </div>
 
                                 {/* 이벤트 할인 절감액 상세 안내 */}
                                 {(isMiracleTime || isShining) && totalSavings > 0 && (

@@ -55,41 +55,41 @@ export default function EquipmentAppraisalPage() {
 
             <div className="relative z-10 max-w-3xl mx-auto space-y-8">
                 {/* Header */}
-                <div className="text-center space-y-4">
-                    <div className="flex justify-center mx-auto mb-4">
-                        <Image src="/images/meso_icon.png" alt="Meso Icon" width={64} height={64} className="drop-shadow-lg" />
+                <div className="text-center space-y-3 sm:space-y-4">
+                    <div className="flex justify-center mx-auto mb-3 sm:mb-4">
+                        <Image src="/images/meso_icon.png" alt="Meso Icon" width={64} height={64} className="w-12 h-12 sm:w-16 sm:h-16 drop-shadow-lg" />
                     </div>
-                    <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight drop-shadow-md flex items-center justify-center gap-2.5 flex-wrap">
-                        <span>메이플스토리 장비 기댓값 진단기</span>
-                        <span className="text-sm md:text-base font-extrabold text-maple-orange bg-orange-500/15 border border-maple-orange/40 px-2.5 py-0.5 rounded-full tracking-wide shadow-sm">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight drop-shadow-md text-center break-keep leading-snug px-2">
+                        <span>메이플스토리 장비 기댓값 진단기</span>{' '}
+                        <span className="inline-block text-xs sm:text-sm font-extrabold text-maple-orange bg-orange-500/15 border border-maple-orange/40 px-2 py-0.5 rounded-full tracking-wide align-middle whitespace-nowrap shadow-sm ml-1">
                             Beta
                         </span>
                     </h1>
-                    <p className="text-slate-300 max-w-xl mx-auto leading-relaxed">
+                    <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-xl mx-auto leading-relaxed break-keep px-2">
                         캐릭터가 착용 중인 모든 장비의 노작 시세, 스타포스, 잠재능력을 종합하여 
                         해당 스펙을 맞추기 위해 필요한 <strong className="text-maple-orange font-bold">총 기댓값(메소)</strong>을 계산합니다.
                     </p>
                 </div>
 
                 {/* Search Box */}
-                <div className="bg-slate-900/85 p-6 md:p-8 rounded-2xl border border-slate-700/80 backdrop-blur-md shadow-2xl">
+                <div className="bg-slate-900/85 p-4 sm:p-6 md:p-8 rounded-2xl border border-slate-700/80 backdrop-blur-md shadow-2xl">
                     <form onSubmit={handleSearch} className="flex gap-2 max-w-lg mx-auto">
-                        <div className="relative flex-1">
+                        <div className="relative flex-1 min-w-0">
                             <input
                                 type="text"
                                 value={nickname}
                                 onChange={(e) => setNickname(e.target.value)}
                                 placeholder="캐릭터 닉네임 입력..."
-                                className="w-full bg-slate-950/80 border border-slate-700 text-white px-4 py-3 pl-11 rounded-xl focus:outline-none focus:border-maple-orange focus:ring-1 focus:ring-maple-orange transition-all placeholder:text-slate-500"
+                                className="w-full bg-slate-950/80 border border-slate-700 text-white px-3 sm:px-4 py-2.5 sm:py-3 pl-9 sm:pl-11 rounded-xl focus:outline-none focus:border-maple-orange focus:ring-1 focus:ring-maple-orange transition-all placeholder:text-slate-500 text-sm sm:text-base"
                             />
-                            <Search className="w-5 h-5 text-slate-500 absolute left-4 top-1/2 -translate-y-1/2" />
+                            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500 absolute left-3 sm:left-4 top-1/2 -translate-y-1/2" />
                         </div>
                         <button
                             type="submit"
                             disabled={isLoading || !nickname.trim()}
-                            className="bg-maple-orange hover:bg-orange-500 disabled:opacity-50 disabled:hover:bg-maple-orange text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center gap-2 whitespace-nowrap shadow-lg shadow-maple-orange/20"
+                            className="bg-maple-orange hover:bg-orange-500 disabled:opacity-50 disabled:hover:bg-maple-orange text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap shadow-lg shadow-maple-orange/20 text-sm sm:text-base shrink-0"
                         >
-                            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : '진단하기'}
+                            {isLoading ? <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" /> : '진단하기'}
                         </button>
                     </form>
                     {error && (
