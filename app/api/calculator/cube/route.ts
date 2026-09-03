@@ -230,6 +230,14 @@ export async function POST(request: NextRequest) {
         let totalProb = 0;
         let expectedAttempts = 0;
         let rollingCostMeso = 0;
+        let combinations: {
+            line1: string;
+            line2: string;
+            line3: string;
+            probability: number;
+            probabilityPercent: string;
+            sharePercent: string;
+        }[] = [];
 
         const targetKor = toKoreanGrade(normTargetGrade);
         const startKor = toKoreanGrade(normStartGrade);
@@ -263,31 +271,72 @@ export async function POST(request: NextRequest) {
                 ...lowPool.map(o => ({ ...o, probability: o.probability * l3low }))
             ];
 
-            const targetLinesArray = [line1, line2, line3].filter(Boolean);
-            const hasLineCriteria = targetLinesArray.length > 0;
+            interface TargetCriteria {
+                rawName: string;
+                parsed: ParsedOption;
+                isAny: boolean;
+            }
+
+            function createTargetCriteria(line: string): TargetCriteria {
+                if (!line || line === 'ANY') {
+                    return { rawName: line || 'ANY', parsed: { id: 0, rawName: 'ANY', probability: 0, stats: {} }, isAny: true };
+                }
+                const parsed = parseOptionString(line, 1);
+                return { rawName: line, parsed, isAny: false };
+            }
+
+            function isBetterOrEqual(candidate: ParsedOption, target: TargetCriteria): boolean {
+                if (target.isAny) return true;
+                if (target.parsed.isDecentSkill || target.parsed.isInvincibleAfterHit) {
+                    return candidate.rawName.includes(target.rawName) || target.rawName.includes(candidate.rawName);
+                }
+                const targetStatEntries = Object.entries(target.parsed.stats);
+                if (targetStatEntries.length === 0) {
+                    return candidate.rawName.includes(target.rawName);
+                }
+                for (const [key, targetVal] of targetStatEntries) {
+                    const statKey = key as StatType;
+                    const candVal = candidate.stats[statKey] ?? 0;
+                    if (candVal < (targetVal as number)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            function matchesLineCriteria(
+                c: [ParsedOption, ParsedOption, ParsedOption],
+                t: [TargetCriteria, TargetCriteria, TargetCriteria],
+                isUnordered: boolean
+            ): boolean {
+                if (!isUnordered) {
+                    return isBetterOrEqual(c[0], t[0]) &&
+                           isBetterOrEqual(c[1], t[1]) &&
+                           isBetterOrEqual(c[2], t[2]);
+                }
+                if (isBetterOrEqual(c[0], t[0]) && isBetterOrEqual(c[1], t[1]) && isBetterOrEqual(c[2], t[2])) return true;
+                if (isBetterOrEqual(c[0], t[0]) && isBetterOrEqual(c[1], t[2]) && isBetterOrEqual(c[2], t[1])) return true;
+                if (isBetterOrEqual(c[0], t[1]) && isBetterOrEqual(c[1], t[0]) && isBetterOrEqual(c[2], t[2])) return true;
+                if (isBetterOrEqual(c[0], t[1]) && isBetterOrEqual(c[1], t[2]) && isBetterOrEqual(c[2], t[0])) return true;
+                if (isBetterOrEqual(c[0], t[2]) && isBetterOrEqual(c[1], t[0]) && isBetterOrEqual(c[2], t[1])) return true;
+                if (isBetterOrEqual(c[0], t[2]) && isBetterOrEqual(c[1], t[1]) && isBetterOrEqual(c[2], t[0])) return true;
+                return false;
+            }
+
+            const targetCriteriaList: [TargetCriteria, TargetCriteria, TargetCriteria] = [
+                createTargetCriteria(line1),
+                createTargetCriteria(line2),
+                createTargetCriteria(line3)
+            ];
+            const hasLineCriteria = targetCriteriaList.some(t => !t.isAny);
             const hasStatsCriteria = Object.keys(targetStats).length > 0 && Object.values(targetStats).some(v => Number(v) > 0);
+
+            const combinationMap = new Map<string, number>();
 
             function matchCriteria(opt1: ParsedOption, opt2: ParsedOption, opt3: ParsedOption, stats: Partial<Record<StatType, number>>) {
                 if (mode === 'lines') {
                     if (!hasLineCriteria) return true;
-
-                    const selected = [opt1.rawName, opt2.rawName, opt3.rawName];
-                    if (!unordered) {
-                        if (line1 && line1 !== 'ANY' && !opt1.rawName.includes(line1)) return false;
-                        if (line2 && line2 !== 'ANY' && !opt2.rawName.includes(line2)) return false;
-                        if (line3 && line3 !== 'ANY' && !opt3.rawName.includes(line3)) return false;
-                        return true;
-                    } else {
-                        const required = [line1, line2, line3].filter(t => t && t !== 'ANY');
-                        if (required.length === 0) return true;
-                        const pool = [...selected];
-                        for (const req of required) {
-                            const idx = pool.findIndex(p => p.includes(req));
-                            if (idx === -1) return false;
-                            pool.splice(idx, 1);
-                        }
-                        return true;
-                    }
+                    return matchesLineCriteria([opt1, opt2, opt3], targetCriteriaList, unordered);
                 } else {
                     if (!hasStatsCriteria) return true;
                     const allPct = stats['ALL %'] ?? 0;
@@ -333,11 +382,28 @@ export async function POST(request: NextRequest) {
                         const stats3 = combineStats(stats2, opt3.stats);
 
                         if (matchCriteria(opt1, opt2, opt3, stats3)) {
-                            totalProb += opt1.probability * p2 * p3;
+                            const combProb = opt1.probability * p2 * p3;
+                            totalProb += combProb;
+                            const comboKey = `${opt1.rawName} ||| ${opt2.rawName} ||| ${opt3.rawName}`;
+                            combinationMap.set(comboKey, (combinationMap.get(comboKey) || 0) + combProb);
                         }
                     }
                 }
             }
+
+            combinations = Array.from(combinationMap.entries())
+                .map(([key, prob]) => {
+                    const [l1, l2, l3] = key.split(' ||| ');
+                    return {
+                        line1: l1,
+                        line2: l2,
+                        line3: l3,
+                        probability: prob,
+                        probabilityPercent: `${(prob * 100).toFixed(8)}%`,
+                        sharePercent: totalProb > 0 ? `${((prob / totalProb) * 100).toFixed(2)}%` : '0%'
+                    };
+                })
+                .sort((a, b) => b.probability - a.probability);
 
             expectedAttempts = totalProb > 0 ? Math.round(1 / totalProb) : 0;
             const targetCostOnce = validMethod === 'POTENTIAL'
@@ -374,6 +440,7 @@ export async function POST(request: NextRequest) {
             grandTotalAttempts,
             grandTotalMeso,
             grandTotalText: formatMeso(grandTotalMeso),
+            combinations,
             availableOptions,
             currentGradeOptions: currentGradeOptionsRaw,
             lowerGradeOptions: lowerGradeOptionsRaw

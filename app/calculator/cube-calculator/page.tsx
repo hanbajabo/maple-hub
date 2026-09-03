@@ -127,6 +127,14 @@ interface CalculationResult {
     grandTotalAttempts: number;
     grandTotalMeso: number;
     grandTotalText: string;
+    combinations?: {
+        line1: string;
+        line2: string;
+        line3: string;
+        probability: number;
+        probabilityPercent: string;
+        sharePercent: string;
+    }[];
     availableOptions: string[];
     currentGradeOptions: { name: string; probability: number }[];
     lowerGradeOptions: { name: string; probability: number }[];
@@ -1124,6 +1132,80 @@ export default function CubeCalculatorPage() {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Combinations Breakdown (mesu.live style) */}
+                        {result.combinations && result.combinations.length > 0 && (
+                            <div className="bg-slate-950/90 rounded-xl p-3.5 sm:p-4 border border-slate-800 space-y-3 text-xs sm:text-sm">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800/80 pb-2.5">
+                                    <div className="font-bold text-slate-200 flex items-center gap-1.5 text-xs sm:text-sm">
+                                        <span className="text-base">🎯</span>
+                                        <span>목표 달성 세부 조합 내역</span>
+                                        <span className="bg-emerald-500/20 text-emerald-300 text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold border border-emerald-500/30">
+                                            총 {result.combinations.length}개 조합
+                                        </span>
+                                    </div>
+                                    <span className="text-[11px] text-slate-400">
+                                        * 상위 이탈옵 포함 유효 조합별 출현 확률 및 점유율
+                                    </span>
+                                </div>
+
+                                <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1">
+                                    {result.combinations.map((comb, idx) => {
+                                        const isTop = idx === 0;
+                                        const shareVal = parseFloat(comb.sharePercent);
+                                        return (
+                                            <div
+                                                key={idx}
+                                                className={`p-2.5 sm:p-3 rounded-lg border transition-colors ${
+                                                    isTop
+                                                        ? 'bg-emerald-950/20 border-emerald-500/30 hover:bg-emerald-950/30'
+                                                        : 'bg-slate-900/60 border-slate-800/80 hover:bg-slate-900/90'
+                                                }`}
+                                            >
+                                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                                    {/* 3 lines of options */}
+                                                    <div className="space-y-1 flex-1">
+                                                        <div className="flex items-center gap-1.5 text-xs text-slate-300">
+                                                            <span className="text-[10px] font-mono text-slate-500 w-5 shrink-0">1줄</span>
+                                                            <span className="font-medium text-slate-200">{comb.line1}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-1.5 text-xs text-slate-300">
+                                                            <span className="text-[10px] font-mono text-slate-500 w-5 shrink-0">2줄</span>
+                                                            <span className="font-medium text-slate-200">{comb.line2}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-1.5 text-xs text-slate-300">
+                                                            <span className="text-[10px] font-mono text-slate-500 w-5 shrink-0">3줄</span>
+                                                            <span className="font-medium text-slate-200">{comb.line3}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Probability & Share */}
+                                                    <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center shrink-0 border-t sm:border-t-0 pt-1 sm:pt-0 border-slate-800/60 gap-1 min-w-[130px]">
+                                                        <div className="text-right">
+                                                            <div className="text-xs font-mono font-bold text-emerald-400">
+                                                                {comb.probabilityPercent}
+                                                            </div>
+                                                            <div className="text-[10px] text-slate-400">
+                                                                당첨 점유율 <strong className="text-amber-300 font-mono">{comb.sharePercent}</strong>
+                                                            </div>
+                                                        </div>
+                                                        {/* Gauge Bar */}
+                                                        <div className="w-24 sm:w-28 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                                            <div
+                                                                className={`h-full rounded-full ${
+                                                                    isTop ? 'bg-emerald-400' : 'bg-indigo-400'
+                                                                }`}
+                                                                style={{ width: `${Math.max(2, Math.min(100, shareVal))}%` }}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
 
                         {/* Option Pool Toggle */}
                         {result.goalType !== 'GRADE_UP' && (
