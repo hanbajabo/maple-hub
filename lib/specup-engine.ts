@@ -154,6 +154,8 @@ const JOB_PROFILES: Record<string, JobProfile> = {
     '일리움': { mainStat: 'INT', subStat: 'LUK', isMagic: true, weaponConstant: 1.2 },
     '라라': { mainStat: 'INT', subStat: 'LUK', isMagic: true, weaponConstant: 1.2 },
     '키네시스': { mainStat: 'INT', subStat: 'LUK', isMagic: true, weaponConstant: 1.2 },
+    '레테': { mainStat: 'INT', subStat: 'LUK', isMagic: true, weaponConstant: 1.2 },
+    '린': { mainStat: 'INT', subStat: 'LUK', isMagic: true, weaponConstant: 1.2 },
     // 궁수
     '보우마스터': { mainStat: 'DEX', subStat: 'STR', isMagic: false, weaponConstant: 1.3 },
     '신궁': { mainStat: 'DEX', subStat: 'STR', isMagic: false, weaponConstant: 1.35 },

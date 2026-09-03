@@ -10,7 +10,8 @@ export const MAGIC_ATTACK_JOBS = [
     '일리움',
     '라라',
     '비스트테이머',
-    '린'
+    '린',
+    '레테'
 ];
 
 export function isMagicJob(jobName: string): boolean {
@@ -28,6 +29,7 @@ export function isMagicJob(jobName: string): boolean {
     if (normalized.includes('라라')) return true;
     if (normalized.includes('비스트테이머')) return true;
     if (normalized.includes('린')) return true;
+    if (normalized.includes('레테')) return true;
 
     return MAGIC_ATTACK_JOBS.includes(jobName);
 }
