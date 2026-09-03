@@ -124,6 +124,11 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
         setTotalCost(0);
 
         const validItems = equipmentGrid.filter((i): i is ItemData => i !== null);
+        if (validItems.length === 0) {
+            setIsAnalyzing(false);
+            setProgress(0);
+            return;
+        }
         
         // 장비 순서 정렬 (무기류 -> 방어구 -> 장신구)
         const slotOrder = [
@@ -209,10 +214,18 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
     }, [isOpen, onClose]);
 
     useEffect(() => {
-        if (isOpen && results.length === 0 && !isAnalyzing) {
+        if (isOpen) {
             startAnalysis();
+        } else {
+            // 모달이 닫히면 이전 분석 결과 및 상태를 초기화하여 다음 진단 시 항상 최신 상태로 새로 분석되도록 처리
+            setResults([]);
+            setTotalCost(0);
+            setProgress(0);
+            setIsAnalyzing(false);
+            setEditingIdx(null);
+            setDetailItem(null);
         }
-    }, [isOpen]);
+    }, [isOpen, characterInfo?.character_name]);
 
     // 이벤트 토글 변경 시 자동 재감정
     const handleMiracleToggle = (val: boolean) => {
