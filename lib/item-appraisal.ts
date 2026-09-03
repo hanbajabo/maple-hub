@@ -487,12 +487,12 @@ export function convertToEquivalentMainStatTarget(
     const flatVal = (target[primaryFlat as keyof TargetOptionSet] as number) || 0;
     totalEquivalentPct += flatVal * 0.1;
 
-    // 4. 모자 렙당 스탯 (9렙당 1은 주스탯 약 2.9%)
+    // 4. 모자 렙당 스탯 (9렙당 1은 주스탯 4%로 1:1 치환)
     const perLevelKeys = ['STR_PER_LEVEL', 'DEX_PER_LEVEL', 'INT_PER_LEVEL', 'LUK_PER_LEVEL'];
     for (const pk of perLevelKeys) {
         const perLvlVal = (target[pk as keyof TargetOptionSet] as number) || 0;
         if (perLvlVal > 0) {
-            totalEquivalentPct += perLvlVal * 2.9;
+            totalEquivalentPct += perLvlVal * 4.0;
         }
     }
 
