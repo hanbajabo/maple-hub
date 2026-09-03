@@ -248,6 +248,12 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                             </span>
                                         )}
                                     </div>
+                                    {appraisalResult.appliedEvents?.isMiracleTime && (appraisalResult.details.potential.tierUpSavings || 0) > 0 && (
+                                        <div className="text-purple-300 font-medium pt-0.5">
+                                            <span className="text-purple-400/90 w-24 inline-block font-semibold">미라클 할인:</span>
+                                            <span className="font-bold">-{formatMesoStr(appraisalResult.details.potential.tierUpSavings!)} 메소 절감</span>
+                                        </div>
+                                    )}
                                     <div><span className="text-slate-400 w-24 inline-block font-medium">옵션 비용:</span> {formatMesoStr(appraisalResult.details.potential.optionCost || 0)} <span className="text-slate-500">(평균 {appraisalResult.details.potential.expectedTries?.toLocaleString() || 0}개 소모)</span></div>
                                     {appraisalResult.details.potential.targetOptionStr && (
                                         <div className="text-green-300/80 font-medium mt-1"><span className="text-slate-400 w-24 inline-block font-medium">유효 옵션:</span> {appraisalResult.details.potential.targetOptionStr}</div>
@@ -273,6 +279,12 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                             </span>
                                         )}
                                     </div>
+                                    {appraisalResult.appliedEvents?.isMiracleTime && (appraisalResult.details.additional.tierUpSavings || 0) > 0 && (
+                                        <div className="text-purple-300 font-medium pt-0.5">
+                                            <span className="text-purple-400/90 w-24 inline-block font-semibold">미라클 할인:</span>
+                                            <span className="font-bold">-{formatMesoStr(appraisalResult.details.additional.tierUpSavings!)} 메소 절감</span>
+                                        </div>
+                                    )}
                                     <div><span className="text-slate-400 w-24 inline-block font-medium">옵션 비용:</span> {formatMesoStr(appraisalResult.details.additional.optionCost || 0)} <span className="text-slate-500">(평균 {appraisalResult.details.additional.expectedTries?.toLocaleString() || 0}개 소모)</span></div>
                                     {appraisalResult.details.additional.targetOptionStr && (
                                         <div className="text-blue-300/80 font-medium mt-1"><span className="text-slate-400 w-24 inline-block font-medium">유효 옵션:</span> {appraisalResult.details.additional.targetOptionStr}</div>

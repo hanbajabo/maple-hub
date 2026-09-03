@@ -19,7 +19,12 @@ export interface AppraisalResult {
     priceDate?: string;
     errorMessage?: string;
     appliedEvents?: { isMiracleTime: boolean; isShining: boolean; };
-    savings?: { starforceSavings: number; tierUpSavings: number; };
+    savings?: { 
+        starforceSavings: number; 
+        tierUpSavings: number; 
+        potentialTierUpSavings?: number;
+        additionalTierUpSavings?: number;
+    };
     details: {
         starforce: {
             success: boolean;
@@ -27,6 +32,7 @@ export interface AppraisalResult {
             reason?: string;
             expectedSpares?: number;
             pureEnhancementCost?: number;
+            savings?: number;
         };
         potential: {
             success: boolean;
@@ -36,6 +42,7 @@ export interface AppraisalResult {
             optionCost?: number;
             expectedTries?: number;
             targetOptionStr?: string;
+            tierUpSavings?: number;
         };
         additional: {
             success: boolean;
@@ -45,6 +52,7 @@ export interface AppraisalResult {
             optionCost?: number;
             expectedTries?: number;
             targetOptionStr?: string;
+            tierUpSavings?: number;
         };
         basePrice: {
             success: boolean;
@@ -436,6 +444,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                     const sparesBase = Math.max(0, sfCostToCurrentBase.totalSpares - sfCostTo22Base.totalSpares);
                     const baseActualSfCost = pureMesoBase + (sparesBase * 10_000_000_000);
                     starforceSavings = Math.max(0, baseActualSfCost - actualSfCost);
+                    defaultResult.details.starforce.savings = starforceSavings;
                 }
             } catch (e) {
                 defaultResult.details.starforce.success = false;
@@ -467,6 +476,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                 });
                 const baseActualSfCost = sfBaseCost.totalMeso + (sfBaseCost.totalSpares * (basePrice || 50000000));
                 starforceSavings = Math.max(0, baseActualSfCost - actualSfCost);
+                defaultResult.details.starforce.savings = starforceSavings;
             }
         } catch (e) {
             defaultResult.details.starforce.success = false;
@@ -504,10 +514,13 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                 if (gradeEn === 'LEGENDARY') tierUpGrade = '레전드리';
                 
                 const tierUpCost = tierUpGrade ? getTierUpCost(level, tierUpGrade, false, isMiracleTime) : 0;
+                let potTierUpSavings = 0;
                 if (isMiracleTime && tierUpGrade) {
                     const normalTierUpCost = getTierUpCost(level, tierUpGrade, false, false);
-                    tierUpSavings += Math.max(0, normalTierUpCost - tierUpCost);
+                    potTierUpSavings = Math.max(0, normalTierUpCost - tierUpCost);
+                    tierUpSavings += potTierUpSavings;
                 }
+                defaultResult.details.potential.tierUpSavings = potTierUpSavings;
 
                 if (Object.keys(potTarget).length === 0) {
                     defaultResult.potentialCost = tierUpCost;
@@ -575,10 +588,13 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                 if (gradeEn === 'LEGENDARY') tierUpGrade = '레전드리';
                 
                 const tierUpCost = tierUpGrade ? getTierUpCost(level, tierUpGrade, true, isMiracleTime) : 0;
+                let addTierUpSavings = 0;
                 if (isMiracleTime && tierUpGrade) {
                     const normalTierUpCost = getTierUpCost(level, tierUpGrade, true, false);
-                    tierUpSavings += Math.max(0, normalTierUpCost - tierUpCost);
+                    addTierUpSavings = Math.max(0, normalTierUpCost - tierUpCost);
+                    tierUpSavings += addTierUpSavings;
                 }
+                defaultResult.details.additional.tierUpSavings = addTierUpSavings;
 
                 if (Object.keys(addTarget).length === 0) {
                     defaultResult.additionalCost = tierUpCost;
@@ -622,7 +638,9 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
 
     defaultResult.savings = {
         starforceSavings,
-        tierUpSavings
+        tierUpSavings,
+        potentialTierUpSavings: defaultResult.details.potential.tierUpSavings || 0,
+        additionalTierUpSavings: defaultResult.details.additional.tierUpSavings || 0
     };
     defaultResult.totalCost = defaultResult.baseItemCost + defaultResult.starforceCost + defaultResult.potentialCost + defaultResult.additionalCost;
 

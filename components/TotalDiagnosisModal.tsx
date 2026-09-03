@@ -480,6 +480,15 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                             {res.result?.details.starforce.success ? (res.result.details.starforce.cost > 0 ? formatMeso(res.result.details.starforce.cost) : '-') : res.result?.details.starforce.reason}
                                         </span>
                                     </div>
+                                    {isShining && (res.result?.savings?.starforceSavings || 0) > 0 && (
+                                        <div className="flex justify-between items-center text-[11px] text-yellow-300 bg-yellow-950/50 px-2 py-0.5 rounded border border-yellow-500/30">
+                                            <span className="font-semibold flex items-center gap-1">
+                                                <span>🌟</span>
+                                                <span>샤타포스 할인:</span>
+                                            </span>
+                                            <span className="font-bold text-yellow-200">-{formatMeso(res.result!.savings!.starforceSavings)} 메소 절감</span>
+                                        </div>
+                                    )}
                                     <div className="flex justify-between items-center">
                                         <span className="text-slate-400 font-medium">잠재능력 ({res.item.potential_option_grade || '-'})</span>
                                         <span className={res.result?.details.potential.success ? "text-slate-200 font-medium" : "text-red-400"}>
@@ -492,6 +501,15 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                             {res.result?.details.additional.success ? (res.result.details.additional.cost > 0 ? formatMeso(res.result.details.additional.cost) : '-') : res.result?.details.additional.reason}
                                         </span>
                                     </div>
+                                    {isMiracleTime && (res.result?.savings?.tierUpSavings || 0) > 0 && (
+                                        <div className="flex justify-between items-center text-[11px] text-purple-300 bg-purple-950/50 px-2 py-0.5 rounded border border-purple-500/30">
+                                            <span className="font-semibold flex items-center gap-1">
+                                                <span>✨</span>
+                                                <span>미라클 할인:</span>
+                                            </span>
+                                            <span className="font-bold text-purple-200">-{formatMeso(res.result!.savings!.tierUpSavings)} 메소 절감</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}
