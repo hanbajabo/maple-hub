@@ -341,7 +341,6 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                         메소
                                     </span>
                                 </div>
-                            </div>
 
                                 {/* 이벤트 할인 절감액 상세 안내 */}
                                 {(isMiracleTime || isShining) && totalSavings > 0 && (
