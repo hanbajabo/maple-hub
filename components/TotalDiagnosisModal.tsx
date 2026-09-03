@@ -143,41 +143,52 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
             };
             return getIndex(a.item_equipment_slot || '') - getIndex(b.item_equipment_slot || '');
         });
-        const newResults: AppraisalItem[] = [];
-        let runningTotal = 0;
+        // 기존에 유저가 수정한 노작 시세가 있다면 보존하여 배치 요청
+        const batchPayload = validItems.map(item => {
+            const existing = results.find(r => r.item.item_name === item.item_name);
+            const overridePrice = existing?.result?.details?.basePrice?.isOverridden 
+                ? existing.result.details.basePrice.cost 
+                : undefined;
+            return { item, overrideBasePrice: overridePrice };
+        });
 
-        for (let i = 0; i < validItems.length; i++) {
-            const item = validItems[i];
+        try {
+            setProgress(50);
+            const response = await fetch('/api/appraisal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    items: batchPayload, 
+                    characterClass, 
+                    isMiracleTime: useMiracleTime, 
+                    isShining: useShining 
+                })
+            });
             
-            try {
-                const response = await fetch('/api/appraisal', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ item, characterClass, isMiracleTime: useMiracleTime, isShining: useShining })
-                });
-                
-                if (!response.ok) throw new Error('API Error');
-                const result: AppraisalResult = await response.json();
-                
-                newResults.push({ item, result });
-                
-                if (result.isCalculable && !isNaN(result.totalCost)) {
-                    runningTotal += result.totalCost;
+            if (!response.ok) throw new Error('API Error');
+            const data = await response.json();
+            const resultsList: AppraisalResult[] = data.results || [];
+            
+            const newResults: AppraisalItem[] = validItems.map((item, idx) => ({
+                item,
+                result: resultsList[idx] || null
+            }));
+
+            let runningTotal = 0;
+            newResults.forEach(r => {
+                if (r.result?.isCalculable && !isNaN(r.result.totalCost)) {
+                    runningTotal += r.result.totalCost;
                 }
-            } catch (e) {
-                console.error("Appraisal failed for item", item.item_name, e);
-                newResults.push({ item, result: null });
-            }
+            });
 
-            setProgress(Math.round(((i + 1) / validItems.length) * 100));
-            setResults([...newResults]);
+            setProgress(100);
+            setResults(newResults);
             setTotalCost(runningTotal);
-            
-            // Allow UI to breathe
-            await new Promise(r => setTimeout(r, 50));
+        } catch (e) {
+            console.error("Batch appraisal failed", e);
+        } finally {
+            setIsAnalyzing(false);
         }
-
-        setIsAnalyzing(false);
     };
 
     useEffect(() => {
