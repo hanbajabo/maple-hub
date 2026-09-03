@@ -250,7 +250,14 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                         {appraisalResult.details.potential.success && appraisalResult.details.potential.cost > 0 ? (
                             <div className="flex flex-col gap-1 pb-3 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
                                 <div className="flex justify-between items-center mb-0.5">
-                                    <span className="text-sm text-green-200 font-bold">잠재능력 ({item.potential_option_grade})</span>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="text-sm text-green-200 font-bold">잠재능력 ({item.potential_option_grade})</span>
+                                        {appraisalResult.details.potential.escapeCappingApplied && (
+                                            <span className="text-[10px] font-bold px-1.5 py-0.5 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded-full" title={`이탈 옵션 감지 — ${appraisalResult.details.potential.escapeCappingGrade} 환산 최저 비용으로 캡 적용됨`}>
+                                                ⚡ {appraisalResult.details.potential.escapeCappingGrade} 환산
+                                            </span>
+                                        )}
+                                    </div>
                                     <span className="text-sm font-bold text-green-300">{formatMesoStr(appraisalResult.details.potential.cost)} 메소</span>
                                 </div>
                                 <div className="flex flex-col text-[13px] text-slate-300 pl-1 space-y-1">
@@ -262,6 +269,13 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                         </div>
                                     )}
                                     <div><span className="text-slate-400 w-24 inline-block font-medium">옵션 비용:</span> {formatMesoStr(appraisalResult.details.potential.optionCost || 0)} <span className="text-slate-500">(평균 {appraisalResult.details.potential.expectedTries?.toLocaleString() || 0}개 소모)</span></div>
+                                    {appraisalResult.details.potential.escapeCappingApplied && appraisalResult.details.potential.rawCostBeforeCap && (
+                                        <div className="text-amber-300/80 font-medium mt-0.5">
+                                            <span className="text-slate-400 w-24 inline-block font-medium">원래 기댓값:</span>
+                                            <span className="line-through text-slate-500">{formatMesoStr(appraisalResult.details.potential.rawCostBeforeCap)}</span>
+                                            <span className="ml-1 text-amber-400/80 text-[11px]">→ {appraisalResult.details.potential.escapeCappingGrade} 경로가 더 저렴</span>
+                                        </div>
+                                    )}
                                     {appraisalResult.details.potential.targetOptionStr && (
                                         <div className="text-green-300/80 font-medium mt-1"><span className="text-slate-400 w-24 inline-block font-medium">유효 옵션:</span> {appraisalResult.details.potential.targetOptionStr}</div>
                                     )}
@@ -278,7 +292,14 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                         {appraisalResult.details.additional.success && appraisalResult.details.additional.cost > 0 ? (
                             <div className="flex flex-col gap-1 pb-3 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
                                 <div className="flex justify-between items-center mb-0.5">
-                                    <span className="text-sm text-blue-200 font-bold">에디셔널 ({item.additional_potential_option_grade})</span>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="text-sm text-blue-200 font-bold">에디셔널 ({item.additional_potential_option_grade})</span>
+                                        {appraisalResult.details.additional.escapeCappingApplied && (
+                                            <span className="text-[10px] font-bold px-1.5 py-0.5 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded-full" title={`이탈 옵션 감지 — ${appraisalResult.details.additional.escapeCappingGrade} 환산 최저 비용으로 캡 적용됨`}>
+                                                ⚡ {appraisalResult.details.additional.escapeCappingGrade} 환산
+                                            </span>
+                                        )}
+                                    </div>
                                     <span className="text-sm font-bold text-blue-300">{formatMesoStr(appraisalResult.details.additional.cost)} 메소</span>
                                 </div>
                                 <div className="flex flex-col text-[13px] text-slate-300 pl-1 space-y-1">
@@ -290,6 +311,13 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                         </div>
                                     )}
                                     <div><span className="text-slate-400 w-24 inline-block font-medium">옵션 비용:</span> {formatMesoStr(appraisalResult.details.additional.optionCost || 0)} <span className="text-slate-500">(평균 {appraisalResult.details.additional.expectedTries?.toLocaleString() || 0}개 소모)</span></div>
+                                    {appraisalResult.details.additional.escapeCappingApplied && appraisalResult.details.additional.rawCostBeforeCap && (
+                                        <div className="text-amber-300/80 font-medium mt-0.5">
+                                            <span className="text-slate-400 w-24 inline-block font-medium">원래 기댓값:</span>
+                                            <span className="line-through text-slate-500">{formatMesoStr(appraisalResult.details.additional.rawCostBeforeCap)}</span>
+                                            <span className="ml-1 text-amber-400/80 text-[11px]">→ {appraisalResult.details.additional.escapeCappingGrade} 경로가 더 저렴</span>
+                                        </div>
+                                    )}
                                     {appraisalResult.details.additional.targetOptionStr && (
                                         <div className="text-blue-300/80 font-medium mt-1"><span className="text-slate-400 w-24 inline-block font-medium">유효 옵션:</span> {appraisalResult.details.additional.targetOptionStr}</div>
                                     )}

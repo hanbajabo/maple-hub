@@ -44,6 +44,9 @@ export interface AppraisalResult {
             expectedTries?: number;
             targetOptionStr?: string;
             tierUpSavings?: number;
+            escapeCappingApplied?: boolean;      // 이탈 감지로 상위 등급 캡 적용 여부
+            rawCostBeforeCap?: number;           // 캡 적용 전 원래 기댓값
+            escapeCappingGrade?: string;         // 캡핑 적용된 기준 등급 (예: '유니크', '레전드리')
         };
         additional: {
             success: boolean;
@@ -54,6 +57,9 @@ export interface AppraisalResult {
             expectedTries?: number;
             targetOptionStr?: string;
             tierUpSavings?: number;
+            escapeCappingApplied?: boolean;      // 이탈 감지로 상위 등급 캡 적용 여부
+            rawCostBeforeCap?: number;           // 캡 적용 전 원래 기댓값
+            escapeCappingGrade?: string;         // 캡핑 적용된 기준 등급
         };
         basePrice: {
             success: boolean;
@@ -117,6 +123,278 @@ function mapEquipmentSlotToEquipType(slot: string, name: string): string {
 
 import { getValidStatTypesForClass, getMainStatTypesForClass } from './class_utils';
 import type { StatType } from './potential-calculator';
+
+// ─── 1단계 등급업 비용 산출 (에픽->유니크, 유니크->레전드리) ─────────────────────
+// 레어부터 누적 계산하지 않고 현재 등급에서 바로 위 등급으로 가는 비용만 계산
+export function getSingleStepTierUpCost(
+    level: number,
+    fromGrade: 'EPIC' | 'UNIQUE',
+    toGrade: 'UNIQUE' | 'LEGENDARY',
+    isAddi: boolean,
+    isMiracleTime: boolean = false
+): number {
+    let cost = 0;
+    if (fromGrade === 'EPIC' && toGrade === 'UNIQUE') {
+        if (!isAddi) {
+            const prob = getPotentialUpgradeRate('에픽', '유니크', 'MESO_RESET', isMiracleTime) / 100;
+            const resetCost = getPotentialResetCost(level, '에픽');
+            const ceiling = getPotentialGuaranteeCount('에픽', '유니크', 'MESO_RESET');
+            cost = (1 / prob) > ceiling ? ceiling * resetCost : (1 / prob) * resetCost;
+        } else {
+            const prob = getAdditionalPotentialUpgradeRate('에픽', '유니크', undefined, isMiracleTime) / 100;
+            const resetCost = getAdditionalPotentialResetCost(level, '에픽');
+            cost = (1 / prob) * resetCost;
+        }
+    } else if (fromGrade === 'UNIQUE' && toGrade === 'LEGENDARY') {
+        if (!isAddi) {
+            const prob = getPotentialUpgradeRate('유니크', '레전드리', 'MESO_RESET', isMiracleTime) / 100;
+            const resetCost = getPotentialResetCost(level, '유니크');
+            const ceiling = getPotentialGuaranteeCount('유니크', '레전드리', 'MESO_RESET');
+            cost = (1 / prob) > ceiling ? ceiling * resetCost : (1 / prob) * resetCost;
+        } else {
+            const prob = getAdditionalPotentialUpgradeRate('유니크', '레전드리', undefined, isMiracleTime) / 100;
+            const resetCost = getAdditionalPotentialResetCost(level, '유니크');
+            cost = (1 / prob) * resetCost;
+        }
+    }
+    return cost;
+}
+
+export interface EscapeDetectionParams {
+    lines: string[];
+    grade: 'EPIC' | 'UNIQUE';
+    isAddi: boolean;
+    level: number;
+    isWSE: boolean;
+    expectedAttempts: number;
+}
+
+// ─── 이탈 옵션 감지 (잠재/에디, 250제/일반, 부위별 전수 정밀 매핑) ──────────────
+// 1. 단일 라인 이탈 (해당 등급 1줄 정상 최대치 초과)
+// 2. 다중 이탈/올이탈 (하위줄에 본옵이 2개 이상 중첩되어 합산 수치가 정상 범위를 초과)
+// 3. 기댓값 횟수 과다 (에픽 10만회, 유니크 5만회 초과 시 비현실적 경로)
+export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasEscape: boolean; reason?: string } {
+    const { lines, grade, isAddi, level, isWSE, expectedAttempts } = params;
+    const isLevel250Plus = level >= 250;
+
+    // 1. 비현실적 기댓값 횟수 체크 (안전망)
+    const ATTEMPTS_LIMIT = grade === 'EPIC' ? 100_000 : 50_000;
+    if (expectedAttempts > ATTEMPTS_LIMIT) {
+        return { hasEscape: true, reason: `기댓값 과다(${expectedAttempts.toLocaleString()}회)` };
+    }
+
+    // 2. 등급/레벨/잠재구분/부위별 정상 최대치 기준표 설정
+    let maxSingleStatPct = 6;
+    let maxSingleAttPct = 6;
+    let maxSingleAllPct = 4;
+    let maxSinglePerLevel = 1;
+
+    let maxStatSum = 12;
+    let maxAttSum = 12;
+    let maxPerLevelSum = 1;
+
+    if (!isAddi) {
+        // [일반 잠재능력 (윗잠)]
+        if (!isLevel250Plus) {
+            // 200제 이하: 에픽 본옵 6%/하위 3%, 유니크 본옵 9%/하위 6%
+            if (grade === 'EPIC') {
+                maxSingleStatPct = 6;
+                maxSingleAttPct = 6;
+                maxSingleAllPct = 4;
+                maxStatSum = 12; // 13% 이상(6+6+3=15%, 6+6+6=18%)은 올이탈
+                maxAttSum = 12;
+            } else if (grade === 'UNIQUE') {
+                maxSingleStatPct = 9;
+                maxSingleAttPct = 9;
+                maxSingleAllPct = 6;
+                maxStatSum = 21; // 22% 이상(9+9+6=24%, 9+9+9=27%)은 올이탈
+                maxAttSum = 21;
+            }
+        } else {
+            // 250제 이상 (에테르넬 등): 에픽 본옵 7%/하위 4%, 유니크 본옵 10%/하위 7%
+            if (grade === 'EPIC') {
+                maxSingleStatPct = 7;
+                maxSingleAttPct = 7;
+                maxSingleAllPct = 5;
+                maxStatSum = 15; // 16% 이상(7+7+4=18%, 7+7+7=21%)은 올이탈
+                maxAttSum = 15;
+            } else if (grade === 'UNIQUE') {
+                maxSingleStatPct = 10;
+                maxSingleAttPct = 10;
+                maxSingleAllPct = 7;
+                maxStatSum = 24; // 25% 이상(10+10+7=27%, 10+10+10=30%)은 올이탈
+                maxAttSum = 24;
+            }
+        }
+    } else {
+        // [에디셔널 잠재능력 (아랫잠)]
+        if (!isLevel250Plus) {
+            // 200제 이하: 방어구 본옵 4%/하위 2%, 무기 공% 본옵 6%/하위 3%
+            if (grade === 'EPIC') {
+                maxSingleStatPct = isWSE ? 6 : 4;
+                maxSingleAttPct = isWSE ? 6 : 4;
+                maxSingleAllPct = 3;
+                maxStatSum = isWSE ? 12 : 6; // 방어구 주스탯 7% 이상(4+4=8%, 4+4+2=10%, 4+4+4=12%)은 이탈
+                maxAttSum = isWSE ? 12 : 6;
+                maxSinglePerLevel = 0;
+                maxPerLevelSum = 0;
+            } else if (grade === 'UNIQUE') {
+                maxSingleStatPct = isWSE ? 9 : 6;
+                maxSingleAttPct = isWSE ? 9 : 6;
+                maxSingleAllPct = 4;
+                maxStatSum = isWSE ? 21 : 14; // 방어구 주스탯 15% 이상(6+6+4=16%, 6+6+6=18%)은 이탈
+                maxAttSum = isWSE ? 21 : 14;
+                maxSinglePerLevel = 1;
+                maxPerLevelSum = 1; // 렙당 +2 이상은 올이탈
+            }
+        } else {
+            // 250제 이상 (에테르넬 등): 방어구 본옵 5%/하위 3%, 무기 공% 본옵 7%/하위 4%
+            if (grade === 'EPIC') {
+                maxSingleStatPct = isWSE ? 7 : 5;
+                maxSingleAttPct = isWSE ? 7 : 5;
+                maxSingleAllPct = 4;
+                maxStatSum = isWSE ? 15 : 8; // 방어구 주스탯 9% 이상(5+5=10%, 5+5+3=13%, 5+5+5=15%)은 올이탈
+                maxAttSum = isWSE ? 15 : 8;
+                maxSinglePerLevel = 0;
+                maxPerLevelSum = 0;
+            } else if (grade === 'UNIQUE') {
+                maxSingleStatPct = isWSE ? 10 : 7;
+                maxSingleAttPct = isWSE ? 10 : 7;
+                maxSingleAllPct = 5;
+                maxStatSum = isWSE ? 24 : 17; // 방어구 주스탯 18% 이상(7+7+5=19%, 7+7+7=21%)은 올이탈
+                maxAttSum = isWSE ? 24 : 17;
+                maxSinglePerLevel = 1;
+                maxPerLevelSum = 1;
+            }
+        }
+    }
+
+    // 3. 라인별 검사 및 합산 수치 계산
+    let statSum = 0;
+    let attSum = 0;
+    let perLevelSum = 0;
+
+    for (const line of lines) {
+        if (!line) continue;
+        const parsed = parseOptionString(line, 1);
+        const s = parsed.stats;
+
+        // 3-1. 1줄 단일 이탈 검사
+        const statKeys: (keyof typeof s)[] = ['STR %', 'DEX %', 'INT %', 'LUK %', 'HP %'];
+        for (const k of statKeys) {
+            const val = s[k] ?? 0;
+            if (val > maxSingleStatPct) return { hasEscape: true, reason: `스탯% 이탈(${val}% > ${maxSingleStatPct}%)` };
+            statSum += val;
+        }
+
+        const attKeys: (keyof typeof s)[] = ['ATTACK %', 'MAGIC_ATTACK %'];
+        for (const k of attKeys) {
+            const val = s[k] ?? 0;
+            if (val > maxSingleAttPct) return { hasEscape: true, reason: `공/마% 이탈(${val}% > ${maxSingleAttPct}%)` };
+            attSum += val;
+        }
+
+        const allVal = s['ALL %'] ?? 0;
+        if (allVal > maxSingleAllPct) return { hasEscape: true, reason: `올스탯% 이탈(${allVal}% > ${maxSingleAllPct}%)` };
+        statSum += allVal;
+
+        const perLevelKeys: (keyof typeof s)[] = ['STR_PER_LEVEL', 'DEX_PER_LEVEL', 'INT_PER_LEVEL', 'LUK_PER_LEVEL'];
+        for (const k of perLevelKeys) {
+            const val = s[k] ?? 0;
+            if (val > maxSinglePerLevel) return { hasEscape: true, reason: `렙당스탯 이탈(+${val} > +${maxSinglePerLevel})` };
+            perLevelSum += val;
+        }
+    }
+
+    // 3-2. 합산 수치 이탈 검사 (다중 이탈 / 올이탈)
+    if (statSum > maxStatSum) {
+        return { hasEscape: true, reason: `스탯 합산(${statSum}% > ${maxStatSum}%) 올이탈` };
+    }
+    if (attSum > maxAttSum) {
+        return { hasEscape: true, reason: `공/마 합산(${attSum}% > ${maxAttSum}%) 올이탈` };
+    }
+    if (perLevelSum > maxPerLevelSum) {
+        return { hasEscape: true, reason: `렙당 합산(+${perLevelSum} > +${maxPerLevelSum}) 이탈` };
+    }
+
+    return { hasEscape: false };
+}
+
+// ─── 상위 등급 최저 비용 캡 탐색 (에픽 -> 유니크 / 레전드리 중 최적 경로 자동 산출) ─────
+// 에픽인 경우 유니크와 레전드리 경로를 둘 다 비교하여 더 저렴한 쪽 채택
+// 유니크인 경우 레전드리 경로를 비교
+function findBestUpperGradeCap(
+    equipType: string,
+    currentGrade: 'EPIC' | 'UNIQUE',
+    level: number,
+    potTarget: TargetOptionSet,
+    isAddi: boolean,
+    isMiracleTime: boolean
+): { bestGrade: '유니크' | '레전드리'; bestTotalCap: number; tierUpCost: number; optionCost: number } | null {
+    const candidates: { gradeKor: '유니크' | '레전드리'; totalCap: number; tierUpCost: number; optionCost: number }[] = [];
+
+    if (currentGrade === 'EPIC') {
+        // 경로 1: 에픽 → 유니크
+        const uniqTierUp = getSingleStepTierUpCost(level, 'EPIC', 'UNIQUE', isAddi, isMiracleTime);
+        try {
+            const uniqRes = calculateExactPotentialExpectation(
+                equipType, 'UNIQUE', level, [potTarget], isAddi ? 'ADDI_POTENTIAL' : 'POTENTIAL'
+            );
+            if (uniqRes.probability > 0) {
+                candidates.push({
+                    gradeKor: '유니크',
+                    totalCap: uniqTierUp + uniqRes.totalCostMeso,
+                    tierUpCost: uniqTierUp,
+                    optionCost: uniqRes.totalCostMeso
+                });
+            }
+        } catch {}
+
+        // 경로 2: 에픽 → 유니크 → 레전드리 (유니크에서도 감당 안 되는 극단적 옵션인 경우)
+        const legTierUp = uniqTierUp + getSingleStepTierUpCost(level, 'UNIQUE', 'LEGENDARY', isAddi, isMiracleTime);
+        try {
+            const legRes = calculateExactPotentialExpectation(
+                equipType, 'LEGENDARY', level, [potTarget], isAddi ? 'ADDI_POTENTIAL' : 'POTENTIAL'
+            );
+            if (legRes.probability > 0) {
+                candidates.push({
+                    gradeKor: '레전드리',
+                    totalCap: legTierUp + legRes.totalCostMeso,
+                    tierUpCost: legTierUp,
+                    optionCost: legRes.totalCostMeso
+                });
+            }
+        } catch {}
+    } else if (currentGrade === 'UNIQUE') {
+        // 경로: 유니크 → 레전드리
+        const legTierUp = getSingleStepTierUpCost(level, 'UNIQUE', 'LEGENDARY', isAddi, isMiracleTime);
+        try {
+            const legRes = calculateExactPotentialExpectation(
+                equipType, 'LEGENDARY', level, [potTarget], isAddi ? 'ADDI_POTENTIAL' : 'POTENTIAL'
+            );
+            if (legRes.probability > 0) {
+                candidates.push({
+                    gradeKor: '레전드리',
+                    totalCap: legTierUp + legRes.totalCostMeso,
+                    tierUpCost: legTierUp,
+                    optionCost: legRes.totalCostMeso
+                });
+            }
+        } catch {}
+    }
+
+    if (candidates.length === 0) return null;
+
+    // 가장 비용이 저렴한 경로 반환
+    candidates.sort((a, b) => a.totalCap - b.totalCap);
+    const best = candidates[0];
+    return {
+        bestGrade: best.gradeKor,
+        bestTotalCap: best.totalCap,
+        tierUpCost: best.tierUpCost,
+        optionCost: best.optionCost
+    };
+}
 
 // 추출된 옵션을 TargetOptionSet 형태로 변환 (직업별 유효 옵션만 필터링)
 function extractTargetOptionSet(
@@ -569,8 +847,38 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                         defaultResult.details.potential.success = false;
                         defaultResult.details.potential.reason = "계산 불가 특수 옵션 조합";
                     } else {
-                        defaultResult.potentialCost = totalPotCost;
-                        defaultResult.details.potential.cost = totalPotCost;
+                        let finalPotCost = totalPotCost;
+
+                        // ─── 이탈 감지 + 상위 등급 최저 비용 캡핑 (잠재능력) ─────────────
+                        if (gradeEn === 'EPIC' || gradeEn === 'UNIQUE') {
+                            const escapeCheck = detectPotentialLineEscape({
+                                lines: potLines,
+                                grade: gradeEn,
+                                isAddi: false,
+                                level,
+                                isWSE,
+                                expectedAttempts: potResult.expectedAttempts
+                            });
+
+                            if (escapeCheck.hasEscape) {
+                                const capResult = findBestUpperGradeCap(
+                                    equipType, gradeEn, level, potTarget, false, isMiracleTime
+                                );
+                                
+                                if (capResult && capResult.bestTotalCap < totalPotCost) {
+                                    // 상위 등급 경로가 더 저렴 → 캡 적용
+                                    finalPotCost = capResult.bestTotalCap;
+                                    defaultResult.details.potential.escapeCappingApplied = true;
+                                    defaultResult.details.potential.rawCostBeforeCap = totalPotCost;
+                                    defaultResult.details.potential.escapeCappingGrade = capResult.bestGrade;
+                                    console.log(`[ESCAPE CAP] ${itemName} 잠재 ${escapeCheck.reason || '이탈'} 감지(${gradeEn}) → 상위등급(${capResult.bestGrade}) 캡 적용: ${totalPotCost.toLocaleString()} → ${finalPotCost.toLocaleString()}`);
+                                }
+                            }
+                        }
+                        // ──────────────────────────────────────────────────────────────────
+
+                        defaultResult.potentialCost = finalPotCost;
+                        defaultResult.details.potential.cost = finalPotCost;
                         defaultResult.details.potential.tierUpCost = tierUpCost;
                         defaultResult.details.potential.optionCost = potResult.totalCostMeso;
                         defaultResult.details.potential.expectedTries = potResult.expectedAttempts;
@@ -640,8 +948,37 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                         defaultResult.details.additional.success = false;
                         defaultResult.details.additional.reason = "계산 불가 특수 옵션 조합";
                     } else {
-                        defaultResult.additionalCost = totalAddiCost;
-                        defaultResult.details.additional.cost = totalAddiCost;
+                        let finalAddiCost = totalAddiCost;
+
+                        // ─── 이탈 감지 + 상위 등급 최저 비용 캡핑 (에디셔널) ─────────────
+                        if (gradeEn === 'EPIC' || gradeEn === 'UNIQUE') {
+                            const escapeCheck = detectPotentialLineEscape({
+                                lines: addLines,
+                                grade: gradeEn,
+                                isAddi: true,
+                                level,
+                                isWSE,
+                                expectedAttempts: addiResult.expectedAttempts
+                            });
+
+                            if (escapeCheck.hasEscape) {
+                                const capResult = findBestUpperGradeCap(
+                                    equipType, gradeEn, level, addTarget, true, isMiracleTime
+                                );
+
+                                if (capResult && capResult.bestTotalCap < totalAddiCost) {
+                                    finalAddiCost = capResult.bestTotalCap;
+                                    defaultResult.details.additional.escapeCappingApplied = true;
+                                    defaultResult.details.additional.rawCostBeforeCap = totalAddiCost;
+                                    defaultResult.details.additional.escapeCappingGrade = capResult.bestGrade;
+                                    console.log(`[ESCAPE CAP] ${itemName} 에디 ${escapeCheck.reason || '이탈'} 감지(${gradeEn}) → 상위등급(${capResult.bestGrade}) 캡 적용: ${totalAddiCost.toLocaleString()} → ${finalAddiCost.toLocaleString()}`);
+                                }
+                            }
+                        }
+                        // ──────────────────────────────────────────────────────────────────
+
+                        defaultResult.additionalCost = finalAddiCost;
+                        defaultResult.details.additional.cost = finalAddiCost;
                         defaultResult.details.additional.tierUpCost = tierUpCost;
                         defaultResult.details.additional.optionCost = addiResult.totalCostMeso;
                         defaultResult.details.additional.expectedTries = addiResult.expectedAttempts;
