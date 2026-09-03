@@ -212,7 +212,7 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = 9;
                 maxSingleAttPct = 9;
                 maxSingleAllPct = 6;
-                maxStatSum = 21;
+                maxStatSum = 15; // 윗잠 유니크 2줄 정옵(9+6=15%), 16% 이상(9+6+6=21% 3줄 종결) 감지 시 레전드리 캡 탐색
                 maxAttSum = isWSE ? 15 : 21; // WSE는 공 16% 이상(9+6+6=21% 3줄 종결) 감지 시 레전드리 캡 탐색
             }
         } else {
@@ -227,7 +227,7 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = 10;
                 maxSingleAttPct = 10;
                 maxSingleAllPct = 7;
-                maxStatSum = 24;
+                maxStatSum = 17; // 윗잠 유니크 250제 2줄 정옵(10+7=17%), 18% 이상 감지 시 레전드리 캡 탐색
                 maxAttSum = isWSE ? 17 : 24; // WSE 250제: 공 18% 이상(10+7+7=24% 3줄 종결) 감지 시 레전드리 캡 탐색
             }
         }
@@ -249,7 +249,7 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = isWSE ? 9 : 6;
                 maxSingleAttPct = isWSE ? 9 : 6;
                 maxSingleAllPct = 4;
-                maxStatSum = isWSE ? 21 : 14;
+                maxStatSum = isWSE ? 21 : 10; // 방어구 에디 2줄 정옵(6+4=10%), 11% 이상(6+4+4=14% 3줄 종결) 감지 시 레전드리 8/6 캡 탐색
                 maxAttSum = isWSE ? 15 : 14; // WSE 에디: 공 16% 이상(9+6+6=21% 3줄 종결) 감지 시 레전드리 캡 탐색
                 maxSinglePerLevel = 1;
                 maxPerLevelSum = 1;
@@ -272,7 +272,7 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = isWSE ? 10 : 7;
                 maxSingleAttPct = isWSE ? 10 : 7;
                 maxSingleAllPct = 5;
-                maxStatSum = isWSE ? 24 : 17;
+                maxStatSum = isWSE ? 24 : 12; // 방어구 에디 250제 2줄 정옵(7+5=12%), 13% 이상(7+5+5=17% 3줄 종결) 감지 시 레전드리 캡 탐색
                 maxAttSum = isWSE ? 17 : 17; // WSE 에디 250제: 공 18% 이상 감지 시 레전드리 캡 탐색
                 maxSinglePerLevel = 1;
                 maxPerLevelSum = 1;
