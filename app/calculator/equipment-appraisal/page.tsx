@@ -6,6 +6,7 @@ import TotalDiagnosisModal from '@/components/TotalDiagnosisModal';
 import { Calculator, Search, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { AdBanner } from '@/components/AdSense';
 
 export default function EquipmentAppraisalPage() {
     const [nickname, setNickname] = useState('');
@@ -110,6 +111,11 @@ export default function EquipmentAppraisalPage() {
                         <h3 className="font-bold text-white mb-2 flex items-center gap-2">🎲 큐브 기댓값</h3>
                         <p className="text-slate-400">직업별 유효 주스탯을 자동 판별하여 등급업 및 3줄 유효 기댓값을 산출합니다.</p>
                     </div>
+                </div>
+
+                {/* Google AdSense Banner */}
+                <div className="pt-2">
+                    <AdBanner dataAdSlot="8162808816" className="w-full" />
                 </div>
             </div>
 
