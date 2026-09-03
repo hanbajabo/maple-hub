@@ -275,7 +275,8 @@ export function calculateExactPotentialExpectation(
     method: 'POTENTIAL' | 'ADDI_POTENTIAL' = 'POTENTIAL'
 ): { probability: number; expectedAttempts: number; costOnce: number; totalCostMeso: number } {
     const db = loadPotentialTableDB();
-    if (!db || !db[method] || !db[method][equip]) {
+    const normEquip = equip.replace(/\s+/g, '') === '기계심장' ? '기계심장' : equip;
+    if (!db || !db[method] || !db[method][normEquip]) {
         return { probability: 0.005, expectedAttempts: 200, costOnce: 45_000_000, totalCostMeso: 9_000_000_000 };
     }
 
@@ -285,18 +286,18 @@ export function calculateExactPotentialExpectation(
     else if (level >= 160) matchedLevel = 160;
     else matchedLevel = 150;
 
-    let equipData = db[method][equip][matchedLevel];
+    let equipData = db[method][normEquip][matchedLevel];
     
     // 만약 데이터가 없거나 비어있다면, 악세서리 250제의 경우 펜던트 250제 데이터를 빌려옴
     if ((!equipData || !equipData[grade] || !equipData[grade][grade] || equipData[grade][grade].length === 0) && matchedLevel === 250) {
-        if (['얼굴장식', '눈장식', '귀고리', '벨트', '반지', '어깨장식'].includes(equip)) {
+        if (['얼굴장식', '눈장식', '귀고리', '벨트', '반지', '어깨장식'].includes(normEquip)) {
             equipData = db[method]['펜던트'][250];
         }
     }
 
-    // 그래도 없으면 하위 레벨로 폴백
+    // 그래도 없으면 하위 레벨로 폴백 (기계심장 등 150제 테이블까지 탐색)
     if (!equipData || !equipData[grade] || !equipData[grade][grade] || equipData[grade][grade].length === 0) {
-        equipData = db[method][equip][200] || db[method][equip][160];
+        equipData = db[method][normEquip][200] || db[method][normEquip][160] || db[method][normEquip][150];
     }
 
     if (!equipData || !equipData[grade]) {

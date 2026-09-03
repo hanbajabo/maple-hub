@@ -108,7 +108,7 @@ function mapEquipmentSlotToEquipType(slot: string, name: string): string {
     if (slot === '반지' || slot.includes('반지')) return '반지';
     if (slot === '펜던트' || slot.includes('펜던트')) return '펜던트';
     if (slot === '벨트' || slot.includes('벨트')) return '벨트';
-    if (slot === '기계 심장' || slot.includes('심장')) return '기계 심장';
+    if (slot === '기계 심장' || slot.includes('심장') || name.includes('하트') || name.includes('심장')) return '기계심장';
     
     // Fallback for sub-weapons that might not have explicitly matching slot names
     const subWeaponKeywords = ['카타라', '방패', '마도서', '여우구슬', '단검용 검집', '부적', '로잘리오', '쇠사슬', '마법화살', '소울링', '매그넘', '손목보호대', '조준기', '쥬얼', '그립', '화약통', '무게추', '문서', '매직윙', '수정구', '오브', '카드', '호루라기', '노리개', '선추'];
