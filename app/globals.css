@@ -26,15 +26,31 @@ body {
     text-wrap: balance;
   }
 
-  /* Prevent ads from being inserted in this section */
+  /* Google AdSense 자동 광고 침범 방지 및 강제 숨김 */
+  .google-anno-skip,
   .no-ads-section {
-    /* isolation: isolate; */
-    /* Removed: This was preventing dropdown z-index from working */
     position: relative;
     z-index: 50;
-    contain: layout style;
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+
+  .google-anno-skip .google-auto-placed,
+  .google-anno-skip ins.adsbygoogle,
+  .google-anno-skip iframe[id^="aswift_"],
+  .no-ads-section .google-auto-placed,
+  .no-ads-section ins.adsbygoogle,
+  .no-ads-section iframe[id^="aswift_"] {
+    display: none !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 
   /* Custom scrollbar for mobile tables */

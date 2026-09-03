@@ -237,6 +237,32 @@ export default function Home() {
     }
   }, [isFavoritesOpen]);
 
+  // 구글 애드센스 자동 광고가 검색창 영역에 침범하지 못하도록 실시간 감시 및 제거
+  useEffect(() => {
+    const searchSection = document.querySelector('.google-anno-skip');
+    if (!searchSection) return;
+
+    const cleanupAds = () => {
+      const ads = searchSection.querySelectorAll('.google-auto-placed, ins.adsbygoogle, iframe[id^="aswift_"]');
+      ads.forEach((el) => {
+        el.remove();
+      });
+    };
+
+    cleanupAds();
+
+    const observer = new MutationObserver(() => {
+      cleanupAds();
+    });
+
+    observer.observe(searchSection, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
 
   // Check if current character is favorited
   const isFavorited = character && favorites.some(f => f.name === character.character_name && f.world === character.world_name);
@@ -877,11 +903,11 @@ export default function Home() {
 
 
       {/* Character Search Section - Wrapped to prevent ad insertion between title and search */}
-      <div className="no-ads-section w-full flex flex-col items-center">
+      <div className="google-anno-skip no-ads-section w-full flex flex-col items-center">
         {/* Title and Description - Hide when character is loaded */}
         {
           !character && (
-            <div className="text-center space-y-4 sm:space-y-6 px-4 mb-8 sm:mb-12">
+            <div className="google-anno-skip text-center space-y-3 sm:space-y-4 px-4 mb-4 sm:mb-6">
               {/* Main Title with Gradient */}
               <div className="relative">
                 <h2 className="text-4xl sm:text-7xl font-black bg-gradient-to-r from-maple-orange via-yellow-400 to-orange-500 bg-clip-text text-transparent drop-shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
@@ -900,8 +926,8 @@ export default function Home() {
           )
         }
 
-        {/* Search Input Area with enhanced design */}
-        <div className="w-full max-w-4xl relative z-[50] px-4 sm:px-0">
+        {/* Search Input Area with enhanced design wrapped in form */}
+        <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }} className="google-anno-skip w-full max-w-4xl relative z-[50] px-4 sm:px-0">
           {/* Glow effect behind search bar */}
           {!character && (
             <div className="absolute inset-0 bg-gradient-to-r from-maple-orange/20 via-yellow-400/20 to-orange-500/20 blur-2xl -z-10 animate-pulse"></div>
@@ -1029,15 +1055,15 @@ export default function Home() {
               </button>
             )}
           </div>
-        </div>
-      </div>
+        </form>
 
-      {/* Info text - Enhanced styling */}
-      <div className="w-[calc(100%-2rem)] sm:w-full max-w-4xl flex items-center gap-2 bg-orange-950/30 border border-orange-500/30 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 mt-4 sm:mt-6 mb-8 sm:mb-10 mx-auto">
-        <span className="text-xl sm:text-2xl">💡</span>
-        <p className="text-xs sm:text-base text-orange-300 font-medium text-center">
-          인게임에서 <strong className="text-orange-400">[캐시샵 입장]</strong> 또는 <strong className="text-orange-400">[재접속]</strong> 후 대략 1분 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
-        </p>
+        {/* Info text - Enhanced styling inside google-anno-skip */}
+        <div className="google-anno-skip w-[calc(100%-2rem)] sm:w-full max-w-4xl flex items-center gap-2 bg-orange-950/30 border border-orange-500/30 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 mt-4 sm:mt-6 mb-8 sm:mb-10 mx-auto">
+          <span className="text-xl sm:text-2xl">💡</span>
+          <p className="text-xs sm:text-base text-orange-300 font-medium text-center">
+            인게임에서 <strong className="text-orange-400">[캐시샵 입장]</strong> 또는 <strong className="text-orange-400">[재접속]</strong> 후 대략 1분 후 갱신 버튼을 누르면 최신 정보가 반영됩니다.
+          </p>
+        </div>
       </div>
 
       {
