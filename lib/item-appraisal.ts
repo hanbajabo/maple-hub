@@ -73,6 +73,7 @@ export interface AppraisalResult {
             faithStonePrice?: number;
         };
         isZeroSecondary?: boolean;
+        isAstra?: boolean;
     };
 }
 
@@ -572,7 +573,11 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
     }
 
     const itemName = item.item_name;
-    const level = item.item_base_option?.base_equipment_level || 0;
+    const isAstra = itemName.includes('아스트라');
+    let level = item.item_base_option?.base_equipment_level || 0;
+    if (isAstra && level === 0) {
+        level = 200; // 아스트라 보조무기는 200제 교환불가 장비
+    }
     const slot = item.item_equipment_slot || '';
     
     // 특수 장비 체크
@@ -581,10 +586,13 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
     const isSuperior = itemName.includes('타일런트') || itemName.includes('히아데스') || itemName.includes('노바') || itemName.includes('헬리시움');
 
     // 제로 보조무기(라즐리/라피스) 연동 체크:
-    // 제로는 주무기 강화 시 보조무기의 스타포스, 잠재능력, 에디셔널이 무료로 자동 동기화되므로 기댓값을 0원으로 처리(중복 합산 방지)
+    // 1. 제로가 아스트라를 착용하지 않은 일반 제로 보조무기(라피스/라즐리)인 경우:
+    //    주무기(알파) 강화 시 보조무기(베타)가 무료로 자동 동기화되므로 0원 처리 (중복 합산 방지)
+    // 2. 제로가 아스트라 보조무기를 착용한 경우:
+    //    주무기 연동이 해제되고 아스트라 고유 능력치로 대체되므로, 일반 직업과 동일하게 스타포스/잠재/에디 기댓값 정상 계산!
     const isZeroClass = characterClass === '제로' || characterClass?.includes('제로');
     const isSubWeaponSlot = slot === '보조무기' || slot === 'Sub Weapon' || slot === 'SubWeapon' || slot.includes('보조무기');
-    if (isZeroClass && isSubWeaponSlot) {
+    if (isZeroClass && isSubWeaponSlot && !isAstra) {
         defaultResult.isCalculable = true;
         defaultResult.totalCost = 0;
         defaultResult.baseItemCost = 0;
@@ -611,7 +619,22 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
 
     // 1. Base Item Cost (노작 시세)
     let basePrice = 0;
-    if (isGenesisOrDestiny) {
+    if (isAstra) {
+        // 아스트라 보조무기는 에레브의 에리온에게서 10억 메소에 구매 가능한 200제 장비
+        defaultResult.details.isAstra = true;
+        if (overrideBasePrice !== undefined) {
+            basePrice = overrideBasePrice;
+            defaultResult.details.basePrice.isOverridden = true;
+            defaultResult.details.basePrice.cost = basePrice;
+            defaultResult.details.basePrice.reason = "노작 시세(수정됨)";
+        } else {
+            basePrice = 1_000_000_000; // 에리온 상점 10억 메소
+            defaultResult.details.basePrice.cost = basePrice;
+            defaultResult.details.basePrice.reason = "에리온 상점 (10억)";
+        }
+        defaultResult.details.basePrice.success = true;
+        defaultResult.baseItemCost = basePrice;
+    } else if (isGenesisOrDestiny) {
         defaultResult.details.basePrice.success = false;
         defaultResult.details.basePrice.reason = "교불/해방 무기";
     } else {
@@ -783,6 +806,10 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
             defaultResult.details.starforce.success = false;
             defaultResult.details.starforce.reason = "스타포스 계산 오류";
         }
+    } else if (isAstra) {
+        defaultResult.details.starforce.success = true;
+        defaultResult.details.starforce.cost = 0;
+        defaultResult.details.starforce.reason = "0성 (노강화)";
     }
 
     const equipType = mapEquipmentSlotToEquipType(slot, itemName);

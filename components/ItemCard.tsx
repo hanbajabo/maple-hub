@@ -174,6 +174,12 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                 💡 <strong>제로 무기 연동 시스템</strong>: 제로는 주무기(알파)를 강화하면 보조무기(베타)의 스타포스, 잠재능력, 에디셔널이 무료로 자동 동기화되므로, 보조무기는 별도 비용 없이 주무기 기댓값 하나로 합산됩니다.
                             </div>
                         )}
+
+                        {appraisalResult.details.isAstra && (
+                            <div className="mb-2.5 p-2.5 rounded-lg bg-indigo-950/50 border border-indigo-500/30 text-xs text-indigo-200 leading-relaxed">
+                                🛡️ <strong>아스트라 보조무기</strong>: 에레브의 에리온에게서 10억 메소에 구매할 수 있는 200제 교환불가 보조무기입니다. (스타포스 복구비 10억, 스타포스 및 잠재능력/에디셔널 개별 기댓값 적용)
+                            </div>
+                        )}
                         
                         {(appraisalResult.priceDate || appraisalResult.details.basePrice.cost > 0 || appraisalResult.details.basePrice.reason) && (
                             <div className="text-xs text-slate-400 mb-2.5 bg-slate-950/40 p-2 rounded border border-slate-800/50">
