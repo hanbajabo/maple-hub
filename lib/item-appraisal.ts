@@ -340,7 +340,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                 defaultResult.details.basePrice.base4LevelCost = basePrice;
 
                 if (item.special_ring_level >= 5) {
-                    const lifeStonePrice = (await getLatestPrice('연마석')) || 11_000_000_000;
+                    const lifeStonePrice = (await getLatestPrice('연마석')) || 1_200_000_000;
                     const lv5Cost = (10 * lifeStonePrice) + 5_000_000_000;
                     upgradeCost += lv5Cost; // 10개 * 시세 + 50억
                     upgradeSteps.push("5레벨 연마");
@@ -348,7 +348,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                     defaultResult.details.basePrice.lifeStonePrice = lifeStonePrice;
                 }
                 if (item.special_ring_level >= 6) {
-                    const faithStonePrice = (await getLatestPrice('신념의 연마석')) || 40_000_000_000;
+                    const faithStonePrice = (await getLatestPrice('신념의 연마석')) || 3_500_000_000;
                     const lv6Cost = (20 * faithStonePrice) + 20_000_000_000;
                     upgradeCost += lv6Cost; // 20개 * 시세 + 200억
                     upgradeSteps.push("6레벨 연마");

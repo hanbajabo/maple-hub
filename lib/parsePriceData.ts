@@ -220,6 +220,10 @@ export function getLatestItemPrices(): Record<string, number> {
         '에테르넬 신발': ['에테르넬 신발'],
         '에테르넬 장갑': ['에테르넬 장갑'],
         '에테르넬 망토': ['에테르넬 망토'],
+        '연마석':       ['연마석', '생명의 연마석'],
+        '연마석(스카)': ['연마석', '생명의 연마석'],
+        '신마석':       ['신마석', '신념의 연마석'],
+        '신마석(스카)': ['신마석', '신념의 연마석'],
     };
 
     const result: Record<string, number> = {};
@@ -324,9 +328,15 @@ export function getLatestPrice(itemName: string, slot?: string, jobName?: string
 
     // 2. 최신 본섭 시세 테이블 조회
     const livePrices = getLatestItemPrices();
-    for (const [key, price] of Object.entries(livePrices)) {
+    // 2-1. 정확히 일치하는 키 우선
+    if (livePrices[itemName] != null) {
+        return livePrices[itemName];
+    }
+    // 2-2. 긴 키(더 구체적인 명칭) 우선 매칭
+    const sortedKeys = Object.keys(livePrices).sort((a, b) => b.length - a.length);
+    for (const key of sortedKeys) {
         if (itemName.includes(key) || key.includes(itemName)) {
-            return price;
+            return livePrices[key];
         }
     }
 
