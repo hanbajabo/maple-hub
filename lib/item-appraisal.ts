@@ -406,7 +406,11 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
 export function convertToEquivalentMainStatTarget(
     target: TargetOptionSet,
     characterClass: string,
-    isWSE: boolean
+    isWSE: boolean,
+    gradeEn?: string,
+    isAddi?: boolean,
+    level?: number,
+    lines?: (string | undefined)[]
 ): TargetOptionSet {
     if (isWSE) return target;
 
@@ -459,6 +463,53 @@ export function convertToEquivalentMainStatTarget(
         const perLvlVal = (target[pk as keyof TargetOptionSet] as number) || 0;
         if (perLvlVal > 0) {
             totalEquivalentPct += perLvlVal * 2.9;
+        }
+    }
+
+    // ⭐ [유니크 이탈 캡핑 원칙] 유니크 방어구/장신구: 3줄 올이탈이 아닌 경우(하위 2개 라인 중 본옵 2개 미만) 레전드리 2줄 정옵치로 상한 캡핑!
+    // (사용자 원칙: 유니크 1개 옵션만 이탈 뜨면 레전드리 2줄로 치환, 3줄 모두 올이탈일 때만 레전드리 3줄 정옵 치환)
+    if (gradeEn === 'UNIQUE' && lines && lines.length >= 2) {
+        const isLevel250Plus = (level || 0) >= 250;
+        let lowerPrimeCount = 0;
+        
+        // 2번째 줄과 3번째 줄 검사 (1번째 줄은 원래 유니크 본옵 줄이므로 제외)
+        const subLines = lines.slice(1);
+        for (const line of subLines) {
+            if (!line) continue;
+            const parsed = parseOptionString(line, 1);
+            if (isAddi) {
+                const minPrimeFlat = isLevel250Plus ? 15 : 14;
+                const minPrimeStat = isLevel250Plus ? 7 : 6;
+                const minPrimeAll = isLevel250Plus ? 6 : 5;
+                const fAtt = (parsed.stats.ATTACK || 0) + (parsed.stats.MAGIC_ATTACK || 0);
+                const sPct = (parsed.stats['STR %'] || 0) + (parsed.stats['DEX %'] || 0) + 
+                             (parsed.stats['INT %'] || 0) + (parsed.stats['LUK %'] || 0) + 
+                             (parsed.stats['HP %'] || 0);
+                const aPct = parsed.stats['ALL %'] || 0;
+                if (fAtt >= minPrimeFlat || sPct >= minPrimeStat || aPct >= minPrimeAll) {
+                    lowerPrimeCount++;
+                }
+            } else {
+                // 윗잠
+                const minPrimeStat = isLevel250Plus ? 10 : 9;
+                const minPrimeAll = isLevel250Plus ? 7 : 6;
+                const sPct = (parsed.stats['STR %'] || 0) + (parsed.stats['DEX %'] || 0) + 
+                             (parsed.stats['INT %'] || 0) + (parsed.stats['LUK %'] || 0) + 
+                             (parsed.stats['HP %'] || 0);
+                const aPct = parsed.stats['ALL %'] || 0;
+                if (sPct >= minPrimeStat || aPct >= minPrimeAll) {
+                    lowerPrimeCount++;
+                }
+            }
+        }
+
+        // 하위 2줄 모두 본옵(올이탈)이 아닌 경우:
+        // 에디는 레전드리 2줄 정옵인 14% (250제는 16%), 윗잠은 15% (250제는 17%)로 캡핑!
+        if (lowerPrimeCount < 2) {
+            const max2LineCap = isAddi 
+                ? (isLevel250Plus ? 16 : 14) 
+                : (isLevel250Plus ? 17 : 15);
+            totalEquivalentPct = Math.min(totalEquivalentPct, max2LineCap);
         }
     }
 
@@ -1059,7 +1110,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
 
                             if (escapeCheck.hasEscape) {
                                 const effectiveCapTarget = !isWSE 
-                                    ? convertToEquivalentMainStatTarget(potTarget, characterClass, isWSE)
+                                    ? convertToEquivalentMainStatTarget(potTarget, characterClass, isWSE, gradeEn, false, level, potLines)
                                     : potTarget;
 
                                 const capResult = findBestUpperGradeCap(
@@ -1164,7 +1215,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
 
                             if (escapeCheck.hasEscape) {
                                 const effectiveCapTarget = !isWSE 
-                                    ? convertToEquivalentMainStatTarget(addTarget, characterClass, isWSE)
+                                    ? convertToEquivalentMainStatTarget(addTarget, characterClass, isWSE, gradeEn, true, level, addLines)
                                     : addTarget;
 
                                 const capResult = findBestUpperGradeCap(
