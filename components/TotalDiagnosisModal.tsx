@@ -618,7 +618,14 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                         <div className="flex items-center gap-1.5">
                                             <span className="text-slate-400 font-medium">잠재능력 ({res.item.potential_option_grade || '-'})</span>
                                             {res.result?.details.potential.escapeCappingApplied && (
-                                                <span className="text-[9px] font-bold px-1.5 py-0.2 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded-full" title={`${res.result.details.potential.escapeCappingGrade} 환산 최저 비용 캡 적용`}>
+                                                <span 
+                                                    className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full border ${
+                                                        res.result.details.potential.escapeCappingGrade === '레전드리'
+                                                            ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                                                            : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                                                    }`} 
+                                                    title={`${res.result.details.potential.escapeCappingGrade} 환산 최저 비용 캡 적용`}
+                                                >
                                                     ⚡ {res.result.details.potential.escapeCappingGrade} 환산
                                                 </span>
                                             )}
@@ -631,7 +638,14 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                         <div className="flex items-center gap-1.5">
                                             <span className="text-slate-400 font-medium">에디셔널 ({res.item.additional_potential_option_grade || '-'})</span>
                                             {res.result?.details.additional.escapeCappingApplied && (
-                                                <span className="text-[9px] font-bold px-1.5 py-0.2 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded-full" title={`${res.result.details.additional.escapeCappingGrade} 환산 최저 비용 캡 적용`}>
+                                                <span 
+                                                    className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full border ${
+                                                        res.result.details.additional.escapeCappingGrade === '레전드리'
+                                                            ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                                                            : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                                                    }`} 
+                                                    title={`${res.result.details.additional.escapeCappingGrade} 환산 최저 비용 캡 적용`}
+                                                >
                                                     ⚡ {res.result.details.additional.escapeCappingGrade} 환산
                                                 </span>
                                             )}
