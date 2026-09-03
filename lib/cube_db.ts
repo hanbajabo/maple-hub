@@ -403,11 +403,16 @@ export function getPotentialResetCost(level: number, grade: '레어' | '에픽' 
 export function getAdditionalPotentialUpgradeRate(
     from: '레어' | '에픽' | '유니크',
     to: '에픽' | '유니크' | '레전드리',
-    type: AdditionalCubeType = AdditionalCubeType.NORMAL
+    type: AdditionalCubeType = AdditionalCubeType.NORMAL,
+    isMiracleTime: boolean = false
 ): number {
     const rate = ADDITIONAL_POTENTIAL_UPGRADE_RATES.find(r => r.from_grade === from && r.to_grade === to);
     if (!rate) return 0;
-    return type === AdditionalCubeType.RESET ? rate.reset_probability : rate.cube_probability;
+    let baseRate = type === AdditionalCubeType.RESET ? rate.reset_probability : rate.cube_probability;
+    if (isMiracleTime) {
+        baseRate = Math.min(100.0, baseRate * 2);
+    }
+    return baseRate;
 }
 
 export function calculateAverageAdditionalPotentialCount(target: '에픽' | '유니크' | '레전드리', type: AdditionalCubeType = AdditionalCubeType.NORMAL): number {

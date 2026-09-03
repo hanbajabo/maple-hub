@@ -53,6 +53,26 @@ export default function CalculatorMenu() {
                 >
                     <div className="py-2">
                         <Link
+                            href="/calculator/equipment-appraisal"
+                            prefetch={false}
+                            onClick={close}
+                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
+                        >
+                            <img 
+                                src="/images/appraisal_icon.png" 
+                                alt="장비 기댓값 진단기" 
+                                className="w-6 h-6 object-contain flex-shrink-0 rounded-full shadow-sm" 
+                            />
+                            <div className="flex flex-col min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-semibold text-sm">장비 기댓값 진단기 (Beta)</span>
+                                    <span className="bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
+                                </div>
+                                <span className="text-[10px] text-slate-400 mt-0.5">착용 장비 총 기댓값 산출</span>
+                            </div>
+                        </Link>
+
+                        <Link
                             href="/blog/item-price-tracker-2026"
                             prefetch={false}
                             onClick={close}

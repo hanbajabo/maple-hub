@@ -2049,6 +2049,7 @@ export default function Home() {
         onClose={() => setIsTotalDiagnosisOpen(false)}
         equipmentGrid={equipmentGrid}
         characterClass={character?.character_class || ""}
+        characterInfo={character}
       />
 
       <PatchNotesModal

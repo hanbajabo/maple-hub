@@ -10,11 +10,32 @@ import {
 } from '../lib/item_utils';
 import { isAmazingEnhancementItem } from '../lib/amazing_enhancement_table';
 
+import type { AppraisalResult } from '../lib/item-appraisal';
+
 interface ItemCardProps {
     item: any;
+    appraisalResult?: AppraisalResult | null;
 }
 
-export default function ItemCard({ item }: ItemCardProps) {
+const formatMesoStr = (meso: number) => {
+    if (!meso || isNaN(meso) || meso === 0) return "0";
+    
+    const gyeong = Math.floor(meso / 10000000000000000);
+    const jo = Math.floor((meso % 10000000000000000) / 1000000000000);
+    const uk = Math.floor((meso % 1000000000000) / 100000000);
+    const man = Math.floor((meso % 100000000) / 10000);
+
+    const parts = [];
+    if (gyeong > 0) parts.push(`${gyeong.toLocaleString()}경`);
+    if (jo > 0) parts.push(`${jo.toLocaleString()}조`);
+    if (uk > 0) parts.push(`${uk.toLocaleString()}억`);
+    if (man > 0 && gyeong === 0) parts.push(`${man.toLocaleString()}만`); // 조 이상이면 '만'은 생략하여 간결하게 표시
+
+    if (parts.length === 0) return Math.floor(meso).toLocaleString();
+    return parts.join(' ');
+};
+
+export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
     if (!item) return null;
 
     return (
@@ -42,13 +63,14 @@ export default function ItemCard({ item }: ItemCardProps) {
                             </span>
                         )}
                     </div>
-                    <h2 className={`text-xl font-bold ${getGradeColor(item.potential_option_grade)}`}>{item.item_name}</h2>
+                    <h2 className={`text-xl font-bold ${getGradeColor(item.potential_option_grade)}`}>{item.item_name}{item.special_ring_level ? ` ${item.special_ring_level}레벨` : ''}</h2>
                     <p className="text-xs text-slate-500">{item.item_equipment_slot}</p>
                 </div>
             </div>
 
-            {/* Options List */}
-            <div className="relative z-10 space-y-3">
+            <div className={`relative z-10 flex flex-col md:flex-row gap-4 ${appraisalResult ? 'items-stretch' : ''}`}>
+                {/* Options List */}
+                <div className="flex-1 space-y-3 min-w-[280px]">
                 {/* Add Options */}
                 {getAddOptions(item).length > 0 && (
                     <div className="bg-slate-950/50 rounded-lg p-3 border border-slate-800/50">
@@ -137,6 +159,130 @@ export default function ItemCard({ item }: ItemCardProps) {
                         </div>
                     </div>
                 )}
+                </div>
+
+                {/* Appraisal Breakdown (if passed) */}
+                {appraisalResult && (
+                    <div className="flex-1 md:border-l md:border-t-0 border-t border-slate-700/50 md:pl-4 pt-4 md:pt-0 min-w-[280px]">
+                        <div className="text-sm font-bold text-yellow-400 mb-2 flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                            기댓값 상세 진단
+                        </div>
+                        
+                        {(appraisalResult.priceDate || appraisalResult.details.basePrice.cost > 0) && (
+                            <div className="text-xs text-slate-400 mb-2.5 bg-slate-950/40 p-2 rounded border border-slate-800/50">
+                                {appraisalResult.priceDate && (
+                                    <div className="text-yellow-200/70 mb-0.5">* {appraisalResult.priceDate} 기준</div>
+                                )}
+                                <div>
+                                    {appraisalResult.details.basePrice.isOverridden ? (
+                                        <span className="text-amber-400 font-semibold">노작 아이템 시세(수정됨): </span>
+                                    ) : (
+                                        <span>노작 아이템 시세: </span>
+                                    )}
+                                    <span className={appraisalResult.details.basePrice.isOverridden ? "text-amber-300 font-bold" : "text-slate-200 font-medium"}>
+                                        {formatMesoStr(appraisalResult.details.basePrice.cost || 0)} 메소
+                                    </span>
+                                </div>
+                                {(appraisalResult.details.basePrice.level5Cost || appraisalResult.details.basePrice.level6Cost) && (
+                                    <div className="mt-1.5 pt-1.5 border-t border-slate-700/50 flex flex-col gap-0.5">
+                                        {appraisalResult.details.basePrice.base4LevelCost !== undefined && (
+                                            <div className="text-slate-400">└ 4레벨 노작: {formatMesoStr(appraisalResult.details.basePrice.base4LevelCost)}</div>
+                                        )}
+                                        {appraisalResult.details.basePrice.level5Cost !== undefined && (
+                                            <>
+                                                <div className="text-slate-400">└ 5레벨 연마 기댓값: {formatMesoStr(appraisalResult.details.basePrice.level5Cost)}</div>
+                                                {appraisalResult.details.basePrice.lifeStonePrice !== undefined && (
+                                                    <div className="text-slate-500 ml-3 mb-0.5">· 연마석 개당 시세: {formatMesoStr(appraisalResult.details.basePrice.lifeStonePrice)}</div>
+                                                )}
+                                            </>
+                                        )}
+                                        {appraisalResult.details.basePrice.level6Cost !== undefined && (
+                                            <>
+                                                <div className="text-slate-400">└ 6레벨 연마 기댓값: {formatMesoStr(appraisalResult.details.basePrice.level6Cost)}</div>
+                                                {appraisalResult.details.basePrice.faithStonePrice !== undefined && (
+                                                    <div className="text-slate-500 ml-3">· 신마석 개당 시세: {formatMesoStr(appraisalResult.details.basePrice.faithStonePrice)}</div>
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        <div className="flex flex-col gap-1.5">
+                        {/* Starforce Breakdown */}
+                        {appraisalResult.details.starforce.success && appraisalResult.details.starforce.cost > 0 && (
+                            <div className="flex flex-col gap-1 pb-3 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
+                                <div className="flex justify-between items-center mb-0.5">
+                                    <span className="text-sm text-yellow-200 font-bold">스타포스 ({item.starforce}성)</span>
+                                    <span className="text-sm font-bold text-yellow-300">{formatMesoStr(appraisalResult.details.starforce.cost)} 메소</span>
+                                </div>
+                                <div className="flex flex-col text-[13px] text-slate-300 pl-1 space-y-1">
+                                    <div><span className="text-slate-400 w-24 inline-block font-medium">강화 비용:</span> {formatMesoStr(appraisalResult.details.starforce.pureEnhancementCost || 0)}</div>
+                                    <div><span className="text-slate-400 w-24 inline-block font-medium">스페어 장비:</span> {appraisalResult.details.starforce.expectedSpares?.toFixed(2) || 0}개 <span className="text-slate-500">({formatMesoStr(appraisalResult.details.starforce.cost - (appraisalResult.details.starforce.pureEnhancementCost || 0))})</span></div>
+                                    {appraisalResult.appliedEvents?.isShining && (appraisalResult.savings?.starforceSavings || 0) > 0 && (
+                                        <div className="text-yellow-300 font-medium pt-0.5">
+                                            <span className="text-yellow-400/90 w-24 inline-block font-semibold">샤타포스 할인:</span>
+                                            <span className="font-bold">-{formatMesoStr(appraisalResult.savings!.starforceSavings)} 메소 절감</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Potential Breakdown */}
+                        {appraisalResult.details.potential.success && appraisalResult.details.potential.cost > 0 && (
+                            <div className="flex flex-col gap-1 pb-3 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
+                                <div className="flex justify-between items-center mb-0.5">
+                                    <span className="text-sm text-green-200 font-bold">잠재능력 ({item.potential_option_grade})</span>
+                                    <span className="text-sm font-bold text-green-300">{formatMesoStr(appraisalResult.details.potential.cost)} 메소</span>
+                                </div>
+                                <div className="flex flex-col text-[13px] text-slate-300 pl-1 space-y-1">
+                                    <div className="flex items-center">
+                                        <span className="text-slate-400 w-24 inline-block font-medium shrink-0">등업 비용:</span>
+                                        <span>{formatMesoStr(appraisalResult.details.potential.tierUpCost || 0)}</span>
+                                        {appraisalResult.appliedEvents?.isMiracleTime && (appraisalResult.details.potential.tierUpCost || 0) > 0 && (
+                                            <span className="text-[11px] text-purple-300 font-medium ml-2 bg-purple-950/70 px-1.5 py-0.5 rounded border border-purple-500/30">
+                                                미라클 2배 등업 적용
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div><span className="text-slate-400 w-24 inline-block font-medium">옵션 비용:</span> {formatMesoStr(appraisalResult.details.potential.optionCost || 0)} <span className="text-slate-500">(평균 {appraisalResult.details.potential.expectedTries?.toLocaleString() || 0}개 소모)</span></div>
+                                    {appraisalResult.details.potential.targetOptionStr && (
+                                        <div className="text-green-300/80 font-medium mt-1"><span className="text-slate-400 w-24 inline-block font-medium">유효 옵션:</span> {appraisalResult.details.potential.targetOptionStr}</div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Additional Potential Breakdown */}
+                        {appraisalResult.details.additional.success && appraisalResult.details.additional.cost > 0 && (
+                            <div className="flex flex-col gap-1 pb-3 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
+                                <div className="flex justify-between items-center mb-0.5">
+                                    <span className="text-sm text-blue-200 font-bold">에디셔널 ({item.additional_potential_option_grade})</span>
+                                    <span className="text-sm font-bold text-blue-300">{formatMesoStr(appraisalResult.details.additional.cost)} 메소</span>
+                                </div>
+                                <div className="flex flex-col text-[13px] text-slate-300 pl-1 space-y-1">
+                                    <div className="flex items-center">
+                                        <span className="text-slate-400 w-24 inline-block font-medium shrink-0">등업 비용:</span>
+                                        <span>{formatMesoStr(appraisalResult.details.additional.tierUpCost || 0)}</span>
+                                        {appraisalResult.appliedEvents?.isMiracleTime && (appraisalResult.details.additional.tierUpCost || 0) > 0 && (
+                                            <span className="text-[11px] text-purple-300 font-medium ml-2 bg-purple-950/70 px-1.5 py-0.5 rounded border border-purple-500/30">
+                                                미라클 2배 등업 적용
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div><span className="text-slate-400 w-24 inline-block font-medium">옵션 비용:</span> {formatMesoStr(appraisalResult.details.additional.optionCost || 0)} <span className="text-slate-500">(평균 {appraisalResult.details.additional.expectedTries?.toLocaleString() || 0}개 소모)</span></div>
+                                    {appraisalResult.details.additional.targetOptionStr && (
+                                        <div className="text-blue-300/80 font-medium mt-1"><span className="text-slate-400 w-24 inline-block font-medium">유효 옵션:</span> {appraisalResult.details.additional.targetOptionStr}</div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
             </div>
         </div>
     );

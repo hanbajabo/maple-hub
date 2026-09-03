@@ -4,13 +4,18 @@ import { appraiseItemCost } from '../../../lib/item-appraisal';
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { item, characterClass, overrideBasePrice } = body;
+        const { item, characterClass, overrideBasePrice, isMiracleTime, isShining } = body;
 
         if (!item) {
             return NextResponse.json({ error: 'Item data is required' }, { status: 400 });
         }
 
-        const result = await appraiseItemCost(item, characterClass || '초보자', overrideBasePrice);
+        const result = await appraiseItemCost(
+            item,
+            characterClass || '초보자',
+            overrideBasePrice,
+            { isMiracleTime: !!isMiracleTime, isShining: !!isShining }
+        );
         return NextResponse.json(result);
     } catch (error: any) {
         console.error('Appraisal API Error:', error);

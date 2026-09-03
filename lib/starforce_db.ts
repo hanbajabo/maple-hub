@@ -94,11 +94,19 @@ export interface StarforceOptions {
     preventDestruction?: boolean; // 15~17성 파괴 방지
     starcatch?: boolean;
     isShining?: boolean;        // 샤이닝 스타포스 타임
-    itemCost?: number;          // 스페어 장비 1개 가격 (메소)
-    restoreMethod?: "A" | "B" | "optimal"; // 파괴 복구 방식
+    itemCost?: number;          // 스페어 1개 가격 (메소)
+    restoreMethod?: "A" | "B" | "optimal"; // 파괴 시 복구 방식
+    isDestiny?: boolean;        // 데스티니 무기 여부
 }
 
-export const getRestorationMesoCost = (level: number, stars: number, isShining: boolean = false): number => {
+export const getRestorationMesoCost = (level: number, stars: number, isShining: boolean = false, isDestiny: boolean = false): number => {
+    if (isDestiny && stars === 22) {
+        // 데스티니 22성 복구비: 473억(흔적 복구 비용, 샤이닝 20% 할인 대상) + 300억(데스티니 고정 추가 지불, 할인 미적용)
+        // 샤이닝 시: 473억×0.8 + 300억 = 378.4억 + 300억 = 678.4억 (나무위키 수치와 일치)
+        const baseRestoration = 47_300_000_000;
+        const destinyFixedFee = 30_000_000_000;
+        return (isShining ? baseRestoration * 0.8 : baseRestoration) + destinyFixedFee;
+    }
     if (stars < 15 || stars > 22) return 0;
 
     let lv = 140;
@@ -131,7 +139,8 @@ export const getRestorationMesoCost = (level: number, stars: number, isShining: 
     return baseMeso;
 };
 
-export const getRestorationSpareCount = (level: number, stars: number): number => {
+export const getRestorationSpareCount = (level: number, stars: number, isDestiny: boolean = false): number => {
+    if (isDestiny && stars === 22) return 1;
     if (stars < 15) return 1;
 
     let lv = 140;
@@ -279,8 +288,8 @@ export const calculateCumulativeExpectedCostDetailed = (
 
         // Option B: 성급 유지 복구 방식 (메소 지불). 23성 이상 파괴 시 22성으로 복원됨.
         const restoreStar_B = currentStar >= 23 ? 22 : currentStar;
-        const restoreCostMeso_B = getRestorationMesoCost(level, restoreStar_B, isShining) + (T_meso[currentStar] - T_meso[restoreStar_B]);
-        const restoreCostSpares_B = getRestorationSpareCount(level, restoreStar_B) + (T_spares[currentStar] - T_spares[restoreStar_B]);
+        const restoreCostMeso_B = getRestorationMesoCost(level, restoreStar_B, isShining, options.isDestiny) + (T_meso[currentStar] - T_meso[restoreStar_B]);
+        const restoreCostSpares_B = getRestorationSpareCount(level, restoreStar_B, options.isDestiny) + (T_spares[currentStar] - T_spares[restoreStar_B]);
         const totalValue_B = restoreCostMeso_B + restoreCostSpares_B * itemCost;
 
         // 복구 방식 결정 (15성 미만은 Option B가 존재하지 않으므로 무조건 Option A)

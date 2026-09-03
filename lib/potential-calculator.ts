@@ -29,7 +29,8 @@ export type StatType =
     | 'ATTACK %' | 'MAGIC_ATTACK %' | 'DAMAGE' | 'BOSS_DAMAGE'
     | 'IGNORE_DEFENSE' | 'CRITICAL_DAMAGE' | 'CRITICAL_PROB'
     | 'COOL_DOWN' | 'ITEM_DROP' | 'MESO_OBTAIN'
-    | 'STR' | 'DEX' | 'INT' | 'LUK' | 'HP' | 'ATTACK' | 'MAGIC_ATTACK' | 'ALL';
+    | 'STR' | 'DEX' | 'INT' | 'LUK' | 'HP' | 'ATTACK' | 'MAGIC_ATTACK' | 'ALL'
+    | 'STR_PER_LEVEL' | 'DEX_PER_LEVEL' | 'INT_PER_LEVEL' | 'LUK_PER_LEVEL';
 
 export interface ParsedOption {
     rawName: string;
@@ -102,86 +103,90 @@ export function parseOptionString(name: string, probability: number): ParsedOpti
     const isInvincibleChance = /피격\s*시\s*\d+%\s*확률로\s*\d+초간\s*무적/.test(trimmed);
 
     // 1. 보스 공격 시 데미지
-    const bossMatch = trimmed.match(/보스\s*몬스터\s*(?:공격\s*시\s*)?데미지\s*:\s*\+(\d+)%/);
+    const bossMatch = trimmed.match(/보스\s*몬스터\s*(?:공격\s*시\s*)?데미지\s*:?\s*\+(\d+)%/);
     if (bossMatch) stats.BOSS_DAMAGE = parseInt(bossMatch[1], 10);
 
     // 2. 몬스터 방어율 무시
-    const iedMatch = trimmed.match(/몬스터\s*방어율\s*무시\s*:\s*\+(\d+)%/);
+    const iedMatch = trimmed.match(/몬스터\s*방어율\s*무시\s*:?\s*\+(\d+)%/);
     if (iedMatch) stats.IGNORE_DEFENSE = parseInt(iedMatch[1], 10);
 
     // 3. 공격력 %
-    const attPctMatch = trimmed.match(/^공격력\s*:\s*\+(\d+)%/);
+    const attPctMatch = trimmed.match(/^공격력\s*:?\s*\+(\d+)%/);
     if (attPctMatch) stats['ATTACK %'] = parseInt(attPctMatch[1], 10);
 
     // 4. 마력 %
-    const magPctMatch = trimmed.match(/^마력\s*:\s*\+(\d+)%/);
+    const magPctMatch = trimmed.match(/^마력\s*:?\s*\+(\d+)%/);
     if (magPctMatch) stats['MAGIC_ATTACK %'] = parseInt(magPctMatch[1], 10);
 
     // 5. 공격력 정수
-    const attFlatMatch = trimmed.match(/^공격력\s*:\s*\+(\d+)$/);
+    const attFlatMatch = trimmed.match(/^공격력\s*:?\s*\+(\d+)$/);
     if (attFlatMatch) stats.ATTACK = parseInt(attFlatMatch[1], 10);
 
     // 6. 마력 정수
-    const magFlatMatch = trimmed.match(/^마력\s*:\s*\+(\d+)$/);
+    const magFlatMatch = trimmed.match(/^마력\s*:?\s*\+(\d+)$/);
     if (magFlatMatch) stats.MAGIC_ATTACK = parseInt(magFlatMatch[1], 10);
 
     // 7. 올스탯 %
-    const allPctMatch = trimmed.match(/올스탯\s*:\s*\+(\d+)%/);
+    const allPctMatch = trimmed.match(/올스탯\s*:?\s*\+(\d+)%/);
     if (allPctMatch) stats['ALL %'] = parseInt(allPctMatch[1], 10);
 
-    // 8. 주스탯 % (STR, DEX, INT, LUK, HP)
-    const strPctMatch = trimmed.match(/^STR\s*:\s*\+(\d+)%/);
+    // 8. 스탯 %
+    const strPctMatch = trimmed.match(/^STR\s*:?\s*\+(\d+)%/);
     if (strPctMatch) stats['STR %'] = parseInt(strPctMatch[1], 10);
-    const dexPctMatch = trimmed.match(/^DEX\s*:\s*\+(\d+)%/);
+    const dexPctMatch = trimmed.match(/^DEX\s*:?\s*\+(\d+)%/);
     if (dexPctMatch) stats['DEX %'] = parseInt(dexPctMatch[1], 10);
-    const intPctMatch = trimmed.match(/^INT\s*:\s*\+(\d+)%/);
+    const intPctMatch = trimmed.match(/^INT\s*:?\s*\+(\d+)%/);
     if (intPctMatch) stats['INT %'] = parseInt(intPctMatch[1], 10);
-    const lukPctMatch = trimmed.match(/^LUK\s*:\s*\+(\d+)%/);
+    const lukPctMatch = trimmed.match(/^LUK\s*:?\s*\+(\d+)%/);
     if (lukPctMatch) stats['LUK %'] = parseInt(lukPctMatch[1], 10);
-    const hpPctMatch = trimmed.match(/^최대\s*HP\s*:\s*\+(\d+)%/);
+    const hpPctMatch = trimmed.match(/^최대\s*HP\s*:?\s*\+(\d+)%/);
     if (hpPctMatch) stats['HP %'] = parseInt(hpPctMatch[1], 10);
+    
+    // Cooldown Reduction
+    const coolDownMatch = trimmed.match(/스킬(?:\s*의)?\s*재사용\s*대기시간\s*:?\s*-(\d+)초/);
+    if (coolDownMatch) stats.COOL_DOWN = parseInt(coolDownMatch[1], 10);
 
     // 8.5. 깡스탯 (STR, DEX, INT, LUK, HP, ALL)
-    const strFlatMatch = trimmed.match(/^STR\s*:\s*\+(\d+)$/);
+    const strFlatMatch = trimmed.match(/^STR\s*:?\s*\+(\d+)$/);
     if (strFlatMatch) stats['STR'] = parseInt(strFlatMatch[1], 10);
-    const dexFlatMatch = trimmed.match(/^DEX\s*:\s*\+(\d+)$/);
+    const dexFlatMatch = trimmed.match(/^DEX\s*:?\s*\+(\d+)$/);
     if (dexFlatMatch) stats['DEX'] = parseInt(dexFlatMatch[1], 10);
-    const intFlatMatch = trimmed.match(/^INT\s*:\s*\+(\d+)$/);
+    const intFlatMatch = trimmed.match(/^INT\s*:?\s*\+(\d+)$/);
     if (intFlatMatch) stats['INT'] = parseInt(intFlatMatch[1], 10);
-    const lukFlatMatch = trimmed.match(/^LUK\s*:\s*\+(\d+)$/);
+    const lukFlatMatch = trimmed.match(/^LUK\s*:?\s*\+(\d+)$/);
     if (lukFlatMatch) stats['LUK'] = parseInt(lukFlatMatch[1], 10);
-    const hpFlatMatch = trimmed.match(/^최대\s*HP\s*:\s*\+(\d+)$/);
+    const hpFlatMatch = trimmed.match(/^최대\s*HP\s*:?\s*\+(\d+)$/);
     if (hpFlatMatch) stats['HP'] = parseInt(hpFlatMatch[1], 10);
-    const allFlatMatch = trimmed.match(/^올스탯\s*:\s*\+(\d+)$/);
+    const allFlatMatch = trimmed.match(/^올스탯\s*:?\s*\+(\d+)$/);
     if (allFlatMatch) stats['ALL'] = parseInt(allFlatMatch[1], 10);
 
-    // 8.6. 랩당 스탯
-    const levelStrMatch = trimmed.match(/캐릭터 기준 \d+레벨 당 STR\s*:\s*\+(\d+)/);
-    if (levelStrMatch) stats['STR'] = parseInt(levelStrMatch[1], 10) * 27; // 250렙 기준 27배
-    const levelDexMatch = trimmed.match(/캐릭터 기준 \d+레벨 당 DEX\s*:\s*\+(\d+)/);
-    if (levelDexMatch) stats['DEX'] = parseInt(levelDexMatch[1], 10) * 27;
-    const levelIntMatch = trimmed.match(/캐릭터 기준 \d+레벨 당 INT\s*:\s*\+(\d+)/);
-    if (levelIntMatch) stats['INT'] = parseInt(levelIntMatch[1], 10) * 27;
-    const levelLukMatch = trimmed.match(/캐릭터 기준 \d+레벨 당 LUK\s*:\s*\+(\d+)/);
-    if (levelLukMatch) stats['LUK'] = parseInt(levelLukMatch[1], 10) * 27;
+    // 8.6. 렙당 스탯
+    const levelStrMatch = trimmed.match(/캐릭터\s*기준\s*\d+레벨\s*당\s*STR\s*:?\s*\+(\d+)/);
+    if (levelStrMatch) stats.STR_PER_LEVEL = parseInt(levelStrMatch[1], 10);
+    const levelDexMatch = trimmed.match(/캐릭터\s*기준\s*\d+레벨\s*당\s*DEX\s*:?\s*\+(\d+)/);
+    if (levelDexMatch) stats.DEX_PER_LEVEL = parseInt(levelDexMatch[1], 10);
+    const levelIntMatch = trimmed.match(/캐릭터\s*기준\s*\d+레벨\s*당\s*INT\s*:?\s*\+(\d+)/);
+    if (levelIntMatch) stats.INT_PER_LEVEL = parseInt(levelIntMatch[1], 10);
+    const levelLukMatch = trimmed.match(/캐릭터\s*기준\s*\d+레벨\s*당\s*LUK\s*:?\s*\+(\d+)/);
+    if (levelLukMatch) stats.LUK_PER_LEVEL = parseInt(levelLukMatch[1], 10);
 
     // 9. 크리티컬 데미지
-    const cdMatch = trimmed.match(/크리티컬\s*데미지\s*:\s*\+(\d+)%/);
+    const cdMatch = trimmed.match(/크리티컬\s*데미지\s*:?\s*\+(\d+)%/);
     if (cdMatch) stats.CRITICAL_DAMAGE = parseInt(cdMatch[1], 10);
 
     // 10. 재사용 대기시간 감소 (쿨뚝)
-    const cdRedMatch = trimmed.match(/재사용\s*대기시간\s*감소\s*:\s*-?(\d+)초/);
+    const cdRedMatch = trimmed.match(/재사용\s*대기시간\s*감소\s*:?\s*-?(\d+)초/);
     if (cdRedMatch) stats.COOL_DOWN = parseInt(cdRedMatch[1], 10);
 
     // 11. 드롭 / 메획
-    const dropMatch = trimmed.match(/아이템\s*드롭률\s*:\s*\+(\d+)%/);
+    const dropMatch = trimmed.match(/아이템\s*드롭률\s*:?\s*\+(\d+)%/);
     if (dropMatch) stats.ITEM_DROP = parseInt(dropMatch[1], 10);
 
-    const mesoMatch = trimmed.match(/메소\s*획득량\s*:\s*\+(\d+)%/);
+    const mesoMatch = trimmed.match(/메소\s*획득량\s*:?\s*\+(\d+)%/);
     if (mesoMatch) stats.MESO_OBTAIN = parseInt(mesoMatch[1], 10);
 
     // 12. 데미지 %
-    const dmgMatch = trimmed.match(/^데미지\s*:\s*\+(\d+)%/);
+    const dmgMatch = trimmed.match(/^데미지\s*:?\s*\+(\d+)%/);
     if (dmgMatch) stats.DAMAGE = parseInt(dmgMatch[1], 10);
 
     return {
@@ -280,7 +285,20 @@ export function calculateExactPotentialExpectation(
     else if (level >= 160) matchedLevel = 160;
     else matchedLevel = 150;
 
-    const equipData = db[method][equip][matchedLevel] || db[method][equip][200] || db[method][equip][160];
+    let equipData = db[method][equip][matchedLevel];
+    
+    // 만약 데이터가 없거나 비어있다면, 악세서리 250제의 경우 펜던트 250제 데이터를 빌려옴
+    if ((!equipData || !equipData[grade] || !equipData[grade][grade] || equipData[grade][grade].length === 0) && matchedLevel === 250) {
+        if (['얼굴장식', '눈장식', '귀고리', '벨트', '반지', '어깨장식'].includes(equip)) {
+            equipData = db[method]['펜던트'][250];
+        }
+    }
+
+    // 그래도 없으면 하위 레벨로 폴백
+    if (!equipData || !equipData[grade] || !equipData[grade][grade] || equipData[grade][grade].length === 0) {
+        equipData = db[method][equip][200] || db[method][equip][160];
+    }
+
     if (!equipData || !equipData[grade]) {
         return { probability: 0.005, expectedAttempts: 200, costOnce: 45_000_000, totalCostMeso: 9_000_000_000 };
     }

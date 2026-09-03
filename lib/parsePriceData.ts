@@ -24,7 +24,10 @@ export interface EthernelByJob {
     pirate: number; // 해적
 }
 
+let cachedPriceData: PriceData[] | null = null;
+
 export function getPriceData(): PriceData[] {
+    if (cachedPriceData) return cachedPriceData;
     try {
         const fileContent = fs.readFileSync(DATA_FILE_PATH, 'utf-8');
 
@@ -148,12 +151,22 @@ export function getPriceData(): PriceData[] {
             result.push({ date, items: itemMap, ethernelByJob: ethernelByJob.length > 0 ? ethernelByJob : undefined });
         });
 
+        cachedPriceData = result;
         return result;
 
     } catch (error) {
         console.error('Error reading price data:', error);
         return [];
     }
+}
+
+/**
+ * 가장 최신 날짜를 반환합니다 (YYYY-MM-DD)
+ */
+export function getLatestPriceDate(): string {
+    const data = getPriceData();
+    if (data.length === 0) return '';
+    return data[data.length - 1].date;
 }
 
 /**
@@ -319,13 +332,13 @@ export function getLatestPrice(itemName: string, slot?: string, jobName?: string
 
     // 3. 하드코딩 보조 시세 (시세 추적표에 없는 일반 보스 장비)
     if (itemName.includes('아케인') || itemName.includes('아케인셰이드')) {
-        return itemName.includes('무기') ? 20_000_000 : 15_000_000;
+        return 2_000_000;
     }
     if (itemName.includes('앱솔') || itemName.includes('앱솔랩스')) {
-        return 5_000_000;
+        return 500_000;
     }
-    if (itemName.includes('하이네스') || itemName.includes('이글아이') || itemName.includes('트릭스터')) {
-        return 1_000_000;
+    if (itemName.includes('하이네스') || itemName.includes('이글아이') || itemName.includes('트릭스터') || itemName.includes('파프니르') || itemName.includes('루타비스') || itemName.includes('카루타')) {
+        return 500_000;
     }
     if (itemName.includes('골든 클로버') || itemName.includes('실버블라썸') || itemName.includes('이피아') || itemName.includes('아쿠아틱') || itemName.includes('응축된')) {
         return 2_000_000;
