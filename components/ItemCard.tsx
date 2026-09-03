@@ -212,7 +212,7 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
 
                         <div className="flex flex-col gap-1.5">
                         {/* Starforce Breakdown */}
-                        {appraisalResult.details.starforce.success && appraisalResult.details.starforce.cost > 0 && (
+                        {appraisalResult.details.starforce.success && appraisalResult.details.starforce.cost > 0 ? (
                             <div className="flex flex-col gap-1 pb-3 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
                                 <div className="flex justify-between items-center mb-0.5">
                                     <span className="text-sm text-yellow-200 font-bold">스타포스 ({item.starforce}성)</span>
@@ -229,7 +229,12 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                     )}
                                 </div>
                             </div>
-                        )}
+                        ) : appraisalResult.details.starforce.reason ? (
+                            <div className="flex justify-between items-center pb-2 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
+                                <span className="text-sm text-yellow-200 font-bold">스타포스 ({item.starforce || 0}성)</span>
+                                <span className="text-xs text-amber-400/90 font-medium">{appraisalResult.details.starforce.reason}</span>
+                            </div>
+                        ) : null}
 
                         {/* Potential Breakdown */}
                         {appraisalResult.details.potential.success && appraisalResult.details.potential.cost > 0 && (

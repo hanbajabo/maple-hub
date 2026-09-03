@@ -3,6 +3,7 @@ import { calculateCumulativeExpectedCostDetailed } from './starforce_db';
 import { getLatestPrice, getLatestPriceDate } from './parsePriceData';
 import { getSpecialItemConfig } from './config/special_items';
 import { NO_STARFORCE_SLOTS } from './config/unified_criteria';
+import { isAmazingEnhancementItem } from './amazing_enhancement_table';
 
 export interface AppraisalOptions {
     isMiracleTime?: boolean;   // 미라클 타임: 잠재/에디 등급업 확률 2배
@@ -298,16 +299,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
     // 특수 장비 체크
     const specialConfig = getSpecialItemConfig(itemName);
     const isGenesisOrDestiny = itemName.includes('제네시스') || itemName.includes('데스티니');
-    
-    if (itemName.includes('타일런트') || itemName.includes('히아데스')) {
-        defaultResult.isCalculable = false;
-        defaultResult.errorMessage = "슈페리얼 장비는 기댓값 산출 대상에서 제외됩니다.";
-        defaultResult.details.starforce = { success: false, cost: 0, reason: "-" };
-        defaultResult.details.potential = { success: false, cost: 0, reason: "-" };
-        defaultResult.details.additional = { success: false, cost: 0, reason: "-" };
-        defaultResult.details.basePrice = { success: false, cost: 0, reason: "산출 불가" };
-        return defaultResult;
-    }
+    const isSuperior = itemName.includes('타일런트') || itemName.includes('히아데스') || itemName.includes('노바') || itemName.includes('헬리시움');
 
     if (itemName.includes('도전자의') || itemName.includes('챌린저스')) {
         defaultResult.isCalculable = false;
@@ -383,11 +375,22 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
 
     // 2. Starforce Cost
     const currentStar = parseInt(item.starforce || "0");
+    const isAmazing = (item.starforce_scroll_flag && item.starforce_scroll_flag !== "0" && currentStar > 0) || isAmazingEnhancementItem(item);
     const isPocketItem = slot.includes("포켓") || itemName.includes("성배");
     const isNoStarforce = NO_STARFORCE_SLOTS.some(s => slot.includes(s)) || isPocketItem;
     
     if (specialConfig?.skipSections?.starforce || isNoStarforce) {
         defaultResult.details.starforce.reason = "스타포스 불가 장비";
+    } else if (isSuperior) {
+        defaultResult.details.starforce.success = false;
+        defaultResult.details.starforce.cost = 0;
+        defaultResult.details.starforce.reason = "슈페리얼 (산출 제외)";
+        defaultResult.starforceCost = 0;
+    } else if (isAmazing) {
+        defaultResult.details.starforce.success = false;
+        defaultResult.details.starforce.cost = 0;
+        defaultResult.details.starforce.reason = "놀장강 (산출 제외)";
+        defaultResult.starforceCost = 0;
     } else if (isGenesisOrDestiny) {
         if (currentStar <= 22) {
             defaultResult.details.starforce.success = false;
