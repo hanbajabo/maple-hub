@@ -58,8 +58,35 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
     const [detailItem, setDetailItem] = useState<ItemData | null>(null);
     const [isMiracleTime, setIsMiracleTime] = useState(false);
     const [isShining, setIsShining] = useState(false);
+    const [isFromCache, setIsFromCache] = useState(false);
     const [mounted, setMounted] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
+
+    // 로컬 스토리지 캐시 키 생성 및 저장/불러오기 유틸
+    const getCacheKey = (charName?: string) => `maple_appraisal_cache_${charName || 'unknown'}`;
+
+    const loadFromCache = (charName?: string) => {
+        if (typeof window === 'undefined' || !charName) return null;
+        try {
+            const raw = localStorage.getItem(getCacheKey(charName));
+            if (!raw) return null;
+            return JSON.parse(raw);
+        } catch {
+            return null;
+        }
+    };
+
+    const saveToCache = (charName: string, data: { results: AppraisalItem[]; totalCost: number; isMiracleTime: boolean; isShining: boolean }) => {
+        if (typeof window === 'undefined' || !charName) return;
+        try {
+            localStorage.setItem(getCacheKey(charName), JSON.stringify({
+                ...data,
+                timestamp: Date.now()
+            }));
+        } catch (e) {
+            console.warn('Failed to save appraisal to localStorage', e);
+        }
+    };
 
     useEffect(() => {
         setMounted(true);
@@ -106,6 +133,16 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                 });
                 setTotalCost(newTotal);
                 setEditingIdx(null);
+
+                // 사용자가 수정한 노작 가격도 로컬 캐시에 즉시 반영 저장
+                if (characterInfo?.character_name) {
+                    saveToCache(characterInfo.character_name, {
+                        results: newResults,
+                        totalCost: newTotal,
+                        isMiracleTime,
+                        isShining
+                    });
+                }
             }
         } catch (e) {
             console.error(e);
@@ -189,6 +226,17 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
             setProgress(100);
             setResults(newResults);
             setTotalCost(runningTotal);
+            setIsFromCache(false);
+
+            // 로컬 스토리지에 분석 결과 캐시 저장
+            if (characterInfo?.character_name) {
+                saveToCache(characterInfo.character_name, {
+                    results: newResults,
+                    totalCost: runningTotal,
+                    isMiracleTime: useMiracleTime,
+                    isShining: useShining
+                });
+            }
         } catch (e) {
             console.error("Batch appraisal failed", e);
         } finally {
@@ -215,13 +263,28 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
 
     useEffect(() => {
         if (isOpen) {
-            startAnalysis();
+            const charName = characterInfo?.character_name;
+            const cached = loadFromCache(charName);
+            if (cached && Array.isArray(cached.results) && cached.results.length > 0) {
+                // 1. 이전에 검색해서 로컬에 저장된 결과가 있다면 0ms 즉시 로딩!
+                setResults(cached.results);
+                setTotalCost(cached.totalCost || 0);
+                setIsMiracleTime(cached.isMiracleTime ?? false);
+                setIsShining(cached.isShining ?? false);
+                setIsAnalyzing(false);
+                setIsFromCache(true);
+                setProgress(100);
+            } else {
+                // 2. 저장된 결과가 없을 때만 서버에 감정 요청
+                startAnalysis();
+            }
         } else {
-            // 모달이 닫히면 이전 분석 결과 및 상태를 초기화하여 다음 진단 시 항상 최신 상태로 새로 분석되도록 처리
+            // 모달이 닫히면 화면 상태 정리
             setResults([]);
             setTotalCost(0);
             setProgress(0);
             setIsAnalyzing(false);
+            setIsFromCache(false);
             setEditingIdx(null);
             setDetailItem(null);
         }
@@ -387,6 +450,12 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                             * <span className="text-yellow-400/90 font-medium">{results.find(r => r.result?.priceDate)?.result?.priceDate}</span> 기준 경매장 노작 아이템 시세가 반영되어 있습니다.
                                         </p>
                                     )}
+                                    {isFromCache && (
+                                        <p className="text-emerald-400/90 flex items-center gap-1.5 font-medium">
+                                            <span>💾</span>
+                                            <span>로컬에 저장된 진단 결과입니다. (최신 데이터로 갱신하려면 우측 '다시 감정하기'를 눌러주세요)</span>
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                             
@@ -401,8 +470,12 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                     </div>
                                 </div>
                             ) : (
-                                <button onClick={() => startAnalysis()} className="px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg text-white font-bold transition-all flex items-center gap-2 shrink-0">
-                                    <Calculator size={18} />
+                                <button 
+                                    onClick={() => startAnalysis()} 
+                                    className="px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-lg text-white font-bold transition-all flex items-center gap-2 shrink-0 group"
+                                    title="최신 장비 및 시세로 다시 감정하기"
+                                >
+                                    <Calculator size={18} className="text-maple-orange group-hover:rotate-12 transition-transform" />
                                     다시 감정하기
                                 </button>
                             )}
