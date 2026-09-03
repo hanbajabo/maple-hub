@@ -77,8 +77,8 @@ function countValidLines(lines: string[], type: 'WSE' | 'ARMOR' | 'GLOVE' | 'HAT
                     count++;
                 }
             } else if (normalizedJob === '제논') {
-                // 제논: 올스탯, STR, DEX, LUK 모두 유효
-                if (line.includes('올스탯') || line.includes('모든 스탯') || line.includes('STR') || line.includes('DEX') || line.includes('LUK')) {
+                // 제논: 올스탯만 유효 (단일 STR, DEX, LUK 제외)
+                if (line.includes('올스탯') || line.includes('모든 스탯')) {
                     count++;
                 }
             } else {

@@ -6,9 +6,9 @@ export function getValidStatTypesForClass(characterClass: string): StatType[] {
         'COOL_DOWN', 'ITEM_DROP', 'MESO_OBTAIN', 'DAMAGE', 'ALL %'
     ];
     
-    // 제논
+    // 제논 (올스탯%만 주스탯으로 인정, 단일 STR/DEX/LUK%는 유효 옵션에서 제외)
     if (characterClass === '제논') {
-        return [...commonStats, 'STR %', 'DEX %', 'LUK %', 'ATTACK %', 'ATTACK', 'STR_PER_LEVEL', 'DEX_PER_LEVEL', 'LUK_PER_LEVEL'];
+        return [...commonStats, 'ATTACK %', 'ATTACK'];
     }
     
     // 데몬어벤져
@@ -41,7 +41,7 @@ export function getValidStatTypesForClass(characterClass: string): StatType[] {
 }
 
 export function getMainStatTypesForClass(characterClass: string): { pct: StatType[], flat: StatType[], perLevel: StatType[] } {
-    if (characterClass === '제논') return { pct: ['STR %', 'DEX %', 'LUK %', 'ALL %'], flat: ['STR', 'DEX', 'LUK', 'ALL'], perLevel: ['STR_PER_LEVEL', 'DEX_PER_LEVEL', 'LUK_PER_LEVEL'] };
+    if (characterClass === '제논') return { pct: ['ALL %'], flat: ['ALL'], perLevel: [] };
     if (characterClass === '데몬어벤져') return { pct: ['HP %'], flat: ['HP'], perLevel: [] };
     
     const mageClasses = ['아크메이지(불,독)', '아크메이지(썬,콜)', '비숍', '플레임위자드', '에반', '루미너스', '배틀메이지', '키네시스', '일리움', '라라'];

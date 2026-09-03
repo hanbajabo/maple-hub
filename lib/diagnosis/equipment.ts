@@ -101,7 +101,13 @@ function evaluateGradeByScore(item: any, attType: string = 'attack', job?: strin
         const m = line.match(/(\d+)%/);
         if (m) {
             const val = parseInt(m[1]);
-            if (line.includes('STR') || line.includes('DEX') || line.includes('INT') || line.includes('LUK') || line.includes('올스탯')) {
+            const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+            if (isXenon) {
+                // 제논: 올스탯%만 주스탯으로 인정 (STR/DEX/LUK% 제외)
+                if (line.includes('올스탯') || line.includes('모든 스탯')) {
+                    statPct += val;
+                }
+            } else if (line.includes('STR') || line.includes('DEX') || line.includes('INT') || line.includes('LUK') || line.includes('올스탯')) {
                 statPct += val;
             } else if (line.includes('HP')) {
                 // 데몬어벤져만 HP를 스탯으로 인정
@@ -111,8 +117,11 @@ function evaluateGradeByScore(item: any, attType: string = 'attack', job?: strin
             }
         }
         if (line.includes('레벨') && line.includes('당')) {
-            if (line.includes('+2')) statPct += 6;
-            else if (line.includes('+1')) statPct += 3;
+            const isXenon = job && (job.includes('제논') || job.replace(/\s/g, '').includes('제논'));
+            if (!isXenon) {
+                if (line.includes('+2')) statPct += 6;
+                else if (line.includes('+1')) statPct += 3;
+            }
         }
 
         // WSE 유효옵 (공/마/보공)

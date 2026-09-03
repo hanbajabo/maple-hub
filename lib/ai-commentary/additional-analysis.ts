@@ -64,7 +64,6 @@ export function analyzeAdditionalPotential(
                 else {
                     const isMainStat = mainStats.some((stat: string) => line.includes(stat));
                     if (isMainStat) isValid = true;
-                    if (isXenon && (line.includes('STR') || line.includes('DEX') || line.includes('LUK'))) isValid = true;
                 }
 
                 if (isValid) {
