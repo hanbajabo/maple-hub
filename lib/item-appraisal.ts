@@ -194,6 +194,10 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
     let maxAttSum = 12;
     let maxPerLevelSum = 1;
 
+    // 방어구/장신구 깡공격력/깡마력 기준표 (에디셔널 전용)
+    let maxSingleFlatAtt = isWSE ? 999 : (isLevel250Plus ? 12 : 11);
+    let maxFlatAttSum = isWSE ? 999 : (isLevel250Plus ? 17 : 14); // 15 이상(예: 공10+공10=20)이면 다중 중첩
+
     if (!isAddi) {
         // [일반 잠재능력 (윗잠)]
         if (!isLevel250Plus) {
@@ -239,6 +243,8 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxAttSum = isWSE ? 12 : 6;
                 maxSinglePerLevel = 0;
                 maxPerLevelSum = 0;
+                maxSingleFlatAtt = isWSE ? 999 : 11;
+                maxFlatAttSum = isWSE ? 999 : 14; // 합산 15 이상 (예: 공10+공10=20) 감지
             } else if (grade === 'UNIQUE') {
                 maxSingleStatPct = isWSE ? 9 : 6;
                 maxSingleAttPct = isWSE ? 9 : 6;
@@ -247,6 +253,8 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxAttSum = isWSE ? 21 : 14;
                 maxSinglePerLevel = 1;
                 maxPerLevelSum = 1; // 렙당 +2 이상은 올이탈
+                maxSingleFlatAtt = isWSE ? 999 : 14;
+                maxFlatAttSum = isWSE ? 999 : 21; // 합산 22 이상 감지
             }
         } else {
             // 250제 이상 (에테르넬 등): 방어구 본옵 5%/하위 3%, 무기 공% 본옵 7%/하위 4%
@@ -258,6 +266,8 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxAttSum = isWSE ? 15 : 8;
                 maxSinglePerLevel = 0;
                 maxPerLevelSum = 0;
+                maxSingleFlatAtt = isWSE ? 999 : 12;
+                maxFlatAttSum = isWSE ? 999 : 17; // 합산 18 이상 감지
             } else if (grade === 'UNIQUE') {
                 maxSingleStatPct = isWSE ? 10 : 7;
                 maxSingleAttPct = isWSE ? 10 : 7;
@@ -266,6 +276,8 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxAttSum = isWSE ? 24 : 17;
                 maxSinglePerLevel = 1;
                 maxPerLevelSum = 1;
+                maxSingleFlatAtt = isWSE ? 999 : 15;
+                maxFlatAttSum = isWSE ? 999 : 24;
             }
         }
     }
@@ -274,6 +286,7 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
     let statSum = 0;
     let attSum = 0;
     let perLevelSum = 0;
+    let flatAttSum = 0;
 
     for (const line of lines) {
         if (!line) continue;
@@ -305,6 +318,15 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
             if (val > maxSinglePerLevel) return { hasEscape: true, reason: `렙당스탯 이탈(+${val} > +${maxSinglePerLevel})` };
             perLevelSum += val;
         }
+
+        // 방어구 깡공격력/깡마력 라인 검사
+        if (!isWSE) {
+            const fAtt = (s['ATTACK'] ?? 0) + (s['MAGIC_ATTACK'] ?? 0);
+            if (fAtt > maxSingleFlatAtt) {
+                return { hasEscape: true, reason: `깡공/마 단일 이탈(+${fAtt} > +${maxSingleFlatAtt})` };
+            }
+            flatAttSum += fAtt;
+        }
     }
 
     // 3-2. 합산 수치 이탈 검사 (다중 이탈 / 올이탈)
@@ -318,7 +340,88 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
         return { hasEscape: true, reason: `렙당 합산(+${perLevelSum} > +${maxPerLevelSum}) 이탈` };
     }
 
+    // 방어구/장신구 깡공/깡마 다중 중첩 검사 (예: 공10+공10=20)
+    if (!isWSE && flatAttSum > maxFlatAttSum) {
+        return { hasEscape: true, reason: `깡공/마 다중 중첩(+${flatAttSum} > +${maxFlatAttSum})` };
+    }
+
+    // 방어구/장신구 깡공+스탯% 복합 다중 중첩 검사 (예: 올탯2%+공10+공10, 4%+공10+공10)
+    if (!isWSE && isAddi && grade === 'EPIC' && flatAttSum >= 15 && statSum >= 2) {
+        return { hasEscape: true, reason: `공격력/스탯 복합 다중 중첩(+${flatAttSum}, +${statSum}%)` };
+    }
+
+    // 에픽 기댓값 시도 횟수 안전망 (15,000회 초과 시 현실적 캡 필요)
+    if (grade === 'EPIC' && expectedAttempts > 15_000) {
+        return { hasEscape: true, reason: `에픽 기댓값 과다(${expectedAttempts.toLocaleString()}회)` };
+    }
+
     return { hasEscape: false };
+}
+
+// ─── 방어구/장신구 스펙 동치 치환 함수 (상위 등급 탐색용) ────────────────────────
+// 공/마 10당 주스탯 4% (0.4배), 올탯% 1:1, 깡스탯 10당 1% (0.1배)로 환산 주스탯% 산출
+export function convertToEquivalentMainStatTarget(
+    target: TargetOptionSet,
+    characterClass: string,
+    isWSE: boolean
+): TargetOptionSet {
+    if (isWSE) return target;
+
+    // 제논인 경우
+    if (characterClass === '제논') {
+        let totalAllPct = target['ALL %'] || 0;
+        const totalAtt = (target['ATTACK'] || 0) + (target['MAGIC_ATTACK'] || 0);
+        totalAllPct += totalAtt * 0.2; // 제논 깡공 10 = 올스탯 약 2%
+        return { 'ALL %': Math.max(1, Math.round(totalAllPct)) };
+    }
+
+    const mainStats = getMainStatTypesForClass(characterClass);
+    const primaryPct = mainStats.pct[0] || 'STR %';
+    const primaryFlat = mainStats.flat[0] || 'STR';
+
+    let totalEquivalentPct = 0;
+
+    // 1. 기존 주스탯 % 및 ALL %
+    for (const [key, val] of Object.entries(target)) {
+        if (!val || typeof val !== 'number') continue;
+
+        if (key === primaryPct || key === 'ALL %') {
+            totalEquivalentPct += val;
+        } else if (['STR %', 'DEX %', 'INT %', 'LUK %', 'HP %'].includes(key)) {
+            if (mainStats.pct.includes(key as any)) {
+                totalEquivalentPct += val * 0.2; // 부스탯 0.2배
+            }
+        }
+    }
+
+    // 2. 깡공격력 / 깡마력 (공/마 10당 주스탯 4% -> 0.4배)
+    const isMagic = characterClass.includes('아크메이지') || characterClass.includes('비숍') || 
+                    characterClass.includes('루미너스') || characterClass.includes('배틀메이지') || 
+                    characterClass.includes('플레임위자드') || characterClass.includes('에반') || 
+                    characterClass.includes('키네시스') || characterClass.includes('일리움') || 
+                    characterClass.includes('라라') || characterClass.includes('레테') || characterClass.includes('린');
+    
+    const attVal = target['ATTACK'] || 0;
+    const magVal = target['MAGIC_ATTACK'] || 0;
+    const effectiveAtt = isMagic ? (magVal > 0 ? magVal : attVal) : (attVal > 0 ? attVal : magVal);
+    totalEquivalentPct += effectiveAtt * 0.4;
+
+    // 3. 깡스탯 (10당 1% -> 0.1배)
+    const flatVal = (target[primaryFlat as keyof TargetOptionSet] as number) || 0;
+    totalEquivalentPct += flatVal * 0.1;
+
+    // 4. 모자 렙당 스탯 (9렙당 1은 주스탯 약 2.9%)
+    const perLevelKeys = ['STR_PER_LEVEL', 'DEX_PER_LEVEL', 'INT_PER_LEVEL', 'LUK_PER_LEVEL'];
+    for (const pk of perLevelKeys) {
+        const perLvlVal = (target[pk as keyof TargetOptionSet] as number) || 0;
+        if (perLvlVal > 0) {
+            totalEquivalentPct += perLvlVal * 2.9;
+        }
+    }
+
+    if (totalEquivalentPct <= 0) return target;
+
+    return { [primaryPct]: Math.max(1, Math.round(totalEquivalentPct)) } as TargetOptionSet;
 }
 
 // ─── 상위 등급 최저 비용 캡 탐색 (에픽 -> 유니크 / 레전드리 중 최적 경로 자동 산출) ─────
@@ -888,8 +991,12 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                             });
 
                             if (escapeCheck.hasEscape) {
+                                const effectiveCapTarget = !isWSE 
+                                    ? convertToEquivalentMainStatTarget(potTarget, characterClass, isWSE)
+                                    : potTarget;
+
                                 const capResult = findBestUpperGradeCap(
-                                    equipType, gradeEn, level, potTarget, false, isMiracleTime
+                                    equipType, gradeEn, level, effectiveCapTarget, false, isMiracleTime
                                 );
                                 
                                 if (capResult && capResult.bestTotalCap < totalPotCost) {
@@ -989,8 +1096,12 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                             });
 
                             if (escapeCheck.hasEscape) {
+                                const effectiveCapTarget = !isWSE 
+                                    ? convertToEquivalentMainStatTarget(addTarget, characterClass, isWSE)
+                                    : addTarget;
+
                                 const capResult = findBestUpperGradeCap(
-                                    equipType, gradeEn, level, addTarget, true, isMiracleTime
+                                    equipType, gradeEn, level, effectiveCapTarget, true, isMiracleTime
                                 );
 
                                 if (capResult && capResult.bestTotalCap < totalAddiCost) {
