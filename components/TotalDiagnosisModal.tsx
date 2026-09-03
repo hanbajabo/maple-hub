@@ -3,6 +3,7 @@ import { Swords, X, Calculator, Loader2 } from 'lucide-react';
 import { ItemData } from '../app/page';
 import type { AppraisalResult } from '../lib/item-appraisal';
 import ItemDetailModal from './ItemDetailModal';
+import { AdBanner } from '@/components/AdSense';
 
 interface TotalDiagnosisModalProps {
     isOpen: boolean;
@@ -244,6 +245,11 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                             </div>
                         </div>
                     )}
+
+                    {/* 캐릭터 정보와 진단 결과 사이 애드센스 광고 배너 */}
+                    <div className="mb-4">
+                        <AdBanner dataAdSlot="8162808816" className="w-full my-0" />
+                    </div>
 
                     {/* Top Summary Board */}
                     <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6 shadow-lg flex flex-col gap-4">
