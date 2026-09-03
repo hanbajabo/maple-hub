@@ -1265,6 +1265,51 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
                         }
                         // ──────────────────────────────────────────────────────────────────
 
+                        // ─── [신규] 레전드리 에디셔널 모자 렙당 스탯 캡핑 ─────────────
+                        if (gradeEn === 'LEGENDARY' && !isWSE) {
+                            const hasPerLevel = addLines.some(l => l && l.includes('레벨 당'));
+                            if (hasPerLevel) {
+                                // 렙당 1개당 3%, 렙당 2개당 6%, 기존 주스탯% 합산
+                                let totalEqPct = 0;
+                                for (const line of addLines) {
+                                    if (!line) continue;
+                                    const parsed = parseOptionString(line, 1);
+                                    const sPct = (parsed.stats['STR %'] || 0) + (parsed.stats['DEX %'] || 0) + 
+                                                 (parsed.stats['INT %'] || 0) + (parsed.stats['LUK %'] || 0) + 
+                                                 (parsed.stats['HP %'] || 0) + (parsed.stats['ALL %'] || 0);
+                                    totalEqPct += sPct;
+                                    
+                                    const pLvl = (parsed.stats['STR_PER_LEVEL'] || 0) + (parsed.stats['DEX_PER_LEVEL'] || 0) + 
+                                                 (parsed.stats['INT_PER_LEVEL'] || 0) + (parsed.stats['LUK_PER_LEVEL'] || 0);
+                                    if (pLvl === 1) totalEqPct += 3;
+                                    else if (pLvl >= 2) totalEqPct += 6;
+                                }
+
+                                // 16% 이상(17% 이상급)은 3줄 정옵(17% 기준, 약 2,372억) 캡
+                                // 15% 이하는 2줄 정옵(14% 기준, 약 402억) 캡
+                                const capTargetPct = totalEqPct >= 16 ? 17 : 14;
+                                const mainStats = getMainStatTypesForClass(characterClass);
+                                const primaryPct = mainStats.pct[0] || 'STR %';
+                                
+                                try {
+                                    const legCapRes = calculateExactPotentialExpectation(
+                                        equipType, 'LEGENDARY', level, [{ [primaryPct]: capTargetPct } as TargetOptionSet], 'ADDI_POTENTIAL'
+                                    );
+                                    const legCapTotal = legCapRes.totalCostMeso + tierUpCost;
+                                    if (legCapTotal < totalAddiCost) {
+                                        finalAddiCost = legCapTotal;
+                                        defaultResult.details.additional.escapeCappingApplied = true;
+                                        defaultResult.details.additional.rawCostBeforeCap = totalAddiCost;
+                                        defaultResult.details.additional.escapeCappingGrade = '레전드리';
+                                        defaultResult.details.additional.optionCost = legCapRes.totalCostMeso;
+                                        defaultResult.details.additional.expectedTries = legCapRes.expectedAttempts;
+                                        console.log(`[ESCAPE CAP] ${itemName} 에디 레전드리 렙당 스탯(환산 ${totalEqPct}%) 캡 적용: ${totalAddiCost.toLocaleString()} → ${finalAddiCost.toLocaleString()}`);
+                                    }
+                                } catch {}
+                            }
+                        }
+                        // ──────────────────────────────────────────────────────────────────
+
                         defaultResult.additionalCost = finalAddiCost;
                         defaultResult.details.additional.cost = finalAddiCost;
                         defaultResult.details.additional.tierUpCost = tierUpCost;
