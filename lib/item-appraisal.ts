@@ -66,6 +66,7 @@ export interface AppraisalResult {
             lifeStonePrice?: number;
             faithStonePrice?: number;
         };
+        isZeroSecondary?: boolean;
     };
 }
 
@@ -300,6 +301,25 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
     const specialConfig = getSpecialItemConfig(itemName);
     const isGenesisOrDestiny = itemName.includes('제네시스') || itemName.includes('데스티니');
     const isSuperior = itemName.includes('타일런트') || itemName.includes('히아데스') || itemName.includes('노바') || itemName.includes('헬리시움');
+
+    // 제로 보조무기(라즐리/라피스) 연동 체크:
+    // 제로는 주무기 강화 시 보조무기의 스타포스, 잠재능력, 에디셔널이 무료로 자동 동기화되므로 기댓값을 0원으로 처리(중복 합산 방지)
+    const isZeroClass = characterClass === '제로' || characterClass?.includes('제로');
+    const isSubWeaponSlot = slot === '보조무기' || slot === 'Sub Weapon' || slot === 'SubWeapon' || slot.includes('보조무기');
+    if (isZeroClass && isSubWeaponSlot) {
+        defaultResult.isCalculable = true;
+        defaultResult.totalCost = 0;
+        defaultResult.baseItemCost = 0;
+        defaultResult.starforceCost = 0;
+        defaultResult.potentialCost = 0;
+        defaultResult.additionalCost = 0;
+        defaultResult.details.isZeroSecondary = true;
+        defaultResult.details.basePrice = { success: true, cost: 0, reason: "기본 지급 (무료)" };
+        defaultResult.details.starforce = { success: true, cost: 0, reason: "주무기 연동 (무료)" };
+        defaultResult.details.potential = { success: true, cost: 0, reason: "주무기 연동 (무료)" };
+        defaultResult.details.additional = { success: true, cost: 0, reason: "주무기 연동 (무료)" };
+        return defaultResult;
+    }
 
     if (itemName.includes('도전자의') || itemName.includes('챌린저스')) {
         defaultResult.isCalculable = false;

@@ -168,8 +168,14 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                             <span className="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                             기댓값 상세 진단
                         </div>
+
+                        {appraisalResult.details.isZeroSecondary && (
+                            <div className="mb-2.5 p-2.5 rounded-lg bg-sky-950/50 border border-sky-500/30 text-xs text-sky-200 leading-relaxed">
+                                💡 <strong>제로 무기 연동 시스템</strong>: 제로는 주무기(알파)를 강화하면 보조무기(베타)의 스타포스, 잠재능력, 에디셔널이 무료로 자동 동기화되므로, 보조무기는 별도 비용 없이 주무기 기댓값 하나로 합산됩니다.
+                            </div>
+                        )}
                         
-                        {(appraisalResult.priceDate || appraisalResult.details.basePrice.cost > 0) && (
+                        {(appraisalResult.priceDate || appraisalResult.details.basePrice.cost > 0 || appraisalResult.details.basePrice.reason) && (
                             <div className="text-xs text-slate-400 mb-2.5 bg-slate-950/40 p-2 rounded border border-slate-800/50">
                                 {appraisalResult.priceDate && (
                                     <div className="text-yellow-200/70 mb-0.5">* {appraisalResult.priceDate} 기준</div>
@@ -181,7 +187,11 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                         <span>노작 아이템 시세: </span>
                                     )}
                                     <span className={appraisalResult.details.basePrice.isOverridden ? "text-amber-300 font-bold" : "text-slate-200 font-medium"}>
-                                        {formatMesoStr(appraisalResult.details.basePrice.cost || 0)} 메소
+                                        {appraisalResult.details.basePrice.reason && appraisalResult.details.basePrice.cost === 0 ? (
+                                            appraisalResult.details.basePrice.reason
+                                        ) : (
+                                            `${formatMesoStr(appraisalResult.details.basePrice.cost || 0)} 메소`
+                                        )}
                                     </span>
                                 </div>
                                 {(appraisalResult.details.basePrice.level5Cost || appraisalResult.details.basePrice.level6Cost) && (
@@ -237,7 +247,7 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                         ) : null}
 
                         {/* Potential Breakdown */}
-                        {appraisalResult.details.potential.success && appraisalResult.details.potential.cost > 0 && (
+                        {appraisalResult.details.potential.success && appraisalResult.details.potential.cost > 0 ? (
                             <div className="flex flex-col gap-1 pb-3 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
                                 <div className="flex justify-between items-center mb-0.5">
                                     <span className="text-sm text-green-200 font-bold">잠재능력 ({item.potential_option_grade})</span>
@@ -257,10 +267,15 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                     )}
                                 </div>
                             </div>
-                        )}
+                        ) : appraisalResult.details.potential.reason ? (
+                            <div className="flex justify-between items-center pb-2 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
+                                <span className="text-sm text-green-200 font-bold">잠재능력 ({item.potential_option_grade || '-'})</span>
+                                <span className="text-xs text-sky-400 font-medium">{appraisalResult.details.potential.reason}</span>
+                            </div>
+                        ) : null}
 
                         {/* Additional Potential Breakdown */}
-                        {appraisalResult.details.additional.success && appraisalResult.details.additional.cost > 0 && (
+                        {appraisalResult.details.additional.success && appraisalResult.details.additional.cost > 0 ? (
                             <div className="flex flex-col gap-1 pb-3 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
                                 <div className="flex justify-between items-center mb-0.5">
                                     <span className="text-sm text-blue-200 font-bold">에디셔널 ({item.additional_potential_option_grade})</span>
@@ -280,7 +295,12 @@ export default function ItemCard({ item, appraisalResult }: ItemCardProps) {
                                     )}
                                 </div>
                             </div>
-                        )}
+                        ) : appraisalResult.details.additional.reason ? (
+                            <div className="flex justify-between items-center pb-2 mb-1 border-b border-slate-700/50 last:border-0 last:pb-0 last:mb-0">
+                                <span className="text-sm text-blue-200 font-bold">에디셔널 ({item.additional_potential_option_grade || '-'})</span>
+                                <span className="text-xs text-sky-400 font-medium">{appraisalResult.details.additional.reason}</span>
+                            </div>
+                        ) : null}
                     </div>
                 </div>
             )}

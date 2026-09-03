@@ -507,9 +507,15 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                 <div className="flex justify-between items-center bg-slate-950/80 px-3 py-2 rounded-lg border border-slate-800/70">
                                     <span className="text-xs text-slate-400 font-medium">기댓값 합산</span>
                                     {res.result?.isCalculable && !isNaN(res.result.totalCost) ? (
-                                        <span className="text-base font-black text-yellow-400 tracking-tight">
-                                            {formatMeso(res.result.totalCost)}
-                                        </span>
+                                        res.result.details.isZeroSecondary ? (
+                                            <span className="text-xs font-bold text-sky-400 bg-sky-950/60 px-2 py-0.5 rounded border border-sky-500/30">
+                                                주무기 연동 (무료)
+                                            </span>
+                                        ) : (
+                                            <span className="text-base font-black text-yellow-400 tracking-tight">
+                                                {formatMeso(res.result.totalCost)}
+                                            </span>
+                                        )
                                     ) : (
                                         <span className="text-xs font-semibold text-slate-500">산출 불가</span>
                                     )}
@@ -522,7 +528,9 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                         ) : (
                                             <span className="text-slate-400 font-medium">노작 시세</span>
                                         )}
-                                        {(!res.result?.details.basePrice.success || res.result?.details.basePrice.cost === 0 || editingIdx === idx) ? (
+                                        {res.result?.details.isZeroSecondary ? (
+                                            <span className="text-slate-400 font-medium">기본 지급 (무료)</span>
+                                        ) : (!res.result?.details.basePrice.success || res.result?.details.basePrice.cost === 0 || editingIdx === idx) ? (
                                             <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
                                                 <input 
                                                     type="number" 
@@ -563,7 +571,7 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                     <div className="flex justify-between items-center">
                                         <span className="text-slate-400 font-medium">스타포스 ({res.item.starforce}성)</span>
                                         <span className={res.result?.details.starforce.success ? "text-slate-200 font-medium" : "text-red-400"}>
-                                            {res.result?.details.starforce.success ? (res.result.details.starforce.cost > 0 ? formatMeso(res.result.details.starforce.cost) : '-') : res.result?.details.starforce.reason}
+                                            {res.result?.details.starforce.success ? (res.result.details.starforce.cost > 0 ? formatMeso(res.result.details.starforce.cost) : (res.result.details.starforce.reason || '-')) : res.result?.details.starforce.reason}
                                         </span>
                                     </div>
                                     {isShining && (res.result?.savings?.starforceSavings || 0) > 0 && (
@@ -575,13 +583,13 @@ const TotalDiagnosisModal: React.FC<TotalDiagnosisModalProps> = ({
                                     <div className="flex justify-between items-center">
                                         <span className="text-slate-400 font-medium">잠재능력 ({res.item.potential_option_grade || '-'})</span>
                                         <span className={res.result?.details.potential.success ? "text-slate-200 font-medium" : "text-red-400"}>
-                                            {res.result?.details.potential.success ? (res.result.details.potential.cost > 0 ? formatMeso(res.result.details.potential.cost) : '-') : res.result?.details.potential.reason}
+                                            {res.result?.details.potential.success ? (res.result.details.potential.cost > 0 ? formatMeso(res.result.details.potential.cost) : (res.result.details.potential.reason || '-')) : res.result?.details.potential.reason}
                                         </span>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <span className="text-slate-400 font-medium">에디셔널 ({res.item.additional_potential_option_grade || '-'})</span>
                                         <span className={res.result?.details.additional.success ? "text-slate-200 font-medium" : "text-red-400"}>
-                                            {res.result?.details.additional.success ? (res.result.details.additional.cost > 0 ? formatMeso(res.result.details.additional.cost) : '-') : res.result?.details.additional.reason}
+                                            {res.result?.details.additional.success ? (res.result.details.additional.cost > 0 ? formatMeso(res.result.details.additional.cost) : (res.result.details.additional.reason || '-')) : res.result?.details.additional.reason}
                                         </span>
                                     </div>
                                     {isMiracleTime && (res.result?.savings?.tierUpSavings || 0) > 0 && (
