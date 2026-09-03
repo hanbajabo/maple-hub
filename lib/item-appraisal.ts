@@ -375,7 +375,7 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
 
     // 2. Starforce Cost
     const currentStar = parseInt(item.starforce || "0");
-    const isAmazing = (item.starforce_scroll_flag && item.starforce_scroll_flag !== "0" && currentStar > 0) || isAmazingEnhancementItem(item);
+    const isAmazing = isAmazingEnhancementItem(item);
     const isPocketItem = slot.includes("포켓") || itemName.includes("성배");
     const isNoStarforce = NO_STARFORCE_SLOTS.some(s => slot.includes(s)) || isPocketItem;
     

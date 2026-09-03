@@ -259,6 +259,10 @@ export function isAmazingEnhancementItem(item: any): boolean {
     // 놀장강은 최대 15성까지만 존재 (16성 이상은 절대 아님)
     if (starforce > 15) return false;
 
+    // 160제 이상 장비(앱솔랩스, 아케인셰이드, 에테르넬 등)는 시스템상 놀장강 사용 불가
+    const level = parseInt(base.base_equipment_level || "0");
+    if (level > 150) return false;
+
     // 휴리스틱: 스타포스 5성 이상 + 주문서 스탯 300 이상 = 놀장강
     // (일반 아이템은 절대 도달 불가능한 수치)
     // 공격력 기준은 놀긍혼(Chaos Scroll) 리턴작으로 달성 가능하므로 제외
