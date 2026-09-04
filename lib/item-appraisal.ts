@@ -84,7 +84,7 @@ function mapEquipmentSlotToEquipType(slot: string, name: string): string {
     // 보조무기 분류
     if (slot === '보조무기' || slot === 'Sub Weapon' || slot === 'SubWeapon' || slot.includes('보조무기') || name.includes('보조무기')) {
         if (name.includes('포스실드') || name.includes('소울링')) {
-            return '보조무기(포스실드, 소울링)';
+            return '포스실드, 소울링';
         }
         return '보조무기(포스실드, 소울링 제외)';
     }
@@ -114,7 +114,7 @@ function mapEquipmentSlotToEquipType(slot: string, name: string): string {
     const subWeaponKeywords = ['카타라', '방패', '마도서', '여우구슬', '단검용 검집', '부적', '로잘리오', '쇠사슬', '마법화살', '소울링', '매그넘', '손목보호대', '조준기', '쥬얼', '그립', '화약통', '무게추', '문서', '매직윙', '수정구', '오브', '카드', '호루라기', '노리개', '선추'];
     if (subWeaponKeywords.some(kw => name.includes(kw))) {
         if (name.includes('포스실드') || name.includes('소울링')) {
-            return '보조무기(포스실드, 소울링)';
+            return '포스실드, 소울링';
         }
         return '보조무기(포스실드, 소울링 제외)';
     }

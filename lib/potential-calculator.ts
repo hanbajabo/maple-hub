@@ -274,8 +274,10 @@ export function calculateExactPotentialExpectation(
     targetSets: TargetOptionSet[],
     method: 'POTENTIAL' | 'ADDI_POTENTIAL' = 'POTENTIAL'
 ): { probability: number; expectedAttempts: number; costOnce: number; totalCostMeso: number } {
-    const db = loadPotentialTableDB();
-    const normEquip = equip.replace(/\s+/g, '') === '기계심장' ? '기계심장' : equip;
+    let normEquip = equip.replace(/\s+/g, '') === '기계심장' ? '기계심장' : equip;
+    if (normEquip === '보조무기(포스실드, 소울링)' || normEquip === '포스실드' || normEquip === '소울링') {
+        normEquip = '포스실드, 소울링';
+    }
     if (!db || !db[method] || !db[method][normEquip]) {
         return { probability: 0.005, expectedAttempts: 200, costOnce: 45_000_000, totalCostMeso: 9_000_000_000 };
     }
