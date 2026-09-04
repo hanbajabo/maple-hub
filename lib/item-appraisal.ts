@@ -206,8 +206,8 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = 6;
                 maxSingleAttPct = 6;
                 maxSingleAllPct = 4;
-                maxStatSum = 12;
-                maxAttSum = isWSE ? 6 : 12; // WSE는 공 7% 이상(6+3=9%, 6+3+3=12%) 감지 시 유니크/레전드리 캡 탐색
+                maxStatSum = 9; // ⭐ 윗잠 에픽 2줄 정옵(6+3=9%), 10% 이상(6+3+3=12% 3줄 또는 6+6=12% 쌍이탈) 감지 시 유니크 캡 탐색
+                maxAttSum = isWSE ? 6 : 9; // WSE는 공 7% 이상(6+3=9%, 6+3+3=12%) 감지 시 유니크/레전드리 캡 탐색
             } else if (grade === 'UNIQUE') {
                 maxSingleStatPct = 9;
                 maxSingleAttPct = 9;
@@ -221,8 +221,8 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = 7;
                 maxSingleAttPct = 7;
                 maxSingleAllPct = 5;
-                maxStatSum = 15;
-                maxAttSum = isWSE ? 7 : 15; // WSE 250제: 공 8% 이상(7+4=11%) 감지 시 캡 탐색
+                maxStatSum = 11; // ⭐ 250제 윗잠 에픽 2줄 정옵(7+4=11%), 12% 이상(7+4+4=15% 3줄) 감지 시 유니크 캡 탐색
+                maxAttSum = isWSE ? 7 : 11; // WSE 250제: 공 8% 이상(7+4=11%) 감지 시 캡 탐색
             } else if (grade === 'UNIQUE') {
                 maxSingleStatPct = 10;
                 maxSingleAttPct = 10;
@@ -239,7 +239,7 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = isWSE ? 6 : 4;
                 maxSingleAttPct = isWSE ? 6 : 4;
                 maxSingleAllPct = 3;
-                maxStatSum = isWSE ? 12 : 6;
+                maxStatSum = isWSE ? 12 : 4; // ⭐ 방어구 에디 1줄 본옵(4%), 5% 이상(4+2=6% 2줄, 4+4=8% 쌍본옵) 감지 시 유니크 캡 탐색
                 maxAttSum = isWSE ? 6 : 6; // WSE 에디: 공 7% 이상(6+3=9%, 6+3+3=12%) 감지 시 유니크 캡 탐색
                 maxSinglePerLevel = 0;
                 maxPerLevelSum = 0;
@@ -262,7 +262,7 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
                 maxSingleStatPct = isWSE ? 7 : 5;
                 maxSingleAttPct = isWSE ? 7 : 5;
                 maxSingleAllPct = 4;
-                maxStatSum = isWSE ? 15 : 8;
+                maxStatSum = isWSE ? 15 : 5; // ⭐ 250제 방어구 에디 1줄 본옵(5%), 6% 이상(5+3=8% 2줄) 감지 시 유니크 캡 탐색
                 maxAttSum = isWSE ? 7 : 8; // WSE 에디 250제: 공 8% 이상 감지 시 캡 탐색
                 maxSinglePerLevel = 0;
                 maxPerLevelSum = 0;
@@ -345,9 +345,13 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
         return { hasEscape: true, reason: `깡공/마 다중 중첩(+${flatAttSum} > +${maxFlatAttSum})` };
     }
 
-    // 방어구/장신구 깡공+스탯% 복합 다중 중첩 검사 (예: 올탯2%+공10+공10, 4%+공10+공10)
-    if (!isWSE && isAddi && grade === 'EPIC' && flatAttSum >= 15 && statSum >= 2) {
-        return { hasEscape: true, reason: `공격력/스탯 복합 다중 중첩(+${flatAttSum}, +${statSum}%)` };
+    // 방어구/장신구 깡공+스탯% 복합 2줄 이상 검사 (예: 공11+스탯2%, 올탯2%+공10, 4%+공10 등)
+    // 에디 에픽에서 깡공/깡마와 스탯%가 함께 있는 경우 순수 에픽에서 250회 가량 소모되므로 유니크 캡 적용
+    if (!isWSE && isAddi && grade === 'EPIC') {
+        const minAtt = isLevel250Plus ? 11 : 10;
+        if (flatAttSum >= minAtt && statSum >= 1) {
+            return { hasEscape: true, reason: `에디 에픽 공/스탯 복합 2줄(+${flatAttSum}, +${statSum}%) 유니크 최적 치환` };
+        }
     }
 
     // 방어구/장신구 에디셔널 유니크 깡공+스탯% 복합 다중 중첩 검사 (예: 공14 + STR 4% + STR 4% = 환산 13.6% > 10%)
@@ -423,7 +427,12 @@ export function detectPotentialLineEscape(params: EscapeDetectionParams): { hasE
         }
     }
 
-    // 에픽 기댓값 시도 횟수 안전망 (15,000회 초과 시 현실적 캡 필요)
+    // 에디셔널 에픽 기댓값 시도 횟수 안전망 (80회 초과 시 약 22억 이상 소모되어 유니크 1줄 제작 비용을 초과함)
+    if (isAddi && grade === 'EPIC' && expectedAttempts > 80) {
+        return { hasEscape: true, reason: `에디 에픽 시도 횟수 과다(${expectedAttempts.toLocaleString()}회, 유니크 1줄 초과)` };
+    }
+
+    // 윗잠 에픽 기댓값 시도 횟수 안전망 (15,000회 초과 시 현실적 캡 필요)
     if (grade === 'EPIC' && expectedAttempts > 15_000) {
         return { hasEscape: true, reason: `에픽 기댓값 과다(${expectedAttempts.toLocaleString()}회)` };
     }
@@ -543,6 +552,15 @@ export function convertToEquivalentMainStatTarget(
                 : (isLevel250Plus ? 17 : 15);
             totalEquivalentPct = Math.min(totalEquivalentPct, max2LineCap);
         }
+    }
+
+    // ⭐ [에픽 이탈 캡핑 원칙] 에픽 방어구/장신구 에디셔널:
+    // 에디 에픽 2~3줄(환산 6%~9%)은 유니크 1줄 본옵(6%, 250제는 7%)으로 상한 캡핑!
+    // (유니크 2줄로 검색되어 기댓값이 다시 폭발하는 현상 방지)
+    if (gradeEn === 'EPIC' && isAddi) {
+        const isLevel250Plus = (level || 0) >= 250;
+        const maxEpicAddiCap = isLevel250Plus ? 7 : 6;
+        totalEquivalentPct = Math.min(totalEquivalentPct, maxEpicAddiCap);
     }
 
     if (totalEquivalentPct <= 0) return target;
