@@ -1326,9 +1326,9 @@ export async function appraiseItemCost(item: any, characterClass: string, overri
             } else {
                 defaultResult.details.additional.reason = "에픽 미만 (기댓값 미미)";
             }
-        } catch (e) {
+        } catch (e: any) {
             defaultResult.details.additional.success = false;
-            defaultResult.details.additional.reason = "에디셔널 계산 오류";
+            defaultResult.details.additional.reason = `에디셔널 계산 오류: ${e?.message || e}`;
         }
     }
 
