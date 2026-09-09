@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 9월 9일 9월 종료 일정 정리
+    {
+        slug: 'september-2026-update-schedule',
+        title: '📅 9월 종료 일정 완벽 정리 — 챌린저스 시즌4·하이퍼버닝·제네시스 패스·마스터피스 사양 변경',
+        description: '9/10 테스트월드 및 메이플 나우를 시작으로, 9월 15~17일 대규모 이벤트·캐시샵 종료 총정리! 챌린저스 월드 시즌4 육성 종료 & 종료 리프 일정, PC방 접속 보상, 9/17 마스터피스 스페셜 라벨 축소 패치까지 한눈에 확인하세요.',
+        category: '업데이트 소식',
+        date: '2026년 9월 9일',
+        readTime: '3분',
+        thumbnail: '📅',
+        featured: true,
+        targetDate: '2026년 9월 17일',
+    },
     // 8월 27일 벨로나 1인 격파 이벤트 랭킹 분석
     {
         slug: 'bellona-solo-clear-ranking-analysis',
