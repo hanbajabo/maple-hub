@@ -83,13 +83,23 @@ const SCHEDULE = [
                     '하이퍼 블링크',
                     '버닝 BEYOND',
                     '아이템 버닝 PLUS',
-                    '울티마 작전 일지',
+                    '울티마 작전 일지 (이벤트 종료 & 보약 스킬 강화 마감)',
                     '에테리온 아티팩트',
                     '신입 용병 지원 미션',
                     '연합 토큰샵 & 상인단 현상금 의뢰',
                     '의문의 결계',
                     '챌린저스 월드 2차 사전 리프 종료 (~오후 11시 59분)',
                     '프리미엄 기프트샵 종료 (~오후 11시 59분)',
+                ],
+                yellowItems: [
+                    '울티마 작전 일지 (이벤트 종료 & 보약 스킬 강화 마감)',
+                ],
+                itemExtras: [
+                    {
+                        name: '울티마 작전 일지 - 훈련 일지(보약 스킬) 유지 기간',
+                        image: '/images/ultima-training-log.png',
+                        note: '\'훈련 일지\'(보약 스킬) 효과는 9/23(수) 23:59까지 1주일 더 유지됩니다! (단, 9/16 이후 스킬 강화 불가)',
+                    },
                 ],
             },
             {
@@ -166,6 +176,40 @@ const SCHEDULE = [
             },
         ],
     },
+    {
+        date: '2026.09.23',
+        type: 'end',
+        label: '효과 종료',
+        color: 'purple',
+        items: [
+            {
+                category: '보약 스킬',
+                icon: '✨',
+                list: [
+                    '울티마 작전 일지 - \'훈련 일지\'(보약 스킬) 효과 최종 종료 (~오후 11시 59분)',
+                    '※ 9/16(수) 23:59 이후로는 스킬 강화가 불가능했으므로 기존 습득 스킬만 유지',
+                ],
+                highlightIndex: [0],
+            },
+        ],
+    },
+    {
+        date: '2026.09.30',
+        type: 'end',
+        label: '운영 종료',
+        color: 'red',
+        items: [
+            {
+                category: '챌린저스 월드',
+                icon: '🌐',
+                list: [
+                    '챌린저스 월드 시즌4 종료 리프 마감 (~오후 11시 59분)',
+                    '챌린저스 월드 시즌4 서버 운영 최종 종료',
+                ],
+                highlightIndex: [0],
+            },
+        ],
+    },
 ];
 
 // ──────────────────────────────────────────
@@ -189,6 +233,12 @@ function colorSet(color: string) {
         dot: 'bg-amber-400',
         card: 'border-amber-500/20 bg-amber-950/10',
         icon: <AlertCircle className="w-4 h-4 text-amber-400" />,
+    };
+    if (color === 'purple') return {
+        badge: 'bg-purple-500/20 text-purple-400 border-purple-500/40',
+        dot: 'bg-purple-400',
+        card: 'border-purple-500/20 bg-purple-950/10',
+        icon: <Sparkles className="w-4 h-4 text-purple-400" />,
     };
     return {
         badge: 'bg-slate-500/20 text-slate-400 border-slate-500/40',
@@ -300,13 +350,20 @@ export default function September2026UpdateSchedule() {
                                                      {/* 아이템 목록 */}
                                                     <ul className="px-3 sm:px-4 py-2 sm:py-3 space-y-1.5">
                                                         {group.list.map((item, ii) => {
-                                                            const isHighlighted = (group as any).highlightIndex
-                                                                ? (group as any).highlightIndex.includes(ii)
-                                                                : (group as any).highlight;
+                                                            const isYellow = (group as any).yellowItems?.includes(item);
+                                                            const isBold = (group as any).highlightIndex?.includes(ii) || ((group as any).highlight && !isYellow);
+
+                                                            let textClass = 'text-slate-100';
+                                                            if (isYellow) {
+                                                                textClass = 'text-amber-300 font-normal';
+                                                            } else if (isBold) {
+                                                                textClass = 'text-amber-300 font-black tracking-tight';
+                                                            }
+
                                                             return (
                                                                 <li key={ii} className="flex items-start gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-200 leading-snug break-keep">
                                                                     <span className={`mt-1 sm:mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${cs.dot} opacity-80`} />
-                                                                    <span className={isHighlighted ? 'text-amber-300 font-black tracking-tight' : 'text-slate-100'}>
+                                                                    <span className={textClass}>
                                                                         {item}
                                                                     </span>
                                                                 </li>
@@ -465,7 +522,8 @@ export default function September2026UpdateSchedule() {
                         <li className="flex items-start gap-1.5 sm:gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span>일정은 공식 공지 기준이며, 점검 시간에 따라 실제 적용 시간이 달라질 수 있습니다.</span></li>
                         <li className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span>캐시샵 아이템은 판매 종료일 기준으로, 구매 후 사용 기간은 별도로 유지됩니다.</span></li>
                         <li className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span>챌린저스 월드 시즌4 종료 후 시즌 보상 수령 일정은 공식 공지를 별도로 확인해 주세요.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span><strong className="text-white">프리미엄 PC방 이벤트</strong>: 접속 보상은 9월 17일(목) 23:59까지 진행되지만, <strong>프리미엄 기프트샵은 9월 16일(수) 23:59에 하루 먼저 마감</strong>되니 코인을 미리 사용해 주세요.</span></li>
+                        <li className="flex items-start gap-1.5 sm:gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span><strong className="text-white">프리미엄 PC방 이벤트</strong>: 접속 보상은 9월 17일(목) 23:59까지 진행되지만, <strong>프리미엄 기프트샵은 9월 16일(수) 23:59에 하루 먼저 마감</strong>되니 코인을 미리 사용해 주세요.</span></li>
+                        <li className="flex items-start gap-1.5 sm:gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span><strong className="text-white">울티마 작전 일지(보약 스킬)</strong>: '훈련 일지' 스킬 효과는 <strong>9월 23일(수) 23:59까지 1주일 더 유지</strong>됩니다. 단, 9월 16일(수) 23:59 이후로는 스킬 강화가 불가능하므로 미리 마스터해 두세요!</span></li>
                         <li className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span>마스터피스 스페셜 라벨 사양 변경은 <strong className="text-white">9월 17일 점검 후</strong>부터 적용됩니다.</span></li>
                     </ul>
                 </section>
