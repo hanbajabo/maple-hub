@@ -20,6 +20,15 @@ const SCHEDULE = [
                 icon: '🧪',
                 list: [
                     '9월 업데이트 테스트월드 진행 예정',
+                    '직업별 밸런스 패치 진행 예정',
+                ],
+                highlightIndex: [1],
+                itemExtras: [
+                    {
+                        name: '직업 스킬 조정 & 밸런스 패치',
+                        image: '/images/job-skill-adjustment.png',
+                        note: '💡 전직업 스킬 코어·직업간 밸런스·전투 매커니즘 전반 조정 & 스킬 초기화권 신규 방식 제공 (7월 메이플나우에서 밝힌 내용)',
+                    },
                 ],
             },
             {
@@ -410,6 +419,86 @@ export default function September2026UpdateSchedule() {
 
                 <InArticleAd dataAdSlot="6849727140" />
 
+                {/* 직업별 밸런스 패치 & 전반적 매커니즘 조정 (테스트월드) */}
+                <section className="mb-8 sm:mb-10">
+                    <h2 className="text-base sm:text-xl font-black text-white mb-3 sm:mb-5 flex items-center gap-2">
+                        <span>🔮</span> 9월 10일 테스트월드: 직업별 밸런스 패치 &amp; 전반적 매커니즘 조정
+                    </h2>
+
+                    <div className="bg-gradient-to-br from-purple-950/40 via-indigo-950/30 to-slate-900 border border-purple-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 mb-4 shadow-lg">
+                        {/* 직업 스킬 조정 배너 이미지 */}
+                        <div className="rounded-lg sm:rounded-xl overflow-hidden border border-amber-500/30 mb-4 bg-slate-950/60 shadow-md">
+                            <img
+                                src="/images/job-skill-adjustment.png"
+                                alt="직업 스킬 조정"
+                                className="w-full h-auto object-contain block"
+                                loading="lazy"
+                            />
+                        </div>
+
+                        <div className="text-[10px] sm:text-xs text-purple-300 font-bold uppercase tracking-wider mb-2.5 sm:mb-3">
+                            🧪 2026.09.10(목) 테스트월드 공개 예정
+                        </div>
+
+                        {/* 개발진 공식 코멘트 인용 박스 */}
+                        <div className="bg-slate-900/90 border-l-4 border-purple-400 rounded-r-xl p-3.5 sm:p-4 mb-4 shadow-sm">
+                            <div className="text-xs sm:text-sm font-bold text-purple-300 mb-2 flex items-center gap-1.5">
+                                <span>💬</span> 개발진 코멘트 (7월 메이플 나우)
+                            </div>
+                            <blockquote className="text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 break-keep">
+                                <p className="font-medium">
+                                    &ldquo;스킬 부분도 그 템포에 맞게 진행하려고 하면서 조금은 빠르게 출시한 만큼 조금 보수적으로 데미지 상승을 잡았다. 그 이후 9월에 해당 스킬들에 대한 조정과 밸런스 조정을 진행하려고 한다.&rdquo;
+                                </p>
+                                <p className="font-medium text-purple-200">
+                                    &ldquo;라이브 게임인 만큼 &lsquo;미완&rsquo;의 상태로 나오지만, 스킬 자체 문제에 대한 부분은 최대한 고쳐서 나올 예정이다.&rdquo;
+                                </p>
+                            </blockquote>
+                        </div>
+
+                        {/* 핵심 포인트 그리드 */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-3.5 sm:mb-4">
+                            <div className="bg-slate-900/80 border border-purple-500/30 rounded-xl p-3.5 sm:p-4 shadow-sm">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-purple-400"></span>
+                                    <h3 className="text-xs sm:text-sm font-black text-purple-300">전직업 스킬 코어 &amp; 직업간 밸런스 조정</h3>
+                                </div>
+                                <p className="text-xs text-slate-300 leading-relaxed break-keep">
+                                    전직업 스킬 코어의 밸런스와 직업 간 격차를 전반적으로 조정하며, 스킬 자체의 문제점을 최대한 개선하여 실전 밸런스를 바로잡을 예정입니다.
+                                </p>
+                            </div>
+
+                            <div className="bg-slate-900/80 border border-indigo-500/30 rounded-xl p-3.5 sm:p-4 shadow-sm">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-indigo-400"></span>
+                                    <h3 className="text-xs sm:text-sm font-black text-indigo-300">전투 자체 매커니즘 전반적 조정</h3>
+                                </div>
+                                <p className="text-xs text-slate-300 leading-relaxed break-keep">
+                                    단순 수치 조정을 넘어 전투 자체의 매커니즘 전반을 조정하여, 보다 쾌적하고 완성도 높은 전투 환경을 제공할 계획입니다.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* 스킬 초기화권 신규 방식 제공 안내 카드 */}
+                        <div className="bg-gradient-to-r from-amber-500/15 via-purple-500/10 to-slate-900 border border-amber-500/30 rounded-xl p-3.5 sm:p-4 mb-3.5 sm:mb-4 shadow-sm">
+                            <div className="flex items-center gap-2 mb-1.5">
+                                <span className="text-base sm:text-lg">🎫</span>
+                                <h3 className="text-xs sm:text-sm font-black text-amber-300">스킬 초기화권 &lsquo;신규 방식&rsquo; 제공 예정</h3>
+                            </div>
+                            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed break-keep">
+                                직업별 밸런스 패치가 진행되면 스킬별로 효용감이 달라지기 때문에, 그에 맞춰 <strong className="text-amber-200 font-bold">스킬 초기화권도 기존과는 다른 새로운 방식으로 제공</strong>해 드릴 예정입니다.
+                            </p>
+                        </div>
+
+                        {/* 하단 안내 팁 */}
+                        <div className="bg-purple-900/20 border border-purple-500/30 rounded-lg sm:rounded-xl p-3 sm:p-3.5 text-[11px] sm:text-xs text-slate-300 leading-relaxed break-keep flex items-start gap-2">
+                            <span className="shrink-0 text-purple-400 mt-0.5">📢</span>
+                            <span>
+                                9월 10일 테스트월드 업데이트와 함께 진행되는 <strong className="text-white">9월 메이플 나우</strong>(8월 대비 약 2배 분량)에서 상세한 직업별 패치 내역과 스킬 초기화권 지급 방식이 공개될 예정입니다.
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
                 {/* 챌린저스 월드 시즌4 육성 종료 & 리프 일정 상세 */}
                 <section className="mb-8 sm:mb-10">
                     <h2 className="text-base sm:text-xl font-black text-white mb-3 sm:mb-5 flex items-center gap-2">
@@ -534,6 +623,7 @@ export default function September2026UpdateSchedule() {
                         <li className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span>챌린저스 월드 시즌4 종료 후 시즌 보상 수령 일정은 공식 공지를 별도로 확인해 주세요.</span></li>
                         <li className="flex items-start gap-1.5 sm:gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span><strong className="text-white">프리미엄 PC방 이벤트</strong>: 접속 보상은 9월 17일(목) 23:59까지 진행되지만, <strong>프리미엄 기프트샵은 9월 16일(수) 23:59에 하루 먼저 마감</strong>되니 코인을 미리 사용해 주세요.</span></li>
                         <li className="flex items-start gap-1.5 sm:gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span><strong className="text-white">울티마 작전 일지(보약 스킬)</strong>: '훈련 일지' 스킬 효과는 <strong>9월 23일(수) 23:59까지 1주일 더 유지</strong>됩니다. 단, 9월 16일(수) 23:59 이후로는 스킬 강화가 불가능하므로 미리 마스터해 두세요!</span></li>
+                        <li className="flex items-start gap-1.5 sm:gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span><strong className="text-white">직업별 밸런스 패치 &amp; 매커니즘 조정</strong>: 9월 10일(목) 테스트월드에서 전직업 스킬 코어 및 직업간 밸런스, 전투 매커니즘 전반이 조정되며, 스킬 효용감 변화에 맞춘 신규 방식 스킬 초기화권이 제공될 예정입니다.</span></li>
                         <li className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span>마스터피스 스페셜 라벨 사양 변경은 <strong className="text-white">9월 17일 점검 후</strong>부터 적용됩니다.</span></li>
                     </ul>
                 </section>
