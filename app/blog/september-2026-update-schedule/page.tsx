@@ -207,39 +207,39 @@ export default function September2026UpdateSchedule() {
 
             {/* 상단 네비 */}
             <div className="border-b border-slate-800 bg-slate-950/60 backdrop-blur-sm sticky top-0 z-10">
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4">
-                    <Link prefetch={false} href="/blog" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm">
-                        <ArrowLeft className="w-4 h-4" />
+                <div className="max-w-3xl mx-auto px-3 sm:px-6 py-3 sm:py-4">
+                    <Link prefetch={false} href="/blog" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-xs sm:text-sm">
+                        <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         블로그로 돌아가기
                     </Link>
                 </div>
             </div>
 
-            <article className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+            <article className="max-w-3xl mx-auto px-3 sm:px-6 py-6 sm:py-12">
 
                 {/* 헤더 */}
-                <header className="mb-10">
-                    <div className="flex flex-wrap items-center gap-2 mb-4">
-                        <span className="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full border border-blue-500/30">업데이트 소식</span>
-                        <span className="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs font-bold rounded-full border border-orange-500/30">9월 일정</span>
-                        <span className="text-slate-500 text-xs">2026년 9월 9일</span>
+                <header className="mb-6 sm:mb-10">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                        <span className="px-2.5 py-0.5 bg-blue-500/20 text-blue-400 text-[11px] sm:text-xs font-bold rounded-full border border-blue-500/30">업데이트 소식</span>
+                        <span className="px-2.5 py-0.5 bg-orange-500/20 text-orange-400 text-[11px] sm:text-xs font-bold rounded-full border border-orange-500/30">9월 일정</span>
+                        <span className="text-slate-500 text-[11px] sm:text-xs">2026년 9월 9일</span>
                     </div>
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-2 leading-tight">
+                    <h1 className="text-xl sm:text-3xl md:text-4xl font-black text-white mb-2 leading-tight break-keep">
                         📅 9월 종료 일정 완벽 정리
                     </h1>
-                    <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                    <p className="text-slate-400 text-xs sm:text-base leading-relaxed break-keep">
                         9월 10일 테스트월드 & 메이플 나우를 시작으로,<br className="hidden sm:block" />
                         9월 15~17일 대규모 종료와 마스터피스 패치까지 한눈에 확인하세요.
                     </p>
                 </header>
 
                 {/* 핵심 요약 카드 */}
-                <section className="mb-10 bg-gradient-to-br from-red-900/30 via-orange-900/20 to-slate-900 border border-red-500/40 rounded-2xl p-5 sm:p-6">
-                    <h2 className="text-base sm:text-lg font-black text-red-300 mb-4 flex items-center gap-2">
-                        <Sparkles className="w-5 h-5 animate-pulse" />
+                <section className="mb-8 sm:mb-10 bg-gradient-to-br from-red-900/30 via-orange-900/20 to-slate-900 border border-red-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-6 shadow-lg">
+                    <h2 className="text-sm sm:text-lg font-black text-red-300 mb-3 sm:mb-4 flex items-center gap-1.5 sm:gap-2">
+                        <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse text-red-400" />
                         ⚡ 9월 주요 종료 일정 요약
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                         {[
                             { icon: '🧪', label: '9월 10일 예정', value: '테스트월드 & 메이플 나우 (8월의 2배 규모!)', color: 'text-emerald-300' },
                             { icon: '🛍️', label: '9월 15일 종료', value: '제네시스 패스 & 핸즈 이용권', color: 'text-red-300' },
@@ -247,11 +247,11 @@ export default function September2026UpdateSchedule() {
                             { icon: '🌐', label: '9월 17일 종료', value: '챌린저스 월드 육성 종료 (종료 리프 시작)', color: 'text-yellow-300' },
                             { icon: '📢', label: '9월 17일 패치', value: '마스터피스 스페셜 라벨 11기수→6기수', color: 'text-amber-300' },
                         ].map((item, i) => (
-                            <div key={i} className="flex items-center gap-3 bg-slate-900/60 rounded-xl px-4 py-3 border border-slate-700/50">
-                                <span className="text-2xl">{item.icon}</span>
-                                <div>
-                                    <div className="text-xs text-slate-400 font-semibold">{item.label}</div>
-                                    <div className={`text-sm font-bold ${item.color}`}>{item.value}</div>
+                            <div key={i} className="flex items-center gap-2.5 sm:gap-3 bg-slate-900/70 rounded-lg sm:rounded-xl px-3 py-2 sm:px-4 sm:py-3 border border-slate-700/50">
+                                <span className="text-xl sm:text-2xl shrink-0">{item.icon}</span>
+                                <div className="min-w-0">
+                                    <div className="text-[10px] sm:text-xs text-slate-400 font-semibold">{item.label}</div>
+                                    <div className={`text-xs sm:text-sm font-bold ${item.color} truncate sm:whitespace-normal`}>{item.value}</div>
                                 </div>
                             </div>
                         ))}
@@ -261,51 +261,51 @@ export default function September2026UpdateSchedule() {
                 <InArticleAd dataAdSlot="6849727140" />
 
                 {/* 타임라인 */}
-                <section className="mb-10">
-                    <h2 className="text-lg sm:text-xl font-black text-white mb-6 flex items-center gap-2">
-                        <Gift className="w-5 h-5 text-yellow-400" />
+                <section className="mb-8 sm:mb-10">
+                    <h2 className="text-base sm:text-xl font-black text-white mb-4 sm:mb-6 flex items-center gap-2">
+                        <Gift className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
                         📋 날짜별 상세 일정
                     </h2>
 
                     <div className="relative">
-                        {/* 세로 타임라인 선 */}
-                        <div className="absolute left-[18px] sm:left-[22px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-slate-700 via-slate-600 to-transparent rounded-full" />
+                        {/* 세로 타임라인 선 (모바일 10px, 데스크탑 20px) */}
+                        <div className="absolute left-[9px] sm:left-[19px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-slate-700 via-slate-600 to-transparent rounded-full" />
 
-                        <div className="space-y-6">
+                        <div className="space-y-5 sm:space-y-6">
                             {SCHEDULE.map((entry, idx) => {
                                 const cs = colorSet(entry.color);
                                 return (
-                                    <div key={idx} className="relative pl-10 sm:pl-14">
+                                    <div key={idx} className="relative pl-6 sm:pl-12">
                                         {/* 타임라인 점 */}
-                                        <div className={`absolute left-[13px] sm:left-[17px] top-1.5 w-2.5 h-2.5 rounded-full ${cs.dot} shadow-md ring-2 ring-slate-950`} />
+                                        <div className={`absolute left-[5px] sm:left-[15px] top-1.5 w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full ${cs.dot} shadow-md ring-2 ring-slate-950`} />
 
                                         {/* 날짜 + 배지 */}
-                                        <div className="flex flex-wrap items-center gap-2 mb-3">
-                                            <span className="text-white font-black text-base sm:text-lg">{entry.date}</span>
-                                            <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${cs.badge}`}>
+                                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+                                            <span className="text-white font-black text-sm sm:text-lg">{entry.date}</span>
+                                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold border ${cs.badge}`}>
                                                 {cs.icon}
                                                 {entry.label}
                                             </span>
                                         </div>
 
                                         {/* 카테고리별 아이템 */}
-                                        <div className={`border rounded-xl overflow-hidden ${cs.card}`}>
+                                        <div className={`border rounded-xl overflow-hidden ${cs.card} shadow-sm`}>
                                             {entry.items.map((group, gi) => (
                                                 <div key={gi} className={`${gi > 0 ? 'border-t border-slate-700/40' : ''}`}>
                                                     {/* 카테고리 헤더 */}
-                                                    <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/40">
-                                                        <span className="text-base">{group.icon}</span>
-                                                        <span className="text-xs font-bold text-slate-300 uppercase tracking-wide">{group.category}</span>
+                                                    <div className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-800/50">
+                                                        <span className="text-sm sm:text-base">{group.icon}</span>
+                                                        <span className="text-[11px] sm:text-xs font-bold text-slate-300 uppercase tracking-wide">{group.category}</span>
                                                     </div>
                                                      {/* 아이템 목록 */}
-                                                    <ul className="px-4 py-3 space-y-1.5">
+                                                    <ul className="px-3 sm:px-4 py-2 sm:py-3 space-y-1.5">
                                                         {group.list.map((item, ii) => {
                                                             const isHighlighted = (group as any).highlightIndex
                                                                 ? (group as any).highlightIndex.includes(ii)
                                                                 : (group as any).highlight;
                                                             return (
-                                                                <li key={ii} className="flex items-start gap-2 text-sm text-slate-200 leading-snug">
-                                                                    <span className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${cs.dot} opacity-80`} />
+                                                                <li key={ii} className="flex items-start gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-200 leading-snug break-keep">
+                                                                    <span className={`mt-1 sm:mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${cs.dot} opacity-80`} />
                                                                     <span className={isHighlighted ? 'text-amber-300 font-black tracking-tight' : 'text-slate-100'}>
                                                                         {item}
                                                                     </span>
@@ -315,18 +315,19 @@ export default function September2026UpdateSchedule() {
                                                     </ul>
                                                     {/* itemExtras: 이미지 + 사용기한 노트 */}
                                                     {(group as any).itemExtras && (group as any).itemExtras.map((extra: { name: string; image: string; note: string }, ei: number) => (
-                                                        <div key={ei} className="mx-4 mb-3 rounded-xl overflow-hidden border border-slate-600/40 bg-slate-800/40">
+                                                        <div key={ei} className="mx-2 sm:mx-4 mb-2.5 sm:mb-3 rounded-lg sm:rounded-xl overflow-hidden border border-slate-600/40 bg-slate-800/40">
                                                             {extra.image && (
                                                                 <img
                                                                     src={extra.image}
                                                                     alt={extra.name}
-                                                                    className="w-full h-auto object-contain"
+                                                                    className="w-full h-auto object-contain block"
+                                                                    loading="lazy"
                                                                 />
                                                             )}
-                                                            <div className={`px-4 py-2.5 flex items-start gap-2 ${extra.image ? 'bg-amber-900/30 border-t border-amber-500/30' : 'bg-amber-900/20 border border-amber-500/20 rounded-xl'}`}>
-                                                                {!extra.image && <span className="text-xs font-bold text-slate-300 shrink-0 mt-0.5">📌 {extra.name}</span>}
+                                                            <div className={`px-2.5 sm:px-4 py-2 sm:py-2.5 flex items-start gap-1.5 sm:gap-2 ${extra.image ? 'bg-amber-900/30 border-t border-amber-500/30' : 'bg-amber-900/20 border border-amber-500/20 rounded-lg sm:rounded-xl'}`}>
+                                                                {!extra.image && <span className="text-[11px] sm:text-xs font-bold text-slate-300 shrink-0 mt-0.5">📌 {extra.name}</span>}
                                                                 {!extra.image && <span className="text-slate-500 text-xs">|</span>}
-                                                                <span className="text-xs font-bold text-amber-200 leading-snug">{extra.note}</span>
+                                                                <span className="text-[11px] sm:text-xs font-bold text-amber-200 leading-snug break-keep">{extra.note}</span>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -343,76 +344,77 @@ export default function September2026UpdateSchedule() {
                 <InArticleAd dataAdSlot="6849727140" />
 
                 {/* 챌린저스 월드 시즌4 육성 종료 & 리프 일정 상세 */}
-                <section className="mb-10">
-                    <h2 className="text-lg sm:text-xl font-black text-white mb-5 flex items-center gap-2">
+                <section className="mb-8 sm:mb-10">
+                    <h2 className="text-base sm:text-xl font-black text-white mb-3 sm:mb-5 flex items-center gap-2">
                         <span>🌐</span> 챌린저스 월드 시즌4 육성 종료 & 리프 일정
                     </h2>
 
-                    <div className="bg-gradient-to-br from-indigo-950/40 via-purple-950/30 to-slate-900 border border-indigo-500/40 rounded-2xl p-5 mb-4">
+                    <div className="bg-gradient-to-br from-indigo-950/40 via-purple-950/30 to-slate-900 border border-indigo-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 mb-4 shadow-lg">
                         {/* 공식 안내 이미지 */}
-                        <div className="rounded-xl overflow-hidden border border-indigo-500/30 mb-5 bg-slate-950/60 shadow-lg">
+                        <div className="rounded-lg sm:rounded-xl overflow-hidden border border-indigo-500/30 mb-4 bg-slate-950/60 shadow-md">
                             <img
                                 src="/images/challengers-world-season4.png"
                                 alt="챌린저스 월드 시즌4 육성 및 리프 일정"
-                                className="w-full h-auto object-contain"
+                                className="w-full h-auto object-contain block"
+                                loading="lazy"
                             />
                         </div>
 
                         {/* 일정 상세 그리드 */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-3.5 sm:mb-4">
                             {/* 1. 육성 기간 & 2차 사전 리프 */}
-                            <div className="bg-slate-900/70 border border-blue-500/30 rounded-xl p-4">
-                                <div className="flex items-center gap-2 mb-3">
-                                    <span className="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
-                                    <h3 className="text-sm font-black text-blue-300">챌린저스 월드 육성 기간</h3>
+                            <div className="bg-slate-900/80 border border-blue-500/30 rounded-xl p-3 sm:p-4">
+                                <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                                    <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-blue-400"></span>
+                                    <h3 className="text-xs sm:text-sm font-black text-blue-300">챌린저스 월드 육성 기간</h3>
                                 </div>
-                                <div className="text-xs text-slate-400 mb-3 leading-relaxed">
+                                <div className="text-[11px] sm:text-xs text-slate-400 mb-2.5 leading-relaxed">
                                     * 챌린저스 월드 혜택 적용 및 캐릭터 육성 가능
                                 </div>
-                                <div className="space-y-2 text-xs">
-                                    <div className="flex justify-between items-center py-1.5 border-b border-slate-800">
-                                        <span className="text-slate-400">육성 시작</span>
-                                        <span className="text-slate-200 font-semibold">2026.06.18(목) 점검 후</span>
+                                <div className="space-y-1.5 sm:space-y-2 text-xs">
+                                    <div className="flex justify-between items-center py-1 sm:py-1.5 border-b border-slate-800 gap-2">
+                                        <span className="text-slate-400 text-[11px] sm:text-xs">육성 시작</span>
+                                        <span className="text-slate-200 font-semibold text-[11px] sm:text-xs">2026.06.18(목) 점검 후</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-1.5 border-b border-slate-800">
-                                        <span className="text-slate-400">1차 사전 리프</span>
-                                        <span className="text-slate-400">07.23 ~ 08.19 (종료)</span>
+                                    <div className="flex justify-between items-center py-1 sm:py-1.5 border-b border-slate-800 gap-2">
+                                        <span className="text-slate-400 text-[11px] sm:text-xs">1차 사전 리프</span>
+                                        <span className="text-slate-400 text-[11px] sm:text-xs">07.23 ~ 08.19 (종료)</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-1.5 bg-blue-500/10 px-2 rounded-lg border border-blue-500/20">
-                                        <span className="text-blue-300 font-bold">2차 사전 리프 마감</span>
-                                        <span className="text-red-400 font-bold">~ 09.16(수) 23:59</span>
+                                    <div className="flex justify-between items-center py-1 sm:py-1.5 bg-blue-500/10 px-2 rounded-lg border border-blue-500/20 gap-2">
+                                        <span className="text-blue-300 font-bold text-[11px] sm:text-xs">2차 사전 리프 마감</span>
+                                        <span className="text-red-400 font-bold text-[11px] sm:text-xs">~ 09.16(수) 23:59</span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* 2. 종료 리프 기간 & 운영 종료 */}
-                            <div className="bg-slate-900/70 border border-purple-500/30 rounded-xl p-4">
-                                <div className="flex items-center gap-2 mb-3">
-                                    <span className="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
-                                    <h3 className="text-sm font-black text-purple-300">챌린저스 월드 종료 리프 기간</h3>
+                            <div className="bg-slate-900/80 border border-purple-500/30 rounded-xl p-3 sm:p-4">
+                                <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                                    <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-purple-400"></span>
+                                    <h3 className="text-xs sm:text-sm font-black text-purple-300">챌린저스 월드 종료 리프 기간</h3>
                                 </div>
-                                <div className="text-xs text-red-300/90 mb-3 font-semibold leading-relaxed">
+                                <div className="text-[11px] sm:text-xs text-red-300/90 mb-2.5 font-semibold leading-relaxed">
                                     * 점검 후 캐릭터 육성 불가! 리프만 진행 가능
                                 </div>
-                                <div className="space-y-2 text-xs">
-                                    <div className="flex justify-between items-center py-1.5 border-b border-slate-800">
-                                        <span className="text-slate-400">육성 종료 & 종료 리프 시작</span>
-                                        <span className="text-yellow-300 font-bold">2026.09.17(목) 점검 후</span>
+                                <div className="space-y-1.5 sm:space-y-2 text-xs">
+                                    <div className="flex justify-between items-center py-1 sm:py-1.5 border-b border-slate-800 gap-2">
+                                        <span className="text-slate-400 text-[11px] sm:text-xs shrink-0">육성 종료 & 리프 시작</span>
+                                        <span className="text-yellow-300 font-bold text-[11px] sm:text-xs text-right">2026.09.17(목) 점검 후</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-1.5 border-b border-slate-800">
-                                        <span className="text-slate-400">종료 리프 진행 기간</span>
-                                        <span className="text-purple-200 font-semibold">09.17 점검 후 ~ 09.30 23:59</span>
+                                    <div className="flex justify-between items-center py-1 sm:py-1.5 border-b border-slate-800 gap-2">
+                                        <span className="text-slate-400 text-[11px] sm:text-xs shrink-0">종료 리프 진행</span>
+                                        <span className="text-purple-200 font-semibold text-[11px] sm:text-xs text-right">09.17 점검 후 ~ 09.30 23:59</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-1.5 bg-red-500/10 px-2 rounded-lg border border-red-500/20">
-                                        <span className="text-red-300 font-bold">시즌4 최종 운영 종료</span>
-                                        <span className="text-red-400 font-bold">2026.09.30(수) 23:59</span>
+                                    <div className="flex justify-between items-center py-1 sm:py-1.5 bg-red-500/10 px-2 rounded-lg border border-red-500/20 gap-2">
+                                        <span className="text-red-300 font-bold text-[11px] sm:text-xs">시즌4 최종 운영 종료</span>
+                                        <span className="text-red-400 font-bold text-[11px] sm:text-xs">2026.09.30(수) 23:59</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* 종료 리프 기간 제약 및 주의사항 */}
-                        <div className="bg-red-950/30 border border-red-500/30 rounded-xl p-4 text-xs text-slate-300 leading-relaxed">
+                        <div className="bg-red-950/40 border border-red-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4 text-[11px] sm:text-xs text-slate-300 leading-relaxed break-keep">
                             <div className="font-bold text-red-300 flex items-center gap-1.5 mb-1.5">
                                 <span>⚠️</span> 종료 리프 기간(9/17 점검 후 ~ 9/30) 이용 제한 안내
                             </div>
@@ -426,67 +428,67 @@ export default function September2026UpdateSchedule() {
                 </section>
 
                 {/* 마스터피스 사양 변경 상세 */}
-                <section className="mb-10">
-                    <h2 className="text-lg sm:text-xl font-black text-white mb-5 flex items-center gap-2">
+                <section className="mb-8 sm:mb-10">
+                    <h2 className="text-base sm:text-xl font-black text-white mb-3 sm:mb-5 flex items-center gap-2">
                         <span>📢</span> 9월 17일 마스터피스 사양 변경
                     </h2>
 
-                    <div className="bg-gradient-to-br from-amber-900/30 to-slate-900 border border-amber-500/40 rounded-2xl p-5 mb-4">
-                        <div className="text-xs text-amber-300 font-bold uppercase tracking-wider mb-3">📅 2026.09.17 점검 후 적용</div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                            <div className="bg-slate-900/60 border border-red-500/30 rounded-xl p-4 text-center">
-                                <div className="text-xs text-slate-400 mb-1">변경 전</div>
-                                <div className="text-xl font-black text-red-300">11기수</div>
-                                <div className="text-xs text-red-400/70 mt-1">획득 가능 스페셜 라벨 아이템</div>
+                    <div className="bg-gradient-to-br from-amber-900/30 to-slate-900 border border-amber-500/40 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 mb-4 shadow-lg">
+                        <div className="text-[10px] sm:text-xs text-amber-300 font-bold uppercase tracking-wider mb-2.5 sm:mb-3">📅 2026.09.17 점검 후 적용</div>
+                        <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-3.5 sm:mb-4">
+                            <div className="bg-slate-900/70 border border-red-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4 text-center">
+                                <div className="text-[10px] sm:text-xs text-slate-400 mb-0.5 sm:mb-1">변경 전</div>
+                                <div className="text-lg sm:text-2xl font-black text-red-300">11기수</div>
+                                <div className="text-[9px] sm:text-xs text-red-400/80 mt-0.5 sm:mt-1 break-keep">획득 가능 스페셜 라벨</div>
                             </div>
-                            <div className="bg-slate-900/60 border border-emerald-500/30 rounded-xl p-4 text-center">
-                                <div className="text-xs text-slate-400 mb-1">변경 후</div>
-                                <div className="text-xl font-black text-emerald-300">6기수</div>
-                                <div className="text-xs text-emerald-400/70 mt-1">획득 가능 스페셜 라벨 아이템</div>
+                            <div className="bg-slate-900/70 border border-emerald-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4 text-center">
+                                <div className="text-[10px] sm:text-xs text-slate-400 mb-0.5 sm:mb-1">변경 후</div>
+                                <div className="text-lg sm:text-2xl font-black text-emerald-300">6기수</div>
+                                <div className="text-[9px] sm:text-xs text-emerald-400/80 mt-0.5 sm:mt-1 break-keep">획득 가능 스페셜 라벨</div>
                             </div>
                         </div>
-                        <div className="bg-amber-900/20 border border-amber-500/30 rounded-xl p-4 text-sm text-slate-300 leading-relaxed">
+                        <div className="bg-amber-900/20 border border-amber-500/30 rounded-lg sm:rounded-xl p-3 sm:p-4 text-[11px] sm:text-xs text-slate-300 leading-relaxed break-keep">
                             <p className="font-bold text-amber-200 mb-1">⚠️ 주요 변경사항</p>
                             <p>9월 17일 점검 이후 마스터피스를 사용하면 획득 가능한 스페셜 라벨 아이템의 기수가 <strong className="text-white">11기수에서 6기수로 줄어듭니다.</strong></p>
-                            <p className="mt-2 text-slate-400 text-xs">원하는 기수의 라벨 아이템이 있다면 9월 17일 이전에 사전 안내를 확인하고 마스터피스를 사용하는 것을 권장합니다.</p>
+                            <p className="mt-1.5 text-slate-400 text-[10px] sm:text-xs">원하는 기수의 라벨 아이템이 있다면 9월 17일 이전에 사전 안내를 확인하고 마스터피스를 사용하는 것을 권장합니다.</p>
                         </div>
                     </div>
                 </section>
 
                 {/* 주의사항 */}
-                <section className="mb-10 bg-amber-900/20 border border-amber-500/30 rounded-2xl p-5">
-                    <h2 className="text-base font-black text-amber-300 mb-3 flex items-center gap-2">
-                        <AlertCircle className="w-5 h-5" />
+                <section className="mb-8 sm:mb-10 bg-amber-900/20 border border-amber-500/30 rounded-xl sm:rounded-2xl p-3.5 sm:p-5">
+                    <h2 className="text-sm sm:text-base font-black text-amber-300 mb-2.5 sm:mb-3 flex items-center gap-1.5 sm:gap-2">
+                        <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                         ⚠️ 주의사항
                     </h2>
-                    <ul className="space-y-2 text-sm text-slate-300">
-                        <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-400 shrink-0 mt-0.5" /><span>일정은 공식 공지 기준이며, 점검 시간에 따라 실제 적용 시간이 달라질 수 있습니다.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-400 shrink-0 mt-0.5" /><span>캐시샵 아이템은 판매 종료일 기준으로, 구매 후 사용 기간은 별도로 유지됩니다.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-400 shrink-0 mt-0.5" /><span>챌린저스 월드 시즌4 종료 후 시즌 보상 수령 일정은 공식 공지를 별도로 확인해 주세요.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-400 shrink-0 mt-0.5" /><span><strong className="text-white">프리미엄 PC방 이벤트</strong>: 접속 보상은 9월 17일(목) 23:59까지 진행되지만, <strong>프리미엄 기프트샵은 9월 16일(수) 23:59에 하루 먼저 마감</strong>되니 코인을 미리 사용해 주세요.</span></li>
-                        <li className="flex items-start gap-2"><CheckCircle className="w-4 h-4 text-green-400 shrink-0 mt-0.5" /><span>마스터피스 스페셜 라벨 사양 변경은 <strong className="text-white">9월 17일 점검 후</strong>부터 적용됩니다.</span></li>
+                    <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-slate-300 break-keep">
+                        <li className="flex items-start gap-1.5 sm:gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span>일정은 공식 공지 기준이며, 점검 시간에 따라 실제 적용 시간이 달라질 수 있습니다.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span>캐시샵 아이템은 판매 종료일 기준으로, 구매 후 사용 기간은 별도로 유지됩니다.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span>챌린저스 월드 시즌4 종료 후 시즌 보상 수령 일정은 공식 공지를 별도로 확인해 주세요.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span><strong className="text-white">프리미엄 PC방 이벤트</strong>: 접속 보상은 9월 17일(목) 23:59까지 진행되지만, <strong>프리미엄 기프트샵은 9월 16일(수) 23:59에 하루 먼저 마감</strong>되니 코인을 미리 사용해 주세요.</span></li>
+                        <li className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400 shrink-0 mt-0.5" /><span>마스터피스 스페셜 라벨 사양 변경은 <strong className="text-white">9월 17일 점검 후</strong>부터 적용됩니다.</span></li>
                     </ul>
                 </section>
 
                 {/* 관련 글 */}
                 <section>
-                    <h2 className="text-lg font-black text-white mb-4">📚 관련 가이드</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <Link prefetch={false} href="/blog/august-2026-update-schedule" className="bg-slate-900/60 border border-slate-700 rounded-xl p-4 hover:border-blue-500/50 hover:bg-slate-800/50 transition-all group">
-                            <div className="text-xs text-blue-400 mb-1 font-semibold">업데이트 소식</div>
-                            <div className="text-sm font-bold text-white group-hover:text-blue-300 transition-colors">📅 8월 업데이트 일정 완벽 정리</div>
+                    <h2 className="text-base sm:text-lg font-black text-white mb-3 sm:mb-4">📚 관련 가이드</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                        <Link prefetch={false} href="/blog/august-2026-update-schedule" className="bg-slate-900/60 border border-slate-700 rounded-xl p-3 sm:p-4 hover:border-blue-500/50 hover:bg-slate-800/50 transition-all group">
+                            <div className="text-[11px] sm:text-xs text-blue-400 mb-0.5 sm:mb-1 font-semibold">업데이트 소식</div>
+                            <div className="text-xs sm:text-sm font-bold text-white group-hover:text-blue-300 transition-colors break-keep">📅 8월 업데이트 일정 완벽 정리</div>
                         </Link>
                         <Link prefetch={false} href="/blog/challengers-pass-efficiency-2026" className="bg-slate-900/60 border border-slate-700 rounded-xl p-4 hover:border-purple-500/50 hover:bg-slate-800/50 transition-all group">
-                            <div className="text-xs text-purple-400 mb-1 font-semibold">이벤트 가이드</div>
-                            <div className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">🏆 챌린저스 패스 효율 완벽 분석</div>
+                            <div className="text-[11px] sm:text-xs text-purple-400 mb-0.5 sm:mb-1 font-semibold">이벤트 가이드</div>
+                            <div className="text-xs sm:text-sm font-bold text-white group-hover:text-purple-300 transition-colors break-keep">🏆 챌린저스 패스 효율 완벽 분석</div>
                         </Link>
                         <Link prefetch={false} href="/blog/momentum-pass-plus-guide" className="bg-slate-900/60 border border-slate-700 rounded-xl p-4 hover:border-emerald-500/50 hover:bg-slate-800/50 transition-all group">
-                            <div className="text-xs text-emerald-400 mb-1 font-semibold">이벤트 가이드</div>
-                            <div className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">🌀 모멘텀 패스 PLUS 완벽 가이드</div>
+                            <div className="text-[11px] sm:text-xs text-emerald-400 mb-0.5 sm:mb-1 font-semibold">이벤트 가이드</div>
+                            <div className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition-colors break-keep">🌀 모멘텀 패스 PLUS 완벽 가이드</div>
                         </Link>
                         <Link prefetch={false} href="/blog/ultima-artifact-exploration-guide" className="bg-slate-900/60 border border-slate-700 rounded-xl p-4 hover:border-amber-500/50 hover:bg-slate-800/50 transition-all group">
-                            <div className="text-xs text-amber-400 mb-1 font-semibold">이벤트 가이드</div>
-                            <div className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors">🗺️ 울티마 유물 탐사 완벽 공략</div>
+                            <div className="text-[11px] sm:text-xs text-amber-400 mb-0.5 sm:mb-1 font-semibold">이벤트 가이드</div>
+                            <div className="text-xs sm:text-sm font-bold text-white group-hover:text-amber-300 transition-colors break-keep">🗺️ 울티마 유물 탐사 완벽 공략</div>
                         </Link>
                     </div>
                 </section>

@@ -71,13 +71,13 @@ export default function BlogPage() {
                             </span>
                         </div>
 
-                        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black leading-tight mb-3 drop-shadow-xl">
+                        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black leading-tight mb-3 drop-shadow-xl break-keep">
                             <span className="bg-gradient-to-r from-purple-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
                                 {heroPost.title}
                             </span>
                         </h2>
 
-                        <p className="text-slate-200 text-sm sm:text-base md:text-lg mb-4 drop-shadow-md border-b-0 pb-0">
+                        <p className="text-slate-200 text-sm sm:text-base md:text-lg mb-4 drop-shadow-md border-b-0 pb-0 break-keep">
                             {heroPost.description}
                         </p>
 
