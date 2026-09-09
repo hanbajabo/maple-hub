@@ -430,51 +430,51 @@ export default function September2026UpdateSchedule() {
                         {/* 일정 상세 그리드 */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mb-3.5 sm:mb-4">
                             {/* 1. 육성 기간 & 2차 사전 리프 */}
-                            <div className="bg-slate-900/80 border border-blue-500/30 rounded-xl p-3 sm:p-4">
-                                <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                            <div className="bg-slate-900/80 border border-blue-500/30 rounded-xl p-3.5 sm:p-4 shadow-sm">
+                                <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
                                     <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-blue-400"></span>
                                     <h3 className="text-xs sm:text-sm font-black text-blue-300">챌린저스 월드 육성 기간</h3>
                                 </div>
-                                <div className="text-[11px] sm:text-xs text-slate-400 mb-2.5 leading-relaxed">
+                                <div className="text-[11px] sm:text-xs text-slate-400 mb-3 leading-relaxed break-keep">
                                     * 챌린저스 월드 혜택 적용 및 캐릭터 육성 가능
                                 </div>
-                                <div className="space-y-1.5 sm:space-y-2 text-xs">
-                                    <div className="flex justify-between items-center py-1 sm:py-1.5 border-b border-slate-800 gap-2">
-                                        <span className="text-slate-400 text-[11px] sm:text-xs">육성 시작</span>
-                                        <span className="text-slate-200 font-semibold text-[11px] sm:text-xs">2026.06.18(목) 점검 후</span>
+                                <div className="space-y-2">
+                                    <div className="py-2 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-2">
+                                        <span className="text-[11px] sm:text-xs text-slate-400 font-medium">육성 시작</span>
+                                        <span className="text-xs sm:text-sm text-slate-200 font-bold">2026.06.18(목) 점검 후</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-1 sm:py-1.5 border-b border-slate-800 gap-2">
-                                        <span className="text-slate-400 text-[11px] sm:text-xs">1차 사전 리프</span>
-                                        <span className="text-slate-400 text-[11px] sm:text-xs">07.23 ~ 08.19 (종료)</span>
+                                    <div className="py-2 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-2">
+                                        <span className="text-[11px] sm:text-xs text-slate-400 font-medium">1차 사전 리프</span>
+                                        <span className="text-xs sm:text-sm text-slate-400">07.23 ~ 08.19 (종료)</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-1 sm:py-1.5 bg-blue-500/10 px-2 rounded-lg border border-blue-500/20 gap-2">
-                                        <span className="text-blue-300 font-bold text-[11px] sm:text-xs">2차 사전 리프 마감</span>
-                                        <span className="text-red-400 font-bold text-[11px] sm:text-xs">~ 09.16(수) 23:59</span>
+                                    <div className="p-2.5 bg-blue-500/10 rounded-lg border border-blue-500/25 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
+                                        <span className="text-[11px] sm:text-xs text-blue-300 font-bold">2차 사전 리프 마감</span>
+                                        <span className="text-xs sm:text-sm text-red-400 font-black">~ 09.16(수) 23:59</span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* 2. 종료 리프 기간 & 운영 종료 */}
-                            <div className="bg-slate-900/80 border border-purple-500/30 rounded-xl p-3 sm:p-4">
-                                <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                            <div className="bg-slate-900/80 border border-purple-500/30 rounded-xl p-3.5 sm:p-4 shadow-sm">
+                                <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
                                     <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-purple-400"></span>
                                     <h3 className="text-xs sm:text-sm font-black text-purple-300">챌린저스 월드 종료 리프 기간</h3>
                                 </div>
-                                <div className="text-[11px] sm:text-xs text-red-300/90 mb-2.5 font-semibold leading-relaxed">
+                                <div className="text-[11px] sm:text-xs text-red-300/90 mb-3 font-semibold leading-relaxed break-keep">
                                     * 점검 후 캐릭터 육성 불가! 리프만 진행 가능
                                 </div>
-                                <div className="space-y-1.5 sm:space-y-2 text-xs">
-                                    <div className="flex justify-between items-center py-1 sm:py-1.5 border-b border-slate-800 gap-2">
-                                        <span className="text-slate-400 text-[11px] sm:text-xs shrink-0">육성 종료 & 리프 시작</span>
-                                        <span className="text-yellow-300 font-bold text-[11px] sm:text-xs text-right">2026.09.17(목) 점검 후</span>
+                                <div className="space-y-2">
+                                    <div className="py-2 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-2">
+                                        <span className="text-[11px] sm:text-xs text-slate-400 font-medium">육성 종료 &amp; 리프 시작</span>
+                                        <span className="text-xs sm:text-sm text-yellow-300 font-black">2026.09.17(목) 점검 후</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-1 sm:py-1.5 border-b border-slate-800 gap-2">
-                                        <span className="text-slate-400 text-[11px] sm:text-xs shrink-0">종료 리프 진행</span>
-                                        <span className="text-purple-200 font-semibold text-[11px] sm:text-xs text-right">09.17 점검 후 ~ 09.30 23:59</span>
+                                    <div className="py-2 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-2">
+                                        <span className="text-[11px] sm:text-xs text-slate-400 font-medium">종료 리프 진행 기간</span>
+                                        <span className="text-xs sm:text-sm text-purple-200 font-bold">09.17 점검 후 ~ 09.30 23:59</span>
                                     </div>
-                                    <div className="flex justify-between items-center py-1 sm:py-1.5 bg-red-500/10 px-2 rounded-lg border border-red-500/20 gap-2">
-                                        <span className="text-red-300 font-bold text-[11px] sm:text-xs">시즌4 최종 운영 종료</span>
-                                        <span className="text-red-400 font-bold text-[11px] sm:text-xs">2026.09.30(수) 23:59</span>
+                                    <div className="p-2.5 bg-red-500/10 rounded-lg border border-red-500/25 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
+                                        <span className="text-[11px] sm:text-xs text-red-300 font-bold">시즌4 최종 운영 종료</span>
+                                        <span className="text-xs sm:text-sm text-red-400 font-black">2026.09.30(수) 23:59</span>
                                     </div>
                                 </div>
                             </div>
