@@ -301,17 +301,17 @@ export default function September2026UpdateSchedule() {
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                         {[
-                            { icon: '🧪', label: '9월 10일 예정', value: '테스트월드 & 메이플 나우 (8월의 2배 규모!)', color: 'text-emerald-300' },
+                            { icon: '🧪', label: '9월 10일 예정', value: '테스트월드 & 메이플 나우', color: 'text-emerald-300' },
                             { icon: '🛍️', label: '9월 15일 종료', value: '제네시스 패스 & 핸즈 이용권', color: 'text-red-300' },
-                            { icon: '🎪', label: '9월 16일 종료', value: '하이퍼버닝 · 울티마 · 챌린저스 패스 외', color: 'text-orange-300' },
-                            { icon: '🌐', label: '9월 17일 종료', value: '챌린저스 월드 육성 종료 (종료 리프 시작)', color: 'text-yellow-300' },
-                            { icon: '📢', label: '9월 17일 패치', value: '마스터피스 스페셜 라벨 11기수→6기수', color: 'text-amber-300' },
+                            { icon: '🎪', label: '9월 16일 종료', value: '하이퍼버닝 · 울티마 · 챌린저스 패스 등', color: 'text-orange-300' },
+                            { icon: '🌐', label: '9월 17일 종료', value: '챌린저스 월드 육성 & 리프 시작', color: 'text-yellow-300' },
+                            { icon: '📢', label: '9월 17일 패치', value: '마스터피스 스페셜라벨 11기수→6기수', color: 'text-amber-300' },
                         ].map((item, i) => (
                             <div key={i} className="flex items-center gap-2.5 sm:gap-3 bg-slate-900/70 rounded-lg sm:rounded-xl px-3 py-2 sm:px-4 sm:py-3 border border-slate-700/50">
                                 <span className="text-xl sm:text-2xl shrink-0">{item.icon}</span>
                                 <div className="min-w-0">
                                     <div className="text-[10px] sm:text-xs text-slate-400 font-semibold">{item.label}</div>
-                                    <div className={`text-xs sm:text-sm font-bold ${item.color} truncate sm:whitespace-normal`}>{item.value}</div>
+                                    <div className={`text-xs sm:text-sm font-bold ${item.color} break-keep`}>{item.value}</div>
                                 </div>
                             </div>
                         ))}
