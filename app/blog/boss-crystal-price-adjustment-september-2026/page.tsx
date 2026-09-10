@@ -598,6 +598,109 @@ export default function BossCrystalPriceAdjustmentPage() {
                     </span>
                 </div>
 
+                {/* 🔍 보스 결정석 전체 테이블 필터 & 검색 */}
+                <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <Coins className="w-5 h-5 text-amber-400" />
+                        <h2 className="text-xl font-bold text-white">전체 보스 결정석 가격 조정 상세표</h2>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
+                        {/* 탭 필터 */}
+                        <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
+                            {[
+                                { id: 'all', label: '전체 보스' },
+                                { id: 'sub', label: '📉 -50% 반토막 (카룻~더듄)' },
+                                { id: 'hard', label: '🛡️ -5% 방어 (하드스데~진)' },
+                                { id: 'grandis', label: '⚡ 그란디스 & 엔드' },
+                            ].map(tab => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setTableFilter(tab.id)}
+                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                                        tableFilter === tab.id
+                                            ? 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20'
+                                            : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                                    }`}
+                                >
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* 검색창 */}
+                        <div className="relative w-full sm:w-64">
+                            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                            <input
+                                type="text"
+                                placeholder="보스명 검색 (예: 세렌, 스우, 루시드)"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
+                            />
+                        </div>
+                    </div>
+
+                    {/* 보스 결정석 리스트 테이블 */}
+                    <div className="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left text-xs sm:text-sm">
+                                <thead className="bg-slate-900/90 text-slate-400 border-b border-slate-800 font-bold uppercase">
+                                    <tr>
+                                        <th className="py-3 px-4">보스 / 난이도</th>
+                                        <th className="py-3 px-4 text-right">기존 가격</th>
+                                        <th className="py-3 px-4 text-right">변경 가격</th>
+                                        <th className="py-3 px-4 text-right">변동폭</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-800/60">
+                                    {filteredTableList.map((item, idx) => {
+                                        const isBigDrop = item.rate <= -30;
+                                        return (
+                                            <tr key={idx} className="hover:bg-slate-800/40 transition-colors">
+                                                <td className="py-3 px-4 font-medium text-white flex items-center gap-2">
+                                                    <span>{item.boss}</span>
+                                                    <span className={`text-[11px] px-1.5 py-0.5 rounded font-bold ${
+                                                        item.diff === '익스트림'
+                                                            ? 'bg-red-500/20 text-red-300 border border-red-500/30'
+                                                            : item.diff === '하드' || item.diff === '카오스'
+                                                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                                                            : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                                                    }`}>
+                                                        {item.diff}
+                                                    </span>
+                                                    {item.note && (
+                                                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-semibold">
+                                                            {item.note}
+                                                        </span>
+                                                    )}
+                                                </td>
+                                                <td className="py-3 px-4 text-right text-slate-400 font-mono">
+                                                    {formatMeso(item.oldPrice)} 메소
+                                                </td>
+                                                <td className="py-3 px-4 text-right font-bold font-mono text-white">
+                                                    {formatMeso(item.newPrice)} 메소
+                                                </td>
+                                                <td className="py-3 px-4 text-right font-black font-mono">
+                                                    <span className={`inline-block px-2 py-0.5 rounded text-xs ${
+                                                        isBigDrop
+                                                            ? 'bg-red-500/20 text-red-400 border border-red-500/30 font-extrabold'
+                                                            : item.rate <= -10
+                                                            ? 'bg-amber-500/20 text-amber-400'
+                                                            : 'bg-slate-800 text-slate-300'
+                                                    }`}>
+                                                        {item.rate.toFixed(1)}%
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
                 {/* 🔥 12개 보스 선택 주간 수익 변화 체감 시뮬레이터 */}
                 <div className="relative overflow-hidden rounded-3xl border border-amber-500/40 bg-gradient-to-b from-slate-900/90 via-slate-950 to-slate-950 p-6 sm:p-8 space-y-6 shadow-2xl">
                     {/* 상단 타이틀 & 프리셋 버튼 */}
@@ -842,109 +945,6 @@ export default function BossCrystalPriceAdjustmentPage() {
                                     </div>
                                 );
                             })}
-                        </div>
-                    </div>
-                </div>
-
-                {/* 🔍 보스 결정석 전체 테이블 필터 & 검색 */}
-                <div className="space-y-4">
-                    <div className="flex items-center gap-2">
-                        <Coins className="w-5 h-5 text-amber-400" />
-                        <h2 className="text-xl font-bold text-white">전체 보스 결정석 가격 조정 상세표</h2>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
-                        {/* 탭 필터 */}
-                        <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
-                            {[
-                                { id: 'all', label: '전체 보스' },
-                                { id: 'sub', label: '📉 -50% 반토막 (카룻~더듄)' },
-                                { id: 'hard', label: '🛡️ -5% 방어 (하드스데~진)' },
-                                { id: 'grandis', label: '⚡ 그란디스 & 엔드' },
-                            ].map(tab => (
-                                <button
-                                    key={tab.id}
-                                    onClick={() => setTableFilter(tab.id)}
-                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                                        tableFilter === tab.id
-                                            ? 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20'
-                                            : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
-                                    }`}
-                                >
-                                    {tab.label}
-                                </button>
-                            ))}
-                        </div>
-
-                        {/* 검색창 */}
-                        <div className="relative w-full sm:w-64">
-                            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                            <input
-                                type="text"
-                                placeholder="보스명 검색 (예: 세렌, 스우, 루시드)"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
-                            />
-                        </div>
-                    </div>
-
-                    {/* 보스 결정석 리스트 테이블 */}
-                    <div className="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left text-xs sm:text-sm">
-                                <thead className="bg-slate-900/90 text-slate-400 border-b border-slate-800 font-bold uppercase">
-                                    <tr>
-                                        <th className="py-3 px-4">보스 / 난이도</th>
-                                        <th className="py-3 px-4 text-right">기존 가격</th>
-                                        <th className="py-3 px-4 text-right">변경 가격</th>
-                                        <th className="py-3 px-4 text-right">변동폭</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-800/60">
-                                    {filteredTableList.map((item, idx) => {
-                                        const isBigDrop = item.rate <= -30;
-                                        return (
-                                            <tr key={idx} className="hover:bg-slate-800/40 transition-colors">
-                                                <td className="py-3 px-4 font-medium text-white flex items-center gap-2">
-                                                    <span>{item.boss}</span>
-                                                    <span className={`text-[11px] px-1.5 py-0.5 rounded font-bold ${
-                                                        item.diff === '익스트림'
-                                                            ? 'bg-red-500/20 text-red-300 border border-red-500/30'
-                                                            : item.diff === '하드' || item.diff === '카오스'
-                                                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                                                            : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                                                    }`}>
-                                                        {item.diff}
-                                                    </span>
-                                                    {item.note && (
-                                                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-semibold">
-                                                            {item.note}
-                                                        </span>
-                                                    )}
-                                                </td>
-                                                <td className="py-3 px-4 text-right text-slate-400 font-mono">
-                                                    {formatMeso(item.oldPrice)} 메소
-                                                </td>
-                                                <td className="py-3 px-4 text-right font-bold font-mono text-white">
-                                                    {formatMeso(item.newPrice)} 메소
-                                                </td>
-                                                <td className="py-3 px-4 text-right font-black font-mono">
-                                                    <span className={`inline-block px-2 py-0.5 rounded text-xs ${
-                                                        isBigDrop
-                                                            ? 'bg-red-500/20 text-red-400 border border-red-500/30 font-extrabold'
-                                                            : item.rate <= -10
-                                                            ? 'bg-amber-500/20 text-amber-400'
-                                                            : 'bg-slate-800 text-slate-300'
-                                                    }`}>
-                                                        {item.rate.toFixed(1)}%
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
