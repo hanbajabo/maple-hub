@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
     Calendar, ArrowLeft, Sparkles, TrendingDown, AlertCircle, 
@@ -293,26 +293,112 @@ export default function BossCrystalPriceAdjustmentPage() {
     const WEEKLY_BOSSES = GROUPED_BOSSES.filter(b => b.id !== 'blackmage');
     const MONTHLY_BOSS = GROUPED_BOSSES.find(b => b.id === 'blackmage')!;
 
-    // 12개 주간 보스 선택 시뮬레이터 상태 (key: bossId, value: diff)
+    // 12개 주간 보스 선택 시뮬레이터 상태 (기본값: 검밑솔 하드 진힐라부터 비싼순 12종)
     const [selectedBosses, setSelectedBosses] = useState<Record<string, string>>({
-        zakum: '카오스',
-        pierre: '카오스',
-        banban: '카오스',
-        bloodyqueen: '카오스',
+        jinhilla: '하드',
+        dunkel: '하드',
+        will: '하드',
+        slime: '카오스',
+        dusk: '카오스',
+        lucid: '하드',
+        suu: '하드',
+        demian: '하드',
+        papulatus: '카오스',
         vellum: '카오스',
         magnus: '하드',
-        papulatus: '카오스',
-        suu: '노멀',
-        demian: '노멀',
-        slime: '노멀',
-        lucid: '노멀',
-        will: '노멀'
+        pierre: '카오스'
     });
 
     // 월간 보스 (검은 마법사) 전용 상태 (null | '하드' | '익스트림') - 12개 주간 제한 미포함
     const [selectedMonthly, setSelectedMonthly] = useState<'하드' | '익스트림' | null>(null);
 
+    // 보스별 1~6인 파티 인원수 상태 (key: bossId, value: 1~6, 기본 1인 솔플)
+    const [partySizes, setPartySizes] = useState<Record<string, number>>({});
+    const [monthlyPartySize, setMonthlyPartySize] = useState<number>(1);
+
     const [limitWarning, setLimitWarning] = useState<boolean>(false);
+
+    // 보스별 파티 인원 설정 (1~6인)
+    const handleSetPartySize = (bossId: string, size: number) => {
+        setPartySizes(prev => ({
+            ...prev,
+            [bossId]: size
+        }));
+    };
+
+    // 전체 솔플(1인) 일괄 변경
+    const handleSetAllSolo = () => {
+        setPartySizes({});
+        setMonthlyPartySize(1);
+    };
+
+    // 검밑솔 12종 (하드 진힐라부터 비싼순) 프리셋 재설정
+    const handleSetGeomMitSol = () => {
+        setSelectedBosses({
+            jinhilla: '하드',
+            dunkel: '하드',
+            will: '하드',
+            slime: '카오스',
+            dusk: '카오스',
+            lucid: '하드',
+            suu: '하드',
+            demian: '하드',
+            papulatus: '카오스',
+            vellum: '카오스',
+            magnus: '하드',
+            pierre: '카오스'
+        });
+        setSelectedMonthly(null);
+        setPartySizes({});
+        setMonthlyPartySize(1);
+        setLimitWarning(false);
+    };
+
+    // 로컬 스토리지 키 (사용자 브라우저 기기에만 100% 무료 저장)
+    const STORAGE_KEY = 'maple_boss_crystal_sim_v1';
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    // 마운트 시 브라우저 로컬 저장소에서 데이터 불러오기
+    useEffect(() => {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
+                if (data.selectedBosses && typeof data.selectedBosses === 'object') {
+                    setSelectedBosses(data.selectedBosses);
+                }
+                if (data.partySizes && typeof data.partySizes === 'object') {
+                    setPartySizes(data.partySizes);
+                }
+                if (data.selectedMonthly !== undefined) {
+                    setSelectedMonthly(data.selectedMonthly);
+                }
+                if (data.monthlyPartySize) {
+                    setMonthlyPartySize(data.monthlyPartySize);
+                }
+            }
+        } catch (e) {
+            console.error('Failed to load boss crystal state from localStorage', e);
+        } finally {
+            setIsLoaded(true);
+        }
+    }, []);
+
+    // 상태 변경 시 브라우저 로컬 저장소에 자동 저장
+    useEffect(() => {
+        if (!isLoaded) return;
+        try {
+            const stateToSave = {
+                selectedBosses,
+                partySizes,
+                selectedMonthly,
+                monthlyPartySize
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
+        } catch (e) {
+            console.error('Failed to save boss crystal state to localStorage', e);
+        }
+    }, [selectedBosses, partySizes, selectedMonthly, monthlyPartySize, isLoaded]);
 
     // 보스 난이도 선택 토글
     const handleSelectDiff = (bossId: string, diff: string) => {
@@ -346,56 +432,84 @@ export default function BossCrystalPriceAdjustmentPage() {
         const next = { ...selectedBosses };
         delete next[bossId];
         setSelectedBosses(next);
+        const nextParties = { ...partySizes };
+        delete nextParties[bossId];
+        setPartySizes(nextParties);
     };
 
     // 전체 선택 초기화
     const handleReset = () => {
         setSelectedBosses({});
         setSelectedMonthly(null);
+        setPartySizes({});
+        setMonthlyPartySize(1);
         setLimitWarning(false);
+        try {
+            localStorage.removeItem(STORAGE_KEY);
+        } catch {}
     };
 
-    // 시뮬레이터 총합 계산 (주간 12개 + 월간 검은 마법사 별도 계산)
+    // 시뮬레이터 총합 계산 (주간 12개 + 월간 검은 마법사 별도 계산, 보스별 1~6인 1/N 결정석 분배 반영)
     let totalOld = 0;
     let totalNew = 0;
-    const selectedList: { bossId: string; bossName: string; diff: string; oldPrice: number; newPrice: number; rate: number; isMonthly?: boolean }[] = [];
+    const selectedList: { 
+        bossId: string; 
+        bossName: string; 
+        diff: string; 
+        oldPrice: number; 
+        newPrice: number; 
+        rate: number; 
+        party: number;
+        isMonthly?: boolean; 
+    }[] = [];
 
     Object.entries(selectedBosses).forEach(([bId, diff]) => {
         const bossItem = GROUPED_BOSSES.find(b => b.id === bId);
         if (bossItem) {
             const opt = bossItem.options.find(o => o.diff === diff);
             if (opt) {
-                totalOld += opt.oldPrice * 1;
-                totalNew += opt.newPrice * 1;
+                const party = partySizes[bId] || 1;
+                const oldPerPerson = Math.floor(opt.oldPrice / party);
+                const newPerPerson = Math.floor(opt.newPrice / party);
+                totalOld += oldPerPerson;
+                totalNew += newPerPerson;
                 selectedList.push({
                     bossId: bId,
                     bossName: bossItem.name,
                     diff: opt.diff,
-                    oldPrice: opt.oldPrice,
-                    newPrice: opt.newPrice,
-                    rate: opt.rate
+                    oldPrice: oldPerPerson,
+                    newPrice: newPerPerson,
+                    rate: opt.rate,
+                    party: party
                 });
             }
         }
     });
 
-    // 월간 보스 검은 마법사 합산
+    // 월간 보스 검은 마법사 합산 (파티 인원 반영)
     if (selectedMonthly) {
         const bmOpt = MONTHLY_BOSS.options.find(o => o.diff === selectedMonthly);
         if (bmOpt) {
-            totalOld += bmOpt.oldPrice * 1;
-            totalNew += bmOpt.newPrice * 1;
+            const party = monthlyPartySize || 1;
+            const oldPerPerson = Math.floor(bmOpt.oldPrice / party);
+            const newPerPerson = Math.floor(bmOpt.newPrice / party);
+            totalOld += oldPerPerson;
+            totalNew += newPerPerson;
             selectedList.push({
                 bossId: 'blackmage',
                 bossName: '검은 마법사',
                 diff: bmOpt.diff,
-                oldPrice: bmOpt.oldPrice,
-                newPrice: bmOpt.newPrice,
+                oldPrice: oldPerPerson,
+                newPrice: newPerPerson,
                 rate: bmOpt.rate,
+                party: party,
                 isMonthly: true
             });
         }
     }
+
+    // 선택 목록은 비싼 보스 순으로 내림차순 정렬 (검은 마법사 및 하드 진힐라부터)
+    selectedList.sort((a, b) => b.newPrice - a.newPrice);
 
     const diffLoss = totalNew - totalOld;
     const lossRate = totalOld > 0 ? ((totalNew - totalOld) / totalOld) * 100 : 0;
@@ -687,9 +801,9 @@ export default function BossCrystalPriceAdjustmentPage() {
                                         주간 보스돌이 수익 변화 체감 시뮬레이터
                                     </h2>
                                     <p className="text-xs sm:text-sm text-slate-100 break-keep font-normal">
-                                        최대 <strong className="text-white font-bold">12개 보스</strong>를 선택해 내 부캐의 실제 주간 메소 감소폭을 실시간으로 비교해보세요.
+                                        최대 <strong className="text-white font-bold">12개 보스</strong>를 선택하고, 각 보스별로 <strong className="text-cyan-400 font-bold">1~6인 파티</strong>를 지정해 내 실제 주간 메소 수령액과 감소폭을 실시간으로 비교해보세요.
                                         <span className="text-amber-300 font-semibold block sm:inline sm:ml-1">
-                                            (※ 동일 보스는 1개 난이도만 선택 가능)
+                                            (※ 1~6인 파티 1/N 분배 공식 적용 · 브라우저 로컬 자동 저장 💾)
                                         </span>
                                     </p>
                                 </div>
@@ -706,12 +820,28 @@ export default function BossCrystalPriceAdjustmentPage() {
                                     {selectedMonthly && ' (+월간 검마)'}
                                 </span>
                                 {(selectedCount > 0 || selectedMonthly) && (
-                                    <button
-                                        onClick={() => handleReset()}
-                                        className="text-xs text-slate-200 hover:text-red-400 flex items-center gap-1 px-2 py-1 rounded bg-slate-900 border border-slate-700 transition-colors"
-                                    >
-                                        <RotateCcw className="w-3 h-3" /> 초기화
-                                    </button>
+                                    <div className="flex flex-wrap items-center gap-1.5">
+                                        <button
+                                            onClick={() => handleSetGeomMitSol()}
+                                            className="text-xs text-slate-200 hover:text-amber-300 flex items-center gap-1 px-2.5 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-500/50 transition-colors cursor-pointer"
+                                            title="하드 진힐라부터 비싼순 검밑솔 12종으로 재설정"
+                                        >
+                                            ⚔️ 검밑솔 12종
+                                        </button>
+                                        <button
+                                            onClick={() => handleSetAllSolo()}
+                                            className="text-xs text-slate-200 hover:text-cyan-300 flex items-center gap-1 px-2.5 py-1 rounded bg-slate-900 border border-slate-700 transition-colors cursor-pointer"
+                                            title="모든 선택 보스를 1인 솔플로 일괄 변경"
+                                        >
+                                            <Users className="w-3 h-3 text-cyan-400" /> 전체 솔플
+                                        </button>
+                                        <button
+                                            onClick={() => handleReset()}
+                                            className="text-xs text-slate-200 hover:text-red-400 flex items-center gap-1 px-2.5 py-1 rounded bg-slate-900 border border-slate-700 transition-colors cursor-pointer"
+                                        >
+                                            <RotateCcw className="w-3 h-3" /> 초기화
+                                        </button>
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -772,31 +902,62 @@ export default function BossCrystalPriceAdjustmentPage() {
                                 <span className="text-[11px] text-slate-200 block mb-1.5 font-semibold">선택된 보스 목록 (클릭 시 제거):</span>
                                 <div className="flex flex-wrap gap-1.5">
                                     {selectedList.map(item => (
-                                        <button
+                                        <div
                                             key={item.bossId}
-                                            onClick={() => {
-                                                if (item.isMonthly) {
-                                                    setSelectedMonthly(null);
-                                                } else {
-                                                    removeBoss(item.bossId);
-                                                }
-                                            }}
-                                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all group ${
+                                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
                                                 item.isMonthly
-                                                    ? 'bg-purple-950/50 hover:bg-red-950/40 border border-purple-500/40 hover:border-red-500/40 text-purple-100'
-                                                    : 'bg-slate-950 hover:bg-red-950/40 border border-slate-800 hover:border-red-500/40 text-white'
+                                                    ? 'bg-purple-950/60 border border-purple-500/40 text-purple-100'
+                                                    : 'bg-slate-950 border border-slate-800 text-white'
                                             }`}
-                                            title="클릭하여 해제"
                                         >
                                             <span>{item.bossName}</span>
-                                            <span className={`text-[10px] px-1 py-0.2 rounded ${item.isMonthly ? 'bg-purple-900 text-purple-200' : 'bg-slate-800 text-amber-300'}`}>
-                                                {item.isMonthly ? `월간: ${item.diff}` : item.diff}
+                                            <span className={`text-[10px] px-1.5 py-0.5 rounded ${
+                                                item.isMonthly ? 'bg-purple-900 text-purple-200' : 'bg-slate-800 text-amber-300'
+                                            }`}>
+                                                {item.isMonthly ? `월간 ${item.diff}` : item.diff}
                                             </span>
-                                            <span className="text-red-400 text-[10px] font-mono">
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    const nextParty = (item.party % 6) + 1;
+                                                    if (item.isMonthly) {
+                                                        setMonthlyPartySize(nextParty);
+                                                    } else {
+                                                        handleSetPartySize(item.bossId, nextParty);
+                                                    }
+                                                }}
+                                                className={`text-[10px] px-1.5 py-0.5 rounded font-bold cursor-pointer transition-all hover:scale-105 active:scale-95 flex items-center gap-0.5 ${
+                                                    item.party > 1
+                                                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                                                        : 'bg-slate-800 text-slate-300 hover:text-white'
+                                                }`}
+                                                title="클릭하여 파티 인원 변경 (1~6인)"
+                                            >
+                                                <Users className="w-2.5 h-2.5" />
+                                                <span>{item.party === 1 ? '솔플' : `${item.party}인`}</span>
+                                            </button>
+                                            <span className="text-[11px] font-mono text-slate-300 font-normal">
+                                                {formatMeso(item.newPrice)}
+                                            </span>
+                                            <span className="text-red-400 text-[10px] font-mono font-bold">
                                                 {item.rate.toFixed(0)}%
                                             </span>
-                                            <X className="w-3 h-3 text-slate-400 group-hover:text-red-400" />
-                                        </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    if (item.isMonthly) {
+                                                        setSelectedMonthly(null);
+                                                    } else {
+                                                        removeBoss(item.bossId);
+                                                    }
+                                                }}
+                                                className="p-0.5 text-slate-400 hover:text-red-400 transition-colors ml-0.5"
+                                                title="선택 해제"
+                                                aria-label={`${item.bossName} 해제`}
+                                            >
+                                                <X className="w-3 h-3" />
+                                            </button>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
@@ -869,6 +1030,43 @@ export default function BossCrystalPriceAdjustmentPage() {
                                                 );
                                             })}
                                         </div>
+
+                                        {/* 보스별 1~6인 파티 인원 선택 (보스 선택 시 활성화) */}
+                                        {isSelected && (
+                                            <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                                                <div className="flex items-center gap-1 text-[11px] text-slate-300">
+                                                    <Users className="w-3 h-3 text-cyan-400" />
+                                                    <span>파티:</span>
+                                                    <strong className="text-cyan-300 font-bold">
+                                                        {(partySizes[boss.id] || 1) === 1 ? '솔플' : `${partySizes[boss.id]}인`}
+                                                    </strong>
+                                                </div>
+                                                <div className="flex items-center gap-0.5 bg-slate-950 p-0.5 rounded-lg border border-slate-800">
+                                                    {[1, 2, 3, 4, 5, 6].map(num => {
+                                                        const currentParty = partySizes[boss.id] || 1;
+                                                        const isPartyActive = currentParty === num;
+                                                        return (
+                                                            <button
+                                                                key={num}
+                                                                type="button"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleSetPartySize(boss.id, num);
+                                                                }}
+                                                                className={`w-6 h-5 rounded text-[10px] font-bold transition-all flex items-center justify-center cursor-pointer ${
+                                                                    isPartyActive
+                                                                        ? 'bg-cyan-500 text-slate-950 shadow font-black'
+                                                                        : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                                                                }`}
+                                                                title={`${num}인 파티 (결정석 1/${num} 분배)`}
+                                                            >
+                                                                {num === 1 ? '1' : num}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 );
                             })}
@@ -932,6 +1130,39 @@ export default function BossCrystalPriceAdjustmentPage() {
                                     })}
                                 </div>
                             </div>
+
+                            {/* 검은 마법사 1~6인 파티 인원 선택 바 */}
+                            {selectedMonthly && (
+                                <div className="mt-3 pt-3 border-t border-purple-900/40 flex flex-wrap items-center justify-between gap-2">
+                                    <div className="flex items-center gap-1.5 text-xs text-purple-200">
+                                        <Users className="w-3.5 h-3.5 text-purple-400" />
+                                        <span>검은 마법사 파티 인원:</span>
+                                        <strong className="text-purple-300 font-bold">
+                                            {monthlyPartySize === 1 ? '솔플' : `${monthlyPartySize}인 파티 (결정석 1/${monthlyPartySize} 분배)`}
+                                        </strong>
+                                    </div>
+                                    <div className="flex items-center gap-1 bg-slate-950 p-0.5 rounded-lg border border-purple-500/30">
+                                        {[1, 2, 3, 4, 5, 6].map(num => {
+                                            const isPartyActive = monthlyPartySize === num;
+                                            return (
+                                                <button
+                                                    key={num}
+                                                    type="button"
+                                                    onClick={() => setMonthlyPartySize(num)}
+                                                    className={`w-7 h-6 rounded text-xs font-bold transition-all flex items-center justify-center cursor-pointer ${
+                                                        isPartyActive
+                                                            ? 'bg-purple-500 text-white shadow font-black'
+                                                            : 'text-purple-300 hover:text-white hover:bg-purple-900/40'
+                                                    }`}
+                                                    title={`검은 마법사 ${num}인 파티 (결정석 1/${num} 분배)`}
+                                                >
+                                                    {num === 1 ? '1인' : `${num}인`}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
