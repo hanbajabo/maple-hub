@@ -922,22 +922,15 @@ export default function BossCrystalPriceAdjustmentPage() {
                                                     <button
                                                         key={opt.diff}
                                                         onClick={() => handleSelectDiff(boss.id, opt.diff)}
-                                                        className={`flex-1 min-w-[70px] px-2 py-1.5 rounded-lg text-xs font-semibold flex flex-col items-center justify-center transition-all ${
+                                                        className={`flex-1 min-w-[65px] px-2.5 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                                                             isOptSelected
-                                                                ? 'bg-amber-500 text-slate-950 font-black shadow-sm'
-                                                                : 'bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800'
+                                                                ? 'bg-amber-500 text-slate-950 font-black shadow-md shadow-amber-500/20'
+                                                                : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 hover:border-slate-700'
                                                         }`}
                                                     >
-                                                        <span className="text-[11px] leading-tight">
-                                                            {opt.diff}
-                                                        </span>
-                                                        <span className={`text-[10px] leading-tight font-mono ${
-                                                            isOptSelected ? 'text-slate-950' : 'text-amber-400'
-                                                        }`}>
-                                                            {formatMeso(opt.newPrice)}
-                                                        </span>
-                                                        <span className={`text-[9px] leading-tight font-mono ${
-                                                            isOptSelected ? 'text-red-950 font-black' : 'text-red-400'
+                                                        <span>{opt.diff}</span>
+                                                        <span className={`text-[10px] font-mono font-bold ${
+                                                            isOptSelected ? 'text-red-950' : 'text-red-400'
                                                         }`}>
                                                             {opt.rate.toFixed(0)}%
                                                         </span>
