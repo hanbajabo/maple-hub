@@ -244,6 +244,31 @@ export default function MapleNowSep10RecapPage() {
                                 alt="엔젤릭버스터 캐시 장비 아이템 능력치 적용 방식 변경 안내"
                                 caption="9/17(목) 엔젤릭버스터 캐시 장비 아이템 능력치 적용 방식 변경 사전 공지"
                             />
+
+                            {/* 엔젤릭버스터 사전 안내 공지 상세 박스 */}
+                            <div className="p-5 rounded-xl bg-slate-950/80 border border-pink-500/30 space-y-3 mt-4">
+                                <div className="flex items-center gap-2 text-pink-400 font-bold text-sm">
+                                    <span>📢 공식 공지 상세: 엔젤릭버스터 캐시 장비 능력치 단일화 &amp; 교환가능 재지급</span>
+                                </div>
+                                <div className="text-xs text-slate-200 space-y-2 leading-relaxed">
+                                    <p className="text-white">
+                                        기존 엔버는 일반 모드와 드레스 업 모드 양쪽에 라벨 캐시템을 착용해야 스탯/세트옵션을 온전히 챙길 수 있었으나, 
+                                        <strong> 9월 17일(목) 점검 후부터는 오직 [드레스 업 모드 슬롯]의 캐시 장비 능력치만 단독 적용</strong>되도록 시스템이 변경됩니다.
+                                    </p>
+                                    <ul className="list-disc list-inside space-y-1 text-slate-300 pl-1">
+                                        <li><strong>무기 &amp; 반지:</strong> 드레스 업 모드에 슬롯이 없으므로 예외적으로 일반 모드 슬롯 능력치 유지 적용.</li>
+                                        <li><strong>일반 모드 &amp; 코디 프리셋:</strong> 모자/한벌옷/망토 등의 능력치는 전면 미적용.</li>
+                                    </ul>
+                                    <div className="p-3 rounded-lg bg-pink-950/30 border border-pink-500/20 text-slate-100">
+                                        <p className="font-bold text-pink-300 mb-1">🎁 중복 라벨 아이템 &lsquo;교환 가능&rsquo; 상태 재지급 구제책</p>
+                                        <ul className="list-disc list-inside space-y-0.5 text-xs text-slate-300">
+                                            <li><strong>대상 시점:</strong> 2026년 9월 10일(목) 16:55 이전 기준 중복 보유 캐릭터</li>
+                                            <li><strong>대상 부위:</strong> 모자, 장갑, 망토 부위 교불 마스터/블랙/레드 라벨 (STR/DEX 유효옵 보유)</li>
+                                            <li><strong>재지급 방식:</strong> 전투력이 더 적게 오르는 1개를 회수 후 <strong>9/17(목) 패치 시 캐시 보관함에 &lsquo;교환 가능&rsquo; 상태로 재지급</strong> (메이플 옥션 판매 가능!)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
