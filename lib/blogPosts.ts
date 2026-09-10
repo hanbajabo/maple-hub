@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 9월 10일 보스 결정석 가격 조정 총정리
+    {
+        slug: 'boss-crystal-price-adjustment-september-2026',
+        title: '💰 【9월 17일】 보스 결정석 가격 조정 완벽 정리 — 카룻·스데미·루윌 50% 반토막·세렌·검마 변동표',
+        description: '2026년 9월 17일 본서버 적용 예정인 보스 결정석 가격 조정 완벽 분석. 카루타~노말 더듄 -50% 반토막 너프, 하드 보스 -5% 변동, 노말/익스 세렌 및 검은 마법사 -30~35% 대폭 하향 등 전 보스 기존가/변경가 비교표와 9/17 점검 전 막차 정산 꿀팁 총정리.',
+        category: '업데이트 소식',
+        date: '2026년 9월 10일',
+        readTime: '6분',
+        thumbnail: '💰',
+        featured: true,
+        targetDate: '2026년 9월 17일',
+    },
     // 9월 10일 테스트월드 1.2.206 스킬 조정 총정리
     {
         slug: 'testworld-skill-balance-sep-17-2026',
