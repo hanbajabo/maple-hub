@@ -701,6 +701,9 @@ export default function BossCrystalPriceAdjustmentPage() {
                     </div>
                 </div>
 
+                {/* 📌 중간 광고 (상세표와 시뮬레이터 사이) */}
+                <InArticleAd dataAdSlot="6849727140" />
+
                 {/* 🔥 12개 보스 선택 주간 수익 변화 체감 시뮬레이터 */}
                 <div className="relative overflow-hidden rounded-3xl border border-amber-500/40 bg-gradient-to-b from-slate-900/90 via-slate-950 to-slate-950 p-6 sm:p-8 space-y-6 shadow-2xl">
                     {/* 상단 타이틀 & 프리셋 버튼 */}
@@ -949,49 +952,8 @@ export default function BossCrystalPriceAdjustmentPage() {
                     </div>
                 </div>
 
-                {/* 중간 광고 */}
+                {/* 하단 광고 */}
                 <InArticleAd dataAdSlot="6849727140" />
-
-                {/* 🔗 추천 관련 포스트 링크 */}
-                <div className="space-y-4">
-                    <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                        <ArrowRight className="w-4 h-4 text-amber-400" />
-                        함께 읽으면 좋은 9월 17일 업데이트 소식
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <Link
-                            href="/blog/testworld-skill-balance-sep-17-2026"
-                            prefetch={false}
-                            className="group p-4 bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-red-500/50 rounded-xl transition-all flex flex-col justify-between"
-                        >
-                            <div className="space-y-1">
-                                <span className="text-xs text-red-400 font-semibold">스킬 밸런스 총정리</span>
-                                <h4 className="text-sm font-bold text-white group-hover:text-red-300 transition-colors break-keep">
-                                    ⚔️ 【테섭 1.2.206】 전직업 스킬 조정 & 연무장 개편 총정리 (46개 직업)
-                                </h4>
-                            </div>
-                            <span className="text-xs text-slate-500 mt-2 flex items-center gap-1">
-                                자세히 보기 <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                            </span>
-                        </Link>
-
-                        <Link
-                            href="/blog/testworld-update-1-2-206"
-                            prefetch={false}
-                            className="group p-4 bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-amber-500/50 rounded-xl transition-all flex flex-col justify-between"
-                        >
-                            <div className="space-y-1">
-                                <span className="text-xs text-amber-400 font-semibold">9월 17일 전체 패치노트</span>
-                                <h4 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors break-keep">
-                                    🧪 퍼스널 버닝·어빌리티 개편·소울웨폰·탐험코인 총정리
-                                </h4>
-                            </div>
-                            <span className="text-xs text-slate-500 mt-2 flex items-center gap-1">
-                                자세히 보기 <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                            </span>
-                        </Link>
-                    </div>
-                </div>
             </div>
         </main>
     );
