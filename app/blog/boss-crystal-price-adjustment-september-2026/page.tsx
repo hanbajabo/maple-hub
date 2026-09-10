@@ -127,7 +127,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                         2026년 9월 메이플 경제 대변화 분석
                     </div>
                     <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight break-keep">
-                        💰 【9월 17일】 보스 결정석 가격 조정 완벽 정리 — 카룻·스데미·루윌 50% 반토막·세렌·검마 변동표
+                        💰 【9월 17일】 메이플 보스 결정석 가격 조정 완벽 정리
                     </h1>
                     <p className="text-sm sm:text-base text-slate-400 break-keep leading-relaxed">
                         9월 17일(목) 점검 후 본서버에 적용되는 보스 강렬한 힘의 결정 판매 가격 조정 총정리입니다.
