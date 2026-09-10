@@ -174,7 +174,7 @@ export default function MapleNowSep10RecapPage() {
                 </div>
 
                 <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-snug mb-4 break-keep">
-                    🍁 【9월 10일 메이플NOW 총정리】 가을 대격변 완벽 요약 (이미지 78장 풀수록)
+                    🍁 【9월 10일 메이플NOW 총정리】 가을 대격변 완벽 요약
                 </h1>
                 <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal mb-6 break-keep">
                     스킬 최신화(이동기 편차 완화·시너지 개인화)부터 보스 결정석 반토막 너프 및 주간 12개 제한 전격 해제, 

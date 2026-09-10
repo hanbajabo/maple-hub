@@ -43,4 +43,5 @@ next-env.d.ts
 
 # scratch
 /scratch/
+/data/skill_diffs_*.json
 
