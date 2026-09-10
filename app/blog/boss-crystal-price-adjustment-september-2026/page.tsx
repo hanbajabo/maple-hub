@@ -495,7 +495,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                             </div>
                         </div>
                         <p className="text-xs text-slate-100 break-keep leading-relaxed pt-1">
-                            카루타 4종, 하드 매그너스, 카파풀, 노말 스데미, 이지/노말 루윌, 노말 더스크/듄켈까지 **정확히 50% 일괄 삭감**됩니다. 주간 부캐 보스돌이 수익이 절반으로 감소합니다.
+                            카루타 4종, 하드 매그너스, 카파풀, 노말 스데미, 이지/노말 루윌, 노말 더스크/듄켈까지 <strong className="text-red-400 font-bold">정확히 50% 일괄 삭감</strong>됩니다. 주간 부캐 보스돌이 수익이 절반으로 감소합니다.
                         </p>
                     </div>
 
@@ -511,7 +511,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                             </div>
                         </div>
                         <p className="text-xs text-slate-100 break-keep leading-relaxed pt-1">
-                            하드 스우/데미안, 하드 루시드/윌, 카더듄, 하드 진힐라 등 본격 상위 하드 보스는 **-5.0% ~ -5.7%**로 소폭 인하되어 상대적으로 타격이 적습니다.
+                            하드 스우/데미안, 하드 루시드/윌, 카더듄, 하드 진힐라 등 본격 상위 하드 보스는 <strong className="text-emerald-400 font-bold">-5.0% ~ -5.7%</strong>로 소폭 인하되어 상대적으로 타격이 적습니다.
                         </p>
                     </div>
 
@@ -527,7 +527,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                             </div>
                         </div>
                         <p className="text-xs text-slate-100 break-keep leading-relaxed pt-1">
-                            노말 세렌(-30.1%), 하드 검마(-30.1%), 익스 세렌(-35.1%), 익스 검마(-35.0%) 등 대형 보스들의 결정석 가격이 크게 축소됩니다.
+                            <strong className="text-amber-300 font-bold">노말 세렌(-30.1%)</strong>, <strong className="text-amber-300 font-bold">하드 검마(-30.1%)</strong>, <strong className="text-rose-400 font-bold">익스 세렌(-35.1%)</strong>, <strong className="text-rose-400 font-bold">익스 검마(-35.0%)</strong> 등 대형 보스들의 결정석 가격이 크게 축소됩니다.
                         </p>
                     </div>
 
@@ -543,7 +543,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                             </div>
                         </div>
                         <p className="text-xs text-slate-100 break-keep leading-relaxed pt-1">
-                            9월 17일 목요일 자정(00:00) 주간 보스 초기화 후 **점검 시작 전까지 클리어하여 결정석을 판매하면 기존 높은 가격으로 수령**할 수 있습니다!
+                            9월 17일 목요일 자정(00:00) 주간 보스 초기화 후 <strong className="text-cyan-300 font-bold">점검 시작 전까지 클리어하여 결정석을 판매하면 기존 높은 가격으로 수령</strong>할 수 있습니다!
                         </p>
                     </div>
                 </div>
