@@ -436,7 +436,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                     <Link
                         href="/blog"
                         prefetch={false}
-                        className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-amber-400 transition-colors"
+                        className="inline-flex items-center gap-2 text-sm text-slate-300 hover:text-white transition-colors"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         블로그 목록으로
@@ -460,21 +460,21 @@ export default function BossCrystalPriceAdjustmentPage() {
                     <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight break-keep">
                         💰 【9월 17일】 메이플 보스 결정석 가격 조정 완벽 정리
                     </h1>
-                    <p className="text-sm sm:text-base text-slate-400 break-keep leading-relaxed">
+                    <p className="text-sm sm:text-base text-white break-keep leading-relaxed font-normal">
                         9월 17일(목) 점검 후 본서버에 적용되는 보스 강렬한 힘의 결정 판매 가격 조정 총정리입니다.
-                        카루타부터 노말 더스크/듄켈까지 주간 보스돌이 라인이 전면 <strong>-50% 반토막</strong> 너프되며,
+                        카루타부터 노말 더스크/듄켈까지 주간 보스돌이 라인이 전면 <strong className="text-amber-300 font-bold">-50% 반토막</strong> 너프되며,
                         노말 세렌(-30.1%), 익스 세렌(-35.1%), 검은 마법사(-30.1% ~ -35.0%)까지 대규모 가격 인하가 단행됩니다.
-                        목요일 점검 전 막차 정산 꿀팁과 <strong>12개 보스 선택 수익 체감 시뮬레이터</strong>를 이용해 내 주간 메소 손실액을 확인해 보세요.
+                        목요일 점검 전 막차 정산 꿀팁과 <strong className="text-amber-300 font-bold">12개 보스 선택 수익 체감 시뮬레이터</strong>를 이용해 내 주간 메소 손실액을 확인해 보세요.
                     </p>
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 pt-2 border-t border-slate-800">
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 pt-2 border-t border-slate-800">
                         <span className="flex items-center gap-1">
-                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                            <Calendar className="w-3.5 h-3.5 text-slate-300" />
                             2026년 9월 10일 발표
                         </span>
                         <span>•</span>
-                        <span className="text-amber-400 font-semibold">적용일: 2026.09.17(목) / 검마는 10.01(목)</span>
+                        <span className="text-amber-300 font-semibold">적용일: 2026.09.17(목) / 검마는 10.01(목)</span>
                         <span>•</span>
-                        <span>읽는 시간 약 6분</span>
+                        <span className="text-slate-300">읽는 시간 약 6분</span>
                     </div>
                 </div>
 
@@ -494,7 +494,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                 <h3 className="font-bold text-white text-base">카룻 ~ 노말 더듄 -50% 반토막</h3>
                             </div>
                         </div>
-                        <p className="text-xs text-slate-300 break-keep leading-relaxed pt-1">
+                        <p className="text-xs text-slate-100 break-keep leading-relaxed pt-1">
                             카루타 4종, 하드 매그너스, 카파풀, 노말 스데미, 이지/노말 루윌, 노말 더스크/듄켈까지 **정확히 50% 일괄 삭감**됩니다. 주간 부캐 보스돌이 수익이 절반으로 감소합니다.
                         </p>
                     </div>
@@ -510,7 +510,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                 <h3 className="font-bold text-white text-base">하드 스데미 ~ 하드 진힐라 -5%</h3>
                             </div>
                         </div>
-                        <p className="text-xs text-slate-300 break-keep leading-relaxed pt-1">
+                        <p className="text-xs text-slate-100 break-keep leading-relaxed pt-1">
                             하드 스우/데미안, 하드 루시드/윌, 카더듄, 하드 진힐라 등 본격 상위 하드 보스는 **-5.0% ~ -5.7%**로 소폭 인하되어 상대적으로 타격이 적습니다.
                         </p>
                     </div>
@@ -526,7 +526,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                 <h3 className="font-bold text-white text-base">세렌 & 검은 마법사 -30% ~ -35%</h3>
                             </div>
                         </div>
-                        <p className="text-xs text-slate-300 break-keep leading-relaxed pt-1">
+                        <p className="text-xs text-slate-100 break-keep leading-relaxed pt-1">
                             노말 세렌(-30.1%), 하드 검마(-30.1%), 익스 세렌(-35.1%), 익스 검마(-35.0%) 등 대형 보스들의 결정석 가격이 크게 축소됩니다.
                         </p>
                     </div>
@@ -542,7 +542,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                 <h3 className="font-bold text-white text-base">9월 17일(목) 점검 전 막차 정산!</h3>
                             </div>
                         </div>
-                        <p className="text-xs text-slate-300 break-keep leading-relaxed pt-1">
+                        <p className="text-xs text-slate-100 break-keep leading-relaxed pt-1">
                             9월 17일 목요일 자정(00:00) 주간 보스 초기화 후 **점검 시작 전까지 클리어하여 결정석을 판매하면 기존 높은 가격으로 수령**할 수 있습니다!
                         </p>
                     </div>
@@ -558,7 +558,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                         <h4 className="text-base font-bold text-white">
                             검은 마법사(하드·익스트림) 결정 판매 가격은 <span className="text-amber-300 underline">2026년 10월 1일(목)</span>부터 적용됩니다.
                         </h4>
-                        <p className="text-xs text-slate-400 break-keep">
+                        <p className="text-xs text-slate-100 break-keep">
                             월간 보스 특성상 9월 중 클리어한 검은 마법사는 9월 17일 패치 이후에 판매하더라도 기존 가격(하드 6.65억 / 익스 87.4억)이 유지됩니다.
                         </p>
                     </div>
@@ -589,7 +589,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                                         tableFilter === tab.id
                                             ? 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20'
-                                            : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                                            : 'bg-slate-900 text-slate-200 hover:text-white border border-slate-700'
                                     }`}
                                 >
                                     {tab.label}
@@ -599,13 +599,13 @@ export default function BossCrystalPriceAdjustmentPage() {
 
                         {/* 검색창 */}
                         <div className="relative w-full sm:w-64">
-                            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                            <Search className="w-4 h-4 text-slate-300 absolute left-3 top-1/2 -translate-y-1/2" />
                             <input
                                 type="text"
                                 placeholder="보스명 검색 (예: 세렌, 스우, 루시드)"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
+                                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-500 transition-colors"
                             />
                         </div>
                     </div>
@@ -614,7 +614,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                     <div className="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left text-xs sm:text-sm">
-                                <thead className="bg-slate-900/90 text-slate-400 border-b border-slate-800 font-bold uppercase">
+                                <thead className="bg-slate-900/90 text-slate-200 border-b border-slate-700 font-bold uppercase">
                                     <tr>
                                         <th className="py-3 px-4">보스 / 난이도</th>
                                         <th className="py-3 px-4 text-right">기존 가격</th>
@@ -644,7 +644,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                                         </span>
                                                     )}
                                                 </td>
-                                                <td className="py-3 px-4 text-right text-slate-400 font-mono">
+                                                <td className="py-3 px-4 text-right text-slate-200 font-mono">
                                                     {formatMeso(item.oldPrice)} 메소
                                                 </td>
                                                 <td className="py-3 px-4 text-right font-bold font-mono text-white">
@@ -686,9 +686,9 @@ export default function BossCrystalPriceAdjustmentPage() {
                                     <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
                                         주간 보스돌이 수익 변화 체감 시뮬레이터
                                     </h2>
-                                    <p className="text-xs sm:text-sm text-slate-400 break-keep">
-                                        최대 <strong>12개 보스</strong>를 선택해 내 부캐의 실제 주간 메소 감소폭을 실시간으로 비교해보세요.
-                                        <span className="text-amber-400 font-semibold block sm:inline sm:ml-1">
+                                    <p className="text-xs sm:text-sm text-slate-100 break-keep font-normal">
+                                        최대 <strong className="text-white font-bold">12개 보스</strong>를 선택해 내 부캐의 실제 주간 메소 감소폭을 실시간으로 비교해보세요.
+                                        <span className="text-amber-300 font-semibold block sm:inline sm:ml-1">
                                             (※ 동일 보스는 1개 난이도만 선택 가능)
                                         </span>
                                     </p>
@@ -700,7 +700,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                 <span className={`text-xs px-3 py-1.5 rounded-full font-bold border ${
                                     selectedCount === 12
                                         ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                                        : 'bg-slate-800 text-slate-300 border-slate-700'
+                                        : 'bg-slate-800 text-slate-100 border-slate-700'
                                 }`}>
                                     주간 보스: {selectedCount} / 12개
                                     {selectedMonthly && ' (+월간 검마)'}
@@ -708,7 +708,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                 {(selectedCount > 0 || selectedMonthly) && (
                                     <button
                                         onClick={() => handleReset()}
-                                        className="text-xs text-slate-400 hover:text-red-400 flex items-center gap-1 px-2 py-1 rounded bg-slate-900 border border-slate-800 transition-colors"
+                                        className="text-xs text-slate-200 hover:text-red-400 flex items-center gap-1 px-2 py-1 rounded bg-slate-900 border border-slate-700 transition-colors"
                                     >
                                         <RotateCcw className="w-3 h-3" /> 초기화
                                     </button>
@@ -734,29 +734,29 @@ export default function BossCrystalPriceAdjustmentPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
                             {/* 기존 수익 */}
                             <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-                                <span className="text-xs text-slate-400 block mb-1">패치 전 주간 수익</span>
-                                <div className="text-lg sm:text-xl font-extrabold text-slate-200 font-mono">
+                                <span className="text-xs text-slate-200 block mb-1 font-medium">패치 전 주간 수익</span>
+                                <div className="text-lg sm:text-xl font-extrabold text-white font-mono">
                                     {formatMeso(totalOld)}
                                 </div>
-                                <span className="text-[11px] text-slate-500 block font-mono">
+                                <span className="text-[11px] text-slate-300 block font-mono">
                                     {formatRawNumber(totalOld)} 메소
                                 </span>
                             </div>
 
                             {/* 변경 후 수익 */}
                             <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-                                <span className="text-xs text-amber-400 block mb-1">패치 후 주간 수익</span>
+                                <span className="text-xs text-amber-300 block mb-1 font-medium">패치 후 주간 수익</span>
                                 <div className="text-lg sm:text-xl font-extrabold text-amber-300 font-mono">
                                     {formatMeso(totalNew)}
                                 </div>
-                                <span className="text-[11px] text-slate-500 block font-mono">
+                                <span className="text-[11px] text-amber-200/90 block font-mono">
                                     {formatRawNumber(totalNew)} 메소
                                 </span>
                             </div>
 
                             {/* 차액 (손실액) */}
                             <div className="p-3.5 rounded-xl bg-red-950/20 border border-red-500/30">
-                                <span className="text-xs text-red-400 block mb-1">주간 손실액 (변동폭)</span>
+                                <span className="text-xs text-red-400 block mb-1 font-medium">주간 손실액 (변동폭)</span>
                                 <div className="text-lg sm:text-xl font-extrabold text-red-400 font-mono">
                                     {totalOld > 0 ? `-${formatMeso(Math.abs(diffLoss))}` : '0 메소'}
                                 </div>
@@ -769,7 +769,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                         {/* 선택된 보스 칩 목록 */}
                         {selectedList.length > 0 ? (
                             <div className="pt-2">
-                                <span className="text-[11px] text-slate-500 block mb-1.5">선택된 보스 목록 (클릭 시 제거):</span>
+                                <span className="text-[11px] text-slate-200 block mb-1.5 font-semibold">선택된 보스 목록 (클릭 시 제거):</span>
                                 <div className="flex flex-wrap gap-1.5">
                                     {selectedList.map(item => (
                                         <button
@@ -783,8 +783,8 @@ export default function BossCrystalPriceAdjustmentPage() {
                                             }}
                                             className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all group ${
                                                 item.isMonthly
-                                                    ? 'bg-purple-950/50 hover:bg-red-950/40 border border-purple-500/40 hover:border-red-500/40 text-purple-200'
-                                                    : 'bg-slate-950 hover:bg-red-950/40 border border-slate-800 hover:border-red-500/40 text-slate-300'
+                                                    ? 'bg-purple-950/50 hover:bg-red-950/40 border border-purple-500/40 hover:border-red-500/40 text-purple-100'
+                                                    : 'bg-slate-950 hover:bg-red-950/40 border border-slate-800 hover:border-red-500/40 text-white'
                                             }`}
                                             title="클릭하여 해제"
                                         >
@@ -795,13 +795,13 @@ export default function BossCrystalPriceAdjustmentPage() {
                                             <span className="text-red-400 text-[10px] font-mono">
                                                 {item.rate.toFixed(0)}%
                                             </span>
-                                            <X className="w-3 h-3 text-slate-500 group-hover:text-red-400" />
+                                            <X className="w-3 h-3 text-slate-400 group-hover:text-red-400" />
                                         </button>
                                     ))}
                                 </div>
                             </div>
                         ) : (
-                            <div className="py-4 text-center text-xs text-slate-500 border border-dashed border-slate-800 rounded-xl">
+                            <div className="py-4 text-center text-xs text-slate-200 border border-dashed border-slate-700 rounded-xl">
                                 아래 보스 목록에서 격파할 보스의 난이도를 클릭하여 선택해 주세요. (최대 12개)
                             </div>
                         )}
@@ -814,7 +814,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                 <Sparkles className="w-4 h-4 text-amber-400" />
                                 보스 목록에서 격파할 난이도 선택
                             </h3>
-                            <span className="text-xs text-slate-500">
+                            <span className="text-xs text-slate-300 font-medium">
                                 ※ 같은 보스는 1개 난이도만 자동 적용됩니다
                             </span>
                         </div>
@@ -840,7 +840,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
                                                 )}
                                             </span>
-                                            <span className="text-[10px] text-slate-500">
+                                            <span className="text-[10px] text-slate-300 font-medium">
                                                 {boss.categoryLabel}
                                             </span>
                                         </div>
@@ -856,7 +856,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                                         className={`flex-1 min-w-[65px] px-2.5 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                                                             isOptSelected
                                                                 ? 'bg-amber-500 text-slate-950 font-black shadow-md shadow-amber-500/20'
-                                                                : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 hover:border-slate-700'
+                                                                : 'bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 hover:border-slate-600'
                                                         }`}
                                                     >
                                                         <span>{opt.diff}</span>
@@ -882,7 +882,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                         <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[11px] font-bold">
                                             월간 보스 (주간 12개 제한 제외)
                                         </span>
-                                        <span className="text-xs text-slate-400">10월 1일(목)부터 가격 적용</span>
+                                        <span className="text-xs text-slate-300 font-medium">10월 1일(목)부터 가격 적용</span>
                                     </div>
                                     <h3 className="text-base font-bold text-white mt-1 flex items-center gap-2">
                                         <span>검은 마법사 (Black Mage)</span>
@@ -892,7 +892,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                             </span>
                                         )}
                                     </h3>
-                                    <p className="text-xs text-slate-400 break-keep">
+                                    <p className="text-xs text-slate-100 break-keep leading-relaxed font-normal">
                                         검은 마법사는 월 1회 격파 보스로, 주간 보스 12개 제한 슬롯을 차지하지 않고 별도로 선택하여 수익을 계산할 수 있습니다.
                                     </p>
                                 </div>
@@ -903,8 +903,8 @@ export default function BossCrystalPriceAdjustmentPage() {
                                         onClick={() => setSelectedMonthly(null)}
                                         className={`px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                                             selectedMonthly === null
-                                                ? 'bg-slate-800 text-slate-300 border border-slate-700'
-                                                : 'bg-slate-950 text-slate-500 hover:text-slate-300 border border-slate-800'
+                                                ? 'bg-slate-800 text-white border border-slate-700'
+                                                : 'bg-slate-950 text-slate-300 hover:text-white border border-slate-800'
                                         }`}
                                     >
                                         미격파
@@ -918,7 +918,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                                 className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
                                                     isOptSelected
                                                         ? 'bg-purple-600 text-white font-black shadow-lg shadow-purple-600/30'
-                                                        : 'bg-slate-900 hover:bg-slate-800 text-purple-200 border border-purple-500/30'
+                                                        : 'bg-slate-900 hover:bg-slate-800 text-purple-100 border border-purple-500/40'
                                                 }`}
                                             >
                                                 <span>{opt.diff}</span>
