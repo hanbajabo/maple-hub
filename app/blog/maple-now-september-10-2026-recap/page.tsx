@@ -38,6 +38,79 @@ function ImageCard({ src, alt, caption, badge, priority = false }: ImageCardProp
     );
 }
 
+function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    return (
+        <div className="my-6 rounded-2xl overflow-hidden border border-cyan-500/40 bg-slate-900/90 shadow-2xl shadow-cyan-950/40">
+            <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
+                {isPlaying ? (
+                    <iframe
+                        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+                        title={title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full border-0"
+                    />
+                ) : (
+                    <button
+                        type="button"
+                        onClick={() => setIsPlaying(true)}
+                        className="group relative w-full h-full flex items-center justify-center cursor-pointer focus:outline-none"
+                        aria-label={`${title} 재생`}
+                    >
+                        <Image
+                            src="/images/blog/maplenow-sep17/blue_archive_video_thumb.jpg"
+                            alt={title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 900px"
+                            className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20" />
+                        
+                        {/* 중앙 재생 버튼 */}
+                        <div className="relative z-10 flex flex-col items-center gap-3">
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600 group-hover:bg-red-500 text-white flex items-center justify-center shadow-2xl shadow-red-500/60 group-hover:scale-110 transition-all duration-300 border-2 border-white/30">
+                                <svg className="w-8 h-8 sm:w-10 sm:h-10 fill-current translate-x-0.5" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                            </div>
+                            <span className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-slate-950/80 text-white border border-cyan-500/40 shadow-lg group-hover:bg-cyan-950/80 group-hover:text-cyan-300 transition-colors">
+                                ▶ 클릭하여 블루 아카이브 공식 티저 영상 재생
+                            </span>
+                        </div>
+
+                        {/* 상단 뱃지 */}
+                        <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold bg-cyan-500 text-slate-950 shadow-md backdrop-blur-sm">
+                            공식 티저 영상
+                        </span>
+                        <span className="absolute top-3 right-3 px-2.5 py-1 rounded-md text-xs font-bold bg-red-600 text-white backdrop-blur-sm flex items-center gap-1.5">
+                            <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                            YouTube
+                        </span>
+                    </button>
+                )}
+            </div>
+            <div className="px-4 py-3 bg-slate-800/90 border-t border-slate-700/60 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-200">
+                <span className="font-semibold text-slate-100 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    {title}
+                </span>
+                <a
+                    href="https://youtu.be/zukN6DJv-3I"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-slate-400 hover:text-cyan-300 transition-colors flex items-center gap-1"
+                >
+                    YouTube에서 직접 보기 ↗
+                </a>
+            </div>
+        </div>
+    );
+}
+
 export default function MapleNowSep10RecapPage() {
     const [activeTab, setActiveTab] = useState<'all' | 'skill' | 'economy' | 'content' | 'mvp' | 'collab'>('all');
 
@@ -872,6 +945,12 @@ export default function MapleNowSep10RecapPage() {
                                 alt="메이플스토리 블루 아카이브 공식 콜라보 비주얼 아로나"
                                 caption="메이플스토리 X 블루 아카이브 공식 콜라보 비주얼 (아로나 & 주황버섯)"
                                 badge="블루아카 콜라보"
+                            />
+
+                            {/* 블루 아카이브 공식 티저 영상 플레이어 */}
+                            <YouTubePlayer 
+                                videoId="zukN6DJv-3I" 
+                                title="[메이플스토리] 메이플스토리 X 블루 아카이브 공식 티저" 
                             />
 
                             <ImageCard
