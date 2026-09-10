@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -14,7 +14,7 @@ interface ImageCardProps {
 
 function ImageCard({ src, alt, caption, badge, priority = false }: ImageCardProps) {
     return (
-        <figure className="my-6 rounded-2xl overflow-hidden border border-slate-700/80 bg-slate-900/90 shadow-xl shadow-black/40 hover:border-amber-500/50 transition-all duration-300">
+        <figure className="my-4 sm:my-6 rounded-xl sm:rounded-2xl overflow-hidden border border-slate-700/80 bg-slate-900/90 shadow-xl shadow-black/40 hover:border-amber-500/50 transition-all duration-300">
             <div className="relative w-full aspect-video bg-black/60 flex items-center justify-center overflow-hidden">
                 <Image
                     src={src}
@@ -25,14 +25,14 @@ function ImageCard({ src, alt, caption, badge, priority = false }: ImageCardProp
                     priority={priority}
                 />
                 {badge && (
-                    <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500 text-slate-950 shadow-md backdrop-blur-sm">
+                    <span className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-amber-500 text-slate-950 shadow-md backdrop-blur-sm">
                         {badge}
                     </span>
                 )}
             </div>
-            <figcaption className="px-4 py-3 bg-slate-800/80 border-t border-slate-700/60 text-center text-sm font-medium text-slate-100 flex items-center justify-center gap-2">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                <span>{caption}</span>
+            <figcaption className="px-3 py-2 sm:px-4 sm:py-3 bg-slate-800/80 border-t border-slate-700/60 text-center text-xs sm:text-sm font-medium text-slate-100 flex items-center justify-center gap-1.5 sm:gap-2 break-keep">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
+                <span className="leading-snug">{caption}</span>
             </figcaption>
         </figure>
     );
@@ -55,7 +55,7 @@ function YouTubePlayer({
     const isPink = themeColor === 'pink';
 
     return (
-        <div className={`my-6 rounded-2xl overflow-hidden border ${isPink ? 'border-pink-500/40 shadow-pink-950/40' : 'border-cyan-500/40 shadow-cyan-950/40'} bg-slate-900/90 shadow-2xl`}>
+        <div className={`my-4 sm:my-6 rounded-xl sm:rounded-2xl overflow-hidden border ${isPink ? 'border-pink-500/40 shadow-pink-950/40' : 'border-cyan-500/40 shadow-cyan-950/40'} bg-slate-900/90 shadow-2xl`}>
             <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
                 {isPlaying ? (
                     <iframe
@@ -83,7 +83,7 @@ function YouTubePlayer({
                         
                         {/* 중앙 재생 버튼 */}
                         <div className="relative z-10 flex flex-col items-center gap-3">
-                            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600 group-hover:bg-red-500 text-white flex items-center justify-center shadow-2xl shadow-red-500/60 group-hover:scale-110 transition-all duration-300 border-2 border-white/30">
+                            <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-red-600 group-hover:bg-red-500 text-white flex items-center justify-center shadow-2xl shadow-red-500/60 group-hover:scale-110 transition-all duration-300 border-2 border-white/30">
                                 <svg className="w-8 h-8 sm:w-10 sm:h-10 fill-current translate-x-0.5" viewBox="0 0 24 24">
                                     <path d="M8 5v14l11-7z" />
                                 </svg>
@@ -96,12 +96,12 @@ function YouTubePlayer({
                         </div>
 
                         {/* 상단 뱃지 */}
-                        <span className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold shadow-md backdrop-blur-sm ${
+                        <span className={`absolute top-2.5 left-2.5 sm:top-3 sm:left-3 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold shadow-md backdrop-blur-sm ${
                             isPink ? 'bg-pink-500 text-slate-950' : 'bg-cyan-500 text-slate-950'
                         }`}>
                             {badgeText}
                         </span>
-                        <span className="absolute top-3 right-3 px-2.5 py-1 rounded-md text-xs font-bold bg-red-600 text-white backdrop-blur-sm flex items-center gap-1.5">
+                        <span className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md text-[10px] sm:text-xs font-bold bg-red-600 text-white backdrop-blur-sm flex items-center gap-1.5">
                             <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                                 <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                             </svg>
@@ -110,7 +110,7 @@ function YouTubePlayer({
                     </button>
                 )}
             </div>
-            <div className="px-4 py-3 bg-slate-800/90 border-t border-slate-700/60 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-200">
+            <div className="px-3 py-2.5 sm:px-4 sm:py-3 bg-slate-800/90 border-t border-slate-700/60 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-2 text-xs text-slate-200">
                 <span className="font-semibold text-slate-100 flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full animate-pulse ${isPink ? 'bg-pink-400' : 'bg-cyan-400'}`}></span>
                     {title}
@@ -130,12 +130,25 @@ function YouTubePlayer({
 
 export default function MapleNowSep10RecapPage() {
     const [activeTab, setActiveTab] = useState<'all' | 'skill' | 'economy' | 'content' | 'mvp' | 'collab'>('all');
+    const [showTopBtn, setShowTopBtn] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setShowTopBtn(window.scrollY > 400);
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     return (
         <article className="min-h-screen bg-slate-950 text-white font-sans selection:bg-amber-500 selection:text-slate-950 pb-24">
             {/* 상단 네비게이션 */}
             <div className="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
-                <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between text-sm">
+                <div className="max-w-4xl mx-auto px-3.5 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between text-xs sm:text-sm">
                     <Link href="/blog" className="text-amber-400 hover:text-amber-300 flex items-center gap-1 font-semibold transition-colors">
                         ← 블로그 목록으로
                     </Link>
@@ -147,7 +160,7 @@ export default function MapleNowSep10RecapPage() {
             </div>
 
             {/* 헤더 섹션 */}
-            <header className="max-w-4xl mx-auto px-4 pt-10 pb-8 border-b border-slate-800/80">
+            <header className="max-w-4xl mx-auto px-3.5 sm:px-4 pt-6 sm:pt-10 pb-6 sm:pb-8 border-b border-slate-800/80">
                 <div className="flex flex-wrap items-center gap-2 mb-4">
                     <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
                         메이플NOW 총정리
@@ -160,10 +173,10 @@ export default function MapleNowSep10RecapPage() {
                     </span>
                 </div>
 
-                <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-snug mb-4">
+                <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-snug mb-4 break-keep">
                     🍁 【9월 10일 메이플NOW 총정리】 가을 대격변 완벽 요약 (이미지 78장 풀수록)
                 </h1>
-                <p className="text-lg text-slate-200 leading-relaxed font-normal mb-6">
+                <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal mb-6 break-keep">
                     스킬 최신화(이동기 편차 완화·시너지 개인화)부터 보스 결정석 반토막 너프 및 주간 12개 제한 전격 해제, 
                     소울 에테르 4단계 증폭, 280+ 퍼스널 버닝, 신규 에픽던전 <strong className="text-amber-400">아우룸 레기스</strong>, 
                     18성급 <strong className="text-emerald-400">어센던트 펄스 링</strong>, 첫 줄 고정 <strong className="text-purple-400">프라임 큐브</strong>, 
@@ -188,9 +201,9 @@ export default function MapleNowSep10RecapPage() {
                 />
 
                 {/* 퀵 점프 탭 바 */}
-                <div className="mt-8 p-4 rounded-xl bg-slate-900/80 border border-slate-800">
-                    <p className="text-xs font-bold text-amber-400 mb-3 tracking-wide uppercase">빠른 섹션 이동</p>
-                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                <div className="mt-6 sm:mt-8 p-3 sm:p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+                    <p className="text-[11px] sm:text-xs font-bold text-amber-400 mb-2 sm:mb-3 tracking-wide uppercase">빠른 섹션 이동</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 sm:gap-2">
                         <a href="#sec-skill" className="p-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-center text-xs font-bold text-slate-100 hover:text-amber-400 transition-colors">
                             ⚔️ 1. 스킬 최신화
                         </a>
@@ -203,7 +216,7 @@ export default function MapleNowSep10RecapPage() {
                         <a href="#sec-mvp" className="p-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-center text-xs font-bold text-slate-100 hover:text-amber-400 transition-colors">
                             💎 4. MVP·마일리지
                         </a>
-                        <a href="#sec-collab" className="p-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-center text-xs font-bold text-slate-100 hover:text-pink-400 transition-colors">
+                        <a href="#sec-collab" className="col-span-2 sm:col-span-1 p-2 sm:p-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 text-center text-xs font-bold text-slate-100 hover:text-pink-400 transition-all">
                             🎀 5. 티니핑·블아
                         </a>
                     </div>
@@ -211,7 +224,7 @@ export default function MapleNowSep10RecapPage() {
             </header>
 
             {/* 본문 콘텐츠 */}
-            <main className="max-w-4xl mx-auto px-4 pt-10 space-y-20">
+            <main className="max-w-4xl mx-auto px-3.5 sm:px-4 pt-8 sm:pt-10 space-y-12 sm:space-y-20">
 
                 {/* ============================================================== */}
                 {/* SECTION 1: 스킬 개편 */}
@@ -222,7 +235,7 @@ export default function MapleNowSep10RecapPage() {
                             1
                         </span>
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white break-keep">
                                 스킬 최신화 대개편
                             </h2>
                             <p className="text-sm text-slate-300 font-medium">
@@ -252,8 +265,8 @@ export default function MapleNowSep10RecapPage() {
                         />
 
                         {/* 소주제 1: 이동기 편차 완화 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-cyan-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-cyan-300 flex items-center gap-2 break-keep">
                                 <span>🚀 1. 이동기 편차 완화 (더블점프·돌진기 자유도 극대화)</span>
                             </h3>
                             <p className="text-white">
@@ -285,8 +298,8 @@ export default function MapleNowSep10RecapPage() {
                         </div>
 
                         {/* 소주제 2: 직업 구조 개편 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-amber-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-amber-300 flex items-center gap-2 break-keep">
                                 <span>🛡️ 2. 시너지 개인화 &amp; 핵심 직업 구조 대개편</span>
                             </h3>
                             <p className="text-white">
@@ -372,7 +385,7 @@ export default function MapleNowSep10RecapPage() {
                             2
                         </span>
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white break-keep">
                                 경제 &amp; 성장 시스템 대개편
                             </h2>
                             <p className="text-sm text-slate-300 font-medium">
@@ -397,8 +410,8 @@ export default function MapleNowSep10RecapPage() {
                         />
 
                         {/* 메소 생산 통계 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-amber-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-amber-300 flex items-center gap-2 break-keep">
                                 <span>📊 공식 통계: 보스 메소 생산량 폭증 실태</span>
                             </h3>
                             <p className="text-white">
@@ -459,8 +472,8 @@ export default function MapleNowSep10RecapPage() {
                         </div>
 
                         {/* 결정석 12개 제한 해제 & 큐브 보스 조정 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-cyan-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-cyan-300 flex items-center gap-2 break-keep">
                                 <span>🔓 주간 판매 12개 제한 전격 해제 &amp; 메멘토 큐브 보스 조정</span>
                             </h3>
                             <p className="text-white">
@@ -485,8 +498,8 @@ export default function MapleNowSep10RecapPage() {
                         </div>
 
                         {/* 소울 에테르 4단계 증폭 시스템 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-purple-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-purple-300 flex items-center gap-2 break-keep">
                                 <span>🔮 소울 시스템 대개편: '소울 에테르' 4단계 증폭 &amp; 외형 자유 선택</span>
                             </h3>
                             <p className="text-white">
@@ -536,8 +549,8 @@ export default function MapleNowSep10RecapPage() {
                         </div>
 
                         {/* 주문서 직강 & 어빌리티 고급 재설정 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-emerald-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-emerald-300 flex items-center gap-2 break-keep">
                                 <span>📜 주문서 메소 직접 강화 &amp; 어빌리티 고급 재설정 (이탈 옵션)</span>
                             </h3>
                             <p className="text-white">
@@ -598,7 +611,7 @@ export default function MapleNowSep10RecapPage() {
                             3
                         </span>
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white break-keep">
                                 신규 컨텐츠 &amp; 가을 이벤트
                             </h2>
                             <p className="text-sm text-slate-300 font-medium">
@@ -609,8 +622,8 @@ export default function MapleNowSep10RecapPage() {
 
                     <div className="space-y-6 text-slate-100 leading-relaxed font-normal text-base">
                         {/* 에픽던전 아우룸 레기스 & 295 몬파 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-cyan-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-cyan-300 flex items-center gap-2 break-keep">
                                 <span>🏰 신규 에픽던전 &lt;아우룸 레기스&gt; (Lv.290+) &amp; Lv.295 몬스터 파크</span>
                             </h3>
                             <p className="text-white">
@@ -646,8 +659,8 @@ export default function MapleNowSep10RecapPage() {
                         </div>
 
                         {/* 아르고호의 방문객 & 프로젝트 아르고 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-amber-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-amber-300 flex items-center gap-2 break-keep">
                                 <span>🚢 2달간의 대형 이벤트 &lt;아르고호의 방문객&gt; &amp; &lt;프로젝트 아르고&gt;</span>
                             </h3>
                             <p className="text-white">
@@ -677,7 +690,7 @@ export default function MapleNowSep10RecapPage() {
                         </div>
 
                         {/* 퍼스널 버닝 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
                             <h3 className="text-xl font-bold text-red-400 flex items-center gap-2">
                                 <span>🔥 280+ 전용 새로운 버닝 &lt;퍼스널 버닝&gt; (주간 보스 EXP &amp; 플레임 몬스터)</span>
                             </h3>
@@ -731,8 +744,8 @@ export default function MapleNowSep10RecapPage() {
                         </div>
 
                         {/* 어센던트 펄스 링 & 버스터 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-emerald-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-emerald-300 flex items-center gap-2 break-keep">
                                 <span>💍 마이스터링 18성급 &lt;어센던트 펄스 링&gt; &amp; 기타 이벤트</span>
                             </h3>
                             <p className="text-white">
@@ -778,7 +791,7 @@ export default function MapleNowSep10RecapPage() {
                             4
                         </span>
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white break-keep">
                                 MVP 혜택 강화 &amp; 마일리지 이원화
                             </h2>
                             <p className="text-sm text-slate-300 font-medium">
@@ -813,8 +826,8 @@ export default function MapleNowSep10RecapPage() {
                         />
 
                         {/* 마일리지 분리: 탐험 코인 vs 메이플 크레딧 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-cyan-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-cyan-300 flex items-center gap-2 break-keep">
                                 <span>🪙 인게임 [탐험 코인] vs 캐시 [메이플 크레딧] 완전 분리</span>
                             </h3>
                             <p className="text-white">
@@ -886,7 +899,7 @@ export default function MapleNowSep10RecapPage() {
                             5
                         </span>
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white break-keep">
                                 IP 콜라보레이션 &amp; 홍대 오프라인
                             </h2>
                             <p className="text-sm text-slate-300 font-medium">
@@ -897,8 +910,8 @@ export default function MapleNowSep10RecapPage() {
 
                     <div className="space-y-6 text-slate-100 leading-relaxed font-normal text-base">
                         {/* 캐치 티니핑 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-pink-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-pink-300 flex items-center gap-2 break-keep">
                                 <span>💖 메이플스토리 X 캐치! 티니핑 (9월 17일 점검 후~)</span>
                             </h3>
                             <p className="text-white">
@@ -956,8 +969,8 @@ export default function MapleNowSep10RecapPage() {
                         </div>
 
                         {/* 블루 아카이브 */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-cyan-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-cyan-300 flex items-center gap-2 break-keep">
                                 <span>🎯 메이플스토리 X 블루 아카이브 (11월 19일 전격 업데이트)</span>
                             </h3>
                             <p className="text-white">
@@ -990,8 +1003,8 @@ export default function MapleNowSep10RecapPage() {
                         </div>
 
                         {/* 홍대 방탈출 카페 MAPLE ESCAPE */}
-                        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                            <h3 className="text-xl font-bold text-amber-300 flex items-center gap-2">
+                        <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 sm:space-y-4">
+                            <h3 className="text-base sm:text-xl font-bold text-amber-300 flex items-center gap-2 break-keep">
                                 <span>🗝️ 홍대 오프라인 방탈출 카페 &lt;MAPLE ESCAPE&gt; (마포구 와우산로 90)</span>
                             </h3>
                             <p className="text-white">
@@ -1049,7 +1062,7 @@ export default function MapleNowSep10RecapPage() {
                 </section>
 
                 {/* 하단 요약 배너 */}
-                <div className="p-8 rounded-2xl bg-gradient-to-br from-amber-500/20 via-slate-900 to-cyan-500/20 border border-slate-700/80 text-center space-y-4">
+                <div className="p-5 sm:p-8 rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500/20 via-slate-900 to-cyan-500/20 border border-slate-700/80 text-center space-y-3 sm:space-y-4">
                     <h3 className="text-2xl font-extrabold text-white">
                         역대 최대 볼륨의 가을 대격변, 지금 대비하세요!
                     </h3>
@@ -1057,7 +1070,7 @@ export default function MapleNowSep10RecapPage() {
                         9월 17일 점검 전 목요일 새벽 주간 보스 막차 클리어로 결정석 손실을 방지하고, 
                         아래 링크된 보스 결정석 시뮬레이터를 통해 나의 캐릭터별 메소 손실액을 미리 계산해보세요.
                     </p>
-                    <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+                    <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
                         <Link
                             href="/blog/boss-crystal-price-adjustment-september-2026"
                             className="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition-all"
@@ -1105,6 +1118,18 @@ export default function MapleNowSep10RecapPage() {
                     </div>
                 </div>
             </main>
+            {/* 모바일 최적화: 플로팅 맨 위로 이동 버튼 */}
+            {showTopBtn && (
+                <button
+                    onClick={scrollToTop}
+                    className="fixed bottom-6 right-5 z-40 p-3 rounded-full bg-slate-800/90 hover:bg-amber-500 text-amber-400 hover:text-slate-950 border border-slate-700 shadow-2xl backdrop-blur-md transition-all active:scale-90 flex items-center justify-center cursor-pointer"
+                    aria-label="맨 위로 이동"
+                >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                    </svg>
+                </button>
+            )}
         </article>
     );
 }
