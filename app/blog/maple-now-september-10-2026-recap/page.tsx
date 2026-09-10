@@ -737,14 +737,14 @@ export default function MapleNowSep10RecapPage() {
                             </h3>
                             <p className="text-white">
                                 이벤트 재화로 강화할 수 있는 신규 이벤트 반지 <strong className="text-emerald-400">&lt;어센던트 펄스 링&gt;</strong>은 
-                                풀강화 시 <strong>올스탯 +80, 공마 +46, 전투력 +215만</strong>이라는 경이로운 성능으로 
+                                풀강화 시 <strong>올스탯 +80, 공마 +46</strong>이라는 뛰어난 기본 성능으로 
                                 마이스터링 18성 이상의 압도적 가성비를 보여줍니다. 파괴되더라도 메소샵에서 최대 5개까지 재구매할 수 있습니다!
                             </p>
 
                             <ImageCard
                                 src="/images/blog/maplenow-sep17/maplenow_img_49.jpg"
                                 alt="어센던트 링크 및 어센던트 펄스 링 스펙 상세 슬라이드"
-                                caption="★ 어센던트 펄스 링 풀강 스펙: 마이스터링 18성급 초과 효율 (+215만 전투력 폭등!)"
+                                caption="★ 어센던트 펄스 링 풀강 스펙: 마이스터링 18성급 초과 효율"
                                 badge="18성급 종결 링"
                             />
 
