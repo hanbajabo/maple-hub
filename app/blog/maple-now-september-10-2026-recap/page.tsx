@@ -384,8 +384,8 @@ export default function MapleNowSep10RecapPage() {
                     <div className="space-y-6 text-slate-100 leading-relaxed font-normal text-base">
                         <p className="text-white">
                             이번 방송에서 유저들에게 가장 큰 충격을 안겨준 파트입니다. 
-                            운영진은 상위 보스 스펙업 가속화로 인해 폭증한 메소 인플레이션을 억제하기 위해, 
-                            <strong className="text-red-400">결정석 가격 인하</strong>와 더불어 
+                            운영진은 상위 보스 스펙업 가속화로 인해 폭증한 메소 인플레이션을 억제하기 위해,{' '}
+                            <strong className="text-red-400">결정석 가격 인하</strong>와 더불어{' '}
                             <strong className="text-amber-400">소울 에테르·주문서 메소 직강·어빌리티 고급 재설정</strong> 등 
                             전방위적인 메소 소모처 확대를 발표했습니다.
                         </p>
@@ -541,7 +541,7 @@ export default function MapleNowSep10RecapPage() {
                                 <span>📜 주문서 메소 직접 강화 &amp; 어빌리티 고급 재설정 (이탈 옵션)</span>
                             </h3>
                             <p className="text-white">
-                                주문서 수급 경로를 찾기 힘들어 강화를 포기하던 유저들을 위해 
+                                주문서 수급 경로를 찾기 힘들어 강화를 포기하던 유저들을 위해{' '}
                                 <strong className="text-emerald-400">프리미엄 악공, 매지컬, 놀긍혼, 리턴 스크롤</strong> 등을 인벤토리에서 
                                 메소로 직접 시전하는 시스템이 도입됩니다. 
                                 또한 어빌리티에는 <strong className="text-cyan-400">&lt;고급 재설정&gt;</strong>이 추가되어 
@@ -902,8 +902,7 @@ export default function MapleNowSep10RecapPage() {
                                 <span>💖 메이플스토리 X 캐치! 티니핑 (9월 17일 점검 후~)</span>
                             </h3>
                             <p className="text-white">
-                                메이플스토리 역사상 최초로 3D 모델링 입체감을 2D 도트로 완벽 구현한 
-                                <strong className="text-pink-400">자석펫 3종 세트(하츄핑, 이클립스핑, 다이에나핑)</strong>가 출시됩니다. 
+                                메이플스토리 역사상 최초로 3D 모델링 입체감을 2D 도트로 완벽 구현한 <strong className="text-pink-400">자석펫 3종 세트(하츄핑, 이클립스핑, 다이에나핑)</strong>가 출시됩니다. 
                                 화려한 전용 변신 연출의 일루전링과 로미 언니 코디 패키지까지 역대급 퀄리티로 무장했습니다.
                             </p>
 
