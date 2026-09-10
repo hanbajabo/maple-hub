@@ -932,7 +932,7 @@ export default function MapleNowSep10RecapPage() {
                             <ImageCard
                                 src="/images/blog/maplenow-sep17/maplenow_img_66.jpg"
                                 alt="티니핑 자석펫 3종 하츄핑 이클립스핑 다이에나핑"
-                                caption="★ 티니핑 3D 자석펫 3종: 하츄핑 · 이클립스핑 · 다이에나핑 (전용 명찰/말풍선 포함)"
+                                caption="★ 티니핑 3D 자석펫 3종: 하츄핑 · 이클립스핑 · 다이에나핑"
                                 badge="3D 자석펫"
                             />
 
