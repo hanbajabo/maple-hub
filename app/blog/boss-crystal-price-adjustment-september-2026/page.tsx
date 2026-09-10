@@ -668,61 +668,6 @@ export default function BossCrystalPriceAdjustmentPage() {
                             </table>
                         </div>
                     </div>
-
-                    {/* 🌌 월간 보스 전용 선택: 검은 마법사 (12개 주간 제한 미포함) */}
-                    <div className="relative overflow-hidden rounded-2xl border border-purple-500/40 bg-gradient-to-r from-purple-950/30 via-slate-900 to-slate-900 p-5 space-y-3">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[11px] font-bold">
-                                        월간 보스 (주간 12개 제한 제외)
-                                    </span>
-                                    <span className="text-xs text-slate-400">10월 1일(목)부터 가격 적용</span>
-                                </div>
-                                <h3 className="text-base font-bold text-white mt-1">
-                                    검은 마법사 (Black Mage)
-                                </h3>
-                                <p className="text-xs text-slate-400 break-keep">
-                                    검은 마법사는 월 1회 격파 보스로, 주간 보스 12개 제한 슬롯을 차지하지 않고 별도로 선택하여 수익을 계산할 수 있습니다.
-                                </p>
-                            </div>
-
-                            {/* 검은 마법사 난이도 선택 버튼들 */}
-                            <div className="flex items-center gap-2 shrink-0">
-                                <button
-                                    onClick={() => setSelectedMonthly(null)}
-                                    className={`px-3 py-2 rounded-xl text-xs font-bold transition-all ${
-                                        selectedMonthly === null
-                                            ? 'bg-slate-800 text-slate-300 border border-slate-700'
-                                            : 'bg-slate-950 text-slate-500 hover:text-slate-300 border border-slate-800'
-                                    }`}
-                                >
-                                    미격파
-                                </button>
-                                {MONTHLY_BOSS.options.map(opt => {
-                                    const isOptSelected = selectedMonthly === opt.diff;
-                                    return (
-                                        <button
-                                            key={opt.diff}
-                                            onClick={() => setSelectedMonthly(isOptSelected ? null : opt.diff as '하드' | '익스트림')}
-                                            className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
-                                                isOptSelected
-                                                    ? 'bg-purple-600 text-white font-black shadow-lg shadow-purple-600/30'
-                                                    : 'bg-slate-900 hover:bg-slate-800 text-purple-200 border border-purple-500/30'
-                                            }`}
-                                        >
-                                            <span>{opt.diff}</span>
-                                            <span className={`text-[10px] font-mono font-bold ${
-                                                isOptSelected ? 'text-purple-200' : 'text-red-400'
-                                            }`}>
-                                                {opt.rate.toFixed(0)}%
-                                            </span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 {/* 📌 중간 광고 (상세표와 시뮬레이터 사이) */}
@@ -927,6 +872,66 @@ export default function BossCrystalPriceAdjustmentPage() {
                                     </div>
                                 );
                             })}
+                        </div>
+
+                        {/* 🌌 월간 보스 전용 선택: 검은 마법사 (주간 12개 제한 제외) */}
+                        <div className="relative overflow-hidden rounded-2xl border border-purple-500/40 bg-gradient-to-r from-purple-950/40 via-slate-900 to-slate-900 p-5 space-y-3 mt-4">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[11px] font-bold">
+                                            월간 보스 (주간 12개 제한 제외)
+                                        </span>
+                                        <span className="text-xs text-slate-400">10월 1일(목)부터 가격 적용</span>
+                                    </div>
+                                    <h3 className="text-base font-bold text-white mt-1 flex items-center gap-2">
+                                        <span>검은 마법사 (Black Mage)</span>
+                                        {selectedMonthly && (
+                                            <span className="px-2 py-0.5 rounded text-xs bg-purple-500/20 text-purple-300 border border-purple-500/40 font-semibold">
+                                                {selectedMonthly} 선택됨
+                                            </span>
+                                        )}
+                                    </h3>
+                                    <p className="text-xs text-slate-400 break-keep">
+                                        검은 마법사는 월 1회 격파 보스로, 주간 보스 12개 제한 슬롯을 차지하지 않고 별도로 선택하여 수익을 계산할 수 있습니다.
+                                    </p>
+                                </div>
+
+                                {/* 검은 마법사 난이도 선택 버튼들 */}
+                                <div className="flex items-center gap-2 shrink-0">
+                                    <button
+                                        onClick={() => setSelectedMonthly(null)}
+                                        className={`px-3 py-2 rounded-xl text-xs font-bold transition-all ${
+                                            selectedMonthly === null
+                                                ? 'bg-slate-800 text-slate-300 border border-slate-700'
+                                                : 'bg-slate-950 text-slate-500 hover:text-slate-300 border border-slate-800'
+                                        }`}
+                                    >
+                                        미격파
+                                    </button>
+                                    {MONTHLY_BOSS.options.map(opt => {
+                                        const isOptSelected = selectedMonthly === opt.diff;
+                                        return (
+                                            <button
+                                                key={opt.diff}
+                                                onClick={() => setSelectedMonthly(isOptSelected ? null : opt.diff as '하드' | '익스트림')}
+                                                className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                                                    isOptSelected
+                                                        ? 'bg-purple-600 text-white font-black shadow-lg shadow-purple-600/30'
+                                                        : 'bg-slate-900 hover:bg-slate-800 text-purple-200 border border-purple-500/30'
+                                                }`}
+                                            >
+                                                <span>{opt.diff}</span>
+                                                <span className={`text-[10px] font-mono font-bold ${
+                                                    isOptSelected ? 'text-purple-200' : 'text-red-400'
+                                                }`}>
+                                                    {opt.rate.toFixed(0)}%
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
