@@ -289,8 +289,11 @@ function formatRawNumber(amount: number) {
 }
 
 export default function BossCrystalPriceAdjustmentPage() {
-    // 12개 보스 선택 시뮬레이터 상태 (key: bossId, value: diff)
-    // 메이플스토리 규칙: 같은 보스는 중복 격파 불가하므로 bossId당 1개의 diff만 선택됨
+    // 주간 보스 (검은 마법사 제외 24종) & 월간 보스 (검은 마법사)
+    const WEEKLY_BOSSES = GROUPED_BOSSES.filter(b => b.id !== 'blackmage');
+    const MONTHLY_BOSS = GROUPED_BOSSES.find(b => b.id === 'blackmage')!;
+
+    // 12개 주간 보스 선택 시뮬레이터 상태 (key: bossId, value: diff)
     const [selectedBosses, setSelectedBosses] = useState<Record<string, string>>({
         zakum: '카오스',
         pierre: '카오스',
@@ -306,7 +309,9 @@ export default function BossCrystalPriceAdjustmentPage() {
         will: '노멀'
     });
 
-    const [charCount, setCharCount] = useState<number>(1);
+    // 월간 보스 (검은 마법사) 전용 상태 (null | '하드' | '익스트림') - 12개 주간 제한 미포함
+    const [selectedMonthly, setSelectedMonthly] = useState<'하드' | '익스트림' | null>(null);
+
     const [limitWarning, setLimitWarning] = useState<boolean>(false);
 
     // 보스 난이도 선택 토글
@@ -343,79 +348,25 @@ export default function BossCrystalPriceAdjustmentPage() {
         setSelectedBosses(next);
     };
 
-    // 프리셋 적용 함수
-    const applyPreset = (preset: 'karoota' | 'seday' | 'luwill' | 'hardboss' | 'clear') => {
+    // 전체 선택 초기화
+    const handleReset = () => {
+        setSelectedBosses({});
+        setSelectedMonthly(null);
         setLimitWarning(false);
-        if (preset === 'clear') {
-            setSelectedBosses({});
-            return;
-        }
-        if (preset === 'karoota') {
-            setSelectedBosses({
-                zakum: '카오스',
-                pierre: '카오스',
-                banban: '카오스',
-                bloodyqueen: '카오스',
-                vellum: '카오스',
-                magnus: '하드',
-                papulatus: '카오스'
-            });
-        } else if (preset === 'seday') {
-            setSelectedBosses({
-                zakum: '카오스',
-                pierre: '카오스',
-                banban: '카오스',
-                bloodyqueen: '카오스',
-                vellum: '카오스',
-                magnus: '하드',
-                papulatus: '카오스',
-                suu: '노멀',
-                demian: '노멀',
-                slime: '노멀'
-            });
-        } else if (preset === 'luwill') {
-            setSelectedBosses({
-                vellum: '카오스',
-                papulatus: '카오스',
-                suu: '하드',
-                demian: '하드',
-                slime: '카오스',
-                lucid: '노멀',
-                will: '노멀',
-                dusk: '노멀',
-                dunkel: '노멀',
-                jinhilla: '노멀'
-            });
-        } else if (preset === 'hardboss') {
-            setSelectedBosses({
-                suu: '하드',
-                demian: '하드',
-                slime: '카오스',
-                lucid: '하드',
-                will: '하드',
-                dusk: '카오스',
-                dunkel: '하드',
-                jinhilla: '하드',
-                seren: '노멀',
-                kalos: '이지',
-                adversary: '이지',
-                kaling: '이지'
-            });
-        }
     };
 
-    // 시뮬레이터 총합 계산
+    // 시뮬레이터 총합 계산 (주간 12개 + 월간 검은 마법사 별도 계산)
     let totalOld = 0;
     let totalNew = 0;
-    const selectedList: { bossId: string; bossName: string; diff: string; oldPrice: number; newPrice: number; rate: number }[] = [];
+    const selectedList: { bossId: string; bossName: string; diff: string; oldPrice: number; newPrice: number; rate: number; isMonthly?: boolean }[] = [];
 
     Object.entries(selectedBosses).forEach(([bId, diff]) => {
         const bossItem = GROUPED_BOSSES.find(b => b.id === bId);
         if (bossItem) {
             const opt = bossItem.options.find(o => o.diff === diff);
             if (opt) {
-                totalOld += opt.oldPrice * charCount;
-                totalNew += opt.newPrice * charCount;
+                totalOld += opt.oldPrice * 1;
+                totalNew += opt.newPrice * 1;
                 selectedList.push({
                     bossId: bId,
                     bossName: bossItem.name,
@@ -427,6 +378,24 @@ export default function BossCrystalPriceAdjustmentPage() {
             }
         }
     });
+
+    // 월간 보스 검은 마법사 합산
+    if (selectedMonthly) {
+        const bmOpt = MONTHLY_BOSS.options.find(o => o.diff === selectedMonthly);
+        if (bmOpt) {
+            totalOld += bmOpt.oldPrice * 1;
+            totalNew += bmOpt.newPrice * 1;
+            selectedList.push({
+                bossId: 'blackmage',
+                bossName: '검은 마법사',
+                diff: bmOpt.diff,
+                oldPrice: bmOpt.oldPrice,
+                newPrice: bmOpt.newPrice,
+                rate: bmOpt.rate,
+                isMonthly: true
+            });
+        }
+    }
 
     const diffLoss = totalNew - totalOld;
     const lossRate = totalOld > 0 ? ((totalNew - totalOld) / totalOld) * 100 : 0;
@@ -699,6 +668,61 @@ export default function BossCrystalPriceAdjustmentPage() {
                             </table>
                         </div>
                     </div>
+
+                    {/* 🌌 월간 보스 전용 선택: 검은 마법사 (12개 주간 제한 미포함) */}
+                    <div className="relative overflow-hidden rounded-2xl border border-purple-500/40 bg-gradient-to-r from-purple-950/30 via-slate-900 to-slate-900 p-5 space-y-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[11px] font-bold">
+                                        월간 보스 (주간 12개 제한 제외)
+                                    </span>
+                                    <span className="text-xs text-slate-400">10월 1일(목)부터 가격 적용</span>
+                                </div>
+                                <h3 className="text-base font-bold text-white mt-1">
+                                    검은 마법사 (Black Mage)
+                                </h3>
+                                <p className="text-xs text-slate-400 break-keep">
+                                    검은 마법사는 월 1회 격파 보스로, 주간 보스 12개 제한 슬롯을 차지하지 않고 별도로 선택하여 수익을 계산할 수 있습니다.
+                                </p>
+                            </div>
+
+                            {/* 검은 마법사 난이도 선택 버튼들 */}
+                            <div className="flex items-center gap-2 shrink-0">
+                                <button
+                                    onClick={() => setSelectedMonthly(null)}
+                                    className={`px-3 py-2 rounded-xl text-xs font-bold transition-all ${
+                                        selectedMonthly === null
+                                            ? 'bg-slate-800 text-slate-300 border border-slate-700'
+                                            : 'bg-slate-950 text-slate-500 hover:text-slate-300 border border-slate-800'
+                                    }`}
+                                >
+                                    미격파
+                                </button>
+                                {MONTHLY_BOSS.options.map(opt => {
+                                    const isOptSelected = selectedMonthly === opt.diff;
+                                    return (
+                                        <button
+                                            key={opt.diff}
+                                            onClick={() => setSelectedMonthly(isOptSelected ? null : opt.diff as '하드' | '익스트림')}
+                                            className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                                                isOptSelected
+                                                    ? 'bg-purple-600 text-white font-black shadow-lg shadow-purple-600/30'
+                                                    : 'bg-slate-900 hover:bg-slate-800 text-purple-200 border border-purple-500/30'
+                                            }`}
+                                        >
+                                            <span>{opt.diff}</span>
+                                            <span className={`text-[10px] font-mono font-bold ${
+                                                isOptSelected ? 'text-purple-200' : 'text-red-400'
+                                            }`}>
+                                                {opt.rate.toFixed(0)}%
+                                            </span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* 📌 중간 광고 (상세표와 시뮬레이터 사이) */}
@@ -733,11 +757,12 @@ export default function BossCrystalPriceAdjustmentPage() {
                                         ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
                                         : 'bg-slate-800 text-slate-300 border-slate-700'
                                 }`}>
-                                    선택: {selectedCount} / 12개
+                                    주간 보스: {selectedCount} / 12개
+                                    {selectedMonthly && ' (+월간 검마)'}
                                 </span>
-                                {selectedCount > 0 && (
+                                {(selectedCount > 0 || selectedMonthly) && (
                                     <button
-                                        onClick={() => applyPreset('clear')}
+                                        onClick={() => handleReset()}
                                         className="text-xs text-slate-400 hover:text-red-400 flex items-center gap-1 px-2 py-1 rounded bg-slate-900 border border-slate-800 transition-colors"
                                     >
                                         <RotateCcw className="w-3 h-3" /> 초기화
@@ -746,35 +771,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                             </div>
                         </div>
 
-                        {/* 추천 프리셋 버튼 */}
-                        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800/80">
-                            <span className="text-xs text-slate-500 font-semibold mr-1">추천 프리셋:</span>
-                            <button
-                                onClick={() => applyPreset('karoota')}
-                                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors"
-                            >
-                                4카룻+하매+카파풀 (7종)
-                            </button>
-                            <button
-                                onClick={() => applyPreset('seday')}
-                                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition-colors"
-                            >
-                                스데돌이 코스 (10종)
-                            </button>
-                            <button
-                                onClick={() => applyPreset('luwill')}
-                                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/30 transition-colors"
-                            >
-                                하드스데+노말루윌더듄 (10종)
-                            </button>
-                            <button
-                                onClick={() => applyPreset('hardboss')}
-                                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 transition-colors"
-                            >
-                                하드보스 풀세팅 (12종)
-                            </button>
                         </div>
-                    </div>
 
                     {/* 12개 초과 경고 메시지 */}
                     {limitWarning && (
@@ -786,28 +783,7 @@ export default function BossCrystalPriceAdjustmentPage() {
 
                     {/* 📊 실시간 수익 비교 결과 카드 (Result Card) */}
                     <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl">
-                        {/* 캐릭터 수 설정 슬라이더/버튼 */}
-                        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
-                            <div className="flex items-center gap-2">
-                                <Users className="w-4 h-4 text-amber-400" />
-                                <span className="text-xs sm:text-sm font-bold text-white">운용 캐릭터 수 (부캐 배수)</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                {[1, 2, 3, 5, 10].map(cnt => (
-                                    <button
-                                        key={cnt}
-                                        onClick={() => setCharCount(cnt)}
-                                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-colors ${
-                                            charCount === cnt
-                                                ? 'bg-amber-500 text-slate-950'
-                                                : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
-                                        }`}
-                                    >
-                                        {cnt}캐릭
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
+                        
 
                         {/* 금액 비교 3열 그리드 */}
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
@@ -853,13 +829,23 @@ export default function BossCrystalPriceAdjustmentPage() {
                                     {selectedList.map(item => (
                                         <button
                                             key={item.bossId}
-                                            onClick={() => removeBoss(item.bossId)}
-                                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-950 hover:bg-red-950/40 border border-slate-800 hover:border-red-500/40 text-slate-300 hover:text-red-300 transition-all group"
+                                            onClick={() => {
+                                                if (item.isMonthly) {
+                                                    setSelectedMonthly(null);
+                                                } else {
+                                                    removeBoss(item.bossId);
+                                                }
+                                            }}
+                                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all group ${
+                                                item.isMonthly
+                                                    ? 'bg-purple-950/50 hover:bg-red-950/40 border border-purple-500/40 hover:border-red-500/40 text-purple-200'
+                                                    : 'bg-slate-950 hover:bg-red-950/40 border border-slate-800 hover:border-red-500/40 text-slate-300'
+                                            }`}
                                             title="클릭하여 해제"
                                         >
                                             <span>{item.bossName}</span>
-                                            <span className="text-[10px] px-1 py-0.2 rounded bg-slate-800 text-amber-300">
-                                                {item.diff}
+                                            <span className={`text-[10px] px-1 py-0.2 rounded ${item.isMonthly ? 'bg-purple-900 text-purple-200' : 'bg-slate-800 text-amber-300'}`}>
+                                                {item.isMonthly ? `월간: ${item.diff}` : item.diff}
                                             </span>
                                             <span className="text-red-400 text-[10px] font-mono">
                                                 {item.rate.toFixed(0)}%
@@ -889,7 +875,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                            {GROUPED_BOSSES.map(boss => {
+                            {WEEKLY_BOSSES.map(boss => {
                                 const currentDiff = selectedBosses[boss.id];
                                 const isSelected = !!currentDiff;
 
