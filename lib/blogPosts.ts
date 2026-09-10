@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 9월 10일 테스트월드 1.2.206 스킬 조정 총정리
+    {
+        slug: 'testworld-skill-balance-sep-17-2026',
+        title: '⚔️ 【테섭 1.2.206】 전직업 스킬 조정 & 연무장 개편 총정리 — 9월 17일 적용 예정',
+        description: '9월 10일 공개된 테스트월드 클라이언트 1.2.206 스킬 조정 완벽 정리. 행동 불가 저항 90초→81초 단축, 온오프 스킬 재접속 유지, 다크나이트/아란/비숍/루미너스/키네시스 등 전직업 스킬 밸런스 조정, 연무장 개편, HEXA 매트릭스 초기화 스크롤, 체인지 서큘레이터 지원까지 완벽 정리.',
+        category: '업데이트 소식',
+        date: '2026년 9월 10일',
+        readTime: '10분',
+        thumbnail: '⚔️',
+        featured: true,
+        targetDate: '2026년 9월 17일',
+    },
     // 9월 10일 테스트월드 1.2.206 패치노트
     {
         slug: 'testworld-update-1-2-206',
