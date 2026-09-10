@@ -38,11 +38,24 @@ function ImageCard({ src, alt, caption, badge, priority = false }: ImageCardProp
     );
 }
 
-function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
+function YouTubePlayer({ 
+    videoId, 
+    title, 
+    thumbSrc,
+    badgeText = "공식 티저 영상",
+    themeColor = "cyan"
+}: { 
+    videoId: string; 
+    title: string; 
+    thumbSrc: string;
+    badgeText?: string;
+    themeColor?: "cyan" | "pink";
+}) {
     const [isPlaying, setIsPlaying] = useState(false);
+    const isPink = themeColor === 'pink';
 
     return (
-        <div className="my-6 rounded-2xl overflow-hidden border border-cyan-500/40 bg-slate-900/90 shadow-2xl shadow-cyan-950/40">
+        <div className={`my-6 rounded-2xl overflow-hidden border ${isPink ? 'border-pink-500/40 shadow-pink-950/40' : 'border-cyan-500/40 shadow-cyan-950/40'} bg-slate-900/90 shadow-2xl`}>
             <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
                 {isPlaying ? (
                     <iframe
@@ -60,7 +73,7 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
                         aria-label={`${title} 재생`}
                     >
                         <Image
-                            src="/images/blog/maplenow-sep17/blue_archive_video_thumb.jpg"
+                            src={thumbSrc}
                             alt={title}
                             fill
                             sizes="(max-width: 768px) 100vw, 900px"
@@ -75,14 +88,18 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
                                     <path d="M8 5v14l11-7z" />
                                 </svg>
                             </div>
-                            <span className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-slate-950/80 text-white border border-cyan-500/40 shadow-lg group-hover:bg-cyan-950/80 group-hover:text-cyan-300 transition-colors">
-                                ▶ 클릭하여 블루 아카이브 공식 티저 영상 재생
+                            <span className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-slate-950/80 text-white border shadow-lg transition-colors ${
+                                isPink ? 'border-pink-500/40 group-hover:bg-pink-950/80 group-hover:text-pink-300' : 'border-cyan-500/40 group-hover:bg-cyan-950/80 group-hover:text-cyan-300'
+                            }`}>
+                                ▶ 클릭하여 {badgeText} 재생
                             </span>
                         </div>
 
                         {/* 상단 뱃지 */}
-                        <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold bg-cyan-500 text-slate-950 shadow-md backdrop-blur-sm">
-                            공식 티저 영상
+                        <span className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold shadow-md backdrop-blur-sm ${
+                            isPink ? 'bg-pink-500 text-slate-950' : 'bg-cyan-500 text-slate-950'
+                        }`}>
+                            {badgeText}
                         </span>
                         <span className="absolute top-3 right-3 px-2.5 py-1 rounded-md text-xs font-bold bg-red-600 text-white backdrop-blur-sm flex items-center gap-1.5">
                             <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -95,14 +112,14 @@ function YouTubePlayer({ videoId, title }: { videoId: string; title: string }) {
             </div>
             <div className="px-4 py-3 bg-slate-800/90 border-t border-slate-700/60 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-200">
                 <span className="font-semibold text-slate-100 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span className={`w-2 h-2 rounded-full animate-pulse ${isPink ? 'bg-pink-400' : 'bg-cyan-400'}`}></span>
                     {title}
                 </span>
                 <a
-                    href="https://youtu.be/zukN6DJv-3I"
+                    href={`https://youtu.be/${videoId}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-slate-400 hover:text-cyan-300 transition-colors flex items-center gap-1"
+                    className={`text-slate-400 transition-colors flex items-center gap-1 ${isPink ? 'hover:text-pink-300' : 'hover:text-cyan-300'}`}
                 >
                     YouTube에서 직접 보기 ↗
                 </a>
@@ -903,6 +920,15 @@ export default function MapleNowSep10RecapPage() {
                                 caption="메이플스토리 X 캐치! 티니핑 공식 로고 및 대표 캐릭터 5종"
                             />
 
+                            {/* 캐치! 티니핑 공식 콜라보 영상 플레이어 */}
+                            <YouTubePlayer 
+                                videoId="ihHbfJ0xV1c" 
+                                title="[메이플스토리] 메이플스토리 X 캐치! 티니핑 공식 애니메이션 영상"
+                                thumbSrc="/images/blog/maplenow-sep17/teenieping_video_thumb.jpg"
+                                badgeText="티니핑 공식 영상"
+                                themeColor="pink"
+                            />
+
                             <ImageCard
                                 src="/images/blog/maplenow-sep17/maplenow_img_66.jpg"
                                 alt="티니핑 자석펫 3종 하츄핑 이클립스핑 다이에나핑"
@@ -918,8 +944,9 @@ export default function MapleNowSep10RecapPage() {
 
                             <ImageCard
                                 src="/images/blog/maplenow-sep17/maplenow_img_68.jpg"
-                                alt="하츄핑 인게임 모션 연출 화면"
-                                caption="하츄핑 인게임 필드 모션 및 도서 연출"
+                                alt="하츄핑 인게임 일루전 링 변신 모습"
+                                caption="하츄핑 인게임 일루전 링 변신 모습"
+                                badge="일루전 링 변신"
                             />
 
                             <ImageCard
@@ -951,6 +978,9 @@ export default function MapleNowSep10RecapPage() {
                             <YouTubePlayer 
                                 videoId="zukN6DJv-3I" 
                                 title="[메이플스토리] 메이플스토리 X 블루 아카이브 공식 티저" 
+                                thumbSrc="/images/blog/maplenow-sep17/blue_archive_video_thumb.jpg"
+                                badgeText="블루아카 공식 티저"
+                                themeColor="cyan"
                             />
 
                             <ImageCard
