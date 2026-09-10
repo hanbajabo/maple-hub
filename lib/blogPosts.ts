@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 9월 10일 테스트월드 1.2.206 패치노트
+    {
+        slug: 'testworld-update-1-2-206',
+        title: '🧪 [테스트월드 1.2.206] 9월 17일 적용 예정 패치노트 총정리 — 퍼스널 버닝·어빌리티 개편·소울웨폰 개편·탐험코인',
+        description: '9월 10일 공개된 테스트월드 1.2.206 패치노트 완벽 정리. 퍼스널 버닝, 아르고 호의 방문객 이벤트, 어빌리티 고급 재설정, 소울웨폰 개편, 아케인심볼 30% 하향, 마일리지→탐험코인 개편, MVP 개편, 티니핑 콜라보 등 9월 17일 점검 후 적용 예정 내용 총정리.',
+        category: '업데이트 소식',
+        date: '2026년 9월 10일',
+        readTime: '8분',
+        thumbnail: '🧪',
+        featured: true,
+        targetDate: '2026년 9월 17일',
+    },
     // 9월 9일 9월 종료 일정 정리
     {
         slug: 'september-2026-update-schedule',
