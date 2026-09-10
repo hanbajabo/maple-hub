@@ -3007,7 +3007,7 @@ export default function TestworldSkillBalanceSep172026() {
                     <Link
                         href="/blog"
                         prefetch={false}
-                        className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-amber-400 transition-colors"
+                        className="inline-flex items-center gap-2 text-sm text-slate-300 hover:text-white transition-colors"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         블로그 목록으로
@@ -3031,20 +3031,20 @@ export default function TestworldSkillBalanceSep172026() {
                     <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight break-keep">
                         【테섭 1.2.206】 전직업 스킬 조정 & 연무장 개편 총정리 — 행동불가 81초·온오프 유지·시너지 평준화
                     </h1>
-                    <p className="text-sm sm:text-base text-slate-400 break-keep leading-relaxed">
+                    <p className="text-sm sm:text-base text-white break-keep leading-relaxed font-normal">
                         2026년 9월 10일 공개된 메이플스토리 테스트월드 클라이언트 1.2.206 스킬 조정 패치노트입니다.
-                        바인드 저항 시간 단축(90초 ➔ 81초), 온오프 스킬 재접속 유지, 파티 시너지 전면 삭제 및 개인 최종뎀화,
-                        전직업 이동기 딜레이 단축, 연무장 개편 및 1위 10만 메포 이벤트, HEXA 초기화 스크롤 & 체인지 서큘레이터 지원까지 모든 변경점을 빠짐없이 정리했습니다.
+                        <strong className="text-amber-300 font-bold"> 바인드 저항 시간 단축(90초 ➔ 81초)</strong>, <strong className="text-blue-300 font-bold">온오프 스킬 재접속 유지</strong>, <strong className="text-purple-300 font-bold">파티 시너지 전면 삭제 및 개인 최종뎀화</strong>,
+                        <strong className="text-emerald-300 font-bold"> 전직업 이동기 딜레이 단축</strong>, 연무장 개편 및 1위 10만 메포 이벤트, HEXA 초기화 스크롤 & 체인지 서큘레이터 지원까지 모든 변경점을 빠짐없이 정리했습니다.
                     </p>
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 pt-2 border-t border-slate-800">
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 pt-2 border-t border-slate-800">
                         <span className="flex items-center gap-1">
-                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                            <Calendar className="w-3.5 h-3.5 text-slate-300" />
                             2026년 9월 10일 발표 (9월 17일 적용)
                         </span>
                         <span>•</span>
-                        <span>읽는 시간 약 12분</span>
+                        <span className="text-slate-300">읽는 시간 약 12분</span>
                         <span>•</span>
-                        <span className="text-amber-400 font-semibold">전 직업 46개 클래스 수록</span>
+                        <span className="text-amber-300 font-semibold">전 직업 46개 클래스 수록</span>
                     </div>
                 </div>
 
@@ -3067,7 +3067,7 @@ export default function TestworldSkillBalanceSep172026() {
                                 </div>
                                 <h3 className="font-bold text-white text-sm">바인드 저항 90초 ➔ 81초</h3>
                             </div>
-                            <p className="text-xs text-slate-300 break-keep leading-relaxed">
+                            <p className="text-xs text-slate-100 break-keep leading-relaxed font-normal">
                                 행동 불가 상태 이상(바인드) 저항 시간이 <strong className="text-amber-300 font-bold">90초에서 81초로 10% 단축</strong>됩니다. 90초/180초 극딜 주기와의 싱크가 대폭 개선됩니다.
                             </p>
                         </div>
@@ -3080,7 +3080,7 @@ export default function TestworldSkillBalanceSep172026() {
                                 </div>
                                 <h3 className="font-bold text-white text-sm">온오프 스킬 재접속 시 유지</h3>
                             </div>
-                            <p className="text-xs text-slate-300 break-keep leading-relaxed">
+                            <p className="text-xs text-slate-100 break-keep leading-relaxed font-normal">
                                 재접속하거나 채널 이동할 때마다 꺼지던 <strong className="text-blue-300 font-bold">온오프(On/Off) 스킬 활성화 상태가 영구 유지</strong>되도록 개선되어 편의성이 극대화됩니다.
                             </p>
                         </div>
@@ -3093,7 +3093,7 @@ export default function TestworldSkillBalanceSep172026() {
                                 </div>
                                 <h3 className="font-bold text-white text-sm">파티 시너지 전면 삭제·자버프화</h3>
                             </div>
-                            <p className="text-xs text-slate-300 break-keep leading-relaxed">
+                            <p className="text-xs text-slate-100 break-keep leading-relaxed font-normal">
                                 샤프 아이즈, 윈드 부스터, 컴뱃 오더스, 몽키 매직, 오라류 등 <strong className="text-purple-300 font-bold">파티원 버프가 대거 삭제</strong>되고 본인 패시브/최종 데미지로 전환되었습니다.
                             </p>
                         </div>
@@ -3106,7 +3106,7 @@ export default function TestworldSkillBalanceSep172026() {
                                 </div>
                                 <h3 className="font-bold text-white text-sm">전직업 이동기 딜레이 6% 단축</h3>
                             </div>
-                            <p className="text-xs text-slate-300 break-keep leading-relaxed">
+                            <p className="text-xs text-slate-100 break-keep leading-relaxed font-normal">
                                 돌진기/더블점프 후 윗점프 연계 및 <strong className="text-emerald-300 font-bold">키다운 외 스킬 시전 중 즉시 이동기 사용 가능</strong>, 연속 사용 딜레이 6% 감소, 패시브 공격력/마력 부여!
                             </p>
                         </div>
@@ -3119,7 +3119,7 @@ export default function TestworldSkillBalanceSep172026() {
                                 </div>
                                 <h3 className="font-bold text-white text-sm">공용 여신의 축복 '최종뎀' 통합</h3>
                             </div>
-                            <p className="text-xs text-slate-300 break-keep leading-relaxed">
+                            <p className="text-xs text-slate-100 break-keep leading-relaxed font-normal">
                                 메이플월드, 여제, 초월자, 그란디스 여신의 축복이 잡다한 스탯/공마 증가 대신 <strong className="text-rose-300 font-bold">'지속 시간 동안 최종 데미지 증가'</strong> 버프로 깔끔하게 통일됩니다.
                             </p>
                         </div>
@@ -3132,7 +3132,7 @@ export default function TestworldSkillBalanceSep172026() {
                                 </div>
                                 <h3 className="font-bold text-white text-sm">HEXA 초기화 스크롤 100% 지급</h3>
                             </div>
-                            <p className="text-xs text-slate-300 break-keep leading-relaxed">
+                            <p className="text-xs text-slate-100 break-keep leading-relaxed font-normal">
                                 9월 17일 점검 후 260레벨 이상 캐릭터에게 <strong className="text-cyan-300 font-bold">HEXA 초기화 스크롤(솔 야누스 제외 전액 반환)</strong>과 미하일 전용 체인지 서큘레이터를 무료 지급합니다.
                             </p>
                         </div>
@@ -3150,9 +3150,9 @@ export default function TestworldSkillBalanceSep172026() {
                             <h3 className="text-lg sm:text-xl font-bold text-white">
                                 🏆 직업별 추천수 1위에게 10만 메이플포인트 지급!
                             </h3>
-                            <p className="text-xs sm:text-sm text-slate-300 break-keep leading-relaxed">
+                            <p className="text-xs sm:text-sm text-white break-keep leading-relaxed font-normal">
                                 9월 17일(목) 본섭 업데이트 시점 기준으로 직업별 추천 수 1위 리플레이를 등록한 캐릭터에게 <strong className="text-amber-300 font-bold">10만 메이플포인트 교환권</strong>을 지급합니다!
-                                또한 &lt;연마의 전당&gt; 어센트 스킬 필요 횟수가 기존 3회에서 <strong>1회로 대폭 완화</strong>됩니다.
+                                또한 &lt;연마의 전당&gt; 어센트 스킬 필요 횟수가 기존 3회에서 <strong className="text-amber-300 font-bold">1회로 대폭 완화</strong>됩니다.
                             </p>
                         </div>
                         <div className="shrink-0">
@@ -3173,7 +3173,7 @@ export default function TestworldSkillBalanceSep172026() {
                     </div>
 
                     <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-3">
-                        <ul className="space-y-2 text-xs sm:text-sm text-slate-300 divide-y divide-slate-800/60">
+                        <ul className="space-y-2 text-xs sm:text-sm text-slate-100 divide-y divide-slate-800/60 font-normal">
                             {COMMON_CHANGES.slice(0, 15).map((change, idx) => (
                                 <li key={idx} className="pt-2 flex items-start gap-2 break-keep">
                                     <span className="text-blue-400 shrink-0 mt-0.5">•</span>
@@ -3182,13 +3182,13 @@ export default function TestworldSkillBalanceSep172026() {
                             ))}
                         </ul>
                         {COMMON_CHANGES.length > 15 && (
-                            <details className="pt-2 text-xs text-slate-400 cursor-pointer">
+                            <details className="pt-2 text-xs text-slate-300 cursor-pointer">
                                 <summary className="text-amber-400 font-semibold hover:underline">
                                     공통 변경점 {COMMON_CHANGES.length - 15}개 더보기
                                 </summary>
                                 <ul className="mt-3 space-y-2 divide-y divide-slate-800/60 pl-2">
                                     {COMMON_CHANGES.slice(15).map((change, idx) => (
-                                        <li key={idx} className="pt-2 flex items-start gap-2 break-keep text-slate-300">
+                                        <li key={idx} className="pt-2 flex items-start gap-2 break-keep text-slate-100">
                                             <span className="text-blue-400 shrink-0 mt-0.5">•</span>
                                             <span>{renderChangeText(change)}</span>
                                         </li>
@@ -3204,13 +3204,13 @@ export default function TestworldSkillBalanceSep172026() {
                     <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
                         {/* 검색창 */}
                         <div className="relative w-full sm:w-72">
-                            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                            <Search className="w-4 h-4 text-slate-300 absolute left-3 top-1/2 -translate-y-1/2" />
                             <input
                                 type="text"
                                 placeholder="직업명 또는 스킬명 검색 (예: 비숍, 절개)"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
+                                className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-500 transition-colors"
                             />
                         </div>
 
@@ -3221,7 +3221,7 @@ export default function TestworldSkillBalanceSep172026() {
                                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                                     activeTab === 'all'
                                         ? 'bg-amber-500 text-slate-950'
-                                        : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                                        : 'bg-slate-900 text-slate-200 hover:text-white border border-slate-700'
                                 }`}
                             >
                                 전체 직업
@@ -3233,7 +3233,7 @@ export default function TestworldSkillBalanceSep172026() {
                                     className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors ${
                                         activeTab === group.id
                                             ? 'bg-white text-slate-950'
-                                            : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                                            : 'bg-slate-900 text-slate-200 hover:text-white border border-slate-700'
                                     }`}
                                 >
                                     {group.name}
@@ -3247,8 +3247,8 @@ export default function TestworldSkillBalanceSep172026() {
                 <div className="space-y-8">
                     {filteredGroups.length === 0 ? (
                         <div className="text-center py-12 bg-slate-900/40 rounded-2xl border border-slate-800">
-                            <AlertCircle className="w-8 h-8 text-slate-500 mx-auto mb-2" />
-                            <p className="text-slate-400 text-sm">검색 결과에 일치하는 직업이 없습니다.</p>
+                            <AlertCircle className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+                            <p className="text-slate-200 text-sm">검색 결과에 일치하는 직업이 없습니다.</p>
                         </div>
                     ) : (
                         filteredGroups.map(group => (
@@ -3256,7 +3256,7 @@ export default function TestworldSkillBalanceSep172026() {
                                 <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                                     <h3 className="text-lg sm:text-xl font-black text-white flex items-center gap-2">
                                         {group.name}
-                                        <span className="text-xs font-normal text-slate-400">
+                                        <span className="text-xs font-normal text-slate-300">
                                             ({group.items.length}개 직업)
                                         </span>
                                     </h3>
@@ -3283,7 +3283,7 @@ export default function TestworldSkillBalanceSep172026() {
                                                             {jobItem.changes.length}개 항목 수정
                                                         </span>
                                                     </div>
-                                                    <button className="text-slate-400 hover:text-white p-1">
+                                                    <button className="text-slate-300 hover:text-white p-1">
                                                         {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                                                     </button>
                                                 </div>
@@ -3291,10 +3291,10 @@ export default function TestworldSkillBalanceSep172026() {
                                                 {/* 변경 목록 */}
                                                 {isExpanded && (
                                                     <div className="mt-4 pt-4 border-t border-slate-800/80 space-y-2">
-                                                        <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
+                                                        <ul className="space-y-2 text-xs sm:text-sm text-slate-100 font-normal">
                                                             {jobItem.changes.map((change, cIdx) => (
                                                                 <li key={cIdx} className="flex items-start gap-2 break-keep leading-relaxed">
-                                                                    <span className="text-slate-500 shrink-0 mt-0.5">•</span>
+                                                                    <span className="text-slate-400 shrink-0 mt-0.5">•</span>
                                                                     <span className="flex-1">{renderChangeText(change)}</span>
                                                                 </li>
                                                             ))}
@@ -3332,12 +3332,12 @@ export default function TestworldSkillBalanceSep172026() {
                                     전원 1개 무료
                                 </span>
                             </div>
-                            <ul className="text-xs text-slate-300 space-y-1.5">
-                                <li>• <strong>참여 대상:</strong> 260레벨 이상 6차 전직 완료 캐릭터</li>
-                                <li>• <strong>지급 기간:</strong> 2026년 9월 17일(목) 점검 후 ~ 10월 21일(수) 23:59</li>
-                                <li>• <strong>수령 방법:</strong> 빠른 이동 &gt; 메이플 운영자 NPC 대화 &gt; 초기화 스크롤 수령</li>
-                                <li>• <strong>기능:</strong> 솔 야누스를 제외한 모든 코어를 초기화하여 강화에 소모된 <strong>솔 에르다 및 솔 에르다 조각 100% 반환</strong></li>
-                                <li>• <strong>유효 기간:</strong> 2026년 10월 22일(목) 02:00까지</li>
+                            <ul className="text-xs text-slate-100 space-y-1.5 font-normal">
+                                <li>• <strong className="text-white font-bold">참여 대상:</strong> 260레벨 이상 6차 전직 완료 캐릭터</li>
+                                <li>• <strong className="text-white font-bold">지급 기간:</strong> 2026년 9월 17일(목) 점검 후 ~ 10월 21일(수) 23:59</li>
+                                <li>• <strong className="text-white font-bold">수령 방법:</strong> 빠른 이동 &gt; 메이플 운영자 NPC 대화 &gt; 초기화 스크롤 수령</li>
+                                <li>• <strong className="text-white font-bold">기능:</strong> 솔 야누스를 제외한 모든 코어를 초기화하여 강화에 소모된 <strong className="text-cyan-300 font-bold">솔 에르다 및 솔 에르다 조각 100% 반환</strong></li>
+                                <li>• <strong className="text-white font-bold">유효 기간:</strong> 2026년 10월 22일(목) 02:00까지</li>
                             </ul>
                         </div>
 
@@ -3352,12 +3352,12 @@ export default function TestworldSkillBalanceSep172026() {
                                     미하일 지원
                                 </span>
                             </div>
-                            <ul className="text-xs text-slate-300 space-y-1.5">
-                                <li>• <strong>참여 대상:</strong> 2026년 9월 17일(목) 00:00 이전 생성한 미하일</li>
-                                <li>• <strong>지급 기간:</strong> 2026년 9월 17일(목) 점검 후 ~ 10월 21일(수) 23:59</li>
-                                <li>• <strong>수령 방법:</strong> 메이플 운영자 NPC &gt; 체인지 서큘레이터 클릭</li>
-                                <li>• <strong>옵션 변환:</strong> 레전드리 첫 줄 <strong>재사용 미적용 15%~20% ➔ 보스 몬스터 공격 시 데미지(보공) 15%~20% 1:1 확정 전환</strong></li>
-                                <li>• <strong>유효 기간:</strong> 2026년 10월 22일(목) 02:00까지</li>
+                            <ul className="text-xs text-slate-100 space-y-1.5 font-normal">
+                                <li>• <strong className="text-white font-bold">참여 대상:</strong> 2026년 9월 17일(목) 00:00 이전 생성한 미하일</li>
+                                <li>• <strong className="text-white font-bold">지급 기간:</strong> 2026년 9월 17일(목) 점검 후 ~ 10월 21일(수) 23:59</li>
+                                <li>• <strong className="text-white font-bold">수령 방법:</strong> 메이플 운영자 NPC &gt; 체인지 서큘레이터 클릭</li>
+                                <li>• <strong className="text-white font-bold">옵션 변환:</strong> 레전드리 첫 줄 <strong className="text-amber-300 font-bold">재사용 미적용 15%~20% ➔ 보스 몬스터 공격 시 데미지(보공) 15%~20% 1:1 확정 전환</strong></li>
+                                <li>• <strong className="text-white font-bold">유효 기간:</strong> 2026년 10월 22일(목) 02:00까지</li>
                             </ul>
                         </div>
                     </div>
@@ -3369,20 +3369,20 @@ export default function TestworldSkillBalanceSep172026() {
                         <Sparkles className="w-5 h-5 text-purple-400" />
                         <h2 className="text-xl font-bold text-white">솔 헤카테 시스템 & 스킨 월드 공유 개편</h2>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-300">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-100">
                         <div className="bg-slate-950/60 p-4 rounded-xl space-y-2 border border-slate-800">
                             <h4 className="font-bold text-purple-300">스킨 시스템 '월드 공유'로 전격 전환</h4>
-                            <p className="break-keep text-xs leading-relaxed text-slate-400">
-                                캐릭터 단위였던 솔 헤카테 스킨이 <strong>월드 내 모든 캐릭터 공유</strong>로 변경됩니다.
-                                캐릭터별 보유 스킨이 월드 단위로 통합되며, 중복 보유 중인 스킨은 <strong>'솔 헤카테 스킨 교환권'</strong>으로 메이플 보관함에 재지급됩니다.
+                            <p className="break-keep text-xs leading-relaxed text-slate-100 font-normal">
+                                캐릭터 단위였던 솔 헤카테 스킨이 <strong className="text-purple-300 font-bold">월드 내 모든 캐릭터 공유</strong>로 변경됩니다.
+                                캐릭터별 보유 스킨이 월드 단위로 통합되며, 중복 보유 중인 스킨은 <strong className="text-amber-300 font-bold">'솔 헤카테 스킨 교환권'</strong>으로 메이플 보관함에 재지급됩니다.
                             </p>
                         </div>
                         <div className="bg-slate-950/60 p-4 rounded-xl space-y-2 border border-slate-800">
                             <h4 className="font-bold text-purple-300">월드 리프 시 스킨 이동 지원</h4>
-                            <p className="break-keep text-xs leading-relaxed text-slate-400">
+                            <p className="break-keep text-xs leading-relaxed text-slate-100 font-normal">
                                 월드 리프 시 출발 월드의 스킨이 도착 월드로 자동 통합 이동되며,
                                 기존에 보유 중인 스킨 교환권은 1회 교환 가능 사양으로 조정됩니다.
-                                또한 신규 <strong>솔 헤카테 : 티니핑 스킨</strong>이 추가됩니다.
+                                또한 신규 <strong className="text-purple-300 font-bold">솔 헤카테 : 티니핑 스킨</strong>이 추가됩니다.
                             </p>
                         </div>
                     </div>
@@ -3406,7 +3406,7 @@ export default function TestworldSkillBalanceSep172026() {
                                     🧪 9월 17일 적용 패치노트 총정리 — 퍼스널 버닝·어빌리티 개편·소울웨폰·탐험코인
                                 </h4>
                             </div>
-                            <span className="text-xs text-slate-500 mt-2 flex items-center gap-1">
+                            <span className="text-xs text-slate-300 mt-2 flex items-center gap-1">
                                 자세히 보기 <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                             </span>
                         </Link>
@@ -3422,7 +3422,7 @@ export default function TestworldSkillBalanceSep172026() {
                                     📅 9월 종료 일정 완벽 정리 — 챌린저스 월드 시즌4·하이퍼버닝·제네시스 패스
                                 </h4>
                             </div>
-                            <span className="text-xs text-slate-500 mt-2 flex items-center gap-1">
+                            <span className="text-xs text-slate-300 mt-2 flex items-center gap-1">
                                 자세히 보기 <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                             </span>
                         </Link>
