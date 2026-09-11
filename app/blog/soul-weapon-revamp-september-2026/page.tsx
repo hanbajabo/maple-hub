@@ -15,6 +15,8 @@ import {
     Star,
     Gift,
     Flame,
+    Calculator,
+    TrendingUp,
 } from 'lucide-react';
 import { InArticleAd } from '@/components/AdSense';
 
@@ -45,12 +47,12 @@ export default function SoulWeaponRevampPage() {
                         <span className="text-indigo-300">소울 증폭 · 잠재능력 · 소울 에테르</span> 한눈에 보기
                     </h1>
                     <p className="text-slate-400 text-sm break-keep mb-4">
-                        소울 스킬 삭제 · 소울 증폭 시스템 신규 · 소울 잠재능력 재설정 · 소울 에테르 보스 드롭 · 소울 외형 변경 · 소울 컬렉션 업데이트
+                        소울 스킬 삭제 · 소울 증폭 시스템 신규 · 소울 잠재능력 재설정 · 소울 에테르 보스 드롭 · 소울 외형 변경 · 소울 컬렉션 업데이트 + 비용 분석
                     </p>
                     <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
                         <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> 2026년 9월 11일</span>
                         <span className="flex items-center gap-1"><Zap className="w-3.5 h-3.5 text-amber-400" /> 적용 예정일: 2026년 9월 17일(목) 점검 후</span>
-                        <span>📖 약 7분 소요</span>
+                        <span>📖 약 10분 소요</span>
                     </div>
                 </div>
 
@@ -111,6 +113,7 @@ export default function SoulWeaponRevampPage() {
                             { num: '05', href: '#appearance', label: '소울 외형 변경 시스템', color: 'text-pink-400' },
                             { num: '06', href: '#collection', label: '소울 컬렉션 업데이트', color: 'text-sky-400' },
                             { num: '07', href: '#caution', label: '주의사항 & 예외 규정', color: 'text-amber-400' },
+                            { num: '08', href: '#cost', label: '💰 비용 분석 — 증폭 & 잠재 천장 계산', color: 'text-rose-400' },
                         ].map(item => (
                             <li key={item.href} className="flex items-center gap-2 bg-slate-900/40 p-2 rounded-lg border border-slate-700/30">
                                 <span className={`${item.color} font-mono font-bold text-xs`}>{item.num}</span>
@@ -444,10 +447,219 @@ export default function SoulWeaponRevampPage() {
 
                 <InArticleAd dataAdSlot="6849727140" />
 
+                {/* 8. 비용 분석 */}
+                <section id="cost" className="mb-12">
+                    <h2 className="text-xl font-black text-white mb-5 flex items-center gap-2 pb-2 border-b border-slate-700">
+                        <Calculator className="w-6 h-6 text-rose-400" />
+                        <span>8. 💰 비용 분석 — 증폭 & 잠재 천장 계산</span>
+                    </h2>
+
+                    <div className="p-4 rounded-xl bg-rose-900/20 border border-rose-700/40 mb-6 text-sm text-rose-200 break-keep leading-relaxed">
+                        소울 증폭은 실패할 때마다 성공 확률과 증폭 게이지가 함께 상승하며, 게이지가 100%가 되면 <strong className="text-white">천장(확정 성공)</strong>에 도달합니다. 아래는 단계별 최대 비용(천장)과 평균 기댓값을 정리한 표입니다.
+                    </div>
+
+                    {/* 8-1. 소울 증폭 비용 */}
+                    <h3 className="text-base font-bold text-white mb-3 flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 text-indigo-400" /> 소울 증폭 — 단계별 천장 & 기댓값
+                    </h3>
+                    <div className="overflow-x-auto mb-5">
+                        <table className="w-full text-sm rounded-xl overflow-hidden border border-slate-700/60 min-w-[640px]">
+                            <thead>
+                                <tr className="bg-indigo-900/60 text-indigo-200 text-xs">
+                                    <th className="py-3 px-3 text-left font-bold">목표 단계</th>
+                                    <th className="py-3 px-3 text-center font-bold">1회 메소</th>
+                                    <th className="py-3 px-3 text-center font-bold">기본 확률</th>
+                                    <th className="py-3 px-3 text-center font-bold">천장 횟수</th>
+                                    <th className="py-3 px-3 text-right font-bold">최대 비용 (천장)</th>
+                                    <th className="py-3 px-3 text-right font-bold">평균 기댓값</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-800 text-xs">
+                                {[
+                                    { step: '1단계', meso: '5억', rate: '5% (+1%)', ceil: '25회', maxMeso: '125억~130억', maxEth: '에테르 25~26개', avgMeso: '약 40억~45억', avgEth: '에테르 ~9개', color: 'text-sky-400', bg: 'bg-sky-900/10' },
+                                    { step: '2단계', meso: '10억', rate: '3% (+0.6%)', ceil: '33회', maxMeso: '330억~340억', maxEth: '에테르 33~34개', avgMeso: '약 120억~140억', avgEth: '에테르 ~13개', color: 'text-blue-400', bg: 'bg-blue-900/10' },
+                                    { step: '3단계', meso: '17.5억', rate: '2% (+0.4%)', ceil: '43회', maxMeso: '752.5억~770억', maxEth: '에테르 43~44개', avgMeso: '약 300억~350억', avgEth: '에테르 ~19개', color: 'text-indigo-400', bg: 'bg-indigo-900/10' },
+                                    { step: '4단계', meso: '27.5억', rate: '1.5% (+0.3%)', ceil: '50회', maxMeso: '1,375억~1,402.5억', maxEth: '에테르 50~51개', avgMeso: '약 600억~700억', avgEth: '에테르 ~24개', color: 'text-violet-400', bg: 'bg-violet-900/10' },
+                                ].map((row) => (
+                                    <tr key={row.step} className={`${row.bg} hover:bg-slate-800/30 transition-colors`}>
+                                        <td className={`py-3 px-3 font-bold ${row.color}`}>{row.step}</td>
+                                        <td className="py-3 px-3 text-center text-slate-300 font-mono">{row.meso}</td>
+                                        <td className="py-3 px-3 text-center text-slate-300">{row.rate}</td>
+                                        <td className="py-3 px-3 text-center font-mono text-white font-bold">{row.ceil}</td>
+                                        <td className="py-3 px-3 text-right">
+                                            <span className="text-red-400 font-mono font-bold block">{row.maxMeso}</span>
+                                            <span className="text-slate-500 text-xs">{row.maxEth}</span>
+                                        </td>
+                                        <td className="py-3 px-3 text-right">
+                                            <span className="text-emerald-400 font-mono font-bold block">{row.avgMeso}</span>
+                                            <span className="text-slate-500 text-xs">{row.avgEth}</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p className="text-xs text-slate-500 mb-6">※ 천장 시도 횟수는 100% 게이지 달성 후 확정 성공 시도 여부에 따라 1회분의 편차가 발생할 수 있습니다.</p>
+
+                    {/* 풀증폭 총합 */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        <div className="p-4 rounded-xl bg-red-900/20 border border-red-700/40 text-sm">
+                            <p className="font-bold text-red-400 mb-2">😱 최악의 경우 (1~4단계 올천장)</p>
+                            <ul className="space-y-1.5 text-slate-300 text-xs">
+                                <li className="flex items-center gap-2"><span className="text-red-400">•</span>메소: <strong className="text-white font-mono">약 2,582.5억 ~ 2,642.5억</strong></li>
+                                <li className="flex items-start gap-2"><span className="text-red-400 mt-0.5">•</span>에테르: 1단계 25~26개 / 2단계 33~34개<br />3단계 43~44개 / 4단계 50~51개</li>
+                            </ul>
+                        </div>
+                        <div className="p-4 rounded-xl bg-emerald-900/20 border border-emerald-700/40 text-sm">
+                            <p className="font-bold text-emerald-400 mb-2">😊 평균적인 경우 (기댓값 기준)</p>
+                            <ul className="space-y-1.5 text-slate-300 text-xs">
+                                <li className="flex items-center gap-2"><span className="text-emerald-400">•</span>메소: <strong className="text-white font-mono">약 1,100억 ~ 1,250억</strong></li>
+                                <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span>에테르: 단계별 평균 9개 / 13개 / 19개 / 24개</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {/* 8-2. 소울 잠재능력 등급업 비용 */}
+                    <h3 className="text-base font-bold text-white mb-3 flex items-center gap-2">
+                        <Star className="w-4 h-4 text-violet-400" /> 소울 잠재능력 — 등급업 천장 & 기댓값
+                    </h3>
+                    <div className="overflow-x-auto mb-5">
+                        <table className="w-full text-sm rounded-xl overflow-hidden border border-slate-700/60 min-w-[560px]">
+                            <thead>
+                                <tr className="bg-violet-900/60 text-violet-200 text-xs">
+                                    <th className="py-3 px-3 text-left font-bold">등급 상승 구간</th>
+                                    <th className="py-3 px-3 text-center font-bold">1회 비용</th>
+                                    <th className="py-3 px-3 text-center font-bold">상승 확률</th>
+                                    <th className="py-3 px-3 text-center font-bold">보장 횟수</th>
+                                    <th className="py-3 px-3 text-right font-bold">최대 천장 비용</th>
+                                    <th className="py-3 px-3 text-right font-bold">평균 기댓값</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-800 text-xs">
+                                {[
+                                    { from: '레어 → 에픽', cost: '2,000만', rate: '1.5%', ceil: '100회', max: '20억', avg: '약 13.3억', fg: 'text-sky-400', bg: 'bg-sky-900/10' },
+                                    { from: '에픽 → 유니크', cost: '4,000만', rate: '0.5875%', ceil: '256회', max: '102.4억', avg: '약 68.1억', fg: 'text-purple-400', bg: 'bg-purple-900/10' },
+                                    { from: '유니크 → 레전드리', cost: '6,500만', rate: '0.3322%', ceil: '451회', max: '293.15억', avg: '약 195.7억', fg: 'text-emerald-400', bg: 'bg-emerald-900/10' },
+                                ].map((row) => (
+                                    <tr key={row.from} className={`${row.bg} hover:bg-slate-800/30 transition-colors`}>
+                                        <td className={`py-3 px-3 font-bold ${row.fg}`}>{row.from}</td>
+                                        <td className="py-3 px-3 text-center text-slate-300 font-mono">{row.cost}</td>
+                                        <td className="py-3 px-3 text-center font-mono text-white">{row.rate}</td>
+                                        <td className="py-3 px-3 text-center font-mono text-white font-bold">{row.ceil}</td>
+                                        <td className="py-3 px-3 text-right text-red-400 font-mono font-bold">{row.max}</td>
+                                        <td className="py-3 px-3 text-right text-emerald-400 font-mono font-bold">{row.avg}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        <div className="p-4 rounded-xl bg-red-900/15 border border-red-700/40 text-sm">
+                            <p className="font-bold text-red-400 mb-2">😱 레어 → 레전드리 최악 천장</p>
+                            <p className="text-white font-mono font-bold text-lg">415.55억 메소</p>
+                            <p className="text-xs text-slate-400 mt-1">20억 + 102.4억 + 293.15억</p>
+                        </div>
+                        <div className="p-4 rounded-xl bg-emerald-900/15 border border-emerald-700/40 text-sm">
+                            <p className="font-bold text-emerald-400 mb-2">😊 레어 → 레전드리 평균 기댓값</p>
+                            <p className="text-white font-mono font-bold text-lg">약 277억 메소</p>
+                            <p className="text-xs text-slate-400 mt-1">13.3억 + 68.1억 + 195.7억</p>
+                        </div>
+                    </div>
+
+                    {/* 8-3. 레전드리 옵션 재설정 확률 분석 */}
+                    <h3 className="text-base font-bold text-white mb-3 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-rose-400" /> 레전드리 등급 도달 후 — 옵션 라인 분석
+                    </h3>
+                    <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700/50 text-sm text-slate-300 mb-5 break-keep">
+                        소울 잠재능력 레전드리 등급에서의 1회 재설정 비용은 <strong className="text-white">8,800만 메소</strong>입니다. 확률표를 바탕으로 <em className="text-slate-400">옵션 종류와 무관하게 오직 등급만</em> 띄웠을 때의 확률과 기댓값 비용을 계산한 결과입니다.
+                    </div>
+
+                    <div className="space-y-4 mb-6">
+                        {/* 1줄 이탈 */}
+                        <div className="p-5 rounded-xl border border-amber-700/40 bg-amber-900/10">
+                            <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                                <div>
+                                    <p className="font-bold text-amber-300 text-sm mb-0.5">1줄 이탈 (레전드리 / 레전드리 / 유니크)</p>
+                                    <p className="text-xs text-slate-400">2번째 또는 3번째 줄 중 정확히 한 줄만 레전드리 등급</p>
+                                </div>
+                                <span className="px-3 py-1 rounded-full bg-amber-900/60 text-amber-300 text-xs font-mono font-bold border border-amber-700/50">약 0.99%</span>
+                            </div>
+                            <div className="bg-slate-900/60 rounded-lg p-3 text-xs font-mono text-slate-300 mb-3 space-y-1">
+                                <p className="text-slate-500">// 확률 계산</p>
+                                <p>(0.004975 × 0.995025) + (0.995025 × 0.004975)</p>
+                                <p className="text-amber-300">= 0.0099004975 ≈ <strong>0.99%</strong></p>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3 text-xs">
+                                <div className="p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/40">
+                                    <p className="text-slate-400 mb-1">평균 소요 횟수</p>
+                                    <p className="text-white font-mono font-bold">1 ÷ 0.0099 ≈ 약 101회</p>
+                                </div>
+                                <div className="p-2.5 rounded-lg bg-amber-900/30 border border-amber-700/40">
+                                    <p className="text-slate-400 mb-1">기댓값 비용</p>
+                                    <p className="text-amber-300 font-mono font-bold">약 88억 8,844만 메소</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 올이탈 */}
+                        <div className="p-5 rounded-xl border border-rose-700/40 bg-rose-900/10">
+                            <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                                <div>
+                                    <p className="font-bold text-rose-300 text-sm mb-0.5">올이탈 (레전드리 / 레전드리 / 레전드리)</p>
+                                    <p className="text-xs text-slate-400">2번째와 3번째 줄 모두 레전드리 등급</p>
+                                </div>
+                                <span className="px-3 py-1 rounded-full bg-rose-900/60 text-rose-300 text-xs font-mono font-bold border border-rose-700/50">약 0.002475%</span>
+                            </div>
+                            <div className="bg-slate-900/60 rounded-lg p-3 text-xs font-mono text-slate-300 mb-3 space-y-1">
+                                <p className="text-slate-500">// 확률 계산</p>
+                                <p>0.004975 × 0.004975</p>
+                                <p className="text-rose-300">= 0.000024750625 ≈ <strong>0.002475%</strong></p>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3 text-xs">
+                                <div className="p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/40">
+                                    <p className="text-slate-400 mb-1">평균 소요 횟수</p>
+                                    <p className="text-white font-mono font-bold">1 ÷ 0.0000247 ≈ 약 40,403회</p>
+                                </div>
+                                <div className="p-2.5 rounded-lg bg-rose-900/30 border border-rose-700/40">
+                                    <p className="text-slate-400 mb-1">기댓값 비용</p>
+                                    <p className="text-rose-300 font-mono font-bold">약 3조 5,554억 메소</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 경고 박스 */}
+                    <div className="p-4 rounded-xl bg-slate-800/70 border border-slate-600/60 text-sm text-slate-300 break-keep space-y-2">
+                        <p className="font-bold text-white">💡 체감 요약</p>
+                        <p><span className="text-amber-300 font-bold">레레유</span>(또는 레유레) 등급 구성만 구경하는 데 평균 <strong className="text-white">약 89억 메소</strong>가 소모됩니다.</p>
+                        <p><span className="text-rose-400 font-bold">올이탈(레레레)</span> 등급 구성을 구경하는 데 평균 <strong className="text-white">약 3조 5,554억 메소</strong>라는 비현실적인 기댓값이 나옵니다.</p>
+                        <p className="text-slate-400">가장 중요한 점은 이 수치가 잡옵션을 포함한 단순 <em>등급</em> 등장 확률이라는 것입니다. 올이탈 구성에서 보공, 공퍼 등 <strong className="text-white">유효 옵션을 저격하려면 여기에 옵션 등장 확률까지 곱해야</strong> 하므로 비용이 기하급수적으로 늘어납니다. 따라서 소울 잠재능력에서 올이탈을 무리하게 노리는 것은 권장하지 않습니다.</p>
+                    </div>
+
+                    {/* 최종 견적 */}
+                    <div className="mt-6 p-5 rounded-2xl bg-gradient-to-br from-rose-900/30 via-indigo-900/20 to-slate-900 border border-rose-700/40 text-sm break-keep">
+                        <p className="font-bold text-white text-base mb-3 flex items-center gap-2">
+                            <Coins className="w-5 h-5 text-rose-400" /> 최종 견적 요약
+                        </p>
+                        <div className="space-y-2 text-slate-300">
+                            <p><span className="text-indigo-300 font-bold">소울 증폭 4단계 (풀증폭)</span> — 평균 <strong className="text-white">1,100억~1,250억</strong> / 천장 시 최악 <strong className="text-red-400">약 2,600억 메소</strong> + 에테르 150여 개</p>
+                            <p><span className="text-violet-300 font-bold">소울 잠재 레전드리 등급업</span> — 평균 <strong className="text-white">약 277억</strong> / 천장 시 최악 <strong className="text-red-400">약 415.5억 메소</strong></p>
+                            <div className="mt-3 pt-3 border-t border-slate-700">
+                                <p className="text-slate-400 text-xs">무기 하나에 소울 증폭 4단계 + 잠재 레전드리까지 완성하려면</p>
+                                <p className="text-white font-bold text-base mt-1">평균 1,400억~1,500억 메소 <span className="text-slate-400 font-normal text-sm">/ 억까 시</span> 3,000억 메소 이상</p>
+                                <p className="text-rose-400 text-xs mt-1 font-semibold">⚠️ 초하이엔드 스펙업 콘텐츠 — 신중하게 접근하세요</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <InArticleAd dataAdSlot="6849727140" />
+
                 {/* 마무리 */}
                 <div className="p-5 rounded-2xl bg-gradient-to-br from-indigo-900/30 via-violet-900/20 to-slate-900 border border-indigo-700/40 text-sm text-slate-300 break-keep leading-relaxed">
                     <p className="font-bold text-white text-base mb-2">📌 정리</p>
-                    <p>이번 소울웨폰 개편으로 기존의 소울 스킬 관리 부담이 없어지고, 대신 <strong className="text-indigo-300">소울 증폭과 소울 잠재능력</strong>이라는 새로운 파밍 요소가 생겼습니다. 소울 에테르는 그란디스 보스 드롭으로만 획득 가능해 고스펙 유저 중심의 콘텐츠가 되었으며, 소울 잠재능력 재설정은 <strong className="text-amber-300">썬데이 메이플 미라클 타임</strong>에 노리는 것이 경제적입니다.</p>
+                    <p>이번 소울웨폰 개편으로 기존의 소울 스킬 관리 부담이 없어지고, 대신 <strong className="text-indigo-300">소울 증폭과 소울 잠재능력</strong>이라는 새로운 파밍 요소가 생겼습니다. 소울 에테르는 그란디스 보스 드롭으로만 획득 가능해 고스펙 유저 중심의 콘텐츠가 되었으며, 소울 잠재능력 재설정은 <strong className="text-amber-300">썬데이 메이플 미라클 타임</strong>에 노리는 것이 경제적입니다. 올이탈을 억지로 노리기보다 예산에 맞게 유니크 수준에서 멈추는 전략도 합리적인 선택입니다.</p>
                 </div>
 
                 {/* 관련 포스팅 */}
