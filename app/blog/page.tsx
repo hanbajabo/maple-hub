@@ -440,7 +440,13 @@ export default function BlogPage() {
                                         className="group bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-purple-500 hover:bg-slate-800/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-900/20"
                                     >
                                         <div className="mb-4 flex items-center justify-between">
-                                            <div className="text-4xl">{post.thumbnail}</div>
+                                            {post.thumbnail.startsWith('/') ? (
+                                                <div className="relative w-10 h-10 flex-shrink-0">
+                                                    <Image src={post.thumbnail} alt={post.title} fill className="object-contain" />
+                                                </div>
+                                            ) : (
+                                                <div className="text-4xl">{post.thumbnail}</div>
+                                            )}
                                             <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs font-semibold rounded">
                                                 {post.category}
                                             </span>

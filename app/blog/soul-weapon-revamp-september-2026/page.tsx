@@ -39,16 +39,17 @@ export default function SoulWeaponRevampPage() {
                 {/* 타이틀 헤더 */}
                 <div className="mb-6">
                     <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2.5 sm:mb-3">
-                        <span className="text-xs px-2.5 py-0.5 rounded-full bg-indigo-900/60 text-indigo-300 border border-indigo-700/50 font-semibold">👻 소울웨폰</span>
+                        <span className="text-xs px-2.5 py-0.5 rounded-full bg-indigo-900/60 text-indigo-300 border border-indigo-700/50 font-semibold">소울웨폰</span>
                         <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-900/50 text-amber-300 border border-amber-700/50 font-semibold">업데이트 소식</span>
                         <span className="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700/50">9월 17일 적용</span>
                     </div>
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-2.5 sm:mb-3 break-keep leading-tight sm:leading-tight">
-                        👻 소울웨폰 전면 개편 완벽 정리<br />
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-2.5 sm:mb-3 break-keep leading-tight sm:leading-tight flex flex-wrap items-center gap-2">
+                        <img src="/images/blog/soul-weapon/soul-title-icon.png" alt="소울 아이콘" className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 inline-block align-middle rounded-lg border border-indigo-500/40 shadow-md" />
+                        <span>소울웨폰 전면 개편 완벽 정리</span><br />
                         <span className="text-indigo-300">소울 증폭 · 잠재능력 · 소울 에테르</span> 한눈에 보기
                     </h1>
                     <p className="text-slate-200 text-xs sm:text-sm break-keep mb-3.5 sm:mb-4 font-medium leading-relaxed">
-                        소울 스킬 삭제 · 소울 증폭 시스템 신규 · 소울 잠재능력 재설정 · 소울 에테르 보스 드롭 · 소울 외형 변경 · 소울 컬렉션 업데이트 + 비용 분석
+                        소울 증폭 시스템 신규 · 소울 잠재능력 재설정 · 소울 에테르 보스 드롭 · 소울 외형 변경 · 소울 컬렉션 업데이트 + 비용 분석
                     </p>
                     <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-xs sm:text-sm text-slate-200 font-medium mb-5 sm:mb-6">
                         <span className="flex items-center gap-1 sm:gap-1.5"><Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-400" /> 2026년 9월 11일</span>

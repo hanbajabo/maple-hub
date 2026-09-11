@@ -62,12 +62,12 @@ export const blogPosts: BlogPost[] = [
     // 9월 17일 소울웨폰 전면 개편 완벽 정리
     {
         slug: 'soul-weapon-revamp-september-2026',
-        title: '👻 소울웨폰 전면 개편 완벽 정리 — 소울 증폭·잠재능력·에테르 보스 드롭·소울 스킬 삭제',
+        title: '소울웨폰 전면 개편 완벽 정리 — 소울 증폭·잠재능력·에테르 보스 드롭·소울 스킬 삭제',
         description: '2026년 9월 17일 적용 예정 소울웨폰 개편 완벽 정리. 소울 에테르 + 메소로 1~4단계 증폭, 소울 잠재능력 재설정(메소/미라클타임 적용), 그란디스 보스 소울 에테르 드롭, 소울 스킬/게이지 삭제 및 공마 상시 적용, 소울 외형 변경 신규, 카이·드래곤 로어·메이린 소울 컬렉션 추가까지 한눈에 정리했습니다.',
         category: '업데이트 소식',
         date: '2026년 9월 11일',
         readTime: '7분',
-        thumbnail: '👻',
+        thumbnail: '/images/blog/soul-weapon/soul-title-icon.png',
         featured: true,
         targetDate: '2026년 9월 17일',
     },
