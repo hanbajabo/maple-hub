@@ -28,33 +28,36 @@ interface GroupedBoss {
 }
 
 const GROUPED_BOSSES: GroupedBoss[] = [
-    // 🔒 주간 입문 / 가격 동결 보스
+    // 🔒 일일 보스 전환 / 가격 동결 보스
     {
         id: 'hilla_weekly',
         name: '하드 힐라',
-        category: 'unchanged',
-        categoryLabel: '주간 입문 (동결)',
+        category: 'daily',
+        categoryLabel: '일일 보스 (전환 · 동결)',
+        isDaily: true,
         options: [
-            { diff: '하드', oldPrice: 1280000, newPrice: 1280000, rate: 0.0, note: '가격 동결' }
+            { diff: '하드', oldPrice: 1280000, newPrice: 1280000, rate: 0.0, note: '일일 보스 전환 · 동결', isDaily: true }
         ]
     },
     {
         id: 'pinkbean_weekly',
         name: '카오스 핑크빈',
-        category: 'unchanged',
-        categoryLabel: '주간 입문 (동결)',
+        category: 'daily',
+        categoryLabel: '일일 보스 (전환 · 동결)',
+        isDaily: true,
         options: [
-            { diff: '카오스', oldPrice: 1320000, newPrice: 1320000, rate: 0.0, note: '가격 동결' }
+            { diff: '카오스', oldPrice: 1320000, newPrice: 1320000, rate: 0.0, note: '일일 보스 전환 · 동결', isDaily: true }
         ]
     },
     {
         id: 'cygnus',
         name: '시그너스',
-        category: 'unchanged',
-        categoryLabel: '주간 입문 (동결)',
+        category: 'daily',
+        categoryLabel: '일일 보스 (전환 · 동결)',
+        isDaily: true,
         options: [
-            { diff: '이지', oldPrice: 1360000, newPrice: 1360000, rate: 0.0, note: '가격 동결' },
-            { diff: '노멀', oldPrice: 7500000, newPrice: 7500000, rate: 0.0, note: '가격 동결' }
+            { diff: '이지', oldPrice: 1360000, newPrice: 1360000, rate: 0.0, note: '일일 보스 전환 · 동결', isDaily: true },
+            { diff: '노멀', oldPrice: 7500000, newPrice: 7500000, rate: 0.0, note: '일일 보스 전환 · 동결', isDaily: true }
         ]
     },
     // 📉 카루타 라인 (-50% 반토막)
@@ -822,7 +825,7 @@ export default function BossCrystalPriceAdjustmentPage() {
 
     const filteredTableList = flatBossList.filter(item => {
         if (tableFilter === 'unchanged') {
-            if (item.rate !== 0 || item.isDaily) return false;
+            if (item.rate !== 0) return false;
         } else if (tableFilter === 'daily') {
             if (!item.isDaily) return false;
         } else if (tableFilter !== 'all' && item.category !== tableFilter) {
@@ -992,7 +995,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                         </div>
                         <div className="text-xs sm:text-sm text-slate-200 break-keep leading-relaxed space-y-1.5">
                             <p>
-                                • <strong className="text-white">주간 입문 보스</strong>: <span className="text-emerald-300 font-semibold">하드 힐라</span> (128만), <span className="text-emerald-300 font-semibold">카오스 핑크빈</span> (132만), <span className="text-emerald-300 font-semibold">이지 시그너스</span> (136만), <span className="text-emerald-300 font-semibold">노멀 시그너스</span> (750만)는 가격 변동 없이 100% 동결됩니다.
+                                • <strong className="text-white">일일 보스 전환 & 동결 보스</strong>: <span className="text-emerald-300 font-semibold">하드 힐라</span> (128만), <span className="text-emerald-300 font-semibold">카오스 핑크빈</span> (132만), <span className="text-emerald-300 font-semibold">이지 시그너스</span> (136만), <span className="text-emerald-300 font-semibold">노멀 시그너스</span> (750만)는 9/17 패치 후 기존 주간 보스에서 <strong className="text-amber-300 font-bold">일일 보스로 전환</strong>되었으며, 결정석 가격은 변동 없이 100% 동결됩니다.
                             </p>
                             <p>
                                 • <strong className="text-white">엔드/최상위 난이도</strong>: <span className="text-emerald-300 font-semibold">감시자 칼로스 익스트림</span> (41.04억), <span className="text-emerald-300 font-semibold">최초의 대적자 익스트림</span> (47.12억), <span className="text-emerald-300 font-semibold">카링 익스트림</span> (53.87억), <span className="text-emerald-300 font-semibold">벨로나 하드</span> (29.5억), <span className="text-emerald-300 font-semibold">찬란한 흉성 하드</span> (26.78억), <span className="text-emerald-300 font-semibold">림보 하드</span> (23.85억), <span className="text-emerald-300 font-semibold">발드릭스 하드</span> (30.78억), <span className="text-emerald-300 font-semibold">유피테르 하드</span> (48.45억) 역시 가격이 그대로 유지됩니다.
@@ -1012,7 +1015,7 @@ export default function BossCrystalPriceAdjustmentPage() {
                                 { id: 'hard', label: '🛡️ -5% 방어 (하드스데~진)' },
                                 { id: 'grandis', label: '⚡ 그란디스 & 엔드' },
                                 { id: 'unchanged', label: '🔒 가격 동결 (너프 없음)' },
-                                { id: 'daily', label: '☀️ 일일 보스 (10종 동결)' },
+                                { id: 'daily', label: '☀️ 일일 보스 (전환 4종 포함)' },
                             ].map(tab => (
                                 <button
                                     key={tab.id}

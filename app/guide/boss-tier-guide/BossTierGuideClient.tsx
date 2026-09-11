@@ -215,7 +215,7 @@ export default function BossTierGuideClient() {
                     stars: 1,
                     name: "이지 시그너스 / 하드 힐라 / 카오스 핑크빈",
                     hp: "105억 / 168억 / 약 600억",
-                    features: "가장 쉬운 주간 보스들. 하드 힐라는 흡혈 패턴을 바인드 컷으로 넘기는 것이 좋고, 카오스 핑크빈은 상태이상 만병통치약이 필수입니다.",
+                    features: "9/17 패치로 일일 보스로 전환된 보스들. 하드 힐라는 흡혈 패턴을 바인드 컷으로 넘기는 것이 좋고, 카오스 핑크빈은 상태이상 만병통치약이 필수입니다.",
                     images: ["/images/bosses/cygnus.png", "/images/bosses/hilla.png", "/images/bosses/pink-bean.png"]
                 }
             ]
