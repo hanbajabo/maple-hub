@@ -11,6 +11,18 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+    // 2026 가을 메인 이벤트 — 아르고 호의 방문객
+    {
+        slug: 'argo-visitor-event-2026',
+        title: '⚓ 아르고 호의 방문객 이벤트 완벽 정리 — 출석 40일·펄스 링·가호 스킬·주화샵',
+        description: '2026년 9월 17일~11월 18일 진행되는 메이플스토리 가을 메인 이벤트 아르고 호의 방문객 완벽 정리. 프로텍트 아르고 출석 40일 보상표, 어센던트 펄스 링 강화 확률, 아르고 호의 가호 스킬표, 아르고 주화 상점까지 총정리.',
+        category: '업데이트 소식',
+        date: '2026년 9월 13일',
+        readTime: '10분',
+        thumbnail: '⚓',
+        featured: true,
+        targetDate: '2026년 9월 17일',
+    },
     // 9월 10일 메이플NOW 총정리 마스터 포스트
     {
         slug: 'maple-now-september-10-2026-recap',
