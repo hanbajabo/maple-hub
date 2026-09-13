@@ -1145,7 +1145,7 @@ export default function ArgoVisitorEventPage() {
                                         <Target className="w-4 h-4 text-rose-400" /> 스타포스 0성 출발 목표 단계별 평균 기대 비용
                                     </span>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-[11px] text-slate-400">실패 하락/파괴/찬스타임 반영</span>
+                                        <span className="text-[11px] text-emerald-300 font-semibold">※ 실패 시 하락 없음(등급 유지) · 파괴 시 12성 복구</span>
                                         <span className="text-[10px] text-rose-400/90 flex items-center gap-0.5 sm:hidden font-medium">
                                             ↔ 가로 스크롤
                                         </span>
@@ -1170,39 +1170,39 @@ export default function ArgoVisitorEventPage() {
                                             </tr>
                                             <tr className="hover:bg-slate-800/30">
                                                 <td className="py-2 px-3 text-center font-bold text-white">0성 → 12성</td>
-                                                <td className="py-2 px-3 text-center text-cyan-300 font-bold">232개</td>
-                                                <td className="py-2 px-3 text-center text-slate-400">231개</td>
-                                                <td className="py-2 px-3 text-center text-slate-400 font-sans">약 19회</td>
+                                                <td className="py-2 px-3 text-center text-cyan-300 font-bold">193개</td>
+                                                <td className="py-2 px-3 text-center text-slate-400">193개</td>
+                                                <td className="py-2 px-3 text-center text-slate-400 font-sans">약 17회</td>
                                             </tr>
                                             <tr className="hover:bg-slate-800/30">
                                                 <td className="py-2 px-3 text-center font-bold text-white">0성 → 15성</td>
-                                                <td className="py-2 px-3 text-center text-cyan-300 font-bold">1,996개</td>
-                                                <td className="py-2 px-3 text-center text-slate-400">1,990개</td>
-                                                <td className="py-2 px-3 text-center text-slate-400 font-sans">약 64회</td>
+                                                <td className="py-2 px-3 text-center text-cyan-300 font-bold">694개</td>
+                                                <td className="py-2 px-3 text-center text-slate-400">694개</td>
+                                                <td className="py-2 px-3 text-center text-slate-400 font-sans">약 25회</td>
                                             </tr>
                                             <tr className="bg-amber-950/25 hover:bg-amber-950/40 border-l-2 border-amber-400">
                                                 <td className="py-2 px-3 text-center font-bold text-amber-300">0성 → 17성</td>
-                                                <td className="py-2 px-3 text-center text-amber-300 font-extrabold text-sm">약 5,063개</td>
-                                                <td className="py-2 px-3 text-center text-slate-400">약 3,498개 (파괴 0.28회)</td>
-                                                <td className="py-2 px-3 text-center text-slate-300 font-sans">약 77회</td>
+                                                <td className="py-2 px-3 text-center text-amber-300 font-extrabold text-sm">약 2,237개</td>
+                                                <td className="py-2 px-3 text-center text-slate-400">약 1,291개 (파괴 0.14회)</td>
+                                                <td className="py-2 px-3 text-center text-slate-300 font-sans">약 32회</td>
                                             </tr>
                                             <tr className="hover:bg-slate-800/30">
                                                 <td className="py-2 px-3 text-center font-bold text-purple-300">0성 → 18성</td>
-                                                <td className="py-2 px-3 text-center text-purple-300 font-bold">약 18,369개</td>
-                                                <td className="py-2 px-3 text-center text-slate-400">약 10,447개 (파괴 1.61회)</td>
-                                                <td className="py-2 px-3 text-center text-slate-400 font-sans">약 129회</td>
+                                                <td className="py-2 px-3 text-center text-purple-300 font-bold">약 4,713개</td>
+                                                <td className="py-2 px-3 text-center text-slate-400">약 2,586개 (파괴 0.62회)</td>
+                                                <td className="py-2 px-3 text-center text-slate-400 font-sans">약 38회</td>
                                             </tr>
                                             <tr className="hover:bg-slate-800/30 text-slate-400">
                                                 <td className="py-2 px-3 text-center font-bold text-rose-300">0성 → 19성</td>
-                                                <td className="py-2 px-3 text-center text-rose-300 font-bold">약 87,225개</td>
-                                                <td className="py-2 px-3 text-center text-slate-400">약 47,877개 (파괴 8.7회)</td>
-                                                <td className="py-2 px-3 text-center text-slate-400 font-sans">약 410회</td>
+                                                <td className="py-2 px-3 text-center text-rose-300 font-bold">약 8,679개</td>
+                                                <td className="py-2 px-3 text-center text-slate-400">약 5,642개 (파괴 1.31회)</td>
+                                                <td className="py-2 px-3 text-center text-slate-400 font-sans">약 53회</td>
                                             </tr>
                                             <tr className="bg-red-950/30 hover:bg-red-950/40">
                                                 <td className="py-2 px-3 text-center font-bold text-red-400">0성 → 20성 (풀성)</td>
-                                                <td className="py-2 px-3 text-center text-red-400 font-extrabold">약 421,522개</td>
-                                                <td className="py-2 px-3 text-center text-slate-400">약 235,092개 (파괴 43.8회)</td>
-                                                <td className="py-2 px-3 text-center text-slate-400 font-sans">약 1,800회</td>
+                                                <td className="py-2 px-3 text-center text-red-400 font-extrabold">약 17,028개</td>
+                                                <td className="py-2 px-3 text-center text-slate-400">약 12,366개 (파괴 2.55회)</td>
+                                                <td className="py-2 px-3 text-center text-slate-400 font-sans">약 79회</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1216,16 +1216,16 @@ export default function ArgoVisitorEventPage() {
                                 </p>
                                 <ul className="space-y-1.5 pl-1 text-slate-300">
                                     <li className="flex items-start gap-2">
-                                        <span className="text-amber-400 font-bold shrink-0">① [가장 추천] 17성 파방 + 레전드리 직작:</span>
-                                        <span>스타포스 17성을 파괴 방지로 안전하게 띄운 뒤(평균 약 5,063개 소모), 남은 약 8,500개의 인핸서로 일반 잠재 레전드리 등급업(평균 10,743개)에 도전하는 것이 기대 스펙 상승폭이 가장 큽니다.</span>
+                                        <span className="text-amber-400 font-bold shrink-0">① [종결 졸업] 17성 파방 + 본잠재 레전드리 직작:</span>
+                                        <span>실패 시 하락이 없으므로 17성 파방은 <strong>평균 약 2,237개</strong>에 불과합니다! 미션 확정량(13,560개)에서 17성을 띄우고 남는 약 11,323개로 일반 잠재 레전드리(평균 10,743개)까지 <strong>미션 재화만으로 100% 확정 졸업</strong>이 가능합니다.</span>
                                     </li>
                                     <li className="flex items-start gap-2">
-                                        <span className="text-cyan-400 font-bold shrink-0">② [안정적인 밸런스형]:</span>
-                                        <span>스타포스 17성 파방(~5,063개) + 일반 잠재 유니크(~1,814개) + 에디셔널 에픽(~1,470개) 완성 후, 남은 약 5,200개로 주스탯 15% 이상 유효 옵션을 뽑는 세팅입니다.</span>
+                                        <span className="text-cyan-400 font-bold shrink-0">② [스펙 한계 돌파] 18성 파방 + 레전/유니크 세팅:</span>
+                                        <span>18성 파방도 평균 약 4,713개밖에 들지 않습니다. 18성 파방(~4,713개) + 본잠재 유니크(~1,814개) + 에디셔널 에픽(~1,470개)을 맞추고도 약 5,500개가 남아 유효 주스탯 15~21%를 충분히 저격할 수 있습니다.</span>
                                     </li>
                                     <li className="flex items-start gap-2">
-                                        <span className="text-purple-400 font-bold shrink-0">③ [18성 이상 도전 시]:</span>
-                                        <span>18성은 파방 적용 시 평균 약 18,369개가 소모되므로, 미션 외에도 레벨 범위 몬스터 사냥을 통해 필드 드롭 인핸서를 추가로 대량 확보해야 합니다.</span>
+                                        <span className="text-purple-400 font-bold shrink-0">③ [20성 풀성 챌린지]:</span>
+                                        <span>하락이 없기 때문에 20성 풀성도 파방 포함 <strong>평균 약 17,028개</strong> 수준입니다! 미션 13,560개에 약간의 사냥 필드 드롭만 더하면 이벤트 링 20성 극종결 달성이 현실적으로 가능합니다.</span>
                                     </li>
                                 </ul>
                             </div>
@@ -1290,7 +1290,7 @@ export default function ArgoVisitorEventPage() {
                             </div>
 
                             <div className="p-2.5 rounded-lg bg-slate-950/70 border border-slate-800 text-xs text-slate-300 break-keep">
-                                💡 <strong className="text-white">활용 꿀팁:</strong> 미션으로만 <strong className="text-amber-300 font-bold">13,560개</strong>를 확정 획득하므로, 0성부터 17성 파괴 방지 강화(15→17성 파방 시도당 222~390개 소모)는 물론, 유니크/레전드리 잠재능력 재설정까지 충분히 시도할 수 있는 넉넉한 수량입니다!
+                                💡 <strong className="text-white">활용 꿀팁:</strong> 미션으로만 <strong className="text-amber-300 font-bold">13,560개</strong>를 확정 획득하므로, 실패 시 하락이 없어 17성 파방(평균 약 2,237개)이나 18성 파방(평균 약 4,713개)은 물론, 유니크/레전드리 잠재능력 재설정까지 충분히 시도할 수 있는 넉넉한 수량입니다!
                             </div>
                         </div>
 
