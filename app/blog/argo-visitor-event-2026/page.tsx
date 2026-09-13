@@ -27,7 +27,7 @@ import { InArticleAd } from '@/components/AdSense';
 
 export default function ArgoVisitorEventPage() {
     return (
-        <main className="w-full min-h-screen bg-slate-900 text-white py-6 sm:py-8 px-3 sm:px-4">
+        <main className="w-full min-h-screen bg-slate-900 text-white py-5 sm:py-8 px-2.5 sm:px-4">
             {/* 배경 그라데이션 글로우 */}
             <div className="fixed top-0 left-1/4 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-teal-900/15 rounded-full blur-[100px] sm:blur-[120px] pointer-events-none z-0" />
             <div className="fixed bottom-0 right-1/4 w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] bg-cyan-900/15 rounded-full blur-[100px] sm:blur-[120px] pointer-events-none z-0" />
@@ -125,59 +125,59 @@ export default function ArgoVisitorEventPage() {
                     <h2 className="text-lg sm:text-xl font-black text-white mb-3.5 flex items-center gap-2">
                         <Zap className="w-5 h-5 text-amber-400" /> 한눈에 보는 아르고 호의 방문객 6대 구성
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        <div className="rounded-xl p-3.5 border border-teal-800/60 bg-teal-950/30 flex flex-col justify-between">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
+                        <div className="rounded-xl p-2.5 sm:p-3.5 border border-teal-800/60 bg-teal-950/30 flex flex-col justify-between">
                             <div>
-                                <span className="text-2xl mb-1.5 block">📜</span>
-                                <p className="font-bold text-white text-sm">1. 스토리 퀘스트</p>
-                                <p className="text-slate-300 text-xs mt-1 break-keep">정보선 아르고 호의 비밀 기록! 15개의 신규 스토리 퀘스트</p>
+                                <span className="text-xl sm:text-2xl mb-1 block">📜</span>
+                                <p className="font-bold text-white text-xs sm:text-sm">1. 스토리 퀘스트</p>
+                                <p className="text-slate-300 text-[11px] sm:text-xs mt-0.5 sm:mt-1 break-keep leading-tight sm:leading-normal">정보선 아르고 호의 비밀 기록! 15개 신규 퀘스트</p>
                             </div>
-                            <span className="text-[11px] text-teal-400 font-semibold mt-2.5">101레벨 이상 참여</span>
+                            <span className="text-[10px] sm:text-[11px] text-teal-400 font-semibold mt-2">101레벨 이상 참여</span>
                         </div>
 
-                        <div className="rounded-xl p-3.5 border border-indigo-800/60 bg-indigo-950/30 flex flex-col justify-between">
+                        <div className="rounded-xl p-2.5 sm:p-3.5 border border-indigo-800/60 bg-indigo-950/30 flex flex-col justify-between">
                             <div>
-                                <span className="text-2xl mb-1.5 block">📅</span>
-                                <p className="font-bold text-white text-sm">2. 프로텍트 아르고</p>
-                                <p className="text-slate-300 text-xs mt-1 break-keep">접속 시 매일 3배 쿠폰 3장 + 주화 1,000개! 40회 완주 시 성비(200~279)</p>
+                                <span className="text-xl sm:text-2xl mb-1 block">📅</span>
+                                <p className="font-bold text-white text-xs sm:text-sm">2. 프로텍트 아르고</p>
+                                <p className="text-slate-300 text-[11px] sm:text-xs mt-0.5 sm:mt-1 break-keep leading-tight sm:leading-normal">접속 시 매일 3배 쿠폰 3장 + 주화 1,000개! 성비(279)</p>
                             </div>
-                            <span className="text-[11px] text-indigo-400 font-semibold mt-2.5">주 5회 / 총 40회 출석</span>
+                            <span className="text-[10px] sm:text-[11px] text-indigo-400 font-semibold mt-2">주 5회 / 총 40회</span>
                         </div>
 
-                        <div className="rounded-xl p-3.5 border border-violet-800/60 bg-violet-950/30 flex flex-col justify-between">
+                        <div className="rounded-xl p-2.5 sm:p-3.5 border border-violet-800/60 bg-violet-950/30 flex flex-col justify-between">
                             <div>
-                                <span className="text-2xl mb-1.5 block">⚡</span>
-                                <p className="font-bold text-white text-sm">3. 아르고 호의 가호</p>
-                                <p className="text-slate-300 text-xs mt-1 break-keep">토벌 임무로 포인트 파밍! 전투 마법 11종 & 전술 마법 8종 강력 버프</p>
+                                <span className="text-xl sm:text-2xl mb-1 block">⚡</span>
+                                <p className="font-bold text-white text-xs sm:text-sm">3. 아르고 호의 가호</p>
+                                <p className="text-slate-300 text-[11px] sm:text-xs mt-0.5 sm:mt-1 break-keep leading-tight sm:leading-normal">토벌 포인트 파밍! 전투 11종 & 전술 8종 버프</p>
                             </div>
-                            <span className="text-[11px] text-violet-400 font-semibold mt-2.5">스킬 효과 ~11/25 유지</span>
+                            <span className="text-[10px] sm:text-[11px] text-violet-400 font-semibold mt-2">효과 ~11/25 유지</span>
                         </div>
 
-                        <div className="rounded-xl p-3.5 border border-amber-800/60 bg-amber-950/30 flex flex-col justify-between">
+                        <div className="rounded-xl p-2.5 sm:p-3.5 border border-amber-800/60 bg-amber-950/30 flex flex-col justify-between">
                             <div>
-                                <span className="text-2xl mb-1.5 block">💍</span>
-                                <p className="font-bold text-white text-sm">4. 어센던트 링크</p>
-                                <p className="text-slate-300 text-xs mt-1 break-keep">130제 신규 반지 '어센던트 펄스 링' 지급! 인핸서로 스타포스 20성 도전</p>
+                                <span className="text-xl sm:text-2xl mb-1 block">💍</span>
+                                <p className="font-bold text-white text-xs sm:text-sm">4. 어센던트 링크</p>
+                                <p className="text-slate-300 text-[11px] sm:text-xs mt-0.5 sm:mt-1 break-keep leading-tight sm:leading-normal">130제 신규 반지 '펄스 링'! 인핸서로 20성 도전</p>
                             </div>
-                            <span className="text-[11px] text-amber-400 font-semibold mt-2.5">ID당 1개 지급 / 영구 아이템</span>
+                            <span className="text-[10px] sm:text-[11px] text-amber-400 font-semibold mt-2">ID당 1개 무료 (영구)</span>
                         </div>
 
-                        <div className="rounded-xl p-3.5 border border-cyan-800/60 bg-cyan-950/30 flex flex-col justify-between">
+                        <div className="rounded-xl p-2.5 sm:p-3.5 border border-cyan-800/60 bg-cyan-950/30 flex flex-col justify-between">
                             <div>
-                                <span className="text-2xl mb-1.5 block">🪙</span>
-                                <p className="font-bold text-white text-sm">5. 아르고 주화 상점</p>
-                                <p className="text-slate-300 text-xs mt-1 break-keep">이벤링 레전스크롤, 카유잠, 카에에잠, 황금 딸기 농장, 성비 등 풍성한 라인업</p>
+                                <span className="text-xl sm:text-2xl mb-1 block">🪙</span>
+                                <p className="font-bold text-white text-xs sm:text-sm">5. 아르고 주화샵</p>
+                                <p className="text-slate-300 text-[11px] sm:text-xs mt-0.5 sm:mt-1 break-keep leading-tight sm:leading-normal">이벤링 레전/카유잠/황금 딸기 농장/성비 라인업</p>
                             </div>
-                            <span className="text-[11px] text-cyan-400 font-semibold mt-2.5">정찰로 주화 대량 수급</span>
+                            <span className="text-[10px] sm:text-[11px] text-cyan-400 font-semibold mt-2">정찰로 대량 수급</span>
                         </div>
 
-                        <div className="rounded-xl p-3.5 border border-emerald-800/60 bg-emerald-950/30 flex flex-col justify-between">
+                        <div className="rounded-xl p-2.5 sm:p-3.5 border border-emerald-800/60 bg-emerald-950/30 flex flex-col justify-between">
                             <div>
-                                <span className="text-2xl mb-1.5 block">🛍️</span>
-                                <p className="font-bold text-white text-sm">6. 메소 상점</p>
-                                <p className="text-slate-300 text-xs mt-1 break-keep">플라즈마 하트 & 펄스 링 스페어, VIP 버프, 안드 스킨, 역대 반지 및 의상/라이딩</p>
+                                <span className="text-xl sm:text-2xl mb-1 block">🛍️</span>
+                                <p className="font-bold text-white text-xs sm:text-sm">6. 메소 상점</p>
+                                <p className="text-slate-300 text-[11px] sm:text-xs mt-0.5 sm:mt-1 break-keep leading-tight sm:leading-normal">하트 & 펄스 링 스페어, VIP 버프, 안드 스킨</p>
                             </div>
-                            <span className="text-[11px] text-emerald-400 font-semibold mt-2.5">NPC 엘라르도 판매</span>
+                            <span className="text-[10px] sm:text-[11px] text-emerald-400 font-semibold mt-2">NPC 엘라르도 판매</span>
                         </div>
                     </div>
                 </section>
@@ -189,7 +189,7 @@ export default function ArgoVisitorEventPage() {
                     <p className="text-sm sm:text-base font-bold text-white mb-3 flex items-center gap-2">
                         <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-teal-400" /> 📑 목차 바로가기
                     </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 text-xs sm:text-sm">
                         <a
                             href="#story-quest"
                             className="flex items-center gap-2.5 bg-slate-900/60 hover:bg-slate-700/60 p-2.5 rounded-xl border border-slate-700/40 transition-colors group"
@@ -284,7 +284,7 @@ export default function ArgoVisitorEventPage() {
                                         <span className="w-4 h-4 rounded-full bg-teal-900/60 text-teal-300 flex items-center justify-center text-[10px] font-mono flex-shrink-0">
                                             {idx + 1}
                                         </span>
-                                        <span className="truncate">{qName}</span>
+                                        <span className="break-keep leading-tight">{qName}</span>
                                     </div>
                                 ))}
                             </div>
@@ -372,12 +372,12 @@ export default function ArgoVisitorEventPage() {
                             </div>
 
                             <div className="overflow-x-auto rounded-xl border border-slate-700/60 shadow-lg">
-                                <table className="w-full text-xs sm:text-sm min-w-[500px]">
+                                <table className="w-full text-xs sm:text-sm">
                                     <thead>
                                         <tr className="bg-indigo-950/80 text-indigo-200 border-b border-indigo-800/60">
-                                            <th className="py-2.5 px-3 text-center font-bold w-16">회차</th>
+                                            <th className="py-2 px-1.5 sm:py-2.5 sm:px-3 text-center font-bold w-12 sm:w-16">회차</th>
                                             <th className="py-2.5 px-3 text-left font-bold">보상 아이템</th>
-                                            <th className="py-2.5 px-3 text-right font-bold w-20">수량</th>
+                                            <th className="py-2 px-1.5 sm:py-2.5 sm:px-3 text-right font-bold w-16 sm:w-20 whitespace-nowrap">수량</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-800">
@@ -699,7 +699,10 @@ export default function ArgoVisitorEventPage() {
                                 <Coins className="w-4 h-4 text-amber-400" /> 스킬 단계별 필요 마법 포인트
                             </h3>
                             <div className="overflow-x-auto rounded-xl border border-slate-700/60">
-                                <table className="w-full text-xs sm:text-sm min-w-[420px]">
+                                <div className="sm:hidden text-[10px] text-slate-400 flex items-center justify-end gap-1 mb-1">
+                                    <span>↔ 가로 스크롤</span>
+                                </div>
+                                <table className="w-full text-xs min-w-[380px]">
                                     <thead>
                                         <tr className="bg-slate-900 text-slate-300 border-b border-slate-700">
                                             <th className="py-2 px-3 text-left">지원 마법</th>
@@ -740,9 +743,14 @@ export default function ArgoVisitorEventPage() {
 
                         {/* 전투 지원 마법 11종 전체 표 */}
                         <div>
-                            <h3 className="text-sm sm:text-base font-bold text-white mb-2.5 flex items-center gap-1.5">
-                                <Zap className="w-4 h-4 text-yellow-400" /> 전투 지원 마법 (캐릭터 능력치 강화 — 11종)
-                            </h3>
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                                <h3 className="text-xs sm:text-base font-bold text-white flex items-center gap-1.5">
+                                    <Zap className="w-4 h-4 text-yellow-400" /> 전투 지원 마법 (캐릭터 능력치 강화 — 11종)
+                                </h3>
+                                <span className="text-[10px] text-amber-400/90 flex items-center gap-0.5 sm:hidden font-medium">
+                                    ↔ 가로 스크롤
+                                </span>
+                            </div>
                             <div className="overflow-x-auto rounded-xl border border-slate-700/60 shadow-md">
                                 <table className="w-full text-xs min-w-[620px]">
                                     <thead>
@@ -788,9 +796,14 @@ export default function ArgoVisitorEventPage() {
 
                         {/* 전술 지원 마법 8종 전체 표 */}
                         <div>
-                            <h3 className="text-sm sm:text-base font-bold text-white mb-2.5 flex items-center gap-1.5">
-                                <Shield className="w-4 h-4 text-teal-400" /> 전술 지원 마법 (컨텐츠 참여 보상 강화 — 8종)
-                            </h3>
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                                <h3 className="text-xs sm:text-base font-bold text-white flex items-center gap-1.5">
+                                    <Shield className="w-4 h-4 text-teal-400" /> 전술 지원 마법 (컨텐츠 참여 보상 강화 — 8종)
+                                </h3>
+                                <span className="text-[10px] text-teal-400/90 flex items-center gap-0.5 sm:hidden font-medium">
+                                    ↔ 가로 스크롤
+                                </span>
+                            </div>
                             <div className="overflow-x-auto rounded-xl border border-slate-700/60 shadow-md">
                                 <table className="w-full text-xs min-w-[620px]">
                                     <thead>
@@ -863,26 +876,26 @@ export default function ArgoVisitorEventPage() {
                                 </span>
                             </div>
 
-                            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 pt-1 text-center">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 pt-1 text-center">
                                 <div className="bg-slate-900/70 p-2 rounded-lg border border-slate-700/40">
-                                    <p className="text-[11px] text-slate-400">올스탯</p>
-                                    <p className="text-white font-bold text-sm">STR/DEX/INT/LUK +5</p>
+                                    <p className="text-[10px] sm:text-[11px] text-slate-400">올스탯</p>
+                                    <p className="text-white font-bold text-xs sm:text-sm">STR/DEX/INT/LUK +5</p>
                                 </div>
                                 <div className="bg-slate-900/70 p-2 rounded-lg border border-slate-700/40">
-                                    <p className="text-[11px] text-slate-400">공격력 / 마력</p>
-                                    <p className="text-white font-bold text-sm">+1 / +1</p>
+                                    <p className="text-[10px] sm:text-[11px] text-slate-400">공격력 / 마력</p>
+                                    <p className="text-white font-bold text-xs sm:text-sm">+1 / +1</p>
                                 </div>
                                 <div className="bg-slate-900/70 p-2 rounded-lg border border-slate-700/40">
-                                    <p className="text-[11px] text-slate-400">최대 HP / MP</p>
-                                    <p className="text-white font-bold text-sm">+200 / +200</p>
+                                    <p className="text-[10px] sm:text-[11px] text-slate-400">최대 HP / MP</p>
+                                    <p className="text-white font-bold text-xs sm:text-sm">+200 / +200</p>
                                 </div>
                                 <div className="bg-slate-900/70 p-2 rounded-lg border border-slate-700/40">
-                                    <p className="text-[11px] text-slate-400">방어력</p>
-                                    <p className="text-white font-bold text-sm">+150</p>
+                                    <p className="text-[10px] sm:text-[11px] text-slate-400">방어력</p>
+                                    <p className="text-white font-bold text-xs sm:text-sm">+150</p>
                                 </div>
-                                <div className="bg-slate-900/70 p-2 rounded-lg border border-slate-700/40">
-                                    <p className="text-[11px] text-slate-400">장착 속성</p>
-                                    <p className="text-teal-300 font-bold text-sm">교불 · 영구 · 고유장착</p>
+                                <div className="bg-slate-900/70 p-2 rounded-lg border border-slate-700/40 col-span-2 sm:col-span-1">
+                                    <p className="text-[10px] sm:text-[11px] text-slate-400">장착 속성</p>
+                                    <p className="text-teal-300 font-bold text-xs sm:text-sm">교불 · 영구 · 고유장착</p>
                                 </div>
                             </div>
 
@@ -916,7 +929,7 @@ export default function ArgoVisitorEventPage() {
                                 펄스 인핸서 사용 시 스타포스 단계별 성공률 & 파괴율 공식 데이터
                             </h3>
                             <div className="overflow-x-auto rounded-xl border border-slate-700/60 shadow-md">
-                                <table className="w-full text-xs sm:text-sm min-w-[500px]">
+                                <table className="w-full text-xs min-w-[420px]">
                                     <thead>
                                         <tr className="bg-slate-900 text-slate-200 border-b border-slate-700">
                                             <th className="py-2.5 px-3 text-center font-bold">스타포스 단계</th>
@@ -1131,10 +1144,15 @@ export default function ArgoVisitorEventPage() {
                                     <span className="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
                                         <Target className="w-4 h-4 text-rose-400" /> 스타포스 0성 출발 목표 단계별 평균 기대 비용
                                     </span>
-                                    <span className="text-[11px] text-slate-400">실패 하락/파괴/찬스타임 반영</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[11px] text-slate-400">실패 하락/파괴/찬스타임 반영</span>
+                                        <span className="text-[10px] text-rose-400/90 flex items-center gap-0.5 sm:hidden font-medium">
+                                            ↔ 가로 스크롤
+                                        </span>
+                                    </div>
                                 </div>
                                 <div className="overflow-x-auto">
-                                    <table className="w-full text-xs text-left">
+                                    <table className="w-full text-xs min-w-[340px] text-left">
                                         <thead>
                                             <tr className="bg-slate-900/90 text-slate-300 border-b border-slate-800">
                                                 <th className="py-2 px-3 text-center">목표 성수</th>
@@ -1504,6 +1522,27 @@ export default function ArgoVisitorEventPage() {
                 </div>
 
             </div>
+        
+            {/* 모바일 전용 플로팅 빠른 이동 버튼 */}
+            <div className="fixed bottom-5 right-4 z-40 flex flex-col gap-2 sm:hidden">
+                <a
+                    href="#story-quest"
+                    className="w-10 h-10 rounded-full bg-teal-900/90 border border-teal-400/50 text-teal-200 shadow-xl flex items-center justify-center text-xs font-bold hover:bg-teal-800 backdrop-blur"
+                    aria-label="목차로 이동"
+                    title="목차"
+                >
+                    📑
+                </a>
+                <button
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="w-10 h-10 rounded-full bg-slate-800/90 border border-slate-600 text-white shadow-xl flex items-center justify-center text-xs font-bold hover:bg-slate-700 backdrop-blur"
+                    aria-label="맨 위로 이동"
+                    title="맨 위로"
+                >
+                    ▲
+                </button>
+            </div>
+
         </main>
     );
 }
