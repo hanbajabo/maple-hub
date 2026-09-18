@@ -122,7 +122,8 @@ export const MONSTER_PARK_EXP = [
     { minLevel: 275, maxLevel: 279, exp: 76639838000, area: '도원경' },
     { minLevel: 280, maxLevel: 284, exp: 107204032000, area: '아르테리아' },
     { minLevel: 285, maxLevel: 289, exp: 156017856000, area: '카르시온' },
-    { minLevel: 290, maxLevel: 300, exp: 218575316000, area: '탈라하트' },
+    { minLevel: 290, maxLevel: 294, exp: 218575316000, area: '탈라하트' },
+    { minLevel: 295, maxLevel: 300, exp: 316934208200, area: '기어드락' },
 ];
 
 // 레벨에 따른 몬스터파크 경험치 가져오기

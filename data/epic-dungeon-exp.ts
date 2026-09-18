@@ -109,3 +109,19 @@ export const NIGHTMARE_GARDEN_EXP: EpicDungeonExp[] = [
     { level: 298, basic: 1519200000000, bonus1: 7596000000000, bonus2: 13672800000000 },
     { level: 299, basic: 1519200000000, bonus1: 7596000000000, bonus2: 13672800000000 },
 ];
+
+// 아우룸 레기스 (Lv.290~)
+// 비용: 0 / 15,000 / 60,000 메이플포인트
+// 기본 보상: arBaseReward 기준 / 1단계: x5 / 2단계: x9
+export const AURUM_REGIS_EXP: EpicDungeonExp[] = [
+    { level: 290, basic: 2174400000000, bonus1: 10872000000000, bonus2: 19569600000000 },
+    { level: 291, basic: 2198700000000, bonus1: 10993500000000, bonus2: 19788300000000 },
+    { level: 292, basic: 2226300000000, bonus1: 11131500000000, bonus2: 20036700000000 },
+    { level: 293, basic: 2254200000000, bonus1: 11271000000000, bonus2: 20287800000000 },
+    { level: 294, basic: 2278800000000, bonus1: 11394000000000, bonus2: 20509200000000 },
+    { level: 295, basic: 2559900000000, bonus1: 12799500000000, bonus2: 23039100000000 },
+    { level: 296, basic: 2591100000000, bonus1: 12955500000000, bonus2: 23319900000000 },
+    { level: 297, basic: 2622300000000, bonus1: 13111500000000, bonus2: 23600700000000 },
+    { level: 298, basic: 2650500000000, bonus1: 13252500000000, bonus2: 23854500000000 },
+    { level: 299, basic: 2682000000000, bonus1: 13410000000000, bonus2: 24138000000000 },
+];

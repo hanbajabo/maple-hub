@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Calculator, TrendingUp, Clock, Download, Info, Zap, Calendar, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Calculator, TrendingUp, Clock, Download, Info, Zap, Calendar, ChevronDown, RotateCcw } from 'lucide-react';
 import { useState, useMemo, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import { InArticleAd } from '@/components/AdSense';
 import { HUNTING_EXP_DATA, getHuntingDataForLevel, formatHuntingTime } from '@/data/hunting-exp-rates';
-import { HIGH_MOUNTAIN_EXP, ANGLER_COMPANY_EXP, NIGHTMARE_GARDEN_EXP } from '@/data/epic-dungeon-exp';
+import { HIGH_MOUNTAIN_EXP, ANGLER_COMPANY_EXP, NIGHTMARE_GARDEN_EXP, AURUM_REGIS_EXP } from '@/data/epic-dungeon-exp';
 import { VIP_SAUNA_EXP } from '@/data/vip-sauna-exp';
 import { ADVANCED_EXP_COUPON } from '@/data/advanced-exp-coupon';
 import { MECHABERRY_FARM_EXP } from '@/data/mechaberry-farm-exp';
@@ -19,6 +19,27 @@ import {
     EXP_DATA, getMonsterParkExp, getGrandisDailyQuest, getArcaneDailyQuest,
     EXTREME_MONSTER_PARK_EXP, MONSTER_PARK_EXP, ARCANE_DAILY_QUEST, GRANDIS_DAILY_QUEST
 } from './exp-data';
+
+// ─── 퍼스널 버닝 절대 경험치 환산 헬퍼 ───────────────────────────────
+const getAbsoluteExpFromLevelAndPercent = (level: number, percent: number) => {
+    const entry = EXP_DATA.find(d => d.level === level);
+    if (!entry) return 0;
+    const baseExp = entry.cumulativeExp - entry.requiredExp;
+    return baseExp + entry.requiredExp * (percent / 100);
+};
+
+const getLevelAndPercentFromAbsoluteExp = (absExp: number) => {
+    for (let i = 0; i < EXP_DATA.length; i++) {
+        const entry = EXP_DATA[i];
+        const baseExp = entry.cumulativeExp - entry.requiredExp;
+        if (absExp >= baseExp && absExp < entry.cumulativeExp) {
+            const pct = ((absExp - baseExp) / entry.requiredExp) * 100;
+            return { level: entry.level, percent: pct };
+        }
+    }
+    const last = EXP_DATA[EXP_DATA.length - 1];
+    return { level: last.level, percent: 100 };
+};
 
 interface LevelData { level: number; requiredExp: number; cumulativeExp: number; }
 
@@ -56,8 +77,36 @@ export default function ExpCalculatorClient() {
     const [currentLevel, setCurrentLevel] = useState(200);
     const [currentLevelExp, setCurrentLevelExp] = useState(0);
     const [targetLevel, setTargetLevel] = useState(285);
+    const [targetLevelExp, setTargetLevelExp] = useState(0);
     const [useHyperBurning, setUseHyperBurning] = useState(false);
     const [useBurningBeyond, setUseBurningBeyond] = useState(false);
+
+    // 🔥 퍼스널 버닝 (Lv.260~300)
+    const [isLoaded, setIsLoaded] = useState(false);
+    const LOCAL_STORAGE_KEY = 'maple_exp_calculator_data_v1';
+
+    const [usePersonalBurning, setUsePersonalBurning] = useState(false);
+    const [personalCurrentClearedStage, setPersonalCurrentClearedStage] = useState<number>(0);
+    const personalInputStage1 = Math.min(Math.max(personalCurrentClearedStage + 1, 1), 27);
+    const personalInputStage2 = Math.min(Math.max(personalCurrentClearedStage + 2, 2), 28);
+    const personalInputStage3 = Math.min(Math.max(personalCurrentClearedStage + 3, 3), 29);
+    const [personalStage1Level, setPersonalStage1Level] = useState<number | ''>('');
+    const [personalStage1Exp, setPersonalStage1Exp] = useState<number | ''>('');
+    const [personalStage2Level, setPersonalStage2Level] = useState<number | ''>('');
+    const [personalStage2Exp, setPersonalStage2Exp] = useState<number | ''>('');
+    const [personalStage3Level, setPersonalStage3Level] = useState<number | ''>('');
+    const [personalStage3Exp, setPersonalStage3Exp] = useState<number | ''>('');
+    const [personalStage30Level, setPersonalStage30Level] = useState<number | ''>('');
+    const [personalStage30Exp, setPersonalStage30Exp] = useState<number | ''>('');
+    const [personalStage1Reward, setPersonalStage1Reward] = useState<number | ''>('');
+    const [personalStage2Reward, setPersonalStage2Reward] = useState<number | ''>('');
+    const [personalStage3Reward, setPersonalStage3Reward] = useState<number | ''>('');
+    const [personalStage30Reward, setPersonalStage30Reward] = useState<number | ''>('');
+
+    const handlePersonalClearedStageChange = (cleared: number) => {
+        setPersonalCurrentClearedStage(cleared);
+    };
+    const [showPersonalTable, setShowPersonalTable] = useState(false);
 
     const [huntingMode, setHuntingMode] = useState<'percent' | 'manual' | 'calculate'>('calculate');
     const [dailyLevelPercent, setDailyLevelPercent] = useState(0);
@@ -77,9 +126,7 @@ export default function ExpCalculatorClient() {
     const [dailyQuestExp, setDailyQuestExp] = useState(0);
     const [useExtremeMonsterPark, setUseExtremeMonsterPark] = useState(false);
 
-    const [useEpicArtifact, setUseEpicArtifact] = useState(false);
-    const [epicCoreLevel, setEpicCoreLevel] = useState(0);
-    const [useEpicWeek9Auto, setUseEpicWeek9Auto] = useState(true);
+    const [epicEventBonusRate, setEpicEventBonusRate] = useState(0);
 
     const [useHighMountain, setUseHighMountain] = useState(false);
     const [highMountainReward, setHighMountainReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
@@ -87,6 +134,8 @@ export default function ExpCalculatorClient() {
     const [anglerCompanyReward, setAnglerCompanyReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
     const [useNightmareGarden, setUseNightmareGarden] = useState(false);
     const [nightmareGardenReward, setNightmareGardenReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
+    const [useAurumRegis, setUseAurumRegis] = useState(false);
+    const [aurumRegisReward, setAurumRegisReward] = useState<'basic' | 'stage1' | 'stage2'>('basic');
     const [useSpecterBlast, setUseSpecterBlast] = useState(false);
 
     const [useGrowthPotion, setUseGrowthPotion] = useState(false);
@@ -131,13 +180,301 @@ export default function ExpCalculatorClient() {
     const [goldenFarmCount, setGoldenFarmCount] = useState(1);
     const [goldenFarmBonusRate, setGoldenFarmBonusRate] = useState(400);
 
-    // 챌린저스 월드 시즌4 남은 일수 계산
+    // 💾 로컬 스토리지 데이터 복원 (페이지 새로고침 시 입력값 유지)
+    useEffect(() => {
+        try {
+            const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (saved) {
+                const d = JSON.parse(saved);
+                if (d.currentLevel !== undefined) setCurrentLevel(d.currentLevel);
+                if (d.currentLevelExp !== undefined) setCurrentLevelExp(d.currentLevelExp);
+                if (d.targetLevel !== undefined) setTargetLevel(d.targetLevel);
+                if (d.targetLevelExp !== undefined) setTargetLevelExp(d.targetLevelExp);
+                if (d.useHyperBurning !== undefined) setUseHyperBurning(d.useHyperBurning);
+                if (d.useBurningBeyond !== undefined) setUseBurningBeyond(d.useBurningBeyond);
+
+                // 퍼스널 버닝
+                if (d.usePersonalBurning !== undefined) setUsePersonalBurning(d.usePersonalBurning);
+                if (d.personalCurrentClearedStage !== undefined) setPersonalCurrentClearedStage(d.personalCurrentClearedStage);
+                if (d.personalStage1Level !== undefined) setPersonalStage1Level(d.personalStage1Level);
+                if (d.personalStage1Exp !== undefined) setPersonalStage1Exp(d.personalStage1Exp);
+                if (d.personalStage1Reward !== undefined) setPersonalStage1Reward(d.personalStage1Reward);
+                if (d.personalStage2Level !== undefined) setPersonalStage2Level(d.personalStage2Level);
+                if (d.personalStage2Exp !== undefined) setPersonalStage2Exp(d.personalStage2Exp);
+                if (d.personalStage2Reward !== undefined) setPersonalStage2Reward(d.personalStage2Reward);
+                if (d.personalStage3Level !== undefined) setPersonalStage3Level(d.personalStage3Level);
+                if (d.personalStage3Exp !== undefined) setPersonalStage3Exp(d.personalStage3Exp);
+                if (d.personalStage3Reward !== undefined) setPersonalStage3Reward(d.personalStage3Reward);
+                if (d.personalStage30Level !== undefined) setPersonalStage30Level(d.personalStage30Level);
+                if (d.personalStage30Exp !== undefined) setPersonalStage30Exp(d.personalStage30Exp);
+                if (d.personalStage30Reward !== undefined) setPersonalStage30Reward(d.personalStage30Reward);
+
+                // 사냥
+                if (d.huntingMode !== undefined) setHuntingMode(d.huntingMode);
+                if (d.dailyLevelPercent !== undefined) setDailyLevelPercent(d.dailyLevelPercent);
+                if (d.huntingExpPerHour !== undefined) setHuntingExpPerHour(d.huntingExpPerHour);
+                if (d.dailyHuntingHours !== undefined) setDailyHuntingHours(d.dailyHuntingHours);
+                if (d.mobsPerHour !== undefined) setMobsPerHour(d.mobsPerHour);
+                if (d.additionalExpRate !== undefined) setAdditionalExpRate(d.additionalExpRate);
+
+                // 몬파 & 일퀘
+                if (d.monsterParkCountWeek !== undefined) setMonsterParkCountWeek(d.monsterParkCountWeek);
+                if (d.monsterParkCountSun !== undefined) setMonsterParkCountSun(d.monsterParkCountSun);
+                if (d.mpEventSkillLevel !== undefined) setMpEventSkillLevel(d.mpEventSkillLevel);
+                if (d.arcaneEventSkillLevel !== undefined) setArcaneEventSkillLevel(d.arcaneEventSkillLevel);
+                if (d.grandisEventSkillLevel !== undefined) setGrandisEventSkillLevel(d.grandisEventSkillLevel);
+                if (d.useSundayMaple !== undefined) setUseSundayMaple(d.useSundayMaple);
+                if (d.useArcaneQuest !== undefined) setUseArcaneQuest(d.useArcaneQuest);
+                if (d.useGrandisQuest !== undefined) setUseGrandisQuest(d.useGrandisQuest);
+                if (d.dailyQuestExp !== undefined) setDailyQuestExp(d.dailyQuestExp);
+                if (d.useExtremeMonsterPark !== undefined) setUseExtremeMonsterPark(d.useExtremeMonsterPark);
+
+                // 에픽 던전
+                if (d.epicEventBonusRate !== undefined) setEpicEventBonusRate(d.epicEventBonusRate);
+                if (d.useHighMountain !== undefined) setUseHighMountain(d.useHighMountain);
+                if (d.highMountainReward !== undefined) setHighMountainReward(d.highMountainReward);
+                if (d.useAnglerCompany !== undefined) setUseAnglerCompany(d.useAnglerCompany);
+                if (d.anglerCompanyReward !== undefined) setAnglerCompanyReward(d.anglerCompanyReward);
+                if (d.useNightmareGarden !== undefined) setUseNightmareGarden(d.useNightmareGarden);
+                if (d.nightmareGardenReward !== undefined) setNightmareGardenReward(d.nightmareGardenReward);
+                if (d.useAurumRegis !== undefined) setUseAurumRegis(d.useAurumRegis);
+                if (d.aurumRegisReward !== undefined) setAurumRegisReward(d.aurumRegisReward);
+
+                // 기타 부스터 / 농장 / 포션 / 이벤트
+                if (d.useSpecterBlast !== undefined) setUseSpecterBlast(d.useSpecterBlast);
+                if (d.useGrowthPotion !== undefined) setUseGrowthPotion(d.useGrowthPotion);
+                if (d.growthPotionCount !== undefined) setGrowthPotionCount(d.growthPotionCount);
+                if (d.growthPotionUseLevel !== undefined) setGrowthPotionUseLevel(d.growthPotionUseLevel);
+                if (d.useGrowthPotionFinish284 !== undefined) setUseGrowthPotionFinish284(d.useGrowthPotionFinish284);
+                if (d.useGrowthPotion269 !== undefined) setUseGrowthPotion269(d.useGrowthPotion269);
+                if (d.growthPotion269Count !== undefined) setGrowthPotion269Count(d.growthPotion269Count);
+                if (d.growthPotion269UseLevel !== undefined) setGrowthPotion269UseLevel(d.growthPotion269UseLevel);
+                if (d.useGrowthPotion269Finish284 !== undefined) setUseGrowthPotion269Finish284(d.useGrowthPotion269Finish284);
+                if (d.useVipSauna !== undefined) setUseVipSauna(d.useVipSauna);
+                if (d.vipSaunaCount !== undefined) setVipSaunaCount(d.vipSaunaCount);
+                if (d.vipSaunaUseLevel !== undefined) setVipSaunaUseLevel(d.vipSaunaUseLevel);
+                if (d.useAdvancedExpCoupon !== undefined) setUseAdvancedExpCoupon(d.useAdvancedExpCoupon);
+                if (d.advancedExpCouponCount !== undefined) setAdvancedExpCouponCount(d.advancedExpCouponCount);
+                if (d.advancedUseLevel !== undefined) setAdvancedUseLevel(d.advancedUseLevel);
+                if (d.useMechaberryFarm !== undefined) setUseMechaberryFarm(d.useMechaberryFarm);
+                if (d.mechaberryFarmCount !== undefined) setMechaberryFarmCount(d.mechaberryFarmCount);
+                if (d.useBlueberryFarm !== undefined) setUseBlueberryFarm(d.useBlueberryFarm);
+                if (d.blueberryFarmCount !== undefined) setBlueberryFarmCount(d.blueberryFarmCount);
+                if (d.blueberryUseLevel !== undefined) setBlueberryUseLevel(d.blueberryUseLevel);
+                if (d.useExpressBooster !== undefined) setUseExpressBooster(d.useExpressBooster);
+                if (d.expressBoosterCount !== undefined) setExpressBoosterCount(d.expressBoosterCount);
+                if (d.useVipBooster !== undefined) setUseVipBooster(d.useVipBooster);
+                if (d.vipBoosterCount !== undefined) setVipBoosterCount(d.vipBoosterCount);
+                if (d.vipBoosterUseLevel !== undefined) setVipBoosterUseLevel(d.vipBoosterUseLevel);
+                if (d.useElanos !== undefined) setUseElanos(d.useElanos);
+                if (d.useRune !== undefined) setUseRune(d.useRune);
+                if (d.burningFieldStage !== undefined) setBurningFieldStage(d.burningFieldStage);
+                if (d.useLucidBurning !== undefined) setUseLucidBurning(d.useLucidBurning);
+                if (d.lucidBurningHunting !== undefined) setLucidBurningHunting(d.lucidBurningHunting);
+                if (d.lucidBurningWeeklyMission !== undefined) setLucidBurningWeeklyMission(d.lucidBurningWeeklyMission);
+                if (d.lucidBurningSeasonMission !== undefined) setLucidBurningSeasonMission(d.lucidBurningSeasonMission);
+                if (d.useGoldenFarm !== undefined) setUseGoldenFarm(d.useGoldenFarm);
+                if (d.goldenFarmCount !== undefined) setGoldenFarmCount(d.goldenFarmCount);
+                if (d.goldenFarmBonusRate !== undefined) setGoldenFarmBonusRate(d.goldenFarmBonusRate);
+            }
+        } catch (e) {
+            console.error('Failed to load saved exp calculator state', e);
+        } finally {
+            setIsLoaded(true);
+        }
+    }, []);
+
+    // 💾 입력값 변경 시 로컬 스토리지에 자동 저장
+    useEffect(() => {
+        if (!isLoaded) return;
+        try {
+            const dataToSave = {
+                currentLevel,
+                currentLevelExp,
+                targetLevel,
+                targetLevelExp,
+                useHyperBurning,
+                useBurningBeyond,
+                usePersonalBurning,
+                personalCurrentClearedStage,
+                personalStage1Level,
+                personalStage1Exp,
+                personalStage1Reward,
+                personalStage2Level,
+                personalStage2Exp,
+                personalStage2Reward,
+                personalStage3Level,
+                personalStage3Exp,
+                personalStage3Reward,
+                personalStage30Level,
+                personalStage30Exp,
+                personalStage30Reward,
+                huntingMode,
+                dailyLevelPercent,
+                huntingExpPerHour,
+                dailyHuntingHours,
+                mobsPerHour,
+                additionalExpRate,
+                monsterParkCountWeek,
+                monsterParkCountSun,
+                mpEventSkillLevel,
+                arcaneEventSkillLevel,
+                grandisEventSkillLevel,
+                useSundayMaple,
+                useArcaneQuest,
+                useGrandisQuest,
+                dailyQuestExp,
+                useExtremeMonsterPark,
+                epicEventBonusRate,
+                useHighMountain,
+                highMountainReward,
+                useAnglerCompany,
+                anglerCompanyReward,
+                useNightmareGarden,
+                nightmareGardenReward,
+                useAurumRegis,
+                aurumRegisReward,
+                useSpecterBlast,
+                useGrowthPotion,
+                growthPotionCount,
+                growthPotionUseLevel,
+                useGrowthPotionFinish284,
+                useGrowthPotion269,
+                growthPotion269Count,
+                growthPotion269UseLevel,
+                useGrowthPotion269Finish284,
+                useVipSauna,
+                vipSaunaCount,
+                vipSaunaUseLevel,
+                useAdvancedExpCoupon,
+                advancedExpCouponCount,
+                advancedUseLevel,
+                useMechaberryFarm,
+                mechaberryFarmCount,
+                useBlueberryFarm,
+                blueberryFarmCount,
+                blueberryUseLevel,
+                useExpressBooster,
+                expressBoosterCount,
+                useVipBooster,
+                vipBoosterCount,
+                vipBoosterUseLevel,
+                useElanos,
+                useRune,
+                burningFieldStage,
+                useLucidBurning,
+                lucidBurningHunting,
+                lucidBurningWeeklyMission,
+                lucidBurningSeasonMission,
+                useGoldenFarm,
+                goldenFarmCount,
+                goldenFarmBonusRate
+            };
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToSave));
+        } catch (e) {
+            console.error('Failed to save exp calculator state', e);
+        }
+    }, [
+        isLoaded,
+        currentLevel,
+        currentLevelExp,
+        targetLevel,
+        targetLevelExp,
+        useHyperBurning,
+        useBurningBeyond,
+        usePersonalBurning,
+        personalCurrentClearedStage,
+        personalStage1Level,
+        personalStage1Exp,
+        personalStage1Reward,
+        personalStage2Level,
+        personalStage2Exp,
+        personalStage2Reward,
+        personalStage3Level,
+        personalStage3Exp,
+        personalStage3Reward,
+        personalStage30Level,
+        personalStage30Exp,
+        personalStage30Reward,
+        huntingMode,
+        dailyLevelPercent,
+        huntingExpPerHour,
+        dailyHuntingHours,
+        mobsPerHour,
+        additionalExpRate,
+        monsterParkCountWeek,
+        monsterParkCountSun,
+        mpEventSkillLevel,
+        arcaneEventSkillLevel,
+        grandisEventSkillLevel,
+        useSundayMaple,
+        useArcaneQuest,
+        useGrandisQuest,
+        dailyQuestExp,
+        useExtremeMonsterPark,
+        epicEventBonusRate,
+        useHighMountain,
+        highMountainReward,
+        useAnglerCompany,
+        anglerCompanyReward,
+        useNightmareGarden,
+        nightmareGardenReward,
+        useAurumRegis,
+        aurumRegisReward,
+        useSpecterBlast,
+        useGrowthPotion,
+        growthPotionCount,
+        growthPotionUseLevel,
+        useGrowthPotionFinish284,
+        useGrowthPotion269,
+        growthPotion269Count,
+        growthPotion269UseLevel,
+        useGrowthPotion269Finish284,
+        useVipSauna,
+        vipSaunaCount,
+        vipSaunaUseLevel,
+        useAdvancedExpCoupon,
+        advancedExpCouponCount,
+        advancedUseLevel,
+        useMechaberryFarm,
+        mechaberryFarmCount,
+        useBlueberryFarm,
+        blueberryFarmCount,
+        blueberryUseLevel,
+        useExpressBooster,
+        expressBoosterCount,
+        useVipBooster,
+        vipBoosterCount,
+        vipBoosterUseLevel,
+        useElanos,
+        useRune,
+        burningFieldStage,
+        useLucidBurning,
+        lucidBurningHunting,
+        lucidBurningWeeklyMission,
+        lucidBurningSeasonMission,
+        useGoldenFarm,
+        goldenFarmCount,
+        goldenFarmBonusRate
+    ]);
+
+    // 설정 초기화 핸들러
+    const handleResetAllData = () => {
+        if (confirm('입력하신 모든 계산기 설정과 수치를 초기 상태로 초기화하시겠습니까?')) {
+            try {
+                localStorage.removeItem(LOCAL_STORAGE_KEY);
+            } catch (e) {}
+            window.location.reload();
+        }
+    };
+
+    // 퍼스널 버닝 남은 일수 계산 (2026.09.17 ~ 2026.11.18 23:59:59)
     const [remainingDays, setRemainingDays] = useState<number | null>(null);
     const [currentWeek, setCurrentWeek] = useState<number | null>(null);
     const [showSpecterBlastTable, setShowSpecterBlastTable] = useState(false);
     useEffect(() => {
-        const targetDate = new Date("2026-09-17T04:00:00+09:00");
-        const startDate = new Date("2026-06-18T00:00:00+09:00");
+        const targetDate = new Date("2026-11-18T23:59:59+09:00");
+        const startDate = new Date("2026-09-17T00:00:00+09:00");
         const now = new Date();
         
         const diffMs = targetDate.getTime() - now.getTime();
@@ -188,6 +525,122 @@ export default function ExpCalculatorClient() {
         const pct = curData ? (rem / curData.requiredExp) * 100 : 0;
         return { level: lv, pct, gained: lv - currentLevel };
     })() : null;
+    // 🔥 퍼스널 버닝 1~3단계 및 30단계 기반 정밀 선형 회귀 역산 + 클리어 보상 경험치 연산
+    const personalCalculationResult = useMemo(() => {
+        if (!usePersonalBurning) return null;
+        
+        const points: Array<{ stage: number; exp: number }> = [];
+        if (personalStage1Level !== '' && personalStage1Exp !== '') {
+            points.push({ stage: personalInputStage1, exp: getAbsoluteExpFromLevelAndPercent(Number(personalStage1Level), Number(personalStage1Exp)) });
+        }
+        if (personalStage2Level !== '' && personalStage2Exp !== '') {
+            points.push({ stage: personalInputStage2, exp: getAbsoluteExpFromLevelAndPercent(Number(personalStage2Level), Number(personalStage2Exp)) });
+        }
+        if (personalStage3Level !== '' && personalStage3Exp !== '') {
+            points.push({ stage: personalInputStage3, exp: getAbsoluteExpFromLevelAndPercent(Number(personalStage3Level), Number(personalStage3Exp)) });
+        }
+        if (personalStage30Level !== '' && personalStage30Exp !== '') {
+            points.push({ stage: 30, exp: getAbsoluteExpFromLevelAndPercent(Number(personalStage30Level), Number(personalStage30Exp)) });
+        }
+
+        if (points.length < 2) return null;
+
+        const n = points.length;
+        const meanX = points.reduce((acc, p) => acc + p.stage, 0) / n;
+        const meanY = points.reduce((acc, p) => acc + p.exp, 0) / n;
+
+        let num = 0, den = 0;
+        points.forEach(p => {
+            num += (p.stage - meanX) * (p.exp - meanY);
+            den += (p.stage - meanX) ** 2;
+        });
+
+        const slope = den !== 0 ? num / den : 0;
+        const intercept = meanY - slope * meanX;
+
+        if (slope <= 0) return null;
+
+        const r1 = personalStage1Reward !== '' ? Number(personalStage1Reward) : 0;
+        const r2 = personalStage2Reward !== '' ? Number(personalStage2Reward) : 0;
+        const r3 = personalStage3Reward !== '' ? Number(personalStage3Reward) : 0;
+        const r30 = personalStage30Reward !== '' ? Number(personalStage30Reward) : 0;
+
+        // 레벨별 보상 매핑: 인게임 퍼스널 버닝은 레벨 구간별로 고정된 절대 경험치를 지급함 (Lv.292: 2조 4677억, Lv.293: 2조 4985억)
+        const startLv = personalStage1Level !== '' ? Number(personalStage1Level) : currentLevel;
+        const endLv = personalStage30Level !== '' ? Number(personalStage30Level) : startLv;
+        const startReq = EXP_DATA.find(d => d.level === startLv)?.requiredExp || 1;
+        const endReq = EXP_DATA.find(d => d.level === endLv)?.requiredExp || startReq;
+
+        const startExpReward = startReq * (r1 / 100);
+        const endExpReward = r30 > 0 ? endReq * (r30 / 100) : startExpReward;
+
+        const getRewardForLevel = (level: number) => {
+            if (endLv <= startLv || r30 <= 0) {
+                const req = EXP_DATA.find(d => d.level === level)?.requiredExp || startReq;
+                return { exp: startExpReward, pct: req > 0 ? (startExpReward / req) * 100 : 0 };
+            }
+            const progress = Math.max(0, Math.min(1, (level - startLv) / (endLv - startLv)));
+            const absExp = startExpReward + progress * (endExpReward - startExpReward);
+            const req = EXP_DATA.find(d => d.level === level)?.requiredExp || startReq;
+            return { exp: absExp, pct: req > 0 ? (absExp / req) * 100 : 0 };
+        };
+
+        const stages = [];
+        const startBaseExp = intercept;
+        let cumulativeReward = 0;
+
+        for (let k = 1; k <= 30; k++) {
+            const targetExp = intercept + slope * k;
+            const target = getLevelAndPercentFromAbsoluteExp(targetExp);
+            const reqExpForThisLv = EXP_DATA.find(d => d.level === target.level)?.requiredExp || 0;
+
+            let stageRewardPct = 0;
+            let rewardExpThisStage = 0;
+
+            if (k === personalInputStage1 && r1 > 0) {
+                stageRewardPct = r1;
+                rewardExpThisStage = reqExpForThisLv * (r1 / 100);
+            } else if (k === personalInputStage2 && personalStage2Reward !== '' && r2 > 0) {
+                stageRewardPct = r2;
+                rewardExpThisStage = reqExpForThisLv * (r2 / 100);
+            } else if (k === personalInputStage3 && personalStage3Reward !== '' && r3 > 0) {
+                stageRewardPct = r3;
+                rewardExpThisStage = reqExpForThisLv * (r3 / 100);
+            } else if (k === 30 && personalStage30Reward !== '' && r30 > 0) {
+                stageRewardPct = r30;
+                rewardExpThisStage = reqExpForThisLv * (r30 / 100);
+            } else {
+                const info = getRewardForLevel(target.level);
+                stageRewardPct = info.pct;
+                rewardExpThisStage = info.exp;
+            }
+
+            cumulativeReward += rewardExpThisStage;
+
+            stages.push({
+                stage: k,
+                level: target.level,
+                percent: target.percent,
+                absExp: targetExp,
+                cumulativeExpFromStart: targetExp - startBaseExp,
+                rewardExp: rewardExpThisStage,
+                rewardPct: stageRewardPct,
+                cumulativeReward
+            });
+        }
+
+        const totalRemainingRewardExp = stages
+            .filter(s => s.stage > personalCurrentClearedStage)
+            .reduce((sum, s) => sum + s.rewardExp, 0);
+
+        return {
+            expPerStage: slope,
+            finalStage: stages[29],
+            stages,
+            totalRemainingRewardExp
+        };
+    }, [usePersonalBurning, personalInputStage1, personalStage1Level, personalStage1Exp, personalStage1Reward, personalInputStage2, personalStage2Level, personalStage2Exp, personalStage2Reward, personalInputStage3, personalStage3Level, personalStage3Exp, personalStage3Reward, personalStage30Level, personalStage30Exp, personalStage30Reward, personalCurrentClearedStage, currentLevel]);
+
     // 황금 딸기 농장 이용권만으로 달성 가능한 레벨 시뮬레이션 및 정확한 총 획득 경험치 계산
     const goldenFarmExactResult = useMemo(() => {
         if (!useGoldenFarm || currentLevel < 200 || currentLevel > 259 || goldenFarmCount <= 0) return null;
@@ -249,12 +702,7 @@ export default function ExpCalculatorClient() {
 
     const arcaneQuestEventBonus = arcaneEventSkillLevel > 0 ? (arcaneEventSkillLevel / 100) : 0;
     const grandisQuestEventBonus = grandisEventSkillLevel > 0 ? (grandisEventSkillLevel / 100) : 0;
-    const epicCoreBonus = epicCoreLevel === 1 ? 0.02 :
-                          epicCoreLevel === 2 ? 0.05 :
-                          epicCoreLevel === 3 ? 0.10 :
-                          epicCoreLevel === 4 ? 0.20 :
-                          epicCoreLevel === 5 ? 0.30 : 0.0;
-    const epicDungeonMultiplier = 1.0 + (useEpicArtifact ? 1.5 : 0.0) + epicCoreBonus;
+    const epicDungeonMultiplier = 1.0 + (epicEventBonusRate > 0 ? epicEventBonusRate / 100 : 0);
 
     const arcaneQuestData = useMemo(() => getArcaneDailyQuest(targetLevel), [targetLevel]);
     const dailyArcaneQuestExp = useArcaneQuest ? arcaneQuestData.exp * (1 + arcaneQuestEventBonus) : 0;
@@ -262,30 +710,51 @@ export default function ExpCalculatorClient() {
     const dailyGrandisQuestExp = useGrandisQuest ? grandisQuestData.exp * (1 + grandisQuestEventBonus) : 0;
 
     const calculatedData = useMemo(() => {
-        if (currentLevel >= targetLevel) return { totalExpNeeded: 0, daysNeeded: 0, hoursNeeded: 0, levelBreakdown: [], monsterParkBreakdown: [], sourceBreakdown: [] };
+        if (currentLevel > targetLevel || (currentLevel === targetLevel && currentLevelExp >= targetLevelExp)) {
+            return { totalExpNeeded: 0, daysNeeded: 0, hoursNeeded: 0, levelBreakdown: [], monsterParkBreakdown: [], sourceBreakdown: [] };
+        }
 
         let totalExpNeeded = 0;
         const levelBreakdown: Array<{ level: number, expNeeded: number, percentage: number, daysNeeded: number, note?: string }> = [];
-        const currentLevelData = EXP_DATA.find(d => d.level === currentLevel);
-        if (currentLevelData) {
-            const currentLevelRemaining = currentLevelData.requiredExp * (100 - currentLevelExp) / 100;
-            totalExpNeeded += currentLevelRemaining;
-            levelBreakdown.push({ level: currentLevel, expNeeded: currentLevelRemaining, percentage: 100 - currentLevelExp, daysNeeded: 0 });
-        }
+        
+        if (currentLevel === targetLevel) {
+            const currentLevelData = EXP_DATA.find(d => d.level === currentLevel);
+            if (currentLevelData && targetLevelExp > currentLevelExp) {
+                const diffExp = currentLevelData.requiredExp * (targetLevelExp - currentLevelExp) / 100;
+                totalExpNeeded += diffExp;
+                levelBreakdown.push({ level: currentLevel, expNeeded: diffExp, percentage: targetLevelExp - currentLevelExp, daysNeeded: 0 });
+            }
+        } else {
+            const currentLevelData = EXP_DATA.find(d => d.level === currentLevel);
+            if (currentLevelData) {
+                const currentLevelRemaining = currentLevelData.requiredExp * (100 - currentLevelExp) / 100;
+                totalExpNeeded += currentLevelRemaining;
+                levelBreakdown.push({ level: currentLevel, expNeeded: currentLevelRemaining, percentage: 100 - currentLevelExp, daysNeeded: 0 });
+            }
 
-        for (let lv = currentLevel + 1; lv < targetLevel; lv++) {
-            const levelData = EXP_DATA.find(d => d.level === lv);
-            if (levelData) {
-                totalExpNeeded += levelData.requiredExp;
-                levelBreakdown.push({ level: lv, expNeeded: levelData.requiredExp, percentage: 100, daysNeeded: 0 });
+            for (let lv = currentLevel + 1; lv < targetLevel; lv++) {
+                const levelData = EXP_DATA.find(d => d.level === lv);
+                if (levelData) {
+                    totalExpNeeded += levelData.requiredExp;
+                    levelBreakdown.push({ level: lv, expNeeded: levelData.requiredExp, percentage: 100, daysNeeded: 0 });
+                }
+            }
+
+            if (targetLevelExp > 0) {
+                const targetLevelData = EXP_DATA.find(d => d.level === targetLevel);
+                if (targetLevelData) {
+                    const targetExpNeeded = targetLevelData.requiredExp * (targetLevelExp / 100);
+                    totalExpNeeded += targetExpNeeded;
+                    levelBreakdown.push({ level: targetLevel, expNeeded: targetExpNeeded, percentage: targetLevelExp, daysNeeded: 0 });
+                }
             }
         }
 
         let daysNeeded = 0, hoursNeeded = 0, totalHuntingHours = 0;
         const monsterParkBreakdown: Array<{ level: number; area: string; exp: number; days: number }> = [];
-        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0, blueberry: 0, specterBlast: 0, growthPotion: 0, growthPotion269: 0 };
+        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0, blueberry: 0, specterBlast: 0, growthPotion: 0, growthPotion269: 0, personalBurning: 0 };
 
-        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useBlueberryFarm || useLucidBurning || useGoldenFarm || useSpecterBlast || useGrowthPotion || useGrowthPotion269 || useGrowthPotionFinish284 || useGrowthPotion269Finish284) {
+        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useAurumRegis || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useBlueberryFarm || useLucidBurning || useGoldenFarm || useSpecterBlast || useGrowthPotion || useGrowthPotion269 || useGrowthPotionFinish284 || useGrowthPotion269Finish284 || (usePersonalBurning && personalCalculationResult !== null)) {
             let remainingExp = totalExpNeeded;
             let currentSimLevel = currentLevel;
             let currentSimLevelProgress = currentLevelExp;
@@ -322,7 +791,13 @@ export default function ExpCalculatorClient() {
                 totalExpSources.goldenFarm += farmTotal;
             }
 
-            while (remainingExp > 0 && currentSimLevel < targetLevel) {
+            // 🔥 퍼스널 버닝 클리어 보상 경험치 — 일괄 선반영 (남은 단계 전체 보상 총합)
+            if (usePersonalBurning && personalCalculationResult && personalCalculationResult.totalRemainingRewardExp > 0) {
+                carriedOverExp += personalCalculationResult.totalRemainingRewardExp;
+                totalExpSources.personalBurning += personalCalculationResult.totalRemainingRewardExp;
+            }
+
+            while (remainingExp > 0 && (currentSimLevel < targetLevel || (currentSimLevel === targetLevel && currentSimLevelProgress < targetLevelExp))) {
                 // Check if any consumables can be used at this level
                 const burningBonus = burningFieldStage * 10;
 
@@ -497,12 +972,11 @@ export default function ExpCalculatorClient() {
                 let dailyHighMountainExpSim = 0;
                 const nightmareData = NIGHTMARE_GARDEN_EXP.find(d => d.level === currentSimLevel);
                 const isNightmareValid = nightmareData && nightmareData.basic > 0;
-                const skipHighMountain = (useAnglerCompany && currentSimLevel >= 270) || (useNightmareGarden && currentSimLevel >= 280 && isNightmareValid);
+                const isAurumValid = AURUM_REGIS_EXP.find(d => d.level === currentSimLevel) !== undefined;
+                const skipHighMountain = (useAnglerCompany && currentSimLevel >= 270) || (useNightmareGarden && currentSimLevel >= 280 && isNightmareValid) || (useAurumRegis && currentSimLevel >= 290 && isAurumValid);
                 
-                // 9주차 자동 활성화에 따른 에픽 던전 보너스 동적 계산
-                const isWeek9Active = (remainingDays ?? 70) - dayCount <= 35;
-                const isEpicActive = useEpicArtifact && (!useEpicWeek9Auto || isWeek9Active);
-                const epicDungeonMultiplierSim = 1.0 + (isEpicActive ? 1.5 : 0.0) + epicCoreBonus;
+                // 에픽 던전 이벤트 보너스 적용
+                const epicDungeonMultiplierSim = 1.0 + (epicEventBonusRate > 0 ? epicEventBonusRate / 100 : 0);
 
                 if (useHighMountain && currentSimLevel >= 260 && !skipHighMountain) {
                     const hmData = HIGH_MOUNTAIN_EXP.find(d => d.level === currentSimLevel);
@@ -514,7 +988,7 @@ export default function ExpCalculatorClient() {
                 }
 
                 let dailyAnglerCompanyExpSim = 0;
-                const skipAnglerCompany = useNightmareGarden && currentSimLevel >= 280 && isNightmareValid;
+                const skipAnglerCompany = (useNightmareGarden && currentSimLevel >= 280 && isNightmareValid) || (useAurumRegis && currentSimLevel >= 290 && isAurumValid);
                 if (useAnglerCompany && currentSimLevel >= 270 && !skipAnglerCompany) {
                     const acData = ANGLER_COMPANY_EXP.find(d => d.level === currentSimLevel);
                     if (acData) {
@@ -524,13 +998,25 @@ export default function ExpCalculatorClient() {
                     }
                 }
 
+                const skipNightmareGarden = useAurumRegis && currentSimLevel >= 290 && isAurumValid;
                 let dailyNightmareGardenExpSim = 0;
-                if (useNightmareGarden && currentSimLevel >= 280) {
+                if (useNightmareGarden && currentSimLevel >= 280 && !skipNightmareGarden) {
                     const ngData = NIGHTMARE_GARDEN_EXP.find(d => d.level === currentSimLevel);
                     if (ngData) {
                         const baseMult = ngData.basic * epicDungeonMultiplierSim;
                         const total = nightmareGardenReward === 'basic' ? baseMult : nightmareGardenReward === 'stage1' ? baseMult + (ngData.bonus1 - ngData.basic) : baseMult + (ngData.bonus2 - ngData.basic);
                         dailyNightmareGardenExpSim = total / 7;
+                    }
+                }
+
+                // 아우룸 레기스 (Lv.290~) — 악몽선경보다 상위 던전, 290+ 구간에서 우선 적용
+                let dailyAurumRegisExpSim = 0;
+                if (useAurumRegis && currentSimLevel >= 290) {
+                    const arData = AURUM_REGIS_EXP.find(d => d.level === currentSimLevel);
+                    if (arData) {
+                        const baseMult = arData.basic * epicDungeonMultiplierSim;
+                        const total = aurumRegisReward === 'basic' ? baseMult : aurumRegisReward === 'stage1' ? baseMult + (arData.bonus1 - arData.basic) : baseMult + (arData.bonus2 - arData.basic);
+                        dailyAurumRegisExpSim = total / 7;
                     }
                 }
 
@@ -591,12 +1077,13 @@ export default function ExpCalculatorClient() {
                     }
                 }
 
-                const dailyTotalExp = dailyHuntingExp + dailyQuestExp + dailyMonsterParkExpSim + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim + dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim + dailyExtremeMpExpSim + dailySpecterBlastExpSim;
+                const dailyTotalExp = dailyHuntingExp + dailyQuestExp + dailyMonsterParkExpSim + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim + dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim + dailyAurumRegisExpSim + dailyExtremeMpExpSim + dailySpecterBlastExpSim;
 
                 const currentLevelDataSim = EXP_DATA.find(d => d.level === currentSimLevel);
                 if (!currentLevelDataSim || (dailyTotalExp <= 0 && carriedOverExp <= 0)) break;
 
-                let expToNextLevel = currentLevelDataSim.requiredExp * (100 - currentSimLevelProgress) / 100;
+                const targetProgressForThisLevel = currentSimLevel === targetLevel ? targetLevelExp : 100;
+                let expToNextLevel = currentLevelDataSim.requiredExp * (targetProgressForThisLevel - currentSimLevelProgress) / 100;
 
                 if (carriedOverExp > 0) {
                     const used = Math.min(carriedOverExp, expToNextLevel);
@@ -611,7 +1098,7 @@ export default function ExpCalculatorClient() {
                         totalExpSources.hunting += dailyHuntingExp * daysForThisLevel;
                         totalExpSources.monsterPark += (dailyMonsterParkExpSim + dailyExtremeMpExpSim) * daysForThisLevel;
                         totalExpSources.dailyQuest += (dailyQuestExp + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim) * daysForThisLevel;
-                        totalExpSources.epicDungeon += (dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim) * daysForThisLevel;
+                        totalExpSources.epicDungeon += (dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim + dailyAurumRegisExpSim) * daysForThisLevel;
                         totalExpSources.specterBlast += dailySpecterBlastExpSim * daysForThisLevel;
                     }
                 }
@@ -622,7 +1109,12 @@ export default function ExpCalculatorClient() {
                 dayCount += daysForThisLevel;
                 totalHuntingHours += daysForThisLevel * dailyHuntingHours;
                 monsterParkDayCount += daysForThisLevel;
-                remainingExp -= (currentLevelDataSim.requiredExp * (100 - currentSimLevelProgress) / 100);
+                remainingExp -= (currentLevelDataSim.requiredExp * (targetProgressForThisLevel - currentSimLevelProgress) / 100);
+
+                if (currentSimLevel === targetLevel) {
+                    currentSimLevelProgress = targetLevelExp;
+                    break;
+                }
 
                 let levelUpBonus = 1;
                 if (useHyperBurning && currentSimLevel >= 200 && currentSimLevel < 260) levelUpBonus = 5;
@@ -672,14 +1164,15 @@ export default function ExpCalculatorClient() {
             { name: '성장의 비약 (200~269)', value: totalExpSources.growthPotion269, textClass: 'text-rose-300', bgClass: 'bg-rose-300' },
             { name: '성장의 비약 (200~279)', value: totalExpSources.growthPotion, textClass: 'text-rose-400', bgClass: 'bg-rose-400' },
             { name: '🦋 체인지 버닝: 루시드', value: totalExpSources.lucidBurning, textClass: 'text-purple-400', bgClass: 'bg-purple-400' },
-            { name: '🍓 황금 딸기 농장', value: totalExpSources.goldenFarm, textClass: 'text-yellow-300', bgClass: 'bg-yellow-300' }
+            { name: '🍓 황금 딸기 농장', value: totalExpSources.goldenFarm, textClass: 'text-yellow-300', bgClass: 'bg-yellow-300' },
+            { name: '🔥 퍼스널 버닝 보상', value: totalExpSources.personalBurning, textClass: 'text-pink-400', bgClass: 'bg-pink-400' }
         ];
 
         const totalAccumulated = breakdownList.reduce((acc, item) => acc + item.value, 0);
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, vipSaunaUseLevel, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, useEpicArtifact, epicCoreLevel, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, vipBoosterUseLevel, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, useEpicWeek9Auto, remainingDays]);
+    }, [currentLevel, currentLevelExp, targetLevel, targetLevelExp, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useAurumRegis, aurumRegisReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, vipSaunaUseLevel, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, epicEventBonusRate, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, vipBoosterUseLevel, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, remainingDays, personalCalculationResult]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -708,10 +1201,11 @@ export default function ExpCalculatorClient() {
             ['그란디스 일퀘', useGrandisQuest ? `O (이벤트 +${grandisEventSkillLevel}%)` : 'X'],
             [],
             ['[주간/에픽 컨텐츠]'],
-            ['에픽던전 보너스', `${epicDungeonMultiplier.toFixed(2)}배 (아티팩트:${useEpicArtifact ? (useEpicWeek9Auto ? '9주차부터' : 'O') : 'X'} / 코어:${epicCoreLevel}L)`],
+            ['에픽던전 보너스', `${epicDungeonMultiplier.toFixed(2)}배 (이벤트 +${epicEventBonusRate}%)`],
             ['하이마운틴', useHighMountain ? `O (${highMountainReward === 'basic' ? '기본' : highMountainReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
             ['앵글러 컴퍼니', useAnglerCompany ? `O (${anglerCompanyReward === 'basic' ? '기본' : anglerCompanyReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
             ['악몽선경', useNightmareGarden ? `O (${nightmareGardenReward === 'basic' ? '기본' : nightmareGardenReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
+            ['아우룸 레기스', useAurumRegis ? `O (${aurumRegisReward === 'basic' ? '기본' : aurumRegisReward === 'stage1' ? 'XP 1단계' : 'XP 2단계'})` : 'X'],
             ['스펙터 블래스트', useSpecterBlast ? 'O (주간)' : 'X'],
             [],
             ['[소비 아이템]'],
@@ -791,25 +1285,25 @@ export default function ExpCalculatorClient() {
             <main className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-32 xl:pb-8">
                 <div className="mb-6"><InArticleAd dataAdSlot="8162808816" /></div>
                 {remainingDays !== null && (
-                    <div className="bg-gradient-to-r from-slate-900 via-indigo-950/20 to-slate-900 border border-indigo-500/30 rounded-xl p-4 mb-6 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="bg-gradient-to-r from-slate-900 via-pink-950/30 to-slate-900 border border-pink-500/40 rounded-xl p-4 mb-6 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
                             <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0">
-                                <img src="/images/challengers-icon.png" alt="Challengers World" className="object-contain w-full h-full" />
+                                <img src="/images/personal-flame-icon.png" alt="퍼스널 버닝" className="object-contain w-full h-full rounded-full" />
                             </div>
                             <div>
                                 <h4 className="text-sm font-bold text-white flex flex-wrap items-center gap-2">
-                                    <span>챌린저스 월드 시즌4</span>
+                                    <span className="text-pink-400 font-bold">퍼스널 버닝</span>
                                     {currentWeek !== null && currentWeek > 0 && (
-                                        <span className="text-[10px] font-extrabold px-1.5 py-0.5 bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 rounded shadow-sm">
+                                        <span className="text-[10px] font-extrabold px-1.5 py-0.5 bg-pink-500/20 border border-pink-500/40 text-pink-300 rounded shadow-sm">
                                             {currentWeek}주차 진행중
                                         </span>
                                     )}
                                 </h4>
-                                <p className="text-xs text-slate-400">2026년 06월 18일 12시 00분 ~ 2026년 09월 17일 04시 00분</p>
+                                <p className="text-xs text-slate-400">2026년 09월 17일(목) 점검 후 ~ 2026년 11월 18일(수) 23시 59분</p>
                             </div>
                         </div>
-                        <div className="bg-indigo-950 border border-indigo-500/40 rounded-lg px-4 py-2.5 text-center w-full sm:w-auto shadow-sm">
-                            <span className="text-sm font-extrabold text-yellow-400">현재 남은 챌린저스 월드 육성 일수 : {remainingDays}일</span>
+                        <div className="bg-pink-950/50 border border-pink-500/40 rounded-lg px-4 py-2.5 text-center w-full sm:w-auto shadow-sm">
+                            <span className="text-sm font-extrabold text-pink-200">현재 남은 퍼스널 버닝 기간 : <span className="text-yellow-400 font-black">{remainingDays}일</span></span>
                         </div>
                     </div>
                 )}
@@ -817,7 +1311,19 @@ export default function ExpCalculatorClient() {
                     <div className="space-y-6">
                         {/* 레벨 설정 */}
                         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-6 shadow-lg">
-                            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><TrendingUp className="w-5 h-5 text-blue-500" />레벨 설정</h2>
+                            <div className="flex items-center justify-between mb-4">
+                                <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                                    <TrendingUp className="w-5 h-5 text-blue-500" />레벨 설정
+                                </h2>
+                                <button
+                                    onClick={handleResetAllData}
+                                    title="입력된 모든 설정과 수치를 초기값으로 리셋합니다"
+                                    className="flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-red-400 bg-slate-800 hover:bg-slate-800/90 border border-slate-700 hover:border-red-500/40 px-2.5 py-1 rounded-md transition-all cursor-pointer shadow-sm active:scale-95"
+                                >
+                                    <RotateCcw className="w-3.5 h-3.5" />
+                                    <span>초기화</span>
+                                </button>
+                            </div>
                             <div className="space-y-4">
                                 <div>
                                     <div className="flex items-center justify-between mb-2">
@@ -860,7 +1366,7 @@ export default function ExpCalculatorClient() {
                                             <span className="text-sm text-slate-500 font-bold">Lv.</span>
                                             <input 
                                                 type="number"
-                                                min={(currentLevel || 200) + 1}
+                                                min={currentLevel || 200}
                                                 max="300"
                                                 value={targetLevel || ''}
                                                 onChange={(e) => {
@@ -868,7 +1374,7 @@ export default function ExpCalculatorClient() {
                                                     setTargetLevel(val as any);
                                                 }}
                                                 onBlur={() => {
-                                                    const minTarget = (Number(currentLevel) || 200) + 1;
+                                                    const minTarget = Number(currentLevel) || 200;
                                                     const val = Math.max(minTarget, Math.min(300, Number(targetLevel) || minTarget));
                                                     setTargetLevel(val);
                                                 }}
@@ -876,13 +1382,337 @@ export default function ExpCalculatorClient() {
                                             />
                                         </div>
                                     </div>
-                                    <input type="range" min={(currentLevel || 200) + 1} max="300" step="1" value={targetLevel || 201} onChange={(e) => setTargetLevel(Number(e.target.value))} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-500" />
+                                    <input type="range" min={currentLevel || 200} max="300" step="1" value={targetLevel || 201} onChange={(e) => setTargetLevel(Number(e.target.value))} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-500" />
+                                </div>
+                                <div>
+                                    <div className="flex items-center justify-between mb-2">
+                                        <label className="text-sm font-medium text-slate-300">목표 레벨 진행도 (%)</label>
+                                        <div className="flex items-center gap-1">
+                                            <input 
+                                                type="number" 
+                                                min="0" 
+                                                max="99.999" 
+                                                step="0.001" 
+                                                value={targetLevelExp} 
+                                                onChange={(e) => setTargetLevelExp(Math.min(99.999, Math.max(0, Number(e.target.value) || 0)))} 
+                                                className="w-24 bg-slate-800 border border-slate-700 text-purple-400 font-extrabold text-base text-right rounded px-2 py-1 focus:outline-none focus:border-purple-500 transition-colors" 
+                                                placeholder="0" 
+                                            />
+                                            <span className="text-sm text-slate-400 font-bold">%</span>
+                                        </div>
+                                    </div>
+                                    <input 
+                                        type="range" 
+                                        min="0" 
+                                        max="99.999" 
+                                        step="0.001" 
+                                        value={targetLevelExp || 0} 
+                                        onChange={(e) => setTargetLevelExp(Number(e.target.value))} 
+                                        className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-500" 
+                                    />
                                 </div>
                                 {currentLevel < 260 && targetLevel > 200 && (
                                     <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer"><input type="checkbox" checked={useHyperBurning} onChange={(e) => setUseHyperBurning(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-red-600 focus:ring-red-500" />🔥 하이퍼버닝 (Lv.200~260)</label>
                                 )}
                                 {currentLevel < 280 && targetLevel >= 260 && (
                                     <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer"><input type="checkbox" checked={useBurningBeyond} onChange={(e) => setUseBurningBeyond(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-purple-500" />✨ 버닝 비욘드 (Lv.260~280)</label>
+                                )}
+
+                                {/* 🔥 퍼스널 버닝 (Lv.260~300) */}
+                                {(targetLevel >= 260 || currentLevel >= 260) && (
+                                    <div className="pt-2 border-t border-slate-800/80 space-y-3">
+                                        <label className="flex items-center gap-2 text-sm font-medium text-slate-300 cursor-pointer">
+                                            <input 
+                                                type="checkbox" 
+                                                checked={usePersonalBurning} 
+                                                onChange={(e) => setUsePersonalBurning(e.target.checked)} 
+                                                className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-pink-600 focus:ring-pink-500 cursor-pointer" 
+                                            />
+                                            <span className="flex items-center gap-1.5">
+                                                <img src="/images/personal-flame-icon.png" alt="퍼스널 버닝" className="w-4 h-4 rounded-full inline" />
+                                                <span className="text-pink-400 font-bold">퍼스널 버닝 (Lv.260~300)</span>
+                                                <span className="text-[10px] text-pink-300 bg-pink-950/60 px-1.5 py-0.5 rounded border border-pink-500/30">성장 미션 역산</span>
+                                            </span>
+                                        </label>
+
+                                        {usePersonalBurning && (
+                                            <div className="p-3 bg-gradient-to-b from-pink-950/30 to-slate-900 border border-pink-500/40 rounded-xl space-y-3">
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-xs font-bold text-pink-300 flex items-center gap-1.5">
+                                                        🎯 맞춤형 미션 목표 입력 (선택 단계 & 30단계)
+                                                    </span>
+                                                    <span className="text-[10px] text-yellow-300 bg-yellow-950/40 border border-yellow-500/30 px-1.5 py-0.5 rounded">
+                                                        최소 2개 이상 입력 시 자동 완성
+                                                    </span>
+                                                </div>
+                                                <p className="text-[11px] text-slate-400 leading-relaxed">
+                                                    클리어한 단계는 완료 처리하고, 현재 화면에 보이는 <strong>미완료 단계</strong>와 <strong>30단계</strong> 목표를 입력하시면 30단계 전 구간 로드맵 및 레벨별 보상 경험치를 완벽히 계산합니다.
+                                                </p>
+
+                                                {/* 현재 완료 단계 셀렉터 바 (상단 배치) */}
+                                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-slate-900/90 border border-pink-500/30 rounded-lg text-xs">
+                                                    <div className="flex items-center gap-2 flex-wrap">
+                                                        <span className="text-yellow-400 font-bold flex items-center gap-1">
+                                                            <span>⭐</span> 현재 완료 단계:
+                                                        </span>
+                                                        <select
+                                                            value={personalCurrentClearedStage}
+                                                            onChange={(e) => handlePersonalClearedStageChange(Number(e.target.value))}
+                                                            className="bg-slate-800 border border-slate-700 rounded text-xs px-2.5 py-1 text-white font-bold outline-none focus:border-pink-500 cursor-pointer"
+                                                        >
+                                                            {[...Array(31)].map((_, idx) => (
+                                                                <option key={idx} value={idx}>{idx}단계 완료 {idx === 0 ? '(시작 전)' : ''}</option>
+                                                            ))}
+                                                        </select>
+                                                        <span className="text-[11px] text-slate-400 hidden md:inline">
+                                                            (완료 단계 선택 시 아래 입력창이 미완료 단계로 자동 전환됩니다)
+                                                        </span>
+                                                    </div>
+                                                    <span className="text-[11px] text-pink-400 font-medium">
+                                                        {personalCurrentClearedStage === 0 
+                                                            ? '🔥 1~30단계 전 구간 보상 적용' 
+                                                            : `남은 ${30 - personalCurrentClearedStage}개 단계 보상만 시뮬레이션 합산`}
+                                                    </span>
+                                                </div>
+
+                                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                                    {/* 선택 단계 1 */}
+                                                    <div className="bg-slate-900/90 p-2.5 rounded-lg border border-pink-500/30 space-y-2">
+                                                        <div>
+                                                            <span className="text-[11px] font-bold text-pink-400 block mb-1">{personalInputStage1}단계 목표</span>
+                                                            <div className="flex items-center gap-1 mb-1">
+                                                                <span className="text-[10px] text-slate-500 font-bold">Lv.</span>
+                                                                <input 
+                                                                    type="number" 
+                                                                    placeholder={currentLevel >= 260 ? String(currentLevel) : "260"}
+                                                                    value={personalStage1Level || ''} 
+                                                                    onChange={(e) => setPersonalStage1Level(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-white text-center focus:border-pink-500 outline-none"
+                                                                />
+                                                            </div>
+                                                            <div className="flex items-center gap-1">
+                                                                <input 
+                                                                    type="number" 
+                                                                    step="0.001"
+                                                                    placeholder="1.410"
+                                                                    value={personalStage1Exp !== '' ? personalStage1Exp : ''} 
+                                                                    onChange={(e) => setPersonalStage1Exp(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-white text-right focus:border-pink-500 outline-none"
+                                                                />
+                                                                <span className="text-[10px] text-slate-500">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="pt-2 border-t border-slate-800/80">
+                                                            <span className="text-[10px] text-emerald-400 font-semibold block mb-1">클리어 보상</span>
+                                                            <div className="flex items-center gap-1">
+                                                                <input 
+                                                                    type="number" 
+                                                                    step="0.001"
+                                                                    placeholder="0.693"
+                                                                    value={personalStage1Reward !== '' ? personalStage1Reward : ''} 
+                                                                    onChange={(e) => setPersonalStage1Reward(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-emerald-300 font-bold text-right focus:border-emerald-500 outline-none"
+                                                                />
+                                                                <span className="text-[10px] text-slate-500">%</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* 선택 단계 2 */}
+                                                    <div className="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 space-y-2">
+                                                        <div>
+                                                            <span className="text-[11px] font-bold text-pink-400 block mb-1">{personalInputStage2}단계 목표</span>
+                                                            <div className="flex items-center gap-1 mb-1">
+                                                                <span className="text-[10px] text-slate-500 font-bold">Lv.</span>
+                                                                <input 
+                                                                    type="number" 
+                                                                    placeholder={personalStage1Level !== '' ? String(personalStage1Level) : (currentLevel >= 260 ? String(currentLevel) : "260")}
+                                                                    value={personalStage2Level || ''} 
+                                                                    onChange={(e) => setPersonalStage2Level(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-white text-center focus:border-pink-500 outline-none"
+                                                                />
+                                                            </div>
+                                                            <div className="flex items-center gap-1">
+                                                                <input 
+                                                                    type="number" 
+                                                                    step="0.001"
+                                                                    placeholder="5.636"
+                                                                    value={personalStage2Exp !== '' ? personalStage2Exp : ''} 
+                                                                    onChange={(e) => setPersonalStage2Exp(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-white text-right focus:border-pink-500 outline-none"
+                                                                />
+                                                                <span className="text-[10px] text-slate-500">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="pt-2 border-t border-slate-800/80">
+                                                            <span className="text-[10px] text-emerald-400 font-semibold block mb-1">클리어 보상</span>
+                                                            <div className="flex items-center gap-1">
+                                                                <input 
+                                                                    type="number" 
+                                                                    step="0.001"
+                                                                    placeholder={personalStage1Reward !== '' ? String(personalStage1Reward) : "0.693"}
+                                                                    value={personalStage2Reward !== '' ? personalStage2Reward : ''} 
+                                                                    onChange={(e) => setPersonalStage2Reward(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-emerald-300 font-bold text-right focus:border-emerald-500 outline-none"
+                                                                />
+                                                                <span className="text-[10px] text-slate-500">%</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* 선택 단계 3 */}
+                                                    <div className="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 space-y-2">
+                                                        <div>
+                                                            <span className="text-[11px] font-bold text-pink-400 block mb-1">{personalInputStage3}단계 목표</span>
+                                                            <div className="flex items-center gap-1 mb-1">
+                                                                <span className="text-[10px] text-slate-500 font-bold">Lv.</span>
+                                                                <input 
+                                                                    type="number" 
+                                                                    placeholder={personalStage2Level !== '' ? String(personalStage2Level) : (currentLevel >= 260 ? String(currentLevel) : "260")}
+                                                                    value={personalStage3Level || ''} 
+                                                                    onChange={(e) => setPersonalStage3Level(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-white text-center focus:border-pink-500 outline-none"
+                                                                />
+                                                            </div>
+                                                            <div className="flex items-center gap-1">
+                                                                <input 
+                                                                    type="number" 
+                                                                    step="0.001"
+                                                                    placeholder="9.863"
+                                                                    value={personalStage3Exp !== '' ? personalStage3Exp : ''} 
+                                                                    onChange={(e) => setPersonalStage3Exp(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-white text-right focus:border-pink-500 outline-none"
+                                                                />
+                                                                <span className="text-[10px] text-slate-500">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="pt-2 border-t border-slate-800/80">
+                                                            <span className="text-[10px] text-emerald-400 font-semibold block mb-1">클리어 보상</span>
+                                                            <div className="flex items-center gap-1">
+                                                                <input 
+                                                                    type="number" 
+                                                                    step="0.001"
+                                                                    placeholder={personalStage2Reward !== '' ? String(personalStage2Reward) : (personalStage1Reward !== '' ? String(personalStage1Reward) : "0.693")}
+                                                                    value={personalStage3Reward !== '' ? personalStage3Reward : ''} 
+                                                                    onChange={(e) => setPersonalStage3Reward(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-emerald-300 font-bold text-right focus:border-emerald-500 outline-none"
+                                                                />
+                                                                <span className="text-[10px] text-slate-500">%</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* 30단계 */}
+                                                    <div className="bg-slate-900/90 p-2.5 rounded-lg border border-pink-500/40 shadow-sm space-y-2">
+                                                        <div>
+                                                            <span className="text-[11px] font-bold text-yellow-400 block mb-1">30단계 최종</span>
+                                                            <div className="flex items-center gap-1 mb-1">
+                                                                <span className="text-[10px] text-slate-500 font-bold">Lv.</span>
+                                                                <input 
+                                                                    type="number" 
+                                                                    placeholder={personalStage30Level !== '' ? String(personalStage30Level) : (currentLevel >= 260 ? String(currentLevel + 1) : "265")}
+                                                                    value={personalStage30Level || ''} 
+                                                                    onChange={(e) => setPersonalStage30Level(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-pink-500/40 rounded text-xs px-1.5 py-1 text-yellow-300 font-bold text-center focus:border-yellow-400 outline-none"
+                                                                />
+                                                            </div>
+                                                            <div className="flex items-center gap-1">
+                                                                <input 
+                                                                    type="number" 
+                                                                    step="0.001"
+                                                                    placeholder="28.921"
+                                                                    value={personalStage30Exp !== '' ? personalStage30Exp : ''} 
+                                                                    onChange={(e) => setPersonalStage30Exp(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-pink-500/40 rounded text-xs px-1.5 py-1 text-yellow-300 font-bold text-right focus:border-yellow-400 outline-none"
+                                                                />
+                                                                <span className="text-[10px] text-slate-500">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="pt-2 border-t border-slate-800/80">
+                                                            <span className="text-[10px] text-emerald-400 font-semibold block mb-1">클리어 보상</span>
+                                                            <div className="flex items-center gap-1">
+                                                                <input 
+                                                                    type="number" 
+                                                                    step="0.001"
+                                                                    placeholder={personalStage1Reward !== '' ? String(personalStage1Reward) : "0.638"}
+                                                                    value={personalStage30Reward !== '' ? personalStage30Reward : ''} 
+                                                                    onChange={(e) => setPersonalStage30Reward(e.target.value === '' ? '' : Number(e.target.value))}
+                                                                    className="w-full bg-slate-800 border border-pink-500/40 rounded text-xs px-1.5 py-1 text-emerald-300 font-bold text-right focus:border-emerald-500 outline-none"
+                                                                />
+                                                                <span className="text-[10px] text-slate-500">%</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="text-[11px] text-slate-400 px-1">
+                                                    💡 <strong>입력 팁</strong>: 화면에 보이는 미완료 단계 3개와 30단계 최종 목표를 입력하시면 됩니다. 1단계 보상만 입력해도 전 구간에 기본 적용되며, 30단계를 함께 입력하면 레벨업에 따른 경험치 증가가 정밀 반영됩니다.
+                                                </div>
+                                                
+                                                {/* 산출 결과 표시 */}
+                                                {personalCalculationResult && (
+                                                    <div className="bg-slate-900/95 border border-pink-500/30 rounded-lg p-3 space-y-2.5">
+                                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                                                            <div className="bg-slate-800/60 p-2 rounded">
+                                                                <span className="text-[10px] text-slate-400 block">단계당 요구 경험치</span>
+                                                                <span className="text-xs font-bold text-pink-400">{formatExpInEok(personalCalculationResult.expPerStage)}</span>
+                                                            </div>
+                                                            <div className="bg-slate-800/60 p-2 rounded">
+                                                                <span className="text-[10px] text-slate-400 block">30단계 최종 목표</span>
+                                                                <span className="text-xs font-bold text-yellow-400">Lv.{personalCalculationResult.finalStage.level} ({personalCalculationResult.finalStage.percent.toFixed(3)}%)</span>
+                                                            </div>
+                                                            <div className="bg-slate-800/60 p-2 rounded">
+                                                                <span className="text-[10px] text-slate-400 block">총 보상 경험치 (남은 {Math.max(0, 30 - personalCurrentClearedStage)}단계)</span>
+                                                                <span className="text-xs font-bold text-emerald-400">+{formatExpInEok(personalCalculationResult.totalRemainingRewardExp)}</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setTargetLevel(personalCalculationResult.finalStage.level)}
+                                                                className="flex-1 py-1.5 bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold rounded shadow transition-colors text-center"
+                                                            >
+                                                                🎯 목표 레벨을 Lv.{personalCalculationResult.finalStage.level}로 동기화
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setShowPersonalTable(prev => !prev)}
+                                                                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded border border-slate-700 transition-colors"
+                                                            >
+                                                                {showPersonalTable ? '▲ 테이블 접기' : '▼ 인게임 1~30단계 전 구간 로드맵 보기'}
+                                                            </button>
+                                                        </div>
+
+                                                        {showPersonalTable && (
+                                                            <div className="max-h-64 overflow-y-auto rounded border border-slate-800 text-xs mt-2">
+                                                                <table className="w-full text-left border-collapse">
+                                                                    <thead className="bg-slate-800 sticky top-0 text-[10px] text-slate-400">
+                                                                        <tr>
+                                                                            <th className="p-1.5 text-center">단계</th>
+                                                                            <th className="p-1.5">달성 목표 레벨</th>
+                                                                            <th className="p-1.5 text-right">클리어 보상 경험치</th>
+                                                                            <th className="p-1.5 text-right">누적 요구 EXP</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody className="divide-y divide-slate-800/50 text-[11px]">
+                                                                        {personalCalculationResult.stages.map((st: any) => (
+                                                                            <tr key={st.stage} className={st.stage === 30 ? 'bg-pink-950/40 text-yellow-300 font-bold' : (st.stage <= personalCurrentClearedStage ? 'bg-slate-800/40 text-slate-500 line-through' : (st.stage <= 3 ? 'bg-slate-800/30 text-pink-300' : 'text-slate-300 hover:bg-slate-800/20'))}>
+                                                                                <td className="p-1.5 text-center font-medium">{st.stage}단계 {st.stage <= personalCurrentClearedStage ? '✓' : ''}</td>
+                                                                                <td className="p-1.5">Lv.{st.level} ({st.percent.toFixed(3)}%)</td>
+                                                                                <td className="p-1.5 text-right font-medium text-emerald-400">+{formatExpInEok(st.rewardExp)} <span className="text-[10px] text-slate-400 font-normal">({st.rewardPct.toFixed(3)}%)</span></td>
+                                                                                <td className="p-1.5 text-right text-slate-400">{formatExpInEok(st.cumulativeExpFromStart)}</td>
+                                                                            </tr>
+                                                                        ))}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
                                 )}
 
                             </div>
@@ -1074,52 +1904,20 @@ export default function ExpCalculatorClient() {
                                 <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg space-y-4">
                                     <h3 className="font-bold text-white flex items-center gap-2"><span className="text-indigo-400">🎮</span>주간 컨텐츠</h3>
                                     <div className="space-y-2">
-                                        <p className="text-xs text-slate-400">
-                                            에픽 던전 보너스
-                                            <span className="block text-[10px] text-slate-500">(이벤트 고대의 힘 활성화)</span>
-                                        </p>
-                                        <div className="space-y-2 mt-1">
-                                            <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                        <div className="flex items-center justify-between gap-2">
+                                            <span className="text-xs text-slate-400">에픽 던전</span>
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-[10px] text-slate-500">이벤트 +</span>
                                                 <input
-                                                    type="checkbox"
-                                                    checked={useEpicArtifact}
-                                                    onChange={(e) => setUseEpicArtifact(e.target.checked)}
-                                                    className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500"
+                                                    type="number"
+                                                    min="0"
+                                                    max="500"
+                                                    value={epicEventBonusRate}
+                                                    onFocus={(e) => e.target.select()}
+                                                    onChange={(e) => setEpicEventBonusRate(Math.max(0, Number(e.target.value)))}
+                                                    className="w-16 h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 text-right text-white focus:outline-none focus:border-indigo-500"
                                                 />
-                                                아티팩트 활성화 (+150%)
-                                            </label>
-                                            {useEpicArtifact && (
-                                                <div className="pl-6 space-y-1">
-                                                    <label className="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer mt-1 bg-slate-800/80 p-1.5 rounded border border-slate-600/30">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={useEpicWeek9Auto}
-                                                            onChange={(e) => setUseEpicWeek9Auto(e.target.checked)}
-                                                            className="w-3.5 h-3.5 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                                                        />
-                                                        <span>📅 9주차(8/13)부터 자동 활성화</span>
-                                                    </label>
-                                                    {useEpicWeek9Auto && (
-                                                        <div className="text-[10px] text-indigo-200 bg-indigo-950/20 border border-indigo-900/30 p-2 rounded leading-relaxed mt-1 font-normal">
-                                                            💡 2026년 8월 13일(목) 이후 시뮬레이션 일차에 진입하면 자동으로 고대의 힘(+150%) 보너스가 적용됩니다.
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-                                            <div className="flex items-center justify-between gap-2">
-                                                <span className="text-xs text-slate-400">코어 레벨</span>
-                                                <select
-                                                    value={epicCoreLevel}
-                                                    onChange={(e) => setEpicCoreLevel(Number(e.target.value))}
-                                                    className="h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white focus:outline-none focus:border-indigo-500 outline-none"
-                                                >
-                                                    <option value={0}>미활성화 (+0%)</option>
-                                                    <option value={1}>1레벨 (+2%)</option>
-                                                    <option value={2}>2레벨 (+5%)</option>
-                                                    <option value={3}>3레벨 (+10%)</option>
-                                                    <option value={4}>4레벨 (+20%)</option>
-                                                    <option value={5}>5레벨 (+30%)</option>
-                                                </select>
+                                                <span className="text-xs text-slate-500">%</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1146,6 +1944,15 @@ export default function ExpCalculatorClient() {
                                                     <span>🌌 악몽선경</span>
                                                 </label>
                                                 {useNightmareGarden && <select value={nightmareGardenReward} onChange={(e) => setNightmareGardenReward(e.target.value as any)} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white outline-none"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
+                                            </>
+                                        )}
+                                        {targetLevel >= 290 && (
+                                            <>
+                                                <label className="flex items-center gap-2 text-xs text-slate-300 mt-2 cursor-pointer">
+                                                    <input type="checkbox" checked={useAurumRegis} onChange={(e) => setUseAurumRegis(e.target.checked)} className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                                                    <span>🏛️ 아우룸 레기스 <span className="text-[10px] text-amber-400 font-bold">NEW Lv.290+</span></span>
+                                                </label>
+                                                {useAurumRegis && <select value={aurumRegisReward} onChange={(e) => setAurumRegisReward(e.target.value as any)} className="w-full h-9 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1 text-white outline-none"><option value="basic">기본</option><option value="stage1">XP 1단계</option><option value="stage2">XP 2단계</option></select>}
                                             </>
                                         )}
                                         <p className="text-[10px] text-indigo-300/80 leading-relaxed pt-1">
@@ -1569,8 +2376,8 @@ export default function ExpCalculatorClient() {
                             <p>하이퍼버닝(Lv.200~260, 1레벨업 시 5레벨 보너스)과 버닝비욘드(Lv.260~280, 2레벨 보너스)를 선택하면 레벨 구간별 소요 일수가 자동으로 단축됩니다. 버닝 이벤트 기간에 최적화된 레벨업 계획을 바로 확인하세요.</p>
                         </div>
                         <div>
-                            <h3 className="text-slate-400 font-semibold mb-2">🎮 챌린저스 월드 시즌4 경험치 연산</h3>
-                            <p>2026년 6월 18일부터 9월 17일까지 진행되는 챌린저스 월드 시즌4의 성장 혜택을 완벽하게 계산합니다. 남은 육성 기간(실시간 카운트다운) 내에 목표 레벨을 달성할 수 있는지 예측하고, 9주차(8/13) 이후 에픽 던전 고대의 힘(+150%) 자동 적용까지 시뮬레이션에 동적으로 연동해 줍니다.</p>
+                            <h3 className="text-slate-400 font-semibold mb-2">🔥 퍼스널 버닝 & 성장 미션 경험치 연산</h3>
+                            <p>2026년 9월 17일부터 11월 18일까지 진행되는 퍼스널 버닝의 맞춤형 성장 미션 혜택을 계산합니다. 남은 이벤트 기간(실시간 카운트다운) 내에 목표 레벨을 달성할 수 있는지 예측하고 최적의 성장 계획을 시뮬레이션해 줍니다.</p>
                         </div>
                         <div>
                             <h3 className="text-slate-400 font-semibold mb-2">📊 레벨별 필요 경험치 (주요 구간)</h3>
