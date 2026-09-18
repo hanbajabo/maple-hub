@@ -88,6 +88,27 @@ export default function CalculatorMenu() {
                             </div>
                         </Link>
 
+                        <Link
+                            href="/guide/exp-calculator"
+                            prefetch={false}
+                            onClick={close}
+                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
+                        >
+                            <img
+                                src="/images/personal-flame-icon.png"
+                                alt="퍼스널 버닝"
+                                className="w-6 h-6 object-contain flex-shrink-0 rounded-full"
+                            />
+                            <div className="flex flex-col min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-semibold text-sm">경험치 계산기</span>
+                                    <span className="bg-pink-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded animate-pulse shadow-sm flex-shrink-0">UPDATE</span>
+                                </div>
+                                <div className="flex items-center gap-1 mt-0.5 flex-wrap">
+                                    <span className="text-[10px] text-pink-400 font-medium">퍼스널 버닝 업데이트!</span>
+                                </div>
+                            </div>
+                        </Link>
 
                         <Link
                             href="/tools/starforce"
@@ -156,29 +177,6 @@ export default function CalculatorMenu() {
                                     <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
                                 </div>
                                 <span className="text-[10px] text-slate-400 mt-0.5">레벨별 경험치 효율 TOP 20</span>
-                            </div>
-                        </Link>
-
-
-                        <Link
-                            href="/guide/exp-calculator"
-                            prefetch={false}
-                            onClick={close}
-                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
-                        >
-                            <img
-                                src="/images/personal-flame-icon.png"
-                                alt="퍼스널 버닝"
-                                className="w-6 h-6 object-contain flex-shrink-0 rounded-full"
-                            />
-                            <div className="flex flex-col min-w-0">
-                                <div className="flex items-center gap-1.5">
-                                    <span className="font-semibold text-sm">경험치 계산기</span>
-                                    <span className="bg-pink-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded animate-pulse shadow-sm flex-shrink-0">UPDATE</span>
-                                </div>
-                                <div className="flex items-center gap-1 mt-0.5 flex-wrap">
-                                    <span className="text-[10px] text-pink-400 font-medium">퍼스널 버닝 업데이트!</span>
-                                </div>
                             </div>
                         </Link>
 
