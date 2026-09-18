@@ -120,7 +120,6 @@ export default function CalculatorMenu() {
                             <div className="flex flex-col min-w-0">
                                 <div className="flex items-center gap-1.5">
                                     <span className="font-semibold text-sm">스타포스 기댓값 계산기</span>
-                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
                                 </div>
                                 <span className="text-[10px] text-slate-400 mt-0.5">하락 제거 & 복구 최적화</span>
                             </div>
@@ -136,7 +135,6 @@ export default function CalculatorMenu() {
                             <div className="flex flex-col min-w-0">
                                 <div className="flex items-center gap-1.5">
                                     <span className="font-semibold text-sm">큐브 기댓값 계산기</span>
-                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
                                 </div>
                                 <span className="text-[10px] text-slate-400 mt-0.5">잠재 3줄 & 등급업 기댓값</span>
                             </div>
@@ -174,7 +172,6 @@ export default function CalculatorMenu() {
                             <div className="flex flex-col min-w-0">
                                 <div className="flex items-center gap-1.5">
                                     <span className="font-semibold text-sm">추천 사냥터</span>
-                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
                                 </div>
                                 <span className="text-[10px] text-slate-400 mt-0.5">레벨별 경험치 효율 TOP 20</span>
                             </div>
@@ -190,7 +187,6 @@ export default function CalculatorMenu() {
                             <div className="flex flex-col min-w-0">
                                 <div className="flex items-center gap-1.5">
                                     <span className="font-semibold text-sm">보약스킬 계산기</span>
-                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
                                 </div>
                                 <span className="text-[10px] text-slate-400 mt-0.5 truncate">울티마 작전 일지 최적 스킬트리</span>
                             </div>
@@ -208,7 +204,6 @@ export default function CalculatorMenu() {
                             <div className="flex flex-col min-w-0">
                                 <div className="flex items-center gap-1.5">
                                     <span className="font-semibold text-sm">제네시스 해방</span>
-                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
                                 </div>
                                 <span className="text-[10px] text-slate-400 mt-0.5">시즌4 계산기</span>
                             </div>
@@ -224,7 +219,6 @@ export default function CalculatorMenu() {
                             <div className="flex flex-col min-w-0">
                                 <div className="flex items-center gap-1.5">
                                     <span className="font-semibold text-sm">크림슨 메카베리 계산기</span>
-                                    <span className="bg-red-500 text-white text-[8px] font-bold px-1 py-px rounded animate-pulse shadow-sm flex-shrink-0">NEW</span>
                                 </div>
                                 <span className="text-[10px] text-slate-400 mt-0.5">경험치 획득량 & 레벨업 계산</span>
                             </div>
