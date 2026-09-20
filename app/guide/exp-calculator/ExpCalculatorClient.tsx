@@ -1364,7 +1364,10 @@ export default function ExpCalculatorClient() {
                         <button onClick={exportToExcel} disabled={calculatedData.totalExpNeeded === 0} className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 disabled:text-slate-500 rounded-lg transition-colors text-sm font-medium"><Download className="w-4 h-4" /><span className="hidden sm:inline">엑셀 내보내기</span><span className="sm:hidden">엑셀</span></button>
                     </div>
                     <div className="flex flex-col gap-1">
-                        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2"><Calculator className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500 flex-shrink-0" /><span>메이플스토리 경험치 계산기</span></h1>
+                        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2">
+                            <img src="/icon.jpg" alt="MapleStory" className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg shadow-sm flex-shrink-0 object-cover" />
+                            <span>메이플스토리 경험치 계산기</span>
+                        </h1>
                         <p className="text-slate-400 text-xs sm:text-sm">메이플 Lv.200~300 구간 목표 레벨까지 필요한 경험치와 예상 소요 시간을 계산하세요.</p>
                     </div>
                 </div>
