@@ -1147,9 +1147,10 @@ export default function ExpCalculatorClient() {
                     }
                 }
 
-                let dailyPersonalBossExpSim = (usePersonalBoss && currentSimLevel < 300) ? (personalBossWeeklyExp / 7) : 0;
+                const isPersonalEventActive = dayCount < remainingDays;
+                let dailyPersonalBossExpSim = (usePersonalBoss && currentSimLevel < 300 && isPersonalEventActive) ? (personalBossWeeklyExp / 7) : 0;
                 let dailyPersonalFlameExpSim = 0;
-                if (usePersonalFlame && personalFlameCount > 0 && currentSimLevel >= 260) {
+                if (usePersonalFlame && personalFlameCount > 0 && currentSimLevel >= 260 && isPersonalEventActive) {
                     const flameMonsterData = MONSTER_EXP.find(d => d.level === currentSimLevel);
                     if (flameMonsterData) {
                         dailyPersonalFlameExpSim = flameMonsterData.exp * 72 * personalFlameCount / 7;
