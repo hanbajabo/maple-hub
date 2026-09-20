@@ -10,6 +10,8 @@ import { HIGH_MOUNTAIN_EXP, ANGLER_COMPANY_EXP, NIGHTMARE_GARDEN_EXP, AURUM_REGI
 import { VIP_SAUNA_EXP } from '@/data/vip-sauna-exp';
 import { ADVANCED_EXP_COUPON } from '@/data/advanced-exp-coupon';
 import { MECHABERRY_FARM_EXP } from '@/data/mechaberry-farm-exp';
+import { CRIMSON_MECABERRY_EXP } from '@/data/crimson-mecaberry-farm-exp';
+import { PERSONAL_EXP_COUPON } from '@/data/personal-exp-coupon';
 import { EXPRESS_BOOSTER_EXP } from '@/data/express-booster-exp';
 import { MONSTER_EXP, MonsterExp } from '@/data/monster-exp';
 import { getLucidBurningExp, calcLucidBurningTotal } from '@/data/lucid-burning-exp';
@@ -86,6 +88,8 @@ export default function ExpCalculatorClient() {
     const LOCAL_STORAGE_KEY = 'maple_exp_calculator_data_v1';
 
     const [usePersonalBurning, setUsePersonalBurning] = useState(false);
+    const [usePersonalBoss, setUsePersonalBoss] = useState(false);
+    const [personalBossPcts, setPersonalBossPcts] = useState<string[]>(Array(12).fill(''));
     const [personalCurrentClearedStage, setPersonalCurrentClearedStage] = useState<number>(0);
     const personalInputStage1 = Math.min(Math.max(personalCurrentClearedStage + 1, 1), 27);
     const personalInputStage2 = Math.min(Math.max(personalCurrentClearedStage + 2, 2), 28);
@@ -107,6 +111,11 @@ export default function ExpCalculatorClient() {
         setPersonalCurrentClearedStage(cleared);
     };
     const [showPersonalTable, setShowPersonalTable] = useState(false);
+    const [usePersonalFlame, setUsePersonalFlame] = useState(false);
+    const [personalFlameCount, setPersonalFlameCount] = useState(24000);
+    const [usePersonalExpCoupon, setUsePersonalExpCoupon] = useState(false);
+    const [personalExpCouponCount, setPersonalExpCouponCount] = useState(1);
+    const [personalExpCouponUseLevel, setPersonalExpCouponUseLevel] = useState(260);
 
     const [huntingMode, setHuntingMode] = useState<'percent' | 'manual' | 'calculate'>('calculate');
     const [dailyLevelPercent, setDailyLevelPercent] = useState(0);
@@ -157,6 +166,9 @@ export default function ExpCalculatorClient() {
     const [advancedUseLevel, setAdvancedUseLevel] = useState(260);
     const [useMechaberryFarm, setUseMechaberryFarm] = useState(false);
     const [mechaberryFarmCount, setMechaberryFarmCount] = useState(3);
+    const [useCrimsonFarm, setUseCrimsonFarm] = useState(false);
+    const [crimsonFarmCount, setCrimsonFarmCount] = useState(1);
+    const [crimsonFarmUseLevel, setCrimsonFarmUseLevel] = useState(280);
     const [useBlueberryFarm, setUseBlueberryFarm] = useState(false);
     const [blueberryFarmCount, setBlueberryFarmCount] = useState(18);
     const [blueberryUseLevel, setBlueberryUseLevel] = useState(270);
@@ -179,7 +191,6 @@ export default function ExpCalculatorClient() {
     const [useGoldenFarm, setUseGoldenFarm] = useState(false);
     const [goldenFarmCount, setGoldenFarmCount] = useState(1);
     const [goldenFarmBonusRate, setGoldenFarmBonusRate] = useState(400);
-
     // 💾 로컬 스토리지 데이터 복원 (페이지 새로고침 시 입력값 유지)
     useEffect(() => {
         try {
@@ -195,6 +206,8 @@ export default function ExpCalculatorClient() {
 
                 // 퍼스널 버닝
                 if (d.usePersonalBurning !== undefined) setUsePersonalBurning(d.usePersonalBurning);
+                if (d.usePersonalBoss !== undefined) setUsePersonalBoss(d.usePersonalBoss);
+                if (d.personalBossPcts !== undefined) setPersonalBossPcts(d.personalBossPcts);
                 if (d.personalCurrentClearedStage !== undefined) setPersonalCurrentClearedStage(d.personalCurrentClearedStage);
                 if (d.personalStage1Level !== undefined) setPersonalStage1Level(d.personalStage1Level);
                 if (d.personalStage1Exp !== undefined) setPersonalStage1Exp(d.personalStage1Exp);
@@ -257,6 +270,9 @@ export default function ExpCalculatorClient() {
                 if (d.advancedExpCouponCount !== undefined) setAdvancedExpCouponCount(d.advancedExpCouponCount);
                 if (d.advancedUseLevel !== undefined) setAdvancedUseLevel(d.advancedUseLevel);
                 if (d.useMechaberryFarm !== undefined) setUseMechaberryFarm(d.useMechaberryFarm);
+                if (d.useCrimsonFarm !== undefined) setUseCrimsonFarm(d.useCrimsonFarm);
+                if (d.crimsonFarmCount !== undefined) setCrimsonFarmCount(d.crimsonFarmCount);
+                if (d.crimsonFarmUseLevel !== undefined) setCrimsonFarmUseLevel(d.crimsonFarmUseLevel);
                 if (d.mechaberryFarmCount !== undefined) setMechaberryFarmCount(d.mechaberryFarmCount);
                 if (d.useBlueberryFarm !== undefined) setUseBlueberryFarm(d.useBlueberryFarm);
                 if (d.blueberryFarmCount !== undefined) setBlueberryFarmCount(d.blueberryFarmCount);
@@ -275,6 +291,11 @@ export default function ExpCalculatorClient() {
                 if (d.lucidBurningSeasonMission !== undefined) setLucidBurningSeasonMission(d.lucidBurningSeasonMission);
                 if (d.useGoldenFarm !== undefined) setUseGoldenFarm(d.useGoldenFarm);
                 if (d.goldenFarmCount !== undefined) setGoldenFarmCount(d.goldenFarmCount);
+                if (d.usePersonalFlame !== undefined) setUsePersonalFlame(d.usePersonalFlame);
+                if (d.personalFlameCount !== undefined) setPersonalFlameCount(d.personalFlameCount);
+                if (d.usePersonalExpCoupon !== undefined) setUsePersonalExpCoupon(d.usePersonalExpCoupon);
+                if (d.personalExpCouponCount !== undefined) setPersonalExpCouponCount(d.personalExpCouponCount);
+                if (d.personalExpCouponUseLevel !== undefined) setPersonalExpCouponUseLevel(d.personalExpCouponUseLevel);
                 if (d.goldenFarmBonusRate !== undefined) setGoldenFarmBonusRate(d.goldenFarmBonusRate);
             }
         } catch (e) {
@@ -368,7 +389,17 @@ export default function ExpCalculatorClient() {
                 lucidBurningSeasonMission,
                 useGoldenFarm,
                 goldenFarmCount,
-                goldenFarmBonusRate
+                goldenFarmBonusRate,
+                useCrimsonFarm,
+                crimsonFarmCount,
+                crimsonFarmUseLevel,
+                usePersonalFlame,
+                personalFlameCount,
+                usePersonalExpCoupon,
+                personalExpCouponCount,
+                personalExpCouponUseLevel,
+                usePersonalBoss,
+                personalBossPcts
             };
             localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToSave));
         } catch (e) {
@@ -455,7 +486,17 @@ export default function ExpCalculatorClient() {
         lucidBurningSeasonMission,
         useGoldenFarm,
         goldenFarmCount,
-        goldenFarmBonusRate
+        goldenFarmBonusRate,
+        useCrimsonFarm,
+        crimsonFarmCount,
+        crimsonFarmUseLevel,
+        usePersonalFlame,
+        personalFlameCount,
+        usePersonalExpCoupon,
+        personalExpCouponCount,
+        personalExpCouponUseLevel,
+        usePersonalBoss,
+        personalBossPcts
     ]);
 
     // 설정 초기화 핸들러
@@ -752,13 +793,15 @@ export default function ExpCalculatorClient() {
 
         let daysNeeded = 0, hoursNeeded = 0, totalHuntingHours = 0;
         const monsterParkBreakdown: Array<{ level: number; area: string; exp: number; days: number }> = [];
-        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0, blueberry: 0, specterBlast: 0, growthPotion: 0, growthPotion269: 0, personalBurning: 0 };
+        let totalExpSources = { hunting: 0, monsterPark: 0, dailyQuest: 0, epicDungeon: 0, vipSauna: 0, expCoupon: 0, farm: 0, booster: 0, vipBooster: 0, lucidBurning: 0, goldenFarm: 0, blueberry: 0, specterBlast: 0, growthPotion: 0, growthPotion269: 0, personalBurning: 0, personalFlame: 0, crimsonFarm: 0, personalExpCoupon: 0 , personalBoss: 0 };
 
-        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useAurumRegis || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useBlueberryFarm || useLucidBurning || useGoldenFarm || useSpecterBlast || useGrowthPotion || useGrowthPotion269 || useGrowthPotionFinish284 || useGrowthPotion269Finish284 || (usePersonalBurning && personalCalculationResult !== null)) {
+        if ((huntingMode === 'percent' && dailyLevelPercent > 0) || (huntingMode === 'manual' && huntingExpPerHour > 0) || (huntingMode === 'calculate' && dailyHuntingHours > 0) || dailyQuestExp > 0 || monsterParkCountWeek > 0 || monsterParkCountSun > 0 || useArcaneQuest || useGrandisQuest || useHighMountain || useAnglerCompany || useNightmareGarden || useAurumRegis || useVipSauna || useVipBooster || useAdvancedExpCoupon || useMechaberryFarm || useCrimsonFarm || useBlueberryFarm || useLucidBurning || useGoldenFarm || useSpecterBlast || useGrowthPotion || useGrowthPotion269 || useGrowthPotionFinish284 || useGrowthPotion269Finish284 || usePersonalExpCoupon || usePersonalBoss || (usePersonalBurning && personalCalculationResult !== null)) {
             let remainingExp = totalExpNeeded;
             let currentSimLevel = currentLevel;
             let currentSimLevelProgress = currentLevelExp;
             let dayCount = 0;
+            const personalBossSumPct = usePersonalBoss ? personalBossPcts.reduce((sum, pctStr) => sum + (Number(pctStr) || 0), 0) : 0;
+            const personalBossWeeklyExp = personalBossSumPct > 0 ? (EXP_DATA.find(d => d.level === currentLevel)?.requiredExp || 0) * (personalBossSumPct / 100) : 0;
             let currentMonsterParkArea = '';
             let monsterParkDayCount = 0;
 
@@ -768,9 +811,11 @@ export default function ExpCalculatorClient() {
                 sauna: useVipSauna ? vipSaunaCount : 0,
                 coupon: useAdvancedExpCoupon ? advancedExpCouponCount : 0,
                 farm: useMechaberryFarm ? mechaberryFarmCount : 0,
+                crimsonFarm: useCrimsonFarm ? crimsonFarmCount : 0,
                 blueberry: useBlueberryFarm ? blueberryFarmCount : 0,
                 growthPotion: useGrowthPotion ? growthPotionCount : 0,
-                growthPotion269: useGrowthPotion269 ? growthPotion269Count : 0
+                growthPotion269: useGrowthPotion269 ? growthPotion269Count : 0,
+                personalExpCoupon: usePersonalExpCoupon ? personalExpCouponCount : 0
             };
             let carriedOverExp = 0;
 
@@ -817,6 +862,16 @@ export default function ExpCalculatorClient() {
                         carriedOverExp += amount;
                         totalExpSources.vipSauna += amount;
                         inventory.sauna = 0;
+                    }
+                }
+                if (inventory.personalExpCoupon > 0 && currentSimLevel >= personalExpCouponUseLevel) {
+                    let rate = PERSONAL_EXP_COUPON[currentSimLevel] || 0;
+                    if (rate > 0) {
+                        const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                        let amount = levelTotalExp * (rate / 100) * inventory.personalExpCoupon;
+                        carriedOverExp += amount;
+                        totalExpSources.personalExpCoupon += amount;
+                        inventory.personalExpCoupon = 0;
                     }
                 }
                 if (inventory.vipBooster > 0 && currentSimLevel >= vipBoosterUseLevel) {
@@ -941,6 +996,21 @@ export default function ExpCalculatorClient() {
                         carriedOverExp += amount;
                         totalExpSources.farm += amount;
                         inventory.farm = 0;
+                    }
+                }
+                if (inventory.crimsonFarm > 0 && currentSimLevel >= crimsonFarmUseLevel && currentSimLevel >= 280) {
+                    const crimsonEntry = CRIMSON_MECABERRY_EXP.find(x => x.level === currentSimLevel);
+                    if (crimsonEntry) {
+                        const levelTotalExp = EXP_DATA.find(d => d.level === currentSimLevel)?.requiredExp || 0;
+                        const amount = levelTotalExp * (crimsonEntry.percent / 100) * inventory.crimsonFarm;
+                        carriedOverExp += amount;
+                        totalExpSources.crimsonFarm += amount;
+                        const bdItem = levelBreakdown.find(i => i.level === currentSimLevel);
+                        if (bdItem) {
+                            const noteText = `🔴 크림슨 메카베리 ${inventory.crimsonFarm}장 사용`;
+                            bdItem.note = bdItem.note ? `${bdItem.note} / ${noteText}` : noteText;
+                        }
+                        inventory.crimsonFarm = 0;
                     }
                 }
                 if (inventory.blueberry > 0 && currentSimLevel >= blueberryUseLevel) {
@@ -1077,7 +1147,15 @@ export default function ExpCalculatorClient() {
                     }
                 }
 
-                const dailyTotalExp = dailyHuntingExp + dailyQuestExp + dailyMonsterParkExpSim + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim + dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim + dailyAurumRegisExpSim + dailyExtremeMpExpSim + dailySpecterBlastExpSim;
+                let dailyPersonalBossExpSim = (usePersonalBoss && currentSimLevel < 300) ? (personalBossWeeklyExp / 7) : 0;
+                let dailyPersonalFlameExpSim = 0;
+                if (usePersonalFlame && personalFlameCount > 0 && currentSimLevel >= 260) {
+                    const flameMonsterData = MONSTER_EXP.find(d => d.level === currentSimLevel);
+                    if (flameMonsterData) {
+                        dailyPersonalFlameExpSim = flameMonsterData.exp * 72 * personalFlameCount / 7;
+                    }
+                }
+                const dailyTotalExp = dailyHuntingExp + dailyQuestExp + dailyMonsterParkExpSim + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim + dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim + dailyAurumRegisExpSim + dailyExtremeMpExpSim + dailySpecterBlastExpSim + dailyPersonalFlameExpSim + dailyPersonalBossExpSim;
 
                 const currentLevelDataSim = EXP_DATA.find(d => d.level === currentSimLevel);
                 if (!currentLevelDataSim || (dailyTotalExp <= 0 && carriedOverExp <= 0)) break;
@@ -1100,6 +1178,8 @@ export default function ExpCalculatorClient() {
                         totalExpSources.dailyQuest += (dailyQuestExp + dailyArcaneQuestExpSim + dailyGrandisQuestExpSim) * daysForThisLevel;
                         totalExpSources.epicDungeon += (dailyHighMountainExpSim + dailyAnglerCompanyExpSim + dailyNightmareGardenExpSim + dailyAurumRegisExpSim) * daysForThisLevel;
                         totalExpSources.specterBlast += dailySpecterBlastExpSim * daysForThisLevel;
+                        totalExpSources.personalFlame += dailyPersonalFlameExpSim * daysForThisLevel;
+                        totalExpSources.personalBoss += dailyPersonalBossExpSim * daysForThisLevel;
                     }
                 }
 
@@ -1157,6 +1237,7 @@ export default function ExpCalculatorClient() {
             { name: 'VIP 사우나', value: totalExpSources.vipSauna, textClass: 'text-red-400', bgClass: 'bg-red-400' },
             { name: '상급 EXP 쿠폰', value: totalExpSources.expCoupon, textClass: 'text-teal-400', bgClass: 'bg-teal-400' },
             { name: '메카베리 농장', value: totalExpSources.farm, textClass: 'text-pink-400', bgClass: 'bg-pink-400' },
+            { name: '🔴 크림슨 메카베리', value: totalExpSources.crimsonFarm, textClass: 'text-red-400', bgClass: 'bg-red-400' },
             { name: '블루베리 농장', value: totalExpSources.blueberry, textClass: 'text-violet-400', bgClass: 'bg-violet-400' },
             { name: '익스프레스 부스터', value: totalExpSources.booster, textClass: 'text-green-400', bgClass: 'bg-green-400' },
             { name: 'VIP/헥사 부스터', value: totalExpSources.vipBooster, textClass: 'text-indigo-300', bgClass: 'bg-indigo-300' },
@@ -1165,14 +1246,17 @@ export default function ExpCalculatorClient() {
             { name: '성장의 비약 (200~279)', value: totalExpSources.growthPotion, textClass: 'text-rose-400', bgClass: 'bg-rose-400' },
             { name: '🦋 체인지 버닝: 루시드', value: totalExpSources.lucidBurning, textClass: 'text-purple-400', bgClass: 'bg-purple-400' },
             { name: '🍓 황금 딸기 농장', value: totalExpSources.goldenFarm, textClass: 'text-yellow-300', bgClass: 'bg-yellow-300' },
-            { name: '🔥 퍼스널 버닝 보상', value: totalExpSources.personalBurning, textClass: 'text-pink-400', bgClass: 'bg-pink-400' }
+            { name: '🔥 퍼스널 버닝 보상', value: totalExpSources.personalBurning, textClass: 'text-pink-400', bgClass: 'bg-pink-400' },
+            { name: '🎟️ 퍼스널 EXP 교환권', value: totalExpSources.personalExpCoupon, textClass: 'text-orange-400', bgClass: 'bg-orange-400' },
+            { name: '🐉 퍼스널 플레임 사냥', value: totalExpSources.personalFlame, textClass: 'text-orange-300', bgClass: 'bg-orange-300' },
+            { name: '⚔️ 퍼스널 보스 미션', value: totalExpSources.personalBoss, textClass: 'text-indigo-400', bgClass: 'bg-indigo-400' }
         ];
 
         const totalAccumulated = breakdownList.reduce((acc, item) => acc + item.value, 0);
         const sourceBreakdown = totalAccumulated > 0 ? breakdownList.filter(i => i.value > 0).map(i => ({ ...i, percent: (i.value / totalAccumulated) * 100 })).sort((a, b) => b.value - a.value) : [];
 
         return { totalExpNeeded, daysNeeded, hoursNeeded, levelBreakdown, monsterParkBreakdown, sourceBreakdown };
-    }, [currentLevel, currentLevelExp, targetLevel, targetLevelExp, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useAurumRegis, aurumRegisReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, vipSaunaUseLevel, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, epicEventBonusRate, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, vipBoosterUseLevel, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, remainingDays, personalCalculationResult]);
+    }, [currentLevel, currentLevelExp, targetLevel, targetLevelExp, huntingMode, dailyLevelPercent, huntingExpPerHour, dailyQuestExp, dailyHuntingHours, monsterParkCountWeek, monsterParkCountSun, mpEventSkillLevel, arcaneEventSkillLevel, grandisEventSkillLevel, useSundayMaple, useArcaneQuest, useGrandisQuest, useHyperBurning, useBurningBeyond, useHighMountain, highMountainReward, useAnglerCompany, anglerCompanyReward, useNightmareGarden, nightmareGardenReward, useAurumRegis, aurumRegisReward, useExtremeMonsterPark, useVipSauna, vipSaunaCount, vipSaunaUseLevel, useAdvancedExpCoupon, advancedExpCouponCount, advancedUseLevel, useMechaberryFarm, mechaberryFarmCount, useCrimsonFarm, crimsonFarmCount, crimsonFarmUseLevel, useBlueberryFarm, blueberryFarmCount, blueberryUseLevel, epicEventBonusRate, useExpressBooster, expressBoosterCount, useVipBooster, vipBoosterCount, vipBoosterUseLevel, mobsPerHour, additionalExpRate, useElanos, useRune, burningFieldStage, useLucidBurning, lucidBurningHunting, lucidBurningWeeklyMission, lucidBurningSeasonMission, useGoldenFarm, goldenFarmCount, goldenFarmBonusRate, useSpecterBlast, useGrowthPotion, growthPotionCount, growthPotionUseLevel, useGrowthPotion269, growthPotion269Count, growthPotion269UseLevel, useGrowthPotionFinish284, useGrowthPotion269Finish284, remainingDays, personalCalculationResult, usePersonalFlame, personalFlameCount, usePersonalExpCoupon, personalExpCouponCount, personalExpCouponUseLevel, usePersonalBoss, personalBossPcts]);
 
     const formatNumber = (num: number) => new Intl.NumberFormat('ko-KR').format(Math.round(num));
     const formatExpInEok = (exp: number) => { const eok = exp / 100000000; return eok >= 10000 ? `${(eok / 10000).toFixed(2)}조` : eok >= 1 ? `${eok.toFixed(2)}억` : formatNumber(exp); };
@@ -1212,12 +1296,16 @@ export default function ExpCalculatorClient() {
             ['VIP 사우나', useVipSauna ? `${vipSaunaCount}장 (${vipSaunaUseLevel}레벨에 사용)` : 'X'],
             ['상급 EXP 쿠폰', useAdvancedExpCoupon ? `${advancedExpCouponCount}개 (${advancedUseLevel}레벨에 사용)` : 'X'],
             ['메카베리 농장', useMechaberryFarm ? `${mechaberryFarmCount}회` : 'X'],
+            ['크림슨 메카베리', useCrimsonFarm ? `${crimsonFarmCount}장 (${crimsonFarmUseLevel}레벨에 사용)` : 'X'],
             ['블루베리 농장', useBlueberryFarm ? `${blueberryFarmCount}회 (${blueberryUseLevel}레벨에 사용)` : 'X'],
             ['익스프레스 부스터', useExpressBooster ? `${expressBoosterCount}개` : 'X'],
             ['VIP/헥사 부스터', useVipBooster ? `${vipBoosterCount}개 (${vipBoosterUseLevel}레벨에 사용)` : 'X'],
             ['🍓 황금 딸기 농장', useGoldenFarm ? `${goldenFarmCount}회 (${goldenFarmBonusRate}% 추가경험치)` : 'X'],
             ['성장의 비약 (200~269)', useGrowthPotion269 ? (useGrowthPotion269Finish284 ? `${growthPotion269Count}개 (284레벨 마무리용)` : `${growthPotion269Count}개 (${growthPotion269UseLevel}레벨에 사용)`) : 'X'],
-            ['성장의 비약 (200~279)', useGrowthPotion ? (useGrowthPotionFinish284 ? `${growthPotionCount}개 (284레벨 마무리용)` : `${growthPotionCount}개 (${growthPotionUseLevel}레벨에 사용)`) : 'X']
+            ['성장의 비약 (200~279)', useGrowthPotion ? (useGrowthPotionFinish284 ? `${growthPotionCount}개 (284레벨 마무리용)` : `${growthPotionCount}개 (${growthPotionUseLevel}레벨에 사용)`) : 'X'],
+            ['🎟️ 퍼스널 EXP 교환권', usePersonalExpCoupon ? `${personalExpCouponCount}개 (${personalExpCouponUseLevel}레벨에 사용)` : 'X'],
+            ['🐉 퍼스널 플레임 사냥', usePersonalFlame ? `${personalFlameCount}마리` : 'X'],
+            ['⚔️ 퍼스널 보스 미션', usePersonalBoss ? `매주 ${personalBossPcts.filter(p => p !== '' && Number(p) > 0).length}마리 (${personalBossSumPct.toFixed(3)}%)` : 'X']
         ];
 
         // Sheet 2: 결과 요약 및 경험치 분석
@@ -1648,6 +1736,97 @@ export default function ExpCalculatorClient() {
                                                 <div className="text-[11px] text-slate-400 px-1">
                                                     💡 <strong>입력 팁</strong>: 화면에 보이는 미완료 단계 3개와 30단계 최종 목표를 입력하시면 됩니다. 1단계 보상만 입력해도 전 구간에 기본 적용되며, 30단계를 함께 입력하면 레벨업에 따른 경험치 증가가 정밀 반영됩니다.
                                                 </div>
+                                                {/* 퍼스널 플레임 몬스터 주간 사냥 */}
+                                                <div className="bg-slate-950/80 border border-orange-500/30 rounded-lg p-3 space-y-2">
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="flex items-center gap-2 cursor-pointer" onClick={() => setUsePersonalFlame(prev => !prev)}>
+                                                            <div className={`w-8 h-4 rounded-full transition-colors flex items-center px-0.5 ${usePersonalFlame ? 'bg-orange-500' : 'bg-slate-700'}`}>
+                                                                <div className={`w-3 h-3 bg-white rounded-full shadow transition-transform ${usePersonalFlame ? 'translate-x-4' : 'translate-x-0'}`} />
+                                                            </div>
+                                                            <span className="text-xs font-bold text-orange-300">🐉 퍼스널 플레임 주간 사냥 반영</span>
+                                                        </label>
+                                                        {usePersonalFlame && (
+                                                            <span className="text-[10px] text-slate-400">기본 몬스터 EXP × 72배 고정</span>
+                                                        )}
+                                                    </div>
+                                                    {usePersonalFlame && (
+                                                        <div className="space-y-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="flex-1">
+                                                                    <label className="text-[10px] text-slate-400 mb-1 block">매주 처치 마리수</label>
+                                                                    <div className="flex items-center gap-1.5">
+                                                                        <input
+                                                                            type="number"
+                                                                            min="0"
+                                                                            max="36000"
+                                                                            step="1000"
+                                                                            value={personalFlameCount}
+                                                                            onFocus={(e) => e.target.select()}
+                                                                            onChange={(e) => setPersonalFlameCount(Math.max(0, Math.min(36000, Number(e.target.value))))}
+                                                                            className="flex-1 bg-slate-800 border border-slate-700 rounded text-xs px-2 py-1.5 text-white text-right focus:border-orange-500 outline-none"
+                                                                        />
+                                                                        <span className="text-[10px] text-slate-500 whitespace-nowrap">마리</span>
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={() => setPersonalFlameCount(24000)}
+                                                                            className="px-2 py-1.5 text-[10px] font-bold bg-orange-600 hover:bg-orange-500 text-white rounded shadow transition-colors whitespace-nowrap"
+                                                                        >
+                                                                            MAX
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="text-[10px] text-slate-500 leading-relaxed">
+                                                                ⚠️ 매주 목요일 24,000마리 추가 (최대 누적 36,000마리). 경험치 효과 일절 미적용, <span className="text-orange-300 font-semibold">기본 EXP × 72배 고정</span> 적용.
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                {/* 퍼스널 보스 미션 */}
+                                                <div className="bg-slate-950/80 border border-indigo-500/30 rounded-lg p-3 space-y-2">
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="flex items-center gap-2 cursor-pointer" onClick={() => setUsePersonalBoss(prev => !prev)}>
+                                                            <div className={`w-8 h-4 rounded-full transition-colors flex items-center px-0.5 ${usePersonalBoss ? 'bg-indigo-500' : 'bg-slate-700'}`}>
+                                                                <div className={`w-3 h-3 bg-white rounded-full shadow transition-transform ${usePersonalBoss ? 'translate-x-4' : 'translate-x-0'}`} />
+                                                            </div>
+                                                            <span className="text-xs font-bold text-indigo-300">⚔️ 퍼스널 보스 미션 반영</span>
+                                                        </label>
+                                                    </div>
+                                                    {usePersonalBoss && (
+                                                        <div className="space-y-2">
+                                                            <div className="text-[10px] text-slate-400 mb-1">매주 처치하는 보스의 경험치(%)를 최대 12개까지 입력하세요.</div>
+                                                            <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
+                                                                {personalBossPcts.map((pct, idx) => (
+                                                                    <div key={idx} className="flex items-center gap-1 bg-slate-800 border border-slate-700 rounded px-1.5 py-1">
+                                                                        <span className="text-[9px] text-slate-500 w-3 font-medium">{idx + 1}</span>
+                                                                        <input
+                                                                            type="number"
+                                                                            min="0"
+                                                                            step="0.001"
+                                                                            value={pct}
+                                                                            placeholder="%"
+                                                                            onFocus={(e) => e.target.select()}
+                                                                            onChange={(e) => {
+                                                                                const newPcts = [...personalBossPcts];
+                                                                                newPcts[idx] = e.target.value;
+                                                                                setPersonalBossPcts(newPcts);
+                                                                            }}
+                                                                            className="w-full bg-transparent text-xs text-white text-right outline-none placeholder-slate-600"
+                                                                        />
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                            <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-700/50">
+                                                                <span className="text-xs text-slate-400">주간 획득 경험치 합계</span>
+                                                                <span className="text-sm font-bold text-indigo-400">
+                                                                    {personalBossPcts.reduce((sum, p) => sum + (Number(p) || 0), 0).toFixed(3)}%
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="hidden"> {/* dummy to close previous div without breaking structure */}
+                                                </div>
                                                 
                                                 {/* 산출 결과 표시 */}
                                                 {personalCalculationResult && (
@@ -2017,12 +2196,6 @@ export default function ExpCalculatorClient() {
                                                     />
                                                     <span className="text-xs text-slate-400">레벨에 사용</span>
                                                 </div>
-                                                <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-0.5 text-[10px] text-orange-200/70 leading-normal font-normal">
-                                                    <p>• 챌린저스 패스 (EXP 지원 물품) : 총 14개</p>
-                                                    <p>• [출석 이벤트] 울티마 작전 일지 : 총 11개</p>
-                                                    <p>• 신입 용병 지원 이벤트 : 총 8개</p>
-                                                    <p>• 프리미엄 PC방 기프트샵 매주 구매 : 총 45개</p>
-                                                </div>
                                             </div>
                                         )}
                                     </div>
@@ -2056,11 +2229,6 @@ export default function ExpCalculatorClient() {
                                                     />
                                                     <span className="text-xs text-slate-400">레벨에 사용</span>
                                                 </div>
-                                                <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-0.5 text-[10px] text-teal-200/70 leading-normal font-normal">
-                                                    <p>• 챌린저스 패스 (EXP 지원 물품) : 총 8,200개</p>
-                                                    <p>• [출석 이벤트] 울티마 작전 일지 : 총 6,000개</p>
-                                                    <p>• 프리미엄 PC방 접속 이벤트 (누적 보상) : 총 6,000개</p>
-                                                </div>
                                             </div>
                                         )}
                                     </div>
@@ -2069,6 +2237,46 @@ export default function ExpCalculatorClient() {
                                     <div className="p-3 bg-slate-800 rounded-lg">
                                         <label className="flex items-center gap-2 text-xs text-pink-300 mb-2"><input type="checkbox" checked={useMechaberryFarm} onChange={(e) => setUseMechaberryFarm(e.target.checked)} className="w-4 h-4 flex-shrink-0" /> 🍓 메카베리 농장</label>
                                         {useMechaberryFarm && <div className="flex items-center gap-2"><input type="number" value={mechaberryFarmCount} onChange={(e) => setMechaberryFarmCount(Number(e.target.value))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">회</span></div>}
+                                    </div>
+                                )}
+                                {targetLevel >= 280 && (
+                                    <div className="p-3 bg-slate-800 rounded-lg">
+                                        <label className="flex items-center gap-2 text-xs text-red-300 mb-2">
+                                            <input type="checkbox" checked={useCrimsonFarm} onChange={(e) => setUseCrimsonFarm(e.target.checked)} className="w-4 h-4 flex-shrink-0" />
+                                            🔴 크림슨 메카베리 농장
+                                        </label>
+                                        {useCrimsonFarm && (
+                                            <div className="space-y-2 mt-1">
+                                                <div className="flex items-center gap-2">
+                                                    <input
+                                                        type="number"
+                                                        min="1"
+                                                        value={crimsonFarmCount}
+                                                        onFocus={(e) => e.target.select()}
+                                                        onChange={(e) => setCrimsonFarmCount(Math.max(1, Number(e.target.value)))}
+                                                        onBlur={(e) => setCrimsonFarmCount(Math.max(1, Number(e.target.value) || 1))}
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center"
+                                                    />
+                                                    <span className="text-xs text-slate-400">장 사용</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <input
+                                                        type="number"
+                                                        min="280"
+                                                        max="299"
+                                                        value={crimsonFarmUseLevel}
+                                                        onFocus={(e) => e.target.select()}
+                                                        onChange={(e) => setCrimsonFarmUseLevel(Number(e.target.value))}
+                                                        onBlur={(e) => setCrimsonFarmUseLevel(Math.max(280, Math.min(299, Number(e.target.value) || 280)))}
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center"
+                                                    />
+                                                    <span className="text-xs text-slate-400">레벨에 사용</span>
+                                                </div>
+                                                <div className="pt-1 text-[10px] text-red-200/60 leading-normal">
+                                                    <p>• Lv.280 기준 15.097% / Lv.285 기준 6.036% / Lv.290 기준 2.408%</p>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                                 {targetLevel >= 260 && (
@@ -2099,9 +2307,6 @@ export default function ExpCalculatorClient() {
                                                         className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center" 
                                                     />
                                                     <span className="text-xs text-slate-400">레벨에 사용</span>
-                                                </div>
-                                                <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-0.5 text-[10px] text-violet-200/70 leading-normal font-normal">
-                                                    <p>• 챌린저스 패스 (EXP 지원 물품) : 총 18개</p>
                                                 </div>
                                             </div>
                                         )}
@@ -2144,27 +2349,45 @@ export default function ExpCalculatorClient() {
                                                 />
                                                 <span className="text-xs text-slate-400">레벨에 사용</span>
                                             </div>
-                                            <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-1.5 text-[10px] text-indigo-200/70 leading-normal font-normal">
-                                                <div>
-                                                    <p className="font-semibold text-indigo-300">• 챌린저스 패스 (기본 지원 물품) : 총 30개</p>
-                                                    <p className="pl-2 text-[9px] opacity-80">무료 기본 패스 보상 (1, 6, 11, 16, 21, 26레벨 달성 시 각 5개)</p>
-                                                </div>
-                                                <div>
-                                                    <p className="font-semibold text-indigo-300">• [출석 이벤트] 울티마 작전 일지 : 총 60개</p>
-                                                    <p className="pl-2 text-[9px] opacity-80">매일 보급품 수령 누적 (3, 13, 23, 33, 43, 53회차 달성 시 각 10개)</p>
-                                                </div>
-                                                <div>
-                                                    <p className="font-semibold text-indigo-300">• 신입 용병 지원 미션 : 총 40개</p>
-                                                    <p className="pl-2 text-[9px] opacity-80">신규 캐릭터 미션 클리어 (5차 전직: 10개 / 250레벨: 10개 / 카오스 벨룸 1인 격파: 20개)</p>
-                                                </div>
-                                                <div>
-                                                    <p className="font-semibold text-indigo-300">• 프리미엄 PC방 접속 이벤트 (기프트샵 주간 최대 10개)</p>
-                                                    <p className="pl-2 text-[9px] opacity-80">주말 30분/60분 누적 시 각 2개 (일 최대 4개) 및 코인 10개로 구매 (5주간 최대 50개 구매 가능)</p>
-                                                </div>
-                                            </div>
                                         </div>
                                     )}
                                 </div>
+                                {targetLevel >= 260 && (
+                                    <div className="p-3 bg-slate-800 rounded-lg">
+                                        <label className="flex items-center gap-2 text-xs text-orange-300 mb-2">
+                                            <input type="checkbox" checked={usePersonalExpCoupon} onChange={(e) => setUsePersonalExpCoupon(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-orange-500 focus:ring-orange-400 cursor-pointer" />
+                                            <span>🎟️ 퍼스널 EXP 교환권</span>
+                                        </label>
+                                        {usePersonalExpCoupon && (
+                                            <div className="space-y-2 mt-1">
+                                                <div className="flex items-center gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        value={personalExpCouponCount} 
+                                                        onFocus={(e) => e.target.select()} 
+                                                        onChange={(e) => setPersonalExpCouponCount(Number(e.target.value))} 
+                                                        onBlur={(e) => setPersonalExpCouponCount(Math.max(1, Number(e.target.value) || 1))}
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
+                                                    />
+                                                    <span className="text-xs text-slate-400">개 사용</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        min="260" 
+                                                        max="299" 
+                                                        value={personalExpCouponUseLevel} 
+                                                        onFocus={(e) => e.target.select()} 
+                                                        onChange={(e) => setPersonalExpCouponUseLevel(Number(e.target.value))} 
+                                                        onBlur={(e) => setPersonalExpCouponUseLevel(Math.max(260, Math.min(299, Number(e.target.value) || 260)))}
+                                                        className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2 text-white text-center font-bold" 
+                                                    />
+                                                    <span className="text-xs text-slate-400">레벨에 사용</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                                 <div className="p-3 bg-slate-800 rounded-lg">
                                     <label className="flex items-center gap-2 text-xs text-rose-300 mb-2">
                                         <input type="checkbox" checked={useGrowthPotion269} onChange={(e) => setUseGrowthPotion269(e.target.checked)} className="w-4 h-4 rounded bg-slate-700 border-slate-600 text-rose-500 focus:ring-rose-400 cursor-pointer" />
@@ -2221,12 +2444,6 @@ export default function ExpCalculatorClient() {
                                                     )}
                                                 </div>
                                             )}
-                                            <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-1 text-[10px] text-rose-200/70 leading-normal font-normal">
-                                                <p className="font-semibold text-rose-300">• [출석 이벤트] 울티마 작전 일지 (보급 일지)</p>
-                                                <p className="pl-2 text-[9px] opacity-90">매일 접속하여 보급품 수령(일주일 최대 5회) 횟수를 누적하면 무과금으로도 확정 획득할 수 있습니다.</p>
-                                                <p className="pl-2">- 25회차: 성장의 비약 (200~269) 1개</p>
-                                                <p className="pl-2">- 45회차: 성장의 비약 (200~269) 1개</p>
-                                            </div>
                                         </div>
                                     )}
                                 </div>
@@ -2286,14 +2503,6 @@ export default function ExpCalculatorClient() {
                                                     )}
                                                 </div>
                                             )}
-                                            <div className="pt-2 border-t border-slate-700/60 mt-1 space-y-1 text-[10px] text-rose-200/70 leading-normal font-normal">
-                                                <p className="font-semibold text-rose-300">• 챌린저스 패스 (EXP 지원 물품)</p>
-                                                <p className="pl-2 text-[9px] opacity-90">'챌린저스 EXP 패스(19,800 넥슨 캐시)'를 활성화한 후 최고 레벨을 달성하면 획득할 수 있습니다.</p>
-                                                <p className="pl-2 text-rose-200">- 30레벨 달성 시: 성장의 비약 (200~279) 1개</p>
-                                                <p className="font-semibold text-rose-300 mt-1.5">• [출석 이벤트] 울티마 작전 일지 (보급 일지)</p>
-                                                <p className="pl-2 text-[9px] opacity-90">매일 접속하여 보급품 수령(일주일 최대 5회) 횟수를 누적하면 무과금으로도 확정 획득할 수 있습니다.</p>
-                                                <p className="pl-2">- 60회차: 성장의 비약 (200~279) 1개</p>
-                                            </div>
                                         </div>
                                     )}
                                 </div>
