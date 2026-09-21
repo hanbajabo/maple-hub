@@ -95,6 +95,46 @@ export const PERSONAL_BURNING_PRESETS: PersonalBurningPreset[] = [
         ]
     },
     {
+        // 288레벨 72.212% 시작 (제보 데이터)
+        // 1단계는 시작 시 자동 완료 (시작 위치 이하), 2~30단계 실측
+        startLevel: 288,
+        startPercent: 72.212,
+        stages: [
+            // ★ 시작 전 자동 클리어 (역산 시 72.212% 이하로 추정됨)
+            { stage: 1,  level: 288, percent: 72.212, reward: 1.601 },
+            // ✅ 실측 데이터
+            { stage: 2,  level: 288, percent: 81.028, reward: 1.601 },
+            { stage: 3,  level: 288, percent: 89.844, reward: 1.601 },
+            { stage: 4,  level: 288, percent: 98.659, reward: 1.604 },
+            { stage: 5,  level: 289, percent: 6.869,  reward: 1.472 },
+            { stage: 6,  level: 289, percent: 14.970, reward: 1.472 },
+            { stage: 7,  level: 289, percent: 23.071, reward: 1.472 },
+            { stage: 8,  level: 289, percent: 31.172, reward: 1.472 },
+            { stage: 9,  level: 289, percent: 39.272, reward: 1.472 },
+            { stage: 10, level: 289, percent: 47.373, reward: 1.472 },
+            { stage: 11, level: 289, percent: 55.474, reward: 1.472 },
+            { stage: 12, level: 289, percent: 63.575, reward: 1.472 },
+            { stage: 13, level: 289, percent: 71.676, reward: 1.472 },
+            { stage: 14, level: 289, percent: 79.777, reward: 1.472 },
+            { stage: 15, level: 289, percent: 87.878, reward: 1.472 },
+            { stage: 16, level: 289, percent: 95.979, reward: 1.472 },
+            { stage: 17, level: 290, percent: 2.520,  reward: 0.819 },
+            { stage: 18, level: 290, percent: 7.525,  reward: 0.819 },
+            { stage: 19, level: 290, percent: 12.529, reward: 0.819 },
+            { stage: 20, level: 290, percent: 17.534, reward: 0.819 },
+            { stage: 21, level: 290, percent: 22.538, reward: 0.819 },
+            { stage: 22, level: 290, percent: 27.543, reward: 0.819 },
+            { stage: 23, level: 290, percent: 32.547, reward: 0.819 },
+            { stage: 24, level: 290, percent: 37.552, reward: 0.819 },
+            { stage: 25, level: 290, percent: 42.556, reward: 0.819 },
+            { stage: 26, level: 290, percent: 47.561, reward: 0.819 },
+            { stage: 27, level: 290, percent: 52.565, reward: 0.819 },
+            { stage: 28, level: 290, percent: 57.570, reward: 0.819 },
+            { stage: 29, level: 290, percent: 62.574, reward: 0.819 },
+            { stage: 30, level: 290, percent: 67.579, reward: 0.819 },
+        ]
+    },
+    {
         // 290레벨 85.386% 시작 (제보 데이터)
         // 6~30단계 실측, 1~5단계는 역산 추정값
         startLevel: 290,
