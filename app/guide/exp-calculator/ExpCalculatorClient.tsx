@@ -728,6 +728,12 @@ export default function ExpCalculatorClient() {
     }, [usePersonalBurning, personalInputStage1, personalStage1Level, personalStage1Exp, personalStage1Reward, personalInputStage2, personalStage2Level, personalStage2Exp, personalStage2Reward, personalInputStage3, personalStage3Level, personalStage3Exp, personalStage3Reward, personalStage30Level, personalStage30Exp, personalStage30Reward, personalCurrentClearedStage, currentLevel]);
 
 
+    // 현재 레벨에 가장 가까운 프리셋을 placeholder 힌트용으로 계산
+    const hintPreset = useMemo(() => {
+        if (!usePersonalBurning || currentLevel < 260) return null;
+        return findMatchingPreset(currentLevel, currentLevelExp);
+    }, [usePersonalBurning, currentLevel, currentLevelExp]);
+
     // 황금 딸기 농장 이용권만으로 달성 가능한 레벨 시뮬레이션 및 정확한 총 획득 경험치 계산
     const goldenFarmExactResult = useMemo(() => {
         if (!useGoldenFarm || currentLevel < 200 || currentLevel > 259 || goldenFarmCount <= 0) return null;
@@ -1638,7 +1644,7 @@ export default function ExpCalculatorClient() {
                                                                 <input 
                                                                     type="number" 
                                                                     step="0.001"
-                                                                    placeholder="1.410"
+                                                                    placeholder={hintPreset ? String(hintPreset.stages.find(s => s.stage === personalInputStage1)?.percent ?? '1.410') : '1.410'}
                                                                     value={personalStage1Exp !== '' ? personalStage1Exp : ''} 
                                                                     onChange={(e) => setPersonalStage1Exp(e.target.value === '' ? '' : Number(e.target.value))}
                                                                     className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-white text-right focus:border-pink-500 outline-none"
@@ -1652,7 +1658,7 @@ export default function ExpCalculatorClient() {
                                                                 <input 
                                                                     type="number" 
                                                                     step="0.001"
-                                                                    placeholder="0.693"
+                                                                    placeholder={hintPreset ? String(hintPreset.stages.find(s => s.stage === personalInputStage1)?.reward ?? '0.693') : '0.693'}
                                                                     value={personalStage1Reward !== '' ? personalStage1Reward : ''} 
                                                                     onChange={(e) => setPersonalStage1Reward(e.target.value === '' ? '' : Number(e.target.value))}
                                                                     className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-emerald-300 font-bold text-right focus:border-emerald-500 outline-none"
@@ -1680,7 +1686,7 @@ export default function ExpCalculatorClient() {
                                                                 <input 
                                                                     type="number" 
                                                                     step="0.001"
-                                                                    placeholder="5.636"
+                                                                    placeholder={hintPreset ? String(hintPreset.stages.find(s => s.stage === personalInputStage2)?.percent ?? '5.636') : '5.636'}
                                                                     value={personalStage2Exp !== '' ? personalStage2Exp : ''} 
                                                                     onChange={(e) => setPersonalStage2Exp(e.target.value === '' ? '' : Number(e.target.value))}
                                                                     className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-white text-right focus:border-pink-500 outline-none"
@@ -1694,7 +1700,7 @@ export default function ExpCalculatorClient() {
                                                                 <input 
                                                                     type="number" 
                                                                     step="0.001"
-                                                                    placeholder={personalStage1Reward !== '' ? String(personalStage1Reward) : "0.693"}
+                                                                    placeholder={hintPreset ? String(hintPreset.stages.find(s => s.stage === personalInputStage2)?.reward ?? '0.693') : (personalStage1Reward !== '' ? String(personalStage1Reward) : '0.693')}
                                                                     value={personalStage2Reward !== '' ? personalStage2Reward : ''} 
                                                                     onChange={(e) => setPersonalStage2Reward(e.target.value === '' ? '' : Number(e.target.value))}
                                                                     className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-emerald-300 font-bold text-right focus:border-emerald-500 outline-none"
@@ -1722,7 +1728,7 @@ export default function ExpCalculatorClient() {
                                                                 <input 
                                                                     type="number" 
                                                                     step="0.001"
-                                                                    placeholder="9.863"
+                                                                    placeholder={hintPreset ? String(hintPreset.stages.find(s => s.stage === personalInputStage3)?.percent ?? '9.863') : '9.863'}
                                                                     value={personalStage3Exp !== '' ? personalStage3Exp : ''} 
                                                                     onChange={(e) => setPersonalStage3Exp(e.target.value === '' ? '' : Number(e.target.value))}
                                                                     className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-white text-right focus:border-pink-500 outline-none"
@@ -1736,7 +1742,7 @@ export default function ExpCalculatorClient() {
                                                                 <input 
                                                                     type="number" 
                                                                     step="0.001"
-                                                                    placeholder={personalStage2Reward !== '' ? String(personalStage2Reward) : (personalStage1Reward !== '' ? String(personalStage1Reward) : "0.693")}
+                                                                    placeholder={hintPreset ? String(hintPreset.stages.find(s => s.stage === personalInputStage3)?.reward ?? '0.693') : (personalStage2Reward !== '' ? String(personalStage2Reward) : (personalStage1Reward !== '' ? String(personalStage1Reward) : '0.693'))}
                                                                     value={personalStage3Reward !== '' ? personalStage3Reward : ''} 
                                                                     onChange={(e) => setPersonalStage3Reward(e.target.value === '' ? '' : Number(e.target.value))}
                                                                     className="w-full bg-slate-800 border border-slate-700 rounded text-xs px-1.5 py-1 text-emerald-300 font-bold text-right focus:border-emerald-500 outline-none"
@@ -1764,7 +1770,7 @@ export default function ExpCalculatorClient() {
                                                                 <input 
                                                                     type="number" 
                                                                     step="0.001"
-                                                                    placeholder="28.921"
+                                                                    placeholder={hintPreset ? String(hintPreset.stages.find(s => s.stage === 30)?.percent ?? '28.921') : '28.921'}
                                                                     value={personalStage30Exp !== '' ? personalStage30Exp : ''} 
                                                                     onChange={(e) => setPersonalStage30Exp(e.target.value === '' ? '' : Number(e.target.value))}
                                                                     className="w-full bg-slate-800 border border-pink-500/40 rounded text-xs px-1.5 py-1 text-yellow-300 font-bold text-right focus:border-yellow-400 outline-none"
@@ -1778,7 +1784,7 @@ export default function ExpCalculatorClient() {
                                                                 <input 
                                                                     type="number" 
                                                                     step="0.001"
-                                                                    placeholder={personalStage1Reward !== '' ? String(personalStage1Reward) : "0.638"}
+                                                                    placeholder={hintPreset ? String(hintPreset.stages.find(s => s.stage === 30)?.reward ?? '0.638') : (personalStage1Reward !== '' ? String(personalStage1Reward) : '0.638')}
                                                                     value={personalStage30Reward !== '' ? personalStage30Reward : ''} 
                                                                     onChange={(e) => setPersonalStage30Reward(e.target.value === '' ? '' : Number(e.target.value))}
                                                                     className="w-full bg-slate-800 border border-pink-500/40 rounded text-xs px-1.5 py-1 text-emerald-300 font-bold text-right focus:border-emerald-500 outline-none"
