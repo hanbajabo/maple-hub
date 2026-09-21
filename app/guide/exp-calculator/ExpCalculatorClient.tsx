@@ -17,6 +17,7 @@ import { MONSTER_EXP, MonsterExp } from '@/data/monster-exp';
 import { getLucidBurningExp, calcLucidBurningTotal } from '@/data/lucid-burning-exp';
 import { calcGoldenFarmTotal, getGoldenFarmExp } from '@/data/golden-farm-exp';
 import { SPECTER_BLAST_EXP } from '@/data/specter-blast-exp';
+import { PERSONAL_BURNING_PRESETS, findMatchingPreset } from '@/data/personal-burning-stages';
 import {
     EXP_DATA, getMonsterParkExp, getGrandisDailyQuest, getArcaneDailyQuest,
     EXTREME_MONSTER_PARK_EXP, MONSTER_PARK_EXP, ARCANE_DAILY_QUEST, GRANDIS_DAILY_QUEST
@@ -569,7 +570,52 @@ export default function ExpCalculatorClient() {
     // 🔥 퍼스널 버닝 1~3단계 및 30단계 기반 정밀 선형 회귀 역산 + 클리어 보상 경험치 연산
     const personalCalculationResult = useMemo(() => {
         if (!usePersonalBurning) return null;
-        
+
+        // ─── 실측 프리셋 매칭 시도 ────────────────────────────────────────────
+        // 1단계 레벨/퍼센트를 기반으로 실측 데이터가 있는지 확인
+        const stage1Lv = personalStage1Level !== '' ? Number(personalStage1Level) : currentLevel;
+        const stage1Pct = personalStage1Exp !== '' ? Number(personalStage1Exp) : 0;
+        const matchedPreset = stage1Lv >= 260 ? findMatchingPreset(stage1Lv, stage1Pct) : null;
+
+        let stages: Array<{
+            stage: number; level: number; percent: number; absExp: number;
+            cumulativeExpFromStart: number; rewardExp: number; rewardPct: number; cumulativeReward: number;
+        }> = [];
+
+        if (matchedPreset) {
+            // ✅ 실측 데이터 사용: 정확한 단계별 레벨/퍼센트/보상 적용
+            let cumulativeReward = 0;
+            const startAbsExp = getAbsoluteExpFromLevelAndPercent(matchedPreset.startLevel, matchedPreset.startPercent);
+
+            for (const s of matchedPreset.stages) {
+                const targetAbsExp = getAbsoluteExpFromLevelAndPercent(s.level, s.percent);
+                const reqExpForThisLv = EXP_DATA.find(d => d.level === s.level)?.requiredExp || 0;
+                const rewardExpThisStage = reqExpForThisLv * (s.reward / 100);
+                cumulativeReward += rewardExpThisStage;
+                stages.push({
+                    stage: s.stage,
+                    level: s.level,
+                    percent: s.percent,
+                    absExp: targetAbsExp,
+                    cumulativeExpFromStart: targetAbsExp - startAbsExp,
+                    rewardExp: rewardExpThisStage,
+                    rewardPct: s.reward,
+                    cumulativeReward
+                });
+            }
+
+            const expPerStage = stages.length > 1
+                ? (stages[stages.length - 1].absExp - stages[0].absExp) / (stages.length - 1)
+                : 0;
+
+            const totalRemainingRewardExp = stages
+                .filter(s => s.stage > personalCurrentClearedStage)
+                .reduce((sum, s) => sum + s.rewardExp, 0);
+
+            return { expPerStage, finalStage: stages[29], stages, totalRemainingRewardExp, isPreset: true };
+        }
+
+        // ─── 기존 선형 회귀 방식 (실측 데이터 없을 때) ───────────────────────
         const points: Array<{ stage: number; exp: number }> = [];
         if (personalStage1Level !== '' && personalStage1Exp !== '') {
             points.push({ stage: personalInputStage1, exp: getAbsoluteExpFromLevelAndPercent(Number(personalStage1Level), Number(personalStage1Exp)) });
@@ -606,7 +652,6 @@ export default function ExpCalculatorClient() {
         const r3 = personalStage3Reward !== '' ? Number(personalStage3Reward) : 0;
         const r30 = personalStage30Reward !== '' ? Number(personalStage30Reward) : 0;
 
-        // 레벨별 보상 매핑: 인게임 퍼스널 버닝은 레벨 구간별로 고정된 절대 경험치를 지급함 (Lv.292: 2조 4677억, Lv.293: 2조 4985억)
         const startLv = personalStage1Level !== '' ? Number(personalStage1Level) : currentLevel;
         const endLv = personalStage30Level !== '' ? Number(personalStage30Level) : startLv;
         const startReq = EXP_DATA.find(d => d.level === startLv)?.requiredExp || 1;
@@ -626,7 +671,6 @@ export default function ExpCalculatorClient() {
             return { exp: absExp, pct: req > 0 ? (absExp / req) * 100 : 0 };
         };
 
-        const stages = [];
         const startBaseExp = intercept;
         let cumulativeReward = 0;
 
@@ -678,9 +722,11 @@ export default function ExpCalculatorClient() {
             expPerStage: slope,
             finalStage: stages[29],
             stages,
-            totalRemainingRewardExp
+            totalRemainingRewardExp,
+            isPreset: false
         };
     }, [usePersonalBurning, personalInputStage1, personalStage1Level, personalStage1Exp, personalStage1Reward, personalInputStage2, personalStage2Level, personalStage2Exp, personalStage2Reward, personalInputStage3, personalStage3Level, personalStage3Exp, personalStage3Reward, personalStage30Level, personalStage30Exp, personalStage30Reward, personalCurrentClearedStage, currentLevel]);
+
 
     // 황금 딸기 농장 이용권만으로 달성 가능한 레벨 시뮬레이션 및 정확한 총 획득 경험치 계산
     const goldenFarmExactResult = useMemo(() => {
@@ -1533,9 +1579,15 @@ export default function ExpCalculatorClient() {
                                                     <span className="text-xs font-bold text-pink-300 flex items-center gap-1.5">
                                                         🎯 맞춤형 미션 목표 입력 (선택 단계 & 30단계)
                                                     </span>
-                                                    <span className="text-[10px] text-yellow-300 bg-yellow-950/40 border border-yellow-500/30 px-1.5 py-0.5 rounded">
-                                                        최소 2개 이상 입력 시 자동 완성
-                                                    </span>
+                                                    {personalCalculationResult?.isPreset ? (
+                                                        <span className="text-[10px] text-emerald-300 bg-emerald-950/50 border border-emerald-500/40 px-1.5 py-0.5 rounded flex items-center gap-1">
+                                                            ✅ 실측 데이터 적용 중
+                                                        </span>
+                                                    ) : (
+                                                        <span className="text-[10px] text-yellow-300 bg-yellow-950/40 border border-yellow-500/30 px-1.5 py-0.5 rounded">
+                                                            최소 2개 이상 입력 시 자동 완성
+                                                        </span>
+                                                    )}
                                                 </div>
                                                 <p className="text-[11px] text-slate-400 leading-relaxed">
                                                     클리어한 단계는 완료 처리하고, 현재 화면에 보이는 <strong>미완료 단계</strong>와 <strong>30단계</strong> 목표를 입력하시면 30단계 전 구간 로드맵 및 레벨별 보상 경험치를 완벽히 계산합니다.
