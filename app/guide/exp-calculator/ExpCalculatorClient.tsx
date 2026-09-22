@@ -1501,7 +1501,7 @@ export default function ExpCalculatorClient() {
                                 </div>
                                 <div>
                                     <label className="text-sm font-medium text-slate-300 mb-2 block">현재 레벨 진행도 (%)</label>
-                                    <input type="number" min="0" max="99" step="1" value={currentLevelExp} onChange={(e) => setCurrentLevelExp(Math.min(99, Math.max(0, Number(e.target.value))))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="0" />
+                                    <input type="number" min="0" max="99" step="1" value={currentLevelExp} onFocus={(e) => e.target.select()} onChange={(e) => setCurrentLevelExp(Math.min(99, Math.max(0, Number(e.target.value))))} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="0" />
                                 </div>
                                 <div>
                                     <div className="flex items-center justify-between mb-2">
@@ -1538,6 +1538,7 @@ export default function ExpCalculatorClient() {
                                                 max="99.999" 
                                                 step="0.001" 
                                                 value={targetLevelExp} 
+                                                onFocus={(e) => e.target.select()}
                                                 onChange={(e) => setTargetLevelExp(Math.min(99.999, Math.max(0, Number(e.target.value) || 0)))} 
                                                 className="w-24 bg-slate-800 border border-slate-700 text-purple-400 font-extrabold text-base text-right rounded px-2 py-1 focus:outline-none focus:border-purple-500 transition-colors" 
                                                 placeholder="0" 
@@ -2298,7 +2299,7 @@ export default function ExpCalculatorClient() {
                                 {targetLevel >= 280 && (
                                     <div className="p-3 bg-slate-800 rounded-lg">
                                         <label className="flex items-center gap-2 text-xs text-pink-300 mb-2"><input type="checkbox" checked={useMechaberryFarm} onChange={(e) => setUseMechaberryFarm(e.target.checked)} className="w-4 h-4 flex-shrink-0" /> 🍓 메카베리 농장</label>
-                                        {useMechaberryFarm && <div className="flex items-center gap-2"><input type="number" value={mechaberryFarmCount} onChange={(e) => setMechaberryFarmCount(Number(e.target.value))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">회</span></div>}
+                                        {useMechaberryFarm && <div className="flex items-center gap-2"><input type="number" value={mechaberryFarmCount} onFocus={(e) => e.target.select()} onChange={(e) => setMechaberryFarmCount(Number(e.target.value))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">회</span></div>}
                                     </div>
                                 )}
                                 {targetLevel >= 280 && (
@@ -2377,7 +2378,7 @@ export default function ExpCalculatorClient() {
                                 {targetLevel >= 260 && (
                                     <div className="p-3 bg-slate-800 rounded-lg">
                                         <label className="flex items-center gap-2 text-xs text-green-300 mb-2"><input type="checkbox" checked={useExpressBooster} onChange={(e) => setUseExpressBooster(e.target.checked)} className="w-4 h-4 flex-shrink-0" /> 🎫 익스프레스 부스터</label>
-                                        {useExpressBooster && <div className="flex items-center gap-2"><input type="number" value={expressBoosterCount} onChange={(e) => setExpressBoosterCount(Number(e.target.value))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">장</span></div>}
+                                        {useExpressBooster && <div className="flex items-center gap-2"><input type="number" value={expressBoosterCount} onFocus={(e) => e.target.select()} onChange={(e) => setExpressBoosterCount(Number(e.target.value))} className="w-20 h-9 bg-slate-700 border-slate-600 rounded text-sm px-2" /><span className="text-xs">장</span></div>}
                                     </div>
                                 )}
                                 <div className="p-3 bg-slate-800 rounded-lg">
