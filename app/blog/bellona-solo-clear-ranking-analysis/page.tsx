@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
     ArrowLeft, Trophy, Flame, Swords, Shield, Sparkles, TrendingUp, Users,
-    Calendar, Crown, Award, ChevronRight, Zap, AlertTriangle, Crosshair, BarChart3,
+    Calendar, Crown, Award, Zap, AlertTriangle, Crosshair, BarChart3,
     MoveHorizontal
 } from 'lucide-react';
 import { AdBanner, InArticleAd } from '@/components/AdSense';
@@ -464,15 +464,6 @@ export default function BellonaClearRankingPage() {
                     >
                         <ArrowLeft className="w-4 h-4" />
                         블로그 목록으로 돌아가기
-                    </Link>
-
-                    <Link
-                        prefetch={false}
-                        href="/blog/item-price-tracker-2026"
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs sm:text-sm transition-all shadow-lg shadow-purple-900/30"
-                    >
-                        <span>2026 아이템 시세 추적 확인하기</span>
-                        <ChevronRight className="w-4 h-4" />
                     </Link>
                 </footer>
             </article>

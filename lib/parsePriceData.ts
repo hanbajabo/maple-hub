@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// 원본 데이터 파일 경로 (https://maple.ai.kr/blog/item-price-tracker-2026 원본 DB)
+// 원본 데이터 파일 경로 (아이템 시세 DB)
 const DATA_FILE_PATH = path.join(process.cwd(), 'data', 'item-price-trends-raw.md');
 
 export interface PriceData {
@@ -314,7 +314,7 @@ export function getLatestEthernelPrice(slot: string, jobName?: string): number {
 }
 
 /**
- * 범용 실시간 아이템 시세 조회 함수 (item-price-tracker-2026 연동)
+ * 범용 실시간 아이템 시세 조회 함수
  * @param itemName 아이템 이름 (예: '루즈 컨트롤 머신 마크', '데이브레이크 펜던트', '에테르넬 모자')
  * @param slot     슬롯 이름 (예: '모자', '상의', '신발')
  * @param jobName  캐릭터 직업명 (예: '메르세데스', '아델')

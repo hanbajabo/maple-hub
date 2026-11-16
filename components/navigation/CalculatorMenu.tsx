@@ -72,21 +72,6 @@ export default function CalculatorMenu() {
                             </div>
                         </Link>
 
-                        <Link
-                            href="/blog/item-price-tracker-2026"
-                            prefetch={false}
-                            onClick={close}
-                            className="flex items-center gap-3 px-4 py-3 text-white hover:bg-indigo-600/20 active:bg-indigo-600/30 transition-colors border-b border-white/5"
-                        >
-                            <span className="text-xl flex-shrink-0">📊</span>
-                            <div className="flex flex-col min-w-0">
-                                <div className="flex items-center gap-1.5">
-                                    <span className="font-semibold text-sm">아이템 시세 추적</span>
-                                    <span className="bg-emerald-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded animate-pulse shadow-sm flex-shrink-0">UPDATE</span>
-                                </div>
-                                <span className="text-[10px] text-slate-400 mt-0.5">매일 업데이트</span>
-                            </div>
-                        </Link>
 
                         <Link
                             href="/guide/exp-calculator"
