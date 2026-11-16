@@ -45,3 +45,6 @@ next-env.d.ts
 /scratch/
 /data/skill_diffs_*.json
 
+# local-only private tools (never commit/deploy)
+/app/local-price-tracker/
+

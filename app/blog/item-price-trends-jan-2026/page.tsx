@@ -1,7 +1,5 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import ItemPriceChart from '@/components/blog/ItemPriceChart';
-import { getPriceData } from '@/lib/parsePriceData';
 import { AdBanner, InArticleAd } from '@/components/AdSense';
 import { ArrowLeft, Zap, TrendingDown, Star, Calendar, CheckCircle, AlertTriangle, Sparkles, Target } from 'lucide-react';
 
@@ -23,8 +21,6 @@ export const metadata: Metadata = {
 };
 
 export default function ItemPriceTrendPage() {
-    const priceData = getPriceData();
-
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
             {/* Header */}
@@ -122,24 +118,6 @@ export default function ItemPriceTrendPage() {
                 </div>
 
                 <AdBanner dataAdSlot="8162808816" className="mb-12" />
-
-                {/* 시세 데이터 차트 */}
-                <section className="mb-16">
-                    <div className="mb-8">
-                        <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 flex items-center gap-2">
-                            <TrendingDown className="w-8 h-8 text-blue-400" />
-                            최근 시세 동향 (1/1 ~ 1/17)
-                        </h2>
-                        <p className="text-slate-400">
-                            아래 그래프에서 원하는 아이템을 선택하여 최근 17일간의 가격 변화를 확인하세요.
-                            <br className="hidden sm:block" />
-                            1월 17일 데이터는 <strong className="text-slate-300">오전 9시 기준</strong>이며, 정확한 현재 시세는 인게임 경매장을 확인하시기 바랍니다.
-                        </p>
-                    </div>
-                    <ItemPriceChart data={priceData} />
-                </section>
-
-                <InArticleAd dataAdSlot="6849727140" className="my-12" />
 
                 {/* 주요 아이템 분석 */}
                 <div id="analysis-section" className="space-y-8 mb-16">
@@ -376,6 +354,8 @@ export default function ItemPriceTrendPage() {
                         </div>
                     </div>
                 </div>
+
+                <InArticleAd dataAdSlot="6849727140" className="my-12" />
 
                 {/* 결론 */}
                 <div className="mb-12 bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-2 border-yellow-500/50 rounded-2xl p-5 sm:p-8">
